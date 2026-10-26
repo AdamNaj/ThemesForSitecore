@@ -405,7 +405,8 @@ test("token themes map a module's stylesheet and inline styles at run time, and 
   await setTheme("native");
   await expect.poll(() => look("ink")).toEqual({ bg: "rgb(255, 255, 255)", fg: "rgb(51, 51, 51)" });
   expect(await look("panel")).toEqual({ bg: "rgb(255, 255, 255)", fg: "rgb(51, 51, 51)" });
-  expect(await page.evaluate(() => document.querySelectorAll("[data-sct-owned], [data-sct-ink]").length)).toBe(0);
+  // the switch's blur and Applying window leave a fade after the CSS lands
+  await expect.poll(() => page.evaluate(() => document.querySelectorAll("[data-sct-owned], [data-sct-ink]").length)).toBe(0);
   await setTheme("debrightify");
   await page.close();
 });
