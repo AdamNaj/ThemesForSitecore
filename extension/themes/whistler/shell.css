@@ -1043,10 +1043,16 @@ html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp) #Desktop 
 html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp) #Desktop > iframe[data-sct-window="inactive"]:not([style*="width: 100%"]) { background: var(--sct-xpc-cap-in) top / 100% 28px no-repeat border-box, var(--sct-xpc-frame-in); box-shadow: 0 0 0 1px var(--sct-xpc-frame-in-line), 2px 3px 8px 4px rgba(0, 0, 0, 0.2); }
 /* inside a Desktop window the caption runs to the frame: no 1px window border, no inner rounding */
 html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title] :is(.scWindowFrame, .scWindowBorder1, .scWindowBorder2) { border-width: 0; }
-/* At 125% the window's edge falls mid-pixel and that pixel mixes in the page's canvas, white from the body: a pale
-   line between the caption and the frame. The canvas is painted like the iframe behind it, caption over frame. */
-html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title] { background: var(--sct-xpc-cap) top / 100% 28px no-repeat, var(--sct-xpc-frame); }
-html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-xp)[data-sct-window-title] { background: var(--sct-xpc-cap-in) top / 100% 28px no-repeat, var(--sct-xpc-frame-in); }
+/* At 125% the window's right edge falls mid-pixel, and that pixel blends every layer under the caption: the body's
+   white, the form's and the Content Editor's caption block's greige made a pale line between the caption and the
+   frame. Every element the caption sits in carries the caption's strip too. */
+html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title], html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title] :has(:is(#CaptionTopLine, .standardWindowCaption, .scWorkboxWindowCaption)) { background-image: var(--sct-xpc-cap); background-size: 100% 28px; background-repeat: no-repeat; }
+html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-xp)[data-sct-window-title], html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-xp)[data-sct-window-title] :has(:is(#CaptionTopLine, .standardWindowCaption, .scWorkboxWindowCaption)) { background-image: var(--sct-xpc-cap-in); }
+/* An element's own colour still bleeds under its strip. Around the Content Editor's caption (white, greige, and an
+   inline #f7f7f7 the live map paints with !important) the colour is the window face, laid from the caption's foot
+   down. */
+html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title] :has(#CaptionTopLine) { background-color: transparent !important; background-image: var(--sct-xpc-cap), linear-gradient(transparent 28px, #ece9d8 0); background-size: 100% 28px, auto; }
+html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-xp)[data-sct-window-title] :has(#CaptionTopLine) { background-image: var(--sct-xpc-cap-in), linear-gradient(transparent 28px, #ece9d8 0); }
 html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title] :is(.standardWindowCaption, .scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption) { border-radius: 0; }
 
 

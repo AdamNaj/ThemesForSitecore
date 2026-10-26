@@ -1162,10 +1162,16 @@ ${X} #Desktop > iframe:not([style*="width: 100%"]) { border: 4px solid transpare
 ${X} #Desktop > iframe[data-sct-window="inactive"]:not([style*="width: 100%"]) { background: ${V("cap-in")} top / 100% 28px no-repeat border-box, ${V("frame-in")}; box-shadow: 0 0 0 1px ${V("frame-in-line")}, 2px 3px 8px 4px rgba(0, 0, 0, 0.2); }
 /* inside a Desktop window the caption runs to the frame: no 1px window border, no inner rounding */
 ${X}[data-sct-window-title] :is(.scWindowFrame, .scWindowBorder1, .scWindowBorder2) { border-width: 0; }
-/* At 125% the window's edge falls mid-pixel and that pixel mixes in the page's canvas, white from the body: a pale
-   line between the caption and the frame. The canvas is painted like the iframe behind it, caption over frame. */
-${X}[data-sct-window-title] { background: ${V("cap")} top / 100% 28px no-repeat, ${V("frame")}; }
-${PI}:not(#sct-xp)[data-sct-window-title] { background: ${V("cap-in")} top / 100% 28px no-repeat, ${V("frame-in")}; }
+/* At 125% the window's right edge falls mid-pixel, and that pixel blends every layer under the caption: the body's
+   white, the form's and the Content Editor's caption block's greige made a pale line between the caption and the
+   frame. Every element the caption sits in carries the caption's strip too. */
+${X}[data-sct-window-title], ${X}[data-sct-window-title] :has(:is(#CaptionTopLine, .standardWindowCaption, .scWorkboxWindowCaption)) { background-image: ${V("cap")}; background-size: 100% 28px; background-repeat: no-repeat; }
+${PI}:not(#sct-xp)[data-sct-window-title], ${PI}:not(#sct-xp)[data-sct-window-title] :has(:is(#CaptionTopLine, .standardWindowCaption, .scWorkboxWindowCaption)) { background-image: ${V("cap-in")}; }
+/* An element's own colour still bleeds under its strip. Around the Content Editor's caption (white, greige, and an
+   inline #f7f7f7 the live map paints with !important) the colour is the window face, laid from the caption's foot
+   down. */
+${X}[data-sct-window-title] :has(#CaptionTopLine) { background-color: transparent !important; background-image: ${V("cap")}, linear-gradient(transparent 28px, #ece9d8 0); background-size: 100% 28px, auto; }
+${PI}:not(#sct-xp)[data-sct-window-title] :has(#CaptionTopLine) { background-image: ${V("cap-in")}, linear-gradient(transparent 28px, #ece9d8 0); }
 ${X}[data-sct-window-title] :is(.standardWindowCaption, .scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption) { border-radius: 0; }
 
 `;
