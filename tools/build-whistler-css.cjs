@@ -515,6 +515,9 @@ ${P} .scTabstrip :is(.scTab, .scTab_Hover), ${P} .scTabstrip [class*="scTabActiv
 }
 ${P} .scTabstrip .scTab_Hover { ${tabHot} }
 ${P} .scTabstrip [class*="scTabActive"] { ${tabOpen} position: relative; z-index: 1; padding-bottom: 2px; margin-bottom: -1px; }
+/* The open first tab lines up with the page's left edge and keeps the tabs' own border: Sitecore styles the first
+   <nobr>'s open tab apart (its own border colour, position: static), and the colour map copies that over the theme's */
+${X} .scTabstrip > nobr:first-child > [class*="scTabActive"] { position: relative; left: 0; border-left-color: #919b9c; }
 /* focus: XP's dotted rectangle inside the tab, never Sitecore's black frame */
 ${X} .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus { outline: none; box-shadow: none; }
 ${X} .scTabstrip [class*="scTabActive"]:focus { ${tabHot} }
@@ -563,7 +566,8 @@ ${P} .standartWindowButtons { top: 4px; right: 5px; }
 /* An inactive window (dom.js marks its document from the taskbar): the inactive caption, darkened to pass AA. */
 ${PI} .standardWindowCaption { background: ${CAP_IN}; }
 ${PI} .standardWindowCaption .scWindowCaption { text-shadow: none; }
-${PI} .standartWindowButtons img { filter: saturate(0.5) brightness(1.1); }
+/* an inactive window's buttons fade, on every kind of window */
+${PI} :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img { filter: saturate(0.5) brightness(1.1); }
 /* The Content Editor, Media Library and Workbox: Sitecore draws no caption over their windows. A Luna caption, as on every other window, is
    drawn on the caption's empty top line from the window's title (engine.js --sct-window-title), the window's
    buttons on it and the ribbon's menu button moved below it. */
@@ -578,9 +582,11 @@ ${P}[data-sct-window-title] .scWorkboxWindowButtons { position: absolute; float:
    up into the tab row at the row's height */
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 28px; height: 21px; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
-/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
+/* 4px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 4px; }
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 4px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+${P}[data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
 ${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: ${CAP_IN}; }
 ${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { text-shadow: none; }
 
