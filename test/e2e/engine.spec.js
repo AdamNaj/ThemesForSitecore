@@ -167,7 +167,8 @@ const openGroup = async (popup, id) => {
     const t = SCT.themes.find((t) => t.id === id);
     const group = t.category ? SCT.categories.find((c) => c.id === t.category).name : "Sitecore";
     document.querySelector(`#groups [data-group="${group}"]`).click();
-    return Promise.all(document.getAnimations().map((a) => a.finished));
+    // a deal the popup cancels for a newer one rejects its finished promise; that card is in place either way
+    return Promise.allSettled(document.getAnimations().map((a) => a.finished));
   }, id);
 };
 
