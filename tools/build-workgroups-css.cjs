@@ -523,7 +523,9 @@ const shellHand = `${W("shell")} {
   :is(.scTab_Hover, .scTab:hover) { background: #dfdfdf; }
   /* over a page, the open tab also covers the white line inside the page's black top edge, so its face runs
      on into the page as one surface (the strip aligns tabs to its bottom, so the extra pixel comes from top) */
-  .scTabstripContainer:has(> .scTabs) > .scTabstrip :is(.scTabActive, .scTabActive_Hover) { top: 2px; height: 25px; }
+  .scTabstripContainer:has(> .scTabs) > .scTabstrip :is(.scTabActive, .scTabActive_Hover) { top: 2px; height: 25px; box-shadow: inset 1px 1px #fff, inset -1px 0 #808080, 0 2px 0 -1px #c0c0c0; }
+  /* (the last shadow: at a fractional zoom the tab stands only part of a device pixel over the page's white line,
+     which showed as a faint line under it; a pixel of the face below the tab, inside its side borders, covers it) */
   /* the ISE's script tabs have no page under them: the strip draws the line the open tab stands on, from the
      first tab on (SPE's 52px reserve holds the script tree and variables toggles, with no line under them) */
   #TabsPanel .scTabstrip { background-image: linear-gradient(#000 0 0); background-position: 52px 100%; background-size: 100% 1px; background-repeat: no-repeat; }
@@ -2423,9 +2425,11 @@ ${P}[data-sct-window-title] .scWorkboxWindowButtons { position: absolute; float:
    up into the tab row at the row's height */
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 21px; height: 31px; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
-/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
+/* 4px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 4px; }
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 4px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+${P}[data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
 
 ${P} .standartWindowButtons img { pointer-events: auto; }
 /* SPE's ISE (ise.js) gives its title the room the .standartWindowButtons box leaves; here that box spans the
