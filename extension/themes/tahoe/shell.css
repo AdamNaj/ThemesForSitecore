@@ -1248,9 +1248,17 @@ html[data-sct-theme="tahoe"][data-sct-surface="shell"]:not(#sct-th) {
   .scTabstrip .closeTab {
     margin: 0 -6px 0 6px;
   }
-  /* in dialogs the control is centred and set into the top edge of a box, as NSTabView draws it */
-  :is(.scFormDialogContent, .scDialogContentContainer) .scTabstrip {
+  /* the control is centred, as macOS centres a segmented control over its pages; the ISE's script tabs are
+     documents and stay at the left of their pane. In dialogs it is set into the top edge of a box, as
+     NSTabView draws it */
+  .scTabstrip:not(#TabsPanel .scTabstrip) {
     justify-content: center;
+  }
+  /* ribbon galleries (the ISE's Open and Item drop-downs) start their pages 40px down: the control sits in
+     the middle of that band */
+  [class*="scGalleryContent"] .scTabstrip {
+    height: 40px;
+    align-items: center;
   }
   :is(.scFormDialogContent, .scDialogContentContainer) .scTabs {
     top: 12px;
