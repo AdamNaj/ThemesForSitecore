@@ -132,11 +132,16 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     api.scripting.executeScript({
       target: { tabId: sender.tab.id, frameIds: [sender.frameId] },
       world: "MAIN",
+      // Only the module's own loader runs again: same origin, its path, and nothing but its src and settings copied,
+      // so markup injected into a page can't use this to get a script of its choosing run.
       func: () => {
         const tag = document.querySelector("script[data-sct]");
         if (!tag || !tag.src || document.documentElement.dataset.sctEngine) return;
+        const url = new URL(tag.src, location.href);
+        if (url.origin !== location.origin || !/^\/sitecore(%20| )modules\/SitecoreThemes\/sct\.js$/i.test(url.pathname)) return;
         const again = document.createElement("script");
-        for (const a of tag.attributes) again.setAttribute(a.name, a.value);
+        again.src = url.href;
+        again.dataset.sct = tag.dataset.sct;
         tag.after(again);
       },
     }).then(() => sendResponse(true), () => sendResponse(false));
