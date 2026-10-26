@@ -41,7 +41,8 @@ light band (10.4 floats its tab group out of an uncontained band: `display: flow
 the same to the ribbon groups of every ribbon outside the Content Editor, so Menlo's ISE ribbon line ran
 through the buttons: "the ribbon bottom line seems to be rendering above the button's bottom"); the
 Metal ISE caption path light grey on lavender ("make the text dark purple"): SPE writes it as `<i>` with an
-inline `color:#bbb` inside the window caption, so it needs `!important`; month captions dark on a navy
+inline `color:#bbb` inside the window caption; `surfaces/shell.css` now draws it at 75% of the title's colour
+for every token theme, so a theme overrides it (with `!important`) only to pick its own; month captions dark on a navy
 calendar bar; login labels unreadable on a red background.
 - Check every label against the band it actually sits on, on both versions.
 - 10.4 leftovers: its red `#DC291E` on section stripes, active tabs, the Administration band and the
@@ -121,7 +122,8 @@ Cupertino is much more spaced than the Cupertino on 10.4 ... I would like them u
 - **Menus never scroll unless they've run out of room.** "Notebook tends to show scrollbars on the
   context menus": Sitecore sizes a popup from its content when it opens, so a theme that makes rows,
   fonts or paddings bigger can leave the menu a row short and scrolling. Same for pages: Chicago's
-  Launchpad scrolled because 8px of padding sat on top of Sitecore's `min-height: 100vh`. The scan reports
+  Launchpad scrolled because 8px of padding sat on top of Sitecore's `min-height: 100vh` (the shared layer
+  now zeroes that min-height; padding on the page still adds up). The scan reports
   both as `scroll` findings; open every kind of menu with `menus.cjs`.
 - **Dock and taskbar:** "should collapse horizontally to only be as wide as the apps need"; app buttons
   "should not be taking the full width and have rounded corners". Keep 12px or more from screen edges;
@@ -221,6 +223,37 @@ on both sides of the title) leaves it 0px. Either keep the box to one side, or o
 Window frames drawn on the iframe (border, outline, shadow) resize through `frameResize()` in `content.js`.
 Desktop windows show Sitecore's restore image while maximized (`syncMaxButton()`): draw a restore glyph.
 
+**Title bars over the Content Editor, Media Library and Workbox** (2026-10-25 and 26, every Recreation and
+Modern theme): "give the engine the window's title, then give Whistler, Chicago, Redmond 3.11, Redwood, Santa
+Clara and Warp proper title bars"; "the titlebar buttons on CE are too low - looks like they are on the
+ribbon" (Mountain View, Graphite, Sun Valley, Cupertino); "you're not drawing the titlebar icons there on all
+the windows (on this theme even CE should have it)" (Chicago, Whistler, Metal). Each took one commit per
+theme, all with the same recipe (SKILL.md section 6, `chicago/shell.css` lines after "Under the bar"). The
+Workbox's buttons float in its caption strip: give the strip `position: relative` and the buttons
+`position: absolute; float: none` to place them on the bar. Modern themes draw the bar on the tabs' surface,
+title at the left, buttons flush in the top right corner. On macOS themes the lights push the ribbon right;
+with the tabs centred, the menu button sits against the tab pill (`anchor-name`, inside `@supports`).
+
+**Glass frames** (Longhorn, Tahoe): "double rounded - once inside the titlebar and another time in the
+border"; "when the window is not active the titlebar looks like it's got the frosting applied twice"; "you've
+made only the Content Editor translucent, other window types like ISE or Recycle bin should have more
+translucency too"; "make the ribbon similarly transparent on the other windows". Longhorn's real Aero: the
+Desktop blurs and tints behind each iframe, the frame is the iframe's own see-through border on the sides and
+bottom with a 1px dark line on top, and inside the window the layers are clear for the caption's height and
+opaque below it, so only the caption shows the glass. Whistler's version of one surface: the iframe's
+transparent 4px border over a background that is Luna's caption gradient down to the caption's height and the
+frame's blue below.
+
+**Textured panels** (Cheetah): "the background under the field should be transparent and showing the
+background of the content"; the bar over the fields "very light gray look out of place ... should be shrunk to
+the size of the Search box and also have brushed steel"; the status bar "should only be high enough to contain
+the pill"; "if the titlebar touches the ribbon ... there should be a seamless handoff ... just like there is on
+Content Editor" then "doesn't seem to be working on ISE": a standard window's ribbon is inside the window's
+own iframe, and `:has()` does not see into a frame, so `.standardWindowCaption:has(+ ... .scRibbon)` matched
+nothing; the theme's `dom.js` marks the iframe instead. The generated map paints `.scEditorSections`,
+`#EditorTabs` and the status bar in flat app colours; a textured theme takes each one off. A brushed-metal or
+grain texture is a seeded PNG from the generator (`glyphs/brushed-metal.png`), not hairline gradients.
+
 **Dialogs.** "I've noticed the dialogs have a bar of different color just above the titlebar": jQuery UI's
 15px title strip sits above the dialog page's header; colour it like the dialog (or lay it over the header).
 It came back on four of the themes built on 2026-10-23 ("several themes still have the differently colored
@@ -255,7 +288,17 @@ heading as `.col-md-12 > .sc-text-title`.
 
 **Start menu.** "The left panel in the Start menu is all white going all the way to the bottom - this looks
 bad"; "Start menu jitters even on mouse over on items". Size list boxes to their items; hover never
-changes a row's box size; keep the source's rule order when porting.
+changes a row's box size; keep the source's rule order when porting. "the panel around All Applications in
+Start menu should be transparent, not white, just like the items above it": Sitecore sets All Applications
+under the right-hand column (the left one spans both rows), so it takes that column's material.
+"The launchpad and logoff icons on Whistler theme are a poor choice ... the 9 squares ... a key icon. Use icons
+from Sitecore but not from the office family but rather from the older icons which are more XP like."
+
+**Segmented tabs** (Cheetah): "should show the tabs as long/divided pill (like the ribbon tabs) rather than set
+of pills on the dialogs like the Kitchen Sink or the ISE editor selector", then "The first and last one looks
+correct, the ones in the middle do not": Sitecore wraps each tab of a `.scTabstrip` in its own `<nobr>`, so
+`:first-child` and `:last-child` on the tabs match every tab. Select the ends as `.scTabstrip >
+nobr:first-of-type > .scTab` (and `:last-of-type`, `:only-of-type`); check a strip of three or more tabs.
 
 ## 5. Sitecore and environment facts that cost rounds
 
@@ -290,6 +333,14 @@ changes a row's box size; keep the source's rule order when porting.
   so Phosphor's scan-line rolled in Firefox and stood still in Chrome and Edge. A theme's signature motion
   keeps a slow, faint version under reduced motion; flicker, flashes and bursts stop. Check both
   (`page.emulateMedia({ reducedMotion })`).
+- **Sitecore 10.0 to 10.3 get 10.4's themes** (`data-sct-version="10.4"`, the real release in
+  `data-sct-legacy`). Their markup lacks some 10.4 classes: gallery menu rows are a classless `tr`, time picker
+  items any link in `ul.scTimePicker` (no `scGalleryMenuItem`, `timePickerItem`). A selector on those classes
+  also matches the older markup, in the CSS and in the theme's generator.
+- **SPE versions differ.** SPE up to 8.0 Beta 2 boxes each status bar panel in white with a silver frame; newer
+  SPE draws them transparent. The user found a shared rule for the old look "especially harmful in the
+  translucent themes" once the installs moved on. Check what the current stock map (`gen-area-map`) gives
+  before adding a rule for a look the install no longer has.
 - The ISE clipboard `textarea` must stay hidden.
 - SPEAK `.sc-chunk` is `border-box`: use `content-box` or the caption loses 4px.
 - `#Startbar` has no `.scStartbar` class.
@@ -323,5 +374,15 @@ changes a row's box size; keep the source's rule order when porting.
 - **Density not measured.** Whistler and Chicago both came back for "way too much padding in the ribbon",
   with the table in section 2 in the skill. Measure the ribbon band, strip and chunk paddings and compare them
   with Copenhagen's on the same tab before saying a ribbon is done.
+- **The same workaround in every theme built in parallel.** The 16 themes of 2026-10-25 were built by
+  separate sessions; each carried its own fix for the ISE path colour, the no-children spacer, the Launchpad's
+  min-height and the pale ribbon glyphs, and five later commits moved them into the shared layer. Grep the
+  other themes' folders before writing a workaround (SKILL.md section 5).
+- **One window kind fixed.** Translucency, the title-to-ribbon hand-off and title bar icons were each done on
+  the Content Editor first and came back for the ISE, the Recycle Bin, the Workbox or the Media Library. Open
+  every window kind before saying a window rule is done.
+- **The same layout on both versions.** "on Sitecore 10.5 the theme has unnecessary margins around the content
+  area and the items tree ... They should not be dependent on which version of sitecore they are running."
+  Compare tree, editor, section and pager positions between the two versions' shots.
 - **Shared checkout.** Generators and theme files are edited by several sessions: commit only your hunks
   through a private index and regenerate from HEAD plus your hunks to prove the diff is yours.

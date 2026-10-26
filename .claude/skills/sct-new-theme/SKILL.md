@@ -82,7 +82,9 @@ it belongs in the folder, or it is a bug every theme has and goes into the share
 - Glyphs and other images in `glyphs/`, loaded as `url("sct-ext:themes/<id>/glyphs/...")`.
 - A generator only when the theme draws pixel art: glyphs, bevels, bumps. Copy the pattern of
   `tools/build-metal-css.cjs` (`art()` writes PNG and vector SVG pairs) as `tools/build-<id>-css.cjs`, the
-  one file a theme may add outside its folder. Never hand-edit its output; regenerate.
+  one file a theme may add outside its folder. Never hand-edit its output; regenerate. Every later fix goes
+  into the generator too (Longhorn's frame fix lived only in the generated CSS and the next run dropped it),
+  and a commit says the generator reproduces the committed CSS byte for byte.
 - `hue: true` in `theme.json` if the user may turn the palette round the colour wheel (Fjord):
   `tokens.css` redefines the colour tokens under `[data-sct-hue]` from `--sct-hue`. Check a non-zero hue on
   the page, not just in the popup's preview.
@@ -90,15 +92,37 @@ it belongs in the folder, or it is a bug every theme has and goes into the share
   grouping (Cupertino). Every change goes through the dom-kit so a theme switch reverts it. It also runs
   in the Sitecore module, and next to Sitecore's own scripts: see pitfalls.md section 5 before adding
   elements (an SVG broke the Desktop's onload). Taskbar dedupe and the restore glyph live in `engine.js`
-  for every theme; never copy them into a theme.
+  for every theme; never copy them into a theme. A Recreation's `dom.js` has had the same shape since
+  Whistler (`whistler/dom.js`, copied by Longhorn, Cheetah, Santa Clara and Warp): `syncWindows` marks inactive
+  windows from the taskbar, `decorateStartMenu` adds the start menu's header, footer and clock,
+  `applyLaunchpad` folds the Launchpad's groups. Start from it.
+- Icons and images: pick from Sitecore's own icon sets the one closest to the platform's era ("use the older
+  icons which are more XP like", not the Office set; the Launchpad is nine squares, Log off a key), and use
+  Sitecore's shipped images (Copenhagen's Lighthouse wallpaper) by their `/sitecore/...` URL. Never copy them
+  into the folder (AGENTS.md).
 
 ## 5. Build order
 
 A bug that every token theme has goes into `surfaces/*.css` (the shared token layer), not into your theme.
-Your files hold the signature. Steps:
+Your files hold the signature. Before writing a workaround, grep the other themes' folders for its selector:
+if two already carry it, it is a shared bug. On 2026-10-25 five shared-layer commits each removed copies of one
+workaround from four to nine themes built in parallel.
+
+The shared layer (for every token theme; `surfaces/bar.css` and the engine for all) already does these; never
+write them again in a theme (override one only to give it the theme's own look): taskbar dedupe and the restore glyph (`engine.js`); the ribbon
+collapse toggle and EE quickbar glyphs as text-colour masks; pale ribbon launchers and Insert gallery arrows
+inked on light themes; the ISE's script path at 75% of the title colour; ISE toggles anchored to the first
+tab; the tree's no-children spacer hidden; the Launchpad's `min-height: 100vh` zeroed; 10.5's extra Content
+Editor spacing taken out; the field-search clear X; the `OfficeWhite` and `_black` icon halos. The shared rules
+carry little or no specificity so a theme's own rule wins, which also means a theme's broad rule wins by
+accident: a theme-wide icon tint took Phosphor's gallery arrows off the glyph filter. Leave glyph slots out of
+broad icon filters.
+
+Steps:
 
 1. Tokens only. Run the shots with `--scale 1.25 --scan` on every surface: this is the recolour baseline.
-2. Window chrome: both window kinds, dialogs, the jQuery UI title strip, inactive windows.
+2. Window chrome: both window kinds, the Content Editor, Media Library and Workbox title bar, dialogs, the
+   jQuery UI title strip, inactive windows; for glass or textured themes every window kind at once.
 3. Ribbon and tabs: every Content Editor ribbon tab, the ISE ribbon, the Experience Editor ribbon; one
    rule set for every tab strip, hover classes included.
 4. Content Editor: tree and tree search, header buttons, sections, fields, gutters, status bar, Search tab.
@@ -147,24 +171,56 @@ Details, numbers and selectors are in [pitfalls.md](pitfalls.md).
 - **Frames join.** The open tab runs into its page with no line under it; the first tab's left edge lines
   up with the page; one bevel light direction everywhere; one frame per field, never a frame in a frame.
   Corners are the theme's (`--sct-radius` plus its own rules); 10.5's rounding left on a control the
-  theme draws differently is a bug.
+  theme draws differently is a bug. A segmented control (Aqua's tabs) is one joined pill: only the first and
+  last segments are rounded, and every strip of that kind gets it (dialog tabs, Kitchen Sink, the ISE's
+  script tabs), not just the ribbon.
+- **Bars fit their content.** A bar is as tall as what it holds plus equal padding above and below: the
+  Content Editor's status bar and its pager pills, the bar over the fields (`#EditorTabs`, 56px stock) at the
+  height of the tree's search row beside it, the fields starting at its foot.
+- **A Recreation follows its source over the shared layer.** Where the platform did it differently, the
+  source wins: Sitecore 6 and Aqua run section headers edge to edge (the token layer's 15px inset does not
+  apply), Copenhagen's orb sits where 6.6 put it. Check against the source, not against the other themes.
 - **The taskbar or dock is always on top of non-modal windows**, as in stock Sitecore, whose `#Desktop`
   ends at the bar's top edge and clips the windows. Only modal dialogs and menus go over it. A theme that
   moves or reshapes the bar keeps that: a full-width bar keeps the windows' area clear of it; a dock narrower
   than the screen floats over the windows, which run on underneath it (the window area extends under the
   dock and the dock sits above, so a maximized window shows beside it). The global header's account items
-  stay uncovered too. `dock.cjs` (see `sct-verify`) checks both with a maximized window.
+  stay uncovered too. A dock takes `z-index: 900` (above windows, below pop-up menus) and the Desktop keeps no
+  bottom border or padding that stops maximized windows above it. `dock.cjs` (see `sct-verify`) checks both
+  with a maximized window.
 - **Every Desktop window keeps the theme's character, title bar included.** Sitecore draws no caption over the
-  Content Editor, Media Library and Workbox windows, only their buttons in the ribbon's tab row. A theme that
-  recreates a platform whose windows have title bars draws one on `.scWindowBorder2 > .scCaption >
-  #CaptionTopLine`, exactly like its standard windows' caption, with the window's title from
-  `content: var(--sct-window-title)` (engine.js reads it from the taskbar) and the window buttons on it; the
-  ribbon's menu button (`#SystemMenu`) moves down by the bar's height. A frame drawn round the window's iframe
-  never runs across the top of the title bar: offset shadows for the sides and bottom, not a uniform ring
-  (Longhorn and Whistler both needed this). Under the bar the ribbon tabs start close, the empty tab-group header
-  hidden and the menu button shrunk to the tab row, but never touching it: at least 2px between the bar and the
-  tabs (`padding-top: 2px` on the navigator, the menu button moved down with them).
-- **Window buttons.** Both window kinds. On the left, push the title clear. On the right, mirror the order
+  Content Editor, Media Library and Workbox windows, only their buttons in the ribbon's tab row ("the titlebar
+  buttons on CE are too low - looks like they are on the ribbon and not the titlebar"). Inside a Desktop window
+  the engine sets `data-sct-window-title`, `--sct-window-title` (a CSS string) and `--sct-window-icon` (a CSS
+  url) on `<html>`; scope the bar to `[data-sct-window-title]` so a Content Editor opened on its own keeps none.
+  Draw it on `.scWindowBorder2 > .scCaption > #CaptionTopLine` and `.scWorkboxWindowCaption.scWindowHandle`,
+  exactly like the standard windows' caption: title from `content: var(--sct-window-title)`, the 16px icon from
+  `var(--sct-window-icon)` where the platform shows one (on every window kind, Content Editor included), the
+  window buttons on it, the inactive look. Then the tabs start at the bar's foot: hide the empty tab-group
+  header band while no contextual group needs it
+  (`.scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader`),
+  and put the menu button (`#SystemMenu`) under the bar at the tab row's height (`chicago/shell.css` is the
+  reference). Platforms with lights instead (Cupertino, Tahoe) draw no bar: the tab row is the window's top, the
+  lights at its left, the menu button and tabs after them. A frame drawn round the window's iframe never runs
+  across the top of the title bar: offset shadows for the sides and bottom, not a uniform ring. The ribbon tabs
+  never touch the bar: at least 4px between them, on the Content Editor (`padding-top` on the navigator, the menu
+  button moved down with it) and on standard windows such as the ISE, whose ribbon is in the page inside the
+  window's chrome (`[data-sct-window-content] .scRibbonNavigator`).
+- **Caption and frame are one surface.** Where the frame comes from the iframe and the caption from the page,
+  the caption gets no rounding and no border of its own inside a Desktop window, so the iframe's corner is the
+  only curve ("double rounded - once inside the titlebar and another time in the border"), and a translucent
+  caption is clear over the frame's glass, not a second frosting ("looks like it's got the frosting applied
+  twice"). Where a title bar meets a ribbon (Content Editor, ISE, Package Designer), the hand-off is seamless
+  on every window kind that has one, not just the Content Editor.
+- **Glass and textures reach every layer of every window.** A translucent (Tahoe, Longhorn) or textured
+  (Cheetah's pinstripes and metal) theme clears the opaque fills the shared map leaves on inner layers: the
+  ribbon, its strip, groups and captions; `.scEditorSections`; the bar over the fields (`#EditorTabs`); SPE's
+  status bar. Standard windows (ISE, Recycle Bin) mark their inner page `data-sct-window-content`: give them
+  the same treatment as the Content Editor ("you've made only the Content Editor translucent"). Real glass:
+  the document inside a Desktop window is transparent and the Desktop sets `backdrop-filter` on
+  `.DesktopArea > iframe`; under `prefers-reduced-transparency: reduce` and without `backdrop-filter` the
+  window is all but opaque (`tahoe/tokens.css`). Chrome that rests visible and looks bad on glass (the
+  Content Editor's splitter) is transparent until hovered or dragged.- **Window buttons.** Both window kinds. On the left, push the title clear. On the right, mirror the order
   (close nearest the edge), 8px or more from the border, centred on the bar.
 - **No needless scrollbars.** Menus and pages scroll only when they have run out of room to grow.
 - **Modals tint.** A faint but visible overlay (12% to 30%), and the host page stays see-through.

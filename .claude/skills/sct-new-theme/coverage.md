@@ -23,11 +23,13 @@ clicking: drive them in Playwright or the user's Chrome.
 - [ ] Taskbar: start button, app buttons (active, inactive), tray search field, database label; no growth on CE mode switches
 - [ ] Content Editor header with the Sitecore Extensions add-on: its "Search for fields" box shows the vector clear X (bar.css) centred at the field's right end, no bitmap or white frame
 - [ ] Taskbar or dock above every non-modal window, maximized or dragged over it; a dock narrower than the screen floats over the windows, which run on beneath it (`dock.cjs`)
-- [ ] Start menu: both columns, header with portrait, All Applications, Log Off, open folder row, fly-outs; no jitter on hover
+- [ ] Start menu: both columns, header with portrait, All Applications (in the right column's material), Log Off, open folder row, fly-outs; no jitter on hover; icons from the platform's era
 - [ ] Every menu: ribbon drop-downs, context menus, fly-outs (`table.scMenu`); disabled rows; separators
 - [ ] No menu shows a scrollbar unless it has run out of room to grow (`menus.cjs` with the scan opens them all)
 - [ ] Desktop windows: caption, icon, buttons (`.standartWindowButtons`), active and inactive, maximised
-- [ ] The Content Editor, Media Library and Workbox as Desktop windows: a title bar in the theme's style where its platform had one (`#CaptionTopLine`, `--sct-window-title`), buttons on it, no frame band above it
+- [ ] The Content Editor, Media Library and Workbox as Desktop windows: a title bar in the theme's style where its platform had one (`#CaptionTopLine`, `--sct-window-title`), the window's icon on it where the platform shows one (`--sct-window-icon`), buttons on the bar and not on the tab row, tabs starting at its foot, no frame band above it, inactive look
+- [ ] Every window kind (Content Editor, ISE, Recycle Bin, Package Designer, Workbox, Media Library) gets the same treatment: translucency or texture, title bar icon, the title-to-ribbon hand-off
+- [ ] Glass themes: one curve per corner, one frosting on inactive windows, opaque under reduced transparency
 - [ ] The ISE's window title (the script's path) shows, and maximized windows show the restore glyph (`windows.cjs`)
 - [ ] Window frames resize from every edge and corner; the title bar drags the window
 - [ ] Modal overlay tint over the Desktop
@@ -44,14 +46,16 @@ clicking: drive them in Playwright or the user's Chrome.
 - [ ] Quick Info, sections collapsed and expanded with their glyphs, validator bar
 - [ ] Fields: single-line, multi-line, rich text preview, date and time pickers, droplists, treelists, multilists, checkboxes
 - [ ] Search tab (bucket search): typed text, caret, placeholder, Search and Clear, filter pills, three result views, facets, paging
-- [ ] Status bar and bottom tabs (Content Editor, Media Library, Workbox)
+- [ ] The bar over the fields (`#EditorTabs`) at the search row's height, fields from its foot; sections as the source draws them (edge to edge on Sitecore 6 and Aqua)
+- [ ] Status bar and bottom tabs (Content Editor, Media Library, Workbox): as tall as the pills plus equal padding
+- [ ] The splitter between tree and editor; tree, editor, sections and pager on the same pixels on 10.4 and 10.5
 - [ ] Sitecore Extensions add-on: field search X, ribbon toggle (user's Chrome only)
 
 ## Dialogs
 
 - [ ] Copy To, Move To, Insert from Template, Publish Item (focus frame on open), Layout Details, Preview Date and Time
 - [ ] jQuery UI title strip, header with description, body insets, footer buttons, SPE help (?)
-- [ ] Tab strips: open tab joined, first tab aligned, hover not blank or uppercase (Application Options)
+- [ ] Tab strips: open tab joined, first tab aligned, hover not blank or uppercase (Application Options); segmented strips round only their two ends (three or more tabs)
 - [ ] SPE Kitchen Sink (Read-Variable), every tab: textboxes, date and time with calendar and time list, checkboxes, radio groups, droplists, trees, multilists, item pickers, user/role picker, rule boxes, code fields. Press Cancel.
 - [ ] Rule editor (Create rule): search magnifier not tiled, lists' scrollbars, condition triangles
 - [ ] Scrollbars in list boxes and text areas
