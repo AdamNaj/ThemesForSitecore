@@ -16,12 +16,8 @@
       <h1>Themes for Sitecore</h1>
       <p id="host" class="muted"></p>
     </div>
-    <!-- Light or Dark: the site's choice, shown while its theme has both looks (popup.js syncMode) -->
-    <div id="mode" class="seg icons" role="radiogroup" aria-label="Light or dark, for themes with both looks" hidden>
-      <label title="System"><input type="radio" name="mode" value="" aria-label="System"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><rect x="1.75" y="2.75" width="12.5" height="8.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 13.75h5M8 11.5v2.25" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></label>
-      <label title="Light"><input type="radio" name="mode" value="light" aria-label="Light"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.75" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.06 1.06M11.54 11.54l1.06 1.06M3.4 12.6l1.06-1.06M11.54 4.46l1.06-1.06" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></label>
-      <label title="Dark"><input type="radio" name="mode" value="dark" aria-label="Dark"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.75 5.75 0 0 1 6.4 2.5a5.75 5.75 0 1 0 7.1 7.1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></label>
-    </div>
+    <!-- Light or Dark: the site's choice, shown while its theme has both looks (popup.js syncMode); site-settings.js draws it -->
+    <div id="mode" hidden></div>
     <button id="open-settings" class="icon-button" type="button" title="Settings" aria-label="Settings" aria-controls="settings-view" aria-expanded="false" hidden>
       <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M10.3 2.8h3.4l.5 2.6c.6.2 1.2.5 1.7.9l2.5-.9 1.7 2.9-2 1.8c.1.6.1 1.3 0 1.9l2 1.8-1.7 2.9-2.5-.9c-.5.4-1.1.7-1.7.9l-.5 2.6h-3.4l-.5-2.6c-.6-.2-1.2-.5-1.7-.9l-2.5.9-1.7-2.9 2-1.8c-.1-.6-.1-1.3 0-1.9l-2-1.8 1.7-2.9 2.5.9c.5-.4 1.1-.7 1.7-.9z"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
     </button>
@@ -61,63 +57,10 @@
       <button type="button" role="tab" id="tab-import" aria-controls="pane-import" aria-selected="false" tabindex="-1">Imported themes<span id="import-count" class="count" hidden></span></button>
     </div>
 
-    <div class="pane" id="pane-title" role="tabpanel" aria-labelledby="tab-title">
-    <div class="panel">
-      <div class="row">
-        <div class="label"><label for="title-postfix">Title postfix</label><small id="postfix-hint">In the tab and Sitecore's top bar</small></div>
-        <input id="title-postfix" type="text" maxlength="40" placeholder="e.g. [DEV 10.5]" autocomplete="off" aria-describedby="postfix-hint">
-      </div>
-      <div class="row">
-        <div class="label"><span id="tint-label">Icon tint</span>
-          <span class="warn" tabindex="0" role="img" title="Some sites block custom tab icons. On those, the usual icon stays." aria-label="Some sites block custom tab icons. On those, the usual icon stays.">&#x26A0;&#xFE0E;</span></div>
-        <div id="tint" class="seg" role="radiogroup" aria-labelledby="tint-label">
-          <label><input type="radio" name="tint" value="">Off</label>
-          <label><input type="radio" name="tint" value="theme">Theme</label>
-          <label><input type="radio" name="tint" value="color">Colour</label>
-        </div>
-      </div>
-      <div class="row sub">
-        <div id="tint-swatches"></div>
-        <input type="range" id="tint-hue" class="hue" min="0" max="359" step="1" value="4" aria-label="Tint hue">
-      </div>
-    </div>
-    </div>
+    <!-- the title and accessibility panes' controls are site-settings.js's, shared with the Sitecore module -->
+    <div class="pane" id="pane-title" role="tabpanel" aria-labelledby="tab-title"></div>
 
-    <div class="pane" id="pane-access" role="tabpanel" aria-labelledby="tab-access" hidden>
-    <div class="panel">
-      <div class="row">
-        <div class="label"><span id="font-label">Font</span><small>Letters that are easier to tell apart</small></div>
-        <div id="font" class="seg" role="radiogroup" aria-labelledby="font-label">
-          <label><input type="radio" name="font" value="">Theme</label>
-          <label><input type="radio" name="font" value="hyperlegible">Hyperlegible</label>
-          <label><input type="radio" name="font" value="opendyslexic">OpenDyslexic</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label"><span id="spacing-label">Spacing</span><small>Between letters and words</small></div>
-        <div id="spacing" class="seg" role="radiogroup" aria-labelledby="spacing-label">
-          <label><input type="radio" name="spacing" value="">Normal</label>
-          <label><input type="radio" name="spacing" value="wide">Wide</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label"><span id="vision-label">Colour filter</span><small id="vision-hint">Moves colours you can't tell apart into ones you can</small></div>
-      </div>
-      <div class="row sub">
-        <div id="vision" class="seg" role="radiogroup" aria-labelledby="vision-label" aria-describedby="vision-hint">
-          <label><input type="radio" name="vision" value="">Off</label>
-          <label title="Red-blind"><input type="radio" name="vision" value="protanopia">Protanopia</label>
-          <label title="Green-blind"><input type="radio" name="vision" value="deuteranopia">Deuteranopia</label>
-          <label title="Blue-blind"><input type="radio" name="vision" value="tritanopia">Tritanopia</label>
-        </div>
-      </div>
-      <div class="row sub" id="strength-row" hidden>
-        <label for="strength">Strength</label>
-        <input type="range" id="strength" class="hue" min="1" max="100" step="1" value="100">
-        <output id="strength-value" for="strength">100%</output>
-      </div>
-    </div>
-    </div>
+    <div class="pane" id="pane-access" role="tabpanel" aria-labelledby="tab-access" hidden></div>
 
     <div class="pane" id="pane-import" role="tabpanel" aria-labelledby="tab-import" hidden>
       <div class="panel" id="import-body"></div>
@@ -130,6 +73,7 @@
   <script src="../lib/settings.js"></script>
   <script src="swatch.js"></script>
   <script src="picker.js"></script>
+  <script src="site-settings.js"></script>
   <script src="../lib/import.js"></script>
   <script src="import-ui.js"></script>
   <script src="popup.js"></script>

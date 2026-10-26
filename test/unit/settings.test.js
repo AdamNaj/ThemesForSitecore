@@ -150,7 +150,13 @@ test("a site's accessibility aids: unknown values are off, every font is package
   const spacing = settings.accessibilityCss({ spacing: "wide" }, String);
   assert.ok(spacing.includes("letter-spacing") && !spacing.includes("@font-face") && !spacing.includes("filter"));
   assert.ok(settings.accessibilityCss({ vision: "protanopia", strength: 100 }, String).includes("filter:url(#sct-vision)"));
-  const popup = fs.readFileSync(ext("popup/popup.html"), "utf8");
+  // the controls are site-settings.js's, shared by the popup and the Sitecore module's panel
+  const popup = fs.readFileSync(ext("popup/site-settings.js"), "utf8");
+  // and the module's server keeps exactly these when it saves a user's aids
+  const server = fs.readFileSync(require("node:path").join(__dirname, "..", "..", "sitecore", "ThemesProcessor.cs"), "utf8");
+  const list = (name) => JSON.parse(`[${server.match(new RegExp(`string\\[\\] ${name} = \\{([^}]*)\\}`))[1]}]`);
+  assert.deepEqual(list("Fonts"), Object.keys(settings.FONTS));
+  assert.deepEqual(list("Visions"), Object.keys(settings.VISIONS));
   for (const [id, font] of Object.entries(settings.FONTS)) {
     const css = settings.accessibilityCss({ font: id }, (p) => `x:/${p}`);
     // icons keep their icon font

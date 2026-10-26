@@ -3,6 +3,7 @@
 The same themes as the browser extension, for people who cannot install browser extensions. The module adds
 a theme loader to the pages of the Sitecore Content Management UIs. Each user picks a theme, and a hue or
 environment where the theme has one, from the extension's logo in Sitecore's top bar, which opens the extension's own picker.
+Its gear holds the rest of the popup's settings: title postfix, tab tint, light or dark, and the accessibility aids.
 
 ## Install
 
@@ -13,7 +14,8 @@ environment where the theme has one, from the extension's logo in Sitecore's top
    - `bin/SitecoreThemes.dll`
    - `App_Config/Include/SitecoreThemes/SitecoreThemes.config`
    - `sitecore modules/SitecoreThemes/` (the loader, `sct.js`, the theme CSS and images, the picker's previews and the logo)
-3. Optional: set the default theme, title postfix, tab tint, environment and hue in the config file.
+3. Optional: set the default theme, title postfix, tab tint, light or dark, environment and hue in the config file.
+   They are where every user starts; each user can choose their own in the picker, and go back to these.
 
 To remove it, delete those three. The patch runs only on Standalone and ContentManagement roles.
 
@@ -41,12 +43,16 @@ Building the second needs Web Deploy (`msdeploy.exe`, 3.6 or later) on the machi
   profile property, `SitecoreThemes.Theme`), the Sitecore version and the site settings.
 - It also answers `POST /sitecore/shell/sitecore-themes/save` (any of `theme=<id>`, `hue=<0-359>` with
   `hueTheme=<id>`, `env=<prod|staging|qa|dev|sandbox|local|beta>` (empty for the config's),
-  `phase=<dawn|day|dusk|night>` (empty for Auto), header `X-SCT: 1`), which the picker uses to save the user's
-  choices to their profile (`SitecoreThemes.Theme`, `SitecoreThemes.Hue` as one hue per theme in JSON,
-  `SitecoreThemes.Environment`, `SitecoreThemes.Phase`).
+  `phase=<dawn|day|dusk|night>` (empty for Auto), `title=<up to 40 characters>`, `tint=<|theme|#rrggbb>`,
+  `mode=<|light|dark>`, `accessibility=<JSON or empty>`, `reset=1` (back to the config's title, tint, mode and
+  environment), header `X-SCT: 1`), which the picker uses to save the user's choices to their profile
+  (`SitecoreThemes.Theme`, `SitecoreThemes.Hue` as one hue per theme in JSON, `SitecoreThemes.Environment`,
+  `SitecoreThemes.Phase`, and `SitecoreThemes.Title`, `.Tint` and `.Mode` stored as `v:<value>` so an empty
+  choice of the user's own differs from none, `SitecoreThemes.Accessibility` as JSON).
 - `sct.js` is built from the extension's shared files (`extension/lib/engine.js`, `detect.js`, `settings.js`,
   `files.js`, the colour maps, `themes/themes.js` and the themes' DOM modules), the popup's picker
-  (`popup/picker.js`, `swatch.js`, `popup.css`) plus `host.js`. The engine
+  (`popup/picker.js`, `swatch.js`, `popup.css`), the settings shared with the popup (`popup/site-settings.js`)
+  plus `host.js`. The engine
   decides which pages are Sitecore surfaces, exactly as it does in the extension.
 - `host.js` fetches the theme's CSS and adopts it (`document.adoptedStyleSheets`), which cascades after the
   page's own stylesheets, as the extension's injected CSS does. A theme change reaches every open frame and tab
@@ -62,9 +68,9 @@ Building the second needs Web Deploy (`msdeploy.exe`, 3.6 or later) on the machi
 
 ## Differences from the extension
 
-- Settings: the theme, hue, Guardrail's environment and Meridian's time of day are per user (the profile, the
-  config's values until a user picks their own); the title and tint are per instance (config), so the picker has no tab-title or tint
-  controls.
+- Settings are per user (the profile), not per site: the theme, hue, Guardrail's environment, Meridian's time of
+  day, title postfix, tint, light or dark and the accessibility aids. The config's values hold until a user picks
+  their own (accessibility starts off), and "Use the site's settings" goes back to them.
 - No imported themes.
 - Sitecore 10.4 and 10.5's Identity Server login page is a separate site, so the module cannot theme it.
 - Pages carry no theme until the module is installed, and they reflect a new theme after a reload or through

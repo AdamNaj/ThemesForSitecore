@@ -22,6 +22,15 @@ namespace SitecoreThemes
         const string HueKey = "SitecoreThemes.Hue";
         const string EnvKey = "SitecoreThemes.Environment";
         const string PhaseKey = "SitecoreThemes.Phase";
+        const string TitleKey = "SitecoreThemes.Title";
+        const string TintKey = "SitecoreThemes.Tint";
+        const string ModeKey = "SitecoreThemes.Mode";
+        const string AccessKey = "SitecoreThemes.Accessibility";
+        static readonly Regex TintId = new Regex("^(|theme|#[0-9a-fA-F]{6})$");
+        static readonly Regex ModeId = new Regex("^(|light|dark)$");
+        static readonly Regex Control = new Regex("[\\x00-\\x1f\\x7f]");
+        static readonly string[] Fonts = { "hyperlegible", "opendyslexic" };
+        static readonly string[] Visions = { "protanopia", "deuteranopia", "tritanopia" };
         static readonly Regex EnvId = new Regex("^(prod|staging|qa|dev|sandbox|local|beta)?$"); // empty: back to the config's
         static readonly Regex PhaseId = new Regex("^(dawn|day|dusk|night)?$"); // empty: Auto, the clock's
         static readonly Regex ThemeId = new Regex("^[a-z0-9]{1,40}$");
@@ -84,14 +93,60 @@ namespace SitecoreThemes
                 // ponytail: a config default of softlight gets plain Fjord; the config's own hue still applies
                 theme = string.IsNullOrEmpty(theme) ? Settings.GetSetting("SitecoreThemes.DefaultTheme", "native").Replace("softlight", "fjord") : theme,
                 version = version[0] + "." + version[1],
-                title = Settings.GetSetting("SitecoreThemes.Title", ""),
-                tint = Settings.GetSetting("SitecoreThemes.Tint", ""),
+                title = Own(user, signedIn, TitleKey, "SitecoreThemes.Title"),
+                tint = Own(user, signedIn, TintKey, "SitecoreThemes.Tint"),
+                mode = Own(user, signedIn, ModeKey, "SitecoreThemes.Mode"),
                 env = string.IsNullOrEmpty(env) ? Settings.GetSetting("SitecoreThemes.Environment", "") : env,
                 hue = Hues(hues),
                 phase = signedIn ? user.Profile.GetCustomProperty(PhaseKey) : "",
+                accessibility = signedIn ? ReadAccess(user.Profile.GetCustomProperty(AccessKey)) : null,
+                // the config's values, which "Use the site's settings" in the picker goes back to
+                defaults = new
+                {
+                    title = Settings.GetSetting("SitecoreThemes.Title", ""),
+                    tint = Settings.GetSetting("SitecoreThemes.Tint", ""),
+                    mode = Settings.GetSetting("SitecoreThemes.Mode", ""),
+                    env = Settings.GetSetting("SitecoreThemes.Environment", ""),
+                },
             });
             return "<script src=\"" + HttpUtility.HtmlAttributeEncode(Base + "sct.js?v=" + Stamp())
                 + "\" data-sct=\"" + HttpUtility.HtmlAttributeEncode(cfg) + "\"></script>";
+        }
+
+        // A user's own value for a setting the config seeds, stored as "v:" + value, so a value of their own that is
+        // empty (no postfix, no tint, System) differs from having none (the config's).
+        static string Own(Sitecore.Security.Accounts.User user, bool signedIn, string key, string setting)
+        {
+            var saved = signedIn ? user.Profile.GetCustomProperty(key) : "";
+            return saved != null && saved.StartsWith("v:", StringComparison.Ordinal) ? saved.Substring(2) : Settings.GetSetting(setting, "");
+        }
+
+        // A user's accessibility aids ({font, spacing, vision, strength}) from JSON, keeping only known values; null
+        // when nothing is on. The engine checks them again (settings.js accessibility).
+        static Dictionary<string, object> ReadAccess(string json)
+        {
+            if (string.IsNullOrEmpty(json)) return null;
+            Dictionary<string, object> v;
+            try
+            {
+                v = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>(json);
+            }
+            catch (ArgumentException)
+            {
+                return null;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+            if (v == null) return null;
+            object o;
+            var font = v.TryGetValue("font", out o) && o is string && Array.IndexOf(Fonts, o) >= 0 ? (string)o : null;
+            var spacing = v.TryGetValue("spacing", out o) && "wide".Equals(o) ? "wide" : null;
+            var vision = v.TryGetValue("vision", out o) && o is string && Array.IndexOf(Visions, o) >= 0 ? (string)o : null;
+            var strength = vision != null && v.TryGetValue("strength", out o) && o is int && (int)o > 0 && (int)o <= 100 ? (int)o : 100;
+            if (font == null && spacing == null && vision == null) return null;
+            return new Dictionary<string, object> { { "font", font }, { "spacing", spacing }, { "vision", vision }, { "strength", vision != null ? (object)strength : null } };
         }
 
         // The user's hues, one per theme ({"fjord":40}); a bare number (saved before hues were per theme, or the
@@ -141,16 +196,38 @@ namespace SitecoreThemes
             var hueTheme = context.Request.Form["hueTheme"];
             var env = context.Request.Form["env"];
             var phase = context.Request.Form["phase"];
+            var title = context.Request.Form["title"];
+            var tint = context.Request.Form["tint"];
+            var mode = context.Request.Form["mode"];
+            var access = context.Request.Form["accessibility"]; // JSON, or empty for none
+            var reset = context.Request.Form["reset"] == "1"; // back to the config's title, tint, mode and environment
             int degrees = 0;
             if (context.Request.HttpMethod != "POST" || context.Request.Headers["X-SCT"] != "1"
-                || user == null || !user.IsAuthenticated || (theme == null && hue == null && env == null && phase == null)
+                || user == null || !user.IsAuthenticated
+                || (theme == null && hue == null && env == null && phase == null && title == null && tint == null && mode == null && access == null && !reset)
                 || (theme != null && !ThemeId.IsMatch(theme))
                 || (hue != null && !(int.TryParse(hue, out degrees) && degrees >= 0 && degrees < 360 && hueTheme != null && ThemeId.IsMatch(hueTheme)))
                 || (env != null && !EnvId.IsMatch(env))
-                || (phase != null && !PhaseId.IsMatch(phase)))
+                || (phase != null && !PhaseId.IsMatch(phase))
+                || (title != null && (title.Length > 40 || Control.IsMatch(title)))
+                || (tint != null && !TintId.IsMatch(tint))
+                || (mode != null && !ModeId.IsMatch(mode))
+                || (access != null && access.Length > 200))
                 context.Response.StatusCode = 400;
             else
             {
+                if (reset)
+                {
+                    foreach (var key in new[] { TitleKey, TintKey, ModeKey, EnvKey }) user.Profile.SetCustomProperty(key, "");
+                }
+                if (title != null) user.Profile.SetCustomProperty(TitleKey, "v:" + title.Trim());
+                if (tint != null) user.Profile.SetCustomProperty(TintKey, "v:" + tint.ToLowerInvariant());
+                if (mode != null) user.Profile.SetCustomProperty(ModeKey, "v:" + mode);
+                if (access != null)
+                {
+                    var aids = ReadAccess(access);
+                    user.Profile.SetCustomProperty(AccessKey, aids == null ? "" : new JavaScriptSerializer().Serialize(aids));
+                }
                 if (theme != null) user.Profile.SetCustomProperty(ThemeKey, theme);
                 if (hue != null)
                 {

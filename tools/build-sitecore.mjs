@@ -25,7 +25,7 @@ export function bundle() {
     "lib/detect.js", "lib/settings.js", "themes/themes.js", "lib/files.js", "lib/dom-kit.js", "lib/color-map.js", "lib/live-map.js",
     ...themes.filter((t) => t.hasDom).map((t) => `themes/${t.id}/dom.js`),
     "lib/engine.js",
-    "popup/swatch.js", "popup/picker.js",
+    "popup/swatch.js", "popup/picker.js", "popup/site-settings.js",
   ].map((f) => path.join(ext, f));
   const head = "// Themes for Sitecore, built by tools/build-sitecore.mjs from extension/ and sitecore/host.js. Do not edit.\n"
     + "(function (root) {\n  (root.SCT = root.SCT || {}).devHooks = false;\n})(globalThis);\n";
@@ -34,12 +34,14 @@ export function bundle() {
 }
 
 // What the engine and the picker fetch: surfaces/*.css, every theme's files (its CSS, glyphs and preview
-// screenshots) except its DOM module and theme.json, and the logo.
+// screenshots) except its DOM module and theme.json, the reading fonts, and the logo.
 function copyAssets(dest) {
   const skip = (f) => /\.(js|json)$/.test(f);
   for (const dir of ["surfaces", "themes"]) {
     fs.cpSync(path.join(ext, dir), path.join(dest, dir), { recursive: true, filter: (f) => fs.statSync(f).isDirectory() || !skip(f) });
   }
+  // the reading fonts the accessibility settings offer
+  fs.cpSync(path.join(ext, "fonts"), path.join(dest, "fonts"), { recursive: true });
   fs.mkdirSync(path.join(dest, "icons"));
   fs.copyFileSync(path.join(ext, "icons", "icon.svg"), path.join(dest, "icons", "icon.svg"));
 }

@@ -21,6 +21,8 @@
   let topBar = null; // Sitecore's top bar the logo sits in
   let footers = null; // watches for start menu footers to add the picker's entry to
   let panel = null; // the open picker: { host, render }
+  // the settings a user changes in the picker, which open frames and tabs follow at once
+  const KINDS = ["theme", "hue", "env", "phase", "title", "tint", "mode", "accessibility"];
 
   function adopt(next) {
     const rest = document.adoptedStyleSheets.filter((s) => s !== sheet);
@@ -32,29 +34,32 @@
     alive: () => true,
     version: async () => cfg.version,
     saveVersion() {}, // the server knows its own version
-    site: async () => ({ title: cfg.title, tint: cfg.tint, env: cfg.env, phase: cfg.phase, hue: cfg.hue }),
+    site: async () => ({ title: cfg.title, tint: cfg.tint, env: cfg.env, phase: cfg.phase, hue: cfg.hue, accessibility: cfg.accessibility }),
+    url: (file) => `${cfg.base}${file}`, // the reading fonts, in the module's folder
     theme: async (version) => entry(resolve(version)),
-    async apply({ surface, version, previous }) {
+    async apply({ surface, version, previous, previousMode }) {
       const theme = resolve(version);
-      if (theme !== previous) {
+      const mode = cfg.mode || "";
+      if (theme !== previous || mode !== (previousMode || "")) {
         let next = null;
         if (theme !== "native") {
           const parts = await Promise.all(SCT.files.sources(theme, surface).files.map(text));
           next = new CSSStyleSheet();
-          // sct-ext:<path> is a theme's own image, in the module's folder
-          next.replaceSync(parts.join("\n").replace(/url\(\s*(['"]?)sct-ext:/g, `url($1${cfg.base}`));
+          // sct-ext:<path> is a theme's own image, in the module's folder; Light or Dark fixes a theme that follows
+          // the system to one of its looks
+          next.replaceSync(SCT.files.withMode(parts.join("\n"), mode).replace(/url\(\s*(['"]?)sct-ext:/g, `url($1${cfg.base}`));
         }
         adopt(next);
       }
       const e = entry(theme);
-      return { theme, name: e.name, usesTokens: !!e.usesTokens, dev: false };
+      return { theme, name: e.name, usesTokens: !!e.usesTokens, dev: false, mode };
     },
     tokens: async (id) => (entry(id).usesTokens ? text(`themes/${id}/tokens.css`) : ""),
     listen(fn) {
       onChange = fn;
       channel.onmessage = (e) => {
         const m = e.data || {};
-        if (!["theme", "hue", "env", "phase"].includes(m.type) || m[m.type] === cfg[m.type]) return;
+        if (!KINDS.includes(m.type) || m[m.type] === cfg[m.type]) return;
         cfg[m.type] = m[m.type];
         fn(m.type);
         panel?.render();
@@ -84,11 +89,25 @@
       body: new URLSearchParams(fields),
     }).catch(() => null);
     if (!r || !r.ok) return;
+    let kinds = [kind];
     if (kind === "hue") cfg.hue = SCT.settings.withHue(cfg.hue, fields.hueTheme, +fields.hue);
-    else Object.assign(cfg, fields);
-    channel.postMessage({ type: kind, [kind]: cfg[kind] });
-    onChange(kind);
+    else if (kind === "accessibility") cfg.accessibility = SCT.settings.accessibility(fields.accessibility ? JSON.parse(fields.accessibility) : null);
+    else if (kind === "reset") {
+      // back to the config's: the server cleared the user's own title, tint, mode and environment
+      Object.assign(cfg, cfg.defaults);
+      kinds = ["title", "tint", "mode", "env"];
+    } else Object.assign(cfg, fields);
+    for (const k of kinds) {
+      channel.postMessage({ type: k, [k]: cfg[k] });
+      onChange(k);
+    }
   }
+
+  // The picker's settings view reads and writes the user's own values through these (site-settings.js).
+  const siteStore = {
+    get: (kind) => cfg[kind],
+    set: (kind, value) => save({ [kind]: kind === "accessibility" ? (value ? JSON.stringify(value) : "") : value || "" }, kind),
+  };
 
   // The logo and the picker are drawn in closed shadow roots on hosts whose inline style resets everything
   // (inline !important beats any theme rule), so neither the page nor a theme reaches them: the picker looks as
@@ -116,6 +135,7 @@
   }
 
   const BARS = ".sc-globalHeader, .sc-flx-global-header";
+  const SS = SCT.siteSettings; // the settings' markup and controls, shared with the extension's popup
   const ICON = ref("icons/icon.svg");
 
   // The logo sits beside Sitecore's account links in the top bar: left of Log out where they sit on the right,
@@ -205,7 +225,16 @@ svg.shape path{fill:var(--bg);stroke:var(--line);stroke-width:1}
   max-height:var(--max-h);border-radius:0 0 ${PANEL_R}px ${PANEL_R}px}
 .menu .sct-panel{border-radius:${PANEL_R}px}
 .sct-panel header img{display:block}
-.wrap{position:relative;display:flow-root} /* keeps .sct-panel's margin inside it */`;
+.wrap{position:relative;display:flow-root} /* keeps .sct-panel's margin inside it */
+:is(#picker,#settings)[hidden]{display:none}
+.settings-head{display:flex;align-items:center;gap:8px;margin:2px 0 4px}
+.settings-head h2{margin:0;font-size:14px;color:var(--fg)}
+#settings h3{margin:12px 4px 6px;font-size:12px;font-weight:600;color:var(--muted)}
+.reset{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin:14px 4px 4px}
+.reset button{padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--fg);font:inherit;cursor:pointer}
+.reset button:hover{background:var(--hover)}
+.reset button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.reset small{color:var(--muted)}`;
 
   // The panel unfurls from the tab (or from the start menu's corner) and folds back into it: the shape is
   // revealed from there while the picker settles in. Nothing moves for people who ask for reduced motion.
@@ -271,8 +300,17 @@ svg.shape path{fill:var(--bg);stroke:var(--line);stroke-width:1}
 <div class="wrap ${g.side}"><svg class="shape" aria-hidden="true"><path/></svg>
 <button class="tab" type="button" title="Themes for Sitecore" aria-label="Close Themes for Sitecore" aria-expanded="true"><img alt="" src="${ICON}"></button>
 <div class="sct-panel" role="dialog" aria-label="Themes for Sitecore">
-  <header><img src="${ICON}" alt="" width="32" height="32"><div><h1>Themes for Sitecore</h1><p id="host" class="muted"></p></div></header>
+  <header><img src="${ICON}" alt="" width="32" height="32"><div><h1>Themes for Sitecore</h1><p id="host" class="muted"></p></div>
+    ${SS.MODE_HTML}
+    <button id="open-settings" class="icon-button" type="button" title="Settings" aria-label="Settings" aria-controls="settings" aria-expanded="false">${SS.GEAR_SVG}</button></header>
   <div id="picker"></div>
+  <div id="settings" hidden>
+    <div class="settings-head"><button id="close-settings" class="icon-button" type="button" title="Back to the themes" aria-label="Back to the themes">${SS.BACK_SVG}</button><h2>Your settings</h2></div>
+    <h3>Tab and icon</h3>${SS.TITLE_HTML}
+    <h3>Accessibility</h3>${SS.ACCESS_HTML}
+    <div class="reset"><button id="reset" type="button">Use the site's settings</button>
+      <small>The title postfix, tint, light or dark and environment this Sitecore starts everyone with</small></div>
+  </div>
 </div></div>`);
     const body = root.querySelector(".sct-panel");
     pin(host, { ...g.pos, "--max-h": `${g.room}px` });
@@ -300,7 +338,25 @@ svg.shape path{fill:var(--bg);stroke:var(--line);stroke-width:1}
       setHue: (hue, theme) => save({ hue: String(hue), hueTheme: theme }, "hue"),
       setEnv: (env) => save({ env }, "env"),
       setPhase: (phase) => save({ phase }, "phase"),
+      // the Light or Dark pill shows while the theme has both looks
+      onTheme: (t) => (root.querySelector("#mode").hidden = t.appearance !== "auto"),
     });
+    // the gear swaps the themes for the user's own settings, the back arrow returns
+    const views = (on) => {
+      root.querySelector("#picker").hidden = on;
+      root.querySelector("#settings").hidden = !on;
+      root.querySelector("#open-settings").setAttribute("aria-expanded", String(on));
+      root.querySelector(on ? "#close-settings" : "#open-settings").focus({ preventScroll: true });
+    };
+    root.querySelector("#open-settings").onclick = () => views(true);
+    root.querySelector("#close-settings").onclick = () => views(false);
+    const mountSettings = () => SS.mount(root, siteStore);
+    mountSettings();
+    root.querySelector("#reset").onclick = async () => {
+      await save({ reset: "1" }, "reset");
+      mountSettings(); // the controls show the site's values again
+      render();
+    };
     doc.documentElement.append(host); // outside <body>, which themes and the switch's blur may filter
     const wrap = root.querySelector(".wrap");
     body.style.transformOrigin = { left: "left top", right: "right top", menu: "left bottom" }[g.side];
