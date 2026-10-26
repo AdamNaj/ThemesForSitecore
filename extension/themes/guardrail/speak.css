@@ -6,7 +6,8 @@ html[data-sct-theme="guardrail"][data-sct-surface="speak"] :is(.sc-globalHeader,
 html[data-sct-theme="guardrail"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation::before {
   content: var(--gr-env-label);
   display: inline-block;
-  margin-right: 18px;
+  /* the Sitecore module's button sits just before Log out too (it sets --sct-logo-room on the bar) */
+  margin-right: calc(18px + var(--sct-logo-room, 0px));
   padding: 0 7px;
   border-radius: 3px;
   background: var(--gr-env);

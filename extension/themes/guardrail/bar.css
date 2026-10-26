@@ -11,5 +11,5 @@ html[data-sct-theme="guardrail"]:is([data-sct-surface="speak"], [data-sct-surfac
   --sct-bar-side: 420px;
 }
 html[data-sct-theme="guardrail"]:not(#sct-bar) .sc-globalHeader:has(> .sc-ext-dbName) ul.sc-accountInformation::before {
-  margin-right: 84px;
+  margin-right: calc(84px + var(--sct-logo-room, 0px));
 }
