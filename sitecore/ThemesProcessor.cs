@@ -25,8 +25,20 @@ namespace SitecoreThemes
         static readonly Regex EnvId = new Regex("^(prod|staging|qa|dev|sandbox|local|beta)?$"); // empty: back to the config's
         static readonly Regex PhaseId = new Regex("^(dawn|day|dusk|night)?$"); // empty: Auto, the clock's
         static readonly Regex ThemeId = new Regex("^[a-z0-9]{1,40}$");
-        static readonly Lazy<string> Stamp = new Lazy<string>(() =>
-            File.GetLastWriteTimeUtc(HostingEnvironment.MapPath(Base + "sct.js")).Ticks.ToString("x"));
+        // The loader's cache stamp: sct.js's time on disk, read again every 10 seconds, so files deployed over a running
+        // site reach browsers without a restart (the build changes sct.js whenever any file the module serves changes).
+        static string stamp;
+        static DateTime stampRead;
+        static string Stamp()
+        {
+            var now = DateTime.UtcNow;
+            if (stamp == null || now - stampRead > TimeSpan.FromSeconds(10))
+            {
+                stamp = File.GetLastWriteTimeUtc(HostingEnvironment.MapPath(Base + "sct.js")).Ticks.ToString("x");
+                stampRead = now;
+            }
+            return stamp;
+        }
 
         public override void Process(HttpRequestArgs args)
         {
@@ -67,7 +79,7 @@ namespace SitecoreThemes
             var cfg = new JavaScriptSerializer().Serialize(new
             {
                 @base = Base,
-                stamp = Stamp.Value,
+                stamp = Stamp(),
                 save = user != null && user.IsAuthenticated ? SavePath : "",
                 // ponytail: a config default of softlight gets plain Fjord; the config's own hue still applies
                 theme = string.IsNullOrEmpty(theme) ? Settings.GetSetting("SitecoreThemes.DefaultTheme", "native").Replace("softlight", "fjord") : theme,
@@ -78,7 +90,7 @@ namespace SitecoreThemes
                 hue = Hues(hues),
                 phase = signedIn ? user.Profile.GetCustomProperty(PhaseKey) : "",
             });
-            return "<script src=\"" + HttpUtility.HtmlAttributeEncode(Base + "sct.js?v=" + Stamp.Value)
+            return "<script src=\"" + HttpUtility.HtmlAttributeEncode(Base + "sct.js?v=" + Stamp())
                 + "\" data-sct=\"" + HttpUtility.HtmlAttributeEncode(cfg) + "\"></script>";
         }
 

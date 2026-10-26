@@ -7,6 +7,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 
@@ -49,8 +50,16 @@ function main() {
   const dir = path.join(out, "files");
   const module = path.join(dir, MODULE);
   fs.mkdirSync(module, { recursive: true });
-  fs.writeFileSync(path.join(module, "sct.js"), bundle());
   copyAssets(module);
+  // The module's cache stamp is sct.js's time on the server, so sct.js changes whenever any file it serves does:
+  // its first line is a hash of them all, and a deploy that only changes a theme's CSS still gets a new stamp.
+  const code = bundle();
+  const hash = createHash("sha256").update(code);
+  for (const f of fs.readdirSync(module, { recursive: true }).sort()) {
+    const file = path.join(module, f);
+    if (fs.statSync(file).isFile()) hash.update(f).update(fs.readFileSync(file));
+  }
+  fs.writeFileSync(path.join(module, "sct.js"), `// build ${hash.digest("hex").slice(0, 16)}\n${code}`);
   fs.cpSync(path.join(root, "sitecore", "App_Config"), path.join(dir, "App_Config"), { recursive: true });
   const obj = path.join(out, "obj");
   execFileSync("dotnet", ["build", path.join(root, "sitecore", "SitecoreThemes.csproj"), "-c", "Release",
