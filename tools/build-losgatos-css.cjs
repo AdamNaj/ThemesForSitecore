@@ -2359,6 +2359,11 @@ ${P}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before {
    (kept while a contextual tab group shows one), so the tabs sit right under the bar */
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 22px; height: 18px; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+/* 4px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+${P}[data-sct-window-content] .scRibbonNavigator { padding-top: 2px; } /* 4px to the tabs: its tabs sit 2px down their row already */
 /* Standard windows (ISE, Console, Package Designer...): the striped title bar, the close gadget at the
    left, the title in its white gap */
 ${P} .standardWindowCaption { height: 20px; background: ${stripes()}; border-bottom: 2px solid ${WH}; }
