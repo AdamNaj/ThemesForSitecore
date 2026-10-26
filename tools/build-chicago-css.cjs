@@ -617,7 +617,9 @@ const shellHand = `${W("shell")} {
   }
   /* over a page, the open tab also covers the white line inside the page's black top edge, so its face runs
      on into the page as one surface (the strip aligns tabs to its bottom, so the extra pixel comes from top) */
-  .scTabstripContainer:has(> .scTabs) > .scTabstrip :is(.scTabActive, .scTabActive_Hover) { top: 2px; height: 25px; }
+  .scTabstripContainer:has(> .scTabs) > .scTabstrip :is(.scTabActive, .scTabActive_Hover) { top: 2px; height: 25px; box-shadow: inset 1px 1px #dfdfdf, inset -1px 0 #808080, 0 2px 0 -1px #c0c0c0; }
+  /* (the last shadow: at a fractional zoom the tab stands only part of a device pixel over the page's white line,
+     which showed as a faint line under it; a pixel of the face below the tab, inside its side borders, covers it) */
   /* the ISE's script tabs have no page under them: the strip draws the line the open tab stands on, from the
      first tab on (SPE's 52px reserve holds the script tree and variables toggles, with no line under them) */
   #TabsPanel .scTabstrip { background-image: linear-gradient(#fff 0 0); background-position: 52px 100%; background-size: 100% 1px; background-repeat: no-repeat; }
@@ -2730,10 +2732,14 @@ ${P}[data-sct-window-title] .scWorkboxWindowButtons { position: absolute; float:
 /* Under the bar the tabs start at its foot: the empty header over the tab group (17px, for a contextual group's
    name) goes while no contextual group shows, and the menu button, 17px down and 30px tall for that band, moves
    up into the tab row at the row's height */
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 18px; height: 26px; }
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 18px; height: 27px; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
 /* and the tab row shrinks to the open tab and a 2px gap above it */
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigatorButtonsGroupButtons { height: 26px; }
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigatorButtonsGroupButtons { height: 27px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+${P}[data-sct-window-content] .scRibbonNavigator { padding-top: 0; } /* its tabs already stand 4px down in their row */
+${P}[data-sct-window-content] .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+${P}[data-sct-window-content] .scRibbonNavigatorButtonsGroupButtons { height: 27px; }
 html[data-sct-theme="${ID}"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, html[data-sct-theme="${ID}"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: ${CAPTION_OFF}; }
 
 
