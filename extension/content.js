@@ -56,10 +56,10 @@
     },
     async apply(msg) {
       const r = await send({ type: "frame-ready", ...msg });
-      if (!r || !r.standDown) return r;
-      // the site is off: Sitecore's own look here, and the page to the module
-      if (!leaving) setTimeout(handOver);
-      return { theme: "native", name: "", usesTokens: false, dev: false, mode: "" };
+      // the site is off: the background answered with Sitecore's own look (and took the theme's CSS out); the
+      // page goes to the module
+      if (r && r.standDown && !leaving) setTimeout(handOver);
+      return r;
     },
     tokens: (id) => send({ type: "theme-tokens", theme: id }),
     listen(fn) {

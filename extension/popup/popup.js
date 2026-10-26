@@ -267,22 +267,10 @@ async function main() {
   mountMode();
   mountTint();
   mountAccessibility();
+  // The background disables the site (background.js disableSite): the popup closes as soon as the page gets the focus,
+  // F5 included, and would stop half-way.
   $("#disable").onclick = async () => {
-    // The site's open tabs go back to Sitecore's own look first: once access is gone, the theme's CSS can no longer
-    // be taken out. A frame that does not answer within a few seconds keeps its look until reloaded.
-    const tabs = await api.tabs.query({ url: origin + "/*" });
-    const unload = tabs.map((t) => api.scripting.executeScript({
-      target: { tabId: t.id, allFrames: true },
-      // hands the page to the Sitecore module where the site has it (older content scripts only unload)
-      func: () => globalThis.SCT && (SCT.handOver ? SCT.handOver() : SCT.engine && SCT.engine.unload && SCT.engine.unload()),
-    }).catch(() => {}));
-    await Promise.race([Promise.all(unload), new Promise((r) => setTimeout(r, 3000))]);
-    // off in the list first, then the permission, then the registration rebuilt before the popup says so: a reload
-    // straight after never meets the old registration
-    const off = (await api.storage.local.get("disabledOrigins")).disabledOrigins || [];
-    if (!off.includes(origin)) await api.storage.local.set({ disabledOrigins: [...off, origin] });
-    await api.permissions.remove(pattern).catch(() => {});
-    await api.runtime.sendMessage({ type: "sync" }).catch(() => {});
+    await api.runtime.sendMessage({ type: "disable", origin }).catch(() => {});
     main();
   };
   if (globalThis.SCTImportUI) {

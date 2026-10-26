@@ -78,11 +78,31 @@ async function isDevInstall() {
   return !!self && self.installType === "development";
 }
 
+// Disable on a site, from the popup, done here so that closing the popup (a click into the page, F5) can't stop it
+// half-way. The site is off from the first step: then the registration is rebuilt, so a reload meets no content
+// script; the open tabs go back to Sitecore's own look and to the Sitecore module where the site has it (a frame
+// that does not answer within a few seconds keeps its look until reloaded); and the permission goes last, since
+// taking a theme's CSS out of a tab needs it.
+async function disableSite(origin) {
+  const off = await disabledOrigins();
+  if (!off.includes(origin)) await api.storage.local.set({ disabledOrigins: [...off, origin] });
+  await syncRegistration();
+  const tabs = await api.tabs.query({ url: origin + "/*" });
+  const unload = tabs.map((t) => api.scripting.executeScript({
+    target: { tabId: t.id, allFrames: true },
+    // older content scripts only unload
+    func: () => globalThis.SCT && (SCT.handOver ? SCT.handOver() : SCT.engine && SCT.engine.unload && SCT.engine.unload()),
+  }).catch(() => {}));
+  await Promise.race([Promise.all(unload), new Promise((r) => setTimeout(r, 3000))]);
+  await api.permissions.remove({ origins: [origin + "/*"] }).catch(() => {});
+}
+
 async function onFrameReady(msg, sender) {
   const origin = new URL(sender.url).origin;
-  // a frame on a site that is off (a stale registration, a tab injected before Disable): no CSS, and the frame stands
-  // down so the Sitecore module, where the site has it, can take the page
-  if (!(await enabledOn(origin))) return { standDown: true };
+  // a frame on a site that is off (Disable, a stale registration): Native, so the theme's CSS comes out, and the frame
+  // stands down so the Sitecore module, where the site has it, can take the page
+  const standDown = !(await enabledOn(origin));
+  if (standDown) msg = { ...msg, off: true };
   const [sync, local] = await Promise.all([
     api.storage.sync.get(["overrides", "modes"]),
     api.storage.local.get(["imported"]),
@@ -107,7 +127,7 @@ async function onFrameReady(msg, sender) {
     if (css) await api.scripting.insertCSS({ target, css }).catch(() => {});
   }
   const entry = SCT.settings.catalog(imported).find((t) => t.id === theme);
-  return { theme, name: entry ? entry.name : "", usesTokens: !!(entry && entry.usesTokens), dev, mode };
+  return { theme, name: entry ? entry.name : "", usesTokens: !!(entry && entry.usesTokens), dev, mode, standDown };
 }
 
 // A theme's token declarations, so a page can draw its "Applying theme" window before the CSS swaps.
@@ -145,6 +165,10 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         tag.after(again);
       },
     }).then(() => sendResponse(true), () => sendResponse(false));
+    return true;
+  }
+  if (msg && msg.type === "disable" && typeof msg.origin === "string" && /^https?:\/\/[^/]+$/.test(msg.origin)) {
+    disableSite(msg.origin).then(() => sendResponse(true), () => sendResponse(false));
     return true;
   }
   if (msg && msg.type === "sync") {
