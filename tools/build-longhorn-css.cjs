@@ -475,7 +475,9 @@ ${P} .ui-dialog {
   border-radius: 7px 7px 4px 4px;
   padding: 0;
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(12, 24, 38, 0.75), inset 0 0 0 1px rgba(255, 255, 255, 0.5), 0 8px 24px rgba(0, 0, 0, 0.45);
+  /* the highlight along the top edge only: an inset shadow sits inside the side borders, where it drew a line
+     between them and the caption */
+  box-shadow: 0 0 0 1px rgba(12, 24, 38, 0.75), inset 0 1px rgba(255, 255, 255, 0.5), 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 /* Aero glass, as on the Desktop's windows: the dialog blurs and tints what lies behind it, its frame (a clear
    border, outranking the token layer's .ui-widget-content) and its caption show that glass, and the page inside
