@@ -56,7 +56,7 @@ html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbonToolbar .chu
 html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"] {
   border-radius: 6px;
 }
-html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"]:hover {
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbonToolbar a[class*="scRibbonToolbar"][class*="Button"]:hover {
   background-color: var(--sct-ribbon-button-hover-bg);
 }
 
