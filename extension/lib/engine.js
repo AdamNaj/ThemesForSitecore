@@ -53,6 +53,13 @@
       }
       html.dataset.sctModalHost = host;
     }
+    // A page shown in one of that host's dialogs: a theme can leave its caption strip clear, so the dialog's own
+    // frame (glass, say) shows through it.
+    try {
+      if (window.frameElement && window.frameElement.closest(".ui-dialog")) html.dataset.sctInDialog = "";
+    } catch {
+      // a frame from another origin
+    }
 
     // A newer engine (after an extension reload or update) takes over the page.
     const handover = new MutationObserver(() => {

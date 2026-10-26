@@ -477,9 +477,11 @@ ${P} .ui-dialog {
   overflow: hidden;
   box-shadow: 0 0 0 1px rgba(12, 24, 38, 0.75), inset 0 0 0 1px rgba(255, 255, 255, 0.5), 0 8px 24px rgba(0, 0, 0, 0.45);
 }
-/* The token layer's .ui-widget-content border outranks P. Behind the caption's rounded corners the face is
-   glass, so the clip blends glass into glass. */
-${X} .ui-dialog { border-color: ${GLASS}; background: linear-gradient(#a9c6e3 0 30px, #f0f0f0 0); }
+/* Aero glass, as on the Desktop's windows: the dialog blurs and tints what lies behind it, its frame (a clear
+   border, outranking the token layer's .ui-widget-content) and its caption show that glass, and the page inside
+   leaves its caption strip clear (below). The dialog sits in Sitecore's full-window modal frame, so the blur reaches
+   only that frame's clear page: the Desktop behind shows through tinted, not frosted. */
+${X} .ui-dialog { border-color: transparent; background: ${AERO}; backdrop-filter: blur(8px) saturate(1.4); }
 ${P} .ui-dialog .ui-dialog-titlebar {
   position: absolute;
   top: 0;
@@ -544,6 +546,12 @@ ${P} .ui-widget-overlay { background: rgba(0, 0, 0, 0.18); opacity: 1; }
 
 /* Inside a dialog page: the header is the caption, the window's icon, then the title. */
 ${P} :is(.scFormDialogHeader, .scDialogHeader) { background: #f0f0f0; padding: 0; border: 0; min-height: 0 !important; }
+/* a page shown in a dialog (engine.js marks it data-sct-in-dialog) is clear down to its header, so the caption strip
+   is the dialog's glass; the description, the content and the footer keep their faces */
+${X}[data-sct-in-dialog] { background: transparent; }
+${X}[data-sct-in-dialog] :is(body, body > form, .scFormDialogHeader, .scDialogHeader) { background: transparent !important; }
+/* and the dialog's iframe, which the jQuery UI widget paints white */
+${X} .ui-dialog > iframe.ui-dialog-content { background: transparent; }
 /* the dialog page's header, and the ListView's, which SPE puts straight in the jQuery dialog */
 ${P} :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
   display: flex;
@@ -553,7 +561,7 @@ ${P} :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .
   height: 30px;
   margin: 0;
   padding: 0 110px 0 2px;
-  background: ${CAP};
+  background: transparent; /* the dialog's glass */
   border: 0;
   border-radius: 0;
   ${capText}
@@ -584,6 +592,9 @@ ${P} .scTabstrip :is(.scTab, .scTab_Hover), ${P} .scTabstrip [class*="scTabActiv
 }
 ${P} .scTabstrip .scTab_Hover { ${tabHot} }
 ${P} .scTabstrip [class*="scTabActive"] { ${tabOpen} position: relative; z-index: 1; padding-bottom: 2px; margin-bottom: -1px; }
+/* The open first tab lines up with the page's left edge and keeps the tabs' own border: Sitecore styles the first
+   <nobr>'s open tab apart (its own border colour, position: static), and the colour map copies that over the theme's */
+${X} .scTabstrip > nobr:first-child > [class*="scTabActive"] { position: relative; left: 0; border-left-color: #898c95; }
 /* focus: a dotted rectangle inside the tab, never Sitecore's black frame */
 ${X} .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus { outline: none; box-shadow: none; }
 ${X} .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus-visible { outline: 1px dotted #000; outline-offset: -4px; }
@@ -665,11 +676,14 @@ ${X}[data-sct-window-title] .scWorkboxWindowButtons { position: absolute; float:
    up into the tab row at the row's height */
 ${X}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 26px; height: 22px; }
 ${X}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
-/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
-${X}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
-${X}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
+/* 4px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+${X}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 4px; }
+${X}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 4px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+${X}[data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
 ${PI} .standardWindowCaption .scWindowCaption { color: #3c3c3c; }
-${PI} .standartWindowButtons img { filter: saturate(0.4) brightness(1.08); }
+/* an inactive window's buttons fade, on every kind of window */
+${PI} :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img { filter: saturate(0.4) brightness(1.08); }
 
 /* ---- Insert gallery scroller ---- */
 ${P} .scRibbonPanelButtons { background: transparent; }
@@ -1073,10 +1087,12 @@ ${X} #Desktop > iframe:not([style*="width: 100%"]) { border: 7px solid transpare
 ${X} #Desktop > iframe[data-sct-window="inactive"]:not([style*="width: 100%"]) { box-shadow: 0 0 0 1px rgba(40, 52, 66, 0.55), 0 6px 18px 1px rgba(0, 0, 0, 0.3); }
 /* A system set to reduce transparency, or an engine without backdrop-filter: the frame turns solid glass blue. */
 @media (prefers-reduced-transparency: reduce) {
+  ${X} .ui-dialog { background: ${GLASS}; }
   ${X} #Desktop > iframe { background: ${GLASS}; }
   ${X} #Desktop > iframe[data-sct-window="inactive"] { background: ${GLASS_IN}; }
 }
 @supports not (backdrop-filter: blur(1px)) {
+  ${X} .ui-dialog { background: ${GLASS}; }
   ${X} #Desktop > iframe { background: ${GLASS}; }
   ${X} #Desktop > iframe[data-sct-window="inactive"] { background: ${GLASS_IN}; }
 }
