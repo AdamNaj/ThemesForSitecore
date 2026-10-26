@@ -244,7 +244,7 @@ async function main() {
       if (!(await api.permissions.request(pattern))) return;
       await api.storage.local.set({ disabledOrigins: (await disabled()).filter((o) => o !== origin) });
       await api.runtime.sendMessage({ type: "sync" }).catch(() => {});
-      main();
+      location.reload(); // drawn afresh: running main() again would mount every control a second time
     };
     return;
   }
@@ -271,7 +271,7 @@ async function main() {
   // F5 included, and would stop half-way.
   $("#disable").onclick = async () => {
     await api.runtime.sendMessage({ type: "disable", origin }).catch(() => {});
-    main();
+    location.reload(); // drawn afresh: running main() again would mount every control a second time
   };
   if (globalThis.SCTImportUI) {
     SCTImportUI.mount($("#import-body"), render, (n) => {
