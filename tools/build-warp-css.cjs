@@ -566,9 +566,11 @@ ${P}[data-sct-window-title] .scWorkboxWindowButtons { position: absolute; float:
    up into the tab row at the row's height */
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 22px; height: 22px; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
-/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
+/* 4px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 4px; }
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 4px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+${P}[data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
 ${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: #b4b4b4; }
 ${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { color: #000; }
 
@@ -898,9 +900,10 @@ ${NB} .scTabstripContainer > .scTabstrip {
   background: transparent;
 }
 ${NB} .scTabstripContainer > .scTabstrip, ${NB} .scTabstripContainer > .scTabstrip > nobr { flex-direction: column; align-items: stretch; gap: 3px; }
-${NB} .scTabstripContainer > .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]) { margin: 0 0 0 6px; border-bottom: 2px solid ${DARK}; border-left-color: ${LIGHT}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* the tabs stand against the page's right edge, as a notebook's do; the open one covers that edge and runs into the page */
+${NB} .scTabstripContainer > .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]) { margin: 0; border-bottom: 2px solid ${DARK}; border-left: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 ${NB} .scTabstripContainer > .scTabstrip [class*="scTabActive"] { margin: 0 0 0 -2px; padding-bottom: 0; border-left: 0; }
-${NB} .scTabstripContainer > .scTabs { top: 0; right: 118px; left: 0; background: ${FACE}; ${RAISED} border-right: 0; box-shadow: none; }
+${NB} .scTabstripContainer > .scTabs { top: 0; right: 118px; left: 0; background: ${FACE}; ${RAISED} box-shadow: none; }
 ${X} .scTabs .scTabPage .scScrollbox { background: #fff; ${field} }
 ${X} .scTabs > .scTabPage { border-color: transparent; }
 

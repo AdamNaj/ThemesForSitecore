@@ -376,9 +376,11 @@ html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .sc
    up into the tab row at the row's height */
 html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 22px; height: 22px; }
 html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
-/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
-html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
-html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
+/* 4px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 4px; }
+html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 4px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
 html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: #b4b4b4; }
 html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { color: #000; }
 
@@ -708,9 +710,10 @@ html[data-sct-theme="warp"][data-sct-surface="shell"]:not(:has(#TreeViewToggle))
   background: transparent;
 }
 html[data-sct-theme="warp"][data-sct-surface="shell"]:not(:has(#TreeViewToggle)):not(#sct-wp) .scTabstripContainer > .scTabstrip, html[data-sct-theme="warp"][data-sct-surface="shell"]:not(:has(#TreeViewToggle)):not(#sct-wp) .scTabstripContainer > .scTabstrip > nobr { flex-direction: column; align-items: stretch; gap: 3px; }
-html[data-sct-theme="warp"][data-sct-surface="shell"]:not(:has(#TreeViewToggle)):not(#sct-wp) .scTabstripContainer > .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]) { margin: 0 0 0 6px; border-bottom: 2px solid #404040; border-left-color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* the tabs stand against the page's right edge, as a notebook's do; the open one covers that edge and runs into the page */
+html[data-sct-theme="warp"][data-sct-surface="shell"]:not(:has(#TreeViewToggle)):not(#sct-wp) .scTabstripContainer > .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]) { margin: 0; border-bottom: 2px solid #404040; border-left: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 html[data-sct-theme="warp"][data-sct-surface="shell"]:not(:has(#TreeViewToggle)):not(#sct-wp) .scTabstripContainer > .scTabstrip [class*="scTabActive"] { margin: 0 0 0 -2px; padding-bottom: 0; border-left: 0; }
-html[data-sct-theme="warp"][data-sct-surface="shell"]:not(:has(#TreeViewToggle)):not(#sct-wp) .scTabstripContainer > .scTabs { top: 0; right: 118px; left: 0; background: #cccccc; border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff; border-right: 0; box-shadow: none; }
+html[data-sct-theme="warp"][data-sct-surface="shell"]:not(:has(#TreeViewToggle)):not(#sct-wp) .scTabstripContainer > .scTabs { top: 0; right: 118px; left: 0; background: #cccccc; border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff; box-shadow: none; }
 html[data-sct-theme="warp"][data-sct-surface="shell"]:not(#sct-wp) .scTabs .scTabPage .scScrollbox { background: #fff; border: 2px solid; border-color: #808080 #ffffff #ffffff #808080; border-radius: 0; background-color: #fff; color: #000; box-shadow: none; }
 html[data-sct-theme="warp"][data-sct-surface="shell"]:not(#sct-wp) .scTabs > .scTabPage { border-color: transparent; }
 
