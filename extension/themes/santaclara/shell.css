@@ -321,6 +321,9 @@ html[data-sct-theme="santaclara"][data-sct-surface="shell"] .scTabstrip :is(.scT
 }
 html[data-sct-theme="santaclara"][data-sct-surface="shell"] .scTabstrip .scTab_Hover { background: #b8a792; }
 html[data-sct-theme="santaclara"][data-sct-surface="shell"] .scTabstrip [class*="scTabActive"] { background: #bfae9b; position: relative; z-index: 1; padding-bottom: 2px; margin-bottom: -2px; font-weight: bold; }
+/* The open first tab lines up with the page's left edge and keeps the light bevel the page's edge has: Sitecore styles
+   the first <nobr>'s open tab apart (its own dark border, position: static), and the colour map copies that over */
+html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc) .scTabstrip > nobr:first-child > [class*="scTabActive"] { position: relative; left: 0; border-left-color: #e6dccf; }
 /* focus: Motif's 2px black highlight inside the tab */
 html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc) .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus { outline: none; box-shadow: none; }
 html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc) .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus-visible { outline: 2px solid #000; outline-offset: -4px; }
@@ -398,15 +401,17 @@ html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window-titl
    up into the tab row at the row's height */
 html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 26px; height: 25px; }
 html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
-/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
-html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
-html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
+/* 4px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 4px; }
+html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 4px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
 html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: #ae9c88; }
 html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { border-color: #e6dccf #5e5248 #5e5248 #e6dccf; color: #000; }
 
-html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"] .standartWindowButtons img[src*="minimize"] { box-sizing: border-box; width: 22px; height: 22px; margin: 0; padding: 0; border: 2px solid; border-color: #e6dccf #5e5248 #5e5248 #e6dccf; border-radius: 0; object-fit: none; object-position: -999px -999px; background: image-set(url("sct-ext:themes/santaclara/glyphs/7639411b5f.png") 1x, url("sct-ext:themes/santaclara/glyphs/7639411b5f.svg") 2x) center / 7px 7px no-repeat, #ae9c88; }
+html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"] :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img[src*="minimize"] { box-sizing: border-box; width: 22px; height: 22px; margin: 0; padding: 0; border: 2px solid; border-color: #e6dccf #5e5248 #5e5248 #e6dccf; border-radius: 0; object-fit: none; object-position: -999px -999px; background: image-set(url("sct-ext:themes/santaclara/glyphs/7639411b5f.png") 1x, url("sct-ext:themes/santaclara/glyphs/7639411b5f.svg") 2x) center / 7px 7px no-repeat, #ae9c88; }
 html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"] .standartWindowButtons img:is([src*="maximize"], [src*="restore"]) { box-sizing: border-box; width: 22px; height: 22px; margin: 0; padding: 0; border: 2px solid; border-color: #e6dccf #5e5248 #5e5248 #e6dccf; border-radius: 0; object-fit: none; object-position: -999px -999px; background: image-set(url("sct-ext:themes/santaclara/glyphs/a0ce52594f.png") 1x, url("sct-ext:themes/santaclara/glyphs/a0ce52594f.svg") 2x) center / 13px 13px no-repeat, #ae9c88; }
-html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"] .standartWindowButtons img[src*="_close"] { box-sizing: border-box; width: 22px; height: 22px; margin: 0; padding: 0; border: 2px solid; border-color: #e6dccf #5e5248 #5e5248 #e6dccf; border-radius: 0; object-fit: none; object-position: -999px -999px; background: image-set(url("sct-ext:themes/santaclara/glyphs/c33a57bb2c.png") 1x, url("sct-ext:themes/santaclara/glyphs/c33a57bb2c.svg") 2x) center / 14px 6px no-repeat, #ae9c88; }
+html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"] :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img[src*="_close"] { box-sizing: border-box; width: 22px; height: 22px; margin: 0; padding: 0; border: 2px solid; border-color: #e6dccf #5e5248 #5e5248 #e6dccf; border-radius: 0; object-fit: none; object-position: -999px -999px; background: image-set(url("sct-ext:themes/santaclara/glyphs/c33a57bb2c.png") 1x, url("sct-ext:themes/santaclara/glyphs/c33a57bb2c.svg") 2x) center / 14px 6px no-repeat, #ae9c88; }
 
 /* ---- Insert gallery scroller: Motif's arrows ---- */
 html[data-sct-theme="santaclara"][data-sct-surface="shell"] .scRibbonPanelButtons { background: transparent; }
@@ -823,9 +828,9 @@ html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc) #Deskto
   html[data-sct-theme="santaclara"][data-sct-surface="shell"] .scSystemButtons img[src*="minimize"] { image-rendering: pixelated; }
   html[data-sct-theme="santaclara"][data-sct-surface="shell"] .scSystemButtons img:is([src*="maximize"], [src*="restore"]) { image-rendering: pixelated; }
   html[data-sct-theme="santaclara"][data-sct-surface="shell"] .scSystemButtons img[src*="_close"] { image-rendering: pixelated; }
-  html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"] .standartWindowButtons img[src*="minimize"] { image-rendering: pixelated; }
+  html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"] :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img[src*="minimize"] { image-rendering: pixelated; }
   html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"] .standartWindowButtons img:is([src*="maximize"], [src*="restore"]) { image-rendering: pixelated; }
-  html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"] .standartWindowButtons img[src*="_close"] { image-rendering: pixelated; }
+  html[data-sct-theme="santaclara"][data-sct-surface="shell"][data-sct-window="inactive"] :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img[src*="_close"] { image-rendering: pixelated; }
   html[data-sct-theme="santaclara"][data-sct-surface="shell"] img.scRibbonPanelUp { image-rendering: pixelated; }
   html[data-sct-theme="santaclara"][data-sct-surface="shell"] img.scRibbonPanelDown { image-rendering: pixelated; }
   html[data-sct-theme="santaclara"][data-sct-surface="shell"] img.scRibbonPanelOpen { image-rendering: pixelated; }

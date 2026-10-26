@@ -522,6 +522,9 @@ ${P} .scTabstrip :is(.scTab, .scTab_Hover), ${P} .scTabstrip [class*="scTabActiv
 }
 ${P} .scTabstrip .scTab_Hover { background: #b8a792; }
 ${P} .scTabstrip [class*="scTabActive"] { ${tabOpen} position: relative; z-index: 1; padding-bottom: 2px; margin-bottom: -2px; font-weight: bold; }
+/* The open first tab lines up with the page's left edge and keeps the light bevel the page's edge has: Sitecore styles
+   the first <nobr>'s open tab apart (its own dark border, position: static), and the colour map copies that over */
+${X} .scTabstrip > nobr:first-child > [class*="scTabActive"] { position: relative; left: 0; border-left-color: ${SAND_L}; }
 /* focus: Motif's 2px black highlight inside the tab */
 ${X} .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus { outline: none; box-shadow: none; }
 ${X} .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus-visible { outline: 2px solid #000; outline-offset: -4px; }
@@ -599,15 +602,17 @@ ${P}[data-sct-window-title] .scWorkboxWindowButtons { position: absolute; float:
    up into the tab row at the row's height */
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 26px; height: 25px; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
-/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
+/* 4px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 4px; }
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 4px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+${P}[data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
 ${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: ${SAND}; }
 ${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { border-color: ${SAND_L} ${SAND_D} ${SAND_D} ${SAND_L}; color: #000; }
 
-${PI} .standartWindowButtons img[src*="minimize"] { ${capBtn(MIN_MARK_S, SAND, SAND_L, SAND_D)} }
+${PI} :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img[src*="minimize"] { ${capBtn(MIN_MARK_S, SAND, SAND_L, SAND_D)} }
 ${PI} .standartWindowButtons img:is([src*="maximize"], [src*="restore"]) { ${capBtn(MAX_MARK_S, SAND, SAND_L, SAND_D)} }
-${PI} .standartWindowButtons img[src*="_close"] { ${capBtn(MENU_MARK_S, SAND, SAND_L, SAND_D)} }
+${PI} :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img[src*="_close"] { ${capBtn(MENU_MARK_S, SAND, SAND_L, SAND_D)} }
 
 /* ---- Insert gallery scroller: Motif's arrows ---- */
 ${P} .scRibbonPanelButtons { background: transparent; }
