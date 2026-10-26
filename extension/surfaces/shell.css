@@ -469,6 +469,13 @@ html[data-sct-tokens][data-sct-surface="shell"] .scButton.scButtonPrimary {
 html[data-sct-tokens][data-sct-surface="shell"] .scButton.scButtonPrimary:hover {
   background-color: var(--sct-button-primary-hover-bg);
 }
+/* The insert buttons on a folder's Folder tab and in a media folder (Folder.css, Media Folder Viewer.css) set an
+   icon and a label on a 36px line. A theme's push-button height (Whistler's 23px) cut through them, so they keep the
+   height of their content; the theme's face, borders and side padding still apply. */
+html[data-sct-tokens][data-sct-surface="shell"] .scButtons a.scButton,
+html[data-sct-tokens][data-sct-surface="shell"] #FileList a.scButton {
+  height: auto !important;
+}
 
 /* The search tab: Sitecore's own magnifier drawn on the tab's inner span (no inline SVG, so no
    page CSP can block it), inverted on dark themes. */
