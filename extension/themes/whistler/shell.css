@@ -378,6 +378,9 @@ html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window-title]
    up into the tab row at the row's height */
 html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 28px; height: 21px; }
 html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
+html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
 html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: linear-gradient(#9db3e8, #6d89d4 6%, #5470c0 18%, #5470c0 88%, #4a64ad); }
 html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { text-shadow: none; }
 

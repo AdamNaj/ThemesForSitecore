@@ -665,6 +665,9 @@ ${X}[data-sct-window-title] .scWorkboxWindowButtons { position: absolute; float:
    up into the tab row at the row's height */
 ${X}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 26px; height: 22px; }
 ${X}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+${X}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
+${X}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
 ${PI} .standardWindowCaption .scWindowCaption { color: #3c3c3c; }
 ${PI} .standartWindowButtons img { filter: saturate(0.4) brightness(1.08); }
 

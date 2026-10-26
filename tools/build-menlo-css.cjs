@@ -564,6 +564,9 @@ ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > .scSystemButtons::be
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > .scSystemButtons img[src*="_close"] { margin-right: 0; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 23px; margin-top: 0; height: 21px; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
 /* The Workbox's empty caption strip, in a desktop window (dom.js marks those): see-through, its window
    buttons a yellow tab at the top left carrying the window's name, close box first. */
 ${P}[data-sct-window]:has(.scWorkboxWindowCaption), ${P}[data-sct-window]:has(.scWorkboxWindowCaption) :is(body, form) { background: transparent !important; }

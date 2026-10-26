@@ -376,6 +376,9 @@ html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .sc
    up into the tab row at the row's height */
 html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 22px; height: 22px; }
 html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
+html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
 html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: #b4b4b4; }
 html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, html[data-sct-theme="warp"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { color: #000; }
 

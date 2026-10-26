@@ -489,6 +489,9 @@ html[data-sct-theme="metalsteel"][data-sct-surface="shell"]:not(#sct-ms)[data-sc
 html[data-sct-theme="metalsteel"][data-sct-surface="shell"]:not(#sct-ms)[data-sct-window-title] .scWorkboxWindowButtons { position: absolute; float: none; top: 3px; right: 4px; margin-right: 0; height: 16px; z-index: 2; background: #ccccff; padding-left: 6px; }
 html[data-sct-theme="metalsteel"][data-sct-surface="shell"]:not(#sct-ms)[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 23px; height: 21px; }
 html[data-sct-theme="metalsteel"][data-sct-surface="shell"]:not(#sct-ms)[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+html[data-sct-theme="metalsteel"][data-sct-surface="shell"]:not(#sct-ms)[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
+html[data-sct-theme="metalsteel"][data-sct-surface="shell"]:not(#sct-ms)[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
 html[data-sct-theme="metalsteel"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-ms)[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine,
 html[data-sct-theme="metalsteel"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-ms)[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle {
   background: conic-gradient(from 270deg at 1px 1px, #fff 25%, transparent 0) 0px 0px / 4px 4px, conic-gradient(from 270deg at 1px 1px, #666666 25%, transparent 0) 1px 1px / 4px 4px, conic-gradient(from 270deg at 1px 1px, #fff 25%, transparent 0) 2px 2px / 4px 4px, conic-gradient(from 270deg at 1px 1px, #666666 25%, transparent 0) 3px 3px / 4px 4px, #cccccc;

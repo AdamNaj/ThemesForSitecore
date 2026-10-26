@@ -387,6 +387,9 @@ html[data-sct-theme="menlo"][data-sct-surface="shell"][data-sct-window-title] .s
 html[data-sct-theme="menlo"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > .scSystemButtons img[src*="_close"] { margin-right: 0; }
 html[data-sct-theme="menlo"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 23px; margin-top: 0; height: 21px; }
 html[data-sct-theme="menlo"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+html[data-sct-theme="menlo"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
+html[data-sct-theme="menlo"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
 /* The Workbox's empty caption strip, in a desktop window (dom.js marks those): see-through, its window
    buttons a yellow tab at the top left carrying the window's name, close box first. */
 html[data-sct-theme="menlo"][data-sct-surface="shell"][data-sct-window]:has(.scWorkboxWindowCaption), html[data-sct-theme="menlo"][data-sct-surface="shell"][data-sct-window]:has(.scWorkboxWindowCaption) :is(body, form) { background: transparent !important; }

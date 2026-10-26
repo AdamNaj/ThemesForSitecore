@@ -161,7 +161,9 @@ Details, numbers and selectors are in [pitfalls.md](pitfalls.md).
   `content: var(--sct-window-title)` (engine.js reads it from the taskbar) and the window buttons on it; the
   ribbon's menu button (`#SystemMenu`) moves down by the bar's height. A frame drawn round the window's iframe
   never runs across the top of the title bar: offset shadows for the sides and bottom, not a uniform ring
-  (Longhorn and Whistler both needed this).
+  (Longhorn and Whistler both needed this). Under the bar the ribbon tabs start close, the empty tab-group header
+  hidden and the menu button shrunk to the tab row, but never touching it: at least 2px between the bar and the
+  tabs (`padding-top: 2px` on the navigator, the menu button moved down with them).
 - **Window buttons.** Both window kinds. On the left, push the title clear. On the right, mirror the order
   (close nearest the edge), 8px or more from the border, centred on the bar.
 - **No needless scrollbars.** Menus and pages scroll only when they have run out of room to grow.

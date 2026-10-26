@@ -657,6 +657,9 @@ ${winBar(WT, "::before")} {
 ${winButtons(WT)} { position: absolute; float: none; top: 3px; right: 4px; margin-right: 0; height: 16px; z-index: 2; background: ${p3}; padding-left: 6px; }
 ${WT} .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 23px; height: 21px; }
 ${WT} .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+${WT} .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
+${WT} .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
 ${winBar(WTI)} {
   background: ${bumps("#fff", s1)}, ${s3};
   box-shadow: inset 0 3px ${s3}, inset 0 -5px ${s3};

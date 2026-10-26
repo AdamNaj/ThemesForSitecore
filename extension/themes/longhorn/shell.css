@@ -410,6 +410,9 @@ html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-
    up into the tab row at the row's height */
 html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 26px; height: 22px; }
 html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
+html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
 html[data-sct-theme="longhorn"][data-sct-surface="shell"][data-sct-window="inactive"] .standardWindowCaption .scWindowCaption { color: #3c3c3c; }
 html[data-sct-theme="longhorn"][data-sct-surface="shell"][data-sct-window="inactive"] .standartWindowButtons img { filter: saturate(0.4) brightness(1.08); }
 
