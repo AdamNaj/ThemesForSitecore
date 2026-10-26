@@ -1,0 +1,261 @@
+/* Phosphor: Launchpad as a terminal's main menu. One framed window ("SITECORE MAIN MENU" in an
+   inverted title bar), each group a "== Group ==" heading, each application a numbered line
+   ("1. Content Editor") counted across the whole menu with CSS counters; the line under the pointer
+   or keyboard focus is inverted with a "> " cursor. The CRT glass of tokens.css over the page. */
+
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"] *:not(.ace_editor, .ace_editor *) {
+  font-family: var(--sct-font-family) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"] *,
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"] *::before,
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"] *::after {
+  border-radius: 0 !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"] ::selection {
+  background: var(--sct-accent);
+  color: var(--sct-accent-fg);
+}
+
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"] {
+  body {
+    background: radial-gradient(ellipse at center, #062810, #010703 75%) fixed;
+    color: var(--sct-app-fg);
+    text-shadow: var(--sct-ph-glow);
+  }
+  /* the glass over the page (scanlines, vignette, retrace band, grain): tokens.css */
+  .sc-list,
+  .sc-applicationContent {
+    background: transparent;
+  }
+
+  /* the global header: an inverted status bar */
+  .sc-globalHeader {
+    border-bottom: 0;
+    box-shadow: none;
+    text-shadow: none;
+  }
+  .sc-globalHeader ul.sc-accountInformation li a.logout {
+    color: var(--sct-titlebar-fg);
+    text-decoration: underline;
+  }
+  /* XM's logo is drawn in colour for a white header: dark, like the header's text */
+  .sc-applicationHeader-title::before {
+    filter: brightness(0);
+  }
+  .sc-globalHeader .sc-accountInformation img {
+    filter: grayscale(1) contrast(0.6) brightness(0.35);
+  }
+
+  /* the menu window */
+  .sc-applicationContent-main {
+    box-sizing: border-box;
+    max-width: 1100px;
+    margin: 28px auto 40px;
+    padding: 0 0 18px;
+    border: 3px double var(--sct-window-border);
+    background: var(--sct-app-bg);
+    box-shadow: 0 0 18px rgb(57 255 106 / 0.18);
+  }
+  .sc-applicationContent-main::before {
+    content: "SITECORE MAIN MENU";
+    display: block;
+    height: 24px;
+    padding: 0 12px;
+    background: var(--sct-titlebar-bg);
+    color: var(--sct-titlebar-fg);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.08em;
+    text-shadow: none;
+  }
+  .sc-applicationContent-main::after {
+    content: "Select an option, or press Tab to move between them.";
+    display: block;
+    margin: 6px 24px 0;
+    padding-top: 10px;
+    border-top: 1px dashed var(--sct-border);
+    color: var(--sct-muted-fg);
+    font-size: 12px;
+  }
+  .sc-applicationContent-main > .row,
+  .sc-applicationContent-main [class*="col-"] {
+    float: none;
+    width: auto;
+    margin: 0;
+    padding: 0;
+  }
+  .sc-applicationHeader {
+    border: 0;
+    box-shadow: none;
+    background: none;
+  }
+
+  /* SPEAK lays the menu and Custom Analytics side by side in a grid: one column here, the menu on top */
+  div[data-sc-id="ColumnPanel1"] {
+    display: block;
+  }
+  .sc-launchpad {
+    counter-reset: ph-item;
+    display: block;
+    columns: 2 320px;
+    column-gap: 24px;
+    float: none !important;
+    width: auto !important;
+    max-width: none;
+    margin: 0;
+    padding: 14px 24px 0;
+  }
+  .sc-launchpad-group {
+    display: block;
+    break-inside: avoid;
+    float: none;
+    width: auto;
+    margin: 0 0 12px;
+    padding: 0;
+  }
+  .sc-launchpad-group-title {
+    display: block;
+    margin: 0 0 4px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--sct-app-fg);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 22px;
+    text-transform: uppercase;
+  }
+  .sc-launchpad-group-title::before {
+    content: "== ";
+    color: var(--sct-muted-fg);
+  }
+  .sc-launchpad-group-title::after {
+    content: " ==";
+    color: var(--sct-muted-fg);
+  }
+
+  /* one numbered line per application */
+  .sc-launchpad-item,
+  .sc-launchpad-item:is(:hover, :active, :focus) {
+    counter-increment: ph-item;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    width: auto;
+    height: 22px;
+    min-height: 0;
+    margin: 0;
+    padding: 0 6px;
+    border: 0;
+    box-shadow: none;
+    background: none;
+    color: var(--sct-app-fg);
+    text-decoration: none;
+    outline: none;
+    float: none;
+  }
+  .sc-launchpad-item::before {
+    content: counter(ph-item) ".";
+    flex: none;
+    width: 5ch;
+    padding-right: 1ch;
+    color: var(--sct-muted-fg);
+    text-align: right;
+  }
+  .sc-launchpad-item .icon {
+    display: none;
+  }
+  .sc-launchpad-item .sc-launchpad-text {
+    float: none;
+    position: static;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: inherit;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 22px;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sc-launchpad-item:is(:hover, :focus-visible) {
+    background: var(--sct-accent);
+    color: var(--sct-accent-fg);
+    text-shadow: none;
+  }
+  .sc-launchpad-item:is(:hover, :focus-visible)::before {
+    content: "> " counter(ph-item) ".";
+    color: var(--sct-accent-fg);
+  }
+  .sc-launchpad-item:active {
+    background: var(--sct-button-primary-hover-bg);
+  }
+
+  /* Custom Analytics: a framed message under the menu */
+  .sc-text[data-sc-id="CustomAnalyticsLabel"] {
+    display: block;
+    float: none;
+    margin: 12px 24px 4px;
+    color: var(--sct-app-fg);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .sc-text[data-sc-id="CustomAnalyticsLabel"]::before {
+    content: "== ";
+    color: var(--sct-muted-fg);
+  }
+  .sc-border[data-sc-id="FallBackMessageBorder"] {
+    display: block !important;
+    float: none;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 24px;
+    border: 1px dashed var(--sct-border);
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-border[data-sc-id="FallBackMessageBorder"] :is(.sc-border, .row, [class*="col-"]) {
+    display: block !important;
+    position: static !important;
+    float: none !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 10px 14px;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-text[data-sc-id="FallBackMessage"] {
+    display: block !important;
+    position: static !important;
+    width: auto !important;
+    color: var(--sct-muted-fg);
+  }
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
+   text colour instead (as the shared shell map does on shell pages). */
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}
+
+/* 10.4's Launchpad button in the (phosphor) global header is a white and red tile grid: dark */
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"][data-sct-version="10.4"] .sc-globalHeader .sc-global-logo {
+  filter: brightness(0);
+}
+
+/* ---- No flicker and no motion: a steady tube */
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"] *,
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"] *::before,
+html[data-sct-theme="phosphor"][data-sct-surface="launchpad"] *::after {
+  animation: none !important;
+  transition: none !important;
+}

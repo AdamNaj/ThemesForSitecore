@@ -1,0 +1,9 @@
+{
+  "name": "Chicago",
+  "description": "Inspired by Windows 95",
+  "category": "retro",
+  "order": 110,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#c0c0c0", "#000080", "#008080"],
+  "swatch": { "desk": "#008080", "bar": "#c0c0c0", "barLine": "#ffffff", "start": "#c0c0c0", "app": "#c0c0c0", "app2": "#c0c0c0", "win": "#c0c0c0", "border": "#000000", "cap": "#000080", "cap2": "#1084d0", "btns": "right", "btn": "#c0c0c0", "ribbon": "#c0c0c0", "tab": "#ffffff", "tree": "#ffffff", "ed": "#c0c0c0", "sec": "#c0c0c0", "field": "#ffffff", "line": "#808080", "sel": "#000080", "fg": "#000000" }
+}

@@ -1,0 +1,96 @@
+/* Focus: Sitecore's own layout, quiet for long editing sessions. Light only.
+   Warm greys: #f4f4f2 (chrome), #f7f7f5 (tree, ribbon), #ffffff (the editor), #24241f (full-contrast text),
+   #6b6b66 (quiet text: 4.86:1 on #f4f4f2, 4.99:1 on #f7f7f5, 5.32:1 on white), #d8d8d4 (lines).
+   The ribbon, tree and taskbar rest in the quiet text and come up to #24241f under the pointer or keyboard
+   focus (shell.css). The one strong colour is the field being edited: #2f6f5e (5.91:1 under white), a ring
+   with a soft glow; every other field is an underline. */
+html[data-sct-theme="focus"] {
+  --sct-font-family: inherit;
+  --sct-font-size: inherit;
+  --sct-radius: 6px;
+
+  --sct-app-bg: #f4f4f2;
+  --sct-app-fg: #24241f;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #24241f;
+  --sct-muted-fg: #6b6b66;
+  --sct-border: #e4e4e0;
+  --sct-border-strong: #d8d8d4;
+  --sct-accent: #2f6f5e;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #2f6f5e;
+  --sct-focus-ring: #2f6f5e;
+  --sct-raised-bg: #ffffff;
+  --sct-chrome-bg: #f4f4f2;
+  --sct-chrome-fg: #24241f;
+  --sct-selected-bg: #ebebe7;
+
+  --sct-titlebar-bg: #f4f4f2;
+  --sct-titlebar-fg: #24241f;
+  --sct-titlebar-inactive-bg: #f7f7f5;
+  --sct-titlebar-inactive-fg: #6b6b66;
+  --sct-window-border: #d8d8d4;
+
+  --sct-ribbon-bg: #f7f7f5;
+  --sct-ribbon-fg: #6b6b66;
+  --sct-ribbon-tab-bg: #f4f4f2;
+  --sct-ribbon-tab-fg: #6b6b66;
+  --sct-ribbon-tab-active-bg: #f7f7f5;
+  --sct-ribbon-tab-active-fg: #24241f;
+  --sct-ribbon-chunk-bg: #f7f7f5;
+  --sct-ribbon-chunk-caption-bg: #f7f7f5;
+  --sct-ribbon-chunk-caption-fg: #6b6b66;
+  --sct-ribbon-button-hover-bg: #ededea;
+  --sct-ribbon-button-pressed-bg: #e2e2de;
+
+  --sct-tree-bg: #f7f7f5;
+  --sct-tree-fg: #6b6b66;
+  --sct-tree-hover-bg: #efefec;
+  --sct-tree-selected-bg: #ebebe7;
+  --sct-tree-selected-fg: #24241f;
+  --sct-tree-selected-border: #d8d8d4;
+
+  --sct-section-header-bg: #f4f4f2;
+  --sct-section-header-fg: #24241f;
+  --sct-section-body-bg: #ffffff;
+  --sct-field-label-fg: #6b6b66;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #24241f;
+  --sct-input-border: #d8d8d4;
+  --sct-input-focus-border: #2f6f5e;
+
+  --sct-button-bg: #ffffff;
+  --sct-button-fg: #24241f;
+  --sct-button-border: #d8d8d4;
+  --sct-button-hover-bg: #f4f4f2;
+  --sct-button-primary-bg: #2f6f5e;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #285e50;
+
+  --sct-table-header-bg: #f4f4f2;
+  --sct-table-header-fg: #6b6b66;
+  --sct-table-row-hover-bg: #f4f4f2;
+
+  --sct-scrollbar-thumb: #d8d8d4;
+  --sct-scrollbar-track: #f4f4f2;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #e8e8e4;
+  --sct-taskbar-bg: #f4f4f2;
+  --sct-taskbar-fg: #6b6b66;
+
+  /* Focus's own: the quiet line under the open tab, the full-contrast text the quiet parts come up to, the
+     edited field's glow, the backdrop behind Launchpad and the login card */
+  --focus-line: #b8b8b2;
+  --focus-strong: #24241f;
+  --focus-glow: rgb(47 111 94 / 0.14);
+  --focus-backdrop: linear-gradient(180deg, #f4f4f2, #e8e8e4);
+}
+
+html[data-sct-theme="focus"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

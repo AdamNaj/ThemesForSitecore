@@ -1,0 +1,43 @@
+/* Debrightify: Identity Server login. Sitecore's layout; the red wallpaper dimmed, the card a dark
+   glass panel instead of a pale one, and no light highlights left on fields or the button. */
+html[data-sct-theme="debrightify"][data-sct-surface="login"] body {
+  /* multiplying the wallpaper by a mid grey dims it to ~45% without restating it */
+  background-color: #737373;
+  background-blend-mode: multiply;
+}
+html[data-sct-theme="debrightify"][data-sct-surface="login"] :is(.main, .top) {
+  background-color: color-mix(in srgb, var(--sct-app-bg) 85%, transparent);
+  box-shadow: 0 0 0 1px var(--sct-border), 0 8px 24px rgb(0 0 0 / 0.4);
+}
+html[data-sct-theme="debrightify"][data-sct-surface="login"] :is(label, .login-label) {
+  color: var(--sct-panel-fg);
+}
+html[data-sct-theme="debrightify"][data-sct-surface="login"] .form-control {
+  background-color: var(--sct-input-bg);
+  border-color: var(--sct-input-border);
+  color: var(--sct-input-fg);
+  box-shadow: none;
+}
+html[data-sct-theme="debrightify"][data-sct-surface="login"] .form-control:focus {
+  border-color: var(--sct-input-focus-border);
+  box-shadow: 0 0 0 1px var(--sct-input-focus-border);
+}
+html[data-sct-theme="debrightify"][data-sct-surface="login"] .btn-primary {
+  box-shadow: none;
+}
+html[data-sct-theme="debrightify"][data-sct-surface="login"] .btn-primary:hover {
+  background-color: var(--sct-button-primary-hover-bg);
+  border-color: var(--sct-button-primary-hover-bg);
+}
+/* the licence/error banner is pale yellow */
+html[data-sct-theme="debrightify"][data-sct-surface="login"] .warning {
+  background-color: color-mix(in srgb, #fce99c 28%, var(--sct-panel-bg));
+  color: var(--sct-panel-fg);
+}
+/* placeholders were #999 on the dark field (3.8:1) */
+html[data-sct-theme="debrightify"][data-sct-surface="login"] .form-control::placeholder {
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="debrightify"][data-sct-surface="login"] input[type="checkbox"]:focus {
+  outline-color: var(--sct-focus-ring);
+}

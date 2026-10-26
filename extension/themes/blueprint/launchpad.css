@@ -1,0 +1,166 @@
+/* Blueprint: Launchpad as a sheet index. The page is the drawing board (the faint grid); each group is a
+   titled box drawn in hairlines, numbered like the sheets of a set; its applications are the index rows. */
+
+html[data-sct-theme="blueprint"][data-sct-surface="launchpad"] {
+  body {
+    background: var(--bp-grid), var(--sct-app-bg);
+    background-attachment: fixed;
+  }
+  /* the page's own panels are transparent so the board shows through */
+  :is(.sc-applicationContent, .sc-applicationHeader, .sc-applicationHeader-row1, .sc-applicationContent-main) {
+    background-color: transparent !important;
+  }
+  /* Custom Analytics: one more sheet, its title ruled like the group titles */
+  .sc-text[data-sc-id="CustomAnalyticsLabel"] {
+    font-family: var(--bp-chrome-font);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .sc-border[data-sc-id="AnalyticsFallback"] {
+    background-color: var(--sct-panel-bg);
+    border: 1px solid var(--bp-line);
+    border-radius: 0;
+    box-shadow: 0 0 0 3px var(--sct-panel-bg), 0 0 0 4px var(--bp-line-soft);
+  }
+
+  /* ---- Global header: the sheet's top margin, ruled off by a hairline. */
+  .sc-globalHeader {
+    border-bottom: 1px solid var(--bp-line);
+    box-shadow: none;
+  }
+  .sc-globalHeader .sc-globalheader-appName {
+    font-family: var(--bp-chrome-font);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 13px;
+  }
+  .sc-globalHeader ul.sc-accountInformation li a.logout {
+    color: var(--sct-muted-fg);
+  }
+  .sc-globalHeader ul.sc-accountInformation li a.logout:hover {
+    color: var(--sct-titlebar-fg);
+  }
+
+  /* ---- The index: groups as boxes laid out on the board */
+  .sc-launchpad {
+    counter-reset: bp-sheet;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    align-items: start;
+    gap: 20px;
+    /* ColumnPanel1 is Sitecore's grid: above 1570px stock puts Custom Analytics in column 2 of row 1, so the
+       index keeps column 1 there (spanning both pushed it below Analytics); at 1570px and narrower Analytics
+       moves to row 2 and the index takes the whole row */
+    width: 100%;
+    max-width: 1240px;
+    /* the right gutter keeps the boxes' outer rings off the Analytics column beside them */
+    padding: 20px 24px 20px 0;
+    @media (max-width: 1570px) {
+      grid-column: 1 / -1;
+    }
+  }
+  .sc-launchpad-group {
+    counter-increment: bp-sheet;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    float: none;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--bp-line);
+    background-color: var(--sct-panel-bg);
+    box-shadow: 0 0 0 3px var(--sct-panel-bg), 0 0 0 4px var(--bp-line-soft);
+  }
+  .sc-launchpad-group-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    width: auto;
+    margin: 0;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--bp-line);
+    font-family: var(--bp-chrome-font);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sct-panel-fg);
+  }
+  /* the sheet number of the group, in the corner of its title */
+  .sc-launchpad-group-title::after {
+    content: "SHT " counter(bp-sheet, decimal-leading-zero);
+    font-weight: normal;
+    color: var(--sct-muted-fg);
+  }
+  .sc-launchpad-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    float: none;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 5px 10px;
+    border: 0;
+    border-bottom: 1px dashed var(--bp-line-soft);
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+  .sc-launchpad-item:last-child {
+    border-bottom: 0;
+  }
+  .sc-launchpad-item:hover {
+    background-color: var(--bp-fill);
+    outline: 1px solid var(--bp-line);
+    outline-offset: -1px;
+  }
+  .sc-launchpad-item:active {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+  }
+  .sc-launchpad-item:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+  .sc-launchpad-item .icon {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    margin: 0;
+    border: 1px solid var(--bp-line-soft);
+    border-radius: 0;
+    background: transparent !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sc-launchpad-item .icon img {
+    position: static;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    filter: var(--sct-glyph-filter);
+  }
+  .sc-launchpad-item .sc-launchpad-text {
+    position: static;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--sct-panel-fg);
+    white-space: normal;
+  }
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
+   text colour instead (as the shared shell map does on shell pages). */
+html[data-sct-theme="blueprint"][data-sct-surface="launchpad"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}

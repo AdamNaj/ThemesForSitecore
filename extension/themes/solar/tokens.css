@@ -1,0 +1,188 @@
+/* Solar: Sitecore's own layout in a Solarized-style palette. Follows the system light or dark appearance;
+   only the base tones swap, the eight accents stay the same by day and by night.
+   Bases: #002b36 #073642 (night) and #fdf6e3 #eee8d5 (day); greys #586e75 #657b83 #839496 #93a1a1.
+   Accents: yellow #b58900, orange #cb4b16, red #dc322f, magenta #d33682, violet #6c71c4, blue #268bd2,
+   cyan #2aa198, green #859900.
+   Raised to pass 4.5:1 (the palette's own pairs fail):
+   - Body text by day is #586e75 (4.99:1 on #fdf6e3), not Solarized's #657b83 (4.13:1); on #eee8d5 it
+     darkens one more step to #4c6168 (5.33:1; #586e75 there is 4.39:1).
+   - Blue fills under light text use #1d6fa8 (5.00:1 under #fdf6e3); #268bd2 manages 3.41:1. Links by day
+     are #1a6699 (5.03:1 on #eee8d5). #268bd2 itself stays for lines: the open tab, the selected row, focus.
+   - By night the blue fill keeps #268bd2 and takes near-black text #001014 (5.26:1); #002b36 on it is
+     4.08:1. Links by night are cyan #2aa198 (5.31:1 on #00212b), since blue text there is 4.30:1.
+   No hue setting: Solarized's point is its fixed accents. */
+html[data-sct-theme="solar"] {
+  --sct-font-family: inherit;
+  --sct-font-size: inherit;
+  --sct-radius: 3px;
+
+  --sct-app-bg: #eee8d5;
+  --sct-app-fg: #4c6168;
+  --sct-panel-bg: #fdf6e3;
+  --sct-panel-fg: #586e75;
+  --sct-muted-fg: #586e75;
+  --sct-border: #e4ddc8;
+  --sct-border-strong: #c9c1a9;
+  --sct-accent: #1d6fa8;
+  --sct-accent-fg: #fdf6e3;
+  --sct-link: #1a6699;
+  --sct-focus-ring: #268bd2;
+  --sct-raised-bg: #fffcf2;
+  --sct-chrome-bg: #eee8d5;
+  --sct-chrome-fg: #073642;
+  --sct-selected-bg: #eee8d5;
+
+  --sct-titlebar-bg: #eee8d5;
+  --sct-titlebar-fg: #073642;
+  --sct-titlebar-inactive-bg: #f5efdc;
+  --sct-titlebar-inactive-fg: #4c6168;
+  --sct-window-border: #d9d2bf;
+
+  --sct-ribbon-bg: #eee8d5;
+  --sct-ribbon-fg: #073642;
+  --sct-ribbon-tab-bg: #fdf6e3;
+  --sct-ribbon-tab-fg: #586e75;
+  --sct-ribbon-tab-active-bg: #eee8d5;
+  --sct-ribbon-tab-active-fg: #073642;
+  --sct-ribbon-chunk-bg: #eee8d5;
+  --sct-ribbon-chunk-caption-bg: #eee8d5;
+  --sct-ribbon-chunk-caption-fg: #4c6168;
+  --sct-ribbon-button-hover-bg: #e4ddc8;
+  --sct-ribbon-button-pressed-bg: #d9d2bf;
+
+  --sct-tree-bg: #fdf6e3;
+  --sct-tree-fg: #586e75;
+  --sct-tree-hover-bg: #f5efdc;
+  --sct-tree-selected-bg: #eee8d5;
+  --sct-tree-selected-fg: #073642;
+  --sct-tree-selected-border: #268bd2;
+
+  --sct-section-header-bg: #eee8d5;
+  --sct-section-header-fg: #073642;
+  --sct-section-body-bg: #fdf6e3;
+  --sct-field-label-fg: #586e75;
+
+  --sct-input-bg: #fffcf2;
+  --sct-input-fg: #073642;
+  --sct-input-border: #c9c1a9;
+  --sct-input-focus-border: #268bd2;
+
+  --sct-button-bg: #fdf6e3;
+  --sct-button-fg: #586e75;
+  --sct-button-border: #d9d2bf;
+  --sct-button-hover-bg: #f5efdc;
+  --sct-button-primary-bg: #1d6fa8;
+  --sct-button-primary-fg: #fdf6e3;
+  --sct-button-primary-hover-bg: #1a6699;
+
+  --sct-table-header-bg: #eee8d5;
+  --sct-table-header-fg: #4c6168;
+  --sct-table-row-hover-bg: #f5efdc;
+
+  --sct-scrollbar-thumb: #c9c1a9;
+  --sct-scrollbar-track: #eee8d5;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #93a1a1;
+  --sct-taskbar-bg: #eee8d5;
+  --sct-taskbar-fg: #073642;
+
+  /* Solar's own: the blue line under the open tab and beside the selected tree node, the backdrop behind
+     Launchpad and the login card, and the error orange for field text and outlines */
+  --solar-line: #268bd2;
+  --solar-backdrop: linear-gradient(160deg, #fdf6e3, #eee8d5 70%);
+  --solar-error: #cb4b16;
+  --solar-error-fg: #a33a10;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="solar"] {
+    --sct-app-bg: #00212b;
+    --sct-app-fg: #93a1a1;
+    --sct-panel-bg: #002b36;
+    --sct-panel-fg: #93a1a1;
+    --sct-muted-fg: #839496;
+    --sct-border: #073642;
+    --sct-border-strong: #2b5662;
+    --sct-accent: #268bd2;
+    --sct-accent-fg: #001014;
+    --sct-link: #2aa198;
+    --sct-focus-ring: #268bd2;
+    --sct-raised-bg: #073642;
+    --sct-chrome-bg: #073642;
+    --sct-chrome-fg: #eee8d5;
+    --sct-selected-bg: #073642;
+
+    --sct-titlebar-bg: #073642;
+    --sct-titlebar-fg: #eee8d5;
+    --sct-titlebar-inactive-bg: #002b36;
+    --sct-titlebar-inactive-fg: #839496;
+    --sct-window-border: #0b4251;
+
+    --sct-ribbon-bg: #073642;
+    --sct-ribbon-fg: #eee8d5;
+    --sct-ribbon-tab-bg: #002b36;
+    --sct-ribbon-tab-fg: #839496;
+    --sct-ribbon-tab-active-bg: #073642;
+    --sct-ribbon-tab-active-fg: #eee8d5;
+    --sct-ribbon-chunk-bg: #073642;
+    --sct-ribbon-chunk-caption-bg: #073642;
+    --sct-ribbon-chunk-caption-fg: #93a1a1;
+    --sct-ribbon-button-hover-bg: #0b4251;
+    --sct-ribbon-button-pressed-bg: #12505f;
+
+    --sct-tree-bg: #002b36;
+    --sct-tree-fg: #93a1a1;
+    --sct-tree-hover-bg: #06323e;
+    --sct-tree-selected-bg: #073642;
+    --sct-tree-selected-fg: #eee8d5;
+    --sct-tree-selected-border: #268bd2;
+
+    --sct-section-header-bg: #073642;
+    --sct-section-header-fg: #eee8d5;
+    --sct-section-body-bg: #002b36;
+    --sct-field-label-fg: #93a1a1;
+
+    --sct-input-bg: #00212b;
+    --sct-input-fg: #eee8d5;
+    --sct-input-border: #2b5662;
+    --sct-input-focus-border: #268bd2;
+
+    --sct-button-bg: #073642;
+    --sct-button-fg: #93a1a1;
+    --sct-button-border: #2b5662;
+    --sct-button-hover-bg: #0b4251;
+    --sct-button-primary-bg: #268bd2;
+    --sct-button-primary-fg: #001014;
+    --sct-button-primary-hover-bg: #3d9fe0;
+
+    --sct-table-header-bg: #073642;
+    --sct-table-header-fg: #93a1a1;
+    --sct-table-row-hover-bg: #073642;
+
+    --sct-scrollbar-thumb: #2b5662;
+    --sct-scrollbar-track: #00212b;
+
+    --sct-desktop-bg: #001b22;
+    --sct-taskbar-bg: #00212b;
+    --sct-taskbar-fg: #93a1a1;
+
+    --sct-glyph-filter: invert(1) hue-rotate(180deg);
+    --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+    --sct-content-filter: brightness(0.8);
+
+    --solar-line: #268bd2;
+    --solar-backdrop: linear-gradient(160deg, #073642, #002b36 60%, #001b22);
+    --solar-error: #cb4b16;
+    --solar-error-fg: #e8784a;
+  }
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="solar"]:not([data-sct-surface="ee"]) {
+  color-scheme: light dark;
+}

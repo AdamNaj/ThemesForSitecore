@@ -1,0 +1,9 @@
+{
+  "name": "Notebook",
+  "description": "Graph paper, pen and sticky notes",
+  "category": "creative",
+  "order": 190,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#fdfdf8", "#1d3a8a", "#f7b6c2"],
+  "swatch": { "desk": "#cfa96f", "barPos": "notes", "start": "#ffd0e0", "app": "#fff59a", "app2": "#fff59a", "win": "#fdfdf8", "border": "#d9cba8", "cap": "#fdfdf8", "btns": "right", "btn": "#1d3a8a", "ribbon": "#fbe6ea", "tabs": ["#f7b6c2", "#fbe29a", "#b9dcf7", "#c9efc0"], "tree": "#fdfdf8", "ed": "#fdfdf8", "sec": "#fdfdf8", "field": "#fdfdf8", "line": "#1d3a8a", "underline": 1, "sel": "#fff27a", "fg": "#1d3a8a" }
+}

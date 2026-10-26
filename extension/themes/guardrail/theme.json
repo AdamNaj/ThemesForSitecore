@@ -1,0 +1,11 @@
+{
+  "name": "Guardrail",
+  "description": "Shows which environment you're on, follows your light or dark setting",
+  "category": "everyday",
+  "order": 60,
+  "versions": ["10.4", "10.5"],
+  "appearance": "auto",
+  "controls": ["env"],
+  "preview": ["#c62828", "#ffffff", "#2b2b2b"],
+  "swatch": { "desk": "#d9dde3", "bar": "#2b2b2b", "barLine": "#c62828", "start": "#c62828", "app": "#4a4a4a", "win": "#ffffff", "border": "#c62828", "bw": 2, "cap": "#c62828", "stripes": "#b71c1c", "btns": "right", "ribbon": "#ffffff", "tab": "#c62828", "tree": "#ffffff", "ed": "#f4f4f4", "sec": "#ebebeb", "field": "#ffffff", "line": "#bdbdbd", "sel": "#fde3e3", "fg": "#444444" }
+}

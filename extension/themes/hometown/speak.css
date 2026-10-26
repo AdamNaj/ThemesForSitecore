@@ -1,0 +1,192 @@
+/* Hometown: SPEAK pages (Control Panel, the Experience Editor's ribbon and other SPEAK apps). The
+   header is the night sky; pages are white with Comic Sans titles over a rainbow; boxes are grey bevelled
+   panels; the Experience Editor's tabs are the Content Editor's bevelled tabs. */
+
+/* :not(#sct-ht) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="hometown"][data-sct-surface="speak"]:not(#sct-ht) {
+  /* ---- Global header: stars ---- */
+  .sc-globalHeader {
+    border-bottom: 4px solid;
+    border-image: var(--ht-rainbow) 1;
+    box-shadow: none;
+    background: var(--ht-stars) !important;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a),
+  .sc-globalHeader .sc-globalheader-appName {
+    color: #ffffff;
+  }
+  .sc-globalHeader .sc-globalheader-appName {
+    color: #ffff00;
+    font-family: var(--ht-comic);
+  }
+
+  /* ---- Application header: white, the title in Comic Sans over a rainbow. 10.4 paints a red banner
+     image here. ---- */
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1,
+  .sc-applicationHeader-row2 {
+    box-shadow: none;
+    background: #ffffff !important;
+  }
+  .sc-applicationHeader-row1 {
+    border-bottom: 4px solid;
+    border-image: var(--ht-rainbow) 1;
+  }
+  .sc-applicationHeader-row1::after {
+    content: none;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--ht-pink);
+    font-family: var(--ht-comic);
+    font-weight: 700;
+  }
+  .sc-backbutton,
+  .sc-backbutton-text {
+    color: #0000ee;
+    text-decoration: underline;
+  }
+  & body,
+  .sc-applicationContent,
+  .sc-applicationContent-main {
+    background: #ffffff;
+  }
+
+  /* ---- Control Panel: each box a grey bevelled panel, its heading a navy band ---- */
+  .sc-controlpanel-box {
+    padding: 4px 4px 10px;
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out);
+  }
+  .sc-controlpanel-box-header {
+    margin-bottom: 6px;
+    padding: 2px 8px;
+    background: var(--ht-navy);
+  }
+  .sc-controlpanel-box-header h4 {
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--ht-comic);
+    font-weight: 700;
+    text-transform: none;
+    text-align: center;
+  }
+  .sc-controlpanel-box-header h4::before {
+    content: "~ ";
+  }
+  .sc-controlpanel-box-header h4::after {
+    content: " ~";
+  }
+  .sc-controlpanel-box-content li {
+    border-color: #808080;
+  }
+  .sc-controlpanel-box-content a {
+    color: #0000ee;
+    text-decoration: underline;
+  }
+  .sc-controlpanel-box-content a:hover {
+    color: #ff0000;
+  }
+
+  /* ---- Push buttons: grey bevelled ---- */
+  .btn.sc-button {
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out);
+    color: #000000;
+    font-family: var(--ht-arial);
+    text-transform: none;
+  }
+  .btn.sc-button:active {
+    box-shadow: var(--ht-in);
+  }
+}
+
+/* ---- Experience Editor ribbon ---- */
+html[data-sct-theme="hometown"][data-sct-surface="speak"]:not(#sct-ht) .sc-pageeditbar {
+  .sc-quickbar {
+    border: 0;
+    background: var(--ht-grey);
+  }
+  /* the quick bar is 39px of floats: tabs are 22px, dropped to stand on its bottom */
+  .sc-quickbar-tab {
+    box-sizing: border-box;
+    height: 22px;
+    margin: 17px 3px 0 0;
+    padding: 0 10px;
+    line-height: 22px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: var(--ht-out);
+    background: var(--ht-grey);
+    color: #000000;
+    font-family: var(--ht-arial);
+    font-size: 12px;
+    text-transform: none;
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: #000000;
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected {
+    background: #ffffff;
+    box-shadow: var(--ht-in);
+    color: #000000;
+    font-weight: 700;
+  }
+  .sc-quickbar-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 1px dotted #000000;
+    outline-offset: -4px;
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    border-color: transparent;
+    background: transparent;
+  }
+  .sc-quickbar-button:not(.disabled):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+
+  .sc-ribbon {
+    border-top: 0;
+    border-bottom: 4px solid;
+    border-image: var(--ht-rainbow) 1;
+    background: var(--ht-grey);
+  }
+  .sc-ribbon .sc-chunk::after {
+    width: 2px;
+    background: linear-gradient(90deg, #808080 1px, #ffffff 1px);
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--ht-navy);
+    font-family: var(--ht-arial);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small) {
+    border-radius: 0;
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--ht-grey);
+    box-shadow: inset 1px 1px #ffffff, inset -1px -1px #808080;
+  }
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: #dfdfdf;
+    box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff;
+  }
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; on this dark header it
+   takes the header's text colour (as the shared shell map does on shell pages). */
+html[data-sct-theme="hometown"][data-sct-surface="speak"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: #ffffff;
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}

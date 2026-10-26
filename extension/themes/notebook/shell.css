@@ -1,0 +1,641 @@
+/* Notebook: the classic shell as a paper notebook. Colours are tokens.css; this file adds the paper,
+   the pen and the stationery. Handwriting (--nb-hand) is kept to chrome: titles, tabs, ribbon labels,
+   section headers, buttons. Fields, the tree and grids stay in the system font.
+   :not(#sct-nb) matches every page; its id weight lets these rules beat Sitecore's own selectors and
+   the generated token layer. */
+
+html[data-sct-theme="notebook"][data-sct-surface="shell"] {
+  scrollbar-width: thin;
+}
+html[data-sct-theme="notebook"][data-sct-surface="shell"] :where(*) {
+  image-rendering: auto;
+}
+
+html[data-sct-theme="notebook"][data-sct-surface="shell"]:not(#sct-nb) {
+  /* ---- Paper: the graph grid on the page and the panes that paint the page colour. Fixed to the
+     frame's viewport so nested panes continue one grid instead of each starting its own. ---- */
+  body,
+  .scFlexColumnContainer,
+  #EditorFrames,
+  .scEditorSections,
+  .scEditorHeader,
+  #ContentEditor,
+  .scEditorGrid,
+  #EditorTabs,
+  .scFormDialogContent,
+  .scDialogContentContainer {
+    background-image: linear-gradient(var(--nb-grid) 1px, transparent 1px), linear-gradient(90deg, var(--nb-grid) 1px, transparent 1px);
+    background-size: 14px 14px;
+    background-attachment: fixed;
+  }
+
+  /* ---- Global header: the notebook's kraft cover ---- */
+  .sc-globalHeader {
+    background: var(--nb-kraft-bg);
+    border-bottom: 1px solid rgb(0 0 0 / 0.18);
+    box-shadow: none;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a) {
+    color: var(--sct-taskbar-fg);
+  }
+
+  /* ---- Handwriting for the chrome ---- */
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsContextualActive),
+  .scRibbonToolbar .chunk .caption,
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed),
+  :is(.scEditorTabHeaderActive, .scEditorTabHeaderNormal),
+  :is(.scPagerButtonNormal, .scPagerButtonActive),
+  .scWindowCaption,
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader,
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader,
+  .ui-dialog .ui-dialog-title,
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover),
+  :is(button.scButton, input.scButton, button.ui-button),
+  .scStartBarApplication span,
+  .scStartMenuLeftOptionDisplayName,
+  .scStartMenuRightOption,
+  .scRibbonToolbar :is(a.scRibbonToolbarLargeButton, .scRibbonToolbarLargeComboButtonBottom) .header {
+    font-family: var(--nb-hand);
+  }
+
+  /* ---- Ribbon tabs: coloured notebook dividers, cycling pink, yellow, blue, green. The open one is
+     taller and runs into a band of its own colour, the top edge of its page. ---- */
+  .scRibbonNavigator {
+    background: transparent;
+  }
+  .scRibbonNavigatorButtonsGroupButtons {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    padding-left: 6px;
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsContextualActive) {
+    --nb-tab: var(--nb-pink);
+    height: auto;
+    margin: 0;
+    padding: 2px 13px 1px;
+    border: 0;
+    border-radius: 9px 9px 0 0;
+    background: var(--nb-tab);
+    box-shadow: inset 0 -1px rgb(0 0 0 / 0.1);
+    color: var(--nb-divider-fg);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 22px;
+    text-transform: none;
+    text-decoration: none;
+  }
+  .scRibbonNavigatorButtonsGroupButtons > a:nth-child(4n+2) { --nb-tab: var(--nb-yellow); }
+  .scRibbonNavigatorButtonsGroupButtons > a:nth-child(4n+3) { --nb-tab: var(--nb-blue); }
+  .scRibbonNavigatorButtonsGroupButtons > a:nth-child(4n+4) { --nb-tab: var(--nb-green); }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+    background: color-mix(in srgb, var(--nb-tab) 75%, #fff);
+    color: var(--nb-divider-fg);
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualActive) {
+    padding-top: 5px;
+    padding-bottom: 2px;
+    box-shadow: none;
+    font-weight: 700;
+  }
+  .scRibbon a:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+  /* the page under the open divider: a light wash of its colour, its top edge the full colour */
+  .scRibbon {
+    --nb-page: var(--nb-pink);
+  }
+  .scRibbon:has(.scRibbonNavigatorButtonsGroupButtons > a.scRibbonNavigatorButtonsActive:nth-child(4n+2)) { --nb-page: var(--nb-yellow); }
+  .scRibbon:has(.scRibbonNavigatorButtonsGroupButtons > a.scRibbonNavigatorButtonsActive:nth-child(4n+3)) { --nb-page: var(--nb-blue); }
+  .scRibbon:has(.scRibbonNavigatorButtonsGroupButtons > a.scRibbonNavigatorButtonsActive:nth-child(4n+4)) { --nb-page: var(--nb-green); }
+  .scRibbon {
+    --sct-ribbon-bg: color-mix(in srgb, var(--nb-page) 30%, var(--nb-paper));
+    --sct-ribbon-chunk-bg: var(--sct-ribbon-bg);
+    --sct-ribbon-chunk-caption-bg: var(--sct-ribbon-bg);
+    background: transparent;
+  }
+  .scRibbonToolbar {
+    border-top: 3px solid var(--nb-page);
+    border-bottom: 2px solid var(--nb-margin);
+    background: var(--sct-ribbon-bg);
+  }
+  .scRibbonToolbar .chunk {
+    border: 0;
+    border-right: 1px dashed #9fb3d9;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .scRibbonToolbar .chunk .caption {
+    color: var(--sct-ribbon-chunk-caption-fg);
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"] {
+    border-radius: 4px;
+  }
+
+  /* ---- Window buttons: small inked circles (Content Editor, dialogs, standard windows, Workbox) ---- */
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    filter: none;
+    object-fit: none;
+    object-position: -999px -999px;
+    background: url("sct-ext:themes/notebook/glyphs/close.svg") center / 18px 18px no-repeat;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
+    background-color: var(--nb-hi);
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="switcher" i] {
+    background-image: url("sct-ext:themes/notebook/glyphs/switcher.svg");
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize" i] {
+    background-image: url("sct-ext:themes/notebook/glyphs/minimize.svg");
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize" i] {
+    background-image: url("sct-ext:themes/notebook/glyphs/maximize.svg");
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore" i] {
+    background-image: url("sct-ext:themes/notebook/glyphs/restore.svg");
+  }
+
+  /* ---- Content tree: ruled lines, a red margin, the selection marked with a highlighter ---- */
+  /* 10.5 paints the tree pane white inline, with a soft glow */
+  #ContentTreePanel > div {
+    background-color: var(--nb-paper) !important;
+    box-shadow: none !important;
+  }
+  /* Rows are Sitecore's 26px apart on both versions (a 22px node plus margins) and start 16px down the
+     scroller: a rule every 26px from 14px down sits halfway between two rows. The margin runs 19px in,
+     clear of the first expander. local: the lines scroll with the rows. */
+  .scContentTree {
+    background: linear-gradient(90deg, transparent 19px, var(--nb-margin) 19px 20.5px, transparent 20.5px),
+      repeating-linear-gradient(transparent 0 13px, var(--nb-rule) 13px 14px, transparent 14px 26px);
+    background-attachment: local;
+    background-color: var(--nb-paper);
+  }
+  .scContentTreeNode > a {
+    border: 0;
+    border-radius: 0;
+  }
+  .scContentTreeNode > a:is(.scContentTreeNodeNormal, .scContentTreeNodeActive) > span {
+    padding: 0 3px;
+  }
+  .scContentTreeNode > a.scContentTreeNodeActive {
+    background: transparent;
+  }
+  .scContentTreeNode > a.scContentTreeNodeActive > span {
+    background: linear-gradient(transparent 22%, var(--nb-hi) 22% 90%, transparent 90%);
+    color: var(--sct-tree-selected-fg);
+  }
+
+  /* ---- Editor tabs (Content, Search): yellow dividers, the open one paper, joined to the page ---- */
+  #EditorTabs {
+    border-bottom: 1.5px solid var(--nb-ink);
+  }
+  :where(a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal, a#BTAddNewSearch) {
+    border: 0;
+    border-radius: 8px 8px 0 0;
+    background: var(--nb-yellow);
+    box-shadow: none;
+  }
+  a#BTAddNewSearch.scRibbonEditorTabNormal {
+    background: var(--nb-yellow);
+  }
+  a.scRibbonEditorTabActive {
+    position: relative;
+    top: 1.5px;
+    border: 1.5px solid var(--nb-ink);
+    border-bottom: 0;
+    background: var(--nb-paper);
+  }
+  :is(.scEditorTabHeaderActive, .scEditorTabHeaderNormal) {
+    border: 0;
+    background: transparent;
+    color: var(--nb-ink);
+    font-size: 13px;
+  }
+
+  /* ---- Sections: a handwritten heading, underlined in ink ---- */
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+    border: 0;
+    background: transparent;
+    color: var(--nb-ink);
+    margin: 8px 0 0;
+    padding: 4px 6px;
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4px;
+  }
+
+  /* 10.4 draws the section chevrons and chunk launchers as white and pale grey images (10.5 has _grey
+     ones): drawn dark, as 10.5 shows them */
+  &[data-sct-version="10.4"] img.scEditorSectionCaptionGlyph {
+    filter: brightness(0) opacity(0.8);
+  }
+  &[data-sct-version="10.4"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+    filter: brightness(0) opacity(0.6);
+  }
+
+  /* ---- Fields: an ink underline on a light paper fill ---- */
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], textarea, select:not([multiple]):not([size])),
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) table.scCombobox {
+    border: 0;
+    border-bottom: 1.5px solid var(--sct-input-border);
+    border-radius: 0;
+    box-shadow: none;
+    background-color: var(--sct-input-bg);
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], select:not([multiple]):not([size])) {
+    min-height: 26px;
+    padding: 3px 6px;
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) table.scCombobox input {
+    min-height: 0;
+    border: 0;
+    background: transparent;
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) textarea {
+    border: 1px solid var(--sct-border);
+    border-bottom: 1.5px solid var(--sct-input-border);
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(input, textarea, select):focus {
+    outline: none;
+    border-bottom-color: var(--sct-input-focus-border);
+    box-shadow: 0 1.5px 0 var(--sct-input-focus-border);
+  }
+
+  /* the tree search and the bucket search field: the same underlined fields */
+  #TreeSearch,
+  #TreeSearchOptions input.scSearchOptionsInput {
+    border: 0;
+    border-bottom: 1.5px solid var(--sct-input-border);
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--sct-input-bg);
+  }
+  #TreeSearch:focus {
+    outline: none;
+    border-bottom-color: var(--sct-input-focus-border);
+  }
+  /* the editor header's navigator, language and version pickers: inked boxes like the buttons */
+  .scEditorTabControls a.scEditorHeaderButton {
+    border: 1.5px solid var(--nb-ink);
+    border-radius: 4px 7px 5px 8px;
+    background: var(--nb-paper);
+  }
+  .scEditorTabControls a.scEditorHeaderButton:hover {
+    background: var(--sct-button-hover-bg);
+  }
+
+  /* ---- Push buttons: handwritten labels in an inked box ---- */
+  :is(button.scButton, input.scButton) {
+    border: 1.5px solid var(--sct-button-border);
+    border-radius: 4px 7px 5px 8px;
+    box-shadow: 1px 2px 0 rgb(29 58 138 / 0.18);
+    font-size: 13px;
+    text-transform: none;
+  }
+
+  /* ---- Bottom application tabs: dividers along the bottom edge ---- */
+  .scDockBottomContainer {
+    background: transparent;
+  }
+  .scPager {
+    border: 0;
+    background: transparent;
+  }
+  :is(a.scPagerButtonNormal, a.scPagerButtonActive) {
+    border: 0;
+    border-radius: 0 0 8px 8px;
+    background: var(--nb-blue);
+    color: var(--nb-divider-fg);
+    font-size: 13px;
+  }
+  a.scPagerButtonNormal:nth-child(2) { background: var(--nb-green); }
+  a.scPagerButtonNormal:nth-child(3) { background: var(--nb-yellow); }
+  a.scPagerButtonActive {
+    background: var(--nb-paper);
+    box-shadow: inset 0 0 0 1.5px var(--nb-ink);
+    font-weight: 700;
+  }
+
+  /* ---- Desktop: kraft paper; windows are sheets laid on it ---- */
+  #Desktop {
+    background: var(--nb-kraft-bg) !important;
+  }
+  #Desktop > iframe {
+    box-shadow: 2px 5px 12px rgb(60 40 10 / 0.35);
+  }
+
+  /* ---- Taskbar: running applications as sticky notes ---- */
+  .scStartbar {
+    border-top: 0;
+    background: radial-gradient(rgb(0 0 0 / 0.1) 1px, transparent 1.2px) 0 0 / 6px 6px, var(--sct-taskbar-bg);
+    box-shadow: inset 0 1px rgb(0 0 0 / 0.12);
+  }
+  #Startbar,
+  #Startbar > table,
+  .scStartbarTray {
+    background: transparent;
+  }
+  :is(.scStartButton, .scStartBarScroller, .scStartbarTray) {
+    border-top: 0;
+  }
+  /* the database label: a handwritten note on the kraft */
+  #DatabaseSelector {
+    color: var(--sct-taskbar-fg);
+    font-family: var(--nb-hand);
+  }
+  #StartbarApplications > tbody > tr > td,
+  #Startbar > table > tbody > tr > td {
+    padding: 0 5px;
+    border: 0;
+    background: transparent;
+  }
+  .scStartBarApplication {
+    border: 0;
+    border-radius: 1px;
+    background: var(--nb-note);
+    box-shadow: 1px 2px 3px rgb(0 0 0 / 0.25);
+    transform: rotate(-2deg);
+    color: var(--nb-divider-fg);
+  }
+  .scActiveApplication .scStartBarApplication {
+    background: var(--nb-note-on);
+    transform: rotate(1.5deg);
+  }
+  .scStartBarApplication:hover {
+    transform: rotate(0deg) translateY(-2px);
+  }
+  .scStartBarApplication span {
+    color: var(--nb-divider-fg);
+    font-size: 13px;
+  }
+
+  /* ---- Dialogs: a sheet of the notebook with a ruled header, taped down at both top corners ---- */
+  .ui-widget-overlay {
+    background: rgb(60 40 10 / 0.2);
+    opacity: 1;
+  }
+  .ui-dialog {
+    overflow: visible;
+    border: 1.5px solid var(--nb-ink);
+    border-radius: 3px;
+    background: var(--nb-paper);
+    box-shadow: 2px 6px 16px rgb(60 40 10 / 0.35);
+  }
+  /* two strips of translucent tape across the top corners */
+  .ui-dialog::before,
+  .ui-dialog::after {
+    content: "";
+    position: absolute;
+    z-index: 5;
+    top: -6px;
+    width: 72px;
+    height: 20px;
+    background: var(--nb-tape);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
+    pointer-events: none;
+  }
+  .ui-dialog::before {
+    left: -20px;
+    transform: rotate(-32deg);
+  }
+  .ui-dialog::after {
+    right: -20px;
+    transform: rotate(32deg);
+  }
+  .ui-dialog > .ui-dialog-titlebar {
+    border: 0;
+    border-radius: 0;
+    background: var(--nb-paper);
+  }
+  /* title bar buttons: the inked circles of the window buttons */
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    margin: 0 0 0 4px !important;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: url("sct-ext:themes/notebook/glyphs/close.svg") center / 18px 18px no-repeat;
+    overflow: hidden;
+    text-indent: -999px;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * > * {
+    display: none;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > :hover {
+    background-color: var(--nb-hi);
+  }
+  .ui-dialog .ui-dialog-titlebar-maximize {
+    background-image: url("sct-ext:themes/notebook/glyphs/maximize.svg");
+  }
+  .ui-dialog .ui-dialog-titlebar-restore {
+    background-image: url("sct-ext:themes/notebook/glyphs/restore.svg");
+  }
+  .ui-dialog .ui-dialog-titlebar-minimize {
+    background-image: url("sct-ext:themes/notebook/glyphs/minimize.svg");
+  }
+  .ui-dialog .ui-dialog-titlebar-collapse {
+    background-image: url("sct-ext:themes/notebook/glyphs/switcher.svg");
+  }
+  /* the page header: plain paper, the title handwritten, ruled off by the red margin line. The header the
+     dialog host adds under its title strip (SPE's ListView) too, so the strip and header are one sheet. */
+  :is(.scFormDialogHeader, .scDialogHeader),
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+    border: 0;
+    border-bottom: 1.5px solid var(--nb-margin);
+    background: var(--nb-paper);
+  }
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader,
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+    color: var(--nb-ink);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 30px;
+  }
+  .scFormDialogFooter,
+  .scWizardButtons {
+    border: 0;
+    background: transparent;
+  }
+
+  /* ---- Tab strips in dialogs and SPE: the dividers of the ribbon; the open one paper, joined to its
+     page by sharing its ink frame ---- */
+  .scTabstrip {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    padding: 0 0 0 8px;
+    border: 0;
+    background: transparent;
+  }
+  .scTabstrip > nobr {
+    display: flex;
+    align-items: flex-end;
+    --nb-tab: var(--nb-pink);
+  }
+  .scTabstrip > nobr:nth-of-type(4n+2) { --nb-tab: var(--nb-yellow); }
+  .scTabstrip > nobr:nth-of-type(4n+3) { --nb-tab: var(--nb-blue); }
+  .scTabstrip > nobr:nth-of-type(4n+4) { --nb-tab: var(--nb-green); }
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+    position: relative;
+    left: auto;
+    height: auto;
+    margin: 0;
+    padding: 2px 14px 1px;
+    border: 0;
+    border-radius: 9px 9px 0 0;
+    background: var(--nb-tab);
+    box-shadow: inset 0 -1px rgb(0 0 0 / 0.1);
+    color: var(--nb-divider-fg);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 22px;
+    text-transform: none;
+  }
+  .scTabstrip .scTab_Hover {
+    background: color-mix(in srgb, var(--nb-tab) 75%, #fff);
+  }
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover) {
+    top: 1.5px;
+    padding-top: 5px;
+    border: 1.5px solid var(--nb-ink);
+    border-bottom: 0;
+    background: var(--nb-paper);
+    box-shadow: none;
+    color: var(--nb-ink);
+    font-weight: 700;
+  }
+  .scTabstrip [role="tab"]:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover)::after {
+    content: none;
+  }
+  .scTabs {
+    border: 1.5px solid var(--nb-ink);
+    border-radius: 0 4px 4px 4px;
+  }
+  .scTabs > .scTabPage {
+    border-color: transparent;
+    background: transparent;
+  }
+
+  /* ---- Standard windows (Console, ISE, Package Designer...) and the Workbox: a paper caption with
+     the title handwritten over a wavy red underline ---- */
+  :is(.standardWindowCaption, .scWorkboxWindowCaption) {
+    border: 0;
+    background: var(--nb-paper);
+  }
+  .standardWindowCaption .scWindowCaption {
+    color: var(--nb-ink);
+    font-size: 18px;
+    text-decoration: underline wavy var(--nb-margin) 1px;
+    text-underline-offset: 6px;
+  }
+
+  /* ---- Start menu: an index card ---- */
+  #StartMenu {
+    border: 1.5px solid var(--nb-ink);
+    border-radius: 2px;
+    box-shadow: 3px 6px 16px rgb(60 40 10 / 0.35);
+  }
+  .scStartMenuLeft,
+  .scStartMenuRight {
+    background: var(--nb-paper);
+  }
+  .scStartMenuLeft {
+    background: linear-gradient(90deg, transparent 6px, var(--nb-margin) 6px 7.5px, transparent 7.5px) var(--nb-paper);
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):hover {
+    background: color-mix(in srgb, var(--nb-hi) 70%, var(--nb-paper));
+  }
+  .scStartMenuDivider {
+    border: 0;
+    background: transparent;
+    border-top: 1px solid var(--nb-rule);
+  }
+
+  /* ---- Taskbar search: a paper slip with an ink underline ---- */
+  #SearchBox,
+  #SearchBox.focus {
+    border: 0;
+    border-bottom: 1.5px solid var(--nb-ink);
+    border-radius: 0;
+    background: var(--nb-paper);
+    box-shadow: 1px 2px 3px rgb(0 0 0 / 0.2);
+    color: var(--sct-input-fg);
+  }
+  #SearchBox::placeholder {
+    color: var(--sct-muted-fg);
+  }
+
+  /* ---- Menus (context menus, drop-downs, start menu fly-outs): a paper slip, hovered rows
+     highlighted ---- */
+  table.scMenu {
+    border: 1.5px solid var(--nb-ink);
+    background: var(--nb-paper);
+    box-shadow: 2px 5px 12px rgb(60 40 10 / 0.3);
+  }
+  table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+    background-color: color-mix(in srgb, var(--nb-hi) 75%, var(--nb-paper));
+    color: var(--nb-ink);
+  }
+
+  /* ---- SPEAK-style application headers inside shell pages (SPE Reports): plain paper, the title
+     handwritten, ruled off in red, without Sitecore's red banner and spiral ---- */
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1,
+  .sc-applicationHeader-row2 {
+    box-shadow: none;
+    background: var(--nb-paper) !important;
+  }
+  .sc-applicationHeader-row1 {
+    border-bottom: 2px solid var(--nb-margin);
+  }
+  .sc-applicationHeader-row1::after {
+    content: none;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--nb-ink);
+    font-family: var(--nb-hand);
+    font-weight: 700;
+  }
+
+  /* ---- Leftovers the scan found ---- */
+  /* the Security Editor greys out items in an inline #999999 (2.8:1 on the paper) */
+  :is([style*="color:#999999" i], [style*="color: #999999" i]) {
+    color: var(--sct-muted-fg) !important;
+  }
+  /* SPE's unsaved-script dot on the ISE's script tabs: SPE's #fc2929 fell to 2.3:1 on the pink divider */
+  .scTabstrip .scriptModified {
+    color: #9e1022;
+  }
+  /* the bucket search's view switcher: pale grey art, the unselected views at 1.6:1 */
+  :is(a#grid, a.scView) {
+    filter: brightness(0.65);
+  }
+  /* 10.4's Workbox draws its panel buttons and chevrons white, for a dark band */
+  &[data-sct-version="10.4"] :is(img[id$="_collapse"], img[id$="_close"], img[id$="_section_chevron"]) {
+    filter: brightness(0) opacity(0.7);
+  }
+}

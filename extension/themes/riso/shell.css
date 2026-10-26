@@ -1,0 +1,711 @@
+/* Riso: the classic shell as a two-ink risograph print. Colours are tokens.css; this file adds the paper
+   grain, the misregistered second impression (an offset shadow in the other ink) on panels and buttons,
+   the teal halftone on section headers, condensed uppercase headings and mono labels.
+   :not(#sct-riso) matches every page; its id weight lets these rules beat Sitecore's own selectors and
+   the generated token layer. */
+
+html[data-sct-theme="riso"][data-sct-surface="shell"] :where(*) {
+  image-rendering: auto;
+}
+
+html[data-sct-theme="riso"][data-sct-surface="shell"]:not(#sct-riso) {
+  /* ---- Paper: the grain on the page and the panes that paint the page colour, fixed to the frame's
+     viewport so nested panes continue one sheet ---- */
+  body,
+  .scFlexColumnContainer,
+  #EditorFrames,
+  .scEditorSections,
+  .scEditorHeader,
+  #ContentEditor,
+  .scEditorGrid,
+  #EditorTabs,
+  .scFormDialogContent,
+  .scDialogContentContainer {
+    background-image: radial-gradient(rgb(60 40 20 / 0.07) 1px, transparent 1.2px);
+    background-size: 5px 5px;
+    background-attachment: fixed;
+  }
+
+  /* ---- Condensed uppercase for headings, mono for labels ---- */
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsContextualActive),
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed),
+  :is(.scEditorTabHeaderActive, .scEditorTabHeaderNormal),
+  :is(.scPagerButtonNormal, .scPagerButtonActive),
+  .scWindowCaption,
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader,
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader,
+  .ui-dialog .ui-dialog-title,
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover),
+  :is(button.scButton, input.scButton, button.ui-button),
+  .scStartBarApplication span,
+  .scStartMenuLeftOptionDisplayName {
+    font-family: var(--riso-head);
+    font-stretch: condensed;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .scRibbonToolbar .chunk .caption,
+  .scEditorFieldLabel,
+  .scEditorQuickInfo td:first-child,
+  #DatabaseSelector,
+  .scStatusBar,
+  .scFormDialogHeader .DialogHeaderDescription,
+  .scDialogHeader .DialogHeaderDescription {
+    font-family: var(--riso-mono);
+    letter-spacing: 0;
+  }
+  .scEditorFieldLabel {
+    font-size: 11px;
+  }
+
+  /* ---- Ribbon tabs: outlined in the dark teal; the open one a teal fill, overprinted ---- */
+  .scRibbonNavigator {
+    background: transparent;
+  }
+  .scRibbonNavigatorButtonsGroupButtons {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    padding: 5px 0 0 6px;
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsContextualActive) {
+    height: auto;
+    margin: 0;
+    padding: 1px 11px 0;
+    border: 1.5px solid var(--riso-rule);
+    border-bottom: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--riso-rule);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 21px;
+    text-decoration: none;
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: var(--riso-ink);
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualActive),
+  .scRibbon :is(a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualActive):hover {
+    border-color: var(--riso-teal);
+    background: var(--riso-teal);
+    color: var(--riso-on-teal);
+    font-weight: 700;
+  }
+  .scRibbon a:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+  /* the toolbar: printed between a teal rule (the open tab's ink) and the dark teal rule below */
+  .scRibbon {
+    background: transparent;
+  }
+  .scRibbonToolbar {
+    border-top: 3px solid var(--riso-teal);
+    border-bottom: 2px solid var(--riso-rule);
+    background: transparent;
+  }
+  .scRibbonToolbar .chunk {
+    border: 0;
+    border-right: 1.5px dotted var(--riso-teal);
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .scRibbonToolbar .chunk .caption {
+    color: var(--sct-ribbon-chunk-caption-fg);
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"] {
+    border-radius: 0;
+  }
+  .scRibbonToolbar :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButton):hover {
+    box-shadow: inset 0 0 0 1.5px var(--riso-rule);
+  }
+
+  /* ---- Window buttons: overprinted glyphs in square boxes (Content Editor, dialogs, standard windows,
+     Workbox) ---- */
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+    box-sizing: border-box;
+    width: 22px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    filter: none;
+    object-fit: none;
+    object-position: -999px -999px;
+    background: url("sct-ext:themes/riso/glyphs/close.svg") center / 18px 18px no-repeat;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+    box-shadow: inset 0 0 0 1.5px var(--riso-rule);
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="switcher" i] {
+    background-image: url("sct-ext:themes/riso/glyphs/switcher.svg");
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize" i] {
+    background-image: url("sct-ext:themes/riso/glyphs/minimize.svg");
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize" i] {
+    background-image: url("sct-ext:themes/riso/glyphs/maximize.svg");
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore" i] {
+    background-image: url("sct-ext:themes/riso/glyphs/restore.svg");
+  }
+
+  /* ---- Content tree: plain paper; the selection a block of pink with the teal printed off register ---- */
+  #ContentTreePanel > div {
+    background-color: var(--riso-paper) !important;
+    box-shadow: none !important;
+  }
+  .scContentTree {
+    background-color: transparent;
+  }
+  .scContentTreeNode > a {
+    border: 0;
+    border-radius: 0;
+  }
+  .scContentTreeNode > a:is(.scContentTreeNodeNormal, .scContentTreeNodeActive) > span {
+    padding: 0 3px;
+  }
+  .scContentTreeNode > a.scContentTreeNodeActive {
+    background: transparent;
+  }
+  .scContentTreeNode > a.scContentTreeNodeActive > span {
+    background: var(--riso-pink);
+    box-shadow: -2px 2px 0 rgb(0 163 163 / 0.55);
+    color: var(--riso-on-pink);
+    font-weight: 700;
+  }
+
+  /* ---- Editor tabs (Content, Search): the ribbon's outlined tabs, the open one teal ---- */
+  #EditorTabs {
+    border-bottom: 2px solid var(--riso-rule);
+  }
+  :where(a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal, a#BTAddNewSearch) {
+    border: 1.5px solid var(--riso-rule);
+    border-bottom: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  a.scRibbonEditorTabNormal:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  a.scRibbonEditorTabActive {
+    border-color: var(--riso-teal);
+    background: var(--riso-teal);
+    box-shadow: none;
+  }
+  :is(.scEditorTabHeaderActive, .scEditorTabHeaderNormal) {
+    border: 0;
+    background: transparent;
+    color: var(--riso-rule);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  a.scRibbonEditorTabActive .scEditorTabHeaderActive {
+    color: var(--riso-on-teal);
+  }
+
+  /* ---- Sections: a teal halftone header framed in dark teal, the body a card printed with a pink
+     offset ---- */
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+    margin: 10px 4px 0 0;
+    padding: 4px 8px;
+    border: 2px solid var(--riso-rule);
+    background: var(--riso-dots), var(--riso-paper);
+    box-shadow: 4px 3px 0 rgb(255 72 176 / 0.55);
+    color: var(--sct-section-header-fg);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 20px;
+  }
+  .scEditorSectionCaptionExpanded {
+    border-bottom-width: 2px;
+    box-shadow: 4px 0 0 rgb(255 72 176 / 0.55);
+  }
+  /* the section chevron floats right with Sitecore's 10px top margin: centred on the heading instead */
+  img.scEditorSectionCaptionGlyph {
+    margin-top: 0;
+  }
+  .scEditorSectionPanel {
+    margin-right: 4px;
+    border: 2px solid var(--riso-rule);
+    border-top: 0;
+    background: transparent;
+    box-shadow: 4px 3px 0 rgb(255 72 176 / 0.55);
+  }
+
+  /* 10.4 draws the section chevrons and chunk launchers as white and pale grey images (10.5 has _grey
+     ones): drawn in the dark teal, as 10.5 shows them */
+  &[data-sct-version="10.4"] img.scEditorSectionCaptionGlyph {
+    filter: brightness(0) opacity(0.75);
+  }
+  &[data-sct-version="10.4"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+    filter: brightness(0) opacity(0.6);
+  }
+
+  /* ---- Fields: a rule under the text, pink when focused ---- */
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], textarea, select:not([multiple]):not([size])),
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) table.scCombobox {
+    border: 0;
+    border-bottom: 2px solid var(--sct-input-border);
+    border-radius: 0;
+    box-shadow: none;
+    background-color: var(--sct-input-bg);
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], select:not([multiple]):not([size])) {
+    min-height: 26px;
+    padding: 3px 6px;
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) table.scCombobox input {
+    min-height: 0;
+    border: 0;
+    background: transparent;
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) textarea {
+    border: 1.5px solid var(--sct-input-border);
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(select[multiple], select[size]) {
+    border: 1.5px solid var(--sct-input-border);
+    border-radius: 0;
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(input, textarea, select):focus {
+    outline: none;
+    border-bottom-color: var(--sct-input-focus-border);
+    box-shadow: 0 2px 0 var(--sct-input-focus-border);
+  }
+  #TreeSearch,
+  #TreeSearchOptions input.scSearchOptionsInput {
+    border: 0;
+    border-bottom: 2px solid var(--sct-input-border);
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--sct-input-bg);
+  }
+  #TreeSearch:focus {
+    outline: none;
+    border-bottom-color: var(--sct-input-focus-border);
+  }
+  /* the editor header's navigator, language and version pickers: outlined boxes like the buttons */
+  .scEditorTabControls a.scEditorHeaderButton {
+    border: 1.5px solid var(--riso-rule);
+    border-radius: 0;
+    background: transparent;
+  }
+  .scEditorTabControls a.scEditorHeaderButton:hover {
+    background: var(--sct-button-hover-bg);
+  }
+
+  /* ---- Push buttons: outlined in teal with the pink impression off register; the primary one a
+     pink fill with the teal off register ---- */
+  :is(button.scButton, input.scButton) {
+    border: 2px solid var(--sct-button-border);
+    border-radius: 0;
+    box-shadow: var(--riso-off);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  :is(button.scButton, input.scButton).scButtonPrimary {
+    border-color: var(--riso-pink);
+    box-shadow: var(--riso-off-teal);
+  }
+  :is(button.scButton, input.scButton):active {
+    box-shadow: none;
+    transform: translate(1px, 1px);
+  }
+
+  /* ---- Bottom application tabs ---- */
+  .scDockBottomContainer {
+    background: transparent;
+  }
+  .scPager {
+    border: 0;
+    border-top: 2px solid var(--riso-rule);
+    background: transparent;
+  }
+  :is(a.scPagerButtonNormal, a.scPagerButtonActive) {
+    border: 1.5px solid var(--riso-rule);
+    border-top: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--riso-rule);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  a.scPagerButtonNormal:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  a.scPagerButtonActive {
+    border-color: var(--riso-teal);
+    background: var(--riso-teal);
+    color: var(--riso-on-teal);
+    font-weight: 700;
+  }
+
+  /* ---- Desktop: one big print, two discs overprinted on the grain; windows sit on it with the pink
+     offset ---- */
+  #Desktop {
+    background:
+      radial-gradient(circle at 74% 38%, var(--riso-pink) 0 15vmin, transparent calc(15vmin + 1px)),
+      radial-gradient(circle at 64% 52%, var(--riso-teal) 0 15vmin, transparent calc(15vmin + 1px)),
+      radial-gradient(rgb(0 163 163 / 0.2) 1.4px, transparent 1.8px) 0 0 / 7px 7px,
+      var(--riso-grain),
+      var(--riso-paper) !important;
+    background-blend-mode: multiply !important;
+  }
+  #Desktop > iframe {
+    box-shadow: 6px 5px 0 rgb(255 72 176 / 0.55);
+  }
+
+  /* ---- Taskbar: a strip of paper under a teal rule; running applications outlined, the active one
+     teal ---- */
+  .scStartbar {
+    border-top: 2px solid var(--riso-rule);
+    background: var(--riso-grain), var(--sct-taskbar-bg);
+    box-shadow: 0 -3px 0 rgb(255 72 176 / 0.45);
+  }
+  #Startbar,
+  #Startbar > table,
+  .scStartbarTray {
+    background: transparent;
+  }
+  :is(.scStartButton, .scStartBarScroller, .scStartbarTray) {
+    border-top: 0;
+  }
+  #StartbarApplications > tbody > tr > td,
+  #Startbar > table > tbody > tr > td {
+    padding: 0 3px;
+    border: 0;
+    background: transparent;
+  }
+  .scStartBarApplication {
+    border: 1.5px solid var(--riso-rule);
+    border-radius: 0;
+    background: transparent;
+    color: var(--riso-rule);
+  }
+  .scStartBarApplication:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  .scActiveApplication .scStartBarApplication {
+    border-color: var(--riso-teal);
+    background: var(--riso-teal);
+    box-shadow: 2px 2px 0 rgb(255 72 176 / 0.6);
+  }
+  .scStartBarApplication span {
+    color: var(--riso-rule);
+    font-size: 13px;
+  }
+  .scActiveApplication .scStartBarApplication span {
+    color: var(--riso-on-teal);
+  }
+
+  /* ---- Dialogs: a printed card, the pink impression off register ---- */
+  .ui-widget-overlay {
+    background: rgb(11 92 92 / 0.18);
+    opacity: 1;
+  }
+  .ui-dialog {
+    border: 2px solid var(--riso-rule);
+    border-radius: 0;
+    background: var(--riso-paper);
+    box-shadow: 7px 6px 0 rgb(255 72 176 / 0.55);
+  }
+  .ui-dialog > .ui-dialog-titlebar {
+    border: 0;
+    border-radius: 0;
+    background: var(--riso-paper);
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+    box-sizing: border-box;
+    width: 22px;
+    height: 20px;
+    margin: 0 0 0 4px !important;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: url("sct-ext:themes/riso/glyphs/close.svg") center / 18px 18px no-repeat;
+    overflow: hidden;
+    text-indent: -999px;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * > * {
+    display: none;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > :hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+    box-shadow: inset 0 0 0 1.5px var(--riso-rule);
+  }
+  .ui-dialog .ui-dialog-titlebar-maximize {
+    background-image: url("sct-ext:themes/riso/glyphs/maximize.svg");
+  }
+  .ui-dialog .ui-dialog-titlebar-restore {
+    background-image: url("sct-ext:themes/riso/glyphs/restore.svg");
+  }
+  .ui-dialog .ui-dialog-titlebar-minimize {
+    background-image: url("sct-ext:themes/riso/glyphs/minimize.svg");
+  }
+  .ui-dialog .ui-dialog-titlebar-collapse {
+    background-image: url("sct-ext:themes/riso/glyphs/switcher.svg");
+  }
+  /* the page header: the title set large in teal with the pink impression off register, ruled off.
+     The header the dialog host adds under its title strip (SPE's ListView) too. */
+  :is(.scFormDialogHeader, .scDialogHeader),
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+    border: 0;
+    border-bottom: 2px solid var(--riso-rule);
+    background: transparent;
+  }
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader,
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+    color: var(--riso-rule);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 28px;
+    text-shadow: 2px 1.5px 0 rgb(255 72 176 / 0.6);
+  }
+  .scFormDialogFooter,
+  .scWizardButtons {
+    border: 0;
+    background: transparent;
+  }
+
+  /* ---- Tab strips in dialogs and SPE: the ribbon's outlined tabs; the open one teal, joined to its
+     page by the page's teal top rule ---- */
+  .scTabstrip {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 0 0 0 6px;
+    border: 0;
+    background: transparent;
+  }
+  .scTabstrip > nobr {
+    display: flex;
+    align-items: flex-end;
+  }
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+    position: relative;
+    left: auto;
+    height: auto;
+    margin: 0;
+    padding: 1px 14px 0;
+    border: 1.5px solid var(--riso-rule);
+    border-bottom: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--riso-rule);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 22px;
+  }
+  .scTabstrip .scTab_Hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover) {
+    border-color: var(--riso-teal);
+    background: var(--riso-teal);
+    color: var(--riso-on-teal);
+    font-weight: 700;
+  }
+  .scTabstrip :is([role="tab"], a):focus:not(:focus-visible) {
+    outline: none;
+  }
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover)::after {
+    content: none;
+  }
+  /* Sitecore sizes the tab page to fit inside a 1px frame: the frame stays 1px and the rest of the
+     line is an inset shadow, or the page comes up 3px short and scrolls */
+  .scTabs {
+    border: 1px solid var(--riso-rule);
+    border-top-color: var(--riso-teal);
+    border-radius: 0;
+    box-shadow: inset 0 2px var(--riso-teal), inset 0 0 0 1px var(--riso-rule);
+  }
+  .scTabs > .scTabPage {
+    border-color: transparent;
+    background: transparent;
+  }
+
+  /* ---- Standard windows (Console, ISE, Package Designer...) and the Workbox: the title overprinted ---- */
+  :is(.standardWindowCaption, .scWorkboxWindowCaption) {
+    border: 0;
+    border-bottom: 2px solid var(--riso-rule);
+    background: transparent;
+  }
+  .standardWindowCaption .scWindowCaption {
+    color: var(--riso-rule);
+    font-size: 17px;
+    font-weight: 700;
+    text-shadow: 1.5px 1px 0 rgb(255 72 176 / 0.6);
+  }
+  /* SPE writes the ISE's script path into the caption as <i> with an inline #bbb (1.8:1 on the paper) */
+  .standardWindowCaption .scWindowCaption i {
+    color: var(--sct-titlebar-inactive-fg) !important;
+    text-shadow: none;
+  }
+
+  /* ---- Start menu: a printed card ---- */
+  #StartMenu {
+    border: 2px solid var(--riso-rule);
+    border-radius: 0;
+    box-shadow: 6px 5px 0 rgb(255 72 176 / 0.55);
+  }
+  .scStartMenuLeft,
+  .scStartMenuRight {
+    background: var(--riso-grain), var(--riso-paper);
+  }
+  .scStartMenuRight {
+    background: var(--riso-dots), var(--riso-paper);
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  .scStartMenuDivider {
+    border: 0;
+    border-top: 1.5px dotted var(--riso-teal);
+    background: transparent;
+  }
+
+  /* the database label's icon is white art for a dark taskbar: printed in the dark ink here */
+  #DatabaseSelector img {
+    filter: brightness(0) opacity(0.75);
+  }
+
+  /* ---- Taskbar search: an underlined field ---- */
+  #SearchBox,
+  #SearchBox.focus {
+    border: 0;
+    border-bottom: 2px solid var(--riso-rule);
+    border-radius: 0;
+    background: var(--sct-input-bg);
+    box-shadow: none;
+    color: var(--sct-input-fg);
+  }
+  #SearchBox::placeholder {
+    color: var(--sct-muted-fg);
+  }
+
+  /* ---- Menus (context menus, drop-downs, start menu fly-outs): a printed slip, hovered rows pink ---- */
+  table.scMenu {
+    border: 2px solid var(--riso-rule);
+    background: var(--riso-paper);
+    box-shadow: 4px 3px 0 rgb(255 72 176 / 0.55);
+  }
+  table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+    background-color: var(--sct-ribbon-button-hover-bg);
+    color: var(--riso-ink);
+  }
+
+  /* ---- Message bars: a warning is a pink-dotted slip ---- */
+  .scMessageBar.scWarning {
+    border: 1.5px solid var(--riso-rule);
+    background: var(--riso-dots-pink), var(--riso-paper);
+  }
+
+  /* ---- SPEAK-style application headers inside shell pages (SPE Reports): paper, the title overprinted ---- */
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1,
+  .sc-applicationHeader-row2 {
+    box-shadow: none;
+    background: var(--riso-paper) !important;
+  }
+  .sc-applicationHeader-row1 {
+    border-bottom: 2px solid var(--riso-rule);
+  }
+  .sc-applicationHeader-row1::after {
+    content: none;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--riso-rule);
+    font-family: var(--riso-head);
+    font-stretch: condensed;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 2px 1.5px 0 rgb(255 72 176 / 0.6);
+  }
+  .sc-globalHeader {
+    border-bottom: 2px solid var(--riso-rule);
+    box-shadow: 0 3px 0 rgb(255 72 176 / 0.4);
+    background: var(--riso-grain), var(--riso-paper);
+  }
+
+  /* ---- Density: Copenhagen-tight on both versions (Whistler's measured recipe). The strip keeps 1px
+     plus the chunks' margins (10.5 pads it 12px over an 80px minimum), the panel 3px above the buttons
+     and 4px at the sides (10.5 16px, 10.4 10px 8px), a 16px caption, and large buttons end above the
+     caption with their hover frame. ---- */
+  :is(.scRibbonToolbarStrip, .scRibbonToolbarContextualStrip) {
+    display: flow-root;
+    min-height: 0;
+    padding: 1px 0;
+  }
+  .scRibbonToolbar .chunk {
+    height: auto;
+    margin: 3px 2px 3px 0;
+  }
+  .scRibbonToolbar .chunk > .panel {
+    box-sizing: border-box;
+    height: 52px;
+    padding: 3px 4px 0;
+  }
+  .scRibbonToolbar .chunk > .caption {
+    height: 16px;
+    padding: 0 4px;
+    line-height: 16px;
+  }
+  .scRibbonToolbar :is(a.scRibbonToolbarLargeButton, span.scRibbonToolbarLargeButtonDisabled, a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarLargeGalleryButton, span.scRibbonToolbarLargeGalleryButtonDisabled) {
+    padding: 2px 5px 1px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbarLarge"] .header {
+    padding: 3px 4px 1px;
+  }
+  .scRibbonToolbar :is(.scRibbonGallery, .scRibbonToolbarSmallButtons) {
+    padding: 1px 5px 0;
+  }
+  /* the Translate chunk's language boxes: two rows above the caption */
+  .scRibbonToolbar select.scRibbonCombobox {
+    box-sizing: border-box;
+    height: 21px;
+    min-height: 0;
+    padding: 0 20px 0 4px;
+    line-height: 19px;
+  }
+  .scRibbonToolbar .scRibbonToolbarSmallCheckButton {
+    padding: 3px 4px;
+  }
+  .scRibbonToolbar :is(.scRibbonToolbarLargeComboButton, .scRibbonToolbarLargeComboButtonDisabled) {
+    padding: 0;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbarLargeComboButtonTop"] {
+    padding: 0 5px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbarLargeComboButtonBottom"] {
+    padding: 0 5px 1px;
+  }
+
+  /* ---- Leftovers ---- */
+  /* the Security Editor greys out items in an inline #999999 (2.6:1 on the paper) */
+  :is([style*="color:#999999" i], [style*="color: #999999" i]) {
+    color: var(--sct-muted-fg) !important;
+  }
+  /* SPE's unsaved-script dot on the ISE's script tabs */
+  .scTabstrip .scriptModified {
+    color: #b0106e;
+  }
+  /* 10.4's Workbox draws its panel buttons and chevrons white, for a dark band */
+  &[data-sct-version="10.4"] :is(img[id$="_collapse"], img[id$="_close"], img[id$="_section_chevron"]) {
+    filter: brightness(0) opacity(0.7);
+  }
+}

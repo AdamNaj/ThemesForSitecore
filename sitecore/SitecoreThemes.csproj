@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Built once, against Sitecore 10.4's Sitecore.Kernel, and runs on 10.4 and 10.5: Sitecore's assemblies are
+       not strong-named, so the reference binds whatever Sitecore.Kernel the site has.
+       dotnet build -p:SitecoreBin=<a 10.4 webroot>\bin -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="Sitecore.Kernel">
+      <HintPath>$(SitecoreBin)\Sitecore.Kernel.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <Target Name="RequireSitecoreBin" BeforeTargets="ResolveAssemblyReferences" Condition="'$(SitecoreBin)' == ''">
+    <Error Text="Pass -p:SitecoreBin=&lt;a Sitecore 10.4 webroot&gt;\bin (npm run build:sitecore passes webroots.10.4 from sitecore.local.json)" />
+  </Target>
+</Project>

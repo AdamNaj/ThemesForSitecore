@@ -1,0 +1,28 @@
+/* Sitecore 10.5: puts the stock 10.5 values over Sitecore 10.4's stylesheets.
+   Generated with tools/css-diff.mjs --to-10.5 from stock 10.5 and 10.4.1 installs. Hand-written rules live in vars.css and fixes.css. */
+
+/* ---- sitecore/shell/Applications/Page Modes/Output/16980713487153227243.css ---- */
+html[data-sct-theme="sitecore105"] .scChromeName {
+  background-color: #474747;
+  background: #f7f7f7;
+  border-radius: 8px 8px 0 0;
+}
+html[data-sct-theme="sitecore105"] span.scChromeText {
+  color: rgba(0,0,0,0.94) !important;
+}
+html[data-sct-theme="sitecore105"] .scChromeToolbar {
+  background: none;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore105"] .scChromeControls {
+  border: solid 1px rgba(0,0,0,0.13);
+  border-radius: 8px;
+}
+html[data-sct-theme="sitecore105"] .scChromeDropDown {
+  border: solid 1px rgba(0,0,0,0.13);
+  border-radius: 8px;
+}
+html[data-sct-theme="sitecore105"] .sc-breadcrumb {
+  background: #f7f7f7;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+}

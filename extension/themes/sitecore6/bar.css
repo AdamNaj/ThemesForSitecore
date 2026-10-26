@@ -1,0 +1,9 @@
+/* Copenhagen: Sitecore 6's red, glossy */
+html[data-sct-theme="sitecore6"] sct-bar-postfix {
+  border-color: #7a1410;
+  border-radius: 3px;
+  background: linear-gradient(#c8302a, #b3201b 55%, #a01c18);
+  color: #fff;
+  font: bold 12px/16px Tahoma, Verdana, Arial, sans-serif;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.35);
+}

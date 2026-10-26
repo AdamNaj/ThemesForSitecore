@@ -1,0 +1,9 @@
+{
+  "name": "Bridge",
+  "description": "A starship console of elbows and pills",
+  "category": "creative",
+  "order": 230,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#000000", "#ff9966", "#cc99cc"],
+  "swatch": { "desk": "#000000", "barPos": "pills", "start": "#ff9966", "app": "#9999ff", "app2": "#cc99cc", "win": "#000000", "border": "#000000", "bw": 0, "cap": "#000000", "btns": "right", "btn": "#9999ff", "close": "#cc6666", "tab": "#ffcc99", "tree": "#000000", "ed": "#000000", "sec": "#cc99cc", "field": "#000000", "line": "#9999ff", "sel": "#ffcc99", "fg": "#ffcc99", "elbows": ["#cc99cc", "#ff9966"] }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Beacon",
+  "description": "High contrast for low vision and bright rooms, follows your light or dark setting",
+  "category": "everyday",
+  "order": 40,
+  "versions": ["10.4", "10.5"],
+  "appearance": "auto",
+  "preview": ["#000000", "#ffd400", "#ffffff"],
+  "swatch": { "desk": "#000000", "bar": "#000000", "barLine": "#ffffff", "start": "#ffd400", "app": "#ffd400", "app2": "#000000", "win": "#000000", "border": "#ffffff", "bw": 2, "cap": "#000000", "btns": "right", "btn": "#ffffff", "ribbon": "#000000", "tab": "#ffd400", "tree": "#000000", "ed": "#000000", "sec": "#ffffff", "field": "#000000", "line": "#ffffff", "sel": "#ffd400", "fg": "#ffffff" }
+}

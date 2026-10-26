@@ -1,0 +1,13 @@
+/* Pocket: a dark block with stepped corners, in the pixel face */
+html[data-sct-theme="pocket"] sct-bar-postfix {
+  padding: 3px 10px;
+  border: 0;
+  border-radius: 0;
+  background: #081820;
+  color: #e0f8d0;
+  font-family: "Press Start 2P", "Lucida Console", Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  clip-path: polygon(0 2px, 2px 2px, 2px 0, calc(100% - 2px) 0, calc(100% - 2px) 2px, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 2px calc(100% - 2px), 0 calc(100% - 2px));
+}

@@ -1,0 +1,61 @@
+/* Tahoe: login as a glass card over the wallpaper: 18px corners, the white inner edge, pill fields and
+   a pill sign-in button. */
+html[data-sct-theme="tahoe"][data-sct-surface="login"] body {
+  background: url("sct-ext:themes/tahoe/glyphs/wallpaper.svg") center / cover no-repeat fixed, #4a5f86;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+}
+html[data-sct-theme="tahoe"][data-sct-surface="login"] .main-wrap {
+  background: transparent none;
+}
+html[data-sct-theme="tahoe"][data-sct-surface="login"] .top,
+html[data-sct-theme="tahoe"][data-sct-surface="login"] .top a,
+html[data-sct-theme="tahoe"][data-sct-surface="login"] .top span {
+  background: transparent;
+  color: #fff;
+}
+html[data-sct-theme="tahoe"][data-sct-surface="login"] .main {
+  background: color-mix(in srgb, var(--sct-panel-bg) 72%, transparent);
+  backdrop-filter: blur(30px) saturate(1.8);
+  border: 0;
+  border-radius: 18px;
+  box-shadow: var(--th-edge), 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+html[data-sct-theme="tahoe"][data-sct-surface="login"] .form-control {
+  border-radius: 999px;
+  padding-left: 14px;
+  padding-right: 14px;
+  border: 1px solid var(--sct-input-border);
+  background: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  box-shadow: none;
+}
+html[data-sct-theme="tahoe"][data-sct-surface="login"] .form-control:focus {
+  border-color: var(--sct-input-focus-border);
+  box-shadow: var(--th-ring);
+}
+html[data-sct-theme="tahoe"][data-sct-surface="login"] .btn.btn-primary {
+  background: var(--sct-button-primary-bg);
+  border: 0;
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  color: var(--sct-button-primary-fg);
+  font-weight: 500;
+  text-transform: none;
+}
+html[data-sct-theme="tahoe"][data-sct-surface="login"] .btn.btn-primary:hover {
+  background: var(--sct-button-primary-hover-bg);
+}
+/* The Sitecore wordmark is white art for a dark page: on the light card it takes the label colour. */
+@media (prefers-color-scheme: light) {
+  html[data-sct-theme="tahoe"][data-sct-surface="login"] .logo-wrap img {
+    filter: brightness(0) opacity(0.85);
+  }
+}
+html[data-sct-theme="tahoe"][data-sct-surface="login"] input[type="checkbox"] {
+  accent-color: var(--sct-accent);
+}
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="tahoe"][data-sct-surface="login"] body {
+    background: url("sct-ext:themes/tahoe/glyphs/wallpaper-dark.svg") center / cover no-repeat fixed, #232b4f;
+  }
+}

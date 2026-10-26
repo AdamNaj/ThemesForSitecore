@@ -1,0 +1,12 @@
+/* Notebook: a sticky note on the kraft, in the hand */
+html[data-sct-theme="notebook"] sct-bar-postfix {
+  padding: 2px 12px 3px;
+  border-color: transparent;
+  border-radius: 0 0 2px 2px;
+  background: var(--nb-note, #fff59a);
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+  color: var(--nb-ink, #1d3a8a);
+  font: bold 14px/18px var(--nb-hand, cursive);
+  letter-spacing: 0;
+  transform: translate(-50%, -50%) rotate(-1.5deg);
+}

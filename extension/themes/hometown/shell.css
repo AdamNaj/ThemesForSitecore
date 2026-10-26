@@ -1,0 +1,742 @@
+/* Hometown: the classic shell as a 1998 personal homepage. Colours are tokens.css; this file adds the
+   starfield behind the panes, grey outset bevels, Times text with Comic Sans headings, underlined blue
+   links, rainbow rules, the under-construction banner on Sitecore's warning bars and construction tape
+   where an item is locked or read-only.
+   Bevels are box-shadows (--ht-out, --ht-in) so they never change a box's size.
+   :not(#sct-ht) matches every page; its id weight lets these rules beat Sitecore's own selectors and the
+   generated token layer. */
+
+html[data-sct-theme="hometown"][data-sct-surface="shell"] :where(*) {
+  image-rendering: auto;
+}
+
+html[data-sct-theme="hometown"][data-sct-surface="shell"]:not(#sct-ht) {
+  /* ---- The night sky behind the Content Editor's panes ---- */
+  #ContentEditor,
+  .scFlexColumnContainer:has(#ContentEditor) {
+    background: var(--ht-stars);
+  }
+
+  /* ---- Comic Sans headings, Arial on buttons and tabs ---- */
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed),
+  .scWindowCaption,
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader,
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader,
+  .ui-dialog .ui-dialog-title,
+  .scEditorHeaderTitle {
+    font-family: var(--ht-comic);
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsContextualActive),
+  :is(.scEditorTabHeaderActive, .scEditorTabHeaderNormal),
+  :is(.scPagerButtonNormal, .scPagerButtonActive),
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover),
+  :is(button.scButton, input.scButton, button.ui-button),
+  .scStartBarApplication span,
+  .scRibbonToolbar .chunk .caption,
+  #DatabaseSelector {
+    font-family: var(--ht-arial);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* ---- Ribbon: grey bevelled tabs, the open one pressed in and white; the toolbar a grey panel ruled
+     off with a rainbow ---- */
+  .scRibbonNavigator {
+    background: var(--ht-grey);
+  }
+  .scRibbonNavigatorButtonsGroupButtons {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    padding: 4px 0 0 6px;
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsContextualActive) {
+    height: auto;
+    margin: 0;
+    padding: 2px 10px;
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out);
+    color: #000000;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    text-decoration: none;
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: #000000;
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualActive),
+  .scRibbon :is(a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualActive):hover {
+    background: #ffffff;
+    box-shadow: var(--ht-in);
+    color: #000000;
+    font-weight: 700;
+  }
+  .scRibbon a:focus-visible {
+    outline: 1px dotted #000000;
+    outline-offset: -4px;
+  }
+  .scRibbon {
+    background: var(--ht-grey);
+  }
+  .scRibbonToolbar {
+    border: 0;
+    border-bottom: 4px solid;
+    border-image: var(--ht-rainbow) 1;
+    background: var(--ht-grey);
+  }
+  .scRibbonToolbar .chunk {
+    border: 0;
+    border-radius: 0;
+    box-shadow: 1px 0 #ffffff, inset -1px 0 #808080;
+    background: transparent;
+  }
+  .scRibbonToolbar .chunk .caption {
+    color: var(--ht-navy);
+    font-size: 11px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"] {
+    border-radius: 0;
+  }
+  .scRibbonToolbar :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButton):hover {
+    background: var(--ht-grey);
+    box-shadow: inset 1px 1px #ffffff, inset -1px -1px #808080;
+  }
+  .scRibbonToolbar :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton):active {
+    box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff;
+  }
+
+  /* ---- Window buttons: grey bevelled keys with black glyphs ---- */
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+    box-sizing: border-box;
+    width: 20px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    filter: none;
+    object-fit: none;
+    object-position: -999px -999px;
+    background: url("sct-ext:themes/hometown/glyphs/close.svg") center / 14px 14px no-repeat, var(--ht-grey);
+    box-shadow: var(--ht-out);
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:active {
+    box-shadow: var(--ht-in);
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="switcher" i] {
+    background-image: url("sct-ext:themes/hometown/glyphs/switcher.svg");
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize" i] {
+    background-image: url("sct-ext:themes/hometown/glyphs/minimize.svg");
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize" i] {
+    background-image: url("sct-ext:themes/hometown/glyphs/maximize.svg");
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore" i] {
+    background-image: url("sct-ext:themes/hometown/glyphs/restore.svg");
+  }
+
+  /* ---- Content tree: a grey bevelled panel of links; the selection highlighted yellow in red ---- */
+  #ContentTreePanel > div {
+    background-color: var(--ht-grey) !important;
+    box-shadow: var(--ht-out) !important;
+  }
+  .scContentTree {
+    background-color: transparent;
+  }
+  .scContentTreeNode > a {
+    border: 0;
+    border-radius: 0;
+  }
+  .scContentTreeNode > a:is(.scContentTreeNodeNormal, .scContentTreeNodeActive) > span {
+    padding: 0 3px;
+    text-decoration: underline;
+  }
+  .scContentTreeNode > a.scContentTreeNodeNormal:hover > span {
+    color: #ff0000;
+  }
+  .scContentTreeNode > a.scContentTreeNodeActive {
+    background: transparent;
+  }
+  .scContentTreeNode > a.scContentTreeNodeActive > span {
+    background: var(--sct-tree-selected-bg);
+    color: var(--sct-tree-selected-fg);
+    font-weight: 700;
+  }
+  /* the inline green of the standard roots, as a visited link */
+  :is(.scContentTree, .scTreeview) :is([style^="color:green" i], [style^="color: green" i]) {
+    color: #551a8b !important;
+  }
+  /* a lock in the tree's gutter (Locked Items) is taped off */
+  .scContentTreeNodeGutter img[src*="lock" i] {
+    padding: 1px;
+    background: var(--ht-hazard);
+  }
+
+  /* ---- The editor: a white page in a grey bevelled frame ---- */
+  .scEditorPanel,
+  .scEditorHeader,
+  #EditorFrames {
+    background: #ffffff;
+  }
+  #EditorTabs {
+    background: var(--ht-grey);
+    box-shadow: inset 0 -1px #808080;
+  }
+  :where(a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal, a#BTAddNewSearch) {
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out);
+  }
+  a.scRibbonEditorTabActive {
+    background: #ffffff;
+    box-shadow: inset 1px 1px #ffffff, inset -1px 0 #404040, inset 2px 2px #e0e0e0, inset -2px 0 #808080;
+  }
+  :is(.scEditorTabHeaderActive, .scEditorTabHeaderNormal) {
+    border: 0;
+    background: transparent;
+    color: #000000;
+    font-size: 12px;
+  }
+  a.scRibbonEditorTabActive .scEditorTabHeaderActive {
+    font-weight: 700;
+  }
+  .scEditorHeaderTitle {
+    color: var(--ht-pink);
+    font-size: 20px;
+  }
+
+  /* ---- Sections: a Comic Sans heading over a rainbow rule ---- */
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+    margin: 8px 0 0;
+    padding: 2px 4px;
+    border: 0;
+    border-bottom: 3px solid;
+    border-image: var(--ht-rainbow) 1;
+    background: #ffffff;
+    color: var(--ht-pink);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 26px;
+  }
+  /* the section chevron floats right with Sitecore's 10px top margin: centred on the heading instead */
+  img.scEditorSectionCaptionGlyph {
+    margin-top: 3px;
+  }
+  .scEditorSectionPanel {
+    border: 0;
+    background: #ffffff;
+  }
+  &[data-sct-version="10.4"] img.scEditorSectionCaptionGlyph {
+    filter: brightness(0) opacity(0.75);
+  }
+  &[data-sct-version="10.4"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+    filter: brightness(0) opacity(0.7);
+  }
+
+  /* ---- Fields: a guestbook form, each label a lavender cell and each field sunk in ---- */
+  .scEditorFieldLabel {
+    margin-bottom: 2px;
+    padding: 2px 6px;
+    background: var(--ht-lav);
+    box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff;
+    color: #000000;
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], textarea, select),
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) table.scCombobox,
+  #TreeSearch,
+  #TreeSearchOptions input.scSearchOptionsInput {
+    border: 0;
+    border-radius: 0;
+    background-color: #ffffff;
+    box-shadow: var(--ht-in);
+    font-family: "Times New Roman", Times, serif;
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], select:not([multiple]):not([size])) {
+    min-height: 24px;
+    padding: 3px 5px;
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(textarea, select[multiple], select[size]) {
+    padding: 3px 5px;
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) table.scCombobox input {
+    min-height: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  :is(.scEditorSections, .scFormDialogContent, .scDialogContentContainer, .scTabPage) :is(input, textarea, select):focus,
+  #TreeSearch:focus {
+    outline: 1px dotted #000000;
+    outline-offset: -4px;
+  }
+  /* read-only fields (the item is locked by someone else, or not editable here) are taped off */
+  .scEditorSections :is(input, textarea, select):is([disabled], [readonly]) {
+    border-left: 8px solid;
+    border-image: var(--ht-hazard) 1;
+    background-color: #eeeeee;
+  }
+  .scEditorTabControls a.scEditorHeaderButton {
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out);
+  }
+  .scEditorTabControls a.scEditorHeaderButton:active {
+    box-shadow: var(--ht-in);
+  }
+
+  /* ---- The under-construction banner: Sitecore's warning bars (a lock, a workflow state, no version
+     in this language) on yellow with a dashed red border, the icon cell taped off ---- */
+  .scMessageBar.scWarning {
+    border: 2px dashed #ff0000;
+    background: #ffff00;
+    color: #000000;
+  }
+  .scMessageBar.scWarning .scMessageBarIcon {
+    min-width: 40px;
+    background: var(--ht-hazard);
+  }
+  .scMessageBar.scWarning :is(.scMessageBarTitle, .scMessageBarText) {
+    color: #000000;
+  }
+  .scMessageBar.scWarning .scMessageBarTitle::before {
+    content: "Under construction! ";
+    color: #cc0000;
+    font-family: var(--ht-comic);
+  }
+  .scMessageBar.scWarning a {
+    color: #0000ee;
+    text-decoration: underline;
+  }
+
+  /* ---- Push buttons: grey bevelled, Arial; pressed in when clicked ---- */
+  :is(button.scButton, input.scButton) {
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out);
+    color: #000000;
+    font-size: 12px;
+  }
+  :is(button.scButton, input.scButton):hover {
+    background: var(--sct-button-hover-bg);
+  }
+  :is(button.scButton, input.scButton).scButtonPrimary {
+    box-shadow: 0 0 0 1px #000000, var(--ht-out);
+  }
+  :is(button.scButton, input.scButton):active {
+    box-shadow: var(--ht-in);
+  }
+  :is(button.scButton, input.scButton):focus-visible {
+    outline: 1px dotted #000000;
+    outline-offset: -5px;
+  }
+
+  /* ---- Bottom application tabs ---- */
+  .scDockBottomContainer {
+    background: var(--ht-grey);
+  }
+  .scPager {
+    border: 0;
+    background: var(--ht-grey);
+  }
+  :is(a.scPagerButtonNormal, a.scPagerButtonActive) {
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out);
+    color: #000000;
+    font-size: 12px;
+  }
+  a.scPagerButtonActive {
+    background: #ffffff;
+    box-shadow: var(--ht-in);
+    font-weight: 700;
+  }
+
+  /* ---- Desktop: the night sky, a welcome banner and the obligatory resolution note ---- */
+  #Desktop {
+    background: var(--ht-stars) !important;
+  }
+  #Desktop::before {
+    content: "Welcome to my Sitecore!!";
+    position: absolute;
+    top: 14px;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    color: #ffff00;
+    font: 700 28px/36px var(--ht-comic);
+    text-align: center;
+    text-shadow: 2px 2px 0 #ff00ff;
+    pointer-events: none;
+  }
+  #Desktop::after {
+    content: "Best viewed at 800x600";
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    z-index: 0;
+    padding: 2px 8px;
+    background: #000000;
+    box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff, inset 2px 2px #404040, inset -2px -2px #e0e0e0;
+    color: #00ff00;
+    font: 11px/16px "Courier New", monospace;
+    pointer-events: none;
+  }
+  #Desktop > iframe {
+    box-shadow: 2px 2px 0 #000000;
+  }
+
+  /* ---- Taskbar: a grey bar under a white highlight; running applications as bevelled buttons, the
+     active one pressed in ---- */
+  .scStartbar {
+    border-top: 0;
+    background: var(--ht-grey);
+    box-shadow: inset 0 1px #dfdfdf, inset 0 2px #ffffff;
+  }
+  #Startbar,
+  #Startbar > table,
+  .scStartbarTray {
+    background: transparent;
+  }
+  :is(.scStartButton, .scStartBarScroller, .scStartbarTray) {
+    border-top: 0;
+  }
+  #StartbarApplications > tbody > tr > td,
+  #Startbar > table > tbody > tr > td {
+    padding: 0 2px;
+    border: 0;
+    background: transparent;
+  }
+  .scStartBarApplication {
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out);
+    color: #000000;
+  }
+  .scActiveApplication .scStartBarApplication {
+    background: repeating-conic-gradient(#ffffff 0 25%, var(--ht-grey) 0 50%) 0 0 / 2px 2px;
+    box-shadow: var(--ht-in);
+  }
+  .scStartBarApplication span {
+    color: #000000;
+    font-size: 12px;
+  }
+  .scActiveApplication .scStartBarApplication span {
+    font-weight: 700;
+  }
+  .scStartbarTray {
+    box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff;
+  }
+
+  /* ---- Dialogs: a grey bevelled box, the header a white page with a Comic Sans title over a rainbow ---- */
+  .ui-widget-overlay {
+    background: rgb(0 0 51 / 0.25);
+    opacity: 1;
+  }
+  .ui-dialog {
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out), 3px 3px 0 #000000;
+  }
+  /* jQuery UI's title strip above the page header: white, one sheet with the header */
+  .ui-dialog > .ui-dialog-titlebar {
+    border: 0;
+    border-radius: 0;
+    background: #ffffff;
+  }
+  .ui-dialog .ui-dialog-title {
+    color: var(--ht-pink);
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+    box-sizing: border-box;
+    width: 20px;
+    height: 18px;
+    margin: 0 0 0 2px !important;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: url("sct-ext:themes/hometown/glyphs/close.svg") center / 14px 14px no-repeat, var(--ht-grey);
+    box-shadow: var(--ht-out);
+    overflow: hidden;
+    text-indent: -999px;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * > * {
+    display: none;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > :active {
+    box-shadow: var(--ht-in);
+  }
+  .ui-dialog .ui-dialog-titlebar-maximize {
+    background-image: url("sct-ext:themes/hometown/glyphs/maximize.svg");
+  }
+  .ui-dialog .ui-dialog-titlebar-restore {
+    background-image: url("sct-ext:themes/hometown/glyphs/restore.svg");
+  }
+  .ui-dialog .ui-dialog-titlebar-minimize {
+    background-image: url("sct-ext:themes/hometown/glyphs/minimize.svg");
+  }
+  .ui-dialog .ui-dialog-titlebar-collapse {
+    background-image: url("sct-ext:themes/hometown/glyphs/switcher.svg");
+  }
+  :is(.scFormDialogHeader, .scDialogHeader),
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+    border: 0;
+    border-bottom: 4px solid;
+    border-image: var(--ht-rainbow) 1;
+    background: #ffffff;
+  }
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader,
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+    color: var(--ht-pink);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+  }
+  .scFormDialogFooter,
+  .scWizardButtons {
+    border: 0;
+    background: var(--ht-grey);
+  }
+
+  /* ---- Tab strips: grey property-sheet tabs, the open one taller and joined to its page ---- */
+  .scTabstrip {
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+    padding: 0 0 0 4px;
+    border: 0;
+    background: transparent;
+  }
+  .scTabstrip > nobr {
+    display: flex;
+    align-items: flex-end;
+  }
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+    position: relative;
+    left: auto;
+    height: auto;
+    margin: 0;
+    padding: 2px 12px 1px;
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: inset 1px 1px #ffffff, inset -1px 0 #404040, inset 2px 2px #e0e0e0, inset -2px 0 #808080;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 19px;
+  }
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover) {
+    z-index: 1;
+    top: 2px;
+    padding-top: 4px;
+    padding-bottom: 3px;
+    font-weight: 700;
+  }
+  .scTabstrip :is([role="tab"], a):focus:not(:focus-visible) {
+    outline: none;
+  }
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover)::after {
+    content: none;
+  }
+  .scTabs {
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out);
+  }
+  .scTabs > .scTabPage {
+    border-color: transparent;
+    background: transparent;
+  }
+
+  /* ---- Standard windows (Console, ISE, Package Designer...) and the Workbox: a navy title bar with the
+     title in Comic Sans ---- */
+  :is(.standardWindowCaption, .scWorkboxWindowCaption) {
+    border: 0;
+    background: linear-gradient(90deg, var(--ht-navy), #1084d0);
+  }
+  .standardWindowCaption .scWindowCaption {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .standardWindowCaption .scWindowCaption i {
+    color: #e0e0ff !important;
+  }
+
+  /* ---- Start menu: a grey bevelled box with a navy band down the side ---- */
+  /* the navy band runs the menu's full height, inside its bevel */
+  #StartMenu {
+    padding-left: 22px;
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out), inset 24px 0 var(--ht-navy), 2px 2px 0 #000000;
+  }
+  .scStartMenuLeft,
+  .scStartMenuRight {
+    background: var(--ht-grey);
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):hover {
+    background: var(--ht-navy);
+    color: #ffffff;
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):hover * {
+    color: #ffffff;
+  }
+  .scStartMenuDivider {
+    border: 0;
+    border-top: 1px solid #808080;
+    border-bottom: 1px solid #ffffff;
+    background: transparent;
+  }
+
+  /* the database label's icon is white art for a dark taskbar: black on the grey */
+  #DatabaseSelector img {
+    filter: brightness(0);
+  }
+
+  /* ---- Taskbar search: a sunken field ---- */
+  #SearchBox,
+  #SearchBox.focus {
+    border: 0;
+    border-radius: 0;
+    background: #ffffff;
+    box-shadow: var(--ht-in);
+    color: #000000;
+  }
+  #SearchBox::placeholder {
+    color: #404040;
+  }
+
+  /* ---- Menus: a grey bevelled box, hovered rows navy ---- */
+  table.scMenu {
+    border: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out), 2px 2px 0 #000000;
+  }
+  table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+    background-color: var(--ht-navy);
+    color: #ffffff;
+  }
+
+  /* ---- SPEAK-style application headers inside shell pages (SPE Reports) ---- */
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1,
+  .sc-applicationHeader-row2 {
+    box-shadow: none;
+    background: #ffffff !important;
+  }
+  .sc-applicationHeader-row1 {
+    border-bottom: 4px solid;
+    border-image: var(--ht-rainbow) 1;
+  }
+  .sc-applicationHeader-row1::after {
+    content: none;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--ht-pink);
+    font-family: var(--ht-comic);
+    font-weight: 700;
+  }
+  .sc-globalHeader {
+    background: var(--ht-stars) !important;
+    box-shadow: none;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a),
+  .sc-globalHeader .sc-global-logo {
+    color: #ffffff;
+  }
+
+  /* ---- Links look like links ---- */
+  .scEditorSections a,
+  .scContentControlFooter a,
+  .scDialogContentContainer a:not([class]) {
+    color: #0000ee;
+    text-decoration: underline;
+  }
+
+  /* ---- Density: Copenhagen-tight on both versions (Whistler's measured recipe). The strip keeps 1px
+     plus the chunks' margins (10.5 pads it 12px over an 80px minimum), the panel 3px above the buttons
+     and 4px at the sides (10.5 16px, 10.4 10px 8px), a 16px caption, and large buttons end above the
+     caption with their hover frame. ---- */
+  :is(.scRibbonToolbarStrip, .scRibbonToolbarContextualStrip) {
+    display: flow-root;
+    min-height: 0;
+    padding: 1px 0;
+  }
+  .scRibbonToolbar .chunk {
+    height: auto;
+    margin: 3px 2px 3px 0;
+  }
+  .scRibbonToolbar .chunk > .panel {
+    box-sizing: border-box;
+    height: 52px;
+    padding: 3px 4px 0;
+  }
+  .scRibbonToolbar .chunk > .caption {
+    height: 16px;
+    padding: 0 4px;
+    line-height: 16px;
+  }
+  .scRibbonToolbar :is(a.scRibbonToolbarLargeButton, span.scRibbonToolbarLargeButtonDisabled, a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarLargeGalleryButton, span.scRibbonToolbarLargeGalleryButtonDisabled) {
+    padding: 2px 5px 1px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbarLarge"] .header {
+    padding: 3px 4px 1px;
+  }
+  .scRibbonToolbar :is(.scRibbonGallery, .scRibbonToolbarSmallButtons) {
+    padding: 1px 5px 0;
+  }
+  /* the Translate chunk's language boxes: two rows above the caption */
+  .scRibbonToolbar select.scRibbonCombobox {
+    box-sizing: border-box;
+    height: 21px;
+    min-height: 0;
+    padding: 0 20px 0 4px;
+    line-height: 19px;
+  }
+  .scRibbonToolbar .scRibbonToolbarSmallCheckButton {
+    padding: 3px 4px;
+  }
+  .scRibbonToolbar :is(.scRibbonToolbarLargeComboButton, .scRibbonToolbarLargeComboButtonDisabled) {
+    padding: 0;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbarLargeComboButtonTop"] {
+    padding: 0 5px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbarLargeComboButtonBottom"] {
+    padding: 0 5px 1px;
+  }
+
+  /* ---- Leftovers ---- */
+  /* fly-out arrows are black art: light on the dark hovered row */
+  table.scMenu .scMenuItemHotkey_Hover img,
+  .scStartMenuRightFolder:hover img.scStartMenuRightFolderGlyph {
+    filter: invert(1);
+  }
+  :is([style*="color:#999999" i], [style*="color: #999999" i]) {
+    color: var(--sct-muted-fg) !important;
+  }
+  .scTabstrip .scriptModified {
+    color: #cc0000;
+  }
+  &[data-sct-version="10.4"] :is(img[id$="_collapse"], img[id$="_close"], img[id$="_section_chevron"]) {
+    filter: brightness(0) opacity(0.7);
+  }
+}

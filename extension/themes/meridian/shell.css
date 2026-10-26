@@ -1,0 +1,367 @@
+/* Meridian: classic shell. A Recolour: Sitecore's layout, the palette from the phase block in tokens.css.
+   The first part holds the signature pieces every phase shares (the sky, the title gradient, the taskbar);
+   the second the fixes only the dark night phase needs (Debrightify's, under the night phase). */
+
+/* ---- The Desktop: a sky for the phase over the wallpaper Sitecore writes inline. */
+html[data-sct-theme="meridian"][data-sct-surface="shell"] #Desktop.DesktopArea {
+  background: var(--mer-sun), var(--mer-sky), var(--sct-desktop-bg) !important;
+}
+
+/* ---- The global header: the phase's title gradient, light text. */
+html[data-sct-theme="meridian"][data-sct-surface="shell"] .sc-globalHeader {
+  background: linear-gradient(90deg, var(--mer-title-from), var(--mer-title-to)) var(--sct-titlebar-bg);
+  color: var(--sct-titlebar-fg);
+}
+html[data-sct-theme="meridian"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation :is(li, span, a) {
+  color: var(--sct-titlebar-fg);
+}
+html[data-sct-theme="meridian"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 85%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="meridian"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+
+/* ---- The open ribbon tab and editor tab carry the phase's accent as a line along their foot. */
+html[data-sct-theme="meridian"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsActive {
+  box-shadow: inset 0 -2px var(--sct-focus-ring);
+}
+
+/* ---- The taskbar: the phase's dark band under the sky. */
+html[data-sct-theme="meridian"][data-sct-surface="shell"] .scStartbar,
+html[data-sct-theme="meridian"][data-sct-surface="shell"] #Startbar {
+  background: var(--sct-taskbar-bg);
+  color: var(--sct-taskbar-fg);
+  border-top-color: var(--sct-taskbar-bg);
+}
+html[data-sct-theme="meridian"][data-sct-surface="shell"] #Startbar :is(td, span, a, div):not(.scStartMenu *) {
+  background-color: transparent;
+  color: var(--sct-taskbar-fg);
+}
+html[data-sct-theme="meridian"][data-sct-surface="shell"] #StartbarApplications td:hover {
+  background-color: color-mix(in srgb, var(--sct-taskbar-fg) 14%, var(--sct-taskbar-bg));
+}
+html[data-sct-theme="meridian"][data-sct-surface="shell"] #StartbarApplications td.scActiveApplication {
+  background-color: color-mix(in srgb, var(--sct-taskbar-fg) 20%, var(--sct-taskbar-bg));
+  box-shadow: inset 0 -2px var(--sct-focus-ring);
+}
+html[data-sct-theme="meridian"][data-sct-surface="shell"] #SearchBox,
+html[data-sct-theme="meridian"][data-sct-surface="shell"] #SearchBox.focus {
+  background-color: color-mix(in srgb, var(--sct-taskbar-fg) 12%, var(--sct-taskbar-bg));
+  color: var(--sct-taskbar-fg);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sct-taskbar-fg) 30%, var(--sct-taskbar-bg));
+}
+html[data-sct-theme="meridian"][data-sct-surface="shell"] #SearchBox::placeholder {
+  color: color-mix(in srgb, var(--sct-taskbar-fg) 75%, var(--sct-taskbar-bg));
+}
+
+/* ---- Light phases: the section and window-management glyphs Sitecore draws white or pale grey for its
+   own darker bands sat on near-white headers. They take the text colour's darkness. */
+html[data-sct-theme="meridian"]:not([data-sct-phase="night"])[data-sct-surface="shell"] img.scEditorSectionCaptionGlyph {
+  filter: brightness(0) opacity(0.6);
+}
+/* the ribbon chunk launchers are a pale grey that barely shows on the light ribbon */
+html[data-sct-theme="meridian"]:not([data-sct-phase="night"])[data-sct-surface="shell"] .scRibbonChunkEndLink img.glyph {
+  filter: brightness(0.6);
+}
+/* 10.4 draws the window buttons white, for its dark caption; on the light caption they take a dark grey
+   that darkens on hover (10.4's hover images are white glyphs too, with no plate) */
+html[data-sct-theme="meridian"]:not([data-sct-phase="night"])[data-sct-version="10.4"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+  filter: brightness(0.4);
+}
+html[data-sct-theme="meridian"]:not([data-sct-phase="night"])[data-sct-version="10.4"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
+  filter: brightness(0.1);
+}
+
+/* the ISE's variables toggle is a pale grey image beside the script tabs */
+html[data-sct-theme="meridian"]:not([data-sct-phase="night"])[data-sct-surface="shell"] img#VariablesToggle {
+  filter: brightness(0.6);
+}
+
+/* Dialog headers: 10.5 drops 10.4's 15px under the description, so the header band ended on the text's
+   baseline. Both versions get 10.4's. */
+html[data-sct-theme="meridian"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeaderDescription {
+  padding-bottom: 15px;
+}
+
+/* =========================================================================================================
+   Night: a dark recolour, so the light-page images and hovers need Debrightify's treatment.
+   ========================================================================================================= */
+/* Window buttons: light glyphs on the dark strip. */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="page_switcher"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher.png");
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="page_switcher"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher_h.png");
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png");
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize_h.png");
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png");
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize_h.png");
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png");
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore_h.png");
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png");
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close_h.png");
+}
+
+/* Dialog title buttons: no boxes, light glyphs, a quiet hover. */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+  background-color: transparent;
+  border-color: transparent;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > *:hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* The jQuery UI title bar on the modal host is a 15px strip above the dialog's header (the page's own, or
+   the one the host adds for SPE's ListView); it was a band in another colour above the header, in every
+   phase. It takes the header's colour so the title area, window buttons included, reads as one band. */
+/* 10.4's dialog button glyphs are white, for its dark header; on the light phases' header they go dark */
+html[data-sct-theme="meridian"][data-sct-version="10.4"]:not([data-sct-phase="night"])[data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon {
+  filter: brightness(0) opacity(0.7);
+}
+html[data-sct-theme="meridian"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar {
+  background: var(--sct-chrome-bg);
+  border-color: transparent;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-closethick {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png") center no-repeat;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-extlink {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png") center no-repeat;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-newwin {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png") center no-repeat;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-minus {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png") center no-repeat;
+}
+
+/* ---- Hover and pressed states. The area map turns 10.5's light-grey hovers into the app background,
+   which on a dark theme is darker than the panel (or the same colour as a menu). They lift instead. */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton, a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton, a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):active {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* toggled-on buttons keep their selected colour under the pointer */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, .scRibbonToolbarLargeComboButtonDown, .scRibbonLargeImageButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown):is(*, :hover, :active) {
+  background-color: var(--sct-selected-bg);
+  color: var(--sct-tree-selected-fg);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scSearchLink:hover, .scElementHover:hover, .scSearchOptionName:hover, .scListControl > tbody > tr:hover, .Row:hover, .scTab_Hover, .scVerticalTabstrip .scVerticalTabs a:not(.active):hover, .scPagerButtonNormal:hover, .scEditorHeaderTitle:hover, .scEditorHeaderNavigatorField:hover, a.scEditorHeaderNavigatorSection:hover, .scNavButton:hover, .scListviewItemIcons:hover, .scListviewItemList:hover, .scCommand_Hover, .scComboboxDropDown:hover, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-button:not(.ui-state-active):hover, td.scCalendarCell:hover, .scTimePicker a:hover, .scLink:hover, .scInstallerPager:hover, .spe-variables-list .spe-variable:hover, .scStartMenuLeftOption:hover, .scStartMenuRightOption:hover, .scStartMenuRightFolder:hover, .scStartMenuProgramsMenu:hover, .BlogPostArea:hover, .side li a:hover, .pagination li a:hover, .quickactions > ul > li:hover, .quickactions ul li ul li a:hover, .sb_dropdown .sb_filter:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+/* (kept apart: id selectors would lift the specificity of the whole list above selected states) */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(#InstantResults li:hover, #InstantResults .scSearchResultsTable a:hover, #results table > tbody > tr:hover, #grid-content .post_float:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+
+/* ---- Menus (context menu, start menu fly-outs, drop-downs): a raised surface with body text,
+   not the app background with link-coloured items. Disabled items read as disabled. */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] table.scMenu {
+  background-color: var(--sct-raised-bg);
+  color: var(--sct-panel-fg);
+  box-shadow: 0 0 0 1px var(--sct-border-strong), 0 4px 12px rgb(0 0 0 / 0.45);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon, .scMenuItemCaption, .scMenuItemHotkey, .scMenuItemIcon_Disabled, .scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  background-color: transparent;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+  color: var(--sct-chrome-fg);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  color: color-mix(in srgb, var(--sct-panel-fg) 45%, var(--sct-raised-bg));
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] table.scMenu .scMenuItemIcon_Disabled img {
+  opacity: 0.4;
+}
+/* separators are 1px cells painted with a background colour */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] table.scMenu :is(.scMenuDividerIcon, .scMenuDividerCaption, .scMenuDividerHotkey) {
+  background-color: var(--sct-border-strong);
+  border-color: transparent;
+}
+
+/* ---- Desktop */
+/* the right column of the start menu got a tint of 6.x's cream; 10.5 paints both columns alike */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .scStartMenuRight {
+  background-color: var(--sct-panel-bg);
+}
+/* 10.5's hover and open start button is a white tile; the red one, a touch brighter, stays dark */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.scStartButton:hover, .scStartButton.scPopupOpener) {
+  background-image: url("/sitecore/shell/themes/standard/Images/Startbar/StartButton.png");
+  filter: brightness(1.15);
+  border-top-color: transparent;
+}
+/* ---- Light leftovers Sheer UI writes inline in other spellings than the shared map knows. */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is([style*="background:white" i], [style*="background: white" i], [style*="background-color:white" i], [style*="background-color: white" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+/* hidden and system items in the trees are marked with an inline #666 */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is([style*="color:#666666" i], [style*="color: #666666" i]) {
+  color: color-mix(in srgb, var(--sct-muted-fg) 85%, var(--sct-app-fg)) !important;
+}
+/* soft light glows round the tree and editor panes (one inline, one in Content Manager.css) */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] #ContentTreePanel > div[style*="box-shadow"] {
+  box-shadow: 0 0 0 1px var(--sct-border) !important;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] #EditorFrames {
+  box-shadow: 0 0 0 1px var(--sct-border);
+}
+/* the bucket search box's buttons carry a white 1px highlight */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.btn-clear, .btn-search) {
+  box-shadow: none;
+}
+
+/* ---- Images painted for a white page */
+/* Security Editor's access-right tiles and key, and the ComponentArt grid pager (User Manager etc.):
+   white tiles with grey glyphs. Inverting keeps the green/red hues and makes the tiles dark. */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] img[src*="/images/security/" i],
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] img[src*="/componentart/grid/pager/" i] {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Bucket search box (Media Library, bucket folders): one field, as in 10.5. The area map paints
+   its buttons as black blocks and drops their glyphs (they share a declaration with a gradient). */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .search-box {
+  background-color: var(--sct-input-bg);
+  border-color: var(--sct-input-border);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search) {
+  background-color: transparent;
+  border-color: transparent;
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .btn-clear {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/clear.png");
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .btn-search {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png");
+}
+/* under the inverting filter (invert + hue-rotate) this light grey shows as the theme's hover colour (#282c4e) */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search):is(:hover, :active) {
+  background-color: #ccd0f2;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .filters .filter {
+  background-color: var(--sct-raised-bg);
+  border-color: var(--sct-border);
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .filters .filter :is(.icon, .value .display-value) {
+  background-color: transparent;
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .filters .filter :is(.icon, .remove):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .raw-user-input {
+  background-color: transparent;
+}
+/* view switcher: the selected view is drawn dark, the others light grey. Light now means selected. */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] #views a {
+  opacity: 0.55;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] #views a.active {
+  opacity: 1;
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Ribbon galleries (Security > Presets, Insert, Languages): a raised, outlined pop-up like the
+   menus, with menu-row hovers. The gallery page paints itself White inline. */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] iframe.scGalleryFrame {
+  box-shadow: 0 0 0 1px var(--sct-border-strong), 0 4px 12px rgb(0 0 0 / 0.45);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+  background-color: var(--sct-raised-bg) !important;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+  background-color: transparent;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+  background-color: var(--sct-border-strong);
+}
+
+/* ---- Start menu: the fly-out arrows are dark glyphs */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph) {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- 10.4 lacks 10.5's _grey glyphs: its pale ribbon chunk launcher inverted to dark, and its tree search
+   arrow is a black down_h.png. Both drawn light, in 10.5's tones. */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+  filter: brightness(0) opacity(0.55) var(--sct-glyph-filter);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-version="10.4"][data-sct-surface="shell"] a.scSearchOptionsButton img {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Tree search: both buttons centre on the field (row centre 246px). The magnifier is a 22px image
+   in a 16px link, so it hung 3px low; the chevron's float has an inline 8px top padding that pushes it 4px low. */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] a.scSearchButton img {
+  display: block;
+  margin: -3px;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] #SearchPanel td > div[style*="padding-top"] {
+  padding-top: 0 !important;
+}
+
+/* ---- ComponentArt grid pager slider (User Manager, Role Manager...): its track is a white image, set
+   with the table cell's background attribute */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is([style*="slider_bg" i], [background*="slider_bg" i]) {
+  background: linear-gradient(var(--sct-border-strong), var(--sct-border-strong)) center / 100% 4px no-repeat !important;
+}
+
+/* ---- Dark glyphs the sweep found (scan.cjs DARKGLYPH) */
+/* the menus' submenu arrows and the bucket filter token's remove cross (the ribbon toggle is the token
+   layer's) */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .filters .filter .remove,
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] img[src*="Submenu16x16" i] {
+  filter: var(--sct-glyph-filter);
+}
+/* the bucket view switcher shows its dark "selected" image on hover too */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] #views a:hover {
+  opacity: 1;
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Text the sweep found below AA */
+/* a selected tree node (content tree, treelist fields, dialog trees) is the selected text colour: standard
+   roots' inline green fell to 4:1 on the selected purple */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is(a.scContentTreeNodeActive, a.scContentTreeNodeActive *) {
+  color: var(--sct-tree-selected-fg) !important;
+}
+/* inline system and light colours the shared map does not catch: Access Viewer's splitter (#e3e3e3)
+   and its explanation pane (the system colour "window", near-black under color-scheme: dark) */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is([style*="background:#e3e3e3" i], [style*="background: #e3e3e3" i], [style*="background-color:#e3e3e3" i]) {
+  background-color: var(--sct-border) !important;
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] :is([style*="background:window" i], [style*="background: window" i], [style*="background-color:window" i], [style*="background-color: window" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+
+/* ---- SPE ISE: Ace's own scrollbars sit inside the editor's inverting filter
+   (--sct-editor-filter: invert(0.88) hue-rotate(180deg)). These colours are the night thumb (#424773) run
+   backwards through it (hue-rotate(180deg) undone, then in = (224.4 - out) / 0.76 per channel); the track
+   is white, which renders #1f1f1f (the night track #14162b is out of the filter's reach). */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="shell"] .ace_editor {
+  scrollbar-color: #bec4fe #ffffff;
+}

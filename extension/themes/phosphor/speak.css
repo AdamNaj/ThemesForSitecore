@@ -1,0 +1,235 @@
+/* Phosphor: SPEAK pages (Control Panel, the Experience Editor ribbon, dialogs) on the terminal.
+   Monospace, square, a faint glow; the global header an inverted status bar; open tabs and selected
+   buttons inverted; dashed rules between rows; icons tinted to the phosphor. */
+
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] *:not(.ace_editor, .ace_editor *) {
+  font-family: var(--sct-font-family) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] *,
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] *::before,
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] *::after {
+  border-radius: 0 !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] body {
+  text-shadow: var(--sct-ph-glow);
+  caret-color: var(--sct-accent);
+  accent-color: var(--sct-accent);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] ::selection {
+  background: var(--sct-accent);
+  color: var(--sct-accent-fg);
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] ::placeholder {
+  color: var(--sct-muted-fg);
+  opacity: 1;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] :focus-visible {
+  outline: 1px dashed var(--sct-focus-ring);
+  outline-offset: 1px;
+}
+
+/* ---- Global header: an inverted status bar; its text and glyphs in the tube colour */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-globalHeader {
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout {
+  color: var(--sct-titlebar-fg);
+  text-decoration: underline;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-globalHeader .sc-accountInformation img {
+  filter: grayscale(1) contrast(0.6) brightness(0.35);
+}
+/* XM's logo is drawn in colour for a white header: dark, like the header's text */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-globalHeader .sc-applicationHeader-title::before {
+  filter: brightness(0);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}
+
+/* ---- Application header (Control Panel and other SPEAK apps): "> Title", dashed rules */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-applicationHeader-title .sc-text::before {
+  content: "> ";
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] :is(.sc-applicationHeader-row1, .sc-applicationHeader-row2) {
+  border-bottom: 1px dashed var(--sct-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-backbutton:is(:hover, :focus-visible) {
+  background: var(--sct-accent);
+  color: var(--sct-accent-fg);
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-backbutton:is(:hover, :focus-visible) * {
+  color: var(--sct-accent-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-backbutton:is(:hover, :focus-visible) :is(img, i, [class*="icon"]) {
+  filter: brightness(0);
+}
+
+/* ---- Control Panel: "## GROUP" headings, link rows on dashed rules, the row under the pointer inverted */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-controlpanel-box-header h4::after {
+  content: " _";
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-controlpanel-box-header img {
+  filter: var(--sct-ph-icon-filter);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-controlpanel-box-content li {
+  border-bottom: 1px dashed var(--sct-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-controlpanel-box-content li a::before {
+  content: "- ";
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-controlpanel-box-content li:hover {
+  background: var(--sct-accent);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-controlpanel-box-content li:hover a,
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-controlpanel-box-content li:hover a::before {
+  color: var(--sct-accent-fg);
+  text-decoration: none;
+  text-shadow: none;
+}
+
+/* ---- Buttons: outlined text; the primary one inverted */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .btn.sc-button {
+  box-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .btn.sc-button.btn-primary {
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] :is(input:not([type="checkbox"], [type="radio"]), textarea, select):focus {
+  border-color: var(--sct-input-focus-border);
+  box-shadow: 0 0 0 1px var(--sct-input-focus-border), 0 0 6px rgb(57 255 106 / 0.35);
+}
+
+/* ---- Experience Editor ribbon: the Content Editor's ribbon. The open tab inverted, dashed dividers,
+   quick buttons without boxes, icons phosphor. */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-pageeditbar {
+  .sc-quickbar {
+    background: var(--sct-ribbon-tab-bg);
+    border-bottom: 1px solid var(--sct-accent);
+  }
+  .sc-quickbar-item {
+    color: var(--sct-ribbon-tab-fg);
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    background: transparent;
+    border-color: transparent;
+  }
+  .sc-quickbar-button:not(.disabled):hover,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-quickbar-tab {
+    background: transparent;
+    border-color: transparent;
+    color: var(--sct-ribbon-tab-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: var(--sct-ribbon-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected,
+  .sc-quickbar-tab.sc-quickbar-tab-selected:hover {
+    background: var(--sct-ribbon-tab-active-bg);
+    color: var(--sct-ribbon-tab-active-fg);
+    text-shadow: none;
+  }
+  .sc-quickbar-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 1px dashed var(--sct-focus-ring);
+    outline-offset: -3px;
+  }
+  .sc-quickbar img,
+  .sc-ribbon img,
+  .sc-ribbon .sprite-speak-ribbon-clean-ee {
+    filter: var(--sct-ph-icon-filter);
+  }
+
+  .sc-ribbon {
+    background-color: var(--sct-ribbon-bg);
+    border-top: 0;
+    border-bottom: 1px dashed var(--sct-border);
+  }
+  .sc-ribbon .sc-chunk::after {
+    background: linear-gradient(var(--sct-border) 50%, transparent 0) 0 0 / 1px 6px repeat-y;
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--sct-ribbon-chunk-caption-fg);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+    box-shadow: inset 0 0 0 1px var(--sct-border);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):active {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+  }
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: var(--sct-selected-bg);
+    text-shadow: none;
+  }
+  .sc-ribbon .pressed :is(.sc-chunk-button-label, span) {
+    color: var(--sct-tree-selected-fg);
+  }
+  .sc-ribbon .pressed :is(img, .sprite-speak-ribbon-clean-ee) {
+    filter: grayscale(1) contrast(0.6) brightness(0.35);
+  }
+  .sc-ribbon .sc-chunk-button-list ul {
+    background: var(--sct-input-bg);
+    border-color: var(--sct-input-border);
+  }
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-changedate:hover,
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-datetime:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+}
+
+/* the breadcrumb's separators are dark sprite glyphs */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-breadcrumb .sprite-speak-ribbon-clean-ee[class*="separator"] {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- 10.4 paints the application header band Sitecore red with a swoosh image: the tube instead */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-applicationHeader {
+  background-color: var(--sct-app-bg) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-applicationHeader-row1 {
+  background-image: none !important;
+}
+/* 10.4's Launchpad button in the (phosphor) global header is a white and red tile grid: dark */
+html[data-sct-theme="phosphor"][data-sct-version="10.4"][data-sct-surface="speak"] .sc-globalHeader .sc-global-logo {
+  filter: brightness(0);
+}
+/* the Experience Editor's quick bar icons are sprites on the buttons' first child */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] .sc-pageeditbar .sc-quickbar-button > :first-child {
+  filter: var(--sct-ph-icon-filter);
+}
+
+/* ---- SPEAK 2 apps (Forms): the global header's text and selected rows/tabs, which the colour map
+   paints with the (phosphor) selection colour, take the tube colour on top of it */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] :is(.sc-globalHeader, .sc-globalHeader-content) :is(.sc-globalheader-appName, .sc-accountInformation li, .sc-accountInformation li a) {
+  color: var(--sct-titlebar-fg) !important;
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] :is(.menuItem.highlighted, .sc-tab-control-tab-item.selected, .sc-listcontrol-row.selected, .selected > .sc-listcontrol-cell, tr.selected, .sc-tree .dynatree-active) :is(*, a, span) {
+  color: var(--sct-accent-fg) !important;
+  text-shadow: none;
+}
+
+/* ---- No flicker and no motion: a steady tube */
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] *,
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] *::before,
+html[data-sct-theme="phosphor"][data-sct-surface="speak"] *::after {
+  animation: none !important;
+  transition: none !important;
+}

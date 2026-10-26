@@ -1,0 +1,606 @@
+/* Hand-tuned area map for the classic shell. Loaded after shell.gen.css, so these win. */
+
+/* Sitecore 10.5 routes much of its palette through ColorVariables.css; point those at our roles. */
+html[data-sct-tokens] {
+  --color-white: var(--sct-panel-bg);
+  --color-black: var(--sct-app-fg);
+  --color-purple: var(--sct-accent);
+  --color-purple-light: var(--sct-selected-bg);
+  --color-purple-x-dark: var(--sct-button-primary-hover-bg);
+  --color-purple-dark: var(--sct-button-primary-hover-bg);
+  --color-grey: var(--sct-raised-bg);
+  --color-grey-light: var(--sct-app-bg);
+  --color-grey-light-2: var(--sct-app-bg);
+  --color-grey-dark: var(--sct-border-strong);
+  --color-black-94: var(--sct-app-fg);
+  --color-black-68: var(--sct-muted-fg);
+  --color-black-66: var(--sct-muted-fg);
+  --color-black-55: var(--sct-muted-fg);
+  --color-black-42: var(--sct-input-border);
+  --color-black-13: var(--sct-border);
+  --color-black-7: var(--sct-ribbon-button-hover-bg);
+
+  --btn-primary-color: var(--sct-button-primary-fg);
+  --btn-default-color: var(--sct-button-fg);
+  --dialog-header-color: var(--sct-app-fg);
+  --tabs-color: var(--sct-muted-fg);
+  --tabs-active-color: var(--sct-accent);
+  --input-checkbox-radio-accent-color: var(--sct-accent);
+  --table-header-color: var(--sct-table-header-fg);
+  --table-color: var(--sct-panel-fg);
+  --accordion-header-color: var(--sct-section-header-fg);
+  --btn-primary-bg-color: var(--sct-button-primary-bg);
+  --btn-default-bg-color: var(--sct-button-bg);
+  --dialog-header-bg-color: var(--sct-panel-bg);
+  --dialog-footer-bg-color: var(--sct-panel-bg);
+  --btn-default-hover-bg-color: var(--sct-button-hover-bg);
+  --btn-default-active-bg-color: var(--sct-ribbon-button-pressed-bg);
+  --btn-primary-active-bg-color: var(--sct-button-primary-hover-bg);
+  --btn-primary-hover-bg-color: var(--sct-button-primary-hover-bg);
+  --tabs-bg-color: transparent;
+  --table-bg-color: var(--sct-panel-bg);
+  --accordion-content-bg-color: var(--sct-section-body-bg);
+  --accordion-header-bg-color: var(--sct-section-header-bg);
+  --item-highlight-bg-color: var(--sct-tree-selected-bg);
+  --item-highlight-hover-bg-color: var(--sct-tree-hover-bg);
+  --btn-primary-border-color: color-mix(in srgb, var(--sct-button-primary-bg) 70%, var(--sct-panel-fg));
+  --btn-default-border-color: var(--sct-button-border);
+  --tabs-border-bottom-color: var(--sct-border);
+  --tabs-active-border-bottom-color: var(--sct-accent);
+  --form-control-border-color: var(--sct-input-border);
+  --form-control-border-color-focus: var(--sct-input-focus-border);
+  --table-border-color: var(--sct-border);
+}
+
+html[data-sct-tokens][data-sct-surface="shell"] body {
+  background-color: var(--sct-app-bg);
+  color: var(--sct-app-fg);
+}
+
+html[data-sct-tokens][data-sct-surface="shell"] {
+  scrollbar-color: var(--sct-scrollbar-thumb) var(--sct-scrollbar-track);
+}
+
+/* Form controls */
+html[data-sct-tokens][data-sct-surface="shell"] input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+html[data-sct-tokens][data-sct-surface="shell"] textarea,
+html[data-sct-tokens][data-sct-surface="shell"] select {
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  border-color: var(--sct-input-border);
+}
+
+html[data-sct-tokens][data-sct-surface="shell"] input:focus,
+html[data-sct-tokens][data-sct-surface="shell"] textarea:focus,
+html[data-sct-tokens][data-sct-surface="shell"] select:focus {
+  border-color: var(--sct-input-focus-border);
+}
+
+/* Monochrome glyphs that disappear on dark backgrounds */
+html[data-sct-tokens][data-sct-surface="shell"] img[src*="_grey" i],
+html[data-sct-tokens][data-sct-surface="shell"] img[src*="treemenu_" i] {
+  filter: var(--sct-glyph-filter, none);
+}
+
+/* The ribbon's collapse/expand toggle: Sitecore's bold chevron (the same file on 10.4 and 10.5) cut out of
+   the ribbon's text colour, so it reads on any ribbon. Drawn in ::before because a mask on the link would
+   clip its focus outline. Themes that draw their own toggle set content: none on the ::before. */
+html[data-sct-tokens][data-sct-surface="shell"] :is(#scRibbonToggle, .scRibbonClose, .scRibbonOpen) {
+  background: none;
+  filter: none;
+}
+html[data-sct-tokens][data-sct-surface="shell"] :is(#scRibbonToggle, .scRibbonClose, .scRibbonOpen)::before {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: var(--sct-ribbon-fg);
+  mask: url("/sitecore/shell/themes/standard/images/accordion_up.png") center / 16px 16px no-repeat;
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonOpen::before {
+  mask-image: url("/sitecore/shell/themes/standard/images/accordion_down.png");
+}
+
+/* The Content Editor's sections the same on 10.4 and 10.5. Sitecore 10.5 insets them 30px and paints the
+   panel behind them; 10.4 sets them against the frame's edge on the frame's own colour. Here, on both: a
+   15px inset, the frame's colour around the sections, and each section's fields joined to its caption (the
+   15px between them is padding inside the fields' area, not a margin showing the frame through). */
+html[data-sct-tokens][data-sct-surface="shell"] .scEditorPanel {
+  padding-left: 15px;
+  background-color: transparent;
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scEditorSectionPanel {
+  margin-top: 0;
+  padding-top: 15px;
+}
+
+/* Combo tables (date and time pickers, item pickers in dialogs and fields): Sitecore frames a table around
+   an input that has its own frame, and 10.5 makes the table 35px whatever the field's height. Here the
+   table is the field (the theme's input frame and fill, Sitecore's 6px corners), the text inside has no
+   frame of its own and sets the height, and the drop-down button's cell is divided off by one line. */
+html[data-sct-tokens][data-sct-surface="shell"] table.scCombobox {
+  height: auto;
+  min-height: 0;
+  border: 1px solid var(--sct-input-border);
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--sct-input-bg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] table.scCombobox :is(tbody, tr, td) {
+  height: auto;
+}
+html[data-sct-tokens][data-sct-surface="shell"] table.scCombobox input.scComboboxEdit {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+html[data-sct-tokens][data-sct-surface="shell"] table.scCombobox td:has(> img.scComboboxDropDown) {
+  border-left: 1px solid var(--sct-input-border);
+  vertical-align: middle;
+}
+html[data-sct-tokens][data-sct-surface="shell"] table.scCombobox img.scComboboxDropDown {
+  display: block;
+  height: auto;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* The rule editor (Create rule, 10.5): its search box sets the magnifier with !important but its no-repeat
+   without, so a theme painting the field with the background shorthand tiled the icon across it; and the
+   condition sections' triangles are black images (also !important), turned with the dark themes' glyph
+   filter like Sitecore's other monochrome glyphs. */
+html[data-sct-tokens][data-sct-surface="shell"] .scGlyphSearch {
+  background-repeat: no-repeat !important;
+  background-position: right 8px center !important;
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scSectionGlyph {
+  filter: var(--sct-glyph-filter, none);
+}
+
+/* The system menu: three bars in the tab colour (10.4 ships it as a red tile, 10.5 as a grey glyph). */
+html[data-sct-tokens][data-sct-surface="shell"] .scSystemMenu {
+  background: linear-gradient(var(--sct-ribbon-tab-fg), var(--sct-ribbon-tab-fg)) center calc(50% + -5px) / 16px 2px no-repeat, linear-gradient(var(--sct-ribbon-tab-fg), var(--sct-ribbon-tab-fg)) center calc(50% + 0px) / 16px 2px no-repeat, linear-gradient(var(--sct-ribbon-tab-fg), var(--sct-ribbon-tab-fg)) center calc(50% + 5px) / 16px 2px no-repeat;
+}
+
+/* Menus scroll only when they reach the window. scBrowser.showPopup (Controls/Browser.js) measures a popup
+   once and pins max-height to the rounded offsetHeight (10.4) or one pixel more (10.5), so a menu whose rows
+   add up to a fraction more than that, or that grows after it opens, shows a scrollbar with room to spare.
+   Let it grow to its content; a menu taller than the window still scrolls at the window's height. */
+html[data-sct-tokens][data-sct-surface="shell"] .scPopup {
+  max-height: 100vh !important;
+}
+
+/* Sheer UI writes light backgrounds into inline style attributes. lib/live-map.js maps those at run
+   time; these two it can't: a system colour, and a beige it would only tint. */
+html[data-sct-tokens][data-sct-surface="shell"] [style*="background:#f1efe6"],
+html[data-sct-tokens][data-sct-surface="shell"] [style*="background: #f1efe6"],
+html[data-sct-tokens][data-sct-surface="shell"] [style*="background-color:#f1efe6"],
+html[data-sct-tokens][data-sct-surface="shell"] [style*="background-color: #f1efe6"],
+html[data-sct-tokens][data-sct-surface="shell"] [style*="background:threedlightshadow" i],
+html[data-sct-tokens][data-sct-surface="shell"] [style*="background: threedlightshadow" i],
+html[data-sct-tokens][data-sct-surface="shell"] [style*="background-color:threedlightshadow" i],
+html[data-sct-tokens][data-sct-surface="shell"] [style*="background-color: threedlightshadow" i] {
+  background-color: var(--sct-app-bg) !important;
+}
+
+/* The content tree marks standard roots with an inline color:green. */
+html[data-sct-tokens][data-sct-surface="shell"] [style^="color:green" i],
+html[data-sct-tokens][data-sct-surface="shell"] [style^="color: green" i] {
+  color: color-mix(in srgb, #008000 55%, var(--sct-app-fg)) !important;
+}
+
+/* Content tree: the gutter is a white background image. */
+html[data-sct-tokens][data-sct-surface="shell"] .scContentTree {
+  background-image: none;
+  background-color: var(--sct-tree-bg);
+  color: var(--sct-tree-fg);
+}
+
+/* Message bars keep their status colour as a tint of the panel. */
+html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar {
+  color: var(--sct-panel-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar.scWarning {
+  background-color: color-mix(in srgb, #fce99c 28%, var(--sct-panel-bg));
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar.scError {
+  background-color: color-mix(in srgb, #f8c9c4 28%, var(--sct-panel-bg));
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar.scInformation {
+  background-color: color-mix(in srgb, #cfe3f7 28%, var(--sct-panel-bg));
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar .scMessageBarTitle,
+html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar .scMessageBarText,
+html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar a {
+  color: inherit;
+}
+
+/* SPE ISE: the Ace editor ships a light theme. Dark token themes flip it with a filter, which keeps
+   the syntax colours' hues; light themes leave --sct-editor-filter unset. */
+html[data-sct-tokens][data-sct-surface="shell"] .ace_editor {
+  filter: var(--sct-editor-filter, none);
+}
+
+/* ---- Component roles: specific UI parts get their own tokens ---- */
+/* The tab row has the tab colour; everything below it is one continuous ribbon surface. */
+html[data-sct-tokens][data-sct-surface="shell"] .scCaption.scDockTop,
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonNavigator {
+  background-color: var(--sct-ribbon-tab-bg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbon,
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar,
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbarStrip {
+  background-color: var(--sct-ribbon-bg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsNormal {
+  color: var(--sct-ribbon-tab-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsActive {
+  background-color: var(--sct-ribbon-tab-active-bg);
+  color: var(--sct-ribbon-tab-active-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar {
+  background-color: var(--sct-ribbon-bg);
+  color: var(--sct-ribbon-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar .chunk {
+  background-color: var(--sct-ribbon-chunk-bg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption {
+  background-color: var(--sct-ribbon-chunk-caption-bg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption,
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption * {
+  color: var(--sct-ribbon-chunk-caption-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scContentTree a.scContentTreeNodeActive {
+  background-color: var(--sct-tree-selected-bg);
+  color: var(--sct-tree-selected-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scContentTree a.scContentTreeNodeActive span {
+  color: var(--sct-tree-selected-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scContentTree a.scContentTreeNodeNormal:hover {
+  background-color: var(--sct-tree-hover-bg);
+}
+/* The tree's "no children" spacer (noexpand15x15.gif) is not quite transparent, and Default.css paints it white
+   on hover: a white square on dark trees, a smudge under a theme's glyph filter. It stays an invisible spacer. */
+html[data-sct-tokens][data-sct-surface="shell"] img.scContentTreeNodeGlyph[src*="noexpand" i] {
+  opacity: 0;
+}
+
+
+/* Chunk captions keep one height whether or not a dialog launcher sits in them. */
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption {
+  height: 20px;
+  line-height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption > * {
+  display: inline-flex;
+  line-height: 1;
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+}
+/* Sitecore's chunk launchers (and the Insert gallery's arrows below) are pale grey art for its white ribbon,
+   about 1.1:1 on a light theme's: inked dark where a theme sets no glyph filter. */
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph,
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption img {
+  width: 12px;
+  height: 12px;
+  vertical-align: middle;
+  filter: var(--sct-glyph-filter, brightness(0) opacity(0.6));
+}
+
+/* Disabled ribbon buttons read as disabled in every theme. */
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar [class*="ButtonDisabled"],
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar [class*="ButtonDisabled"] * {
+  color: color-mix(in srgb, var(--sct-ribbon-fg) 38%, var(--sct-ribbon-bg)) !important;
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar [class*="ButtonDisabled"] img {
+  opacity: 0.4;
+}
+
+/* Small ribbon buttons hold a 16px icon in Sitecore's 13px line box between 4px paddings, so the icon
+   pokes out of the button's own box and through any hover frame a theme draws. The same 21px height
+   with a 17px line box keeps it inside. */
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarSmallButtonDown, a.scRibbonToolbarSmallGalleryButton, .scRibbonToolbarSmallButtonDisabled, .scRibbonToolbarSmallGalleryButtonDisabled) {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  line-height: 17px;
+}
+
+/* The Insert gallery: a field-like list and a scroller in the theme's own colours. */
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonGalleryList {
+  background-color: var(--sct-input-bg);
+  border-color: var(--sct-input-border);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonPanelButtons {
+  background-color: var(--sct-raised-bg);
+}
+/* The filter inverts whatever the image paints, background included, so it paints none. The filter itself
+   weighs a class less than a theme's html[theme][surface] img.scRibbonPanelUp: themes that draw their own
+   arrows (as a background) set filter: none there. */
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonPanelButtons img.scRibbonPanelUp,
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonPanelButtons img.scRibbonPanelDown,
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonPanelButtons img.scRibbonPanelOpen {
+  background-color: transparent;
+}
+html[data-sct-tokens][data-sct-surface="shell"] :where(.scRibbonPanelButtons img):is(.scRibbonPanelUp, .scRibbonPanelDown, .scRibbonPanelOpen) {
+  filter: var(--sct-glyph-filter, brightness(0) opacity(0.6));
+}
+
+/* Editor tabs: the active tab carries the accent underline, as in Sitecore 10.5. */
+html[data-sct-tokens][data-sct-surface="shell"] a.scRibbonEditorTabActive {
+  box-shadow: inset 0 -2px 0 var(--sct-accent);
+}
+html[data-sct-tokens][data-sct-surface="shell"] a.scRibbonEditorTabActive .scEditorTabHeaderActive {
+  color: var(--sct-panel-fg);
+}
+
+/* Rich-text previews show item content as the site renders it. Dark themes dim it rather than
+   recolour it, so the white page doesn't glare out of a dark editor. */
+html[data-sct-tokens][data-sct-surface="shell"] iframe.scContentControlHtml {
+  filter: var(--sct-content-filter, none);
+  border: 1px solid var(--sct-border);
+  border-radius: var(--sct-radius, 0);
+}
+
+/* Buttons take the theme's button roles rather than whatever accent 10.5 painted them. */
+html[data-sct-tokens][data-sct-surface="shell"] .scButton {
+  background-color: var(--sct-button-bg);
+  border-color: var(--sct-button-border);
+  color: var(--sct-button-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scButton:hover {
+  background-color: var(--sct-button-hover-bg);
+}
+/* The primary frame is the fill shaded toward the panel's text, so a fill in the panel's own colour keeps a frame. */
+html[data-sct-tokens][data-sct-surface="shell"] .scButton.scButtonPrimary {
+  background-color: var(--sct-button-primary-bg);
+  border-color: color-mix(in srgb, var(--sct-button-primary-bg) 70%, var(--sct-panel-fg));
+  color: var(--sct-button-primary-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scButton.scButtonPrimary:hover {
+  background-color: var(--sct-button-primary-hover-bg);
+}
+
+/* The search tab: Sitecore's own magnifier drawn on the tab's inner span (no inline SVG, so no
+   page CSP can block it), inverted on dark themes. */
+html[data-sct-tokens][data-sct-surface="shell"] a#BTAddNewSearch,
+html[data-sct-tokens][data-sct-surface="shell"] a#BTAddNewSearch:hover {
+  background-image: none;
+}
+html[data-sct-tokens][data-sct-surface="shell"] a#BTAddNewSearch .scEditorTabHeaderNormal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+html[data-sct-tokens][data-sct-surface="shell"] a#BTAddNewSearch .scEditorTabHeaderNormal > span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background: url("/sitecore/shell/Themes/Standard/Images/edition-magnifier-v2.png") center / 16px 16px no-repeat;
+  filter: var(--sct-glyph-filter, none);
+}
+html[data-sct-tokens][data-sct-surface="shell"][data-sct-version="10.4"] a#BTAddNewSearch .scEditorTabHeaderNormal > span {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png");
+}
+
+/* 10.4 marks the open section with a red stripe; the theme's accent replaces the red. */
+html[data-sct-tokens][data-sct-surface="shell"] .scEditorSectionCaptionExpanded {
+  border-left-color: var(--sct-accent);
+}
+
+/* 10.4 floats the ribbon tabs out of an empty navigator; containing them lets the tab band paint. */
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonNavigator {
+  display: flow-root;
+}
+
+/* 10.5's Launchpad glyph is drawn dark for a white header; it takes the header's text colour instead. */
+html[data-sct-tokens][data-sct-surface="shell"][data-sct-version="10.5"] .sc-global-logo {
+  color: inherit;
+  background: currentColor;
+  mask: url("/sitecore/shell/Themes/Standard/Images/global_logo_v2.svg") center / cover no-repeat;
+}
+
+/* The modal dialog host page sits over the whole app: only its overlay may tint what's beneath. */
+html[data-sct-tokens][data-sct-modal-host] body {
+  background: transparent !important;
+}
+/* Over the Experience Editor's website it keeps the website's colour scheme too: with the theme's dark one,
+   Chrome paints the frame an opaque dark canvas, which shows wherever the page leaves a gap. */
+:root[data-sct-tokens][data-sct-modal-host="ee"] {
+  color-scheme: normal;
+}
+/* The SPE ListView's Filter box: SPE drops the row and its label 8px (#Filter, #Filter label, floated),
+   which only lines up with 10.5's own 34px box. The row is centred in its ribbon panel (and in its
+   button column, where a theme gives that a height) and the label sits on the typed text's baseline,
+   whatever height a theme gives the box. */
+html[data-sct-tokens][data-sct-surface="shell"] :is(.panel:has(> .scRibbonToolbarSmallButtons > #Filter), .scRibbonToolbarSmallButtons:has(> #Filter)) {
+  display: flex;
+  align-items: center;
+}
+/* Ribbon.css pads every panel 10px at the bottom only; the Page chunk's two rows fill the panel, so the
+   Filter row, centred in the space above that padding, sat 5px higher. The padding is split evenly
+   (themes that pad the panel the same way included). */
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar .chunk > .panel:has(> .scRibbonToolbarSmallButtons > #Filter) {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+html[data-sct-tokens][data-sct-surface="shell"] #Filter.scRibbonToolbarSmallInputBox {
+  display: flex;
+  align-items: baseline;
+  margin-top: 0;
+  padding-bottom: 0;
+}
+html[data-sct-tokens][data-sct-surface="shell"] #Filter.scRibbonToolbarSmallInputBox > label {
+  float: none;
+  margin-top: 0;
+}
+/* jQuery UI rounds the title bar's bottom corners too (ui-corner-all); where the bar's colour differs from
+   the dialog's, the header below it showed through them. */
+html[data-sct-tokens][data-sct-surface="shell"] .ui-dialog > .ui-dialog-titlebar {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* jQuery Terminal (SPE Console and ISE) types into a hidden textarea; it must stay hidden. */
+html[data-sct-tokens][data-sct-surface="shell"] .terminal .cmd textarea.clipboard {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: transparent !important;
+}
+
+/* SPE's Console.css, which the ISE loads too, draws the Write-Progress overlay at opacity .9 with black text.
+   The generated map only reads ise.css, so dark themes got black text on a see-through dark panel. */
+html[data-sct-tokens][data-sct-surface="shell"] #ProgressOverlay {
+  opacity: 1;
+  color: var(--sct-panel-fg);
+  background-color: var(--sct-panel-bg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] #ProgressOverlay #progressbar > div {
+  background-color: var(--sct-accent);
+  border-color: var(--sct-accent);
+}
+
+/* The ISE's script tree and variables toggles, left of its script tabs: SPE's ise.js pins them (absolute,
+   inline top) 8px below the tab panel's top, the middle of Sitecore's 34px strip only. Anchor them to the
+   first tab's middle instead, whatever height a theme gives its tabs. Without anchor positioning they stay
+   where SPE puts them. SPE keeps them clear with a 52px margin on the first tab, which themes' tab rules can
+   reset; the strip holds the reserve instead (two IDs: themes boost their tab rules with :not(#id)), and
+   stacks the toggles over tabs a theme raises. */
+@supports (anchor-name: --a) {
+  html[data-sct-tokens][data-sct-surface="shell"] #TabsPanel > #Tabs > .scTabstrip > nobr:first-child > [role="tab"] {
+    anchor-name: --sct-ise-tab;
+  }
+  html[data-sct-tokens][data-sct-surface="shell"] :is(#TreeViewToggle, #VariablesToggle) {
+    top: anchor(--sct-ise-tab center) !important;
+    translate: 0 -50%;
+  }
+}
+html[data-sct-tokens][data-sct-surface="shell"] #TabsPanel > #Tabs > .scTabstrip {
+  padding-left: 52px;
+}
+html[data-sct-tokens][data-sct-surface="shell"] #TabsPanel > #Tabs > .scTabstrip > nobr:first-child > [role="tab"] {
+  margin-left: 0;
+}
+html[data-sct-tokens][data-sct-surface="shell"] :is(#TreeViewToggle, #VariablesToggle) {
+  z-index: 2;
+}
+
+/* The Content Editor's splitter is jQuery UI widget content, so it took the panel colour, and the tree's
+   pane runs past the tree box. Both show the window background instead, as above the panes. */
+html[data-sct-tokens][data-sct-surface="shell"] .scContentEditorSplitter.splitter,
+html[data-sct-tokens][data-sct-surface="shell"] .scContentEditorSplitter > #ContentTreePanel {
+  background-color: transparent;
+}
+
+/* The modal overlay: the generated map gave it the chrome colour, which vanishes wherever the chrome matches
+   the page. A fixed dark wash on every theme; themes may set their own. */
+html[data-sct-tokens][data-sct-surface="shell"] .ui-widget-overlay {
+  background: rgb(0 0 0 / 0.2);
+  opacity: 1;
+}
+
+/* jQuery UI highlights (the ISE's tip box): the generated map gave them the light selection background
+   (--sct-selected-bg) but left SPE's olive text. The panel's text goes with that background. Themes whose
+   selection is their accent (Beacon, Phosphor) set their own. */
+html[data-sct-tokens][data-sct-surface="shell"] .ui-state-highlight {
+  color: var(--sct-panel-fg);
+}
+/* The selected node in Sheer UI trees (Security Editor, item pickers) is the content tree's selection, in
+   both colours: the generated map gave it the generic selection background and no text colour. */
+html[data-sct-tokens][data-sct-surface="shell"] .scTreeview :is(.nodeSelected, .nodeSelected_Hover) {
+  background-color: var(--sct-tree-selected-bg);
+  color: var(--sct-tree-selected-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scTreeview :is(.nodeSelected, .nodeSelected_Hover) * {
+  color: inherit;
+}
+
+/* The ISE writes its script's path into its Desktop window title as italics in an inline #bbb, about 2:1 on a
+   light title bar. A quieter step of the title's own text instead, whatever colour the title bar is. */
+html[data-sct-tokens][data-sct-surface="shell"] .standardWindowCaption .scWindowCaption i {
+  color: color-mix(in srgb, currentColor 75%, transparent) !important;
+}
+
+/* SPE's status bar panels sit on the bar's own colour. SPE up to 8.0 Beta 2 boxes each one in white with a
+   silver frame; later versions leave them transparent (border: 0) and draw a 1px divider as a sized gradient,
+   which the generated map keeps. The markup is the same, so one rule serves both. The ISE also flashes each
+   new tip on an inline yellow that fades to white (jQuery animate), behind the theme's text. */
+html[data-sct-tokens][data-sct-surface="shell"] :is(#StatusBar .status-bar-panel, .status-bar-text) {
+  background-color: transparent !important;
+  border-color: var(--sct-border);
+}
+
+/* SPE Reports' SPEAK header is 10.4's red band (a colour, a wallpaper image and a spiral) on both versions;
+   it takes the chrome colour its title is already mapped for. */
+html[data-sct-tokens][data-sct-surface="shell"] .sc-applicationHeader {
+  background-color: var(--sct-chrome-bg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .sc-applicationHeader-row1 {
+  background-image: none;
+}
+html[data-sct-tokens][data-sct-surface="shell"] .sc-applicationHeader-row1::after {
+  background-image: none;
+}
+
+/* Section and pane bands on the chrome colour (Workbox, Diff, pane chromes) carry the chrome's text: the
+   generated map restated .scSectionCenter in the app's text colour, dark on dark where the chrome is dark. */
+html[data-sct-tokens][data-sct-surface="shell"] :is(.scSectionCenter, .scGrayGradient, .scWindowBorder3, .scDockBottomContainer) {
+  color: var(--sct-chrome-fg);
+}
+/* 10.4 marks a Workbox pane with a red stripe; the accent replaces it, as on the editor's sections. */
+html[data-sct-tokens][data-sct-surface="shell"] .scPaneHeader {
+  border-left-color: var(--sct-accent);
+}
+
+/* The taskbar takes the taskbar roles, not the chrome's; its separators follow it, and its search box is a
+   field like any other. */
+html[data-sct-tokens][data-sct-surface="shell"] .scStartbar {
+  background-color: var(--sct-taskbar-bg);
+  color: var(--sct-taskbar-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scInactiveApplication::before,
+html[data-sct-tokens][data-sct-surface="shell"] .scInactiveApplication::after {
+  background: color-mix(in srgb, var(--sct-taskbar-fg) 20%, var(--sct-taskbar-bg));
+}
+html[data-sct-tokens][data-sct-surface="shell"] #SearchBox,
+html[data-sct-tokens][data-sct-surface="shell"] #SearchBox.focus {
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+}
+
+/* 10.4 floats the ribbon's chunks and clears them only inside .contentEditor, so elsewhere (the ISE) the
+   toolbar ended above its buttons. Contained everywhere. */
+html[data-sct-tokens][data-sct-surface="shell"] .scRibbonToolbar {
+  display: flow-root;
+}
+
+/* Security Editor greys out inherited rows with an inline colour the live map leaves alone (it reads as
+   already light-on-dark). */
+html[data-sct-tokens][data-sct-surface="shell"] :is([style^="color:#999" i], [style^="color: #999" i]) {
+  color: var(--sct-muted-fg) !important;
+}

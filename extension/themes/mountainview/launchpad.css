@@ -1,0 +1,371 @@
+/* Mountain View: launchpad, as Material's app drawer. The Desktop's tonal wallpaper; on it one surface
+   sheet with 28px corners holding every Sitecore group as a section: the group's name as a small title in
+   the primary colour, then a grid of apps, each a 32px colour icon on a 52px secondary-container disc over
+   its label, with a pill state layer on hover. Custom Analytics is a second sheet under it. The SPEAK
+   header is a slim top app bar. */
+html[data-sct-theme="mountainview"][data-sct-surface="launchpad"] body,
+html[data-sct-theme="mountainview"][data-sct-surface="launchpad"] input,
+html[data-sct-theme="mountainview"][data-sct-surface="launchpad"] button,
+html[data-sct-theme="mountainview"][data-sct-surface="launchpad"] select,
+html[data-sct-theme="mountainview"][data-sct-surface="launchpad"] textarea {
+  font-family: var(--sct-font-family);
+}
+html[data-sct-theme="mountainview"][data-sct-surface="launchpad"] .btn,
+html[data-sct-theme="mountainview"][data-sct-surface="launchpad"] .form-control {
+  border-radius: 999px;
+}
+
+/* :not(#sct-mv) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="mountainview"][data-sct-surface="launchpad"]:not(#sct-mv) {
+  /* the tonal wallpaper: primary and tertiary containers as soft shapes on the surface; the sheets are
+     opaque, so text never sits on it */
+  --mv-bloom: radial-gradient(60% 70% at 18% 22%, var(--mv-primary-container) 0 58%, transparent 58.5%),
+    radial-gradient(48% 56% at 84% 78%, var(--mv-tertiary-container) 0 60%, transparent 60.5%),
+    radial-gradient(30% 36% at 70% 26%, var(--sct-selected-bg) 0 62%, transparent 62.5%),
+    var(--sct-app-bg);
+  --mv-panel: var(--sct-chrome-bg);
+  --mv-panel-border: transparent;
+  --mv-subtle: color-mix(in srgb, var(--sct-app-fg) 8%, transparent);
+  --mv-subtle-pressed: color-mix(in srgb, var(--sct-app-fg) 12%, transparent);
+
+  & body {
+    min-height: 100vh;
+    background: var(--mv-bloom) fixed;
+  }
+  .sc-list,
+  .container-narrow,
+  .sc-applicationContent,
+  .sc-applicationContent-main,
+  .sc-applicationContent-main .row,
+  .sc-applicationContent-main .col-md-12 {
+    background: transparent;
+  }
+
+  /* ---- The SPEAK header: a slim top app bar ---- */
+  .sc-globalHeader {
+    height: 30px;
+    border: 0;
+    border-bottom: 0;
+    box-shadow: none;
+    background: var(--sct-titlebar-bg) !important;
+  }
+  .sc-globalHeader-content {
+    height: 30px;
+  }
+  .sc-globalHeader .sc-globalHeader-startButton {
+    top: 0;
+    height: 30px;
+    margin-top: 0;
+  }
+  /* the Launchpad button: Sitecore's 32px nine-dot art drawn as a mask in the bar's text colour,
+     scaled to the strip (as a plain image it showed its lower half, dark on the dark strip) */
+  .sc-globalHeader .sc-global-logo {
+    width: 24px;
+    height: 24px;
+    margin: 3px 0 0;
+    background: var(--sct-titlebar-fg);
+    mask: url("/sitecore/shell/client/Applications/LaunchPad/Assets/global_logo_v2.svg") center / contain no-repeat;
+  }
+  .sc-globalHeader .sc-globalHeader-loginInfo,
+  .sc-globalHeader .sc-accountInformation,
+  .sc-globalHeader .sc-accountInformation li {
+    height: 30px;
+    line-height: 30px;
+  }
+  /* each account item a 30px flex row, so text and avatar share the strip's centre line */
+  .sc-globalHeader .sc-accountInformation li {
+    display: inline-flex;
+    align-items: center;
+  }
+  .sc-globalHeader .sc-accountInformation li a.logout {
+    margin-top: 0;
+    line-height: 18px;
+  }
+  .sc-globalHeader .sc-accountInformation img {
+    width: 22px;
+    height: 22px;
+    margin-top: 0;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+  /* the Sitecore Extensions add-on's database name, on the same centre line */
+  .sc-globalHeader .sc-ext-dbName {
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 30px;
+    vertical-align: top;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a) {
+    color: var(--sct-titlebar-fg);
+    font-size: 12px;
+  }
+  .sc-globalHeader .sc-accountInformation a:hover {
+    color: var(--sct-link);
+  }
+
+  /* ---- The application's name: in the bar, as a window names its app ---- */
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1 {
+    height: auto;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-applicationHeader-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    top: 0;
+    height: 30px;
+    margin: 0;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--sct-titlebar-fg);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 30px;
+  }
+  .sc-applicationHeader-title::before {
+    position: static;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    background: var(--sct-titlebar-fg);
+    mask: url("/sitecore/shell/client/Applications/LaunchPad/Assets/logo-xm.svg") center / contain no-repeat;
+  }
+  .sc-applicationHeader-title .sc-text {
+    position: static;
+    margin: 0;
+  }
+
+  /* ---- The drawer: one surface sheet, the groups stacked in it as sections ---- */
+  .sc-launchpad {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    float: none;
+    box-sizing: border-box;
+    width: calc(6 * 96px + 2 * 32px + 2px);
+    max-width: calc(100% - 32px);
+    margin: 40px auto 12px;
+    padding: 28px 32px 24px;
+    border: 1px solid var(--mv-panel-border);
+    border-radius: 28px;
+    background: var(--mv-panel);
+    box-shadow: var(--mv-elev2);
+  }
+  /* a section: its name as a small title over a grid of apps */
+  .sc-launchpad-group {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 96px);
+    justify-content: start;
+    gap: 4px 0;
+    box-sizing: border-box;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .sc-launchpad-group-title {
+    grid-column: 1 / -1;
+    position: static;
+    width: auto;
+    margin: 0 0 6px 4px;
+    padding: 0;
+    border: 0;
+    color: var(--sct-accent);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: left;
+    text-transform: none;
+    text-shadow: none;
+    white-space: nowrap;
+  }
+
+  /* ---- Apps: a 32px icon on a secondary-container disc over its label, a 16px state layer on hover ---- */
+  .sc-launchpad-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    width: 96px;
+    height: auto;
+    min-height: 84px;
+    margin: 0;
+    padding: 10px 4px 8px;
+    border: 0;
+    border-radius: 16px;
+    box-shadow: none;
+    background: transparent;
+    text-decoration: none;
+  }
+  .sc-launchpad-item:is(:hover, :focus) {
+    box-shadow: none;
+    background: var(--mv-subtle);
+    text-decoration: none;
+  }
+  .sc-launchpad-item:active {
+    background: var(--mv-subtle-pressed);
+  }
+  .sc-launchpad-item:focus {
+    outline: none;
+  }
+  .sc-launchpad-item:not(:hover):focus {
+    background: transparent;
+  }
+  .sc-launchpad-item:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+  .sc-launchpad-item .icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--sct-selected-bg);
+    box-shadow: none;
+    transition: transform 0.08s ease-out;
+  }
+  .sc-launchpad-item:active .icon {
+    transform: scale(0.88);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sc-launchpad-item .icon {
+      transition: none;
+    }
+    .sc-launchpad-item:active .icon {
+      transform: none;
+    }
+  }
+  /* an app without a colour icon (a custom one, say) keeps 10.x's outline glyph, in the text colour */
+  .sc-launchpad-item .icon img {
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    filter: brightness(0) var(--sct-glyph-filter, );
+  }
+  /* the applications Sitecore ships colour icons for show them, as the start menu does (48px art at
+     32px, so it stays sharp at 125% and 150%) */
+  .sc-launchpad-item:is([href*="Content Editor.aspx"], [href*="Media/MediaShop.aspx"], [href*="Workbox.aspx"], [href*="Recycle Bin.aspx"], [href*="PowerShell/PowerShellIse"], [href*="PowerShell/PowerShellReports"], [href*="ControlPanel.aspx"], [href*="shell/default.aspx"], [href*="User Manager.aspx"], [href*="Security Editor.aspx"], [href*="Access Viewer.aspx"], [href*="Domain Manager.aspx"], [href*="Role Manager.aspx"], [href*="FormsBuilder"], [href="/"], [href^="/?"]) .icon img {
+    width: 32px;
+    height: 32px;
+    filter: none;
+  }
+  .sc-launchpad-item[href*="Content Editor.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/pencil.png"); }
+  .sc-launchpad-item[href*="Media/MediaShop.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/pictures.png"); }
+  .sc-launchpad-item[href*="Workbox.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/workbox.png"); }
+  .sc-launchpad-item[href*="Recycle Bin.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/refresh.png"); }
+  .sc-launchpad-item[href*="PowerShell/PowerShellIse"] .icon img { content: url("/sitecore/shell/~/icon/PowerShell/48x48/ise8.png"); }
+  .sc-launchpad-item[href*="PowerShell/PowerShellReports"] .icon img { content: url("/sitecore/shell/~/icon/PowerShell/48x48/powershell_runner.png"); }
+  .sc-launchpad-item[href*="ControlPanel.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/setting.png"); }
+  .sc-launchpad-item[href*="shell/default.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/monitor.png"); }
+  .sc-launchpad-item[href*="User Manager.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/user (1).png"); }
+  .sc-launchpad-item[href*="Security Editor.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/shield.png"); }
+  .sc-launchpad-item[href*="Access Viewer.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/lock.png"); }
+  .sc-launchpad-item[href*="Domain Manager.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/routes.png"); }
+  .sc-launchpad-item[href*="Role Manager.aspx"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/account.png"); }
+  .sc-launchpad-item[href*="FormsBuilder"] .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/forms.png"); }
+  .sc-launchpad-item:is([href="/"], [href^="/?"]) .icon img { content: url("/sitecore/shell/~/icon/Apps/48x48/paint.png"); }
+  .sc-launchpad-text {
+    width: 100%;
+    color: var(--sct-app-fg);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: none;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  /* ---- Custom Analytics: a second sheet under the drawer. Its name and its message are sibling
+     elements in Sitecore's column, so the name is the card's top and the message its body. ---- */
+  .sc-applicationContent-main .col-md-12 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    float: none;
+    width: auto;
+  }
+  .sc-applicationContent-main .row > div > .sc-text-title {
+    order: 1;
+    display: block;
+    box-sizing: border-box;
+    width: calc(6 * 96px + 2 * 32px + 2px);
+    max-width: calc(100% - 32px);
+    height: auto;
+    margin: 0;
+    padding: 20px 36px 8px;
+    border: 1px solid var(--mv-panel-border);
+    border-bottom: 0;
+    border-radius: 28px 28px 0 0;
+    background: var(--mv-panel);
+    color: var(--sct-app-fg);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: left;
+    text-shadow: none;
+  }
+  .sc-applicationContent-main .row > div > .sc-text-title ~ .sc-border {
+    order: 2;
+    box-sizing: border-box;
+    width: calc(6 * 96px + 2 * 32px + 2px);
+    max-width: calc(100% - 32px);
+    height: auto;
+    margin: 0 0 40px;
+    padding: 0 36px 24px;
+    border: 1px solid var(--mv-panel-border);
+    border-top: 0;
+    border-radius: 0 0 28px 28px;
+    background: var(--mv-panel);
+    box-shadow: var(--mv-elev2);
+  }
+  .sc-border[data-sc-id="AnalyticsFallback"],
+  div[data-sc-id="ColumnPanel1"] .sc-border[data-sc-id="FallBackMessageBorder"],
+  .sc-applicationContent-main .row > div > .sc-text-title ~ .sc-border .sc-border {
+    width: auto;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-applicationContent-main .row > div > .sc-text-title ~ .sc-border :is(.row, .col-md-6, .sc-border) {
+    width: auto;
+    float: none;
+    margin: 0;
+    padding: 0;
+  }
+  .sc-applicationContent-main .row > div > .sc-text-title ~ .sc-border .sc-text-title {
+    position: static;
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    color: var(--sct-muted-fg);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+}

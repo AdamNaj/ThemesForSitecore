@@ -1,0 +1,84 @@
+/* Blueprint: Identity Server login. The red wallpaper gives way to the drawing board (the faint grid on
+   cyanotype blue); the card is a drawing sheet in a double hairline frame, the logo in its title strip. */
+html[data-sct-theme="blueprint"][data-sct-surface="login"] {
+  body {
+    background: var(--bp-grid), var(--sct-app-bg) !important;
+  }
+  :is(.main, .top) {
+    background: var(--sct-panel-bg);
+    border: 1px solid var(--bp-line);
+    border-radius: 0;
+    box-shadow: 0 0 0 4px var(--sct-panel-bg), 0 0 0 5px var(--bp-line-soft);
+  }
+  /* the logo sits in the sheet's title strip, ruled off from the form */
+  .logo-wrap {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--bp-line);
+  }
+  .logo-wrap img {
+    filter: grayscale(1) brightness(1.6);
+  }
+  :is(label, .login-label) {
+    font-family: var(--bp-chrome-font);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sct-panel-fg);
+  }
+  /* the remember-me label is a sentence, not a caption */
+  label.remember-me {
+    font-family: inherit;
+    font-size: inherit;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  .form-control {
+    background-color: var(--sct-input-bg);
+    border: 1px solid var(--sct-input-border);
+    border-radius: 0;
+    color: var(--sct-input-fg);
+    box-shadow: none;
+  }
+  .form-control:focus {
+    border-color: var(--sct-input-focus-border);
+    box-shadow: 0 0 0 1px var(--sct-input-focus-border);
+  }
+  /* Chrome paints autofilled fields its own pale blue; the well stays the well */
+  .form-control:autofill {
+    box-shadow: inset 0 0 0 40px var(--sct-input-bg);
+    -webkit-text-fill-color: var(--sct-input-fg);
+  }
+  .form-control:autofill:focus {
+    box-shadow: inset 0 0 0 40px var(--sct-input-bg), 0 0 0 1px var(--sct-input-focus-border);
+  }
+  .form-control::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  .btn-primary {
+    border: 1px solid var(--bp-line);
+    border-radius: 0;
+    box-shadow: inset 0 0 0 1px var(--sct-button-primary-bg), inset 0 0 0 2px var(--bp-line);
+    font-family: var(--bp-chrome-font);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .btn-primary:hover {
+    background-color: var(--sct-button-primary-hover-bg);
+  }
+  .btn-primary:focus-visible {
+    outline: 1px solid var(--bp-line);
+    outline-offset: 3px;
+  }
+  a {
+    color: var(--sct-link);
+  }
+  /* the licence/error banner is pale yellow */
+  .warning {
+    background-color: color-mix(in srgb, #fce99c 28%, var(--sct-panel-bg));
+    border: 1px dashed var(--bp-line-soft);
+    color: var(--sct-panel-fg);
+  }
+  input[type="checkbox"]:focus {
+    outline-color: var(--sct-focus-ring);
+  }
+}

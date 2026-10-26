@@ -1,0 +1,8 @@
+{
+  "name": "Graphite",
+  "description": "A near-black workspace of hairline layers with one violet accent",
+  "category": "modern",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#0b0b0d", "#7c6cff", "#111114"],
+  "swatch": { "desk": "#0b0b0d", "bar": "#111114", "barLine": "#232327", "start": "#7c6cff", "app": "#232327", "win": "#0b0b0d", "border": "#2a2a30", "r": 2, "cap": "#0b0b0d", "btns": "right", "btn": "#8a8f98", "ribbon": "#0b0b0d", "tab": "#7c6cff", "tree": "#111114", "ed": "#0b0b0d", "sec": "#0b0b0d", "field": "#17171b", "line": "#2a2a30", "sel": "#1f1f24", "fg": "#ededef" }
+}

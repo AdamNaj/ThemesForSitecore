@@ -1,0 +1,8 @@
+{
+  "name": "Dessau",
+  "description": "Primary colours, black rules and simple shapes",
+  "category": "creative",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#f2ede4", "#d62828", "#111111"],
+  "swatch": { "desk": "#f2ede4", "bar": "#111111", "start": "#d62828", "app": "#f7c600", "win": "#f2ede4", "border": "#111111", "bw": 2, "cap": "#f2ede4", "btns": "right", "btn": "#111111", "close": "#d62828", "ribbon": "#f2ede4", "tab": "#1d4ed8", "tree": "#f2ede4", "ed": "#f2ede4", "sec": "#111111", "field": "#ffffff", "line": "#111111", "sel": "#f7c600", "fg": "#111111" }
+}

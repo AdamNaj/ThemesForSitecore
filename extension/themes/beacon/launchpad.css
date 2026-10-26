@@ -1,0 +1,55 @@
+/* Beacon: Launchpad. Sitecore's grid, each app a bordered tile: 2px white frame on black, the icon on a
+   white square in its own dark ink (no filter: icons keep their colours), the label bold and underlined.
+   Hover lifts the tile and frames it yellow; keyboard focus is the 3px yellow ring. */
+
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"] .sc-globalHeader {
+  border-bottom: 2px solid var(--sct-border-strong);
+}
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"] .sc-globalHeader ul.sc-accountInformation li a.logout {
+  color: var(--sct-titlebar-fg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"] .sc-launchpad-group-title {
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"] .sc-launchpad-item {
+  box-sizing: border-box;
+  border: 2px solid var(--sct-border-strong);
+  background-color: var(--sct-panel-bg);
+  box-shadow: none;
+}
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"] .sc-launchpad-item:hover {
+  border-color: var(--sct-accent);
+  background-color: var(--sct-ribbon-button-hover-bg);
+  box-shadow: none;
+}
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"] .sc-launchpad-item:active {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"] .sc-launchpad-item:focus-visible {
+  outline: 3px solid var(--sct-focus-ring) !important;
+  outline-offset: 2px;
+}
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"] .sc-launchpad-item .sc-launchpad-text {
+  color: var(--sct-panel-fg);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"] .sc-launchpad-group .sc-launchpad-item .icon {
+  background-color: #ffffff;
+}
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"] .sc-launchpad-item .icon img {
+  filter: none;
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
+   text colour instead (as the shared shell map does on shell pages). */
+html[data-sct-theme="beacon"][data-sct-surface="launchpad"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}

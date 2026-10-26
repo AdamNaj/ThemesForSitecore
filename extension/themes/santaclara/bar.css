@@ -1,0 +1,9 @@
+/* Santa Clara: a title in a window frame, white bold on the maroon */
+html[data-sct-theme="santaclara"] sct-bar-postfix {
+  border-color: transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font: bold 13px/17px Helvetica, Arial, "Liberation Sans", sans-serif;
+  letter-spacing: 0;
+}

@@ -1,0 +1,5 @@
+/* Compact: the shared accent badge, trimmed to the slimmer bar's rhythm */
+html[data-sct-theme="compact"] sct-bar-postfix {
+  border-radius: 3px;
+  font-size: 11px;
+}

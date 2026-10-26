@@ -1,0 +1,166 @@
+/* Cupertino: inspired by macOS. Follows the system light or dark appearance.
+   Apple's system blues fail 4.5:1 under white text, so every fill that carries white text uses #0071E3. */
+html[data-sct-theme="cupertino"] {
+  --sct-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --sct-font-size: 13px;
+  --sct-radius: 6px;
+
+  --sct-app-bg: #ececec;
+  --sct-app-fg: #1d1d1f;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #1d1d1f;
+  --sct-muted-fg: #6e6e73;
+  --sct-border: #d2d2d7;
+  --sct-border-strong: #a1a1a6;
+  --sct-accent: #0071e3;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #0066cc;
+  --sct-focus-ring: #0071e3;
+  --sct-raised-bg: #e5e5ea;
+  --sct-chrome-bg: #e3e3e8;
+  --sct-chrome-fg: #1d1d1f;
+  --sct-selected-bg: #d6e8fc;
+
+  --sct-titlebar-bg: #e8e8ed;
+  --sct-titlebar-fg: #1d1d1f;
+  --sct-titlebar-inactive-bg: #f2f2f7;
+  --sct-titlebar-inactive-fg: #6e6e73;
+  --sct-window-border: #c6c6c8;
+
+  --sct-ribbon-bg: #f5f5f7;
+  --sct-ribbon-fg: #1d1d1f;
+  --sct-ribbon-tab-bg: #e8e8ed;
+  --sct-ribbon-tab-fg: #3a3a3c;
+  --sct-ribbon-tab-active-bg: #ffffff;
+  --sct-ribbon-tab-active-fg: #1d1d1f;
+  --sct-ribbon-chunk-bg: #f5f5f7;
+  --sct-ribbon-chunk-caption-bg: #f5f5f7;
+  --sct-ribbon-chunk-caption-fg: #6e6e73;
+  --sct-ribbon-button-hover-bg: #e5e5ea;
+  --sct-ribbon-button-pressed-bg: #d1d1d6;
+
+  --sct-tree-bg: #f5f5f7;
+  --sct-tree-fg: #1d1d1f;
+  --sct-tree-hover-bg: #e5e5ea;
+  --sct-tree-selected-bg: #0071e3;
+  --sct-tree-selected-fg: #ffffff;
+  --sct-tree-selected-border: #0071e3;
+
+  --sct-section-header-bg: #f5f5f7;
+  --sct-section-header-fg: #1d1d1f;
+  --sct-section-body-bg: #ffffff;
+  --sct-field-label-fg: #1d1d1f;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #1d1d1f;
+  --sct-input-border: #c6c6c8;
+  --sct-input-focus-border: #0071e3;
+
+  --sct-button-bg: #ffffff;
+  --sct-button-fg: #1d1d1f;
+  --sct-button-border: #c6c6c8;
+  --sct-button-hover-bg: #f5f5f7;
+  --sct-button-primary-bg: #0071e3;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #0068d1;
+
+  --sct-table-header-bg: #f5f5f7;
+  --sct-table-header-fg: #3a3a3c;
+  --sct-table-row-hover-bg: #f0f0f5;
+
+  --sct-scrollbar-thumb: #c1c1c6;
+  --sct-scrollbar-track: #f5f5f7;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these; macOS draws them in the accent */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #3a6ea5;
+  --sct-taskbar-bg: #e8e8ed;
+  --sct-taskbar-fg: #1d1d1f;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="cupertino"] {
+    --sct-app-bg: #1e1e1e;
+    --sct-app-fg: #dfdfdf;
+    --sct-panel-bg: #2a2a2a;
+    --sct-panel-fg: #dfdfdf;
+    --sct-muted-fg: #98989d;
+    --sct-border: #3d3d3f;
+    --sct-border-strong: #545456;
+    --sct-accent: #0071e3;
+    --sct-accent-fg: #ffffff;
+    /* macOS's dark linkColor; systemBlue (#0a84ff) is 3.9:1 on the panel */
+    --sct-link: #419cff;
+    --sct-focus-ring: #0a84ff;
+    --sct-raised-bg: #323234;
+    --sct-chrome-bg: #3a3a3c;
+    --sct-chrome-fg: #f2f2f7;
+    --sct-selected-bg: #1d3a5c;
+
+    --sct-titlebar-bg: #323234;
+    --sct-titlebar-fg: #dfdfdf;
+    --sct-titlebar-inactive-bg: #2a2a2a;
+    --sct-titlebar-inactive-fg: #98989d;
+    --sct-window-border: #000000;
+
+    --sct-ribbon-bg: #2a2a2a;
+    --sct-ribbon-fg: #dfdfdf;
+    --sct-ribbon-tab-bg: #1e1e1e;
+    --sct-ribbon-tab-fg: #b0b0b5;
+    --sct-ribbon-tab-active-bg: #3a3a3c;
+    --sct-ribbon-tab-active-fg: #f2f2f7;
+    --sct-ribbon-chunk-bg: #2a2a2a;
+    --sct-ribbon-chunk-caption-bg: #2a2a2a;
+    --sct-ribbon-chunk-caption-fg: #98989d;
+    --sct-ribbon-button-hover-bg: #3a3a3c;
+    --sct-ribbon-button-pressed-bg: #48484a;
+
+    --sct-tree-bg: #262626;
+    --sct-tree-fg: #dfdfdf;
+    --sct-tree-hover-bg: #323234;
+    --sct-tree-selected-bg: #0071e3;
+    --sct-tree-selected-fg: #ffffff;
+    --sct-tree-selected-border: #0071e3;
+
+    --sct-section-header-bg: #2c2c2e;
+    --sct-section-header-fg: #dfdfdf;
+    --sct-section-body-bg: #262628;
+    --sct-field-label-fg: #dfdfdf;
+
+    --sct-input-bg: #1c1c1e;
+    --sct-input-fg: #dfdfdf;
+    --sct-input-border: #48484a;
+    --sct-input-focus-border: #0a84ff;
+
+    --sct-button-bg: #3a3a3c;
+    --sct-button-fg: #dfdfdf;
+    --sct-button-border: #545456;
+    --sct-button-hover-bg: #48484a;
+    --sct-button-primary-bg: #0071e3;
+    --sct-button-primary-fg: #ffffff;
+    --sct-button-primary-hover-bg: #0068d1;
+
+    --sct-table-header-bg: #2c2c2e;
+    --sct-table-header-fg: #c7c7cc;
+    --sct-table-row-hover-bg: #2c2c2e;
+
+    --sct-scrollbar-thumb: #545456;
+    --sct-scrollbar-track: #1e1e1e;
+
+    --sct-desktop-bg: #1e1e1e;
+    --sct-taskbar-bg: #2c2c2e;
+    --sct-taskbar-fg: #dfdfdf;
+
+    --sct-glyph-filter: invert(1) hue-rotate(180deg);
+    --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+    --sct-content-filter: brightness(0.8);
+  }
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="cupertino"]:not([data-sct-surface="ee"]) {
+  color-scheme: light dark;
+}

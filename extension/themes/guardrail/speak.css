@@ -1,0 +1,42 @@
+/* Guardrail: speak area. Sitecore's own look from tokens.css; the global header carries the environment
+   along its bottom edge and as a badge before "Log out". */
+html[data-sct-theme="guardrail"][data-sct-surface="speak"] :is(.sc-globalHeader, .sc-flx-global-header) {
+  box-shadow: inset 0 calc(-1 * var(--gr-edge)) 0 var(--gr-env);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation::before {
+  content: var(--gr-env-label);
+  display: inline-block;
+  margin-right: 18px;
+  padding: 0 7px;
+  border-radius: 3px;
+  background: var(--gr-env);
+  color: #ffffff;
+  font: 700 11px/18px "Segoe UI", "Open Sans", Arial, sans-serif;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Sitecore's red application header band (SPE Reports and other SPEAK-style pages): white, as the Control
+   Panel's, since red means production here. */
+html[data-sct-theme="guardrail"][data-sct-surface="speak"] .sc-applicationHeader {
+  background-color: var(--sct-panel-bg);
+  border-bottom: 1px solid var(--sct-border);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="speak"] .sc-applicationHeader :is(.sc-applicationHeader-title, h1, h2, span) {
+  color: var(--sct-panel-fg);
+}
+
+/* Dark (tokens.css): the 9-dot Launchpad button in the header's text colour, as Fjord draws it; light keeps
+   Sitecore's own */
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="guardrail"][data-sct-surface="speak"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+    color: var(--sct-titlebar-fg);
+    background: currentColor;
+    mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+  }
+}
+/* the Experience Editor breadcrumb's separators, light on dark */
+html[data-sct-theme="guardrail"][data-sct-surface="speak"] .sc-breadcrumb .sprite-speak-ribbon-clean-ee[class*="separator"] {
+  filter: var(--sct-glyph-filter);
+}

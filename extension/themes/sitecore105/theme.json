@@ -1,0 +1,9 @@
+{
+  "name": "Sitecore 10.5",
+  "description": "The look of Sitecore 10.5",
+  "order": 30,
+  "versions": ["10.4"],
+  "preview": ["#ffffff", "#6e3fff", "#f4f4f7"],
+  "swatch": { "desk": "#dfe3ea", "bar": "#ffffff", "barLine": "#e4e4e8", "start": "#6e3fff", "app": "#ebe7fb", "win": "#ffffff", "border": "#c9c9d1", "cap": "#ffffff", "btns": "right", "btn": "#8a8a8a", "ribbon": "#ffffff", "tab": "#6e3fff", "tree": "#ffffff", "ed": "#f6f6f8", "sec": "#ebebef", "field": "#ffffff", "line": "#c4c4cc", "sel": "#e7e0ff", "fg": "#3a3a3a" },
+  "shared": ["vars.css", "fixes.css"]
+}

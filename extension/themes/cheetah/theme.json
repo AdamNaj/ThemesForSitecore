@@ -1,0 +1,8 @@
+{
+  "name": "Cheetah",
+  "description": "Pinstripes, brushed metal, blue gel buttons and traffic-light window controls, with a Dock",
+  "category": "retro",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#f4f4f4", "#3d8fe8", "#a9a9a9"],
+  "swatch": { "desk": "#8fb8ef", "desk2": "#1f3f86", "barPos": "dock", "bar": "#dfe8f4", "start": "#3d8fe8", "app": "#9aa7b8", "win": "#f4f4f4", "border": "#6e6e6e", "r": 3, "cap": "#dcdcdc", "cap2": "#a9a9a9", "btns": "traffic", "ribbon": "#c4c4c4", "tab": "#3d8fe8", "tree": "#ffffff", "ed": "#f4f4f4", "pin": "#cfcfcf", "sec": "#e4e4e4", "field": "#ffffff", "line": "#7a7a7a", "sel": "#3670d0", "fg": "#000000" }
+}

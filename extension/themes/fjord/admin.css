@@ -1,0 +1,4 @@
+/* Fjord: /sitecore/admin. The title row (a plain panel band in the shared layer) gets a rule under it. */
+html[data-sct-theme="fjord"][data-sct-surface="admin"] .second-row {
+  border-bottom: 1px solid var(--sct-border);
+}

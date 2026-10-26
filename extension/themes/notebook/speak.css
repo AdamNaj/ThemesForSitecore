@@ -1,0 +1,176 @@
+/* Notebook: SPEAK pages (Control Panel, the Experience Editor's ribbon and other SPEAK apps). The
+   global header is the kraft cover; pages are graph paper; the Experience Editor's tabs are the
+   Content Editor's coloured dividers over a ribbon washed in the open divider's colour. */
+
+/* :not(#sct-nb) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="notebook"][data-sct-surface="speak"]:not(#sct-nb) {
+  & body {
+    background-image: linear-gradient(var(--nb-grid) 1px, transparent 1px), linear-gradient(90deg, var(--nb-grid) 1px, transparent 1px);
+    background-size: 14px 14px;
+    background-attachment: fixed;
+  }
+
+  /* ---- Global header: kraft ---- */
+  .sc-globalHeader {
+    border-bottom: 1px solid rgb(0 0 0 / 0.18);
+    box-shadow: none;
+    background: var(--nb-kraft-bg) !important;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a),
+  .sc-globalHeader .sc-globalheader-appName {
+    color: var(--sct-taskbar-fg);
+  }
+  .sc-globalHeader .sc-globalheader-appName {
+    font-family: var(--nb-hand);
+  }
+
+  /* ---- Application header (Control Panel and other SPEAK apps): plain paper, the title handwritten,
+     ruled off in red. 10.4 paints a red banner image here. ---- */
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1,
+  .sc-applicationHeader-row2 {
+    box-shadow: none;
+    background: var(--nb-paper) !important;
+  }
+  .sc-applicationHeader-row1 {
+    border-bottom: 2px solid var(--nb-margin);
+  }
+  /* 10.4's red spiral in the banner's corner */
+  .sc-applicationHeader-row1::after {
+    content: none;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--nb-ink);
+    font-family: var(--nb-hand);
+    font-weight: 700;
+  }
+  .sc-backbutton,
+  .sc-backbutton-text {
+    color: var(--nb-ink);
+    font-family: var(--nb-hand);
+  }
+  .sc-applicationContent,
+  .sc-applicationContent-main {
+    background: transparent;
+  }
+
+  /* ---- Control Panel: each box an index card with a handwritten, underlined heading ---- */
+  .sc-controlpanel-box {
+    padding: 8px 14px 10px;
+    border: 0;
+    background: linear-gradient(90deg, transparent 6px, var(--nb-margin) 6px 7.5px, transparent 7.5px) var(--nb-paper);
+    box-shadow: 1px 3px 8px rgb(60 40 10 / 0.22);
+  }
+  .sc-controlpanel-box-header h4 {
+    color: var(--nb-ink);
+    font-family: var(--nb-hand);
+    font-weight: 700;
+    text-transform: none;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 5px;
+  }
+  .sc-controlpanel-box-content li {
+    border-color: var(--nb-rule);
+  }
+  .sc-controlpanel-box-content a:hover {
+    background: linear-gradient(transparent 25%, var(--nb-hi) 25% 88%, transparent 88%);
+    text-decoration: none;
+  }
+
+  /* ---- Push buttons: handwritten labels in an inked box ---- */
+  .btn.sc-button {
+    border: 1.5px solid var(--sct-button-border);
+    border-radius: 4px 7px 5px 8px;
+    box-shadow: 1px 2px 0 rgb(29 58 138 / 0.18);
+    font-family: var(--nb-hand);
+    text-transform: none;
+  }
+}
+
+/* ---- Experience Editor ribbon ---- */
+html[data-sct-theme="notebook"][data-sct-surface="speak"]:not(#sct-nb) .sc-pageeditbar {
+  --nb-page: var(--nb-pink);
+  &:has(.sc-quickbar-tab-selected:nth-child(4n+2 of .sc-quickbar-tab)) { --nb-page: var(--nb-yellow); }
+  &:has(.sc-quickbar-tab-selected:nth-child(4n+3 of .sc-quickbar-tab)) { --nb-page: var(--nb-blue); }
+  &:has(.sc-quickbar-tab-selected:nth-child(4n+4 of .sc-quickbar-tab)) { --nb-page: var(--nb-green); }
+
+  .sc-quickbar {
+    border: 0;
+    background: var(--nb-paper);
+  }
+  /* tabs: coloured dividers standing on the ribbon's top edge */
+  /* the quick bar is 39px of floats: tabs are 21px (the open one 24px), dropped to stand on its bottom */
+  .sc-quickbar-tab {
+    --nb-tab: var(--nb-pink);
+    box-sizing: border-box;
+    height: 21px;
+    margin: 18px 3px 0 0;
+    padding: 1px 13px 0;
+    line-height: 20px;
+    border: 0;
+    border-radius: 9px 9px 0 0;
+    box-shadow: inset 0 -1px rgb(0 0 0 / 0.1);
+    background: var(--nb-tab);
+    color: var(--nb-divider-fg);
+    font-family: var(--nb-hand);
+    font-size: 13px;
+    text-transform: none;
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:nth-child(4n+2 of .sc-quickbar-tab) { --nb-tab: var(--nb-yellow); }
+  .sc-quickbar-tab:nth-child(4n+3 of .sc-quickbar-tab) { --nb-tab: var(--nb-blue); }
+  .sc-quickbar-tab:nth-child(4n+4 of .sc-quickbar-tab) { --nb-tab: var(--nb-green); }
+  .sc-quickbar-tab:hover {
+    background: color-mix(in srgb, var(--nb-tab) 75%, #fff);
+    color: var(--nb-divider-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected {
+    height: 24px;
+    margin-top: 15px;
+    padding-top: 4px;
+    box-shadow: none;
+    background: var(--nb-tab);
+    color: var(--nb-divider-fg);
+    font-weight: 700;
+  }
+  .sc-quickbar-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    border-color: transparent;
+    background: transparent;
+  }
+  .sc-quickbar-button:not(.disabled):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+
+  .sc-ribbon {
+    border-top: 3px solid var(--nb-page);
+    border-bottom: 2px solid var(--nb-margin);
+    background: color-mix(in srgb, var(--nb-page) 30%, var(--nb-paper));
+  }
+  .sc-ribbon .sc-chunk::after {
+    width: 0;
+    border-right: 1px dashed #9fb3d9;
+    background: transparent;
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--sct-ribbon-chunk-caption-fg);
+    font-family: var(--nb-hand);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: var(--nb-hi);
+  }
+}

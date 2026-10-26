@@ -1,0 +1,5 @@
+/* A rounded accent capsule */
+html[data-sct-theme="sunvalley"] sct-bar-postfix {
+  border-radius: 4px;
+  font-weight: 600;
+}

@@ -1,0 +1,15 @@
+/* Guardrail: a neutral dark tag, so it never reads as the environment's colour. In SPEAK and Launchpad its
+   environment badge sits just before Log out: it moves left to make room for the database name. */
+html[data-sct-theme="guardrail"] sct-bar-postfix {
+  border-color: #2b2b2b;
+  border-radius: 3px;
+  background: #2b2b2b;
+  color: #fff;
+  font-weight: 700;
+}
+html[data-sct-theme="guardrail"]:is([data-sct-surface="speak"], [data-sct-surface="launchpad"]) sct-bar-postfix {
+  --sct-bar-side: 420px;
+}
+html[data-sct-theme="guardrail"]:not(#sct-bar) .sc-globalHeader:has(> .sc-ext-dbName) ul.sc-accountInformation::before {
+  margin-right: 84px;
+}

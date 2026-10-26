@@ -1,0 +1,286 @@
+/* Bridge: SPEAK pages (Control Panel, Experience Editor ribbon). Dark-surface groundwork first; the
+   signature (pill tabs, the ribbon's elbow, the header's console bar) in the nested block at the end. */
+
+/* Global header: "Log out" a quieter step of the header text, as in 10.5 (not the link colour). */
+html[data-sct-theme="bridge"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 80%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="bridge"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+
+/* ---- Experience Editor ribbon: the Content Editor's ribbon colours. The tab band is the ribbon tab
+   colour, tabs are text on it, the selected tab joins the ribbon below; quick buttons have no boxes. */
+html[data-sct-theme="bridge"][data-sct-surface="speak"] .sc-pageeditbar {
+  .sc-quickbar {
+    background: var(--sct-ribbon-tab-bg);
+  }
+  .sc-quickbar-item {
+    color: var(--sct-ribbon-tab-fg);
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    background: transparent;
+    border-color: transparent;
+  }
+  .sc-quickbar-button:not(.disabled):hover,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-quickbar-tab {
+    background: transparent;
+    border-color: transparent;
+    color: var(--sct-ribbon-tab-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: var(--sct-ribbon-tab-active-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected {
+    background: var(--sct-ribbon-tab-active-bg);
+    color: var(--sct-ribbon-tab-active-fg);
+  }
+  /* a mouse click left a white focus ring on the tab; keyboard focus keeps the theme's ring */
+  .sc-quickbar-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+
+  .sc-ribbon {
+    background-color: var(--sct-ribbon-bg);
+    border-top: 0;
+    border-bottom-color: var(--sct-border);
+  }
+  .sc-ribbon .sc-chunk::after {
+    background-color: var(--sct-border);
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--sct-ribbon-chunk-caption-fg);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):active {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+  }
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: var(--sct-selected-bg);
+  }
+  .sc-ribbon .pressed :is(.sc-chunk-button-label, span) {
+    color: var(--sct-tree-selected-fg);
+  }
+  .sc-ribbon .sc-chunk-button-list ul {
+    background: var(--sct-input-bg);
+    border-color: var(--sct-input-border);
+  }
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-changedate:hover,
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-datetime:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
+   text colour instead (as the shared shell map does on shell pages). */
+html[data-sct-theme="bridge"][data-sct-surface="speak"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}
+
+/* Dark sprite glyphs on the EE ribbon (scan.cjs DARKGLYPH): the breadcrumb's separators. (The quick bar's
+   collapse chevron is the token layer's.) */
+html[data-sct-theme="bridge"][data-sct-surface="speak"] .sc-breadcrumb .sprite-speak-ribbon-clean-ee[class*="separator"] {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ==== Bridge signature on SPEAK pages (Control Panel, the Experience Editor's ribbon, Forms). ==== */
+html[data-sct-theme="bridge"][data-sct-surface="speak"]:not(#sct-br) {
+  /* the app's name in the header and on the page: condensed peach capitals */
+  :is(.sc-globalheader-appName, .sc-applicationHeader-title, .sc-applicationHeader-title .sc-text) {
+    color: var(--bridge-peach);
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  /* Control Panel: group headings in condensed capitals, the Back link a periwinkle pill */
+  :is(.sc-listcontrol-title, .sc-text-largevalue, h2, h3) {
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---- Experience Editor ribbon: tabs are pills on black, the ribbon below sits in a lilac elbow */
+  .sc-pageeditbar {
+    .sc-quickbar {
+      background: #000;
+    }
+    .sc-quickbar-tab,
+    .sc-quickbar-tab:hover,
+    .sc-quickbar-tab.sc-quickbar-tab-selected {
+      box-sizing: border-box;
+      height: 26px;
+      margin: 0 4px 0 0;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--bridge-peri);
+      color: #000;
+      font-family: var(--bridge-chrome-font);
+      font-stretch: condensed;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 26px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .sc-quickbar-tab:hover {
+      background: #b8b8ff;
+    }
+    .sc-quickbar-tab.sc-quickbar-tab-selected {
+      background: var(--bridge-peach);
+    }
+    .sc-ribbon {
+      position: relative;
+      box-sizing: border-box;
+      border: 0;
+      border-top: 8px solid var(--bridge-lilac);
+      border-left: 22px solid var(--bridge-lilac);
+      border-radius: 22px 0 0 0;
+      background: #000;
+    }
+    .sc-ribbon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle at 100% 100%, transparent 11.5px, var(--bridge-lilac) 12px);
+      pointer-events: none;
+    }
+    .sc-ribbon .sc-chunk::after {
+      background-color: #2a2420;
+    }
+    .sc-ribbon .sc-chunk-label {
+      color: var(--bridge-peri);
+      font-family: var(--bridge-chrome-font);
+      font-stretch: condensed;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    /* breadcrumb buttons: Go a peach pill, Edit a periwinkle one */
+    .sc-breadcrumb .btn {
+      height: 30px;
+      min-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      border: 0;
+      border-radius: 999px;
+      box-shadow: none;
+      font-family: var(--bridge-chrome-font);
+      font-stretch: condensed;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .sc-breadcrumb .btn-default {
+      background: var(--bridge-peri);
+      color: #000;
+    }
+    .sc-breadcrumb .btn-default:hover {
+      background: #b8b8ff;
+    }
+    .sc-breadcrumb .btn * {
+      color: #000;
+    }
+  }
+  /* ---- The application header (Control Panel, PowerShell Reports, the admin landing): black, the
+     title in large condensed peach capitals followed by the console bar; Back a periwinkle pill.
+     10.4 paints the band red with a swoosh image. */
+  .sc-applicationHeader {
+    background: #000;
+  }
+  .sc-applicationHeader-row1,
+  .sc-applicationHeader-row1::after {
+    background-image: none;
+  }
+  .sc-applicationHeader-content,
+  .sc-applicationHeader-title {
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .sc-applicationHeader-title {
+    padding-right: 20px;
+  }
+  .sc-applicationHeader-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--bridge-peach);
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .sc-applicationHeader-title .sc-text {
+    color: var(--bridge-peach);
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+  }
+  .sc-applicationHeader-title::after {
+    content: "";
+    flex: 1;
+    min-width: 40px;
+    height: 12px;
+    border-radius: 0 6px 6px 0;
+    background: var(--bridge-peach);
+  }
+  .sc-backbutton {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    min-height: 0;
+    padding: 0 16px 0 12px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--bridge-peri);
+  }
+  .sc-backbutton:hover {
+    background: #b8b8ff;
+  }
+  .sc-backbutton,
+  .sc-backbutton * {
+    color: #000;
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .sc-backbutton .sc-backbutton-text {
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    line-height: 28px;
+  }
+  .sc-backbutton::before,
+  .sc-backbutton::after {
+    position: static;
+    order: -1;
+    margin: 0;
+    filter: brightness(0);
+  }
+  /* SPEAK tab controls (Forms): the open tab is the accent; its label black on it */
+  .sc-tab-control-tab-item.selected > a,
+  .sc-tab-control-tab-item.selected > a * {
+    color: #000;
+  }
+}

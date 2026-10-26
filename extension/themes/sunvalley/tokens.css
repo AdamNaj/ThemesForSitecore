@@ -1,0 +1,178 @@
+/* Sun Valley: inspired by Windows 11's Fluent look. Follows the system light or dark appearance.
+
+   Measured from Windows 11 (WinUI 2.8 / Fluent tokens, 100% scale), flattened to opaque hex over Mica:
+   | Role                    | Light                    | Dark                     |
+   |-------------------------|--------------------------|--------------------------|
+   | Mica window background  | #f3f3f3                  | #202020                  |
+   | Card / layer            | #fbfbfb (white 70%)      | #2b2b2b (white 5%)       |
+   | Text primary/secondary  | #1b1b1b / #5d5d5d        | #ffffff / #cfcfcf        |
+   | Card stroke / divider   | #e5e5e5                  | #383838                  |
+   | Control strong stroke   | #868686 (field underline)| #9a9a9a                  |
+   | Accent (fill, text)     | #005fb8, white text      | #60cdff, black text      |
+   | Subtle hover / pressed  | #000 3.7% / 2.4%         | #fff 6% / 4%             |
+   | Close button hover      | #c42b1c, white glyph     | #c42b1c, white glyph     |
+   Font Segoe UI Variable Text 12px (Explorer's 9pt), control corners 4px, window corners 8px,
+   caption buttons 46x32 with 10px 1px-stroke glyphs, taskbar 48px, tabs 32px pills. */
+html[data-sct-theme="sunvalley"] {
+  --sct-font-family: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --sct-font-size: 12px;
+  --sct-radius: 4px;
+
+  --sct-app-bg: #f3f3f3;
+  --sct-app-fg: #1b1b1b;
+  --sct-panel-bg: #fbfbfb;
+  --sct-panel-fg: #1b1b1b;
+  --sct-muted-fg: #5d5d5d;
+  --sct-border: #e5e5e5;
+  --sct-border-strong: #868686;
+  --sct-accent: #005fb8;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #005fb8;
+  --sct-focus-ring: #1b1b1b;
+  --sct-raised-bg: #f9f9f9;
+  --sct-chrome-bg: #ebebeb;
+  --sct-chrome-fg: #1b1b1b;
+  --sct-selected-bg: #e5ecf6;
+
+  --sct-titlebar-bg: #f3f3f3;
+  --sct-titlebar-fg: #1b1b1b;
+  --sct-titlebar-inactive-bg: #f9f9f9;
+  --sct-titlebar-inactive-fg: #6e6e6e;
+  --sct-window-border: #cfcfcf;
+
+  --sct-ribbon-bg: #fbfbfb;
+  --sct-ribbon-fg: #1b1b1b;
+  --sct-ribbon-tab-bg: #f3f3f3;
+  --sct-ribbon-tab-fg: #1b1b1b;
+  --sct-ribbon-tab-active-bg: #ffffff;
+  --sct-ribbon-tab-active-fg: #1b1b1b;
+  --sct-ribbon-chunk-bg: #fbfbfb;
+  --sct-ribbon-chunk-caption-bg: #fbfbfb;
+  --sct-ribbon-chunk-caption-fg: #5d5d5d;
+  --sct-ribbon-button-hover-bg: #eeeeee;
+  --sct-ribbon-button-pressed-bg: #e6e6e6;
+
+  --sct-tree-bg: #f3f3f3;
+  --sct-tree-fg: #1b1b1b;
+  --sct-tree-hover-bg: #e9e9e9;
+  --sct-tree-selected-bg: #e5ecf6;
+  --sct-tree-selected-fg: #1b1b1b;
+  --sct-tree-selected-border: #e5ecf6;
+
+  --sct-section-header-bg: #fbfbfb;
+  --sct-section-header-fg: #1b1b1b;
+  --sct-section-body-bg: #ffffff;
+  --sct-field-label-fg: #1b1b1b;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #1b1b1b;
+  --sct-input-border: #e5e5e5;
+  --sct-input-focus-border: #005fb8;
+
+  --sct-button-bg: #fbfbfb;
+  --sct-button-fg: #1b1b1b;
+  --sct-button-border: #e5e5e5;
+  --sct-button-hover-bg: #f6f6f6;
+  --sct-button-primary-bg: #005fb8;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #196ebf;
+
+  --sct-table-header-bg: #f9f9f9;
+  --sct-table-header-fg: #5d5d5d;
+  --sct-table-row-hover-bg: #f0f0f0;
+
+  --sct-scrollbar-thumb: #8a8a8a;
+  --sct-scrollbar-track: #f3f3f3;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these; Windows draws them in the text colour */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #9fbde9;
+  --sct-taskbar-bg: #eeeeee;
+  --sct-taskbar-fg: #1b1b1b;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="sunvalley"] {
+    --sct-app-bg: #202020;
+    --sct-app-fg: #ffffff;
+    --sct-panel-bg: #2b2b2b;
+    --sct-panel-fg: #ffffff;
+    --sct-muted-fg: #cfcfcf;
+    --sct-border: #383838;
+    --sct-border-strong: #9a9a9a;
+    --sct-accent: #60cdff;
+    --sct-accent-fg: #000000;
+    --sct-link: #60cdff;
+    --sct-focus-ring: #ffffff;
+    --sct-raised-bg: #2d2d2d;
+    --sct-chrome-bg: #2d2d2d;
+    --sct-chrome-fg: #ffffff;
+    --sct-selected-bg: #283642;
+
+    --sct-titlebar-bg: #202020;
+    --sct-titlebar-fg: #ffffff;
+    --sct-titlebar-inactive-bg: #272727;
+    --sct-titlebar-inactive-fg: #a0a0a0;
+    --sct-window-border: #454545;
+
+    --sct-ribbon-bg: #2b2b2b;
+    --sct-ribbon-fg: #ffffff;
+    --sct-ribbon-tab-bg: #202020;
+    --sct-ribbon-tab-fg: #ffffff;
+    --sct-ribbon-tab-active-bg: #383838;
+    --sct-ribbon-tab-active-fg: #ffffff;
+    --sct-ribbon-chunk-bg: #2b2b2b;
+    --sct-ribbon-chunk-caption-bg: #2b2b2b;
+    --sct-ribbon-chunk-caption-fg: #cfcfcf;
+    --sct-ribbon-button-hover-bg: #383838;
+    --sct-ribbon-button-pressed-bg: #333333;
+
+    --sct-tree-bg: #202020;
+    --sct-tree-fg: #ffffff;
+    --sct-tree-hover-bg: #2d2d2d;
+    --sct-tree-selected-bg: #283642;
+    --sct-tree-selected-fg: #ffffff;
+    --sct-tree-selected-border: #283642;
+
+    --sct-section-header-bg: #2b2b2b;
+    --sct-section-header-fg: #ffffff;
+    --sct-section-body-bg: #272727;
+    --sct-field-label-fg: #ffffff;
+
+    --sct-input-bg: #2d2d2d;
+    --sct-input-fg: #ffffff;
+    --sct-input-border: #454545;
+    --sct-input-focus-border: #60cdff;
+
+    --sct-button-bg: #2d2d2d;
+    --sct-button-fg: #ffffff;
+    --sct-button-border: #3d3d3d;
+    --sct-button-hover-bg: #323232;
+    --sct-button-primary-bg: #60cdff;
+    --sct-button-primary-fg: #000000;
+    --sct-button-primary-hover-bg: #5ab9e6;
+
+    --sct-table-header-bg: #2b2b2b;
+    --sct-table-header-fg: #cfcfcf;
+    --sct-table-row-hover-bg: #323232;
+
+    --sct-scrollbar-thumb: #9f9f9f;
+    --sct-scrollbar-track: #202020;
+
+    --sct-desktop-bg: #1b2a44;
+    --sct-taskbar-bg: #1c1c1c;
+    --sct-taskbar-fg: #ffffff;
+
+    --sct-glyph-filter: invert(1) hue-rotate(180deg);
+    --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+    --sct-content-filter: brightness(0.8);
+  }
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="sunvalley"]:not([data-sct-surface="ee"]) {
+  color-scheme: light dark;
+}

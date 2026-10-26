@@ -1,0 +1,81 @@
+/* Miami: Identity Server login. The synthwave scene (tokens.css) in place of Sitecore's red wallpaper,
+   the setting sun on its horizon, and the sign-in card as dark violet glass in a pink neon frame. The
+   card is 92% opaque, so its text stays at AA over the sun's yellow. */
+html[data-sct-theme="miami"][data-sct-surface="login"] body {
+  background: var(--sct-mi-scene) !important;
+  background-attachment: fixed !important;
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] body::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  left: 50%;
+  bottom: 40%;
+  width: min(44vh, 360px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, 20%);
+  clip-path: inset(0 0 20% 0);
+  background: var(--sct-mi-sun);
+  mask: var(--sct-mi-sun-mask);
+  pointer-events: none;
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] :is(.main, .top) {
+  background-color: rgb(23 8 48 / 0.92);
+  border: 1px solid #ff2e88;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgb(255 46 136 / 0.25), 0 0 22px rgb(255 46 136 / 0.5);
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] :is(label, .login-label, .form-group, a.forgot-password) {
+  color: #f4e9ff;
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] a.forgot-password:hover {
+  color: #00e5ff;
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] .form-control {
+  background-color: var(--sct-input-bg);
+  border: 1px solid var(--sct-input-border);
+  border-radius: 3px;
+  color: var(--sct-input-fg);
+  box-shadow: none;
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] .form-control:focus {
+  border-color: #00e5ff;
+  box-shadow: 0 0 0 1px #00e5ff, 0 0 8px rgb(0 229 255 / 0.55);
+  outline: none;
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] .form-control::placeholder {
+  color: #cbb9ec;
+  opacity: 1;
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] .btn-primary {
+  background-color: #ff2e88;
+  border-color: #ff2e88;
+  color: #12002b;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-style: italic;
+  box-shadow: 0 0 12px rgb(255 46 136 / 0.6);
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] .btn-primary:is(:hover, :focus) {
+  background-color: #ff5aa2;
+  border-color: #ff5aa2;
+  color: #12002b;
+  box-shadow: 0 0 16px rgb(255 46 136 / 0.85);
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] .btn-primary:focus-visible {
+  outline: 2px solid #00e5ff;
+  outline-offset: 2px;
+}
+/* the licence/error banner is pale yellow */
+html[data-sct-theme="miami"][data-sct-surface="login"] .warning {
+  background-color: color-mix(in srgb, #ffd23f 22%, var(--sct-panel-bg));
+  color: var(--sct-panel-fg);
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] input[type="checkbox"] {
+  accent-color: #ff2e88;
+}
+html[data-sct-theme="miami"][data-sct-surface="login"] input[type="checkbox"]:focus-visible {
+  outline-color: var(--sct-focus-ring);
+}

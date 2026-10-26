@@ -1,0 +1,8 @@
+/* A glass capsule: the postfix as a pill with the theme's white inner edge */
+html[data-sct-theme="tahoe"] sct-bar-postfix {
+  border-radius: 999px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: 600;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 1px 3px rgba(0, 0, 0, 0.18);
+}

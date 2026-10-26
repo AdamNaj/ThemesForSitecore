@@ -1,0 +1,11 @@
+{
+  "name": "Debrightify",
+  "description": "Sitecore's own layout in a dark, low-glare palette",
+  "order": 10,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#1e1f22", "#9d86ff", "#d6d8db"],
+  "swatch": { "desk": "#121316", "bar": "#18191c", "start": "#9d86ff", "app": "#34373c", "win": "#26282b", "border": "#3a3d42", "cap": "#2e3135", "btns": "right", "btn": "#9aa0a6", "ribbon": "#26282b", "tab": "#9d86ff", "tree": "#1e1f22", "ed": "#26282b", "sec": "#2e3135", "field": "#1a1b1e", "line": "#4a4e54", "sel": "#3a3260", "fg": "#d6d8db" },
+  "swatchFor": {
+    "10.4": { "desk": "#121316", "bar": "#18191c", "start": "#e35d50", "app": "#34373c", "win": "#26282b", "border": "#3a3d42", "cap": "#2e3135", "btns": "right", "btn": "#9aa0a6", "ribbon": "#26282b", "tab": "#e35d50", "tree": "#1e1f22", "ed": "#26282b", "sec": "#2e3135", "field": "#1a1b1e", "line": "#4a4e54", "sel": "#4a2b28", "fg": "#d6d8db" }
+  }
+}

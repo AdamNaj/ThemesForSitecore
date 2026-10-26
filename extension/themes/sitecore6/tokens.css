@@ -1,0 +1,83 @@
+/* Copenhagen: the look of Sitecore 6.x and 7.x. shell.css ports the 6.6 stylesheets themselves; these
+   tokens colour what 6.6 never had (SPEAK apps, the Launchpad, 10.x-only controls) in the same palette. */
+html[data-sct-theme="sitecore6"] {
+  --sct-font-family: Tahoma, Verdana, Arial, sans-serif;
+  --sct-font-size: 11px;
+  --sct-radius: 3px;
+
+  --sct-app-bg: #f0f1f2;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #555555;
+  --sct-border: #c5c9cf;
+  --sct-border-strong: #8b8d8d;
+  --sct-accent: #c73318;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #072d6b;
+  --sct-focus-ring: #ffb70b;
+  --sct-raised-bg: #d9d9d9;
+  --sct-chrome-bg: #4e4e4e;
+  --sct-chrome-fg: #ffffff;
+  --sct-selected-bg: #d5effc;
+
+  --sct-titlebar-bg: #4e4e4e;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #a5a4a5;
+  --sct-titlebar-inactive-fg: #ffffff;
+  --sct-window-border: #a0a0a0;
+
+  --sct-ribbon-bg: #c4c9d1;
+  --sct-ribbon-fg: #303030;
+  --sct-ribbon-tab-bg: #4e4e4e;
+  --sct-ribbon-tab-fg: #ffffff;
+  --sct-ribbon-tab-active-bg: #e6e9ea;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #c8ced6;
+  --sct-ribbon-chunk-caption-bg: #7d7f7f;
+  --sct-ribbon-chunk-caption-fg: #ffffff;
+  --sct-ribbon-button-hover-bg: #ffe695;
+  --sct-ribbon-button-pressed-bg: #ffb70b;
+
+  --sct-tree-bg: #ffffff;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #e8f5fd;
+  --sct-tree-selected-bg: #d5effc;
+  --sct-tree-selected-fg: #000000;
+  --sct-tree-selected-border: #99defd;
+
+  --sct-section-header-bg: #d9d9d9;
+  --sct-section-header-fg: #333333;
+  --sct-section-body-bg: #f0f1f2;
+  --sct-field-label-fg: #333333;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #a5acb5;
+  --sct-input-focus-border: #6593cf;
+
+  --sct-button-bg: #f0f0f0;
+  --sct-button-fg: #000000;
+  --sct-button-border: #707070;
+  --sct-button-hover-bg: #ffe695;
+  --sct-button-primary-bg: #e1e1e1;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #ffe695;
+
+  --sct-table-header-bg: #e3e6ea;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #e8f5fd;
+
+  --sct-scrollbar-thumb: #c1c1c1;
+  --sct-scrollbar-track: #f0f0f0;
+
+  --sct-desktop-bg: #6777d6;
+  --sct-taskbar-bg: #252733;
+  --sct-taskbar-fg: #ffffff;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="sitecore6"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

@@ -1,0 +1,84 @@
+/* Metal Steel: inspired by the Steel theme of Java Swing's Metal look and feel (DefaultMetalTheme).
+   primary1 #666699, primary2 #9999cc, primary3 #ccccff; secondary1 #666666, secondary2 #999999,
+   secondary3 #cccccc. Java's "Dialog" font is Arial on Windows. */
+html[data-sct-theme="metalsteel"] {
+  --sct-font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+  --sct-font-size: 12px;
+  --sct-radius: 0;
+
+  --sct-app-bg: #cccccc;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #4d4d4d;
+  --sct-border: #999999;
+  --sct-border-strong: #666666;
+  --sct-accent: #666699;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #333399;
+  --sct-focus-ring: #9999cc;
+  --sct-raised-bg: #cccccc;
+  --sct-chrome-bg: #ccccff;
+  --sct-chrome-fg: #000000;
+  --sct-selected-bg: #ccccff;
+
+  --sct-titlebar-bg: #ccccff;
+  --sct-titlebar-fg: #000000;
+  --sct-titlebar-inactive-bg: #cccccc;
+  --sct-titlebar-inactive-fg: #000000;
+  --sct-window-border: #666699;
+
+  --sct-ribbon-bg: #cccccc;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #999999;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #cccccc;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #cccccc;
+  --sct-ribbon-chunk-caption-bg: #cccccc;
+  --sct-ribbon-chunk-caption-fg: #000000;
+  --sct-ribbon-button-hover-bg: #ccccff;
+  --sct-ribbon-button-pressed-bg: #999999;
+
+  --sct-tree-bg: #ffffff;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #e6e6ff;
+  --sct-tree-selected-bg: #ccccff;
+  --sct-tree-selected-fg: #000000;
+  --sct-tree-selected-border: #9999cc;
+
+  --sct-section-header-bg: #cccccc;
+  --sct-section-header-fg: #000000;
+  --sct-section-body-bg: #cccccc;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #666666;
+  --sct-input-focus-border: #666699;
+
+  --sct-button-bg: #cccccc;
+  --sct-button-fg: #000000;
+  --sct-button-border: #666666;
+  --sct-button-hover-bg: #cccccc;
+  --sct-button-primary-bg: #cccccc;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #cccccc;
+
+  --sct-table-header-bg: #cccccc;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #e6e6ff;
+
+  --sct-scrollbar-thumb: #9999cc;
+  --sct-scrollbar-track: #cccccc;
+
+  --sct-desktop-bg: #9999cc;
+  --sct-taskbar-bg: #cccccc;
+  --sct-taskbar-fg: #000000;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="metalsteel"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

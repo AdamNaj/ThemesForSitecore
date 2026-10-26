@@ -1,0 +1,70 @@
+/* Bridge: Identity Server login. A black screen; the sign-in card is a console panel inside a peach
+   bracket (a bar along the top, down the left side and along the bottom, rounded on the left), with
+   condensed capital labels, periwinkle-framed fields and a peach pill to log in. */
+html[data-sct-theme="bridge"][data-sct-surface="login"]:not(#sct-br) {
+  body {
+    background: #000;
+  }
+  :is(.main, .top) {
+    box-sizing: border-box;
+    border: 12px solid var(--bridge-peach);
+    border-right: 0;
+    border-left-width: 40px;
+    border-radius: var(--bridge-elbow) 0 0 var(--bridge-elbow);
+    background: #000;
+    box-shadow: none;
+  }
+  :is(label, .login-label) {
+    color: var(--bridge-sand);
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .form-control {
+    border: 2px solid var(--bridge-peri);
+    border-radius: 10px;
+    background-color: #000;
+    color: var(--sct-input-fg);
+    box-shadow: none;
+  }
+  .form-control:focus {
+    border-color: var(--bridge-peach);
+    box-shadow: none;
+  }
+  .form-control::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  .btn-primary {
+    border: 0;
+    border-radius: 999px;
+    background-color: var(--bridge-peach);
+    box-shadow: none;
+    color: #000;
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .btn-primary:is(:hover, :focus) {
+    background-color: #ffb38c;
+    color: #000;
+  }
+  .btn-primary:focus-visible {
+    outline: 2px solid var(--bridge-sand);
+    outline-offset: 2px;
+  }
+  a {
+    color: var(--bridge-peri);
+  }
+  /* the licence/error banner is pale yellow */
+  .warning {
+    background-color: #2a2010;
+    color: var(--sct-panel-fg);
+  }
+  input[type="checkbox"]:focus {
+    outline-color: var(--sct-focus-ring);
+  }
+}

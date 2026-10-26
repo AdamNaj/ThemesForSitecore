@@ -1,0 +1,1880 @@
+/* Graphite: classic shell, as a quiet dark workspace. Colours come from tokens.css; this file adds the
+   shapes. The first part is the structure Graphite shares with Sun Valley (caption buttons at the right,
+   the taskbar of Sitecore's own buttons, 10.4's spacing, the Content Editor's panes, tree search, menus),
+   made dark-only; the closing block gives it Graphite's look: near-black layers divided by translucent
+   hairlines, 6px corners, no shadows anywhere, a sidebar tree whose selection is a faint white plate,
+   underlined tabs, fields on the raised layer with a violet border and soft ring on focus, ghost buttons
+   and one violet default button. */
+
+html[data-sct-theme="graphite"][data-sct-surface="shell"] {
+  /* caption glyphs (glyphs/*.svg, 10x10 1.2px round strokes): m = the muted ink at rest, l = the text ink
+     under the pointer */
+  --gr-g-min: url("sct-ext:themes/graphite/glyphs/min-m.svg");
+  --gr-g-max: url("sct-ext:themes/graphite/glyphs/max-m.svg");
+  --gr-g-restore: url("sct-ext:themes/graphite/glyphs/restore-m.svg");
+  --gr-g-close: url("sct-ext:themes/graphite/glyphs/close-m.svg");
+  --gr-g-down: url("sct-ext:themes/graphite/glyphs/down-m.svg");
+  --gr-g-up: url("sct-ext:themes/graphite/glyphs/up-m.svg");
+  --gr-g-close-hover: url("sct-ext:themes/graphite/glyphs/close-l.svg");
+  --gr-g-search: url("sct-ext:themes/graphite/glyphs/search-m.svg");
+  /* hover and pressed plates: white at 4% and 7% */
+  --gr-subtle: var(--gr-hover);
+  --gr-subtle-pressed: var(--gr-select);
+  /* Graphite draws no shadows: windows and flyouts are framed by a hairline instead */
+  --gr-shadow-window: 0 0 0 1px var(--gr-line-strong);
+  --gr-shadow-flyout: 0 0 0 1px var(--gr-line-strong);
+  --gr-acrylic: var(--sct-panel-bg);
+  scrollbar-width: thin;
+}
+
+html[data-sct-theme="graphite"][data-sct-surface="shell"] body,
+html[data-sct-theme="graphite"][data-sct-surface="shell"] input,
+html[data-sct-theme="graphite"][data-sct-surface="shell"] select,
+html[data-sct-theme="graphite"][data-sct-surface="shell"] textarea,
+html[data-sct-theme="graphite"][data-sct-surface="shell"] button {
+  font-family: var(--sct-font-family);
+}
+
+/* ==== :not(#sct-gr) matches every page; its id weight lets these rules beat Sitecore's own selectors
+   and the generated token layer. ==== */
+html[data-sct-theme="graphite"][data-sct-surface="shell"]:not(#sct-gr) {
+  /* ---- The Content Editor's caption row: the window's Mica title bar, the ribbon tabs in it ---- */
+  .sc-globalHeader {
+    background: var(--sct-titlebar-bg);
+    color: var(--sct-titlebar-fg);
+    border-bottom: 1px solid var(--sct-border);
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a) {
+    color: var(--sct-titlebar-fg);
+  }
+  .scRibbonNavigator {
+    padding: 4px 8px;
+  }
+
+  /* ---- Tabs, every strip: Sun Valley pills. The open tab is a raised card with a short accent pill under
+     its label; the others are flat until hovered. ---- */
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive),
+  :is(a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal),
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover),
+  a:is(.scPagerButtonNormal, .scPagerButtonActive) {
+    position: relative;
+    border: 0;
+    border-radius: 4px;
+    box-shadow: none;
+    background-color: transparent;
+    text-transform: none;
+  }
+  .scRibbon a.scRibbonNavigatorButtonsNormal,
+  .scRibbon a.scRibbonNavigatorButtonsActive {
+    margin: 0 2px;
+    font-weight: 400;
+  }
+  .scRibbon a.scRibbonNavigatorButtonsNormal:hover,
+  a.scRibbonEditorTabNormal:hover,
+  .scTabstrip .scTab_Hover,
+  a.scPagerButtonNormal:hover {
+    background-color: var(--gr-subtle);
+  }
+  .scRibbon a.scRibbonNavigatorButtonsActive,
+  a.scRibbonEditorTabActive,
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover),
+  a.scPagerButtonActive {
+    background-color: var(--sct-ribbon-tab-active-bg);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--sct-app-fg) 7%, transparent), 0 1px 2px rgba(0, 0, 0, 0.08);
+    font-weight: 600;
+  }
+  /* the accent pill: 16px by 3px, centred under the label */
+  .scRibbon a.scRibbonNavigatorButtonsActive::after,
+  a.scRibbonEditorTabActive::after,
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover)::after,
+  a.scPagerButtonActive::after {
+    content: "";
+    position: absolute;
+    top: auto;
+    right: auto;
+    bottom: 2px;
+    left: 50%;
+    width: 16px;
+    height: 3px;
+    margin-left: -8px;
+    border: 0;
+    border-radius: 2px;
+    background: var(--sct-accent);
+  }
+
+  /* ---- Ribbon: a card on the Mica window, chunks divided by hairlines ---- */
+  .scRibbonToolbar {
+    border-bottom: 1px solid var(--sct-border);
+    background-color: var(--sct-ribbon-bg);
+  }
+  .scRibbonToolbar .chunk {
+    border: 0;
+    border-right: 1px solid var(--sct-border);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .scRibbonToolbar .chunk .caption {
+    font-size: 11px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"] {
+    border-radius: 4px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"]:hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+
+  /* ---- Tree: a rounded highlight with Sun Valley's accent bar at its left edge ---- */
+  .scContentTree :is(a.scContentTreeNodeActive, a.scContentTreeNodeNormal) {
+    position: relative;
+    border-radius: 4px;
+    padding: 1px 8px 1px 6px;
+  }
+  .scContentTree a.scContentTreeNodeActive::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 3px;
+    height: 16px;
+    margin-top: -8px;
+    border-radius: 2px;
+    background: var(--sct-accent);
+  }
+  .scContentTree a.scContentTreeNodeActive [style^="color:green" i],
+  .scContentTree a.scContentTreeNodeActive [style^="color: green" i] {
+    color: var(--sct-tree-selected-fg) !important;
+  }
+
+  /* ---- Editor: sections as Settings cards ---- */
+  .scEditorHeaderTitle {
+    font-weight: 600;
+  }
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+    border: 1px solid var(--sct-border);
+    background-color: var(--sct-section-header-bg);
+    color: var(--sct-section-header-fg);
+    font-weight: 600;
+    margin: 8px 0 0;
+    /* a 36px expander row, not 10.5's 59px band */
+    line-height: 20px;
+    padding: 8px 14px;
+  }
+  img.scEditorSectionCaptionGlyph {
+    margin: 0 0 0 8px;
+  }
+  /* 10.4 draws the section chevrons and ribbon chunk launchers as white and pale grey images (10.5 swaps
+     in _grey ones, which 10.4 lacks): ink them as 10.5 renders them, near-black chevrons and #6f6f6f
+     launchers, turned light in dark mode by the glyph filter. */
+  &[data-sct-version="10.4"] img.scEditorSectionCaptionGlyph {
+    filter: brightness(0) opacity(0.88) var(--sct-glyph-filter, );
+  }
+  &[data-sct-version="10.4"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+    filter: brightness(0) opacity(0.55) var(--sct-glyph-filter, );
+  }
+  .scEditorSectionCaptionCollapsed {
+    border-radius: 4px;
+  }
+  .scEditorSectionCaptionExpanded {
+    border-radius: 4px 4px 0 0;
+  }
+  .scEditorSectionPanel {
+    border: 1px solid var(--sct-border);
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    background-color: var(--sct-section-body-bg);
+  }
+  .scEditorFieldMarkerBarCell {
+    border-radius: 2px;
+  }
+
+  /* ---- Text fields: Sun Valley's TextBox. A hairline frame whose bottom edge is darker; on focus the
+     field turns solid and the bottom edge becomes a 2px accent line. Inset shadows, so no box moves. ---- */
+  :is(.scContentControl, .scEditorSections :is(input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"], [type="image"]), textarea, select),
+    :is(.scFormDialogContent, .scDialogContentContainer, #TreeSearchOptions) :is(input:is(:not([type]), [type="text"], [type="password"], [type="number"], [type="search"]), textarea, select:not([multiple], [size])),
+    #TreeSearch, #SearchBox) {
+    border-radius: 4px;
+    border-color: var(--sct-input-border);
+    box-shadow: inset 0 -1px 0 var(--sct-border-strong);
+  }
+  :is(input, textarea, select, .scContentControl, #TreeSearch, #SearchBox):focus {
+    outline: none;
+    border-color: var(--sct-input-border);
+    box-shadow: inset 0 -2px 0 var(--sct-input-focus-border);
+  }
+
+  /* ---- Buttons: Sun Valley's standard button, the default one in the accent ---- */
+  :is(.scButton, button:not(.ui-button)) {
+    border-radius: 4px;
+  }
+  :is(button.scButton, input.scButton) {
+    box-sizing: border-box;
+    min-width: 80px;
+    height: 28px;
+    padding: 0 12px;
+    border: 1px solid var(--sct-button-border);
+    border-radius: 4px;
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--sct-app-fg) 10%, transparent);
+    background: var(--sct-button-bg);
+    color: var(--sct-button-fg);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 26px;
+    text-transform: none;
+  }
+  :is(button.scButton, input.scButton):hover {
+    background: var(--sct-button-hover-bg);
+  }
+  :is(button.scButton, input.scButton):active {
+    box-shadow: none;
+    color: color-mix(in srgb, var(--sct-button-fg) 62%, transparent);
+  }
+  :is(button.scButton, input.scButton).scButtonPrimary {
+    border-color: transparent;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+    background: var(--sct-button-primary-bg);
+    color: var(--sct-button-primary-fg);
+  }
+  :is(button.scButton, input.scButton).scButtonPrimary:hover {
+    background: var(--sct-button-primary-hover-bg);
+  }
+  :is(button.scButton, input.scButton):focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: 1px;
+  }
+
+  /* ---- Bottom application tabs (Content Editor, Media Library, Workbox): the same pills ---- */
+  .scPager {
+    border: 0;
+    background: transparent;
+    padding: 2px;
+  }
+
+  /* ---- Window buttons: Sun Valley's caption buttons. 46x32, flat, flush with the window's top right
+     corner, minimize, maximize and close left to right; close turns red. Each Sitecore image keeps its
+     click; only its picture is replaced, so no page CSP can block the glyph. ---- */
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0;
+  }
+  :is(.scSystemButtons, .scWorkboxWindowButtons) {
+    right: 0;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+    box-sizing: border-box;
+    width: 46px;
+    height: 32px;
+    padding: 0;
+    margin: 0 !important;
+    border: 0;
+    border-radius: 0;
+    filter: none;
+    object-fit: none;
+    object-position: -999px -999px;
+    background: var(--gr-g, none) center / 10px 10px no-repeat;
+    vertical-align: top;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
+    background-color: var(--gr-subtle);
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:active {
+    background-color: var(--gr-subtle-pressed);
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="page_switcher"] { order: 0; --gr-g: var(--gr-g-down); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"] { order: 1; --gr-g: var(--gr-g-min); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"] { order: 2; --gr-g: var(--gr-g-max); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"] { order: 2; --gr-g: var(--gr-g-restore); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="close" i] { order: 3; --gr-g: var(--gr-g-close); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="close" i]:hover {
+    --gr-g: var(--gr-g-close-hover);
+    background-color: #c42b1c;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="close" i]:active {
+    --gr-g: var(--gr-g-close-hover);
+    background-color: #c83c30;
+  }
+  /* the Content Editor's buttons centred on the ribbon tabs in its caption row (the tabs sit 21px down a
+     30px row) */
+  .scCaption > .scSystemButtons {
+    top: 20px;
+    height: 32px;
+    /* above the tab row, which is positioned and comes later: a narrow window's last tabs ran under the
+       buttons and took their clicks (10.4's DAM tab covered Minimize) */
+    z-index: 2;
+  }
+  .scWorkboxWindowButtons {
+    top: 0;
+    height: 32px;
+  }
+  /* the Workbox's caption holds the 32px buttons; at Sitecore's 27px the list's frame covered their
+     bottom 5px and took those clicks */
+  .scWorkboxWindowCaption {
+    height: 32px;
+  }
+  /* Standard windows (ISE, Console, Package Designer...): a 32px Mica title bar, the title at the left,
+     the caption buttons flush in the top right corner */
+  .standardWindowCaption {
+    height: 32px;
+  }
+  .standardWindowCaption + .windowPlaceholderContainer {
+    top: 32px;
+  }
+  .standardWindowCaption .scWindowCaption {
+    display: block;
+    padding: 0 150px 0 12px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 32px;
+    text-align: left;
+  }
+  .standartWindowButtons {
+    /* positioned against the window, not the caption */
+    top: 0;
+    right: 0;
+    left: auto;
+    height: 32px;
+  }
+
+  /* The Content Editor, Media Library and Workbox: Sitecore draws no caption over their windows. In a Desktop
+     window (engine.js names it) the standard windows' 32px title bar is drawn on the caption's empty top line,
+     on the same surface as the tabs, the window's title at the left and the caption buttons flush in the top
+     right corner. Under it the tabs start at its foot: the empty header over the tab group goes while no
+     contextual group needs it, and the menu button moves up beside them. */
+  &[data-sct-window-title] :is(.scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption.scWindowHandle) {
+    position: relative;
+    box-sizing: border-box;
+    height: 32px;
+    background: transparent;
+  }
+  &[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before,
+  &[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before {
+    content: var(--sct-window-title, "");
+    display: block;
+    padding: 0 150px 0 12px;
+    color: var(--sct-titlebar-fg);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 32px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &[data-sct-window-title][data-sct-window="inactive"] .scWindowBorder2 > .scCaption > #CaptionTopLine::before,
+  &[data-sct-window-title][data-sct-window="inactive"] .scWorkboxWindowCaption.scWindowHandle::before {
+    color: var(--sct-titlebar-inactive-fg);
+  }
+  &[data-sct-window-title] .scWindowBorder2 > .scCaption > .scSystemButtons {
+    top: 0;
+  }
+  &[data-sct-window-title] .scWorkboxWindowButtons {
+    position: absolute;
+    float: none;
+    top: 0;
+  }
+  &[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu {
+    top: 4px;
+    margin-top: 32px;
+  }
+  &[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader {
+    display: none;
+  }
+
+  /* ---- Editor tabs (Content, Search): pills vertically centred in the tab row ---- */
+  :is(a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal) {
+    height: 28px;
+    margin: 7px 2px 6px 0;
+  }
+  :is(.scEditorTabHeaderActive, .scEditorTabHeaderNormal) {
+    height: 28px;
+    line-height: 28px;
+    padding: 0 12px;
+    border: 0;
+    background-color: transparent;
+  }
+  a#BTAddNewSearch {
+    width: 32px;
+  }
+  a#BTAddNewSearch,
+  a#BTAddNewSearch:hover {
+    height: 28px;
+    margin: 7px 2px 6px 0;
+    border-radius: 4px;
+  }
+
+  /* ---- Editor header controls: compact standard buttons, centred on the tabs ---- */
+  .scEditorTabControlsHolder {
+    margin-top: 10px;
+  }
+  .scEditorTabControls a.scEditorHeaderButton {
+    padding: 2px 8px;
+    margin-left: 4px;
+    line-height: 16px;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+
+  /* ---- Dialog windows: an 8px-rounded Mica window with a soft shadow; the jQuery UI title strip
+     carries Windows' caption buttons at its right. ---- */
+  .ui-dialog {
+    border: 1px solid var(--sct-window-border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--gr-shadow-window);
+  }
+  .ui-dialog .ui-dialog-titlebar {
+    border: 0;
+  }
+  /* Sitecore's Dialogs.css pins the buttons at top 21px and right 25px, !important */
+  .ui-dialog .ui-dialog-titlebar-buttonpane {
+    top: 0 !important;
+    right: 0 !important;
+    left: auto;
+    width: auto;
+    display: flex;
+    gap: 0;
+    z-index: 2;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+    box-sizing: border-box;
+    width: 46px;
+    height: 32px;
+    margin: 0 !important;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: var(--gr-g, none) center / 10px 10px no-repeat;
+    box-shadow: none;
+    overflow: hidden;
+    text-indent: -999px;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * > * {
+    display: none;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > *:hover {
+    background-color: var(--gr-subtle);
+  }
+  .ui-dialog .ui-dialog-titlebar-collapse { order: 0; --gr-g: var(--gr-g-up); }
+  .ui-dialog .ui-dialog-titlebar-minimize { order: 1; --gr-g: var(--gr-g-min); }
+  .ui-dialog .ui-dialog-titlebar-maximize { order: 2; --gr-g: var(--gr-g-max); }
+  .ui-dialog .ui-dialog-titlebar-restore { order: 2; --gr-g: var(--gr-g-restore); }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > button.ui-button { order: 3; --gr-g: var(--gr-g-close); }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > button.ui-button:hover {
+    --gr-g: var(--gr-g-close-hover);
+    background-color: #c42b1c;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > *:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+  /* SPE Reports' SPEAK-style red title band: the Mica window, the title in the text colour */
+  .sc-applicationHeader-row1 {
+    background-image: none;
+    background-color: var(--sct-app-bg);
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--sct-app-fg);
+  }
+  /* Dialog headers: the title at the left in Sun Valley's subtitle weight, clear of the caption buttons */
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader {
+    padding-right: 150px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeaderDescription {
+    color: var(--sct-muted-fg);
+  }
+  /* 10.5 drops the header's inset that 10.4 has (Cupertino's spacing block zeroes its padding) */
+  &[data-sct-version="10.5"] :is(.scFormDialogHeader, .scDialogHeader) :is(.DialogHeader, .DialogHeaderDescription) {
+    padding-left: 18px;
+  }
+  /* Sitecore focuses the open tab when a dialog opens; the ring belongs to keyboard use only */
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover):focus:not(:focus-visible) {
+    outline: none;
+  }
+  /* The ListView's title is a header the dialog host puts under the jQuery UI title bar: the Windows
+     title bar. The 15px bar stretches over the header's 32px (so the whole row drags the window) and
+     the header, transparent and click-through, sets the title in the same row as the buttons. */
+  .ui-dialog > .ui-dialog-titlebar:has(+ .DialogHeader) {
+    box-sizing: border-box;
+    height: 32px;
+    margin-bottom: -32px;
+  }
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+    box-sizing: border-box;
+    position: relative;
+    height: 32px;
+    padding: 0 150px 0 12px;
+    overflow: hidden;
+    background: transparent;
+    pointer-events: none;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 32px;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* ==== Hand-written details. :not(#sct-gr) matches every page; its id weight lets these rules beat
+   Sitecore's own selectors and the generated token layer. ==== */
+html[data-sct-theme="graphite"][data-sct-surface="shell"]:not(#sct-gr) {
+  /* ---- Menus (context menus, start menu fly-outs, drop-downs): Sun Valley's, an 8px-rounded acrylic
+     flyout inset 4px, 28px rows whose hover is a 4px-rounded subtle plate; the text keeps its colour. ---- */
+  .scPopup:has(> table.scMenu) {
+    border: 1px solid var(--sct-window-border);
+    border-radius: 8px;
+    background: var(--gr-acrylic);
+    backdrop-filter: blur(30px) saturate(1.4);
+    box-shadow: var(--gr-shadow-flyout);
+  }
+  /* gallery pop-ups (Icon, Language, Versions...) frame their page as a flyout */
+  .scPopup:has(> iframe) {
+    border: 1px solid var(--sct-window-border);
+    border-radius: 8px;
+    box-shadow: var(--gr-shadow-flyout);
+  }
+  .scPopup > table.scMenu {
+    padding: 4px;
+    border: 0;
+    border-spacing: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    color: var(--sct-panel-fg);
+  }
+  /* menus drawn inside gallery pages: labels in the label colour (the token layer gives .scMenu the link
+     colour), section headings small and secondary */
+  table.scMenu,
+  table.scMenu .scMenuItem {
+    color: var(--sct-panel-fg);
+  }
+  table.scMenu td.scMenuHeader {
+    padding: 8px 12px 4px;
+    color: var(--sct-muted-fg);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemCaption, td.scMenuItemHotkey, td.scMenuItemIcon_Hover, td.scMenuItemCaption_Hover, td.scMenuItemHotkey_Hover, td.scMenuItemIcon_Disabled, td.scMenuItemCaption_Disabled, td.scMenuItemHotkey_Disabled) {
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--sct-panel-fg);
+    font-size: 12px;
+    line-height: 16px;
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemIcon_Hover, td.scMenuItemIcon_Disabled) {
+    width: 16px;
+    padding: 0 10px 0 12px;
+    border-radius: 4px 0 0 4px;
+  }
+  table.scMenu :is(td.scMenuItemCaption, td.scMenuItemCaption_Hover, td.scMenuItemCaption_Disabled) {
+    padding: 0 12px 0 0;
+  }
+  table.scMenu :is(td.scMenuItemHotkey, td.scMenuItemHotkey_Hover, td.scMenuItemHotkey_Disabled) {
+    padding: 0 10px 0 16px;
+    border-radius: 0 4px 4px 0;
+    color: var(--sct-muted-fg);
+    text-align: right;
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemIcon_Hover, td.scMenuItemIcon_Disabled) img {
+    display: block;
+  }
+  table.scMenu :is(td.scMenuItemIcon_Hover, td.scMenuItemCaption_Hover, td.scMenuItemHotkey_Hover) {
+    background: var(--gr-subtle);
+  }
+  table.scMenu :is(td.scMenuItemCaption_Disabled, td.scMenuItemHotkey_Disabled) {
+    color: color-mix(in srgb, var(--sct-panel-fg) 40%, transparent);
+  }
+  /* the submenu arrow: dark art, drawn in the label colour */
+  table.scMenu td:is(.scMenuItemHotkey, .scMenuItemHotkey_Hover) img:not(.scSpacer) {
+    display: block;
+    margin-left: auto;
+    filter: var(--sct-glyph-filter, none);
+  }
+  /* keyboard focus in a menu is the hover plate, not a ring around the row */
+  table.scMenu tr:focus {
+    outline: none;
+  }
+  table.scMenu tr:focus-visible > td:not([class*="Divider"]) {
+    background: var(--gr-subtle);
+  }
+  /* separators: a hairline with 4px of air above and below */
+  table.scMenu :is(td.scMenuDividerIcon, td.scMenuDividerCaption, td.scMenuDividerHotkey) {
+    height: 9px;
+    padding: 0;
+    border: 0;
+    background: linear-gradient(var(--sct-border), var(--sct-border)) 0 50% / 100% 1px no-repeat;
+  }
+  table.scMenu :is(td.scMenuDividerIcon, td.scMenuDividerCaption, td.scMenuDividerHotkey) img {
+    display: none;
+  }
+
+  /* ---- Start menu: Sun Valley's, a rounded acrylic panel over the taskbar; columns and rows paint
+     nothing of their own so the blur shows through; hover rows take the subtle plate. The 88% tint
+     keeps text at AA over any wallpaper (light: #1b1b1b on at worst #d8d8d8; dark: #fff on at worst
+     #4a4a4a). ---- */
+  /* centred 12px above the taskbar, where Sun Valley opens it (Sitecore places it over the button) */
+  .scPopup:has(> #StartMenu) {
+    top: auto !important;
+    bottom: 60px;
+    left: 50% !important;
+    transform: translateX(-50%);
+    border: 1px solid var(--sct-window-border);
+    border-radius: 8px;
+    background: var(--gr-acrylic);
+    backdrop-filter: blur(40px) saturate(1.4);
+    box-shadow: var(--gr-shadow-window);
+  }
+  #StartMenu {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  :is(#StartMenu, .scStartMenuContent, .scStartMenuContentColumns, .scStartMenuContentColumns td, .scStartMenuLeft, .scStartMenuRight, .scStartMenuPrograms, .scStartMenuTop, .scStartMenuBottom) {
+    background: transparent;
+  }
+  :is(.scStartMenuLeft, .scStartMenuRight) * {
+    color: var(--sct-panel-fg);
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu) {
+    border-radius: 4px;
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):not(:hover) {
+    background: transparent;
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu, .scMenu :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+    background: var(--gr-subtle);
+  }
+  :is(.scStartMenuLeftOptionTooltip) {
+    color: var(--sct-muted-fg);
+  }
+  .scStartMenuDivider {
+    height: 1px;
+    margin: 4px 10px;
+    background: var(--sct-border);
+  }
+  /* the arrows of folders, in the label colour */
+  :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph) {
+    filter: var(--sct-glyph-filter, none);
+  }
+
+  /* ---- The taskbar: Sun Valley's, a 48px translucent bar across the bottom; the start button and the
+     running apps centred as icons, each app with its running pill (a wide accent pill for the active
+     one); at the right the search field, the database switcher and the clock with the date. Sitecore's
+     own controls, restyled; dom.js builds the icon row and the clock. ---- */
+  /* The desktop runs to the screen's bottom edge, so the wallpaper shows through the bar. Its bottom
+     48px are a transparent border: windows are sized to the padding box, so a maximized window stops
+     above the taskbar while the wallpaper, painted from the border box, carries on behind it. Windows
+     are clipped to the border box, so one dragged down slides under the bar. */
+  .DesktopArea {
+    bottom: 0;
+    border-bottom: 48px solid transparent;
+    overflow: clip;
+    overflow-clip-margin: border-box;
+    background-origin: border-box !important;
+    background-clip: border-box !important;
+  }
+  /* restored windows: 8px corners and Sun Valley's soft shadow; maximized ones (Sitecore sizes them
+     100%) stay square, as Windows draws them */
+  .DesktopArea > iframe[id^="FRAME"]:not([style*="width: 100%"]) {
+    border-radius: 8px;
+    box-shadow: var(--gr-shadow-window);
+  }
+  /* above the windows (Sitecore stacks them from z-index 1) so the jump lists overlap them, below the
+     pop-up menus (z-index 1000 and up) */
+  .scStartbar {
+    bottom: 0;
+    height: 48px;
+    border: 0;
+    border-top: 1px solid color-mix(in srgb, var(--sct-window-border) 60%, transparent);
+    /* an 85% tint keeps the tray text at AA over any wallpaper (light: #1b1b1b on at worst #cbcbcb;
+       dark: #fff on at worst #3d3d3d) */
+    background: color-mix(in srgb, var(--sct-taskbar-bg) 85%, transparent);
+    backdrop-filter: blur(30px) saturate(1.5);
+    z-index: 900;
+  }
+  #Startbar {
+    position: relative;
+    box-sizing: border-box;
+    height: 48px !important;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  /* a centred flex row rather than a table; the tray leaves it for the right edge */
+  #Startbar > table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-spacing: 0;
+    background: none;
+    backdrop-filter: none;
+  }
+  #Startbar > table > tbody,
+  #Startbar > table > tbody > tr {
+    display: contents;
+  }
+  /* Sitecore stretches the table and its middle cell with width attributes */
+  #Startbar > table > tbody > tr > td {
+    display: block;
+    flex: none;
+    width: auto;
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+    vertical-align: middle;
+  }
+
+  /* the start button: a neutral grid glyph on a 40px flat button */
+  .scStartButtonContainer {
+    position: relative;
+    width: 44px;
+    height: 48px;
+  }
+  .scStartButton,
+  .scStartButton:hover,
+  .scStartButton.scPopupOpener {
+    top: 4px;
+    left: 2px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+  }
+  .scStartButton:hover {
+    background: var(--gr-subtle);
+  }
+  .scStartButton.scPopupOpener {
+    background: color-mix(in srgb, var(--sct-taskbar-fg) 9%, transparent);
+  }
+  .scStartButton::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 18px;
+    height: 18px;
+    margin: auto;
+    background: radial-gradient(circle, var(--sct-accent) 2px, transparent 2.5px) 0 0 / 6px 6px;
+  }
+  .scStartButton:active::before {
+    transform: scale(0.88);
+  }
+  .scStartButton:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* running windows, without dom.js: Sitecore's own buttons as icons with their titles */
+  #Startbar > table > tbody > tr > td:nth-child(2) {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: calc(100% - 640px);
+  }
+  .scStartBarScroller {
+    height: 48px;
+    padding: 0;
+    border: 0;
+  }
+  #StartbarApplications,
+  #StartbarApplications > tbody {
+    display: block;
+    height: 48px;
+    margin: 0;
+  }
+  #StartbarApplications > tbody > tr {
+    display: flex;
+    align-items: center;
+    height: 48px;
+  }
+  #StartbarApplications > tbody > tr > td {
+    display: flex;
+    align-items: center;
+    flex: 0 1 auto;
+    box-sizing: border-box;
+    min-width: 0;
+    height: 48px;
+    position: relative;
+    padding: 0 2px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    vertical-align: middle;
+  }
+  #StartbarApplications > tbody > tr > td::before {
+    content: none;
+  }
+  #StartbarApplications > tbody > tr > td::after {
+    content: "";
+    position: absolute;
+    top: auto;
+    bottom: 3px;
+    left: 50%;
+    width: 6px;
+    height: 3px;
+    margin-left: -3px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--sct-taskbar-fg) 55%, transparent);
+  }
+  #StartbarApplications > tbody > tr > td.scActiveApplication::after {
+    width: 16px;
+    margin-left: -8px;
+    background: var(--sct-accent);
+  }
+  .scStartBarApplication {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 40px;
+    min-width: 40px;
+    max-width: 180px;
+    padding: 0 10px;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--sct-taskbar-fg);
+  }
+  .scStartBarApplication span {
+    display: block;
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    color: var(--sct-taskbar-fg);
+    font-size: 12px;
+    line-height: 40px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .scStartBarApplication:hover {
+    background: var(--gr-subtle);
+  }
+  .scActiveApplication .scStartBarApplication {
+    background: color-mix(in srgb, var(--sct-taskbar-fg) 8%, transparent);
+  }
+
+  /* the tray at the right edge: the database switcher and the clock */
+  #Startbar > table > tbody > tr > td:last-child {
+    position: absolute;
+    top: 0;
+    right: 8px;
+  }
+  .scStartbarTray {
+    height: 48px;
+    border: 0;
+    border-spacing: 0;
+    background: none;
+  }
+  .scStartbarTray > tbody > tr > td {
+    height: 48px;
+    padding: 0 2px;
+    border: 0;
+    line-height: normal !important;
+    vertical-align: middle;
+  }
+  .scStartbarTray :is(td, span) {
+    color: var(--sct-taskbar-fg);
+  }
+  .scSearchBoxContainer {
+    width: auto;
+  }
+  .scSearchBoxContainer:empty {
+    display: none;
+  }
+  #DatabaseSelector {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    height: 40px;
+    margin: 0;
+    padding: 0 10px 0 8px;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: var(--sct-taskbar-fg);
+    font-size: 12px;
+    line-height: 40px;
+  }
+  #DatabaseSelector:hover {
+    background: var(--gr-subtle);
+  }
+  #DatabaseSelector img {
+    width: 16px;
+    height: 16px;
+    margin: 0 !important;
+  }
+  /* Sitecore's database glyph is white art for its dark bar; on the light taskbar it takes the text colour */
+  /* ---- 10.5 spaced its chrome out; Graphite keeps 10.4's spacing on both versions (values from the
+     stock 10.4.1 stylesheets, minus what this theme sets itself) ---- */
+  &[data-sct-version="10.5"] {
+    .scRibbonToolbarStrip,
+    .scRibbonToolbarContextualStrip {
+      padding: 0;
+    }
+    .scRibbon .chunk .panel {
+      padding: 10px 8px;
+    }
+    .scFormDialogHeader {
+      padding: 0;
+    }
+    :is(.scFormDialogHeader, .scDialogHeader) .DialogHeaderDescription {
+      padding-bottom: 15px;
+    }
+    .scDialogContentContainer {
+      padding: 15px;
+    }
+    .scDialogContentContainer .scMainContainer {
+      margin: 15px 15px 20px;
+    }
+    :is(.scFormDialogFooter, .scWizardButtons) {
+      height: 56px;
+      padding: 8px 15px 9px;
+    }
+    .scFormDialogFooter .footerOkCancel {
+      right: 15px;
+    }
+    .HeadingCell {
+      padding: 14px 10px;
+    }
+    :is(.Row, .SelectedRow) td.DataCell {
+      padding: 5px;
+    }
+    .scListControl > :is(thead th, tbody > tr > td) {
+      padding: 14px 15px;
+    }
+    .scListControl > tbody:first-child > tr:first-child > td {
+      padding: 0;
+    }
+    .scTreeview .header {
+      padding: 14px 10px;
+    }
+    .scPaneHeader {
+      padding: 0 0 0 15px;
+    }
+    #EditorTabs {
+      padding-left: 15px;
+    }
+    .scDockBottomContainer {
+      background-color: transparent;
+    }
+    .scPager {
+      width: auto;
+    }
+    a:is(.scPagerButtonNormal, .scPagerButtonActive) {
+      padding: 0 10px;
+    }
+  }
+
+  /* ---- Content Editor: the tree straight on the Mica window, the editor pane an 8px card, without
+     10.5's glow ---- */
+  #ContentTreePanel > div {
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none !important;
+    background-color: var(--sct-tree-bg) !important;
+  }
+  #EditorTabs {
+    border-bottom: 0;
+  }
+  /* the tab row runs under the system menu, so the toolbar is one colour edge to edge */
+  .scCaption:has(> a.scSystemMenu) .scRibbonNavigator {
+    margin-left: 0;
+    padding-left: 69px;
+  }
+  /* the system menu centred on the tabs beside it (10.5 sets it 4px higher) */
+  &[data-sct-version="10.5"] .scCaption > a.scSystemMenu {
+    top: 21px;
+  }
+  #EditorFrames {
+    box-sizing: border-box;
+    border: 1px solid var(--sct-border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: none;
+  }
+  /* Room around the panes on both versions: half of 10.5's stock gaps (16px above, 12px beside the
+     tree, 16px before the editor, 12px around the pager); 10.4 has none. 10.5 sets the caption's
+     margin inline, and narrows #Editors by its editor margin so the pane stays flush right. */
+  .scFlexColumnContainer:has(> #MainPanel > .scContentEditorSplitter) {
+    > .scCaption {
+      margin-bottom: 8px !important;
+    }
+    .scDockBottom {
+      margin: 6px;
+    }
+  }
+  .scContentEditorSplitter {
+    > #ContentTreePanel {
+      margin-left: 6px;
+    }
+    > #ContentTreePanel > div {
+      width: calc(100% - 6px) !important;
+    }
+    #ContentEditor {
+      margin-left: 8px;
+    }
+    #ContentEditor #Editors {
+      width: calc(100% - 8px);
+    }
+  }
+
+  /* Tree search: a 26px field and two 26px borderless buttons, centred on one line. */
+  #SearchPanel {
+    padding: 10px 8px 6px 10px;
+    background: transparent;
+  }
+  #SearchPanel > table {
+    width: 100%;
+    border-spacing: 0;
+  }
+  #SearchPanel > table > tbody > tr > td {
+    height: auto;
+    padding: 0;
+    vertical-align: middle;
+  }
+  #SearchPanel > table > tbody > tr > td:first-child {
+    width: 100%;
+  }
+  #SearchPanel > table > tbody > tr > td > div {
+    float: none !important;
+    padding: 0 !important;
+  }
+  #SearchPanel .scElementHover {
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0 0 0 2px;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+  }
+  #SearchPanel .scElementHover:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  #TreeSearch {
+    box-sizing: border-box;
+    width: 100%;
+    height: 28px;
+    min-height: 0;
+    padding: 0 8px;
+    border: 1px solid var(--sct-input-border);
+    border-radius: 4px;
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+    font-size: 12px;
+    line-height: 26px;
+  }
+  /* Sitecore writes "Search" into the field as a watermark value, grey until focused */
+  #TreeSearch,
+  #TreeSearch::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  #TreeSearch:focus {
+    color: var(--sct-input-fg);
+  }
+  :is(a.scSearchButton, a.scSearchOptionsButton) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 26px;
+    height: 28px;
+    padding: 0;
+  }
+  :is(a.scSearchButton, a.scSearchOptionsButton) img {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+  }
+  /* 10.4's options arrow is a black down_h.png, not 10.5's down_grey_h.png that the glyph filter catches */
+  &[data-sct-version="10.4"] a.scSearchOptionsButton img {
+    filter: var(--sct-glyph-filter, none);
+  }
+  /* the expanded options: the theme's small fields and pop-up links */
+  #TreeSearchOptions {
+    margin-top: 6px;
+  }
+  #TreeSearchOptions td {
+    padding: 2px 0;
+    vertical-align: middle;
+  }
+  #TreeSearchOptions .scElementHover {
+    padding: 0;
+    border-radius: 4px;
+  }
+  #TreeSearchOptions .scElementHover:hover,
+  #TreeSearchOptions .scSearchOptionName:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  #TreeSearchOptions :is(.scSearchOptionName, .scSearchAddCriteria) {
+    display: block;
+    padding: 4px 6px;
+    color: var(--sct-panel-fg);
+    font-size: 12px;
+    line-height: 16px;
+  }
+  #TreeSearchOptions input.scSearchOptionsInput {
+    box-sizing: border-box;
+    height: 24px;
+    min-height: 0;
+    padding: 0 6px;
+    border: 1px solid var(--sct-input-border);
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  /* Tree rows: the selection plate and its accent bar are the focus mark, as in a NavigationView. */
+  .scContentTreeNode > a {
+    border-radius: 4px;
+  }
+  .scContentTreeContainer a.scContentTreeNodeActive:focus-visible {
+    outline: none;
+  }
+  .scContentTreeContainer a.scContentTreeNodeNormal:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -1px;
+  }
+
+  /* ---- Ribbon galleries: a framed list with subtle plate rows ---- */
+  .scRibbonGalleryList {
+    border: 1px solid var(--sct-input-border);
+    border-right: 0;
+    border-radius: 4px 0 0 4px;
+    padding: 1px 2px;
+  }
+  .scRibbonPanelButtons {
+    border: 1px solid var(--sct-input-border);
+    border-radius: 0 4px 4px 0;
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton) {
+    display: block;
+    box-sizing: border-box;
+    height: 20px;
+    padding: 2px 6px;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: var(--sct-ribbon-fg);
+    line-height: 16px;
+    text-align: left;
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton):hover {
+    background: var(--gr-subtle);
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton):active {
+    background: var(--gr-subtle-pressed);
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton) * {
+    background: transparent;
+  }
+  .scRibbonGalleryList > a.scRibbonToolbarLargeTextButton br {
+    display: none;
+  }
+  .scRibbonGalleryList > a.scRibbonToolbarLargeTextButton .scRibbonToolbarLargeTextButtonText {
+    display: inline;
+    padding: 0;
+  }
+
+  /* ---- Editor header: the navigator, language and version pickers are standard buttons ---- */
+  .scEditorTabControls a.scEditorHeaderButton {
+    border: 1px solid var(--sct-button-border);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--sct-app-fg) 10%, transparent);
+    background-color: var(--sct-button-bg);
+    color: var(--sct-button-fg);
+  }
+  .scEditorTabControls a.scEditorHeaderButton:hover {
+    background-color: var(--sct-button-hover-bg);
+  }
+  .scEditorTabControls a.scEditorHeaderButton img:is(.scEditorHeaderNavigatorGlyph, .scEditorHeaderVersionsLanguageGlyph, .scEditorHeaderVersionsVersionGlyph) {
+    margin-left: 3px;
+  }
+  .scEditorHeader,
+  .scEditorSections {
+    background-color: transparent;
+  }
+
+  /* ---- Editor fields: Sun Valley text boxes, 28px ---- */
+  .scEditorSections :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], select:not([multiple]):not([size])) {
+    min-height: 28px;
+    padding: 4px 10px;
+  }
+
+  /* The jQuery UI frame on the dialog host page takes the window colour of the dialog page inside it
+     (its form paints --sct-app-bg), so the 15px title strip with the caption buttons and the body read
+     as one Mica surface. */
+  .ui-dialog,
+  .ui-dialog > .ui-dialog-titlebar,
+  .ui-dialog > .ui-dialog-content {
+    background-color: var(--sct-app-bg);
+  }
+
+  /* ---- Dialogs: one Mica window surface; tabs as pills over a card page; the footer a darker band
+     as ContentDialog draws its command area. ---- */
+  .scFormDialogHeader,
+  .scDialogHeader {
+    border: 0;
+    background: transparent;
+  }
+  .scTabstrip {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .scTabstrip > nobr {
+    display: flex;
+    padding: 0;
+    background: transparent;
+  }
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+    left: auto;
+    top: auto;
+    height: 28px;
+    margin: 0 2px 0 0;
+    padding: 0 12px;
+    color: var(--sct-app-fg);
+    font-size: 12px;
+    line-height: 28px;
+  }
+  .scTabstrip :is(.scTab, .scTab_Hover) {
+    font-weight: 400;
+  }
+  /* SPE pulls a script tab's close X 10px into the tab's 20px right padding; with these 12px it all but
+     touched the edge */
+  .scTabstrip .closeTab {
+    margin: 0 -4px 0 6px;
+  }
+  /* the page is a card under the pills, as a Pivot sits over its content */
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabs {
+    top: 36px;
+    border: 1px solid var(--sct-border);
+    border-radius: 8px;
+    background-color: var(--sct-panel-bg);
+  }
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabPage {
+    padding: 12px 16px 16px;
+  }
+  /* SPE prompt fields carry a 10px right gutter; the left side matches it */
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabs > .scTabPage:has(> div > .variableWrapper) {
+    padding-left: 24px;
+  }
+  .scTabs .scScrollbox {
+    border: 1px solid var(--sct-border);
+    border-radius: 4px;
+    background-color: var(--sct-panel-bg);
+  }
+  :is(.scFormDialogContent, .scDialogContentContainer) :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], select:not([multiple]):not([size])) {
+    min-height: 28px;
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+  .scFormDialogFooter {
+    border: 0;
+    border-top: 1px solid var(--sct-border);
+    background: var(--sct-panel-bg);
+  }
+}
+
+/* ---- Bucket search (the Content Editor's and Media Library's Search tab, Buckets/ShowResult.aspx):
+   a Sun Valley search box holding its filter tokens, Sitecore's own glyphs drawn in the label colour,
+   push-button views and results on the window surface. The token layer strips the Search and Clear
+   icons (.btn-search, .btn-clear); they come back here. Glyph art is dark, so it is painted on
+   ::before layers that carry --sct-glyph-filter, leaving the buttons' own backgrounds unfiltered. ---- */
+html[data-sct-theme="graphite"][data-sct-surface="shell"]:not(#sct-gr) {
+  .search-box {
+    box-sizing: border-box;
+    min-height: 32px;
+    border: 1px solid var(--sct-input-border);
+    border-radius: 4px;
+    box-shadow: inset 0 -1px 0 var(--sct-border-strong);
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+  }
+  .search-box:focus-within {
+    box-shadow: inset 0 -2px 0 var(--sct-input-focus-border);
+  }
+  .search-box input.raw-user-input {
+    min-height: 0;
+    height: 19px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    background: transparent;
+    color: var(--sct-input-fg);
+    caret-color: var(--sct-input-fg);
+    font-size: 12px;
+  }
+  .search-box input.raw-user-input::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  /* (.sb_down and .sb_up are already absolutely placed) */
+  :is(.btn-search, .btn-clear, .filters .filter .remove) {
+    position: relative;
+  }
+  :is(.sb_down, .sb_up, .btn-search, .btn-clear, .filters .filter .remove) {
+    background-image: none;
+    box-shadow: none;
+  }
+  :where(.sb_down, .sb_up, .btn-search, .btn-clear, .filters .filter .remove)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: center / 16px 16px no-repeat;
+    filter: var(--sct-glyph-filter, none);
+    pointer-events: none;
+  }
+  .sb_down::before { background-image: url("/sitecore/shell/Applications/Buckets/images/icons/down.png"); background-size: auto; }
+  .sb_up::before { background-image: url("/sitecore/shell/Applications/Buckets/images/icons/up.png"); background-size: auto; }
+  .btn-search::before { background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png"); }
+  .btn-clear::before { background-image: url("/sitecore/shell/Applications/Buckets/images/clear.png"); background-size: auto; }
+  .filters .filter .remove::before { background-image: url("/sitecore/shell/Applications/Buckets/images/cancel_grey.svg"); background-size: 12px 12px; }
+  :is(.sb_down, .sb_up) {
+    border-radius: 3px 0 0 3px;
+    background-color: transparent;
+  }
+  :is(.btn-search, .btn-clear) {
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+  }
+  .btn-search {
+    border-radius: 0 3px 3px 0;
+  }
+  .clear-search-box {
+    background: transparent;
+  }
+  :is(.sb_down, .sb_up, .btn-search, .btn-clear):is(:hover, :active) {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  /* the view switcher: Sitecore draws the current view dark and the others light grey, which reads
+     backwards on a dark window; in dark the current view is white and the others dimmed */
+  #views > a {
+    filter: brightness(0) invert(0.88);
+    opacity: 0.45;
+  }
+  #views > a:is(.active, :hover) {
+    opacity: 1;
+  }
+  /* filter tokens: rounded pills in the field */
+  .filters .filter {
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--sct-input-fg) 9%, transparent);
+    color: var(--sct-input-fg);
+  }
+  .filters .filter :is(.display-name, .value .display-value) {
+    color: var(--sct-input-fg);
+  }
+  .filters .filter :is(.icon, .remove):hover {
+    background-color: color-mix(in srgb, var(--sct-input-fg) 12%, transparent);
+  }
+  .filters .filter .value .raw-value {
+    min-height: 0;
+    border: 0;
+    box-shadow: none;
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+  }
+}
+
+/* ---- Leftovers the dark sweep found (cu/scan.cjs): Sitecore art and inline colours that the token
+   layer does not reach. ---- */
+html[data-sct-theme="graphite"][data-sct-surface="shell"]:not(#sct-gr) {
+  /* dark arrows and grips drawn as background images */
+  :is(.ui-resizable-handle.ui-icon, .side .sb_filter > span) {
+    filter: var(--sct-glyph-filter, none);
+  }
+  /* inline greys for secondary text (hidden or protected tree items, gallery notes) */
+  :is([style*="color:#666" i], [style*="color: #666" i], [style*="color:#999" i], [style*="color: #999" i]) {
+    color: var(--sct-muted-fg) !important;
+  }
+  /* the standard roots' inline green, on any tree's selection */
+  a.scContentTreeNodeActive:is([style^="color:green" i], [style^="color: green" i]),
+  a.scContentTreeNodeActive :is([style^="color:green" i], [style^="color: green" i]),
+  :is(.scMenuPanelItemSelected, .scMenuPanelItemSelected_Hover) :is([style*="color:#666" i], [style*="color: #666" i]) {
+    color: inherit !important;
+  }
+  .scContentTree a.scContentTreeNodeActive:is([style^="color:green" i], [style^="color: green" i]) {
+    color: var(--sct-tree-selected-fg) !important;
+  }
+  /* inline whites and greys the shared map matches only in lower case (Recycle Bin's grid, splitters) */
+  :is([style*="background:White"], [style*="background: White"], [style*="background-color:White"]) {
+    background-color: var(--sct-panel-bg) !important;
+  }
+  :is([style*="background:#e3e3e3" i], [style*="background: #e3e3e3" i]) {
+    background-color: var(--sct-border) !important;
+  }
+}
+
+/* ---- Instant search results (the taskbar's search field): the menus' acrylic flyout, opening above
+   the field. dom.js writes the field's position into --sct-sv-left / --sct-sv-bottom; until it has,
+   the panel stays hidden so it never flashes at Sitecore's old right-hand spot. ---- */
+html[data-sct-theme="graphite"][data-sct-surface="shell"]:not(#sct-gr) {
+  #InstantResults {
+    box-sizing: border-box;
+    max-height: calc(100vh - 160px);
+    padding: 4px;
+    overflow-y: auto;
+    border: 1px solid var(--sct-window-border);
+    border-radius: 8px;
+    background: var(--gr-acrylic);
+    backdrop-filter: blur(30px) saturate(1.4);
+    box-shadow: var(--gr-shadow-flyout);
+    color: var(--sct-panel-fg);
+    font-size: 12px;
+  }
+  #InstantResults .scSearchResultsTable {
+    border-spacing: 0;
+    background: transparent;
+  }
+  #InstantResults .scSearchResultsTable td:nth-last-child(1) {
+    border-left: 1px solid var(--sct-border);
+    padding-left: 5px;
+  }
+  #InstantResults .category {
+    color: var(--sct-muted-fg);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 26px;
+  }
+  #InstantResults .scSearchResultsTable a {
+    border-radius: 4px;
+    color: var(--sct-panel-fg);
+  }
+  #InstantResults .scSearchResultsTable a img {
+    margin: 5px 7px 5px 0;
+  }
+  #InstantResults .scSearchResultsTable a h2 {
+    color: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 26px;
+  }
+  #InstantResults .scSearchResultsTable a:is(:hover, .active),
+  #InstantResults li:is(:hover, .active) {
+    background: var(--gr-subtle);
+    color: var(--sct-panel-fg);
+  }
+  /* one highlight: the pointer's row while it is over the panel, Sitecore's keyboard row otherwise */
+  #InstantResults:hover .scSearchResultsTable a.active:not(:hover) {
+    background: transparent;
+    color: var(--sct-panel-fg);
+  }
+  #InstantResults li {
+    border-radius: 4px;
+    line-height: 26px;
+  }
+  #InstantResults li h2 {
+    color: inherit;
+  }
+  #InstantResults .noresults li {
+    padding: 4px 14px;
+    color: var(--sct-muted-fg);
+  }
+  /* Sitecore's close and progress marks at the field's end: dark art, in the label colour */
+  img:is([src*="globalsearch_close"], [src*="globalsearch_progress"]) {
+    z-index: 901;
+    filter: var(--sct-glyph-filter, none);
+  }
+}
+
+/* ---- The ISE's Ace editor in dark: the shared layer flips Ace's light theme with
+   filter: invert(0.88) hue-rotate(180deg), which also flips Ace's own scrollbars into light bars.
+   They get the colours the filter maps back onto the theme's: invert(0.88) sends each channel to
+   224.4 - 0.76 * in, so in = (224.4 - target) / 0.76, clamped to 0..255; hue-rotate(180deg) then
+   swaps a slight blue tint for a slight yellow one, so the thumb's tint is entered reversed. Thumb
+   #9f9f9f -> #565656, track #202020 -> #fdfdfd. ---- */
+html[data-sct-theme="graphite"][data-sct-surface="shell"] .ace_editor :is(.ace_scrollbar, .ace_scrollbar-v, .ace_scrollbar-h) {
+  scrollbar-color: #565656 #fdfdfd;
+  scrollbar-width: thin;
+}
+/* SPE's unsaved-script dot, in a light red so it holds 3:1 on the dark tabs and title bar */
+html[data-sct-theme="graphite"][data-sct-surface="shell"] .scriptModified {
+  color: #ff99a4 !important; /* SPE writes it inline in window captions */
+}
+
+/* ==== Graphite. Everything above is the shared structure; this block gives it Graphite's look. ==== */
+html[data-sct-theme="graphite"][data-sct-surface="shell"]:not(#sct-gr) {
+  /* ---- Tabs, every strip: flat muted labels; the open one in the text colour over a 1px underline in
+     the text colour (no fill, no pill); hover brightens the label ---- */
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive),
+  :is(a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal),
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover),
+  a:is(.scPagerButtonNormal, .scPagerButtonActive) {
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+    color: var(--sct-muted-fg);
+    font-weight: 400;
+  }
+  :is(.scRibbon a.scRibbonNavigatorButtonsNormal, a.scRibbonEditorTabNormal, a.scPagerButtonNormal):hover,
+  .scTabstrip .scTab_Hover {
+    background-color: transparent;
+    color: var(--sct-app-fg);
+  }
+  .scRibbon a.scRibbonNavigatorButtonsActive,
+  a.scRibbonEditorTabActive,
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover),
+  a.scPagerButtonActive {
+    background-color: transparent;
+    box-shadow: inset 0 -1px 0 var(--sct-app-fg);
+    color: var(--sct-app-fg);
+    font-weight: 500;
+  }
+  a.scRibbonEditorTabActive :is(span, .scEditorTabHeaderActive),
+  :is(a.scRibbonEditorTabNormal:hover) :is(span, .scEditorTabHeaderNormal) {
+    color: var(--sct-app-fg);
+  }
+  a.scRibbonEditorTabNormal :is(span, .scEditorTabHeaderNormal) {
+    color: var(--sct-muted-fg);
+  }
+  .scRibbon a.scRibbonNavigatorButtonsActive::after,
+  a.scRibbonEditorTabActive::after,
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover)::after,
+  a.scPagerButtonActive::after {
+    content: none;
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive) {
+    margin: 0 8px;
+    padding: 0 2px;
+  }
+  /* the tab row stands on a hairline */
+  .scRibbonNavigator {
+    box-shadow: inset 0 -1px 0 var(--gr-line);
+  }
+
+  /* ---- Ribbon: the app layer, groups divided by hairlines, 6px ghost plates on hover ---- */
+  .scRibbonToolbar {
+    border-bottom: 1px solid var(--gr-line);
+    background-color: var(--sct-ribbon-bg);
+  }
+  .scRibbonToolbar .chunk {
+    border-right-color: var(--gr-line);
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"] {
+    border-radius: 6px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"]:hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"]:active {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+  }
+
+  /* ---- Panes: the tree a sidebar on the panel layer with a hairline at its right edge, the editor
+     straight on the app layer; no glow, no corners ---- */
+  #ContentTreePanel > div {
+    border: 0;
+    border-right: 1px solid var(--gr-line);
+    border-radius: 0;
+    background-color: var(--sct-tree-bg) !important;
+  }
+  #EditorFrames {
+    border: 0;
+    border-radius: 0;
+    background: var(--sct-app-bg);
+    box-shadow: none;
+  }
+  /* tree rows: 6px, the selection a faint white plate, hover fainter */
+  .scContentTreeNode > a,
+  .scContentTree :is(a.scContentTreeNodeActive, a.scContentTreeNodeNormal) {
+    border-radius: 6px;
+  }
+  .scContentTree a.scContentTreeNodeActive {
+    border-color: transparent;
+    background-color: var(--gr-select);
+    font-weight: 500;
+  }
+  .scContentTree a.scContentTreeNodeActive::before {
+    content: none;
+  }
+  .scContentTree a.scContentTreeNodeNormal:hover {
+    background-color: var(--gr-hover);
+  }
+
+  /* ---- Sections: hairline-framed groups, the header in the text colour on the app layer ---- */
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+    border-color: var(--gr-line);
+    background-color: var(--sct-section-header-bg);
+    font-weight: 500;
+  }
+  .scEditorSectionCaptionCollapsed {
+    border-radius: 6px;
+  }
+  .scEditorSectionCaptionExpanded {
+    border-radius: 6px 6px 0 0;
+  }
+  .scEditorSectionPanel {
+    border-color: var(--gr-line);
+    border-radius: 0 0 6px 6px;
+  }
+
+  /* ---- Text fields: the raised layer, a 1px hairline frame, 6px; on focus a violet border and a soft
+     3px ring ---- */
+  :is(.scContentControl, .scEditorSections :is(input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"], [type="image"]), textarea, select),
+    :is(.scFormDialogContent, .scDialogContentContainer, #TreeSearchOptions) :is(input:is(:not([type]), [type="text"], [type="password"], [type="number"], [type="search"]), textarea, select:not([multiple], [size])),
+    #TreeSearch, #SearchBox) {
+    border-radius: 6px;
+    border-color: var(--sct-input-border);
+    box-shadow: none;
+  }
+  :is(input, textarea, select, .scContentControl, #TreeSearch, #SearchBox):focus {
+    outline: none;
+    border-color: var(--sct-input-focus-border);
+    box-shadow: var(--gr-ring);
+  }
+
+  /* ---- Buttons: ghost buttons with a hairline frame; the default one violet ---- */
+  :is(.scButton, button:not(.ui-button)),
+  .scEditorTabControls a.scEditorHeaderButton {
+    border-radius: 6px;
+  }
+  :is(button.scButton, input.scButton) {
+    border: 1px solid var(--gr-line-strong);
+    box-shadow: none;
+    background: transparent;
+    font-weight: 500;
+  }
+  :is(button.scButton, input.scButton):hover {
+    background: var(--gr-hover);
+  }
+  :is(button.scButton, input.scButton):active {
+    background: var(--gr-select);
+    color: var(--sct-button-fg);
+  }
+  :is(button.scButton, input.scButton).scButtonPrimary {
+    border-color: transparent;
+    box-shadow: none;
+    background: var(--sct-button-primary-bg);
+  }
+  :is(button.scButton, input.scButton).scButtonPrimary:hover {
+    background: var(--sct-button-primary-hover-bg);
+  }
+  :is(button.scButton, input.scButton):focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--sct-focus-ring), var(--gr-ring);
+  }
+  .scEditorTabControls a.scEditorHeaderButton {
+    border: 1px solid var(--gr-line-strong);
+    box-shadow: none;
+    background-color: transparent;
+  }
+  .scEditorTabControls a.scEditorHeaderButton:hover {
+    background-color: var(--gr-hover);
+  }
+
+  /* ---- Window buttons: small ghost buttons, 28x28 with 6px corners, muted until hovered; close turns
+     the danger red ---- */
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+    align-items: center;
+    gap: 2px;
+  }
+  :is(.scSystemButtons, .scWorkboxWindowButtons),
+  .standartWindowButtons {
+    right: 6px;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    vertical-align: middle;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
+    background-color: var(--gr-select);
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="close" i]:hover {
+    background-color: #c8323a;
+  }
+  .scCaption > .scSystemButtons,
+  .scWorkboxWindowButtons,
+  .standartWindowButtons {
+    height: 32px;
+  }
+
+  /* ---- Dialogs: the panel layer framed by a hairline, 8px corners, no shadow ---- */
+  .ui-dialog {
+    border: 1px solid var(--gr-line-strong);
+    border-radius: 8px;
+    box-shadow: none;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane {
+    top: 6px !important;
+    right: 6px !important;
+    gap: 2px;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > *:hover {
+    background-color: var(--gr-select);
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > button.ui-button:hover {
+    background-color: #c8323a;
+  }
+  .ui-widget-overlay {
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 1;
+  }
+  /* the tabs stand on a hairline that is the page's top edge, the open tab's underline on it */
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabstrip {
+    align-items: flex-end;
+    height: 30px;
+    box-shadow: inset 0 -1px 0 var(--gr-line);
+  }
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+    margin-right: 16px;
+    padding: 0 2px;
+  }
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabs {
+    top: 30px;
+    border: 1px solid var(--gr-line);
+    border-top: 0;
+    border-radius: 0 0 6px 6px;
+    background-color: var(--sct-app-bg);
+  }
+  .scFormDialogFooter {
+    border-top: 1px solid var(--gr-line);
+    background: var(--sct-panel-bg);
+  }
+
+  /* ---- Menus: the panel layer, a hairline frame, 6px corners, no shadow; 28px rows with a 6px plate ---- */
+  .scPopup:has(> table.scMenu) {
+    border: 1px solid var(--gr-line-strong);
+    border-radius: 8px;
+    background: var(--sct-panel-bg);
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  .scPopup:has(> iframe) {
+    border: 1px solid var(--gr-line-strong);
+    border-radius: 8px;
+    box-shadow: none;
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemIcon_Hover, td.scMenuItemIcon_Disabled) {
+    border-radius: 6px 0 0 6px;
+  }
+  table.scMenu :is(td.scMenuItemHotkey, td.scMenuItemHotkey_Hover, td.scMenuItemHotkey_Disabled) {
+    border-radius: 0 6px 6px 0;
+  }
+  table.scMenu :is(td.scMenuItemIcon_Hover, td.scMenuItemCaption_Hover, td.scMenuItemHotkey_Hover) {
+    background: var(--gr-select);
+  }
+  table.scMenu :is(td.scMenuDividerIcon, td.scMenuDividerCaption, td.scMenuDividerHotkey) {
+    background: linear-gradient(var(--gr-line), var(--gr-line)) 0 50% / 100% 1px no-repeat;
+  }
+  .scPopup:has(> #StartMenu) {
+    border: 1px solid var(--gr-line-strong);
+    border-radius: 8px;
+    background: var(--sct-panel-bg);
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu) {
+    border-radius: 6px;
+  }
+  .scStartMenuDivider {
+    background: var(--gr-line);
+  }
+
+  /* ---- The Desktop: the app layer with a faint dot grid and a violet glow at its top; windows framed by
+     a hairline with 8px corners; the taskbar a 40px panel-layer strip on a hairline ---- */
+  #Desktop.DesktopArea {
+    background:
+      radial-gradient(60% 45% at 50% 0%, rgba(124, 108, 255, 0.16), transparent 70%),
+      radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1.5px) 0 0 / 24px 24px,
+      var(--sct-desktop-bg) !important;
+  }
+  .DesktopArea > iframe[id^="FRAME"]:not([style*="width: 100%"]) {
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px var(--gr-line-strong);
+  }
+  .DesktopArea {
+    border-bottom-width: 40px;
+  }
+  .scStartbar {
+    height: 40px;
+    border-top: 1px solid var(--gr-line);
+    background: var(--sct-taskbar-bg);
+    backdrop-filter: none;
+  }
+  #Startbar,
+  #StartbarApplications,
+  #StartbarApplications > tbody,
+  #StartbarApplications > tbody > tr,
+  #StartbarApplications > tbody > tr > td,
+  .scStartBarScroller,
+  .scStartbarTray,
+  .scStartbarTray > tbody > tr > td {
+    height: 40px !important;
+  }
+  .scStartButtonContainer {
+    height: 40px;
+  }
+  /* the start button: the violet mark the mockup's sidebar carries, an 18px rounded square */
+  .scStartButton,
+  .scStartButton:hover,
+  .scStartButton.scPopupOpener {
+    top: 4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+  }
+  .scStartButton:hover,
+  .scStartButton.scPopupOpener {
+    background: var(--gr-select);
+  }
+  .scStartButton::before {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background: var(--gr-accent-line);
+  }
+  .scStartBarApplication {
+    height: 30px;
+    border-radius: 6px;
+  }
+  .scStartBarApplication span {
+    color: var(--sct-muted-fg);
+    line-height: 30px;
+  }
+  .scStartBarApplication:hover {
+    background: var(--gr-hover);
+  }
+  .scActiveApplication .scStartBarApplication {
+    background: var(--gr-select);
+  }
+  .scActiveApplication .scStartBarApplication span {
+    color: var(--sct-app-fg);
+  }
+  #StartbarApplications > tbody > tr > td::after {
+    content: none;
+  }
+  #DatabaseSelector {
+    height: 30px;
+    border-radius: 6px;
+    color: var(--sct-muted-fg);
+    line-height: 30px;
+  }
+  #SearchBox {
+    height: 28px;
+    background: var(--sct-input-bg);
+  }
+  #SearchBox::placeholder {
+    color: var(--sct-muted-fg);
+  }
+}

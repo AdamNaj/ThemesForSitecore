@@ -1,0 +1,199 @@
+/* Dessau: Launchpad as a Bauhaus poster grid. A black column on the left carries the circle, square
+   and triangle; each group is a block framed in black with its name on a colour band (red, yellow,
+   blue in turn); each application is a cell, its icon set on a geometric shape. */
+
+/* :not(#sct-ds) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="dessau"][data-sct-surface="launchpad"]:not(#sct-ds) {
+  & body {
+    background:
+      radial-gradient(circle at 28px 120px, var(--ds-red) 0 15px, transparent 15.5px) 0 0 / 56px 100% no-repeat fixed,
+      linear-gradient(var(--ds-yellow), var(--ds-yellow)) 14px 160px / 28px 28px no-repeat fixed,
+      conic-gradient(from 150deg at 28px 206px, var(--ds-blue) 0 60deg, transparent 0) 0 0 / 56px 238px no-repeat fixed,
+      linear-gradient(var(--ds-black), var(--ds-black)) 0 0 / 56px 100% no-repeat fixed,
+      var(--ds-base);
+  }
+  /* the page clear of the black column */
+  .sc-applicationContent {
+    box-sizing: border-box;
+    padding-left: 56px;
+  }
+  .sc-list,
+  .container-narrow,
+  .sc-applicationContent,
+  .sc-applicationContent-main,
+  .sc-applicationContent-main .row,
+  .sc-applicationContent-main .col-md-12 {
+    background: transparent;
+  }
+
+  /* ---- Header ---- */
+  .sc-globalHeader {
+    border-bottom: 4px solid var(--ds-black);
+    box-shadow: none;
+    background: var(--ds-base) !important;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a),
+  .sc-globalHeader .sc-globalHeader-applicationName {
+    color: var(--ds-black);
+  }
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1 {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--ds-black);
+    font-family: var(--ds-head);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ---- The grid: blocks wrap, clear of the black column ---- */
+  .sc-applicationContent-main .col-md-12:has(> .sc-launchpad) {
+    display: block;
+  }
+  .sc-launchpad {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    float: none;
+    box-sizing: border-box;
+    width: auto;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 28px 24px 32px;
+  }
+
+  /* ---- A group: a block framed in black ---- */
+  .sc-launchpad-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    box-sizing: border-box;
+    width: 344px;
+    margin: 0;
+    padding: 0 0 8px;
+    border: 4px solid var(--ds-black);
+    border-radius: 0;
+    background: var(--ds-base);
+    box-shadow: none;
+  }
+  .sc-launchpad-group-title {
+    position: static;
+    box-sizing: border-box;
+    flex: 0 0 100%;
+    width: auto;
+    height: auto;
+    margin: 0 0 6px;
+    padding: 6px 12px;
+    border: 0;
+    border-bottom: 4px solid var(--ds-black);
+    background: var(--ds-red);
+    color: #ffffff;
+    font-family: var(--ds-head);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 20px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  :nth-child(3n+2 of .sc-launchpad-group) > .sc-launchpad-group-title {
+    background: var(--ds-yellow);
+    color: var(--ds-black);
+  }
+  :nth-child(3n+3 of .sc-launchpad-group) > .sc-launchpad-group-title {
+    background: var(--ds-blue);
+  }
+
+  /* ---- An application: a cell, the icon on a circle, square or triangle in turn ---- */
+  .sc-launchpad-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    box-sizing: border-box;
+    width: 84px;
+    height: auto;
+    margin: 0;
+    padding: 6px 2px 4px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    float: none;
+    text-decoration: none;
+  }
+  .sc-launchpad-item:is(:hover, :focus, :active) {
+    border: 0;
+    background: var(--sct-ribbon-button-hover-bg);
+    box-shadow: none;
+    text-decoration: none;
+  }
+  .sc-launchpad-item:focus {
+    outline: none;
+  }
+  .sc-launchpad-item:focus-visible {
+    outline: 2px solid var(--ds-blue);
+    outline-offset: -2px;
+  }
+  .sc-launchpad-item .icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--ds-red) 22%, var(--ds-base));
+  }
+  .sc-launchpad-item:nth-of-type(3n+2) .icon {
+    border-radius: 0;
+    background: color-mix(in srgb, var(--ds-yellow) 40%, var(--ds-base));
+  }
+  .sc-launchpad-item:nth-of-type(3n+3) .icon {
+    border-radius: 0;
+    background: conic-gradient(from 150deg at 50% 0, color-mix(in srgb, var(--ds-blue) 22%, var(--ds-base)) 0 60deg, transparent 0);
+  }
+  .sc-launchpad-item .icon img {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    filter: none;
+  }
+  .sc-launchpad-item:nth-of-type(3n+3) .icon img {
+    margin-top: 10px;
+    width: 26px;
+    height: 26px;
+  }
+  .sc-launchpad-text {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: var(--ds-black);
+    font-family: var(--ds-head);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    line-height: 13px;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: normal;
+    text-decoration: none;
+  }
+  /* the Custom Analytics heading (its description is a .sc-text-title too) */
+  .sc-applicationContent-main .col-md-12 > .sc-text-title {
+    color: var(--ds-black);
+    font-family: var(--ds-head);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}

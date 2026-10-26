@@ -1,0 +1,10 @@
+/* Menlo: a BeOS window tab, yellow with its bevel */
+html[data-sct-theme="menlo"] sct-bar-postfix {
+  border: 1px solid;
+  border-color: #fff6c8 #8c7000 #8c7000 #fff6c8;
+  border-radius: 0;
+  background: #ffcb00;
+  color: #000;
+  font: bold 12px/16px Verdana, "DejaVu Sans", Geneva, sans-serif;
+  letter-spacing: 0;
+}

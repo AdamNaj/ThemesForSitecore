@@ -1,0 +1,20 @@
+{
+  "//": "Copy to sitecore.local.json (gitignored) and point it at your own installs. Read by tools/local.cjs.",
+  "hosts": {
+    "10.5": "https://cm105.example.test",
+    "10.4": "https://cm104.example.test"
+  },
+  "identityHosts": ["https://id105.example.test", "https://id104.example.test"],
+  "webroots": {
+    "10.5": "C:/inetpub/wwwroot/cm105.example.test",
+    "10.4": "C:/inetpub/wwwroot/cm104.example.test",
+    "legacy": [
+      "C:/inetpub/wwwroot/sc100/Website",
+      "C:/inetpub/wwwroot/sc101/Website",
+      "C:/inetpub/wwwroot/sc102/Website",
+      "C:/inetpub/wwwroot/sc103/Website"
+    ],
+    "identity": ["C:/inetpub/wwwroot/id105.example.test", "C:/inetpub/wwwroot/id104.example.test"],
+    "sitecore6": "C:/inetpub/wwwroot/sc66/Website"
+  }
+}

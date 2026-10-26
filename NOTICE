@@ -1,0 +1,36 @@
+Themes for Sitecore
+Copyright 2026 Adam Najmanowicz
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+Contributors keep the copyright on their contributions and license them under the same terms.
+
+Third-party material
+--------------------
+
+The files below contain CSS derived from Sitecore's own stylesheets: Sitecore's selectors with Sitecore's
+property values, generated from local Sitecore installations by tools/css-diff.mjs and
+tools/build-sitecore6-css.mjs (vars.css copied by hand), so that a theme can give one Sitecore version the
+look of another. That material remains the property of Sitecore Corporation A/S, is included only to restyle
+Sitecore's own user interface, and is not covered by the Apache License:
+
+- extension/themes/sitecore104/shell.css, speak.css, launchpad.css and ee.css (from Sitecore 10.4.1)
+- extension/themes/sitecore105/shell.css, speak.css, launchpad.css, ee.css and vars.css (from Sitecore 10.5)
+- extension/themes/sitecore6/shell.css, the block between its BEGIN and END markers (from Sitecore 6.6)
+- extension/surfaces/launchpad.css, the block between "BEGIN 10.0 Launchpad" and "END 10.0 Launchpad"
+  (from Sitecore 10.2)
+
+The extension/surfaces/*.gen.css files use Sitecore's selectors to map its colours onto this project's own
+colour tokens; their values are this project's. Every image in the extension is this project's own drawing;
+themes that show Sitecore's icons, wallpapers or glyphs load them from the Sitecore server at runtime.
+The screenshots in extension/popup/previews and docs show Sitecore's user interface.
+
+The fonts in extension/fonts are unmodified copies, each under the SIL Open Font License 1.1 (its text beside
+it), not the Apache License: Atkinson Hyperlegible, copyright 2020 Braille Institute of America, Inc.; and
+OpenDyslexic, copyright 2019 Abbie Gonzalez, with Reserved Font Name OpenDyslexic.
+
+Trademarks
+----------
+
+Sitecore is a trademark of Sitecore Corporation A/S. Windows is a trademark of Microsoft Corporation, macOS is
+a trademark of Apple Inc., and Java is a trademark of Oracle and/or its affiliates. This project is not
+affiliated with any of them.

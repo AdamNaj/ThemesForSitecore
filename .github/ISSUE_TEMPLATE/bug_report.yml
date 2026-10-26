@@ -1,0 +1,49 @@
+name: Bug report
+description: Something looks wrong or doesn't work under a theme
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Please leave out client content and credentials, in the text and in screenshots.
+  - type: input
+    id: theme
+    attributes:
+      label: Theme
+      description: The theme's name, and Light or Dark if it follows your setting
+      placeholder: Whistler
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Sitecore version
+      options: ["10.5", "10.4", "10.3", "10.2", "10.1", "10.0"]
+    validations:
+      required: true
+  - type: dropdown
+    id: runtime
+    attributes:
+      label: Where it runs
+      options: [Chrome extension, Edge extension, Firefox extension, Sitecore-deployed module]
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: Where you see it
+      placeholder: Content Editor, the Media Library dialog, Launchpad, the Experience Editor ribbon...
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens, and what you expected
+      description: Steps to get there, and a screenshot if you can
+    validations:
+      required: true
+  - type: input
+    id: extensions
+    attributes:
+      label: Other extensions that restyle pages
+      description: Dark Reader, Stylus, the Sitecore Extensions add-on...

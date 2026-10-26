@@ -1,0 +1,181 @@
+/* Compact: the classic shell at laptop density. Sitecore's own colours on each version (no tokens); only
+   spacing changes. Measured on 10.5 and 10.4 with getBoundingClientRect (stock -> Compact):
+   tree rows 26 -> 18px, ribbon tab row 47 -> 24px, ribbon toolbar 105 -> 62px, section captions 59 -> 26px,
+   fields 35px inputs with a 27px label above -> 24px inputs with the label beside them. */
+
+/* ---- Content tree: 18px rows. Sitecore centres a 16px glyph and a 16px link in 26px with 5px margins and
+   3px paddings; both keep 1px. */
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scContentTreeNode > img {
+  margin: 1px 0;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scContentTreeNode > a {
+  padding: 0 4px;
+  margin: 1px 0;
+  line-height: 16px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] #ContentTreeActualSize {
+  padding-top: 4px;
+}
+
+/* ---- Ribbon: a 24px tab row, 2px above and below the chunks, 42px panels (a large button, or two rows of
+   18px small buttons) over a 14px caption. */
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsContextualActive) {
+  padding: 0 10px;
+  line-height: 24px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] :is(.scRibbonToolbarStrip, .scRibbonToolbarContextualStrip) {
+  min-height: 0;
+  padding: 2px 0;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbon .chunk {
+  height: 58px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbon .chunk .panel {
+  height: 42px;
+  padding: 1px 5px 0;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbon .chunk .caption {
+  line-height: 14px;
+  font-size: 11px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbon .chunk .caption .glyph {
+  padding: 1px 4px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbon :is(.scRibbonToolbarLargeButton, .scRibbonToolbarLargeButtonDown, .scRibbonToolbarLargeButtonDisabled, .scRibbonToolbarLargeGalleryButton, .scRibbonToolbarLargeGalleryButtonDisabled, .scRibbonToolbarLargeComboButtonDisabled) .header,
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbon a.scRibbonToolbarLargeComboButtonBottom {
+  padding: 1px 4px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarSmallGalleryButton, .scRibbonToolbarSmallButtonDisabled, .scRibbonToolbarSmallGalleryButtonDisabled, a.scRibbonToolbarSmallButtonDown) {
+  height: 18px;
+  padding: 1px 4px;
+  line-height: 16px;
+}
+/* Sitecore pads every large button, gallery and small-button column 4px 8px; the top and bottom 4px would
+   push a 38px button through the caption */
+html[data-sct-theme="compact"][data-sct-surface="shell"] :is(.scRibbon a.scRibbonToolbarLargeGalleryButton, .scRibbonToolbarLargeGalleryButtonDisabled, .scRibbonGallery, a.scRibbonToolbarLargeButton, .scRibbonToolbarLargeButtonDisabled, .scRibbon a.scRibbonToolbarLargeButtonDown, .scRibbonToolbarSmallButtons, .scRibbonToolbarLargeComboButton, .scRibbonToolbarLargeComboButtonDown, .scRibbonLargeImageButtonDown, .scRibbonToolbarLargeComboButtonDisabled, .scRibbonToolbarLargeButtonDown) {
+  padding: 0 4px;
+}
+/* Security > Presets: a gallery list of text buttons, two 18px rows in view like the Insert gallery */
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbon a.scRibbonToolbarLargeTextButton {
+  height: 18px;
+  padding: 0 4px;
+  line-height: 18px;
+}
+/* the system menu hangs 17px below the caption's top for Sitecore's 30px tab row: as tall as the 24px one */
+html[data-sct-theme="compact"][data-sct-surface="shell"] a.scSystemMenu {
+  height: 24px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbonToolbarSmallCheckButton {
+  padding: 0 4px;
+  line-height: 14px;
+}
+/* the Insert gallery shows two of its 18px rows, as Sitecore shows two of its 21px ones */
+html[data-sct-theme="compact"][data-sct-surface="shell"] :is(.scRibbonGalleryList, .scRibbonPanelButtons) {
+  height: 38px;
+  box-sizing: border-box;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbonToolbarSmallButtons {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+/* ---- Editor: tabs, header, sections, fields */
+html[data-sct-theme="compact"][data-sct-surface="shell"] :is(.scEditorTabHeaderNormal, .scEditorTabHeaderActive) {
+  height: 26px;
+  line-height: 26px;
+  padding: 0 10px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorHeader {
+  height: auto;
+  padding: 8px 10px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorHeader::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] img.scEditorHeaderIcon {
+  width: 24px;
+  height: 24px;
+  margin-right: 2px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+  padding: 0 8px;
+  line-height: 24px;
+  margin-bottom: 0;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSectionCaptionGlyph {
+  margin-top: 4px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSectionPanel {
+  margin-top: 4px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSectionPanelCell {
+  padding: 2px 4px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorFieldMarker {
+  margin-bottom: 4px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorFieldSpacer {
+  height: 4px;
+}
+
+/* Labels beside their fields: the field's cell is a two-column grid, the label in the first column and
+   everything else (the control, its buttons, a rich-text preview) stacked in the second. */
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSections .scEditorFieldMarkerInputCell {
+  display: grid;
+  grid-template-columns: minmax(110px, 22%) minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: start;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSections .scEditorFieldMarkerInputCell > * {
+  grid-column: 2;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSections .scEditorFieldMarkerInputCell > .scEditorFieldLabel {
+  grid-column: 1;
+  grid-row: 1 / span 6;
+  padding: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSections :is(input.scContentControl, select.scContentControl):not([type="checkbox"]):not([type="radio"]) {
+  min-height: 0;
+  height: 24px;
+  padding: 2px 6px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSections :is(textarea.scContentControl, .scContentControlMemo) {
+  min-height: 0;
+  padding: 3px 6px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSections :is(table.scCombobox, table.scContentControl) {
+  min-height: 0;
+  height: 24px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSections :is(table.scCombobox, table.scContentControl) :is(input.scComboboxEdit, tbody, tr, td) {
+  min-height: 0;
+  height: auto;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scEditorSections .scContentButtons {
+  padding: 0 0 2px;
+}
+
+/* Menus scroll only when they reach the window: Sitecore pins a popup's max-height to its measured height, a
+   fraction short on 10.4 (the shared layer does this for token themes; Compact has no tokens) */
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scPopup {
+  max-height: 100vh !important;
+}
+
+/* Versions > Translate: two language boxes and their labels, 19px each with no cell padding */
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbonTranslatePanel table td {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbonTranslatePanel :is(select, .scRibbonCombobox) {
+  height: 19px;
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 11px;
+}
+html[data-sct-theme="compact"][data-sct-surface="shell"] .scRibbonTranslatePanelRow {
+  padding: 0;
+}

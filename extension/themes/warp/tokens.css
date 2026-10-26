@@ -1,0 +1,84 @@
+/* Warp: inspired by OS/2 Warp 4. Grey #cccccc windows with 2px bevels (white top and left, #404040 bottom
+   and right) and a black edge, blue title bars #3c5a9a under white bold text (6.7:1), white sunken fields,
+   the selection blue, WarpSans (Verdana and Tahoma stand in) at 11px. */
+html[data-sct-theme="warp"] {
+  --sct-font-family: WarpSans, "Workplace Sans", Verdana, Tahoma, sans-serif;
+  --sct-font-size: 11px;
+  --sct-radius: 0;
+
+  --sct-app-bg: #cccccc;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #404040;
+  --sct-border: #808080;
+  --sct-border-strong: #404040;
+  --sct-accent: #3c5a9a;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #1a3a7a;
+  --sct-focus-ring: #000000;
+  --sct-raised-bg: #d8d8d8;
+  --sct-chrome-bg: #cccccc;
+  --sct-chrome-fg: #000000;
+  --sct-selected-bg: #b8c6e0;
+
+  --sct-titlebar-bg: #3c5a9a;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #b4b4b4;
+  --sct-titlebar-inactive-fg: #000000;
+  --sct-window-border: #404040;
+
+  --sct-ribbon-bg: #cccccc;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #b8b8b8;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #cccccc;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #cccccc;
+  --sct-ribbon-chunk-caption-bg: #cccccc;
+  --sct-ribbon-chunk-caption-fg: #000000;
+  --sct-ribbon-button-hover-bg: #d8d8d8;
+  --sct-ribbon-button-pressed-bg: #b4b4b4;
+
+  --sct-tree-bg: #ffffff;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #e6e6e6;
+  --sct-tree-selected-bg: #3c5a9a;
+  --sct-tree-selected-fg: #ffffff;
+  --sct-tree-selected-border: #000000;
+
+  --sct-section-header-bg: #d8d8d8;
+  --sct-section-header-fg: #000000;
+  --sct-section-body-bg: #cccccc;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #808080;
+  --sct-input-focus-border: #000000;
+
+  --sct-button-bg: #cccccc;
+  --sct-button-fg: #000000;
+  --sct-button-border: #404040;
+  --sct-button-hover-bg: #d8d8d8;
+  --sct-button-primary-bg: #cccccc;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #d8d8d8;
+
+  --sct-table-header-bg: #d8d8d8;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #e6e6e6;
+
+  --sct-scrollbar-thumb: #cccccc;
+  --sct-scrollbar-track: #e6e6e6;
+
+  --sct-desktop-bg: #2a5a8c;
+  --sct-taskbar-bg: #cccccc;
+  --sct-taskbar-fg: #000000;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="warp"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

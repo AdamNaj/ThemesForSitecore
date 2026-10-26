@@ -1,0 +1,4 @@
+/* The accent badge, slightly rounded */
+html[data-sct-theme="debrightify"] sct-bar-postfix {
+  border-radius: 3px;
+}

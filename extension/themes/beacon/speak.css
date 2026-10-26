@@ -1,0 +1,174 @@
+/* Beacon: SPEAK pages (Control Panel, the Experience Editor ribbon) with the Content Editor's signature:
+   outlined tabs and buttons, the open tab yellow, command labels underlined, a 3px yellow focus ring. */
+
+html[data-sct-theme="beacon"][data-sct-surface="speak"] body {
+  font-size: 13px;
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] :focus-visible {
+  outline: 3px solid var(--sct-focus-ring) !important;
+  outline-offset: 1px !important;
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] :is(input[type="checkbox"], input[type="radio"]) {
+  accent-color: var(--sct-accent);
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] ::placeholder {
+  color: var(--sct-muted-fg);
+  opacity: 1;
+}
+
+/* Global header: on a white line, "Log out" full white and underlined. */
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .sc-globalHeader {
+  border-bottom: 2px solid var(--sct-border-strong);
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout {
+  color: var(--sct-titlebar-fg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Fields and buttons: square, 2px frames. */
+html[data-sct-theme="beacon"][data-sct-surface="speak"] :is(input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]):not([type="hidden"]), textarea, select, .form-control) {
+  border: 2px solid var(--sct-input-border);
+  border-radius: 0;
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] :is(input, textarea, select, .form-control):focus {
+  border-color: var(--sct-input-focus-border);
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .btn {
+  border: 2px solid var(--sct-button-border);
+  border-radius: 0;
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .btn:not(.btn-primary):hover {
+  background-color: var(--sct-button-hover-bg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .btn.btn-primary {
+  border-color: var(--sct-button-primary-bg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .btn.btn-primary:hover {
+  border-color: var(--sct-border-strong);
+  background-color: var(--sct-button-primary-hover-bg);
+}
+
+/* ---- Application header (Control Panel and other SPEAK apps): 10.4's red photo band goes (white on red
+   was 4.6:1); the title sits on black over a white line. The back button's label was 68% white. */
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .sc-applicationHeader-row1 {
+  background-image: none !important;
+  background-color: var(--sct-chrome-bg) !important;
+  border-bottom: 2px solid var(--sct-border-strong);
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .sc-applicationHeader-title {
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .sc .sc-backbutton .sc-backbutton-text {
+  color: var(--sct-button-fg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] :is(.sc-controlpanel-box-content a, .sc-listcontrol a, a.sc-hyperlink) {
+  color: var(--sct-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .sc-controlpanel-box-content a:hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+
+/* ---- Experience Editor ribbon */
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .sc-pageeditbar {
+  .sc-quickbar {
+    background: var(--sct-ribbon-tab-bg);
+  }
+  .sc-quickbar-item {
+    color: var(--sct-ribbon-tab-fg);
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    background: transparent;
+    border-color: transparent;
+  }
+  .sc-quickbar-button:not(.disabled):hover,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    outline: 2px solid var(--sct-border-strong);
+    outline-offset: -2px;
+  }
+  /* tabs: white-outlined boxes, the open one yellow with bold black text */
+  .sc-quickbar-tab {
+    border: 2px solid var(--sct-border-strong);
+    border-bottom: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--sct-ribbon-tab-fg);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: var(--sct-ribbon-tab-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected,
+  .sc-quickbar-tab.sc-quickbar-tab-selected:hover {
+    border-color: var(--sct-accent);
+    background: var(--sct-ribbon-tab-active-bg);
+    color: var(--sct-ribbon-tab-active-fg);
+  }
+
+  .sc-ribbon {
+    background-color: var(--sct-ribbon-bg);
+    border-top: 2px solid var(--sct-accent);
+    border-bottom: 2px solid var(--sct-border-strong);
+  }
+  .sc-ribbon .sc-chunk::after {
+    background-color: var(--sct-border-strong);
+    width: 2px;
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--sct-ribbon-chunk-caption-fg);
+  }
+  /* command labels underlined */
+  .sc-ribbon :is(.sc-chunk-button-label, .sc-chunk-button-small .sc-chunk-button-label, .sc-chunk-check-small label) {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+    outline: 2px solid var(--sct-border-strong);
+    outline-offset: -2px;
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):active {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+  }
+  /* toggled-on buttons are a current state: yellow, bold black */
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: var(--sct-accent);
+  }
+  .sc-ribbon .pressed :is(.sc-chunk-button-label, span, label) {
+    color: var(--sct-accent-fg);
+    font-weight: 700;
+  }
+  .sc-ribbon .sc-chunk-button-list ul {
+    background: var(--sct-input-bg);
+    border: 2px solid var(--sct-input-border);
+  }
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-changedate:hover,
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-datetime:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
+   text colour instead (as the shared shell map does on shell pages). */
+html[data-sct-theme="beacon"][data-sct-surface="speak"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}
+
+/* Dark sprite glyphs on the EE ribbon: the breadcrumb's separators. (The quick bar's collapse chevron is
+   the token layer's.) */
+html[data-sct-theme="beacon"][data-sct-surface="speak"] .sc-breadcrumb .sprite-speak-ribbon-clean-ee[class*="separator"] {
+  filter: var(--sct-glyph-filter);
+}

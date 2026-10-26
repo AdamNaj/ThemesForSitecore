@@ -1,0 +1,85 @@
+/* Sonata: inspired by Mac OS 9's Platinum appearance. Platinum greys (#dddddd face, #eeeeee content,
+   #bbbbbb/#999999/#777777 shades, black outlines with a white inner highlight), lavender text selection
+   (#ccccff), a lilac focus ring (#8c8cdb), a blue-violet menu highlight and the blue-violet desktop.
+   Charcoal is not available: a bold Verdana/Geneva stack stands in for it. */
+html[data-sct-theme="sonata"] {
+  --sct-font-family: Charcoal, "Charcoal CY", Verdana, Geneva, Tahoma, sans-serif;
+  --sct-font-size: 11.5px;
+  --sct-radius: 0;
+
+  --sct-app-bg: #dddddd;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #555555;
+  --sct-border: #999999;
+  --sct-border-strong: #777777;
+  --sct-accent: #6060c0;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #3333aa;
+  --sct-focus-ring: #8c8cdb;
+  --sct-raised-bg: #eeeeee;
+  --sct-chrome-bg: #dddddd;
+  --sct-chrome-fg: #000000;
+  --sct-selected-bg: #ccccff;
+
+  --sct-titlebar-bg: #dddddd;
+  --sct-titlebar-fg: #000000;
+  --sct-titlebar-inactive-bg: #eeeeee;
+  --sct-titlebar-inactive-fg: #555555;
+  --sct-window-border: #000000;
+
+  --sct-ribbon-bg: #eeeeee;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #cccccc;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #eeeeee;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #eeeeee;
+  --sct-ribbon-chunk-caption-bg: #eeeeee;
+  --sct-ribbon-chunk-caption-fg: #444444;
+  --sct-ribbon-button-hover-bg: #dddddd;
+  --sct-ribbon-button-pressed-bg: #bbbbbb;
+
+  --sct-tree-bg: #ffffff;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #eeeeee;
+  --sct-tree-selected-bg: #ccccff;
+  --sct-tree-selected-fg: #000000;
+  --sct-tree-selected-border: #8c8cdb;
+
+  --sct-section-header-bg: #dddddd;
+  --sct-section-header-fg: #000000;
+  --sct-section-body-bg: #eeeeee;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #555555;
+  --sct-input-focus-border: #8c8cdb;
+
+  --sct-button-bg: #dddddd;
+  --sct-button-fg: #000000;
+  --sct-button-border: #000000;
+  --sct-button-hover-bg: #dddddd;
+  --sct-button-primary-bg: #dddddd;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #dddddd;
+
+  --sct-table-header-bg: #dddddd;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #eeeeee;
+
+  --sct-scrollbar-thumb: #ccccff;
+  --sct-scrollbar-track: #bbbbbb;
+
+  --sct-desktop-bg: #5c6fa8;
+  --sct-taskbar-bg: #dddddd;
+  --sct-taskbar-fg: #000000;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="sonata"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

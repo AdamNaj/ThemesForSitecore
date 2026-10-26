@@ -1,0 +1,2155 @@
+/* Sitecore 10.4: restores the stock 10.4 values that Sitecore 10.5 changed.
+   Generated with tools/css-diff.mjs against a stock 10.4.1 install. Hand-written rules live in glyphs.css. */
+
+/* ---- sitecore/shell/Themes/Standard/Default/Default.css ---- */
+html[data-sct-theme="sitecore104"] textarea::-webkit-scrollbar {
+  width: 100%;
+}
+html[data-sct-theme="sitecore104"] select::-webkit-scrollbar {
+  width: 100%;
+}
+html[data-sct-theme="sitecore104"] textarea::-webkit-scrollbar-track {
+  background: unset;
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] select::-webkit-scrollbar-track {
+  background: unset;
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] textarea::-webkit-scrollbar-thumb {
+  background: unset;
+  cursor: unset;
+  border-radius: 2px;
+  border: 1px solid #cccccc;
+}
+html[data-sct-theme="sitecore104"] select::-webkit-scrollbar-thumb {
+  background: unset;
+  border-radius: 2px;
+  border: 1px solid #cccccc;
+  cursor: not-allowed;
+}
+html[data-sct-theme="sitecore104"] textarea.reTextArea {
+  border-radius: unset !important;
+}
+html[data-sct-theme="sitecore104"] &:focus {
+  border-color: unset !important;
+  outline: unset !important;
+  box-shadow: unset !important;
+  border: unset !important;
+  border-radius: unset !important;
+  outline-color: unset !important;
+  outline-width: unset !important;
+  outline-style: unset !important;
+}
+html[data-sct-theme="sitecore104"] &:focus-visible {
+  border-color: unset !important;
+  outline: unset !important;
+  box-shadow: unset !important;
+  border: unset !important;
+  border-radius: unset !important;
+  outline-color: unset !important;
+  outline-width: unset !important;
+  outline-style: unset !important;
+}
+html[data-sct-theme="sitecore104"] button.scButton {
+  border-radius: 6px;
+}
+html[data-sct-theme="sitecore104"] input[value="Cancel"].scButton {
+  border-radius: 6px;
+}
+html[data-sct-theme="sitecore104"] .scButtonPrimary[disabled] {
+  opacity: unset;
+  cursor: unset;
+  background-color: #207da2;
+}
+html[data-sct-theme="sitecore104"] .scButtonPrimary[disabled]:hover {
+  opacity: unset;
+  cursor: unset;
+  background-color: #1d7395;
+}
+html[data-sct-theme="sitecore104"] .scButtonPrimary[disabled]:active {
+  opacity: unset;
+  cursor: unset;
+  background-color: #1d7395;
+}
+html[data-sct-theme="sitecore104"] button.scButtonPrimary:focus-visible {
+  outline: unset;
+}
+html[data-sct-theme="sitecore104"] #FooterRow {
+  padding: unset !important;
+  height: unset !important;
+  background-color: unset !important;
+  border-top: unset !important;
+  border-radius: unset !important;
+}
+html[data-sct-theme="sitecore104"] .scEditHtmlButtons {
+  background-color: unset !important;
+  border-top: unset !important;
+  border-radius: unset !important;
+}
+html[data-sct-theme="sitecore104"] input[type="radio"] {
+  accent-color: unset;
+}
+html[data-sct-theme="sitecore104"] input[type="checkbox"] {
+  accent-color: unset;
+}
+html[data-sct-theme="sitecore104"] input:not([type]) {
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] input[type="text"] {
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] input[type="password"] {
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] textarea {
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] input:not([type]):focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+html[data-sct-theme="sitecore104"] input[type="text"]:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+html[data-sct-theme="sitecore104"] input[type="password"]:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+html[data-sct-theme="sitecore104"] select:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+html[data-sct-theme="sitecore104"] input[disabled]:not([type]) {
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] input[type="text"][disabled] {
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] input[type="password"][disabled] {
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] textarea[readonly]:not([type]) {
+  cursor: not-allowed;
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] input[type="password"][readonly] select[disabled] {
+  cursor: not-allowed;
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] input[readonly]:not([type]) {
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] input[type="text"][readonly] {
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] select {
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] select[disabled] {
+  cursor: not-allowed;
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .scFormTable > tbody > tr > td:first-child {
+  padding-top: 14px;
+  padding-left: 0;
+}
+html[data-sct-theme="sitecore104"] .scFormTable > tbody > tr > td:last-child {
+  padding-right: 0;
+}
+html[data-sct-theme="sitecore104"] .scFormTable > tbody > tr:first-child > td {
+  padding-top: 0;
+}
+html[data-sct-theme="sitecore104"] .scFormTable > tbody > tr:last-child > td {
+  padding-bottom: 0;
+}
+html[data-sct-theme="sitecore104"] .scFormTable > tbody > tr:first-child > td:first-child {
+  padding-top: 9px;
+}
+html[data-sct-theme="sitecore104"] .scFormTable.scNoneditableForm > tbody > tr > td {
+  padding-top: 5px;
+}
+html[data-sct-theme="sitecore104"] .scFormTable.scNoneditableForm > tbody > tr:first-child > td {
+  padding-top: 0;
+}
+html[data-sct-theme="sitecore104"] .scFormTable.scNoneditableForm > tbody > tr:last-child > td {
+  padding-bottom: 0;
+}
+html[data-sct-theme="sitecore104"] .scButton {
+  border: 1px solid #bdbdbd;
+  -webkit-box-shadow: inset 0 1px #ffffff;
+  box-shadow: inset 0 1px #ffffff;
+  background-color: #d9d9d9;
+  background-image: linear-gradient(to bottom, #f0f0f0 0%, #d9d9d9 100%);
+  border-radius: 6px;
+}
+html[data-sct-theme="sitecore104"] input[type="submit"] {
+  border: 1px solid #bdbdbd;
+  -webkit-box-shadow: inset 0 1px #ffffff;
+  box-shadow: inset 0 1px #ffffff;
+  background-color: #d9d9d9;
+  background-image: linear-gradient(to bottom, #f0f0f0 0%, #d9d9d9 100%);
+  border-radius: 6px;
+}
+html[data-sct-theme="sitecore104"] .scButton:hover {
+  background-repeat: repeat-x;
+  border-color: #bdbdbd;
+  background-color: #d1d1d1;
+  background-position: 0 0;
+  background-image: linear-gradient(to bottom, #f0f0f0 0%, #f0f0f0 100%);
+}
+html[data-sct-theme="sitecore104"] input[type="submit"]:hover {
+  background-repeat: repeat-x;
+  border-color: #bdbdbd;
+  background-color: #d1d1d1;
+  background-position: 0 0;
+  background-image: linear-gradient(to bottom, #f0f0f0 0%, #f0f0f0 100%);
+}
+html[data-sct-theme="sitecore104"] .scButton:active {
+  background-color: #d1d1d1;
+  background-image: -webkit-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: linear-gradient(to bottom, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: none;
+  background-repeat: repeat-x;
+  -webkit-box-shadow: inset 0 0px 6px #ccc;
+  -webkit-box-shadow: inset 0 3px 3px #b0b0b0;
+  box-shadow: inset 0 0px 6px #ccc;
+  box-shadow: inset 0 3px 3px #b0b0b0;
+  border-color: #bdbdbd;
+}
+html[data-sct-theme="sitecore104"] input[type="submit"]:active {
+  background-color: #d1d1d1;
+  background-image: -webkit-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: linear-gradient(to bottom, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: none;
+  background-repeat: repeat-x;
+  -webkit-box-shadow: inset 0 0px 6px #ccc;
+  -webkit-box-shadow: inset 0 3px 3px #b0b0b0;
+  box-shadow: inset 0 0px 6px #ccc;
+  box-shadow: inset 0 3px 3px #b0b0b0;
+  border-color: #bdbdbd;
+}
+html[data-sct-theme="sitecore104"] .scButton[disabled] {
+  background-color: #d1d1d1;
+  background-image: none;
+  border-color: #bdbdbd;
+  box-shadow: none;
+  color: #5e5e5e;
+}
+html[data-sct-theme="sitecore104"] .scButton[disabled]:hover {
+  background-color: #d1d1d1;
+  background-image: none;
+  border-color: #bdbdbd;
+  box-shadow: none;
+  color: #5e5e5e;
+}
+html[data-sct-theme="sitecore104"] .scButton[disabled]:active {
+  background-color: #d1d1d1;
+  background-image: none;
+  border-color: #bdbdbd;
+  box-shadow: none;
+  color: #5e5e5e;
+}
+html[data-sct-theme="sitecore104"] .scButtonPrimary {
+  border-color: #207da2;
+  -webkit-box-shadow: inset 0 1px #5dbadf;
+  box-shadow: inset 0 1px #5dbadf;
+  color: #fff;
+  background-color: #207da2;
+  background-image: linear-gradient(to bottom, #289bc8 0%, #207da2 100%);
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+}
+html[data-sct-theme="sitecore104"] input[type="submit"].scButtonPrimary {
+  background-repeat: repeat-x;
+  border-color: #207da2;
+  -webkit-box-shadow: inset 0 1px #5dbadf;
+  box-shadow: inset 0 1px #5dbadf;
+  color: #fff;
+  background-color: #207da2;
+  background-image: linear-gradient(to bottom, #289bc8 0%, #207da2 100%);
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+}
+html[data-sct-theme="sitecore104"] .scButtonPrimary:hover {
+  background-repeat: repeat-x;
+  border-color: #175973;
+  background-color: #1d7395;
+  background-position: 0 0;
+  background-image: linear-gradient(to bottom, #289bc8 0%, #289bc8 100%);
+}
+html[data-sct-theme="sitecore104"] input[type="submit"].scButtonPrimary:hover {
+  background-repeat: repeat-x;
+  border-color: #175973;
+  background-color: #1d7395;
+  background-position: 0 0;
+  background-image: linear-gradient(to bottom, #289bc8 0%, #289bc8 100%);
+}
+html[data-sct-theme="sitecore104"] .scButtonPrimary:active {
+  background-color: #1d7395;
+  background-image: -webkit-linear-gradient(top, #207da2 0%, #207da2 100%);
+  background-image: -o-linear-gradient(top, #207da2 0%, #207da2 100%);
+  background-image: linear-gradient(to bottom, #207da2 0%, #207da2 100%);
+  background-image: none;
+  background-repeat: repeat-x;
+  -webkit-box-shadow: inset 0 3px 3px #13485e;
+  box-shadow: inset 0 3px 3px #13485e;
+  border-color: #175973;
+}
+html[data-sct-theme="sitecore104"] input[type="submit"].scButtonPrimary:active {
+  background-color: #1d7395;
+  background-image: -webkit-linear-gradient(top, #207da2 0%, #207da2 100%);
+  background-image: -o-linear-gradient(top, #207da2 0%, #207da2 100%);
+  background-image: linear-gradient(to bottom, #207da2 0%, #207da2 100%);
+  background-image: none;
+  background-repeat: repeat-x;
+  -webkit-box-shadow: inset 0 3px 3px #13485e;
+  box-shadow: inset 0 3px 3px #13485e;
+  border-color: #175973;
+}
+html[data-sct-theme="sitecore104"] .scWizardButtons {
+  border-radius: unset;
+  height: 56px;
+  padding: 8px 15px 9px;
+  background: #f0f0f0;
+  border-top: 1px solid #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .scCalendarSelected {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scTimePicker a:hover {
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scTimePicker a:active {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scContentControlHtml {
+  border-radius: unset;
+  border: 1px solid #cccccc;
+}
+html[data-sct-theme="sitecore104"] .scListviewItemIcons_Selected {
+  background: #aadbee;
+}
+html[data-sct-theme="sitecore104"] .scListviewItemList_Selected {
+  background: #aadbee;
+}
+html[data-sct-theme="sitecore104"] .scListviewItemDetailsCell_Selected {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scMenuPanelItemSelected {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .versionNumSelected {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scSectionCenter {
+  padding: unset;
+  color: #fff;
+  background-color: #474747;
+  padding-left: 15px !important;
+  border-left: 5px solid #DC291E;
+}
+html[data-sct-theme="sitecore104"] .scSectionRight {
+  padding: 10px;
+  background-color: #474747;
+}
+html[data-sct-theme="sitecore104"] .scCollapsed .scSectionCenter {
+  color: #fff;
+  background-color: #969696;
+  border-left: 5px solid #969696;
+}
+html[data-sct-theme="sitecore104"] .scCollapsed .scSectionRight {
+  background-color: #969696;
+}
+html[data-sct-theme="sitecore104"] input[type="text"][readonly].scComboboxEdit {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+html[data-sct-theme="sitecore104"] .scTabstrip {
+  background: unset;
+  border-bottom: 2px solid #474747;
+}
+html[data-sct-theme="sitecore104"] .scTab {
+  font-weight: unset;
+  background-color: #fff;
+  color: #5e5e5e;
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+html[data-sct-theme="sitecore104"] .scTabActive {
+  font-weight: unset;
+  border-bottom: unset;
+  background-color: #474747;
+  color: #fff;
+  border-top: 1px solid #474747;
+}
+html[data-sct-theme="sitecore104"] .scTabActive_Hover {
+  font-weight: unset;
+  border-bottom: unset;
+  background-color: #474747;
+  color: #fff;
+  border-top: 1px solid #474747;
+}
+html[data-sct-theme="sitecore104"] .scTabActive:after {
+  content: ".";
+  color: transparent;
+  background: #474747;
+}
+html[data-sct-theme="sitecore104"] .scTabActive_Hover:after {
+  content: ".";
+  color: transparent;
+  background: #474747;
+}
+html[data-sct-theme="sitecore104"] .scTab_Hover {
+  font-weight: unset;
+  color: #5e5e5e;
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+html[data-sct-theme="sitecore104"] nobr:first-child > .scTab {
+  border-left: 1px solid #ccc;
+}
+html[data-sct-theme="sitecore104"] nobr:first-child > .scTab_Hover {
+  border-left: 1px solid #ccc;
+}
+html[data-sct-theme="sitecore104"] nobr:first-child > .scTabActive {
+  border-left: 1px solid #474747;
+}
+html[data-sct-theme="sitecore104"] nobr:first-child > .scTabActive_Hover {
+  border-left: 1px solid #474747;
+}
+html[data-sct-theme="sitecore104"] nobr:last-child > .scTabActive {
+  border-right: 1px solid #474747;
+}
+html[data-sct-theme="sitecore104"] nobr:last-child > .scTabActive_Hover {
+  border-right: 1px solid #474747;
+}
+html[data-sct-theme="sitecore104"] .scVerticalTabstrip .scVerticalTabs a.active {
+  background-color: #474747;
+  color: #fff;
+  border: 1px solid #474747;
+  border-right: 0;
+}
+html[data-sct-theme="sitecore104"] .scVerticalTabstrip .scVerticalTabs a.active:hover {
+  background-color: #474747;
+  color: #fff;
+  border: 1px solid #474747;
+  border-right: 0;
+}
+html[data-sct-theme="sitecore104"] .scVerticalTabstrip .scVerticalTabs a:hover {
+  background-color: #E3E3E3;
+}
+html[data-sct-theme="sitecore104"] .scVerticalTabstrip .scVerticalTabs span.header {
+  padding: 0 8px;
+  border: 0px;
+  border-right: 0;
+}
+html[data-sct-theme="sitecore104"] a.scContentTreeNodeActive {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scTreeview .cell {
+  padding: unset;
+  padding-bottom: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 1px;
+}
+html[data-sct-theme="sitecore104"] .scTreeview .header {
+  background-color: #5e5e5e;
+  border: none;
+  color: #fff;
+  padding: 14px 10px;
+}
+html[data-sct-theme="sitecore104"] .scTreeview .header:before {
+  border-right: 1px solid #fff;
+}
+html[data-sct-theme="sitecore104"] .scTreeview .scTreeHeader {
+  background-color: #5e5e5e;
+}
+html[data-sct-theme="sitecore104"] .scTreeHeader .scTreeHeaderItem:first-of-type .header:before {
+  border-right: 0px solid #fff;
+}
+html[data-sct-theme="sitecore104"] .scTreeview .value {
+  border-left: solid 1px #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .scTreeview .nodeSelected {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scTreeview .nodeSelected_Hover {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scTreeview .scTreeItem {
+  min-height: unset;
+  height: 21px;
+}
+html[data-sct-theme="sitecore104"] .scTreeview .scTreeItem_Hover {
+  min-height: unset;
+  height: 21px;
+}
+html[data-sct-theme="sitecore104"] .scAccessViewerRight:active {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scAccessViewerRight:focus {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scApplicationFooter {
+  background-color: #f0f0f0;
+  border-top: 1px solid #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .scWorkBoxMainHeader {
+  background-color: #474747;
+}
+html[data-sct-theme="sitecore104"] .scWorkBoxMainHeader.scCollapsed {
+  background-color: #969696;
+}
+html[data-sct-theme="sitecore104"] .scWorkBoxMainHeader td:last-of-type {
+  padding: 0;
+  padding-right: 15px;
+}
+html[data-sct-theme="sitecore104"] .scPaneHeader {
+  padding: unset;
+  color: #fff;
+  border-left: 5px solid #DC291E;
+  padding-left: 15px;
+}
+html[data-sct-theme="sitecore104"] .scCollapsed .scPaneHeader {
+  border-left: 5px solid #969696;
+}
+html[data-sct-theme="sitecore104"] #Icons .scRibbonToolbarLargeIconButton:hover {
+  background-color: #E3E3E3;
+}
+html[data-sct-theme="sitecore104"] #Presets .scRibbonToolbarLargeTextButton:hover {
+  background-color: #E3E3E3;
+}
+html[data-sct-theme="sitecore104"] .scListControl > tbody:first-child > tr:first-child {
+  background-color: #5E5E5E;
+  color: white;
+}
+html[data-sct-theme="sitecore104"] .scListControl > thead {
+  background-color: #5E5E5E;
+  color: white;
+}
+html[data-sct-theme="sitecore104"] .scListControlHead {
+  background-color: #5E5E5E;
+  color: white;
+}
+html[data-sct-theme="sitecore104"] .scListControl > tbody > tr:nth-child(odd) {
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .scListControl > tbody > tr:hover {
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .scListControl > tbody > tr > td {
+  border: 1px solid #ccc;
+  padding: 14px 15px;
+}
+html[data-sct-theme="sitecore104"] .scListControl > thead th {
+  border: 1px solid #5E5E5E;
+  padding: 14px 15px;
+}
+html[data-sct-theme="sitecore104"] .scListControl > tbody:first-child > tr:first-child > td {
+  padding: 0;
+  border: 1px solid #5E5E5E;
+}
+html[data-sct-theme="sitecore104"] .scListControl > thead th:after {
+  content: "";
+}
+html[data-sct-theme="sitecore104"] .scListControl > tbody:first-child > tr:first-child > td:after {
+  content: "";
+}
+html[data-sct-theme="sitecore104"] .scEditorWarning td:first-child {
+  padding-right: 0px;
+}
+html[data-sct-theme="sitecore104"] input:not([type]):focus-visible {
+  outline-color: var(--outline-color-dark);
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] input[type="file"]:focus-visible {
+  outline-color: var(--outline-color-dark);
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] input[type="checkbox"]:focus-visible {
+  outline-color: var(--outline-color-dark);
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] input[type="password"]:focus-visible {
+  outline-color: var(--outline-color-dark);
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] a:focus-visible {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] textarea:focus-visible {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] .scContentControlTree:focus-visible {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] .scContentControlSelectedList:focus-within {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] .scComboboxEdit:focus-visible {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] .scPopupTree div.nodeNormal:focus-visible {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] .scPopupTree div.nodeSelected:focus-visible {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] .scPopupTree div.nodeNormal_Hover:focus-visible {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] .scPopupTree div.nodeSelected_Hover:focus-visible {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] .scNavButton:focus-visible {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] #Sorting:focus-visible {
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] input[type="text"]:focus-visible {
+  outline-color: var(--outline-color-dark);
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+  border-radius: 0;
+  outline-offset: -2px;
+}
+html[data-sct-theme="sitecore104"] .scTabActive:focus-visible {
+  outline: unset;
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+  outline-color: var(--outline-color-light);
+  outline-offset: -4px;
+}
+html[data-sct-theme="sitecore104"] .scTab:focus-visible {
+  outline: unset;
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+  outline-offset: -4px;
+}
+
+/* ---- sitecore/shell/Themes/Standard/Default/Ribbon.css ---- */
+html[data-sct-theme="sitecore104"] .scRibbon select:focus {
+  border: 1px solid #cccccc !important;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+}
+html[data-sct-theme="sitecore104"] .scRibbon select:focus-visible {
+  border: 1px solid #cccccc !important;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+}
+html[data-sct-theme="sitecore104"] .scRibbonPanelUp:hover {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .scRibbonPanelDown:hover {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .scRibbonPanelUp2:hover {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .scRibbonPanelDown2:hover {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .scRibbonPanelOpen:hover {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .scRibbon {
+  background-color: #474747;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a {
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon select {
+  display: inline;
+  width: auto;
+  padding: 2px;
+}
+html[data-sct-theme="sitecore104"] .scRibbonClose {
+  background-image: url(/sitecore/shell/themes/standard/images/ribbon_collapser.png);
+}
+html[data-sct-theme="sitecore104"] .scRibbonOpen {
+  background-image: url(/sitecore/shell/themes/standard/images/ribbon_expander.png);
+}
+html[data-sct-theme="sitecore104"] .scRibbonNavigatorButtonsContextualGroupHeader {
+  color: #fff;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonNavigatorButtonsNormal {
+  color: #fff;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonNavigatorButtonsContextualNormal {
+  color: white;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonNavigatorButtonsContextualActive {
+  border-radius: unset;
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .contentEditor .scRibbonToolbar {
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarStrip {
+  padding: unset;
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarContextualStrip {
+  padding: unset;
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .scRibbon .chunk {
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .lang_ja_jp .scRibbonToolbarStrip {
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .lang_ja_jp .scRibbonToolbarContextualStrip {
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .scRibbon .chunk .panel {
+  padding: 10px 8px;
+}
+html[data-sct-theme="sitecore104"] .scRibbon .chunk .caption {
+  color: #ccc;
+}
+html[data-sct-theme="sitecore104"] .scRibbon .chunk .caption a {
+  color: #ccc;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarLargeGalleryButtonGlyph {
+  height: 5px;
+  margin: 0px 0px 0px 3px;
+  width: 7px;
+  vertical-align: baseline;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarLargeGalleryButtonGlyphDisabled {
+  height: 5px;
+  margin: 0px 0px 0px 3px;
+  width: 7px;
+  vertical-align: baseline;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarLargeGalleryButton .header {
+  padding: 4px;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarLargeGalleryButtonDisabled .header {
+  padding: 4px;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarLargeButtonDisabled .header {
+  padding: 4px;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarLargeButton .header {
+  padding: 4px;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarLargeButtonDown .header {
+  padding: 4px;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarLargeComboButtonDisabled .header {
+  padding: 4px;
+}
+html[data-sct-theme="sitecore104"] .scRibbon .scRibbonToolbarLargeComboButtonGlyph {
+  height: 5px;
+  width: 7px;
+  vertical-align: baseline;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarSmallGalleryButtonGlyph {
+  height: 5px;
+  width: 7px;
+  vertical-align: baseline;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarSmallGalleryButtonGlyphDisabled {
+  height: 5px;
+  width: 7px;
+  vertical-align: baseline;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarSmallComboButtonGlyph {
+  height: 5px;
+  vertical-align: text-top;
+  margin: 5px 0px 0px 0px;
+  width: 7px;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarSmallComboButtonGlyphDisabled {
+  height: 5px;
+  margin: 0px 1px 0px 5px;
+  width: 7px;
+  vertical-align: baseline;
+}
+html[data-sct-theme="sitecore104"] .scRibbonPanelUp {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .scRibbonPanelDown {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .scRibbonPanelUp2 {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .scRibbonPanelDown2 {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .scRibbonPanelOpen {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonNavigatorButtonsActive {
+  border-radius: unset;
+  color: #131313;
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonNavigatorButtonsContextualNormal:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonNavigatorButtonsNormal:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeButton:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeButtonDown:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeGalleryButton:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeComboButtonTop:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeComboButtonBottom:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] a.scRibbonToolbarSmallButton:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] a.scRibbonToolbarSmallButtonDown:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarSmallGalleryButton:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeTextButton:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeTextButtonDown:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbonLargeImageButton:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbonLargeImageButtonDown:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeIconButton:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeIconButtonDown:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarSmallComboButtonLeft:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarSmallComboButtonRight:active {
+  border-radius: unset;
+  background-color: #f7f7f7;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeButtonDown {
+  border-radius: unset;
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarLargeComboButtonDown {
+  border-radius: unset;
+  background-color: #D0EBF6;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] a.scRibbonToolbarSmallButtonDown {
+  border-radius: unset;
+  background-color: #D0EBF6;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbonLargeImageButtonDown {
+  border-radius: unset;
+  background-color: #D0EBF6;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonNavigatorButtonsContextualNormal:hover {
+  border-radius: unset;
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonNavigatorButtonsNormal:hover {
+  border-radius: unset;
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeButton:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeButtonDown:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeGalleryButton:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeComboButtonTop:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeComboButtonBottom:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] a.scRibbonToolbarSmallButton:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarSmallButton:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] a.scRibbonToolbarSmallButtonDown:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarSmallGalleryButton:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeTextButton:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeTextButtonDown:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbonLargeImageButton:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbonLargeImageButtonDown:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeIconButton:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarLargeIconButtonDown:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarSmallComboButtonLeft:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbon a.scRibbonToolbarSmallComboButtonRight:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarLargeComboButtonDown:hover {
+  background-color: #E3E3E3;
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] a.scRibbonNavigatorButtonsNormal:focus-visible {
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] .scRibbonToolbarStrip input:focus-visible {
+  outline-color: var(--outline-color-dark);
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+  outline-offset: 3px;
+}
+
+/* ---- sitecore/shell/Themes/Standard/Default/Content Manager.css ---- */
+html[data-sct-theme="sitecore104"] .scCaption.scDockTop {
+  background-color: #474747;
+}
+html[data-sct-theme="sitecore104"] .scEditorTabControls a.scEditorHeaderNavigator.scEditorHeaderButton.scButton {
+  border-radius: 0px;
+  border: 1px solid #bdbdbd;
+  padding: 5px 15px;
+}
+html[data-sct-theme="sitecore104"] .scEditorTabControls a.scEditorHeaderVersionsLanguage {
+  border-radius: 0px;
+  border: 1px solid #bdbdbd;
+  padding: 5px 15px;
+}
+html[data-sct-theme="sitecore104"] .scEditorTabControls a.scEditorHeaderVersionsVersion {
+  border-radius: 0px;
+  border: 1px solid #bdbdbd;
+  padding: 5px 15px;
+}
+html[data-sct-theme="sitecore104"] .scEditorTabControls .scEditorHeaderVersionsLanguageGlyph {
+  width: 7px;
+  height: 5px;
+  margin: 0px 0px 0px 2px;
+}
+html[data-sct-theme="sitecore104"] .scEditorTabControls .scEditorHeaderVersionsVersionGlyph {
+  width: 7px;
+  height: 5px;
+  margin: 0px 0px 0px 2px;
+}
+html[data-sct-theme="sitecore104"] .scEditorTabControls .scEditorHeaderNavigatorGlyph {
+  width: 7px;
+  height: 5px;
+  margin: 0px 0px 0px 2px;
+}
+html[data-sct-theme="sitecore104"] .scDockBottomContainer {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] #TemplatePanel {
+  padding: unset;
+}
+html[data-sct-theme="sitecore104"] #ContentEditor {
+  margin-left: unset;
+}
+html[data-sct-theme="sitecore104"] .RadWindow_Metro table.rwTitlebarControls em {
+  color: unset !important;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro .rfdSelectBox_Metro .rfdSelect_selected {
+  color: unset;
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton a.rfdSkinnedButton {
+  border-radius: unset;
+  border: unset;
+  background-color: unset;
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton input[type="button"].rfdDecorated {
+  border-radius: unset;
+  border: unset;
+  background-color: unset;
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton input[type="reset"].rfdDecorated {
+  border-radius: unset;
+  border: unset;
+  background-color: unset;
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton input[type="submit"].rfdDecorated {
+  border-radius: unset;
+  border: unset;
+  background-color: unset;
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton .rfdSkinnedButton button {
+  border-radius: unset;
+  border: unset;
+  background-color: unset;
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton a.rfdSkinnedButton:hover {
+  background: unset;
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton a.rfdSkinnedButton:hover * {
+  background: unset;
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton a.rfdSkinnedButton:active * {
+  border: unset;
+  color: unset;
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton a.rfdSkinnedButton:focus * {
+  border: unset;
+  color: unset;
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton a.rfdSkinnedButton:active {
+  border: unset !important;
+  color: unset;
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton a.rfdSkinnedButton:focus {
+  border: unset !important;
+  color: unset;
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdButton a.rfdClickedButton {
+  border: unset !important;
+  color: unset;
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadWindow_Metro {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadWindow .rwTopLeft {
+  border-top-left-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadWindow .rwTopRight {
+  border-top-right-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadWindow .rwFooterLeft {
+  border-bottom-left-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadWindow .rwFooterRight {
+  border-bottom-right-radius: unset;
+}
+html[data-sct-theme="sitecore104"] body #LinkManagerTab.RadTabStrip_Metro .rtsLevel1 .rtsUL {
+  background-color: #474747;
+  color: #fff;
+}
+html[data-sct-theme="sitecore104"] body #dialogtabstrip.RadTabStrip_Metro .rtsLevel1 .rtsUL {
+  background-color: #474747;
+  color: #fff;
+}
+html[data-sct-theme="sitecore104"] body #LinkManagerTab.RadTabStripTop_Metro .rtsLevel1 {
+  border-bottom: unset;
+  background-color: #474747;
+  color: #fff;
+}
+html[data-sct-theme="sitecore104"] body #dialogtabstrip.RadTabStripTop_Metro .rtsLevel1 {
+  border-bottom: unset;
+  background-color: #474747;
+  color: #fff;
+}
+html[data-sct-theme="sitecore104"] .redMainContainer {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] #LinkManagerTab.RadTabStrip_Metro .rtsLevel1 .rtsUL .rtsLink {
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] #dialogtabstrip.RadTabStrip_Metro .rtsLevel1 .rtsUL .rtsLink {
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] #LinkManagerTab.RadTabStrip_Metro .rtsLevel1 .rtsUL .rtsLink.rtsSelected {
+  color: unset;
+  font-weight: unset;
+  border: none;
+}
+html[data-sct-theme="sitecore104"] #dialogtabstrip.RadTabStrip_Metro .rtsLevel1 .rtsUL .rtsLink.rtsSelected {
+  color: unset;
+  font-weight: unset;
+  border: none;
+}
+html[data-sct-theme="sitecore104"] #LinkManagerTab.RadTabStrip_Metro .rtsLevel1 .rtsUL .rtsLink:hover:not(.rtsSelected) {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] #dialogtabstrip.RadTabStrip_Metro .rtsLevel1 .rtsUL .rtsLink:hover:not(.rtsSelected) {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="text"].rfdDecorated {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="password"].rfdDecorated {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="search"].rfdDecorated {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="url"].rfdDecorated {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="tel"].rfdDecorated {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="email"].rfdDecorated {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextarea textarea[disabled].rfdDecorated:hover {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="text"].rfdDecorated:hover {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="password"].rfdDecorated:hover {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="search"].rfdDecorated:hover {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="url"].rfdDecorated:hover {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="tel"].rfdDecorated:hover {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="email"].rfdDecorated:hover {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="text"].rfdDecorated:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="password"].rfdDecorated:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="search"].rfdDecorated:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="url"].rfdDecorated:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="tel"].rfdDecorated:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[type="email"].rfdDecorated:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextarea textarea {
+  outline-color: unset;
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextarea textarea[disabled].rfdDecorated:hover:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="text"].rfdDecorated:hover:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="password"].rfdDecorated:hover:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="search"].rfdDecorated:hover:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="url"].rfdDecorated:hover:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="tel"].rfdDecorated:hover:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadForm_Metro.rfdTextbox input[disabled][type="email"].rfdDecorated:hover:focus-visible {
+  outline-color: unset;
+}
+html[data-sct-theme="sitecore104"] .redWrapper .reTool:focus {
+  background-color: unset;
+  border-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadTreeView_Metro .rtSelected .rtIn {
+  color: unset;
+  background-color: unset;
+  border-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadFileExplorer_Metro .rfeThumbList .rfeSelectedLink:hover {
+  color: unset;
+  background-color: unset;
+  border-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadToolBar_Metro .rtbChecked .rtbWrap {
+  color: unset;
+  background-color: unset;
+  border-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadToolBar_Metro .rtbItemClicked .rtbWrap {
+  color: unset;
+  background-color: unset;
+  border-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadGrid_Metro .rgSelectedRow {
+  color: unset;
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadFileExplorer_Metro .rfeThumbList .rfeSelectedLink {
+  color: unset;
+  background-color: unset;
+  border-color: unset;
+}
+html[data-sct-theme="sitecore104"] .RadToolBar_Metro .rtbItemFocused .rtbWrap {
+  border-color: unset;
+  box-shadow: unset;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+html[data-sct-theme="sitecore104"] .RadForm.rfdRadio input[type="radio"] {
+  -webkit-appearance: unset;
+  appearance: unset;
+  accent-color: unset;
+  width: 100%;
+  height: 36px;
+}
+}
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+html[data-sct-theme="sitecore104"] .RadForm.rfdCheckbox input[type="checkbox"] {
+  -webkit-appearance: unset;
+  appearance: unset;
+  accent-color: unset;
+  width: 100%;
+  height: 36px;
+}
+}
+html[data-sct-theme="sitecore104"]:has(form#Form1) {
+  overflow: unset !important;
+}
+html[data-sct-theme="sitecore104"] body:has(form#Form1) {
+  overflow: hidden !important;
+}
+html[data-sct-theme="sitecore104"] form#Form1 {
+  overflow: unset !important;
+  box-sizing: unset !important;
+  height: 100% !important;
+}
+html[data-sct-theme="sitecore104"] [id^="RadWindowWrapper_Editor_dialogOpener"] {
+  max-width: unset !important;
+  max-height: unset !important;
+  box-sizing: unset !important;
+}
+html[data-sct-theme="sitecore104"] .rwTable {
+  max-width: unset !important;
+  max-height: unset !important;
+}
+html[data-sct-theme="sitecore104"] .rwWindowContent {
+  max-height: unset !important;
+  overflow: unset !important;
+  box-sizing: unset !important;
+}
+html[data-sct-theme="sitecore104"] .scWindowBorder1 {
+  border: 1px solid #5e5e5e;
+}
+html[data-sct-theme="sitecore104"] a.scSystemMenu {
+  background: url("/sitecore/shell/themes/standard/images/hamburgermenu_default.png") no-repeat center;
+}
+html[data-sct-theme="sitecore104"] a.scSystemMenu:hover {
+  background: url("/sitecore/shell/themes/standard/images/hamburgermenu_default.png") no-repeat center;
+  background-image: url("/sitecore/shell/themes/standard/images/hamburgermenu_hover_active.png");
+}
+html[data-sct-theme="sitecore104"] .scEditorHeaderVersionsLanguageIcon {
+  vertical-align: middle;
+}
+html[data-sct-theme="sitecore104"] .scEditorHeaderNavigatorIcon {
+  vertical-align: middle;
+}
+html[data-sct-theme="sitecore104"] .scEditorQuickInfo input {
+  background-color: transparent !important;
+  border: 0px;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .scEditorPanel {
+  background-color: unset;
+  padding-left: unset;
+}
+html[data-sct-theme="sitecore104"] .scEditorSections {
+  background-color: #f0f0f0;
+}
+html[data-sct-theme="sitecore104"] .scEditorSectionCaptionExpanded {
+  background-color: #474747;
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 1px solid #474747;
+  padding: 0 0 0 10px;
+  border-left: 5px solid #DC291E;
+}
+html[data-sct-theme="sitecore104"] .scEditorSectionCaptionExpanded::selection {
+  background-color: #969696;
+}
+html[data-sct-theme="sitecore104"] .scEditorSectionCaptionCollapsed {
+  margin-bottom: unset;
+  background-color: #969696;
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 1px solid #CCCCCC;
+  padding: 0 0 0 15px;
+}
+html[data-sct-theme="sitecore104"] .scEditorSectionCaptionCollapsed::selection {
+  background-color: #474747;
+}
+html[data-sct-theme="sitecore104"] .scGalleryFrame {
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .scPager {
+  width: unset;
+  margin: unset;
+  border: unset;
+  border-radius: unset;
+  padding: unset;
+  background-color: #474747;
+  border-top: 2px solid #dc291e;
+}
+html[data-sct-theme="sitecore104"] a.scPagerButtonNormal {
+  border-radius: unset;
+  padding: 0 10px;
+  color: #fff;
+}
+html[data-sct-theme="sitecore104"] .scPagerButtonNormal:hover {
+  color: #131313;
+}
+html[data-sct-theme="sitecore104"] a.scPagerButtonActive {
+  border-radius: unset;
+  padding: 0 10px;
+  color: #131313;
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] #Editors {
+  width: unset;
+}
+html[data-sct-theme="sitecore104"] #EditorTabs {
+  background-color: #F0F0F0;
+  padding-left: 15px;
+  border-bottom: 2px solid #474747;
+}
+html[data-sct-theme="sitecore104"] #EditorFrames {
+  box-shadow: unset;
+  background-color: #f0f0f0;
+}
+html[data-sct-theme="sitecore104"] #BTAddNewSearch {
+  background-color: #e0e0e0;
+  border: 1px solid #bdbdbd;
+  -webkit-box-shadow: inset 0 1px #ffffff;
+  box-shadow: inset 0 1px #ffffff;
+  background-image: url(/sitecore/shell/Applications/Buckets/images/edition-magnifier.png);
+  background-image: url(/sitecore/shell/Applications/Buckets/images/edition-magnifier.png), linear-gradient(to bottom, #f0f0f0 0%, #d9d9d9 100%);
+  margin: 16px 5px 0;
+}
+html[data-sct-theme="sitecore104"] a#BTAddNewSearch:hover {
+  background-color: #d1d1d1;
+  background-image: url(/sitecore/shell/Applications/Buckets/images/edition-magnifier.png);
+  background-image: url(/sitecore/shell/Applications/Buckets/images/edition-magnifier.png), linear-gradient(to bottom, #f0f0f0 0%, #f0f0f0 100%);
+}
+html[data-sct-theme="sitecore104"] a#BTAddNewSearch:active {
+  background-image: url(/sitecore/shell/Applications/Buckets/images/edition-magnifier.png);
+  background-image: url(/sitecore/shell/Applications/Buckets/images/edition-magnifier.png), -webkit-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: url(/sitecore/shell/Applications/Buckets/images/edition-magnifier.png), -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 100%);
+  background-image: url(/sitecore/shell/Applications/Buckets/images/edition-magnifier.png), linear-gradient(to bottom, #d9d9d9 0%, #d9d9d9 100%);
+  background-color: #d1d1d1;
+  background-repeat: no-repeat;
+  -webkit-box-shadow: inset 0 3px 3px #b0b0b0;
+  box-shadow: inset 0 3px 3px #b0b0b0;
+  border-color: #bdbdbd;
+}
+html[data-sct-theme="sitecore104"] a.scRibbonEditorTabNormal {
+  border: unset;
+  color: #5e5e5e;
+  background-color: #fff;
+  border-right: 1px solid #F0F0F0;
+}
+html[data-sct-theme="sitecore104"] a.scRibbonEditorTabActive {
+  border: unset;
+  font-weight: unset;
+  border-bottom: unset;
+  color: #fff;
+  background-color: #474747;
+  border-right: 1px solid #F0F0F0;
+}
+html[data-sct-theme="sitecore104"] a.scRibbonEditorTabNormal:hover {
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] #SearchPanel {
+  border-bottom: 1px solid #D6D6D6;
+}
+html[data-sct-theme="sitecore104"] #TreeSearch {
+  border: unset;
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .scSearchEntireTree a {
+  color: Blue;
+}
+html[data-sct-theme="sitecore104"] .splitter-bar {
+  background-color: #f0f0f0;
+}
+html[data-sct-theme="sitecore104"] .splitter-bar:before {
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .splitter-bar:after {
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] #ContentTreePanel {
+  margin-left: unset;
+  background-color: #fff;
+}
+html[data-sct-theme="sitecore104"] body .Metro .reDialog .reTool:hover {
+  background: #E3E3E3 !important;
+}
+html[data-sct-theme="sitecore104"] .Metro .reToolbar .reTool:hover {
+  background: #E3E3E3 !important;
+}
+html[data-sct-theme="sitecore104"] .Metro .reModule .reTool:hover {
+  background: #E3E3E3 !important;
+}
+html[data-sct-theme="sitecore104"] .reEditorModesCell {
+  background-color: #474747;
+  border-top: 2px solid #dc291e !important;
+}
+html[data-sct-theme="sitecore104"] body .Metro.RadEditor .reEditorModes a {
+  color: #fff !important;
+  background-color: #474747;
+  border: 1px solid #474747;
+}
+html[data-sct-theme="sitecore104"] body .Metro.RadEditor .reEditorModes a:hover {
+  background-color: unset;
+  color: #474747 !important;
+  border: 1px solid #474747;
+}
+html[data-sct-theme="sitecore104"] body .Metro.RadEditor .reEditorModes a.reMode_selected:hover {
+  background-color: #f7f7f7 !important;
+  color: #131313 !important;
+  border: 1px solid #e5e5e5;
+}
+html[data-sct-theme="sitecore104"] body .Metro.RadEditor .reEditorModes .reMode_selected {
+  border: unset;
+  background-color: #f7f7f7 !important;
+  color: #131313 !important;
+}
+html[data-sct-theme="sitecore104"] body .RadWindow_Metro .rwTopLeft {
+  background: #2b2b2b;
+}
+html[data-sct-theme="sitecore104"] body .RadWindow_Metro .rwTopRight {
+  background: #2b2b2b;
+}
+html[data-sct-theme="sitecore104"] body .RadWindow_Metro .rwTitlebar {
+  background: #2b2b2b;
+}
+html[data-sct-theme="sitecore104"] body .RadWindow_Metro .rwTopResize {
+  background: #2b2b2b;
+}
+html[data-sct-theme="sitecore104"] body .RadWindow_Metro .rwControlButtons a {
+  background-color: #2b2b2b;
+  background-image: url(/sitecore/shell/Themes/Standard/Images/Editor/WebResource2.png);
+  left: 9px;
+}
+html[data-sct-theme="sitecore104"] body .Metro .reToolbar .reTool.reTool_selected {
+  background-image: none;
+  background-color: #aadbee;
+}
+html[data-sct-theme="sitecore104"] body .Metro .reToolbar .reTool.reTool_selected:hover {
+  background-image: none;
+  background-color: #aadbee;
+}
+html[data-sct-theme="sitecore104"] .Metro .reToolbar li {
+  padding-right: 5px !important;
+}
+html[data-sct-theme="sitecore104"] .scAdditionalParameters td:first-child {
+  padding-right: 5px !important;
+}
+html[data-sct-theme="sitecore104"] .scAdditionalParameters td:last-child {
+  padding-left: 5px !important;
+}
+html[data-sct-theme="sitecore104"] #RadWindowWrapper_Editor_dialogOpenerFindAndReplace {
+  height: 439px !important;
+  overflow: hidden;
+}
+html[data-sct-theme="sitecore104"] .scEditorPanel input:focus-visible {
+  box-shadow: unset;
+  border-color: unset;
+  outline-color: var(--outline-color-dark);
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+}
+html[data-sct-theme="sitecore104"] .scEditorPanel select:focus-visible {
+  box-shadow: unset;
+  border-color: unset;
+  outline-color: var(--outline-color-dark);
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+}
+html[data-sct-theme="sitecore104"] .scEditorSectionCaptionExpanded img:focus-visible {
+  outline-color: var(--outline-color-light);
+  background-color: var(--outline-color-dark);
+}
+html[data-sct-theme="sitecore104"] .scEditorSectionCaptionCollapsed img:focus-visible {
+  outline-color: var(--outline-color-light);
+  outline-width: var(--outline-width);
+  outline-style: var(--outline-style);
+  background-color: var(--outline-color-dark);
+}
+
+/* ---- sitecore/shell/Themes/Standard/Default/DialogModeSwitcher.css ---- */
+html[data-sct-theme="sitecore104"] .mode:hover {
+  background-color: #E8F5FD;
+  border: 1px solid #D8F0FA;
+}
+html[data-sct-theme="sitecore104"] .selected .mode {
+  background-color: #D5EFFC;
+  border: 1px solid #99DEFD;
+}
+html[data-sct-theme="sitecore104"] .selected .mode:hover {
+  background-color: #D5EFFC;
+  border: 1px solid #99DEFD;
+}
+html[data-sct-theme="sitecore104"] .selected .mode:active {
+  background-color: #D5EFFC;
+  border: 1px solid #99DEFD;
+}
+html[data-sct-theme="sitecore104"] .option-disabled .mode {
+  border: none;
+  background: none;
+}
+html[data-sct-theme="sitecore104"] .option-disabled .mode:hover {
+  border: none;
+  background: none;
+}
+html[data-sct-theme="sitecore104"] .option-disabled .mode:active {
+  border: none;
+  background: none;
+}
+
+/* ---- sitecore/shell/Themes/Standard/Default/Dialogs.css ---- */
+html[data-sct-theme="sitecore104"] .ui-dialog.ui-widget-content {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.175);
+}
+html[data-sct-theme="sitecore104"] #progressbar .ui-widget-header {
+  padding: 0;
+}
+html[data-sct-theme="sitecore104"] .scFormDialogFooter {
+  border-radius: unset;
+  background-color: #f0f0f0;
+  border-top: 1px solid #e3e3e3;
+  padding: 8px 15px 9px;
+  height: 56px;
+}
+html[data-sct-theme="sitecore104"] .scFormDialogFooter .footerOkCancel {
+  right: 15px;
+}
+html[data-sct-theme="sitecore104"] .scDialogContentContainer {
+  padding: 15px;
+}
+html[data-sct-theme="sitecore104"] .DialogHeader {
+  padding: 0 15px 0;
+}
+html[data-sct-theme="sitecore104"] .DialogHeaderDescription {
+  padding: 0 75px 15px 15px;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog .ui-dialog-titlebar {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog .ui-dialog-titlebar + .DialogHeader {
+  background: #2b2b2b;
+  color: #fff;
+  padding: 0 0 0 15px;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog-content.ui-widget-content {
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .scFormDialogHeader {
+  max-width: unset;
+  font-weight: unset;
+  width: 100%;
+  padding: 0;
+  color: #fff;
+  background-color: #2b2b2b;
+}
+html[data-sct-theme="sitecore104"] .scDialogHeader {
+  font-weight: unset;
+  padding: 0;
+  color: #fff;
+  background-color: #2b2b2b;
+}
+html[data-sct-theme="sitecore104"] .ui-widget-header {
+  font-weight: unset;
+  padding: 0;
+  color: #fff;
+  background-color: #2b2b2b;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog-titlebar-buttonpane {
+  right: 15px !important;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog-titlebar-close .ui-icon {
+  background: url(/sitecore/shell/themes/standard/Images/Window%20Management/dialog_close.png) no-repeat center center;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog-titlebar-close.ui-button:focus .ui-icon {
+  background: url(/sitecore/shell/themes/standard/Images/Window%20Management/dialog_close.png) no-repeat center center;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog-titlebar-close.ui-button:hover .ui-icon {
+  background: url(/sitecore/shell/themes/standard/Images/Window%20Management/dialog_close_h.png) no-repeat center center;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog-titlebar-close span.ui-icon:hover {
+  background: url(/sitecore/shell/themes/standard/Images/Window%20Management/dialog_close_h.png) no-repeat center center;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog-titlebar-maximize .ui-icon {
+  background: url(/sitecore/shell/themes/standard/Images/Window%20Management/dialog_maximize.png) no-repeat center center;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog-titlebar-maximize:hover .ui-icon {
+  background: url(/sitecore/shell/themes/standard/Images/Window%20Management/dialog_maximize_h.png) no-repeat center center;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog-titlebar-restore .ui-icon {
+  background: url(/sitecore/shell/themes/standard/Images/Window%20Management/dialog_restore.png) no-repeat center center;
+}
+html[data-sct-theme="sitecore104"] .ui-dialog-titlebar-restore:hover .ui-icon {
+  background: url(/sitecore/shell/themes/standard/Images/Window%20Management/dialog_restore_h.png) no-repeat center center;
+}
+
+/* ---- sitecore/shell/Themes/Standard/Default/Grid.css ---- */
+html[data-sct-theme="sitecore104"] #UsersPanel .HeadingCell {
+  padding: 14px 10px;
+}
+html[data-sct-theme="sitecore104"] #UsersPanel .Row td.DataCell {
+  padding: 5px;
+}
+html[data-sct-theme="sitecore104"] #UsersPanel .SelectedRow td.DataCell {
+  padding: 5px;
+}
+html[data-sct-theme="sitecore104"] .HeadingCell {
+  background-color: #5e5e5e;
+  border: none;
+  color: #fff;
+  padding: 14px 10px;
+}
+html[data-sct-theme="sitecore104"] .HeadingCell:last-child {
+  border-right: 1px solid #5e5e5e;
+}
+html[data-sct-theme="sitecore104"] .HeadingCell:after {
+  background: #d6d6d6 right center;
+}
+html[data-sct-theme="sitecore104"] .HeadingCell:last-child:after {
+  background: none;
+}
+html[data-sct-theme="sitecore104"] .Row {
+  background-color: #FFFFFF;
+}
+html[data-sct-theme="sitecore104"] .Row:nth-child(odd) {
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .Row:hover {
+  background: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .Row td.DataCell {
+  color: unset;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+html[data-sct-theme="sitecore104"] .SelectedRow td.DataCell {
+  background-color: #D0EBF6;
+  border: 1px solid #ccc;
+  border-top: none;
+  padding: 5px;
+}
+
+/* ---- sitecore/shell/Themes/Standard/Default/SelectItemWithThumbnails.css ---- */
+html[data-sct-theme="sitecore104"] a.scItemThumbnail:hover {
+  background-color: #E8F5FD;
+}
+html[data-sct-theme="sitecore104"] a.scItemThumbnailSelected {
+  background-color: #D5EFFC;
+  border: 1px solid #99DEFD;
+}
+
+/* ---- sitecore/shell/Themes/Standard/Default/TemplateBuilder.css ---- */
+html[data-sct-theme="sitecore104"] .scTableHeader {
+  border-left: 1px solid #E0E0E0;
+  border-right: 1px solid #FFF;
+}
+
+/* ---- sitecore/shell/Themes/Standard/Default/Windows.css ---- */
+html[data-sct-theme="sitecore104"] .standardWindowCaption {
+  background-color: #2b2b2b;
+}
+html[data-sct-theme="sitecore104"] .scWindowCaption {
+  color: #fff;
+}
+
+/* ---- sitecore/shell/Themes/Standard/Default/Workbox.css ---- */
+html[data-sct-theme="sitecore104"] .scWorkboxWindowCaption {
+  background-color: unset;
+}
+
+/* ---- sitecore/shell/Themes/Standard/Default/GlobalHeader.css ---- */
+html[data-sct-theme="sitecore104"] .sc-globalHeader {
+  border-color: unset;
+  border-bottom: unset;
+  box-shadow: unset;
+  background-color: #2b2b2b;
+}
+html[data-sct-theme="sitecore104"] .sc-globalHeader ~ .scPopup {
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .col2 {
+  padding: 0 15px;
+}
+html[data-sct-theme="sitecore104"] .sc-global-logo {
+  background: url("/sitecore/shell/Themes/Standard/Images/global_logo.png");
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+}
+html[data-sct-theme="sitecore104"] .sc-global-logo:hover {
+  background-position: left bottom;
+}
+html[data-sct-theme="sitecore104"] .sc-accountInformation .logout {
+  color: #969696;
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li:after {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li:last-child:after {
+  padding-left: 0;
+  padding-right: 0;
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li {
+  color: unset;
+}
+
+/* ---- sitecore/shell/Applications/Archives/RecycleBin/RecycleBin.css ---- */
+html[data-sct-theme="sitecore104"] #GridContainer {
+  overflow: unset;
+}
+html[data-sct-theme="sitecore104"] .Row:nth-child(odd) {
+  background-color: #f7f7f7;
+}
+html[data-sct-theme="sitecore104"] .Row:hover {
+  background: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .Row td.DataCell {
+  color: unset;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+html[data-sct-theme="sitecore104"] .Grid {
+  margin-left: auto;
+  margin-right: auto;
+}
+html[data-sct-theme="sitecore104"] .GridFooter {
+  padding: 5px 5px 0px;
+}
+
+/* ---- sitecore/shell/Applications/Buckets/styles/ItemBucket.css ---- */
+html[data-sct-theme="sitecore104"] .facets {
+  padding-right: 15px;
+}
+
+/* ---- sitecore/shell/Applications/Buckets/styles/searchBox.css ---- */
+html[data-sct-theme="sitecore104"] .search-box {
+  border-radius: 2px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+html[data-sct-theme="sitecore104"] .sb_down:hover {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .sb_up:hover {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .filters .filter {
+  color: unset;
+  border: 1px solid #d6d6d6;
+  border-radius: 2px;
+  background-color: #f0f0f0;
+}
+html[data-sct-theme="sitecore104"] .filters .filter .value .raw-value {
+  bottom: 0;
+}
+html[data-sct-theme="sitecore104"] .filters .filter .value .display-value {
+  color: unset;
+  font-weight: 600;
+}
+html[data-sct-theme="sitecore104"] .filters .filter .value .display-value.invalid {
+  color: #fff;
+}
+html[data-sct-theme="sitecore104"] .filters .filter .remove {
+  padding: 5px;
+  background: url("/sitecore/shell/Applications/Buckets/images/cancel.png") center no-repeat;
+  border-left: 1px solid #d6d6d6;
+}
+html[data-sct-theme="sitecore104"] .filters .filter .remove:hover {
+  border-top-right-radius: unset;
+  border-bottom-right-radius: unset;
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .btn-search {
+  border-left: 1px solid #bdbdbd;
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png"), linear-gradient(to bottom, #f0f0f0 0%, #d9d9d9 100%);
+  border-radius: 0px 2px 2px 0px;
+}
+html[data-sct-theme="sitecore104"] .btn-search:hover {
+  border-color: #d9d9d9;
+  background-color: #d1d1d1;
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png"), linear-gradient(to bottom, #f0f0f0 0%, #f0f0f0 100%);
+}
+html[data-sct-theme="sitecore104"] .btn-search:active {
+  border-color: #d9d9d9;
+  background-color: #d1d1d1;
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png"), linear-gradient(to bottom, #f0f0f0 0%, #f0f0f0 100%);
+}
+html[data-sct-theme="sitecore104"] .btn-clear {
+  border-left: 1px solid #bdbdbd;
+}
+
+/* ---- sitecore/shell/Applications/Dialogs/SelectRenderingDatasource/SelectRenderingDatasource.css ---- */
+html[data-sct-theme="sitecore104"] .scVerticalImagedTabstrip > div.selected {
+  background-color: #D0EBF6;
+}
+html[data-sct-theme="sitecore104"] .scVerticalImagedTabstrip > div.selected:hover {
+  background-color: #D0EBF6;
+}
+
+/* ---- sitecore/shell/Applications/Install/installer.css ---- */
+html[data-sct-theme="sitecore104"] .scInstallerCurrentPage {
+  background-color: #D0EBF6;
+}
+
+/* ---- sitecore/shell/Applications/Rules/RulesEditor/RulesEditor.css ---- */
+html[data-sct-theme="sitecore104"] .scDialogContentContainer .scMainContainer {
+  margin: 15px 15px 20px 15px;
+}
+html[data-sct-theme="sitecore104"] .scConditionsActions {
+  border-bottom: unset;
+}
+html[data-sct-theme="sitecore104"] .scRule .scLineButtons {
+  font-weight: unset;
+  position: unset;
+  right: unset;
+}
+html[data-sct-theme="sitecore104"] .scRule:not(.scRuleActive) .scLineButtons {
+  display: unset !important;
+}
+html[data-sct-theme="sitecore104"] .scRuleChevron {
+  width: unset;
+  height: unset;
+  display: unset !important;
+  position: unset;
+  right: unset;
+  background: unset;
+}
+html[data-sct-theme="sitecore104"] .scRuleActive .scRuleChevron {
+  background: unset !important;
+}
+html[data-sct-theme="sitecore104"] .scGlyphSearch {
+  background-image: unset !important;
+  background-repeat: unset;
+  background-position: unset;
+}
+html[data-sct-theme="sitecore104"] .scConditions .scGlyphSearch {
+  background-position: unset;
+}
+html[data-sct-theme="sitecore104"] .scActions .scGlyphSearch {
+  background-position: unset;
+}
+html[data-sct-theme="sitecore104"] #Conditions::-webkit-scrollbar {
+  width: unset;
+}
+html[data-sct-theme="sitecore104"] #Description::-webkit-scrollbar {
+  width: unset;
+}
+html[data-sct-theme="sitecore104"] #Conditions::-webkit-scrollbar-track {
+  background: unset;
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] #Description::-webkit-scrollbar-track {
+  background: unset;
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] #Conditions::-webkit-scrollbar-thumb {
+  background: unset;
+  border-radius: unset;
+  cursor: unset;
+  border: 1px solid;
+}
+html[data-sct-theme="sitecore104"] #Description::-webkit-scrollbar-thumb {
+  background: unset;
+  border-radius: unset;
+  border: unset;
+  cursor: unset;
+}
+html[data-sct-theme="sitecore104"] .scConditionOption {
+  word-wrap: unset;
+  line-height: unset;
+  white-space: nowrap;
+}
+html[data-sct-theme="sitecore104"] .scConditionOption:link {
+  word-wrap: unset;
+  line-height: unset;
+  white-space: nowrap;
+}
+html[data-sct-theme="sitecore104"] .scConditionOption:visited {
+  word-wrap: unset;
+  line-height: unset;
+  white-space: nowrap;
+}
+html[data-sct-theme="sitecore104"] .scConditionOption:active {
+  word-wrap: unset;
+  line-height: unset;
+  white-space: nowrap;
+}
+html[data-sct-theme="sitecore104"] .scConditionOption:hover {
+  word-wrap: unset;
+  line-height: unset;
+  white-space: nowrap;
+  color: #dc291e;
+}
+html[data-sct-theme="sitecore104"] .scActionOption {
+  word-wrap: unset;
+  line-height: unset;
+  white-space: nowrap;
+}
+html[data-sct-theme="sitecore104"] .scActionOption:link {
+  word-wrap: unset;
+  line-height: unset;
+  white-space: nowrap;
+}
+html[data-sct-theme="sitecore104"] .scActionOption:visited {
+  word-wrap: unset;
+  line-height: unset;
+  white-space: nowrap;
+}
+html[data-sct-theme="sitecore104"] .scActionOption:active {
+  word-wrap: unset;
+  line-height: unset;
+  white-space: nowrap;
+}
+html[data-sct-theme="sitecore104"] .scActionOption:hover {
+  word-wrap: unset;
+  line-height: unset;
+  color: #dc291e;
+  white-space: nowrap;
+}
+html[data-sct-theme="sitecore104"] .scRule {
+  background-color: unset;
+  border-top: unset;
+  border-bottom: unset;
+  padding: 4px 4px 4px 5px;
+}
+html[data-sct-theme="sitecore104"] .scRuleActive {
+  font-weight: bold;
+}
+html[data-sct-theme="sitecore104"] .scRuleHover {
+  background: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .scLine {
+  word-wrap: unset;
+  line-height: unset;
+  padding: 9px 4px 9px 4px;
+}
+html[data-sct-theme="sitecore104"] .scLineButton {
+  background: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] .scActionButton {
+  color: #dc291e;
+}
+html[data-sct-theme="sitecore104"] .scActionButton:link {
+  color: #dc291e;
+}
+html[data-sct-theme="sitecore104"] .scActionButton:visited {
+  color: #dc291e;
+}
+html[data-sct-theme="sitecore104"] .scActionButton:hover {
+  color: #dc291e;
+}
+html[data-sct-theme="sitecore104"] .scActionButton:active {
+  color: #dc291e;
+}
+html[data-sct-theme="sitecore104"] .scSectionGlyph {
+  display: unset;
+  vertical-align: bottom;
+}
+html[data-sct-theme="sitecore104"] .ie .scConditions #Conditions {
+  height: 100%;
+}
+html[data-sct-theme="sitecore104"] .ie .scActions #Actions {
+  height: 100%;
+}
+html[data-sct-theme="sitecore104"] .scConditions #Conditions {
+  top: 50px;
+}
+html[data-sct-theme="sitecore104"] .scActions #Actions {
+  top: 60px;
+}
+html[data-sct-theme="sitecore104"] #Conditions {
+  border-radius: unset;
+  margin-top: 10px;
+}
+html[data-sct-theme="sitecore104"] .scDescription {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .scDescriptionLabel {
+  margin-top: 5px;
+}
+html[data-sct-theme="sitecore104"] .scActionSection {
+  font-weight: bold;
+}
+html[data-sct-theme="sitecore104"] .scConditionSection {
+  font-weight: bold;
+}
+
+/* ---- sitecore/shell/Applications/WebEdit/Dialogs/Personalization/Personalization.css ---- */
+html[data-sct-theme="sitecore104"] .sc-kpi.compact {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .top-row {
+  background-color: #e3e3e3;
+}
+html[data-sct-theme="sitecore104"] #ComponentPersonalization + label {
+  background: url(/sitecore/shell/-/icon/office/48x48/switch3_off.png.ashx) no-repeat left center;
+  margin-left: 10px;
+}
+html[data-sct-theme="sitecore104"] #ComponentPersonalization:checked + label + label {
+  background: url(/sitecore/shell/-/icon/office/48x48/switch3_on.png.ashx) no-repeat left center;
+  margin-left: 10px;
+  margin-top: 6px;
+}
+html[data-sct-theme="sitecore104"] .rule-body {
+  border: 1px solid #e5e5e5;
+}
+html[data-sct-theme="sitecore104"] .rule-container {
+  border: unset;
+  border-radius: unset;
+}
+
+/* ---- sitecore/shell/Controls/CollapsiblePanel/CollapsiblePanel.css ---- */
+html[data-sct-theme="sitecore104"] .scEditorSectionCaptionGlyph .icon-expand {
+  background: transparent url('/sitecore/shell/themes/standard/Images/accordion_up.png') no-repeat center center;
+}
+html[data-sct-theme="sitecore104"] .scEditorSectionCaptionGlyph .icon-expand.collapsed {
+  background: transparent url('/sitecore/shell/themes/standard/Images/accordion_down.png') no-repeat center center;
+}
+html[data-sct-theme="sitecore104"] .header-title {
+  color: #fff !important;
+}
+
+/* ---- sitecore/shell/Controls/Rich Text Editor/Editor.css ---- */
+html[data-sct-theme="sitecore104"] .xa-variable {
+  border: 0px;
+  padding: 1px;
+  margin: 0px;
+  background-color: #ebebe4;
+  color: #545454;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}

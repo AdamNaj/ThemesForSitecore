@@ -1,0 +1,167 @@
+/* Copenhagen: Launchpad did not exist in 6.x; it gets its palette, fonts and dark header. */
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] body,
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] input,
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] button,
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] select,
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] textarea {
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] .sc-globalHeader,
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] .sc-flx-global-header {
+  background: linear-gradient(#6e7388, #3d4255 48%, #252733 52%, #13131d);
+  border-bottom: 1px solid #000;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] .sc-globalHeader *,
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] .sc-flx-global-header * {
+  color: #fff;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] .sc-globalHeader .sc-accountInformation li,
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] .sc-globalHeader .sc-accountInformation span,
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"] .sc-globalHeader .sc-accountInformation a {
+  color: #fff;
+}
+
+/* ---- The page: 6.6's task page (Controls/Tasks), as the Control Panel. Groups take its pale headline and
+   the tiles its TaskLink: a 32px icon and a white bold caption, 180px wide, underlined on hover. ---- */
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"]:not(#sct-sc6) {
+  body,
+  .sc-applicationContent {
+    background: #6375d6 url("/sitecore/shell/themes/standard/images/controlpanel.png") no-repeat right bottom fixed;
+    color: #fff;
+    font: 8pt tahoma;
+  }
+  .sc-applicationContent {
+    min-height: 100vh;
+  }
+  .sc-applicationContent-main {
+    background: none;
+  }
+  .sc-applicationHeader {
+    border: 0;
+    background: linear-gradient(90deg, #3366cc, #6375d6);
+    box-shadow: none;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: #fff;
+    font: bold 8pt tahoma;
+  }
+  .sc-launchpad-group-title,
+  .sc-applicationContent-main .row > div > .sc-text-title {
+    color: #d6dff5;
+    font: bold 14pt tahoma;
+  }
+  .sc-launchpad-item {
+    display: inline-flex;
+    align-items: center;
+    width: 180px;
+    height: auto;
+    margin: 0 8px 8px 0;
+    padding: 4px 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    color: #fff;
+    text-decoration: none;
+  }
+  .sc-launchpad-item .icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin: 0 4px;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+  }
+  /* 10.x draws its tiles' icons as dark outlines: white on the blue page, and the applications the
+     start menu also lists get its colour icons */
+  .sc-launchpad-item .icon img {
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    filter: brightness(0) invert(1);
+  }
+  .sc-launchpad-item[href*="Content Editor.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/pencil.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="Media/MediaShop.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/pictures.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="Workbox.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/workbox.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="Recycle Bin.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/refresh.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="PowerShell/PowerShellIse"] .icon img {
+    content: url("/sitecore/shell/~/icon/PowerShell/32x32/ise8.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="PowerShell/PowerShellReports"] .icon img {
+    content: url("/sitecore/shell/~/icon/PowerShell/32x32/powershell_runner.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="ControlPanel.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/setting.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="shell/default.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/monitor.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="User Manager.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/user (1).png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="Security Editor.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/shield.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="Access Viewer.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/lock.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="Domain Manager.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/routes.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="Role Manager.aspx"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/account.png");
+    filter: none;
+  }
+  .sc-launchpad-item[href*="FormsBuilder"] .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/forms.png");
+    filter: none;
+  }
+  .sc-launchpad-item:is([href="/"], [href^="/?"]) .icon img {
+    content: url("/sitecore/shell/~/icon/Apps/32x32/paint.png");
+    filter: none;
+  }
+  .sc-launchpad-text {
+    width: auto;
+    color: #fff;
+    font: bold 8pt tahoma;
+    white-space: normal;
+  }
+  .sc-launchpad-item:hover {
+    background: none;
+    box-shadow: none;
+  }
+  .sc-launchpad-item:hover .sc-launchpad-text {
+    text-decoration: underline;
+  }
+  .sc-globalHeader .sc-accountInformation a {
+    color: #fff;
+  }
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; on 6.6's dark header it is white. */
+html[data-sct-theme="sitecore6"][data-sct-surface="launchpad"][data-sct-version="10.5"]:not(#sct-sc6) .sc-globalHeader .sc-global-logo {
+  background: #fff;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}

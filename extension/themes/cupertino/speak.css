@@ -1,0 +1,485 @@
+/* Cupertino: speak. Colours come from tokens.css; this file adds macOS's shapes: the system font, the
+   Experience Editor ribbon drawn like the Content Editor's, push buttons, and the Control Panel as
+   System Settings' grouped lists. */
+html[data-sct-theme="cupertino"][data-sct-surface="speak"] body,
+html[data-sct-theme="cupertino"][data-sct-surface="speak"] input,
+html[data-sct-theme="cupertino"][data-sct-surface="speak"] button,
+html[data-sct-theme="cupertino"][data-sct-surface="speak"] select,
+html[data-sct-theme="cupertino"][data-sct-surface="speak"] textarea {
+  font-family: var(--sct-font-family);
+  -webkit-font-smoothing: antialiased;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="speak"] .btn,
+html[data-sct-theme="cupertino"][data-sct-surface="speak"] .form-control {
+  border-radius: 6px;
+}
+
+/* :not(#sct-cu) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="cupertino"][data-sct-surface="speak"]:not(#sct-cu) {
+  /* ---- The global header: a unified window toolbar, its text in the label colour ---- */
+  .sc-globalHeader {
+    box-shadow: none;
+    border-bottom: 1px solid var(--sct-border);
+  }
+  .sc-globalHeader .sc-globalheader-appName {
+    font-weight: 600;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a) {
+    color: var(--sct-titlebar-fg);
+  }
+  .sc-globalHeader .sc-accountInformation a:hover {
+    color: var(--sct-link);
+  }
+  /* 10.5's Launchpad glyph is drawn dark for a white header; it takes the header's text colour instead */
+  &[data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+    background: var(--sct-titlebar-fg);
+    mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+  }
+
+  /* ---- Push buttons: 6px rounded, a hairline and a soft drop; the default button in the accent ---- */
+  .btn.sc-button {
+    border: 0;
+    border-radius: 6px;
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.16), 0 0.5px 1.5px rgba(0, 0, 0, 0.16);
+    background: var(--sct-button-bg);
+    color: var(--sct-button-fg);
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: none;
+    text-shadow: none;
+  }
+  .btn.sc-button:hover {
+    background: var(--sct-button-hover-bg);
+  }
+  .btn.sc-button:active {
+    background: var(--sct-ribbon-button-pressed-bg);
+  }
+  .btn.sc-button.btn-primary {
+    background: linear-gradient(var(--sct-button-primary-bg), color-mix(in srgb, var(--sct-button-primary-bg) 90%, #000));
+    color: var(--sct-button-primary-fg);
+  }
+  .btn.sc-button.btn-primary:hover {
+    background: var(--sct-button-primary-hover-bg);
+  }
+  .btn.sc-button .sc-button-text {
+    color: inherit;
+    font: inherit;
+  }
+  .btn.sc-button:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--sct-focus-ring) 50%, transparent);
+    outline-offset: 0;
+  }
+}
+
+/* ---- Experience Editor ribbon: the Content Editor's, a segmented row of tabs over a toolbar of
+   chunks with hairline dividers, captions in the secondary label colour. ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="speak"]:not(#sct-cu) .sc-pageeditbar {
+  font-size: 12px;
+  color: var(--sct-ribbon-fg);
+
+  .sc-quickbar {
+    display: flow-root;
+    height: auto;
+    padding: 8px 12px 8px 8px;
+    border: 0;
+    background: var(--sct-ribbon-tab-bg);
+    line-height: 30px;
+  }
+  .sc-quickbar-item {
+    height: 30px;
+    margin: 0 1px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    box-shadow: none;
+    background: transparent;
+    color: var(--sct-ribbon-tab-fg);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 30px;
+    text-decoration: none;
+    text-transform: none;
+  }
+  .sc-quickbar-item:is(:hover, :focus, :active) {
+    text-decoration: none;
+  }
+  .sc-quickbar-item:focus {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--sct-focus-ring) 50%, transparent);
+  }
+  /* Save, Search and Component: borderless toolbar icon buttons */
+  .sc-quickbar-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 30px;
+    min-width: 0;
+    opacity: 1;
+  }
+  .sc-quickbar-button.disabled {
+    opacity: 0.35;
+  }
+  .sc-quickbar-button:not(.disabled):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  /* the collapse/expand chevron is the token layer's */
+  .sc-quickbar-button > .sprite-speak-ribbon-clean-ee:not(.navigate_up, .navigate_down) {
+    filter: var(--sct-glyph-filter, none);
+  }
+  /* the quick buttons end in a gap before the tabs, as the system menu ends before the CE's */
+  .sc-quickbar-button:not(.sc-alternate-position, [style*="right"]) + .sc-quickbar-tab {
+    margin-left: 12px;
+  }
+  .sc-quickbar-tab {
+    padding: 0 14px;
+  }
+  .sc-quickbar-tab:not(.sc-quickbar-tab-selected):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: var(--sct-ribbon-tab-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected {
+    border: 0;
+    background: var(--sct-ribbon-tab-active-bg);
+    color: var(--sct-ribbon-tab-active-fg);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+  }
+
+  .sc-ribbon {
+    border: 0;
+    border-bottom: 1px solid var(--sct-border);
+    background: var(--sct-ribbon-bg);
+  }
+  /* no display here: Sitecore switches strips with jQuery hide and show */
+  .sc-strip {
+    min-height: 0;
+    padding: 12px 0;
+  }
+  .sc-chunk {
+    box-sizing: border-box;
+    height: 80px;
+    padding: 0 8px;
+    vertical-align: top;
+    border-right: 1px solid var(--sct-border);
+  }
+  .sc-chunk::after {
+    content: none;
+  }
+  .sc-chunk-button-list {
+    display: flow-root;
+    height: 60px;
+  }
+  .sc-chunk-label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 20px;
+    margin: 0;
+    color: var(--sct-ribbon-chunk-caption-fg);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  /* large buttons: a 24px icon over its caption, a rounded hover plate */
+  :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton) {
+    box-sizing: border-box;
+    min-width: 44px;
+    height: 52px;
+    margin: 0 2px;
+    padding: 4px 8px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--sct-ribbon-fg);
+  }
+  :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton) > .sprite-speak-ribbon-clean-ee {
+    margin: 0 auto 4px;
+  }
+  .sc-chunk-button-label,
+  .sc-chunk-button-list span.sc-chunk-button-label {
+    color: var(--sct-ribbon-fg);
+    font-size: 12px;
+    line-height: 16px;
+  }
+  :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  .pressed,
+  .pressed:not(.disabled):hover {
+    background: var(--sct-ribbon-button-pressed-bg);
+  }
+  .disabled,
+  .disabled:hover {
+    background: transparent;
+    opacity: 0.4;
+  }
+
+  /* small buttons and check boxes: 21px rows, three to a column */
+  .sc-chunk-button-small-list,
+  .sc-chunk-check-list {
+    min-height: 0;
+    margin: 0;
+  }
+  .sc-chunk-button-small,
+  .sc-chunk-check-small {
+    box-sizing: border-box;
+    height: 21px;
+    margin: 0 2px;
+    padding: 2px 6px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--sct-ribbon-fg);
+    line-height: 17px;
+    text-align: left;
+  }
+  .sc-chunk-check-small {
+    display: flex;
+    align-items: center;
+  }
+  .sc-chunk-check-small label {
+    float: none;
+  }
+  .sc-chunk-button-small > .sprite-speak-ribbon-clean-ee {
+    margin: 0 6px 0 0;
+  }
+  .sc-chunk-button-list .sc-chunk-check-list div {
+    height: auto;
+    max-height: none;
+  }
+  .sc-chunk-check-small-label {
+    margin-left: 6px;
+    color: var(--sct-ribbon-fg);
+    font-weight: 400;
+  }
+  input.sc-smallcheckbox {
+    flex: none;
+    float: none;
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    accent-color: var(--sct-accent);
+  }
+
+  /* the preview date panel: a rounded field */
+  .sc-chunk-panel {
+    border: 1px solid var(--sct-input-border);
+    border-radius: 6px;
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+  }
+
+  /* drop-down lists under large buttons: a macOS menu */
+  .sc-chunk-button-list ul {
+    padding: 5px;
+    border: 0.5px solid var(--sct-window-border);
+    border-radius: 6px;
+    background: var(--sct-panel-bg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  /* the item path under the ribbon: a path bar with small push buttons */
+  .sc-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    box-sizing: border-box;
+    height: 36px;
+    min-height: 0;
+    padding: 0 12px 0 8px;
+    border: 0;
+    border-bottom: 1px solid var(--sct-border);
+    background: var(--sct-ribbon-bg);
+    box-shadow: none;
+  }
+  .sc-breadcrumb::after {
+    content: none;
+  }
+  .sc-breadcrumb .sc-breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    float: none;
+    height: auto;
+    padding: 0;
+  }
+  .sc-breadcrumb :is(.sc-breadcrumb-item-button, .sc-breadcrumb-item-action, .sc-breadcrumb-item-path, #navigationTreeViewButton) {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 24px;
+    margin: 0;
+    padding: 0 6px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--sct-ribbon-fg);
+    font-size: 13px;
+  }
+  .sc-breadcrumb :is(.sc-breadcrumb-item-button, .sc-breadcrumb-item-action, .sc-breadcrumb-item-path):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-breadcrumb :is(.sc-breadcrumb-item-button, .sc-breadcrumb-item-action) > .sprite-speak-ribbon-clean-ee {
+    filter: var(--sct-glyph-filter, none);
+  }
+  .sc-breadcrumb a.scContentButton {
+    display: block;
+    padding: 0 0 0 8px;
+    border: 0;
+  }
+  .sc-breadcrumb .btn.sc-button {
+    min-width: 64px;
+    height: 24px;
+    padding: 0 12px;
+    line-height: 24px;
+  }
+}
+
+/* ---- Control Panel: System Settings' grouped lists. A toolbar with the title and a back button, then
+   rounded groups of rows with inset hairlines and a chevron. ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="speak"]:not(#sct-cu) body:has(.sc-controlpanel-box) {
+  background: var(--sct-app-bg);
+
+  .sc-applicationContent,
+  .sc-applicationContent-main {
+    background: var(--sct-app-bg);
+  }
+  .sc-applicationHeader {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-applicationHeader-row1 {
+    border: 0;
+    background: transparent;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--sct-app-fg);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 28px;
+  }
+  .sc-applicationHeader-row2 {
+    border: 0;
+    border-bottom: 1px solid var(--sct-border);
+    background: transparent;
+  }
+  .btn.sc-backbutton {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    height: 24px;
+    margin: 0;
+    padding: 0 8px 0 2px;
+    border: 0;
+    border-radius: 6px;
+    box-shadow: none;
+    background: transparent;
+    color: var(--sct-link);
+  }
+  .btn.sc-backbutton:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  /* Sitecore's arrow, in the link colour, as macOS draws a back chevron */
+  .btn.sc-backbutton::before {
+    position: static;
+    flex: none;
+    margin: 0 -2px;
+    background: var(--sct-link);
+    mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/BackButton/back_button_arrow_left.svg") center / contain no-repeat;
+    transform: scale(0.75);
+  }
+  /* 10.4 has no such arrow: the token layer's chevron, turned */
+  :root[data-sct-version="10.4"] & .btn.sc-backbutton::before {
+    mask-image: url("/sitecore/shell/themes/standard/images/accordion_up.png");
+    transform: rotate(-90deg) scale(0.75);
+  }
+  .sc-backbutton-text,
+  .btn.sc-backbutton .sc-backbutton-text {
+    position: static;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    color: var(--sct-link);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .sc-controlpanel-box {
+    margin-top: 8px;
+  }
+  .sc-controlpanel-box-header h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px 4px;
+    color: var(--sct-app-fg);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: none;
+  }
+  .sc-controlpanel-box-header h4 img {
+    width: 20px;
+    height: 20px;
+  }
+  /* Sitecore's pale yellow Database and Reports icons fade into the light window background */
+  @media (prefers-color-scheme: light) {
+    .sc-controlpanel-box-header h4 img {
+      filter: brightness(0.8) saturate(1.5);
+    }
+  }
+  .sc-controlpanel-box-content {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-controlpanel-box-content ul {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--sct-border);
+    border-radius: 10px;
+    background: var(--sct-panel-bg);
+  }
+  .sc-controlpanel-box-content li {
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: linear-gradient(var(--sct-border), var(--sct-border)) 12px 100% / calc(100% - 12px) 1px no-repeat;
+  }
+  .sc-controlpanel-box-content li:last-child {
+    background: none;
+  }
+  .sc-controlpanel-box-content li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: 36px;
+    padding: 0 12px;
+    color: var(--sct-panel-fg);
+    font-size: 13px;
+    text-decoration: none;
+  }
+  /* the disclosure chevron of a navigation row */
+  .sc-controlpanel-box-content li a::after {
+    content: "";
+    flex: none;
+    width: 6px;
+    height: 6px;
+    margin: 0 2px 0 12px;
+    border: solid var(--sct-muted-fg);
+    border-width: 1.5px 1.5px 0 0;
+    transform: rotate(45deg);
+  }
+  .sc-controlpanel-box-content li a:hover {
+    background: var(--sct-table-row-hover-bg);
+    color: var(--sct-panel-fg);
+  }
+}

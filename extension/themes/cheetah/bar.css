@@ -1,0 +1,10 @@
+/* Cheetah: a title on brushed metal, black with the white emboss under it */
+html[data-sct-theme="cheetah"] sct-bar-postfix {
+  border-color: transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #000;
+  font: 13px/17px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+  letter-spacing: 0;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}

@@ -1,0 +1,72 @@
+/* Guardrail: the login page as a plain Sitecore card on the app's grey (no red wallpaper: red means
+   production here), its edge in the environment colour, a striped band along its top and the badge
+   under the logo. */
+html[data-sct-theme="guardrail"][data-sct-surface="login"] body {
+  background: var(--sct-app-bg) none;
+  color: var(--sct-app-fg);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .main-wrap {
+  background: transparent none;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] :is(.top, .top a, .top span) {
+  background: transparent;
+  color: var(--sct-app-fg);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .top .vertical-separator {
+  background-color: var(--sct-border-strong);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .main {
+  background: var(--gr-stripes) top / 100% 12px no-repeat, var(--sct-panel-bg);
+  border: var(--gr-edge) solid var(--gr-env);
+  border-radius: 6px;
+  box-shadow: 0 8px 28px rgb(0 0 0 / 0.14);
+}
+/* the Sitecore wordmark is white art for a dark card */
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .logo-wrap img {
+  filter: brightness(0) opacity(0.87);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .logo-wrap {
+  text-align: center;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .logo-wrap::after {
+  content: var(--gr-env-label);
+  display: table;
+  margin: 14px auto 0;
+  padding: 0 10px;
+  border-radius: 3px;
+  background: var(--gr-env);
+  color: #ffffff;
+  font: 700 12px/22px "Segoe UI", "Open Sans", Arial, sans-serif;
+  letter-spacing: 0.1em;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] :is(label, .login-label, .remember-me, .forgot-password) {
+  color: var(--sct-app-fg);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .forgot-password {
+  color: var(--sct-link);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .form-control {
+  border: 1px solid var(--sct-input-border);
+  border-radius: 6px;
+  background: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  box-shadow: none;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .form-control:focus {
+  border-color: var(--sct-input-focus-border);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .form-control::placeholder {
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .btn.btn-primary {
+  background: var(--sct-button-primary-bg);
+  border: 0;
+  border-radius: 6px;
+  color: var(--sct-button-primary-fg);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] .btn.btn-primary:hover {
+  background: var(--sct-button-primary-hover-bg);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="login"] input[type="checkbox"] {
+  accent-color: var(--sct-accent);
+}

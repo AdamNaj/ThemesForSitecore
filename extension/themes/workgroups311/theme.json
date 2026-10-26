@@ -1,0 +1,9 @@
+{
+  "name": "Redmond 3.11",
+  "description": "Inspired by Windows 3.11",
+  "category": "retro",
+  "order": 100,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#c0c0c0", "#000080", "#ffffff"],
+  "swatch": { "desk": "#c0c0c0", "bar": "#c0c0c0", "barLine": "#ffffff", "start": "#000080", "app": "#ffffff", "win": "#ffffff", "border": "#000000", "bw": 2, "cap": "#000080", "btns": "both", "btn": "#c0c0c0", "ribbon": "#ffffff", "tab": "#000080", "tree": "#ffffff", "ed": "#c0c0c0", "sec": "#c0c0c0", "field": "#ffffff", "line": "#000000", "sel": "#000080", "fg": "#000000" }
+}

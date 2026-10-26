@@ -1,0 +1,10 @@
+/* Whistler: a Luna title, white bold on the blue with its shadow */
+html[data-sct-theme="whistler"] sct-bar-postfix {
+  border-color: transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font: bold 13px/17px "Trebuchet MS", Tahoma, Verdana, sans-serif;
+  letter-spacing: 0;
+  text-shadow: 1px 1px #0f1089;
+}

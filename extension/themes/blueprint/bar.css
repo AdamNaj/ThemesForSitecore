@@ -1,0 +1,11 @@
+/* Blueprint: a drawing's title block, white lines on the blue */
+html[data-sct-theme="blueprint"] sct-bar-postfix {
+  border-color: #eaf2ff;
+  border-radius: 0;
+  background: transparent;
+  outline: 1px solid rgba(234, 242, 255, 0.55);
+  outline-offset: 2px;
+  color: #eaf2ff;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}

@@ -1,0 +1,173 @@
+/* Beacon: high contrast on Sitecore's own layout, for low vision, bright rooms and projectors. It follows the
+   OS: light is Windows' Desert contrast theme, dark is black and yellow.
+   Spec (every text pair 7:1 or better, test/unit/beacon.test.js):
+   Light (Desert, hcwhite.theme on Windows 11; three colours a shade darker to reach 7:1):
+   - cream #fffaef surfaces, #3d3d3d text (10.4:1), buttons #202020; muted text #565656 (Desert's #676767 is 5.4:1)
+   - rust #8c3708 for selection and the current state with #fff5e3 text (7.3:1; Desert's #903909 is 6.998:1)
+   - links #1b5b72 (Desert's #1c5e75 is 6.9:1); title bars #365879 with white (7.4:1), inactive #a6a6a6 with black
+   - hover #efe5d0 (8.7:1), pressed #e0d2b8 (7.3:1); 2px black outlines (Desert's window frame)
+   Dark:
+   - black #000 surfaces, white #fff text (21:1), muted text #d0d0d0 (14:1)
+   - yellow #ffd400 for selection and the current state, black bold text on it (15:1)
+   - hover #303030 under white (13:1), pressed #4a4a4a (8.9:1)
+   - 2px white outlines on panels, fields, tabs and buttons
+   Both: a 3px :focus-visible ring in the selection colour, 13px text in the shell, square corners, icons keep
+   their colours. */
+html[data-sct-theme="beacon"] {
+  --sct-font-family: inherit;
+  --sct-font-size: 13px;
+  --sct-radius: 0;
+
+  --sct-app-bg: #fffaef;
+  --sct-app-fg: #3d3d3d;
+  --sct-panel-bg: #fffaef;
+  --sct-panel-fg: #3d3d3d;
+  --sct-muted-fg: #565656;
+  --sct-border: #8a8a8a;
+  --sct-border-strong: #000000;
+  --sct-accent: #8c3708;
+  --sct-accent-fg: #fff5e3;
+  --sct-link: #1b5b72;
+  --sct-focus-ring: #8c3708;
+  --sct-raised-bg: #fffaef;
+  --sct-chrome-bg: #fffaef;
+  --sct-chrome-fg: #202020;
+  --sct-selected-bg: #8c3708;
+
+  --sct-titlebar-bg: #365879;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #a6a6a6;
+  --sct-titlebar-inactive-fg: #000000;
+  --sct-window-border: #000000;
+
+  --sct-ribbon-bg: #fffaef;
+  --sct-ribbon-fg: #3d3d3d;
+  --sct-ribbon-tab-bg: #fffaef;
+  --sct-ribbon-tab-fg: #3d3d3d;
+  --sct-ribbon-tab-active-bg: #8c3708;
+  --sct-ribbon-tab-active-fg: #fff5e3;
+  --sct-ribbon-chunk-bg: #fffaef;
+  --sct-ribbon-chunk-caption-bg: #fffaef;
+  --sct-ribbon-chunk-caption-fg: #565656;
+  --sct-ribbon-button-hover-bg: #efe5d0;
+  --sct-ribbon-button-pressed-bg: #e0d2b8;
+
+  --sct-tree-bg: #fffaef;
+  --sct-tree-fg: #3d3d3d;
+  --sct-tree-hover-bg: #efe5d0;
+  --sct-tree-selected-bg: #8c3708;
+  --sct-tree-selected-fg: #fff5e3;
+  --sct-tree-selected-border: #8c3708;
+
+  --sct-section-header-bg: #3d3d3d;
+  --sct-section-header-fg: #fffaef;
+  --sct-section-body-bg: #fffaef;
+  --sct-field-label-fg: #3d3d3d;
+
+  --sct-input-bg: #fffaef;
+  --sct-input-fg: #3d3d3d;
+  --sct-input-border: #000000;
+  --sct-input-focus-border: #8c3708;
+
+  --sct-button-bg: #fffaef;
+  --sct-button-fg: #202020;
+  --sct-button-border: #000000;
+  --sct-button-hover-bg: #efe5d0;
+  --sct-button-primary-bg: #8c3708;
+  --sct-button-primary-fg: #fff5e3;
+  --sct-button-primary-hover-bg: #7a2f06;
+
+  --sct-table-header-bg: #ebe1cc;
+  --sct-table-header-fg: #3d3d3d;
+  --sct-table-row-hover-bg: #efe5d0;
+
+  --sct-scrollbar-thumb: #565656;
+  --sct-scrollbar-track: #fffaef;
+
+  --sct-desktop-bg: #fffaef;
+  --sct-taskbar-bg: #fffaef;
+  --sct-taskbar-fg: #202020;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="beacon"] {
+    --sct-app-bg: #000000;
+    --sct-app-fg: #ffffff;
+    --sct-panel-bg: #000000;
+    --sct-panel-fg: #ffffff;
+    --sct-muted-fg: #d0d0d0;
+    --sct-border: #8a8a8a;
+    --sct-border-strong: #ffffff;
+    --sct-accent: #ffd400;
+    --sct-accent-fg: #000000;
+    --sct-link: #ffffff;
+    --sct-focus-ring: #ffd400;
+    --sct-raised-bg: #000000;
+    --sct-chrome-bg: #000000;
+    --sct-chrome-fg: #ffffff;
+    --sct-selected-bg: #ffd400;
+
+    --sct-titlebar-bg: #000000;
+    --sct-titlebar-fg: #ffffff;
+    --sct-titlebar-inactive-bg: #000000;
+    --sct-titlebar-inactive-fg: #d0d0d0;
+    --sct-window-border: #ffffff;
+
+    --sct-ribbon-bg: #000000;
+    --sct-ribbon-fg: #ffffff;
+    --sct-ribbon-tab-bg: #000000;
+    --sct-ribbon-tab-fg: #ffffff;
+    --sct-ribbon-tab-active-bg: #ffd400;
+    --sct-ribbon-tab-active-fg: #000000;
+    --sct-ribbon-chunk-bg: #000000;
+    --sct-ribbon-chunk-caption-bg: #000000;
+    --sct-ribbon-chunk-caption-fg: #d0d0d0;
+    --sct-ribbon-button-hover-bg: #303030;
+    --sct-ribbon-button-pressed-bg: #4a4a4a;
+
+    --sct-tree-bg: #000000;
+    --sct-tree-fg: #ffffff;
+    --sct-tree-hover-bg: #303030;
+    --sct-tree-selected-bg: #ffd400;
+    --sct-tree-selected-fg: #000000;
+    --sct-tree-selected-border: #ffd400;
+
+    --sct-section-header-bg: #ffffff;
+    --sct-section-header-fg: #000000;
+    --sct-section-body-bg: #000000;
+    --sct-field-label-fg: #ffffff;
+
+    --sct-input-bg: #000000;
+    --sct-input-fg: #ffffff;
+    --sct-input-border: #ffffff;
+    --sct-input-focus-border: #ffd400;
+
+    --sct-button-bg: #000000;
+    --sct-button-fg: #ffffff;
+    --sct-button-border: #ffffff;
+    --sct-button-hover-bg: #303030;
+    --sct-button-primary-bg: #ffd400;
+    --sct-button-primary-fg: #000000;
+    --sct-button-primary-hover-bg: #ffe45c;
+
+    --sct-table-header-bg: #262626;
+    --sct-table-header-fg: #ffffff;
+    --sct-table-row-hover-bg: #303030;
+
+    --sct-scrollbar-thumb: #d0d0d0;
+    --sct-scrollbar-track: #000000;
+
+    --sct-desktop-bg: #000000;
+    --sct-taskbar-bg: #000000;
+    --sct-taskbar-fg: #ffffff;
+
+    --sct-glyph-filter: invert(1) hue-rotate(180deg);
+    --sct-editor-filter: invert(1) hue-rotate(180deg);
+  }
+
+  /* color-scheme changes the canvas and default colours of the whole document. In the Experience
+     Editor the document is the website, so it stays out of the ee area. */
+  html[data-sct-theme="beacon"]:not([data-sct-surface="ee"]) {
+    color-scheme: dark;
+  }
+}

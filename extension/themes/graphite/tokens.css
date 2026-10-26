@@ -1,0 +1,112 @@
+/* Graphite: a quiet dark workspace. Near-black layers divided by hairlines, one violet accent, no shadows.
+
+   Spec (the approved mockup at 100%):
+   layers      #0b0b0d (app), #111114 (sidebar, panels), #17171b (fields, raised)
+   hairlines   rgba(255,255,255,.08), as opaque colours #232327 on the app and #252528 on panels;
+               #2a2a30 round fields
+   text        #ededef, muted #8a8f98 (6.0:1 on #0b0b0d, 5.5:1 on #17171b)
+   accent      #7c6cff for rings, lines, dots and the open tab's underline; it holds white text at 3.9:1
+               only, so every fill under white text is #6c5cf0 (4.7:1), the nearest violet that passes
+   focus       a 1px accent border plus a 3px ring at 20%
+   selection   a white 7% plate (#1d1d20), no accent fill
+   shape       6px everywhere, pills only for status badges; no shadows anywhere, menus included
+   type        Inter where installed, else the system stack, 13px; weights 400, 500 and 600 */
+html[data-sct-theme="graphite"] {
+  --sct-font-family: Inter, "Inter Variable", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --sct-font-size: 13px;
+  --sct-radius: 6px;
+
+  --sct-app-bg: #0b0b0d;
+  --sct-app-fg: #ededef;
+  --sct-panel-bg: #111114;
+  --sct-panel-fg: #ededef;
+  --sct-muted-fg: #8a8f98;
+  --sct-border: #232327;
+  --sct-border-strong: #34343a;
+  --sct-accent: #6c5cf0;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #a89eff;
+  --sct-focus-ring: #7c6cff;
+  --sct-raised-bg: #17171b;
+  --sct-chrome-bg: #111114;
+  --sct-chrome-fg: #ededef;
+  --sct-selected-bg: #1d1d20;
+
+  --sct-titlebar-bg: #0b0b0d;
+  --sct-titlebar-fg: #ededef;
+  --sct-titlebar-inactive-bg: #0b0b0d;
+  --sct-titlebar-inactive-fg: #8a8f98;
+  --sct-window-border: #232327;
+
+  --sct-ribbon-bg: #0b0b0d;
+  --sct-ribbon-fg: #ededef;
+  --sct-ribbon-tab-bg: #0b0b0d;
+  --sct-ribbon-tab-fg: #8a8f98;
+  --sct-ribbon-tab-active-bg: #0b0b0d;
+  --sct-ribbon-tab-active-fg: #ededef;
+  --sct-ribbon-chunk-bg: #0b0b0d;
+  --sct-ribbon-chunk-caption-bg: #0b0b0d;
+  --sct-ribbon-chunk-caption-fg: #8a8f98;
+  --sct-ribbon-button-hover-bg: #1a1a1f;
+  --sct-ribbon-button-pressed-bg: #222228;
+
+  --sct-tree-bg: #111114;
+  --sct-tree-fg: #ededef;
+  --sct-tree-hover-bg: #18181c;
+  --sct-tree-selected-bg: #1f1f24;
+  --sct-tree-selected-fg: #ededef;
+  --sct-tree-selected-border: #1f1f24;
+
+  --sct-section-header-bg: #0b0b0d;
+  --sct-section-header-fg: #ededef;
+  --sct-section-body-bg: #0b0b0d;
+  --sct-field-label-fg: #8a8f98;
+
+  --sct-input-bg: #17171b;
+  --sct-input-fg: #ededef;
+  --sct-input-border: #2a2a30;
+  --sct-input-focus-border: #7c6cff;
+
+  --sct-button-bg: #111114;
+  --sct-button-fg: #ededef;
+  --sct-button-border: #2e2e34;
+  --sct-button-hover-bg: #1a1a1f;
+  --sct-button-primary-bg: #6c5cf0;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #5f4fe6;
+
+  --sct-table-header-bg: #111114;
+  --sct-table-header-fg: #8a8f98;
+  --sct-table-row-hover-bg: #141418;
+
+  --sct-scrollbar-thumb: #2e2e34;
+  --sct-scrollbar-track: #0b0b0d;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #0b0b0d;
+  --sct-taskbar-bg: #111114;
+  --sct-taskbar-fg: #ededef;
+
+  --sct-glyph-filter: invert(1) hue-rotate(180deg);
+  --sct-editor-filter: invert(0.9) hue-rotate(180deg);
+  --sct-content-filter: brightness(0.8);
+
+  /* Graphite's own: the translucent hairline (over any layer), the soft focus ring, the accent line,
+     the mono stack for key hints */
+  --gr-line: rgba(255, 255, 255, 0.08);
+  --gr-line-strong: rgba(255, 255, 255, 0.12);
+  --gr-ring: 0 0 0 3px rgba(124, 108, 255, 0.2);
+  --gr-accent-line: #7c6cff;
+  --gr-hover: rgba(255, 255, 255, 0.04);
+  --gr-select: rgba(255, 255, 255, 0.07);
+  --gr-mono: "JetBrains Mono", "Cascadia Mono", Consolas, ui-monospace, monospace;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="graphite"]:not([data-sct-surface="ee"]) {
+  color-scheme: dark;
+}

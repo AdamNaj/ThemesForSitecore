@@ -1,0 +1,71 @@
+/* Hometown: the sign-in page as a guestbook form on the night sky. A grey bevelled box with a navy
+   title bar, labels in lavender cells, sunken fields and a bevelled button. */
+html[data-sct-theme="hometown"][data-sct-surface="login"]:not(#sct-ht) {
+  & body {
+    background: var(--ht-stars);
+    background-attachment: fixed;
+  }
+  .main-wrap {
+    background: transparent none;
+  }
+  .top,
+  .top :is(a, span) {
+    background: transparent;
+    color: #ffff00;
+  }
+  .main {
+    border: 0;
+    border-top: 22px solid var(--ht-navy);
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out), 3px 3px 0 #000000;
+    color: #000000;
+  }
+  :is(h1, h2, h3, legend) {
+    color: var(--ht-pink);
+    font-family: var(--ht-comic);
+  }
+  :is(label, .login-label) {
+    color: #000000;
+    font-family: "Times New Roman", Times, serif;
+  }
+  .form-control {
+    border: 0;
+    border-radius: 0;
+    box-shadow: var(--ht-in);
+    background: #ffffff;
+    color: #000000;
+    font-family: "Times New Roman", Times, serif;
+  }
+  .form-control:focus {
+    box-shadow: var(--ht-in);
+    outline: 1px dotted #000000;
+    outline-offset: -4px;
+  }
+  .form-control::placeholder {
+    color: #404040;
+  }
+  .btn.btn-primary {
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: 0 0 0 1px #000000, var(--ht-out);
+    color: #000000;
+    font-family: var(--ht-arial);
+    text-transform: none;
+  }
+  .btn.btn-primary:is(:hover, :focus) {
+    background: #d4d4d4;
+    color: #000000;
+  }
+  .btn.btn-primary:active {
+    box-shadow: 0 0 0 1px #000000, var(--ht-in);
+  }
+  .logo-wrap img {
+    filter: brightness(0);
+  }
+  a {
+    color: #0000ee;
+    text-decoration: underline;
+  }
+}

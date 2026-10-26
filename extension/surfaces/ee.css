@@ -1,0 +1,26 @@
+/* Hand-tuned area map for Experience Editor chrome. The page itself is the website:
+   only Sitecore's own sc-prefixed chrome selectors belong here. */
+
+/* Sitecore fades this over the website at half opacity: it keeps Sitecore's own grey, not a theme colour. */
+html[data-sct-tokens][data-sct-surface="ee"] .scChromeOverlay {
+  background-color: #dfdfdf;
+}
+
+/* The floating toolbars of renderings and fields: their dropdown arrows are black images, and the section
+   bars a hairline rather than the bright text colour the generated map gives them. */
+html[data-sct-tokens][data-sct-surface="ee"] .scChromeControls img[src*="menudropdown_black" i] {
+  filter: var(--sct-glyph-filter, none);
+}
+html[data-sct-tokens][data-sct-surface="ee"] span.scChromeCommandSectionDelimiter {
+  color: var(--sct-border-strong) !important;
+}
+
+/* The Sitecore Extensions add-on's ribbon toggle: beside the quickbar's own toggle (content.js measures it),
+   three bars in the tab colour like the shell's system menu. The add-on sets top and right inline. */
+html[data-sct-tokens][data-sct-surface="ee"][data-sct-ee-toggle] #sc-ext-toggleRibon-button {
+  top: var(--sct-ee-toggle-top) !important;
+  right: calc(var(--sct-ee-toggle-right) + 2px) !important;
+  width: var(--sct-ee-toggle-w);
+  height: var(--sct-ee-toggle-h);
+  background: linear-gradient(var(--sct-ribbon-tab-fg), var(--sct-ribbon-tab-fg)) center calc(50% + -5px) / 16px 2px no-repeat, linear-gradient(var(--sct-ribbon-tab-fg), var(--sct-ribbon-tab-fg)) center calc(50% + 0px) / 16px 2px no-repeat, linear-gradient(var(--sct-ribbon-tab-fg), var(--sct-ribbon-tab-fg)) center calc(50% + 5px) / 16px 2px no-repeat;
+}

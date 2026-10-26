@@ -1,0 +1,120 @@
+/* Miami: SPEAK pages (Control Panel, Experience Editor ribbon) on the Content Editor's violet surfaces.
+   The chrome glows as in the shell: a pink hairline under the global header, the open ribbon tab cyan
+   with an underline, app titles in italic uppercase chrome. */
+html[data-sct-theme="miami"][data-sct-surface="speak"] .sc-globalHeader {
+  border-bottom: 1px solid rgb(255 46 136 / 0.6);
+}
+/* every stop light, so the darkest point of the text is above 9:1 on the header (see shell.css) */
+html[data-sct-theme="miami"][data-sct-surface="speak"] .sc-applicationHeader-title {
+  color: #f4e9ff;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background-image: linear-gradient(#ffffff 0%, #bfefff 48%, #ffb3dd 52%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Global header: "Log out" a quieter step of the header text, as in 10.5 (not the link colour). */
+html[data-sct-theme="miami"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 80%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="miami"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+
+/* ---- Experience Editor ribbon: the Content Editor's ribbon colours. The tab band is the ribbon tab
+   colour, tabs are text on it, the selected tab joins the ribbon below; quick buttons have no boxes. */
+html[data-sct-theme="miami"][data-sct-surface="speak"] .sc-pageeditbar {
+  .sc-quickbar {
+    background: var(--sct-ribbon-tab-bg);
+  }
+  .sc-quickbar-item {
+    color: var(--sct-ribbon-tab-fg);
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    background: transparent;
+    border-color: transparent;
+  }
+  .sc-quickbar-button:not(.disabled):hover,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-quickbar-tab {
+    background: transparent;
+    border-color: transparent;
+    color: var(--sct-ribbon-tab-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: var(--sct-ribbon-tab-active-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected {
+    background: var(--sct-ribbon-tab-active-bg);
+    color: var(--sct-ribbon-tab-active-fg);
+    text-shadow: 0 0 6px rgb(0 229 255 / 0.7);
+    box-shadow: inset 0 -2px #00e5ff, 0 4px 8px -4px rgb(0 229 255 / 0.7);
+  }
+  /* a mouse click left a white focus ring on the tab; keyboard focus keeps the theme's ring */
+  .sc-quickbar-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+
+  .sc-ribbon {
+    background-color: var(--sct-ribbon-bg);
+    border-top: 0;
+    border-bottom-color: var(--sct-border);
+  }
+  .sc-ribbon .sc-chunk::after {
+    background-color: var(--sct-border);
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--sct-ribbon-chunk-caption-fg);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):active {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+  }
+  /* toggled-on buttons: a cyan outline, as in the Content Editor's ribbon */
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+    box-shadow: inset 0 0 0 1px #00e5ff;
+  }
+  .sc-ribbon .pressed :is(.sc-chunk-button-label, span) {
+    color: var(--sct-ribbon-fg);
+  }
+  .sc-ribbon .sc-chunk-button-list ul {
+    background: var(--sct-input-bg);
+    border-color: var(--sct-input-border);
+  }
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-changedate:hover,
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-datetime:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
+   text colour instead (as the shared shell map does on shell pages). */
+html[data-sct-theme="miami"][data-sct-surface="speak"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}
+
+/* Dark sprite glyphs on the EE ribbon (scan.cjs DARKGLYPH): the breadcrumb's separators. (The quick bar's
+   collapse chevron is the token layer's.) */
+html[data-sct-theme="miami"][data-sct-surface="speak"] .sc-breadcrumb .sprite-speak-ribbon-clean-ee[class*="separator"] {
+  filter: var(--sct-glyph-filter);
+}

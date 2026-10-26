@@ -1,0 +1,85 @@
+/* Santa Clara: inspired by CDE and Motif on a Solaris workstation. Sand panels #ae9c88 with 2px bevels
+   (light #e6dccf top and left, dark #5e5248 bottom and right), sunken fields and lists #c9bcae, the active
+   window's frame and the selection maroon #a85c60 (white text 4.8:1), the front panel slate #64748b (CDE's
+   #6b7c93 reaches 4.3:1 under white text, so a shade darker: 4.8:1), Helvetica 12px. */
+html[data-sct-theme="santaclara"] {
+  --sct-font-family: Helvetica, Arial, "Liberation Sans", sans-serif;
+  --sct-font-size: 12px;
+  --sct-radius: 0;
+
+  --sct-app-bg: #ae9c88;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #c9bcae;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #3a3128;
+  --sct-border: #5e5248;
+  --sct-border-strong: #3d342c;
+  --sct-accent: #a85c60;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #3a1416;
+  --sct-focus-ring: #000000;
+  --sct-raised-bg: #bfae9b;
+  --sct-chrome-bg: #ae9c88;
+  --sct-chrome-fg: #000000;
+  --sct-selected-bg: #dcc0c1;
+
+  --sct-titlebar-bg: #a85c60;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #ae9c88;
+  --sct-titlebar-inactive-fg: #000000;
+  --sct-window-border: #a85c60;
+
+  --sct-ribbon-bg: #ae9c88;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #ae9c88;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #bfae9b;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #ae9c88;
+  --sct-ribbon-chunk-caption-bg: #ae9c88;
+  --sct-ribbon-chunk-caption-fg: #000000;
+  --sct-ribbon-button-hover-bg: #bfae9b;
+  --sct-ribbon-button-pressed-bg: #9a8977;
+
+  --sct-tree-bg: #c9bcae;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #d6cbbe;
+  --sct-tree-selected-bg: #a85c60;
+  --sct-tree-selected-fg: #ffffff;
+  --sct-tree-selected-border: #a85c60;
+
+  --sct-section-header-bg: #bfae9b;
+  --sct-section-header-fg: #000000;
+  --sct-section-body-bg: #ae9c88;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #c9bcae;
+  --sct-input-fg: #000000;
+  --sct-input-border: #5e5248;
+  --sct-input-focus-border: #000000;
+
+  --sct-button-bg: #ae9c88;
+  --sct-button-fg: #000000;
+  --sct-button-border: #5e5248;
+  --sct-button-hover-bg: #bfae9b;
+  --sct-button-primary-bg: #ae9c88;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #bfae9b;
+
+  --sct-table-header-bg: #bfae9b;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #d6cbbe;
+
+  --sct-scrollbar-thumb: #ae9c88;
+  --sct-scrollbar-track: #9a8977;
+
+  --sct-desktop-bg: #5f7f8c;
+  --sct-taskbar-bg: #64748b;
+  --sct-taskbar-fg: #ffffff;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="santaclara"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

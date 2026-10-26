@@ -1,0 +1,120 @@
+/* Solar: SPEAK pages (Control Panel, the Experience Editor ribbon) in the shell's surfaces. Layout stays
+   Sitecore's; the open tab carries the blue underline, corners are soft. */
+
+/* Global header: "Log out" a quieter step of the header text, not the link colour */
+html[data-sct-theme="solar"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 80%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="solar"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+/* 10.5's Launchpad glyph is drawn dark for a white header; it takes the header's text colour */
+html[data-sct-theme="solar"][data-sct-surface="speak"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}
+
+/* ---- Experience Editor ribbon: the Content Editor's ribbon. Tabs are text on the tab band; the open one
+   joins the ribbon and carries the blue line; quick buttons have no boxes. */
+html[data-sct-theme="solar"][data-sct-surface="speak"] .sc-pageeditbar {
+  .sc-quickbar {
+    background: var(--sct-ribbon-tab-bg);
+  }
+  .sc-quickbar-item {
+    color: var(--sct-ribbon-tab-fg);
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    background: transparent;
+    border-color: transparent;
+    border-radius: 4px;
+  }
+  .sc-quickbar-button:not(.disabled):hover,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-quickbar-tab {
+    background: transparent;
+    border-color: transparent;
+    border-radius: 5px 5px 0 0;
+    color: var(--sct-ribbon-tab-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:hover {
+    background: transparent;
+    color: var(--sct-ribbon-tab-active-fg);
+    box-shadow: inset 0 -2px 0 var(--sct-border-strong);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected,
+  .sc-quickbar-tab.sc-quickbar-tab-selected:hover {
+    background: var(--sct-ribbon-tab-active-bg);
+    color: var(--sct-ribbon-tab-active-fg);
+    box-shadow: inset 0 -2px 0 var(--solar-line);
+  }
+  /* a mouse click left a focus ring on the tab; keyboard focus keeps the theme's ring */
+  .sc-quickbar-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+
+  .sc-ribbon {
+    background-color: var(--sct-ribbon-bg);
+    border-top: 0;
+    border-bottom-color: var(--sct-border);
+  }
+  .sc-ribbon .sc-chunk::after {
+    background-color: var(--sct-border);
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--sct-ribbon-chunk-caption-fg);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small) {
+    border-radius: 4px;
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):active {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+  }
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: var(--sct-selected-bg);
+    box-shadow: inset 0 -2px 0 var(--solar-line);
+  }
+  .sc-ribbon .pressed :is(.sc-chunk-button-label, span) {
+    color: var(--sct-tree-selected-fg);
+  }
+  .sc-ribbon .sc-chunk-button-list ul {
+    background: var(--sct-input-bg);
+    border-color: var(--sct-input-border);
+    border-radius: 4px;
+  }
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-changedate:hover,
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-datetime:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+}
+
+/* the breadcrumb's separators are dark sprites: light in the dark set (the filter is unset in the light one) */
+html[data-sct-theme="solar"][data-sct-surface="speak"] .sc-breadcrumb .sprite-speak-ribbon-clean-ee[class*="separator"] {
+  filter: var(--sct-glyph-filter);
+}
+
+/* 10.4 paints the application header (Control Panel) with its red swoosh image and white title: the
+   header takes the panel colour of 10.5, with the title in panel text */
+html[data-sct-theme="solar"][data-sct-surface="speak"][data-sct-version="10.4"] .sc-applicationHeader-row1 {
+  background-image: none;
+  background-color: var(--sct-panel-bg);
+}
+html[data-sct-theme="solar"][data-sct-surface="speak"][data-sct-version="10.4"] .sc-applicationHeader-row1::after {
+  content: none;
+}
+html[data-sct-theme="solar"][data-sct-surface="speak"][data-sct-version="10.4"] :is(.sc-applicationHeader-title, .sc-applicationHeader-title .sc-text) {
+  color: var(--sct-panel-fg);
+}

@@ -1,0 +1,17 @@
+/* Chicago: a sunken status field, as in the taskbar's tray */
+html[data-sct-theme="chicago"] sct-bar-postfix {
+  padding: 2px 8px;
+  border: 1px solid;
+  border-color: #808080 #fff #fff #808080;
+  border-radius: 0;
+  background: #c0c0c0;
+  box-shadow: inset 1px 1px #0a0a0a, inset -1px -1px #dfdfdf;
+  color: #000;
+  font: bold 11px/16px Tahoma, "Microsoft Sans Serif", Arial, sans-serif;
+  letter-spacing: 0;
+}
+/* the Launchpad's bar is the grey taskbar, not a blue title bar */
+html[data-sct-theme="chicago"][data-sct-surface="launchpad"]:not(#sct-bar) .sc-globalHeader .sc-ext-dbName {
+  color: #000;
+  font-weight: normal;
+}

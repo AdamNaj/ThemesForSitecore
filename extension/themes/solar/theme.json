@@ -1,0 +1,9 @@
+{
+  "name": "Solar",
+  "description": "Warm cream by day and deep teal by night, with the same eight accents in both; follows your light or dark setting",
+  "category": "everyday",
+  "versions": ["10.4", "10.5"],
+  "appearance": "auto",
+  "preview": ["#fdf6e3", "#268bd2", "#073642"],
+  "swatch": { "desk": "#93a1a1", "bar": "#eee8d5", "barLine": "#d9d2bf", "start": "#268bd2", "app": "#e4ddc8", "win": "#fdf6e3", "border": "#d9d2bf", "r": 3, "cap": "#eee8d5", "btns": "right", "btn": "#586e75", "ribbon": "#eee8d5", "tab": "#268bd2", "tree": "#fdf6e3", "ed": "#fdf6e3", "sec": "#eee8d5", "field": "#fffcf2", "line": "#c9c1a9", "sel": "#eee8d5", "fg": "#586e75" }
+}

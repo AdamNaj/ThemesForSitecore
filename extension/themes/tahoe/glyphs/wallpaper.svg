@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fb8dc"/>
+      <stop offset=".38" stop-color="#f0b48c"/>
+      <stop offset=".62" stop-color="#d98a7a"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="1175" cy="400" r="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe7c2"/>
+      <stop offset=".45" stop-color="#ffd9a8" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#ffd9a8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a4567"/>
+      <stop offset="1" stop-color="#162a45"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <circle cx="1175" cy="400" r="260" fill="url(#sun)"/>
+  <path d="M0 640 L225 390 L425 560 L650 320 L900 590 L1125 420 L1400 610 L1600 480 V1000 H0Z" fill="#4a5f86"/>
+  <path d="M0 760 L300 590 L575 735 L825 610 L1150 760 L1400 660 L1600 735 V1000 H0Z" fill="#2f4569"/>
+  <rect y="810" width="1600" height="190" fill="url(#lake)"/>
+  <path d="M0 810 H1600" stroke="#ffd9a8" stroke-opacity=".35" stroke-width="3"/>
+</svg>

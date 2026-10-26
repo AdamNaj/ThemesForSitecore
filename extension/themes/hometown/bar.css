@@ -1,0 +1,10 @@
+/* Hometown: a yellow construction sign in Comic Sans */
+html[data-sct-theme="hometown"] sct-bar-postfix {
+  padding: 1px 10px;
+  border: 2px dashed #ff0000;
+  border-radius: 0;
+  background: #ffff00;
+  color: #cc0000;
+  font: bold 13px/18px "Comic Sans MS", "Comic Neue", cursive;
+  letter-spacing: 0;
+}

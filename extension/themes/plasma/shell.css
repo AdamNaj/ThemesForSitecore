@@ -1,0 +1,1580 @@
+/* Plasma: classic shell, after KDE Breeze. Colours come from tokens.css (light and dark); this file adds
+   Breeze's shapes: grey windows with a 1px accent frame, 30px title bars with the title centred and 18px
+   round caption buttons at the right (close a red disc), flat toolbars whose buttons take an accent frame
+   over a light tint on hover, tabs with a 2px accent underline, solid accent selections, 3px corners,
+   text fields framed in grey that turn accent on focus, and a dark panel along the bottom with the
+   launcher, the task list (the active task underlined) and the tray.
+   Structure follows Sun Valley's shell.css, which solves the same problems for Windows 11. */
+
+html[data-sct-theme="plasma"][data-sct-surface="shell"] {
+  /* caption glyphs (glyphs/*.svg, 10x10 round-capped strokes as Breeze draws them: chevrons for minimize
+     and maximize, a diamond for restore): d = dark ink for a light surface, l = light ink, w = white */
+  --pl-g-min: url("sct-ext:themes/plasma/glyphs/min-d.svg");
+  --pl-g-max: url("sct-ext:themes/plasma/glyphs/max-d.svg");
+  --pl-g-restore: url("sct-ext:themes/plasma/glyphs/restore-d.svg");
+  --pl-g-close: url("sct-ext:themes/plasma/glyphs/close-d.svg");
+  --pl-g-down: url("sct-ext:themes/plasma/glyphs/down-d.svg");
+  --pl-g-up: url("sct-ext:themes/plasma/glyphs/up-d.svg");
+  --pl-g-search: url("sct-ext:themes/plasma/glyphs/search-d.svg");
+  --pl-g-close-hover: url("sct-ext:themes/plasma/glyphs/close-w.svg");
+  /* Breeze's hover: an accent frame over a light accent tint; pressed deepens the tint */
+  --pl-subtle: var(--pl-tint);
+  --pl-subtle-pressed: rgba(61, 174, 233, 0.32);
+  --pl-hover-frame: inset 0 0 0 1px var(--sct-accent);
+  --pl-shadow-window: var(--pl-shadow);
+  --pl-shadow-flyout: 0 4px 14px rgba(0, 0, 0, 0.22);
+  --pl-menu: var(--sct-panel-bg);
+  /* the caption buttons' hover disc */
+  --pl-disc: color-mix(in srgb, var(--sct-titlebar-fg) 16%, transparent);
+  scrollbar-width: thin;
+}
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="plasma"][data-sct-surface="shell"] {
+    --pl-g-min: url("sct-ext:themes/plasma/glyphs/min-l.svg");
+    --pl-g-max: url("sct-ext:themes/plasma/glyphs/max-l.svg");
+    --pl-g-restore: url("sct-ext:themes/plasma/glyphs/restore-l.svg");
+    --pl-g-close: url("sct-ext:themes/plasma/glyphs/close-l.svg");
+    --pl-g-down: url("sct-ext:themes/plasma/glyphs/down-l.svg");
+    --pl-g-up: url("sct-ext:themes/plasma/glyphs/up-l.svg");
+    --pl-g-search: url("sct-ext:themes/plasma/glyphs/search-l.svg");
+    --pl-subtle-pressed: rgba(61, 174, 233, 0.36);
+    --pl-shadow-flyout: 0 4px 14px rgba(0, 0, 0, 0.5);
+  }
+}
+
+html[data-sct-theme="plasma"][data-sct-surface="shell"] body,
+html[data-sct-theme="plasma"][data-sct-surface="shell"] input,
+html[data-sct-theme="plasma"][data-sct-surface="shell"] select,
+html[data-sct-theme="plasma"][data-sct-surface="shell"] textarea,
+html[data-sct-theme="plasma"][data-sct-surface="shell"] button {
+  font-family: var(--sct-font-family);
+}
+
+/* ==== :not(#sct-pl) matches every page; its id weight lets these rules beat Sitecore's own selectors
+   and the generated token layer. ==== */
+html[data-sct-theme="plasma"][data-sct-surface="shell"]:not(#sct-pl) {
+  /* ---- The Content Editor's caption row: the window's title bar colour, the ribbon tabs in it ---- */
+  .sc-globalHeader {
+    background: var(--sct-titlebar-bg);
+    color: var(--sct-titlebar-fg);
+    border-bottom: 1px solid var(--sct-border);
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a) {
+    color: var(--sct-titlebar-fg);
+  }
+  .scRibbonNavigator {
+    padding: 4px 8px;
+  }
+
+  /* ---- Tabs, every strip: Breeze's. Flat labels; the open tab is underlined by a 2px accent line, a
+     hovered one by a faint accent line. ---- */
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive),
+  :is(a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal),
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover),
+  a:is(.scPagerButtonNormal, .scPagerButtonActive) {
+    position: relative;
+    border: 0;
+    border-radius: 3px 3px 0 0;
+    box-shadow: none;
+    background-color: transparent;
+    text-transform: none;
+  }
+  .scRibbon a.scRibbonNavigatorButtonsNormal,
+  .scRibbon a.scRibbonNavigatorButtonsActive {
+    margin: 0 1px;
+    font-weight: 400;
+  }
+  .scRibbon a.scRibbonNavigatorButtonsNormal:hover,
+  a.scRibbonEditorTabNormal:hover,
+  .scTabstrip .scTab_Hover,
+  a.scPagerButtonNormal:hover {
+    background-color: transparent;
+    box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--sct-accent) 45%, transparent);
+  }
+  .scRibbon a.scRibbonNavigatorButtonsActive,
+  a.scRibbonEditorTabActive,
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover),
+  a.scPagerButtonActive {
+    background-color: transparent;
+    box-shadow: inset 0 -2px 0 var(--sct-accent);
+    color: var(--sct-ribbon-tab-active-fg);
+    font-weight: 400;
+  }
+  .scRibbon a.scRibbonNavigatorButtonsActive::after,
+  a.scRibbonEditorTabActive::after,
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover)::after,
+  a.scPagerButtonActive::after {
+    content: none;
+  }
+
+  /* ---- Ribbon: a flat toolbar on the window colour, groups divided by hairlines; a hovered button takes
+     the accent frame over the tint ---- */
+  .scRibbonToolbar {
+    border-bottom: 1px solid var(--sct-border);
+    background-color: var(--sct-ribbon-bg);
+  }
+  .scRibbonToolbar .chunk {
+    border: 0;
+    border-right: 1px solid var(--sct-border);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .scRibbonToolbar .chunk .caption {
+    font-size: 11px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"] {
+    border-radius: 3px;
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"]:hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+    box-shadow: var(--pl-hover-frame);
+  }
+  .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"]:active {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+  }
+
+  /* ---- Tree: Breeze's solid accent selection, 3px corners, no marker ---- */
+  .scContentTree :is(a.scContentTreeNodeActive, a.scContentTreeNodeNormal) {
+    border-radius: 3px;
+    padding: 1px 6px;
+  }
+  .scContentTree a.scContentTreeNodeActive [style^="color:green" i],
+  .scContentTree a.scContentTreeNodeActive [style^="color: green" i] {
+    color: var(--sct-tree-selected-fg) !important;
+  }
+
+  /* ---- Editor: sections as Breeze group boxes, a grey 3px frame round a view-coloured body ---- */
+  .scEditorHeaderTitle {
+    font-weight: 600;
+  }
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+    border: 1px solid var(--sct-border);
+    background-color: var(--sct-section-header-bg);
+    color: var(--sct-section-header-fg);
+    font-weight: 600;
+    margin: 8px 0 0;
+    /* a 36px expander row, not 10.5's 59px band */
+    line-height: 20px;
+    padding: 8px 14px;
+  }
+  img.scEditorSectionCaptionGlyph {
+    margin: 0 0 0 8px;
+  }
+  /* 10.4 draws the section chevrons and ribbon chunk launchers as white and pale grey images (10.5 swaps
+     in _grey ones, which 10.4 lacks): ink them as 10.5 renders them, near-black chevrons and #6f6f6f
+     launchers, turned light in dark mode by the glyph filter. */
+  &[data-sct-version="10.4"] img.scEditorSectionCaptionGlyph {
+    filter: brightness(0) opacity(0.88) var(--sct-glyph-filter, );
+  }
+  &[data-sct-version="10.4"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+    filter: brightness(0) opacity(0.55) var(--sct-glyph-filter, );
+  }
+  .scEditorSectionCaptionCollapsed {
+    border-radius: 3px;
+  }
+  .scEditorSectionCaptionExpanded {
+    border-radius: 3px 3px 0 0;
+  }
+  .scEditorSectionPanel {
+    border: 1px solid var(--sct-border);
+    border-top: 0;
+    border-radius: 0 0 3px 3px;
+    background-color: var(--sct-section-body-bg);
+  }
+  .scEditorFieldMarkerBarCell {
+    border-radius: 2px;
+  }
+
+  /* ---- Text fields: Breeze's line edit. A grey 1px frame on the view colour; on focus the frame turns
+     accent with a faint accent halo. ---- */
+  :is(.scContentControl, .scEditorSections :is(input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"], [type="image"]), textarea, select),
+    :is(.scFormDialogContent, .scDialogContentContainer, #TreeSearchOptions) :is(input:is(:not([type]), [type="text"], [type="password"], [type="number"], [type="search"]), textarea, select:not([multiple], [size])),
+    #TreeSearch, #SearchBox) {
+    border-radius: 3px;
+    border-color: var(--sct-input-border);
+    box-shadow: none;
+  }
+  :is(input, textarea, select, .scContentControl, #TreeSearch, #SearchBox):focus {
+    outline: none;
+    border-color: var(--sct-input-focus-border);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--sct-focus-ring) 40%, transparent);
+  }
+
+  /* ---- Buttons: Breeze's push button, the default one tinted in the accent; hover frames it in the accent ---- */
+  :is(.scButton, button:not(.ui-button)) {
+    border-radius: 3px;
+  }
+  :is(button.scButton, input.scButton) {
+    box-sizing: border-box;
+    min-width: 80px;
+    height: 28px;
+    padding: 0 12px;
+    border: 1px solid var(--sct-button-border);
+    border-radius: 3px;
+    box-shadow: 0 1px 1px color-mix(in srgb, var(--sct-app-fg) 8%, transparent);
+    background: var(--sct-button-bg);
+    color: var(--sct-button-fg);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 26px;
+    text-transform: none;
+  }
+  :is(button.scButton, input.scButton):hover {
+    border-color: var(--sct-accent);
+    background: var(--sct-button-hover-bg);
+  }
+  :is(button.scButton, input.scButton):active {
+    box-shadow: none;
+    background: var(--sct-ribbon-button-pressed-bg);
+  }
+  :is(button.scButton, input.scButton).scButtonPrimary {
+    border-color: var(--sct-accent);
+    box-shadow: none;
+    background: var(--sct-button-primary-bg);
+    color: var(--sct-button-primary-fg);
+  }
+  :is(button.scButton, input.scButton).scButtonPrimary:hover {
+    background: var(--sct-button-primary-hover-bg);
+  }
+  :is(button.scButton, input.scButton):focus-visible {
+    outline: none;
+    border-color: var(--sct-focus-ring);
+    box-shadow: 0 0 0 1px var(--sct-focus-ring);
+  }
+
+  /* ---- Bottom application tabs (Content Editor, Media Library, Workbox): the same tabs ---- */
+  .scPager {
+    border: 0;
+    background: transparent;
+    padding: 2px;
+  }
+
+  /* ---- Window buttons: Breeze's. 18px round buttons 6px apart, 8px in from the right edge and centred
+     on the title bar: minimize (a down chevron), maximize (up) or restore (a diamond), then close, a red
+     disc with a white cross. Minimize and maximize show a disc under the pointer. Each Sitecore image
+     keeps its click; only its picture is replaced, so no page CSP can block the glyph. ---- */
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  :is(.scSystemButtons, .scWorkboxWindowButtons) {
+    right: 8px;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin: 0 !important;
+    border: 0;
+    border-radius: 50%;
+    filter: none;
+    object-fit: none;
+    object-position: -999px -999px;
+    background: var(--pl-g, none) center / 10px 10px no-repeat;
+    vertical-align: middle;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
+    background-color: var(--pl-disc);
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:active {
+    background-color: color-mix(in srgb, var(--sct-titlebar-fg) 28%, transparent);
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="page_switcher"] { order: 0; --pl-g: var(--pl-g-down); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"] { order: 1; --pl-g: var(--pl-g-min); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"] { order: 2; --pl-g: var(--pl-g-max); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"] { order: 2; --pl-g: var(--pl-g-restore); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="close" i] {
+    order: 3;
+    --pl-g: var(--pl-g-close-hover);
+    background-color: var(--pl-close);
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="close" i]:hover {
+    background-color: #e05e6b;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="close" i]:active {
+    background-color: #b8343f;
+  }
+  /* the Content Editor's buttons centred on the ribbon tabs in its caption row (the tabs sit 21px down a
+     30px row) */
+  .scCaption > .scSystemButtons {
+    top: 21px;
+    height: 30px;
+    /* above the tab row, which is positioned and comes later: a narrow window's last tabs ran under the
+       buttons and took their clicks */
+    z-index: 2;
+  }
+  .scWorkboxWindowButtons {
+    top: 0;
+    height: 30px;
+  }
+  .scWorkboxWindowCaption {
+    height: 30px;
+  }
+  /* Standard windows (ISE, Console, Package Designer...): Breeze's 30px title bar, the title centred
+     between room for the buttons on both sides, the buttons at the right */
+  .standardWindowCaption {
+    height: 30px;
+  }
+  .standardWindowCaption + .windowPlaceholderContainer {
+    top: 30px;
+  }
+  .standardWindowCaption .scWindowCaption {
+    display: block;
+    padding: 0 96px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: center;
+  }
+  .standartWindowButtons {
+    /* positioned against the window, not the caption */
+    top: 0;
+    right: 8px;
+    left: auto;
+    height: 30px;
+  }
+  /* The Content Editor, Media Library and Workbox: Sitecore draws no caption over their windows. KWin's
+     title bar, as on the standard windows, is drawn on the caption's empty top line with the window's
+     title (engine.js --sct-window-title), the window's buttons on it. Under it the tab row loses the
+     empty band Sitecore keeps for its tab groups' headers, and the menu button shrinks to the tabs'
+     height beside them. */
+  &[data-sct-window-title] .scWindowBorder2 > .scCaption {
+    > #CaptionTopLine {
+      box-sizing: border-box;
+      height: 30px;
+      background: var(--sct-chrome-bg);
+    }
+    > #CaptionTopLine::before {
+      content: var(--sct-window-title, "");
+      display: block;
+      padding: 0 96px;
+      color: var(--sct-chrome-fg);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 30px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    > .scSystemButtons {
+      top: 0;
+      right: 8px;
+      margin-right: 0;
+      height: 30px;
+      z-index: 2;
+    }
+    > #SystemMenu {
+      top: 34px;
+      height: 30px;
+    }
+    /* the empty header over the tab group goes while no contextual group needs the row for its label */
+    .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader {
+      display: none;
+    }
+  }  /* The Workbox: the same bar on its caption strip, its buttons placed on it */
+  &[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle {
+    position: relative;
+    box-sizing: border-box;
+    height: 30px;
+    background: var(--sct-chrome-bg);
+    &::before {
+      content: var(--sct-window-title, "");
+      display: block;
+      padding: 0 96px;
+      color: var(--sct-chrome-fg);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 30px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    > .scWorkboxWindowButtons {
+      position: absolute;
+      float: none;
+      top: 0;
+      right: 8px;
+      height: 30px;
+    }
+  }
+
+  /* ---- Editor tabs (Content, Search): pills vertically centred in the tab row ---- */
+  :is(a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal) {
+    height: 28px;
+    margin: 7px 2px 6px 0;
+  }
+  :is(.scEditorTabHeaderActive, .scEditorTabHeaderNormal) {
+    height: 28px;
+    line-height: 28px;
+    padding: 0 12px;
+    border: 0;
+    background-color: transparent;
+  }
+  a#BTAddNewSearch {
+    width: 32px;
+  }
+  a#BTAddNewSearch,
+  a#BTAddNewSearch:hover {
+    height: 28px;
+    margin: 7px 2px 6px 0;
+    border-radius: 3px;
+  }
+
+  /* ---- Editor header controls: compact standard buttons, centred on the tabs ---- */
+  .scEditorTabControlsHolder {
+    margin-top: 10px;
+  }
+  .scEditorTabControls a.scEditorHeaderButton {
+    padding: 2px 8px;
+    margin-left: 4px;
+    line-height: 16px;
+    font-size: 12px;
+    border-radius: 3px;
+  }
+
+  /* ---- Dialog windows: a window with Breeze's 1px accent frame, 3px top corners and its soft shadow;
+     the round caption buttons sit at the top right, 6px down and 8px in. ---- */
+  .ui-dialog {
+    border: 1px solid var(--sct-window-border);
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
+    box-shadow: var(--pl-shadow-window);
+  }
+  .ui-dialog .ui-dialog-titlebar {
+    border: 0;
+  }
+  /* Sitecore's Dialogs.css pins the buttons at top 21px and right 25px, !important */
+  .ui-dialog .ui-dialog-titlebar-buttonpane {
+    top: 6px !important;
+    right: 8px !important;
+    left: auto;
+    width: auto;
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    margin: 0 !important;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--pl-g, none) center / 10px 10px no-repeat;
+    box-shadow: none;
+    overflow: hidden;
+    text-indent: -999px;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * > * {
+    display: none;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > *:hover {
+    background-color: var(--pl-disc);
+  }
+  .ui-dialog .ui-dialog-titlebar-collapse { order: 0; --pl-g: var(--pl-g-up); }
+  .ui-dialog .ui-dialog-titlebar-minimize { order: 1; --pl-g: var(--pl-g-min); }
+  .ui-dialog .ui-dialog-titlebar-maximize { order: 2; --pl-g: var(--pl-g-max); }
+  .ui-dialog .ui-dialog-titlebar-restore { order: 2; --pl-g: var(--pl-g-restore); }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > button.ui-button {
+    order: 3;
+    --pl-g: var(--pl-g-close-hover);
+    background-color: var(--pl-close);
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > button.ui-button:hover {
+    background-color: #e05e6b;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > *:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: 1px;
+  }
+  /* SPE Reports' SPEAK-style red title band: the window colour, the title in the text colour */
+  .sc-applicationHeader-row1 {
+    background-image: none;
+    background-color: var(--sct-app-bg);
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--sct-app-fg);
+  }
+  /* Dialog headers: the title centred as Breeze sets a window title, clear of the caption buttons */
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader {
+    padding-left: 90px;
+    padding-right: 90px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+  }
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeaderDescription {
+    color: var(--sct-muted-fg);
+    text-align: center;
+  }
+  /* 10.5 drops the header's inset that 10.4 has (Cupertino's spacing block zeroes its padding) */
+  &[data-sct-version="10.5"] :is(.scFormDialogHeader, .scDialogHeader) .DialogHeaderDescription {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  /* Sitecore focuses the open tab when a dialog opens; the ring belongs to keyboard use only */
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover):focus:not(:focus-visible) {
+    outline: none;
+  }
+  /* The ListView's title is a header the dialog host puts under the jQuery UI title bar: Breeze's title
+     bar. The 15px bar stretches over the header's 30px (so the whole row drags the window) and the
+     header, transparent and click-through, centres the title in the same row as the buttons. */
+  .ui-dialog > .ui-dialog-titlebar:has(+ .DialogHeader) {
+    box-sizing: border-box;
+    height: 30px;
+    margin-bottom: -30px;
+  }
+  .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+    box-sizing: border-box;
+    position: relative;
+    height: 30px;
+    padding: 0 96px;
+    overflow: hidden;
+    background: var(--sct-titlebar-bg);
+    pointer-events: none;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* ==== Hand-written details. :not(#sct-pl) matches every page; its id weight lets these rules beat
+   Sitecore's own selectors and the generated token layer. ==== */
+html[data-sct-theme="plasma"][data-sct-surface="shell"]:not(#sct-pl) {
+  /* ---- Menus (context menus, start menu fly-outs, drop-downs): Breeze's, a 3px-rounded view-coloured
+     panel in a grey frame inset 3px, 24px rows whose hover is the accent tint inside an accent frame;
+     the text keeps its colour. ---- */
+  .scPopup:has(> table.scMenu) {
+    border: 1px solid var(--sct-border-strong);
+    border-radius: 3px;
+    background: var(--pl-menu);
+    box-shadow: var(--pl-shadow-flyout);
+  }
+  /* gallery pop-ups (Icon, Language, Versions...) frame their page the same way */
+  .scPopup:has(> iframe) {
+    border: 1px solid var(--sct-border-strong);
+    border-radius: 3px;
+    box-shadow: var(--pl-shadow-flyout);
+  }
+  .scPopup > table.scMenu {
+    padding: 3px;
+    border: 0;
+    border-spacing: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    color: var(--sct-panel-fg);
+  }
+  /* menus drawn inside gallery pages: labels in the label colour (the token layer gives .scMenu the link
+     colour), section headings small and secondary */
+  table.scMenu,
+  table.scMenu .scMenuItem {
+    color: var(--sct-panel-fg);
+  }
+  table.scMenu td.scMenuHeader {
+    padding: 8px 12px 4px;
+    color: var(--sct-muted-fg);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemCaption, td.scMenuItemHotkey, td.scMenuItemIcon_Hover, td.scMenuItemCaption_Hover, td.scMenuItemHotkey_Hover, td.scMenuItemIcon_Disabled, td.scMenuItemCaption_Disabled, td.scMenuItemHotkey_Disabled) {
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--sct-panel-fg);
+    font-size: 13px;
+    line-height: 16px;
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemIcon_Hover, td.scMenuItemIcon_Disabled) {
+    width: 16px;
+    padding: 0 8px 0 8px;
+    border-radius: 3px 0 0 3px;
+  }
+  table.scMenu :is(td.scMenuItemCaption, td.scMenuItemCaption_Hover, td.scMenuItemCaption_Disabled) {
+    padding: 0 12px 0 0;
+  }
+  table.scMenu :is(td.scMenuItemHotkey, td.scMenuItemHotkey_Hover, td.scMenuItemHotkey_Disabled) {
+    padding: 0 8px 0 16px;
+    border-radius: 0 3px 3px 0;
+    color: var(--sct-muted-fg);
+    text-align: right;
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemIcon_Hover, td.scMenuItemIcon_Disabled) img {
+    display: block;
+  }
+  table.scMenu :is(td.scMenuItemIcon_Hover, td.scMenuItemCaption_Hover, td.scMenuItemHotkey_Hover) {
+    background: var(--pl-subtle);
+    box-shadow: inset 0 1px 0 var(--sct-accent), inset 0 -1px 0 var(--sct-accent);
+  }
+  table.scMenu td.scMenuItemIcon_Hover {
+    box-shadow: inset 1px 1px 0 var(--sct-accent), inset 0 -1px 0 var(--sct-accent);
+  }
+  table.scMenu tr > td:last-child:is(.scMenuItemHotkey_Hover, .scMenuItemCaption_Hover) {
+    box-shadow: inset -1px 1px 0 var(--sct-accent), inset 0 -1px 0 var(--sct-accent);
+  }
+  table.scMenu :is(td.scMenuItemCaption_Disabled, td.scMenuItemHotkey_Disabled) {
+    color: color-mix(in srgb, var(--sct-panel-fg) 40%, transparent);
+  }
+  /* the submenu arrow: dark art, drawn in the label colour */
+  table.scMenu td:is(.scMenuItemHotkey, .scMenuItemHotkey_Hover) img:not(.scSpacer) {
+    display: block;
+    margin-left: auto;
+    filter: var(--sct-glyph-filter, none);
+  }
+  /* keyboard focus in a menu is the hover plate, not a ring around the row */
+  table.scMenu tr:focus {
+    outline: none;
+  }
+  table.scMenu tr:focus-visible > td:not([class*="Divider"]) {
+    background: var(--pl-subtle);
+  }
+  /* separators: a hairline with 4px of air above and below */
+  table.scMenu :is(td.scMenuDividerIcon, td.scMenuDividerCaption, td.scMenuDividerHotkey) {
+    height: 9px;
+    padding: 0;
+    border: 0;
+    background: linear-gradient(var(--sct-border), var(--sct-border)) 0 50% / 100% 1px no-repeat;
+  }
+  table.scMenu :is(td.scMenuDividerIcon, td.scMenuDividerCaption, td.scMenuDividerHotkey) img {
+    display: none;
+  }
+
+  /* ---- Start menu: the application launcher, opening from the panel's left end straight above it; an
+     opaque view-coloured panel in a grey frame, rows that take the menus' hover. ---- */
+  .scPopup:has(> #StartMenu) {
+    top: auto !important;
+    bottom: 44px;
+    left: 0 !important;
+    border: 1px solid var(--sct-border-strong);
+    border-radius: 3px 3px 0 0;
+    background: var(--pl-menu);
+    box-shadow: var(--pl-shadow-window);
+  }
+  #StartMenu {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  :is(#StartMenu, .scStartMenuContent, .scStartMenuContentColumns, .scStartMenuContentColumns td, .scStartMenuLeft, .scStartMenuRight, .scStartMenuPrograms, .scStartMenuTop, .scStartMenuBottom) {
+    background: transparent;
+  }
+  :is(.scStartMenuLeft, .scStartMenuRight) * {
+    color: var(--sct-panel-fg);
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu) {
+    border-radius: 3px;
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):not(:hover) {
+    background: transparent;
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu, .scMenu :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+    background: var(--pl-subtle);
+    box-shadow: var(--pl-hover-frame);
+  }
+  :is(.scStartMenuLeftOptionTooltip) {
+    color: var(--sct-muted-fg);
+  }
+  .scStartMenuDivider {
+    height: 1px;
+    margin: 4px 10px;
+    background: var(--sct-border);
+  }
+  /* the arrows of folders, in the label colour */
+  :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph) {
+    filter: var(--sct-glyph-filter, none);
+  }
+
+  /* ---- The panel: Plasma's, a 44px dark bar across the bottom in both appearances. At the left the
+     application launcher (Sitecore's start button, a blue tile), then the task manager: each running
+     window a flat button with its icon and title, the active one lighter and underlined in the accent;
+     at the right the search field and the database switcher. Sitecore's own controls, restyled. ---- */
+  /* The desktop runs to the screen's bottom edge, Plasma's wallpaper behind everything. Its bottom 44px
+     are a transparent border: windows are sized to the padding box, so a maximized window stops above
+     the panel while the wallpaper, painted from the border box, carries on behind it. Windows are
+     clipped to the border box, so one dragged down slides under the panel. */
+  #Desktop.DesktopArea {
+    background: var(--pl-wall) !important;
+  }
+  .DesktopArea {
+    bottom: 0;
+    border-bottom: 44px solid transparent;
+    overflow: clip;
+    overflow-clip-margin: border-box;
+    background-origin: border-box !important;
+    background-clip: border-box !important;
+  }
+  /* restored windows: Breeze's 1px accent frame, 3px top corners and its shadow; maximized ones
+     (Sitecore sizes them 100%) square and frameless */
+  .DesktopArea > iframe[id^="FRAME"]:not([style*="width: 100%"]) {
+    border-radius: 3px 3px 0 0;
+    box-shadow: 0 0 0 1px var(--sct-window-border), var(--pl-shadow-window);
+  }
+  /* above the windows (Sitecore stacks them from z-index 1), below the pop-up menus (z-index 1000 up) */
+  .scStartbar {
+    bottom: 0;
+    height: 44px;
+    border: 0;
+    /* a 92% fill keeps the panel's text at AA over any wallpaper (#eff0f1 on at worst #4a4d50) */
+    background: var(--pl-panel);
+    backdrop-filter: blur(20px);
+    z-index: 900;
+  }
+  #Startbar {
+    position: relative;
+    box-sizing: border-box;
+    height: 44px !important;
+    padding: 0 4px;
+    border: 0;
+    background: transparent;
+  }
+  /* a flex row rather than a table; the tray leaves it for the right edge */
+  #Startbar > table {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-spacing: 0;
+    background: none;
+    backdrop-filter: none;
+  }
+  #Startbar > table > tbody,
+  #Startbar > table > tbody > tr {
+    display: contents;
+  }
+  /* Sitecore stretches the table and its middle cell with width attributes */
+  #Startbar > table > tbody > tr > td {
+    display: block;
+    flex: none;
+    width: auto;
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+    vertical-align: middle;
+  }
+
+  /* the launcher: Sitecore's start tile as a 28px rounded icon on a 40px flat button */
+  .scStartButtonContainer {
+    position: relative;
+    width: 44px;
+    height: 44px;
+  }
+  .scStartButton,
+  .scStartButton:hover,
+  .scStartButton.scPopupOpener {
+    top: 2px;
+    left: 2px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 3px;
+    background: none;
+  }
+  .scStartButton:hover {
+    background: color-mix(in srgb, var(--sct-accent) 22%, transparent);
+    box-shadow: inset 0 0 0 1px var(--sct-accent);
+  }
+  .scStartButton.scPopupOpener {
+    background: color-mix(in srgb, var(--sct-accent) 30%, transparent);
+  }
+  .scStartButton::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 28px;
+    height: 28px;
+    margin: auto;
+    border-radius: 3px;
+    background: url("/sitecore/shell/themes/standard/Images/Startbar/StartButton.png") center / 48px 39px;
+  }
+  .scStartButton:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* the task manager: Sitecore's own window buttons, icon and title */
+  #Startbar > table > tbody > tr > td:nth-child(2) {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: calc(100% - 520px);
+    margin-left: 4px;
+  }
+  .scStartBarScroller {
+    height: 44px;
+    padding: 0;
+    border: 0;
+  }
+  #StartbarApplications,
+  #StartbarApplications > tbody {
+    display: block;
+    height: 44px;
+    margin: 0;
+  }
+  #StartbarApplications > tbody > tr {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 44px;
+  }
+  #StartbarApplications > tbody > tr > td {
+    display: flex;
+    align-items: center;
+    flex: 0 1 auto;
+    box-sizing: border-box;
+    min-width: 0;
+    height: 44px;
+    position: relative;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    vertical-align: middle;
+  }
+  #StartbarApplications > tbody > tr > td::before {
+    content: none;
+  }
+  /* the active task's underline */
+  #StartbarApplications > tbody > tr > td.scActiveApplication::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--sct-accent);
+  }
+  .scStartBarApplication {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    height: 36px;
+    min-width: 40px;
+    max-width: 200px;
+    padding: 0 10px;
+    border-radius: 3px;
+    background: transparent;
+    color: var(--sct-taskbar-fg);
+  }
+  .scStartBarApplication span {
+    display: block;
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    color: var(--sct-taskbar-fg);
+    font-size: 13px;
+    line-height: 36px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .scStartBarApplication:hover {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sct-accent) 60%, transparent);
+  }
+  .scActiveApplication .scStartBarApplication {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* the tray at the right edge: the search field and the database switcher */
+  #Startbar > table > tbody > tr > td:last-child {
+    position: absolute;
+    top: 0;
+    right: 8px;
+  }
+  .scStartbarTray {
+    height: 44px;
+    border: 0;
+    border-spacing: 0;
+    background: none;
+  }
+  .scStartbarTray > tbody > tr > td {
+    height: 44px;
+    padding: 0 2px;
+    border: 0;
+    line-height: normal !important;
+    vertical-align: middle;
+  }
+  .scStartbarTray :is(td, span) {
+    color: var(--sct-taskbar-fg);
+  }
+  .scSearchBoxContainer {
+    width: auto;
+  }
+  .scSearchBoxContainer:empty {
+    display: none;
+  }
+  /* Plasma's search: a dark field with the magnifier at its start; #Startbar outranks the text-field
+     rules above, whose :is() lists carry an id */
+  #Startbar #SearchBox {
+    box-sizing: border-box;
+    width: 200px;
+    height: 28px;
+    min-height: 0;
+    margin: 0;
+    padding: 0 10px 0 30px;
+    border: 1px solid #5c6166;
+    border-radius: 3px;
+    background: #31363b url("sct-ext:themes/plasma/glyphs/search-l.svg") no-repeat 9px center / 14px 14px;
+    box-shadow: none;
+    color: #eff0f1;
+    font-size: 13px;
+  }
+  #Startbar #SearchBox::placeholder {
+    color: #a1a9b1;
+  }
+  #Startbar #SearchBox:focus,
+  #Startbar #SearchBox.focus {
+    border-color: var(--sct-accent);
+    background-color: #31363b;
+    box-shadow: none;
+  }
+  #DatabaseSelector {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    height: 36px;
+    margin: 0;
+    padding: 0 10px 0 8px;
+    border: 0;
+    border-radius: 3px;
+    background: none;
+    color: var(--sct-taskbar-fg);
+    font-size: 13px;
+    line-height: 36px;
+  }
+  #DatabaseSelector:hover {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sct-accent) 60%, transparent);
+  }
+  #DatabaseSelector img {
+    width: 16px;
+    height: 16px;
+    margin: 0 !important;
+  }
+
+  /* ---- 10.5 spaced its chrome out; Plasma keeps 10.4's spacing on both versions (values from the
+     stock 10.4.1 stylesheets, minus what this theme sets itself) ---- */
+  &[data-sct-version="10.5"] {
+    .scRibbonToolbarStrip,
+    .scRibbonToolbarContextualStrip {
+      padding: 0;
+    }
+    .scRibbon .chunk .panel {
+      padding: 10px 8px;
+    }
+    .scFormDialogHeader {
+      padding: 0;
+    }
+    :is(.scFormDialogHeader, .scDialogHeader) .DialogHeaderDescription {
+      padding-bottom: 15px;
+    }
+    .scDialogContentContainer {
+      padding: 15px;
+    }
+    .scDialogContentContainer .scMainContainer {
+      margin: 15px 15px 20px;
+    }
+    :is(.scFormDialogFooter, .scWizardButtons) {
+      height: 56px;
+      padding: 8px 15px 9px;
+    }
+    .scFormDialogFooter .footerOkCancel {
+      right: 15px;
+    }
+    .HeadingCell {
+      padding: 14px 10px;
+    }
+    :is(.Row, .SelectedRow) td.DataCell {
+      padding: 5px;
+    }
+    .scListControl > :is(thead th, tbody > tr > td) {
+      padding: 14px 15px;
+    }
+    .scListControl > tbody:first-child > tr:first-child > td {
+      padding: 0;
+    }
+    .scTreeview .header {
+      padding: 14px 10px;
+    }
+    .scPaneHeader {
+      padding: 0 0 0 15px;
+    }
+    #EditorTabs {
+      padding-left: 15px;
+    }
+    .scDockBottomContainer {
+      background-color: transparent;
+    }
+    .scPager {
+      width: auto;
+    }
+    a:is(.scPagerButtonNormal, .scPagerButtonActive) {
+      padding: 0 10px;
+    }
+  }
+
+  /* ---- Content Editor: the tree and the editor as two Breeze views, view-coloured panes in a grey 1px
+     frame with 3px corners on the window colour, without 10.5's glow ---- */
+  #ContentTreePanel > div {
+    box-sizing: border-box;
+    border: 1px solid var(--sct-border);
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: none !important;
+    background-color: var(--sct-tree-bg) !important;
+  }
+  #EditorTabs {
+    border-bottom: 0;
+  }
+  /* the tab row runs under the system menu, so the toolbar is one colour edge to edge */
+  .scCaption:has(> a.scSystemMenu) .scRibbonNavigator {
+    margin-left: 0;
+    padding-left: 69px;
+  }
+  /* the system menu centred on the tabs beside it (10.5 sets it 4px higher) */
+  &[data-sct-version="10.5"] .scCaption > a.scSystemMenu {
+    top: 21px;
+  }
+  #EditorFrames {
+    box-sizing: border-box;
+    border: 1px solid var(--sct-border);
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: none;
+  }
+  /* Room around the panes on both versions: half of 10.5's stock gaps (16px above, 12px beside the
+     tree, 16px before the editor, 12px around the pager); 10.4 has none. 10.5 sets the caption's
+     margin inline, and narrows #Editors by its editor margin so the pane stays flush right. */
+  .scFlexColumnContainer:has(> #MainPanel > .scContentEditorSplitter) {
+    > .scCaption {
+      margin-bottom: 8px !important;
+    }
+    .scDockBottom {
+      margin: 6px;
+    }
+  }
+  .scContentEditorSplitter {
+    > #ContentTreePanel {
+      margin-left: 6px;
+    }
+    > #ContentTreePanel > div {
+      width: calc(100% - 6px) !important;
+    }
+    #ContentEditor {
+      margin-left: 8px;
+    }
+    #ContentEditor #Editors {
+      width: calc(100% - 8px);
+    }
+  }
+
+  /* Tree search: a 26px field and two 26px borderless buttons, centred on one line. */
+  #SearchPanel {
+    padding: 10px 8px 6px 10px;
+    background: transparent;
+  }
+  #SearchPanel > table {
+    width: 100%;
+    border-spacing: 0;
+  }
+  #SearchPanel > table > tbody > tr > td {
+    height: auto;
+    padding: 0;
+    vertical-align: middle;
+  }
+  #SearchPanel > table > tbody > tr > td:first-child {
+    width: 100%;
+  }
+  #SearchPanel > table > tbody > tr > td > div {
+    float: none !important;
+    padding: 0 !important;
+  }
+  #SearchPanel .scElementHover {
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0 0 0 2px;
+    border: 0;
+    border-radius: 3px;
+    background: none;
+  }
+  #SearchPanel .scElementHover:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  #TreeSearch {
+    box-sizing: border-box;
+    width: 100%;
+    height: 28px;
+    min-height: 0;
+    padding: 0 8px;
+    border: 1px solid var(--sct-input-border);
+    border-radius: 3px;
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+    font-size: 12px;
+    line-height: 26px;
+  }
+  /* Sitecore writes "Search" into the field as a watermark value, grey until focused */
+  #TreeSearch,
+  #TreeSearch::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  #TreeSearch:focus {
+    color: var(--sct-input-fg);
+  }
+  :is(a.scSearchButton, a.scSearchOptionsButton) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 26px;
+    height: 28px;
+    padding: 0;
+  }
+  :is(a.scSearchButton, a.scSearchOptionsButton) img {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+  }
+  /* 10.4's options arrow is a black down_h.png, not 10.5's down_grey_h.png that the glyph filter catches */
+  &[data-sct-version="10.4"] a.scSearchOptionsButton img {
+    filter: var(--sct-glyph-filter, none);
+  }
+  /* the expanded options: the theme's small fields and pop-up links */
+  #TreeSearchOptions {
+    margin-top: 6px;
+  }
+  #TreeSearchOptions td {
+    padding: 2px 0;
+    vertical-align: middle;
+  }
+  #TreeSearchOptions .scElementHover {
+    padding: 0;
+    border-radius: 3px;
+  }
+  #TreeSearchOptions .scElementHover:hover,
+  #TreeSearchOptions .scSearchOptionName:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  #TreeSearchOptions :is(.scSearchOptionName, .scSearchAddCriteria) {
+    display: block;
+    padding: 4px 6px;
+    color: var(--sct-panel-fg);
+    font-size: 12px;
+    line-height: 16px;
+  }
+  #TreeSearchOptions input.scSearchOptionsInput {
+    box-sizing: border-box;
+    height: 24px;
+    min-height: 0;
+    padding: 0 6px;
+    border: 1px solid var(--sct-input-border);
+    border-radius: 3px;
+    font-size: 12px;
+  }
+
+  /* Tree rows: the selection plate and its accent bar are the focus mark, as in a NavigationView. */
+  .scContentTreeNode > a {
+    border-radius: 3px;
+  }
+  .scContentTreeContainer a.scContentTreeNodeActive:focus-visible {
+    outline: none;
+  }
+  .scContentTreeContainer a.scContentTreeNodeNormal:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -1px;
+  }
+
+  /* ---- Ribbon galleries: a framed list with subtle plate rows ---- */
+  .scRibbonGalleryList {
+    border: 1px solid var(--sct-input-border);
+    border-right: 0;
+    border-radius: 3px 0 0 3px;
+    padding: 1px 2px;
+  }
+  .scRibbonPanelButtons {
+    border: 1px solid var(--sct-input-border);
+    border-radius: 0 3px 3px 0;
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton) {
+    display: block;
+    box-sizing: border-box;
+    height: 20px;
+    padding: 2px 6px;
+    border: 0;
+    border-radius: 3px;
+    background: none;
+    color: var(--sct-ribbon-fg);
+    line-height: 16px;
+    text-align: left;
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton):hover {
+    background: var(--pl-subtle);
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton):active {
+    background: var(--pl-subtle-pressed);
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton) * {
+    background: transparent;
+  }
+  .scRibbonGalleryList > a.scRibbonToolbarLargeTextButton br {
+    display: none;
+  }
+  .scRibbonGalleryList > a.scRibbonToolbarLargeTextButton .scRibbonToolbarLargeTextButtonText {
+    display: inline;
+    padding: 0;
+  }
+
+  /* ---- Editor header: the navigator, language and version pickers are standard buttons ---- */
+  .scEditorTabControls a.scEditorHeaderButton {
+    border: 1px solid var(--sct-button-border);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--sct-app-fg) 10%, transparent);
+    background-color: var(--sct-button-bg);
+    color: var(--sct-button-fg);
+  }
+  .scEditorTabControls a.scEditorHeaderButton:hover {
+    background-color: var(--sct-button-hover-bg);
+  }
+  .scEditorTabControls a.scEditorHeaderButton img:is(.scEditorHeaderNavigatorGlyph, .scEditorHeaderVersionsLanguageGlyph, .scEditorHeaderVersionsVersionGlyph) {
+    margin-left: 3px;
+  }
+  .scEditorHeader,
+  .scEditorSections {
+    background-color: transparent;
+  }
+
+  /* ---- Editor fields: Breeze line edits, 26px ---- */
+  .scEditorSections :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], select:not([multiple]):not([size])) {
+    min-height: 26px;
+    padding: 3px 6px;
+  }
+
+  /* The jQuery UI frame on the dialog host page takes the window colour of the dialog page inside it
+     (its form paints --sct-app-bg), so the 15px title strip with the caption buttons and the body read
+     as one window surface. */
+  .ui-dialog,
+  .ui-dialog > .ui-dialog-titlebar,
+  .ui-dialog > .ui-dialog-content {
+    background-color: var(--sct-app-bg);
+  }
+
+  /* ---- Dialogs: one window surface; Breeze tabs joined to a framed view-coloured page; the buttons
+     on the window colour under a hairline. ---- */
+  .scFormDialogHeader,
+  .scDialogHeader {
+    border: 0;
+    background: transparent;
+  }
+  .scTabstrip {
+    display: flex;
+    align-items: flex-end;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .scTabstrip > nobr {
+    display: flex;
+    padding: 0;
+    background: transparent;
+  }
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+    left: auto;
+    top: auto;
+    height: 28px;
+    margin: 0 1px 0 0;
+    padding: 0 14px;
+    color: var(--sct-app-fg);
+    font-size: 13px;
+    line-height: 28px;
+  }
+  .scTabstrip :is(.scTab, .scTab_Hover) {
+    font-weight: 400;
+  }
+  /* SPE pulls a script tab's close X 10px into the tab's 20px right padding; with these 12px it all but
+     touched the edge */
+  .scTabstrip .closeTab {
+    margin: 0 -4px 0 6px;
+  }
+  /* the tabs stand on a hairline that is the page's top edge; the page is a view framed on its other
+     three sides, so the open tab's accent underline sits right on it */
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabstrip {
+    box-shadow: inset 0 -1px 0 var(--sct-border);
+  }
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabs {
+    top: 30px;
+    border: 1px solid var(--sct-border);
+    border-top: 0;
+    border-radius: 0 0 3px 3px;
+    background-color: var(--sct-panel-bg);
+  }
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabPage {
+    padding: 12px 16px 16px;
+  }
+  /* SPE prompt fields carry a 10px right gutter; the left side matches it */
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabs > .scTabPage:has(> div > .variableWrapper) {
+    padding-left: 24px;
+  }
+  .scTabs .scScrollbox {
+    border: 1px solid var(--sct-border);
+    border-radius: 3px;
+    background-color: var(--sct-panel-bg);
+  }
+  :is(.scFormDialogContent, .scDialogContentContainer) :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], select:not([multiple]):not([size])) {
+    min-height: 26px;
+    padding: 3px 6px;
+    font-size: 13px;
+  }
+  .scFormDialogFooter {
+    border: 0;
+    border-top: 1px solid var(--sct-border);
+    background: var(--sct-app-bg);
+  }
+}
+
+/* ---- Bucket search (the Content Editor's and Media Library's Search tab, Buckets/ShowResult.aspx):
+   a Breeze search field holding its filter tokens, Sitecore's own glyphs drawn in the label colour,
+   push-button views and results on the window surface. The token layer strips the Search and Clear
+   icons (.btn-search, .btn-clear); they come back here. Glyph art is dark, so it is painted on
+   ::before layers that carry --sct-glyph-filter, leaving the buttons' own backgrounds unfiltered. ---- */
+html[data-sct-theme="plasma"][data-sct-surface="shell"]:not(#sct-pl) {
+  .search-box {
+    box-sizing: border-box;
+    min-height: 32px;
+    border: 1px solid var(--sct-input-border);
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 var(--sct-border-strong);
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+  }
+  .search-box:focus-within {
+    box-shadow: inset 0 -2px 0 var(--sct-input-focus-border);
+  }
+  .search-box input.raw-user-input {
+    min-height: 0;
+    height: 19px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    background: transparent;
+    color: var(--sct-input-fg);
+    caret-color: var(--sct-input-fg);
+    font-size: 12px;
+  }
+  .search-box input.raw-user-input::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  /* (.sb_down and .sb_up are already absolutely placed) */
+  :is(.btn-search, .btn-clear, .filters .filter .remove) {
+    position: relative;
+  }
+  :is(.sb_down, .sb_up, .btn-search, .btn-clear, .filters .filter .remove) {
+    background-image: none;
+    box-shadow: none;
+  }
+  :where(.sb_down, .sb_up, .btn-search, .btn-clear, .filters .filter .remove)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: center / 16px 16px no-repeat;
+    filter: var(--sct-glyph-filter, none);
+    pointer-events: none;
+  }
+  .sb_down::before { background-image: url("/sitecore/shell/Applications/Buckets/images/icons/down.png"); background-size: auto; }
+  .sb_up::before { background-image: url("/sitecore/shell/Applications/Buckets/images/icons/up.png"); background-size: auto; }
+  .btn-search::before { background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png"); }
+  .btn-clear::before { background-image: url("/sitecore/shell/Applications/Buckets/images/clear.png"); background-size: auto; }
+  .filters .filter .remove::before { background-image: url("/sitecore/shell/Applications/Buckets/images/cancel_grey.svg"); background-size: 12px 12px; }
+  :is(.sb_down, .sb_up) {
+    border-radius: 3px 0 0 3px;
+    background-color: transparent;
+  }
+  :is(.btn-search, .btn-clear) {
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+  }
+  .btn-search {
+    border-radius: 0 3px 3px 0;
+  }
+  .clear-search-box {
+    background: transparent;
+  }
+  :is(.sb_down, .sb_up, .btn-search, .btn-clear):is(:hover, :active) {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  /* the view switcher: Sitecore draws the current view dark and the others light grey, which reads
+     backwards on a dark window; in dark the current view is white and the others dimmed */
+  @media (prefers-color-scheme: dark) {
+    #views > a {
+      filter: brightness(0) invert(0.88);
+      opacity: 0.45;
+    }
+    #views > a:is(.active, :hover) {
+      opacity: 1;
+    }
+  }
+  /* filter tokens: rounded pills in the field */
+  .filters .filter {
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--sct-input-fg) 9%, transparent);
+    color: var(--sct-input-fg);
+  }
+  .filters .filter :is(.display-name, .value .display-value) {
+    color: var(--sct-input-fg);
+  }
+  .filters .filter :is(.icon, .remove):hover {
+    background-color: color-mix(in srgb, var(--sct-input-fg) 12%, transparent);
+  }
+  .filters .filter .value .raw-value {
+    min-height: 0;
+    border: 0;
+    box-shadow: none;
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+  }
+}
+
+/* ---- Leftovers the dark sweep found (cu/scan.cjs): Sitecore art and inline colours that the token
+   layer does not reach. ---- */
+html[data-sct-theme="plasma"][data-sct-surface="shell"]:not(#sct-pl) {
+  /* dark arrows and grips drawn as background images */
+  :is(.ui-resizable-handle.ui-icon, .side .sb_filter > span) {
+    filter: var(--sct-glyph-filter, none);
+  }
+  /* inline greys for secondary text (hidden or protected tree items, gallery notes) */
+  :is([style*="color:#666" i], [style*="color: #666" i], [style*="color:#999" i], [style*="color: #999" i]) {
+    color: var(--sct-muted-fg) !important;
+  }
+  /* the standard roots' inline green, on any tree's selection */
+  a.scContentTreeNodeActive:is([style^="color:green" i], [style^="color: green" i]),
+  a.scContentTreeNodeActive :is([style^="color:green" i], [style^="color: green" i]),
+  :is(.scMenuPanelItemSelected, .scMenuPanelItemSelected_Hover) :is([style*="color:#666" i], [style*="color: #666" i]) {
+    color: inherit !important;
+  }
+  .scContentTree a.scContentTreeNodeActive:is([style^="color:green" i], [style^="color: green" i]) {
+    color: var(--sct-tree-selected-fg) !important;
+  }
+  /* inline whites and greys the shared map matches only in lower case (Recycle Bin's grid, splitters) */
+  :is([style*="background:White"], [style*="background: White"], [style*="background-color:White"]) {
+    background-color: var(--sct-panel-bg) !important;
+  }
+  :is([style*="background:#e3e3e3" i], [style*="background: #e3e3e3" i]) {
+    background-color: var(--sct-border) !important;
+  }
+}
+
+/* ---- Instant search results (the panel's search field): a Breeze menu panel. ---- */
+html[data-sct-theme="plasma"][data-sct-surface="shell"]:not(#sct-pl) {
+  #InstantResults {
+    box-sizing: border-box;
+    max-height: calc(100vh - 160px);
+    padding: 4px;
+    overflow-y: auto;
+    border: 1px solid var(--sct-border-strong);
+    border-radius: 3px;
+    background: var(--pl-menu);
+    box-shadow: var(--pl-shadow-flyout);
+    color: var(--sct-panel-fg);
+    font-size: 12px;
+  }
+  #InstantResults .scSearchResultsTable {
+    border-spacing: 0;
+    background: transparent;
+  }
+  #InstantResults .scSearchResultsTable td:nth-last-child(1) {
+    border-left: 1px solid var(--sct-border);
+    padding-left: 5px;
+  }
+  #InstantResults .category {
+    color: var(--sct-muted-fg);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 26px;
+  }
+  #InstantResults .scSearchResultsTable a {
+    border-radius: 3px;
+    color: var(--sct-panel-fg);
+  }
+  #InstantResults .scSearchResultsTable a img {
+    margin: 5px 7px 5px 0;
+  }
+  #InstantResults .scSearchResultsTable a h2 {
+    color: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 26px;
+  }
+  #InstantResults .scSearchResultsTable a:is(:hover, .active),
+  #InstantResults li:is(:hover, .active) {
+    background: var(--pl-subtle);
+    color: var(--sct-panel-fg);
+  }
+  /* one highlight: the pointer's row while it is over the panel, Sitecore's keyboard row otherwise */
+  #InstantResults:hover .scSearchResultsTable a.active:not(:hover) {
+    background: transparent;
+    color: var(--sct-panel-fg);
+  }
+  #InstantResults li {
+    border-radius: 3px;
+    line-height: 26px;
+  }
+  #InstantResults li h2 {
+    color: inherit;
+  }
+  #InstantResults .noresults li {
+    padding: 4px 14px;
+    color: var(--sct-muted-fg);
+  }
+  /* Sitecore's close and progress marks at the field's end: dark art, in the label colour */
+  img:is([src*="globalsearch_close"], [src*="globalsearch_progress"]) {
+    z-index: 901;
+    filter: var(--sct-glyph-filter, none);
+  }
+}
+
+/* ---- The ISE's Ace editor in dark: the shared layer flips Ace's light theme with
+   filter: invert(0.88) hue-rotate(180deg), which also flips Ace's own scrollbars into light bars.
+   They get the colours the filter maps back onto the theme's: invert(0.88) sends each channel to
+   224.4 - 0.76 * in, so in = (224.4 - target) / 0.76, clamped to 0..255; hue-rotate(180deg) then
+   swaps a slight blue tint for a slight yellow one, so the thumb's tint is entered reversed. Thumb
+   #9f9f9f -> #565656, track #202020 -> #fdfdfd. ---- */
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="plasma"][data-sct-surface="shell"] .ace_editor :is(.ace_scrollbar, .ace_scrollbar-v, .ace_scrollbar-h) {
+    scrollbar-color: #565656 #fdfdfd;
+    scrollbar-width: thin;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  /* SPE's unsaved-script dot, in a light red so it holds 3:1 on the dark tabs and title bar */
+  html[data-sct-theme="plasma"][data-sct-surface="shell"] .scriptModified {
+    color: #ff99a4 !important; /* SPE writes it inline in window captions */
+  }
+}
+
+/* task titles in the panel's regular weight (Sitecore sets them bold) */
+html[data-sct-theme="plasma"][data-sct-surface="shell"]:not(#sct-pl) .scStartBarApplication span {
+  font-weight: 400;
+}
+/* 10.5's Launchpad button in the top bar is dark grey art for a white bar (1.5:1 on the title bar
+   colour): drawn in the bar's text colour instead */
+html[data-sct-theme="plasma"][data-sct-version="10.5"][data-sct-surface="shell"] .sc-globalHeader .sc-global-logo {
+  background: var(--sct-titlebar-fg);
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}

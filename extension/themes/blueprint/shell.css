@@ -1,0 +1,693 @@
+/* Blueprint: first the dark-recolour fixes (ported from Debrightify), then the drawing: hairlines, dimension lines,
+   uppercase chrome, white icon silhouettes, a grid on the Desktop. */
+
+/* Window buttons: light glyphs on the dark strip. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons) img[src*="page_switcher"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher.png");
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons) img[src*="page_switcher"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher_h.png");
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons) img[src*="minimize"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png");
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons) img[src*="minimize"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize_h.png");
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons) img[src*="maximize"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png");
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons) img[src*="maximize"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize_h.png");
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons) img[src*="restore"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png");
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons) img[src*="restore"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore_h.png");
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons) img[src*="_close"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png");
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons) img[src*="_close"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close_h.png");
+}
+
+/* Dialog title buttons: no boxes, light glyphs, a quiet hover. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+  background-color: transparent;
+  border-color: transparent;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > *:hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* The jQuery UI title bar on the modal host is a 15px strip above the dialog page's own header; it was
+   the app background (a dark band over the header). It takes the header's colour so the title area,
+   window buttons included, reads as one band. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar {
+  background: var(--sct-chrome-bg);
+  border-color: transparent;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-closethick {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png") center no-repeat;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-extlink {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png") center no-repeat;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-newwin {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png") center no-repeat;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-minus {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png") center no-repeat;
+}
+
+/* ---- Hover and pressed states. The area map turns 10.5's light-grey hovers into the app background,
+   which on a dark theme is darker than the panel (or the same colour as a menu). They lift instead. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton, a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton, a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):active {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* toggled-on buttons keep their selected colour under the pointer */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, .scRibbonToolbarLargeComboButtonDown, .scRibbonLargeImageButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown):is(*, :hover, :active) {
+  background-color: var(--sct-selected-bg);
+  color: var(--sct-tree-selected-fg);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scSearchLink:hover, .scElementHover:hover, .scSearchOptionName:hover, .scListControl > tbody > tr:hover, .Row:hover, .scTab_Hover, .scVerticalTabstrip .scVerticalTabs a:not(.active):hover, .scPagerButtonNormal:hover, .scEditorHeaderTitle:hover, .scEditorHeaderNavigatorField:hover, a.scEditorHeaderNavigatorSection:hover, .scNavButton:hover, .scListviewItemIcons:hover, .scListviewItemList:hover, .scCommand_Hover, .scComboboxDropDown:hover, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-button:not(.ui-state-active):hover, td.scCalendarCell:hover, .scTimePicker a:hover, .scLink:hover, .scInstallerPager:hover, .spe-variables-list .spe-variable:hover, .scStartMenuLeftOption:hover, .scStartMenuRightOption:hover, .scStartMenuRightFolder:hover, .scStartMenuProgramsMenu:hover, .BlogPostArea:hover, .side li a:hover, .pagination li a:hover, .quickactions > ul > li:hover, .quickactions ul li ul li a:hover, .sb_dropdown .sb_filter:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+/* (kept apart: id selectors would lift the specificity of the whole list above selected states) */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(#InstantResults li:hover, #InstantResults .scSearchResultsTable a:hover, #results table > tbody > tr:hover, #grid-content .post_float:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+
+/* ---- Menus (context menu, start menu fly-outs, drop-downs): a raised surface with body text,
+   not the app background with link-coloured items. Disabled items read as disabled. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] table.scMenu {
+  background-color: var(--sct-raised-bg);
+  color: var(--sct-panel-fg);
+  box-shadow: 0 0 0 1px var(--sct-border-strong), 0 4px 12px rgb(0 0 0 / 0.45);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon, .scMenuItemCaption, .scMenuItemHotkey, .scMenuItemIcon_Disabled, .scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  background-color: transparent;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+  color: var(--sct-chrome-fg);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  color: color-mix(in srgb, var(--sct-panel-fg) 45%, var(--sct-raised-bg));
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] table.scMenu .scMenuItemIcon_Disabled img {
+  opacity: 0.4;
+}
+/* separators are 1px cells painted with a background colour: drawn as a dashed line */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] table.scMenu :is(.scMenuDividerIcon, .scMenuDividerCaption, .scMenuDividerHotkey) {
+  background: repeating-linear-gradient(90deg, var(--bp-line-soft) 0 3px, transparent 3px 6px);
+  border-color: transparent;
+}
+
+/* ---- Desktop */
+/* the right column of the start menu got a tint of 6.x's cream; 10.5 paints both columns alike */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .scStartMenuRight {
+  background-color: var(--sct-panel-bg);
+}
+/* the taskbar search field is a field, not a patch of taskbar */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] #SearchBox,
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] #SearchBox.focus {
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  box-shadow: inset 0 0 0 1px var(--sct-input-border);
+}
+
+/* ---- Global header: "Log out" a quieter step of the header text, as in 10.5, on every surface. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 80%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+
+/* ---- Light leftovers Sheer UI writes inline in other spellings than the shared map knows. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is([style*="background:white" i], [style*="background: white" i], [style*="background-color:white" i], [style*="background-color: white" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+/* hidden and system items in the trees are marked with an inline #666 */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is([style*="color:#666666" i], [style*="color: #666666" i]) {
+  color: color-mix(in srgb, var(--sct-muted-fg) 85%, var(--sct-app-fg)) !important;
+}
+/* the bucket search box's buttons carry a white 1px highlight */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.btn-clear, .btn-search) {
+  box-shadow: none;
+}
+
+/* ---- Images painted for a white page */
+/* Security Editor's access-right tiles and key, and the ComponentArt grid pager (User Manager etc.):
+   white tiles with grey glyphs. Inverting keeps the green/red hues and makes the tiles dark. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] img[src*="/images/security/" i],
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] img[src*="/componentart/grid/pager/" i] {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Bucket search box (Media Library, bucket folders): one field, as in 10.5. The area map paints
+   its buttons as black blocks and drops their glyphs (they share a declaration with a gradient). */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .search-box {
+  background-color: var(--sct-input-bg);
+  border-color: var(--sct-input-border);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search) {
+  background-color: transparent;
+  border-color: transparent;
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .btn-clear {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/clear.png");
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .btn-search {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png");
+}
+/* under the inverting filter (invert + hue-rotate) this light grey shows as the theme's hover colour (#34373c) */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search):is(:hover, :active) {
+  background-color: #c5c8cb;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .filters .filter {
+  background-color: var(--sct-raised-bg);
+  border-color: var(--sct-border);
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .filters .filter :is(.icon, .value .display-value) {
+  background-color: transparent;
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .filters .filter :is(.icon, .remove):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .raw-user-input {
+  background-color: transparent;
+}
+/* view switcher: the selected view is drawn dark, the others light grey. Light now means selected. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] #views a {
+  opacity: 0.55;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] #views a.active {
+  opacity: 1;
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Ribbon galleries (Security > Presets, Insert, Languages): a raised, outlined pop-up like the
+   menus, with menu-row hovers. The gallery page paints itself White inline. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] iframe.scGalleryFrame {
+  box-shadow: 0 0 0 1px var(--sct-border-strong), 0 4px 12px rgb(0 0 0 / 0.45);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+  background-color: var(--sct-raised-bg) !important;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+  background-color: transparent;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+  background-color: var(--sct-border-strong);
+}
+
+/* ---- Start menu: the fly-out arrows are dark glyphs */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph) {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- 10.4 lacks 10.5's _grey glyphs: its pale ribbon chunk launcher inverted to dark, and its tree search
+   arrow is a black down_h.png. Both drawn light, in 10.5's tones. */
+html[data-sct-theme="blueprint"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+  filter: brightness(0) opacity(0.55) var(--sct-glyph-filter);
+}
+html[data-sct-theme="blueprint"][data-sct-version="10.4"][data-sct-surface="shell"] a.scSearchOptionsButton img {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Tree search: both buttons centre on the field (row centre 246px). The magnifier is a 22px image
+   in a 16px link, so it hung 3px low; the chevron's float has an inline 8px top padding that pushes it 4px low. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] a.scSearchButton img {
+  display: block;
+  margin: -3px;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] #SearchPanel td > div[style*="padding-top"] {
+  padding-top: 0 !important;
+}
+
+/* ---- ComponentArt grid pager slider (User Manager, Role Manager...): its track is a white image, set
+   with the table cell's background attribute */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is([style*="slider_bg" i], [background*="slider_bg" i]) {
+  background: linear-gradient(var(--sct-border-strong), var(--sct-border-strong)) center / 100% 4px no-repeat !important;
+}
+
+/* ---- Dark glyphs the sweep found (scan.cjs DARKGLYPH) */
+/* the menus' submenu arrows and the bucket filter token's remove cross (the ribbon toggle is the token
+   layer's) */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .filters .filter .remove,
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] img[src*="Submenu16x16" i] {
+  filter: var(--sct-glyph-filter);
+}
+/* the bucket view switcher shows its dark "selected" image on hover too */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] #views a:hover {
+  opacity: 1;
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Text the sweep found below AA */
+/* the taskbar search placeholder (#757575 on the field) */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] #SearchBox::placeholder {
+  color: var(--sct-muted-fg);
+}
+/* a selected tree node (content tree, treelist fields, dialog trees) is the selected text colour: standard
+   roots' inline green fell to 4:1 on the selected purple */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(a.scContentTreeNodeActive, a.scContentTreeNodeActive *) {
+  color: var(--sct-tree-selected-fg) !important;
+}
+/* inline system and light colours the shared map does not catch: Access Viewer's splitter (#e3e3e3)
+   and its explanation pane (the system colour "window", near-black under color-scheme: dark) */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is([style*="background:#e3e3e3" i], [style*="background: #e3e3e3" i], [style*="background-color:#e3e3e3" i]) {
+  background-color: var(--sct-border) !important;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is([style*="background:window" i], [style*="background: window" i], [style*="background-color:window" i], [style*="background-color: window" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+
+/* ---- SPE ISE: Ace's own scrollbars sit inside the editor's inverting filter
+   (--sct-editor-filter: invert(0.88) hue-rotate(180deg)), which turned the theme's dark scrollbar light.
+   These colours are the theme's thumb (#4a4e54) and track (#1e1f22) run backwards through that filter:
+   undo the hue-rotate (it is its own inverse at 180deg, CSS matrix), then invert(0.88), whose output per
+   channel is 224.4 - 0.76 * in, so in = (224.4 - out) / 0.76. Forward check: #bcc2ca -> rgb(73,78,84),
+   #fdfeff -> rgb(31,32,32). Change them together with the scrollbar tokens. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .ace_editor {
+  scrollbar-color: #bcc2ca #fdfeff;
+}
+
+/* Dialog headers: 10.5 drops 10.4's 15px under the description, so the header band ended on the text's
+   baseline. Both versions get 10.4's. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeaderDescription {
+  padding-bottom: 15px;
+}
+
+/* ======================================================================================================
+   The drawing. Everything below is Blueprint's own.
+   ====================================================================================================== */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] {
+  /* ---- Uppercase chrome in a drafting face; fields, tree and body text keep normal case. */
+  :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsContextualActive,
+      .scRibbonToolbar .chunk .caption, .scEditorTabHeaderNormal, .scEditorTabHeaderActive,
+      .scEditorSectionCaptionCollapsed, .scEditorSectionCaptionExpanded, .scWindowCaption, .DialogHeader,
+      .ui-dialog-title, .scTab, .scTabActive, .scTab_Hover, .scTabActive_Hover, #StartbarApplications td,
+      .scButton, button.ui-button) {
+    font-family: var(--bp-chrome-font);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .scButton {
+    font-size: 12px;
+  }
+
+  /* ---- Icons as white line silhouettes. Item icons in the tree, ribbon, menus, start menu, taskbar,
+     editor header; never thumbnails or rich text. */
+  :is(.scRibbonToolbar img:not(.glyph):not([class*="Glyph"]):not(.scRibbonPanelButtons img), img.scContentTreeNodeIcon, .scEditorHeaderIcon img, img.scEditorHeaderIcon,
+      table.scMenu [class*="scMenuItemIcon"] img, .scStartMenu img:not(.scStartMenuRightFolderGlyph):not(.scStartMenuProgramsGlyph),
+      #StartbarApplications img, .scWindowCaption img, .DialogHeader img, #DesktopLinks img) {
+    filter: var(--bp-icon-filter);
+  }
+
+  /* ---- Desktop: the drawing board. A faint grid on the sheet blue instead of the wallpaper photo. */
+  #Desktop.DesktopArea {
+    background: var(--bp-grid), var(--sct-desktop-bg) !important;
+  }
+  #Wallpaper {
+    visibility: hidden;
+  }
+  /* Taskbar: a legend strip. One hairline on top, cells divided by thin lines, uppercase labels. */
+  .scStartbar {
+    background-color: var(--sct-taskbar-bg);
+    border-top: 1px solid var(--bp-line);
+  }
+  #Startbar > table > tbody > tr > td + td {
+    border-left: 1px solid var(--bp-line-soft);
+  }
+  :is(.scStartBarScroller, #StartbarTray) {
+    border-color: transparent;
+  }
+  /* the red tile with the white logo: grey, then contrast to black and white, then screened onto the strip,
+     so the black tile drops out and the logo is drawn in white */
+  .scStartButton,
+  .scStartButton:hover,
+  .scStartButton.scPopupOpener {
+    background-image: url("/sitecore/shell/themes/standard/Images/Startbar/StartButton.png");
+    filter: grayscale(1) contrast(4);
+    mix-blend-mode: screen;
+    border-top-color: transparent;
+  }
+  .scStartButton:is(:hover, .scPopupOpener) {
+    box-shadow: inset 0 0 0 1px var(--bp-line);
+  }
+  #StartbarApplications td {
+    font-size: 11px;
+    background: transparent;
+    border: 1px dashed var(--bp-line-soft);
+    border-radius: 0;
+    color: var(--sct-taskbar-fg);
+  }
+  #StartbarApplications td.scActiveApplication {
+    border-style: solid;
+    border-color: var(--bp-line);
+    background-color: var(--bp-fill);
+  }
+  #StartbarApplications td.scInactiveApplication:hover {
+    border-color: var(--bp-line);
+  }
+  /* Desktop windows are iframes laid on the board: each a sheet with a hairline edge */
+  #Desktop > iframe {
+    outline: 1px solid var(--bp-line);
+  }
+
+  /* ---- Window and dialog frames: the sheet border. */
+  :is(.scSystemButtons, .standartWindowButtons) img {
+    box-sizing: border-box;
+    border: 1px solid var(--bp-line-soft);
+    border-radius: 0;
+  }
+  :is(.scSystemButtons, .standartWindowButtons) img:hover {
+    border-color: var(--bp-line);
+    background-color: var(--bp-fill);
+  }
+  .ui-dialog {
+    border: 1px solid var(--bp-line);
+    border-radius: 0;
+    box-shadow: 0 0 0 3px var(--sct-panel-bg), 0 0 0 4px var(--bp-line-soft);
+  }
+
+  /* ---- Ribbon: tabs drawn as outlines, the open one joined to the ribbon below. */
+  .scRibbonNavigator {
+    border-bottom: 1px solid var(--bp-line);
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal) {
+    border: 1px solid transparent;
+    border-bottom: 0;
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualActive) {
+    border: 1px solid var(--bp-line);
+    border-bottom: 0;
+    box-shadow: 0 1px 0 var(--sct-ribbon-bg);
+    position: relative;
+    z-index: 1;
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+    border-color: var(--bp-line-soft);
+    border-style: dashed;
+    color: var(--sct-ribbon-tab-active-fg);
+  }
+  .scRibbonToolbar {
+    border-bottom: 1px solid var(--bp-line);
+  }
+  /* chunks divided by dashed lines */
+  .scRibbonToolbar .chunk {
+    border-right: 1px dashed var(--bp-line-soft);
+  }
+  /* chunk captions as dimension lines: a line with end ticks under the buttons */
+  .scRibbonToolbar .chunk .caption {
+    position: relative;
+    margin: 0 5px;
+    border-top: 1px solid var(--bp-line-soft);
+    overflow: visible;
+    font-size: 10px;
+  }
+  .scRibbonToolbar .chunk .caption::before,
+  .scRibbonToolbar .chunk .caption::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    height: 7px;
+    border-left: 1px solid var(--bp-line);
+  }
+  .scRibbonToolbar .chunk .caption::before { left: 0; }
+  .scRibbonToolbar .chunk .caption::after { right: 0; }
+  /* buttons: a dashed outline on hover, a solid one pressed */
+  .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton):hover {
+    outline: 1px dashed var(--bp-line);
+    outline-offset: -1px;
+  }
+  .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, .scRibbonToolbarLargeComboButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown) {
+    outline: 1px solid var(--bp-line);
+    outline-offset: -1px;
+  }
+
+  /* ---- Content tree: a well with a hairline edge; the selected node an outlined box with a faint fill. */
+  #ContentTreePanel > div[style*="box-shadow"] {
+    box-shadow: 0 0 0 1px var(--bp-line) !important;
+  }
+  a.scContentTreeNodeActive {
+    outline: 1px solid var(--bp-line);
+    outline-offset: -1px;
+    border-radius: 0;
+  }
+  .scContentTree a.scContentTreeNodeNormal:hover {
+    outline: 1px dashed var(--bp-line-soft);
+    outline-offset: -1px;
+  }
+
+  /* ---- Editor: tabs outlined, the open one solid and joined, the others dashed. */
+  #EditorFrames {
+    box-shadow: 0 0 0 1px var(--bp-line);
+  }
+  a.scRibbonEditorTabNormal,
+  a.scRibbonEditorTabActive {
+    background-color: transparent;
+    border: 1px dashed var(--bp-line-soft);
+    border-bottom: 0;
+    margin-right: 2px;
+  }
+  /* the open tab covers the frame's top line beneath it (the frame's line is a box-shadow painted later) */
+  a.scRibbonEditorTabActive {
+    position: relative;
+    z-index: 1;
+    border-style: solid;
+    border-color: var(--bp-line);
+    background-color: var(--sct-app-bg);
+    box-shadow: 0 1px 0 var(--sct-app-bg);
+  }
+  /* section headers: a caption on a line */
+  :is(.scEditorSectionCaptionCollapsed, .scEditorSectionCaptionExpanded) {
+    background-color: transparent;
+    border-bottom: 1px solid var(--bp-line);
+    border-left-color: transparent;
+    font-size: 12px;
+  }
+  .scEditorSectionCaptionCollapsed {
+    border-bottom-style: dashed;
+    border-bottom-color: var(--bp-line-soft);
+  }
+  /* fields: square hairline frames round a well */
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]), textarea, select, table.scCombobox, .scContentControl, .scContentControlMemo) {
+    border-radius: 0;
+  }
+  :is(input, textarea, select):focus-visible {
+    outline: 1px solid var(--sct-input-focus-border);
+    outline-offset: 0;
+  }
+  /* buttons: outlines; the primary one a white stamp */
+  .scButton,
+  button.ui-button {
+    border: 1px solid var(--bp-line);
+    border-radius: 0;
+  }
+  /* the primary button: a double line, as a drawing marks the main outline */
+  .scButton.scButtonPrimary {
+    border-color: var(--bp-line);
+    box-shadow: inset 0 0 0 1px var(--sct-button-primary-bg), inset 0 0 0 2px var(--bp-line);
+  }
+  .scButton:focus-visible {
+    outline: 1px solid var(--bp-line);
+    outline-offset: 2px;
+  }
+
+  /* ---- Quick Info: Sitecore's item ID, path, template and owner, drawn as the sheet's title block. */
+  table.scEditorQuickInfo {
+    border-collapse: collapse;
+    border: 1px solid var(--bp-line);
+  }
+  table.scEditorQuickInfo :is(tr, td) {
+    height: auto;
+    line-height: 20px;
+  }
+  table.scEditorQuickInfo td {
+    border: 1px solid var(--bp-line-soft);
+    padding: 2px 8px;
+  }
+  table.scEditorQuickInfo td:first-child {
+    font-family: var(--bp-chrome-font);
+    font-size: 10px;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--sct-muted-fg);
+    white-space: nowrap;
+  }
+
+  /* ---- The Content Editor's bottom pager (Content Editor, Media Library, Workbox): a legend strip. */
+  .scPager.scDockBottom {
+    border: 1px solid var(--bp-line);
+    border-radius: 0;
+    background-color: transparent;
+  }
+  .scPager.scDockBottom :is(.scPagerButtonActive, .scPagerButtonNormal) {
+    border-radius: 0;
+    font-family: var(--bp-chrome-font);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .scPager.scDockBottom .scPagerButtonActive {
+    background-color: var(--bp-fill);
+    outline: 1px solid var(--bp-line);
+    outline-offset: -1px;
+  }
+
+
+  /* ---- Tab strips (dialogs, Application Options, SPE dialogs): one rule set. The open tab is outlined and
+     runs into its page; the others are dashed outlines; hover keeps the label as it is. */
+  .scTabstrip {
+    border-bottom: 1px solid var(--bp-line);
+  }
+  :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+    background-color: transparent;
+    border: 1px dashed var(--bp-line-soft);
+    border-bottom: 0;
+    border-radius: 0;
+    margin-right: 3px;
+    font-size: 11px;
+    color: var(--sct-muted-fg);
+  }
+  .scTab_Hover {
+    border-color: var(--bp-line);
+    color: var(--sct-app-fg);
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  :is(.scTabActive, .scTabActive_Hover) {
+    position: relative;
+    border-style: solid;
+    border-color: var(--bp-line);
+    background-color: var(--sct-panel-bg);
+    box-shadow: 0 1px 0 var(--sct-panel-bg);
+    color: var(--sct-app-fg);
+  }
+  :is(.scTabActive, .scTabActive_Hover)::after {
+    display: none;
+  }
+  .scTabs {
+    border: 1px solid var(--bp-line);
+    border-top: 0;
+  }
+  .scTabPage {
+    border-color: transparent;
+  }
+  fieldset > legend {
+    font-family: var(--bp-chrome-font);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ---- Dialogs: drawing sheets. The header is the sheet's title, ruled off by a line; 10.5's 28px insets
+     pulled back to a drafting margin. */
+  :is(.scFormDialogHeader, .scDialogHeader) {
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom: 1px solid var(--bp-line);
+    box-shadow: 0 2px 0 var(--sct-panel-bg), 0 3px 0 var(--bp-line-soft);
+    margin-bottom: 3px;
+  }
+  .DialogHeader {
+    font-size: 15px;
+  }
+  .scDialogContentContainer {
+    padding: 12px 15px 8px;
+  }
+  :is(.scFormDialogFooter, .scWizardButtons) {
+    padding: 8px 15px;
+    border-top: 1px dashed var(--bp-line-soft);
+    border-radius: 0;
+  }
+
+  /* ---- Bucket search box: one square frame; the text box inside it has none of its own */
+  .search-box {
+    border-radius: 0;
+    border-color: var(--sct-input-border);
+  }
+  .search-box input {
+    border: 0;
+    box-shadow: none;
+    outline: 0;
+    background-color: transparent;
+  }
+  .filters .filter {
+    border-radius: 0;
+    border-style: dashed;
+  }
+
+  /* ---- SPE ISE: the unsaved-script dot in Sitecore's red sank into the blue; a lighter red reads. The
+     tip box's olive text on its yellow tint fell to 1.5:1 once the tint became the sheet's. */
+  .scriptModified {
+    color: #ffb4a8 !important;
+  }
+  .ui-state-highlight {
+    background: transparent;
+    border: 1px dashed var(--bp-line-soft);
+    border-radius: 0;
+  }
+  .ui-state-highlight :is(p, b, span, strong, a) {
+    color: var(--sct-panel-fg);
+  }
+
+  /* ---- Menus: a sheet with a hairline frame. */
+  table.scMenu {
+    background-color: var(--sct-panel-bg);
+    box-shadow: 0 0 0 1px var(--bp-line);
+  }
+  table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+    background-color: var(--sct-selected-bg);
+  }
+  .scStartMenu {
+    box-shadow: 0 0 0 1px var(--bp-line);
+  }
+}
+
+/* ---- SPEAK application header (Control Panel on 10.4, SPE Reports): the red breadcrumb band becomes a title
+   strip on the sheet, ruled off by a hairline. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.sc-applicationHeader, .sc-applicationHeader-row1, .sc-applicationHeader-row2) {
+  background-image: none !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid var(--bp-line);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.sc-applicationHeader-title, .sc-applicationHeader-title .sc-text) {
+  font-family: var(--bp-chrome-font);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sct-app-fg);
+}
+
+/* ---- Modal overlay: the shared map paints it the chrome colour, which here is the page's own blue, so it
+   tinted nothing. A faint dark wash instead, so the sheet in front reads as laid over the drawing. */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .ui-widget-overlay {
+  background: rgb(5 20 45 / 0.3);
+  opacity: 1;
+}
+/* the open dialog tab takes focus when the dialog opens; only keyboard focus draws a ring */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scTab, .scTabActive, .scTab_Hover, .scTabActive_Hover):focus:not(:focus-visible) {
+  outline: none;
+}
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] :is(.scTab, .scTabActive, .scTab_Hover, .scTabActive_Hover):focus-visible {
+  outline: 1px dashed var(--bp-line);
+  outline-offset: -4px;
+}
+/* 10.4 adds Sitecore's red spiral to the band's corner */
+html[data-sct-theme="blueprint"][data-sct-surface="shell"] .sc-applicationHeader-row1::after {
+  background-image: none !important;
+}

@@ -1,0 +1,233 @@
+/* Tahoe: frosted glass. Translucent panels with a white inner edge over a wallpaper (the Desktop, Launchpad,
+   login) or over a soft wash of its colours (inside each application), pill tabs and buttons, 14px windows.
+   Follows the system light or dark appearance.
+
+   Spec (measured from the approved mockup at 100%):
+   wallpaper   sky #f0b48c / #d98a7a, sun #ffd9a8, ranges #4a5f86 #2f4569, lake #1f3655 (glyphs/wallpaper*.svg)
+   glass       panel rgba(255,255,255,.58) + blur(24px) saturate(180%), inner edge 1px white .9 top, .45 round
+   radii       window 14px, panes 12px, fields 8px, rows 7px, tabs and buttons 999px
+   tab bar     a floating pill: 3px padding, white .55 glass, 4px 12px segments, the open one accent
+   accent      #0a84ff for rings, lines and tints. It holds white text at 3.6:1 only, so every fill under
+               white text is #0a70e8 (4.7:1), the nearest blue that passes.
+   type        the system UI stack at 13px; titles 600
+   The --sct-* roles are opaque (the token test checks them); the glass is laid over them in the area files. */
+html[data-sct-theme="tahoe"] {
+  --sct-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --sct-font-size: 13px;
+  --sct-radius: 8px;
+
+  --sct-app-bg: #e9edf3;
+  --sct-app-fg: #1d1d1f;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #1d1d1f;
+  --sct-muted-fg: #55555c;
+  --sct-border: #d5d9e0;
+  --sct-border-strong: #a9adb5;
+  --sct-accent: #0a70e8;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #0a63cc;
+  --sct-focus-ring: #0a84ff;
+  --sct-raised-bg: #f6f7f9;
+  --sct-chrome-bg: #e4e8ef;
+  --sct-chrome-fg: #1d1d1f;
+  --sct-selected-bg: #d5e6fd;
+
+  --sct-titlebar-bg: #e4e8ef;
+  --sct-titlebar-fg: #1d1d1f;
+  --sct-titlebar-inactive-bg: #eef1f5;
+  --sct-titlebar-inactive-fg: #6b6b72;
+  --sct-window-border: #c4c9d1;
+
+  --sct-ribbon-bg: #f3f5f8;
+  --sct-ribbon-fg: #1d1d1f;
+  --sct-ribbon-tab-bg: #e4e8ef;
+  --sct-ribbon-tab-fg: #3a3a3c;
+  --sct-ribbon-tab-active-bg: #0a70e8;
+  --sct-ribbon-tab-active-fg: #ffffff;
+  --sct-ribbon-chunk-bg: #f3f5f8;
+  --sct-ribbon-chunk-caption-bg: #f3f5f8;
+  --sct-ribbon-chunk-caption-fg: #5b5b62;
+  --sct-ribbon-button-hover-bg: #e3e7ee;
+  --sct-ribbon-button-pressed-bg: #d3d9e2;
+
+  --sct-tree-bg: #f3f5f8;
+  --sct-tree-fg: #1d1d1f;
+  --sct-tree-hover-bg: #e3e7ee;
+  --sct-tree-selected-bg: #0a70e8;
+  --sct-tree-selected-fg: #ffffff;
+  --sct-tree-selected-border: #0a70e8;
+
+  --sct-section-header-bg: #f3f5f8;
+  --sct-section-header-fg: #1d1d1f;
+  --sct-section-body-bg: #ffffff;
+  --sct-field-label-fg: #3c3c43;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #1d1d1f;
+  --sct-input-border: #c9ced6;
+  --sct-input-focus-border: #0a84ff;
+
+  --sct-button-bg: #ffffff;
+  --sct-button-fg: #1d1d1f;
+  --sct-button-border: #c9ced6;
+  --sct-button-hover-bg: #f3f5f8;
+  --sct-button-primary-bg: #0a70e8;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #0a66d6;
+
+  --sct-table-header-bg: #f3f5f8;
+  --sct-table-header-fg: #3c3c43;
+  --sct-table-row-hover-bg: #eef1f6;
+
+  --sct-scrollbar-thumb: #b9bec7;
+  --sct-scrollbar-track: #f3f5f8;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #4a5f86;
+  --sct-taskbar-bg: #eef1f5;
+  --sct-taskbar-fg: #1d1d1f;
+
+  /* Tahoe's own: the glass over the wallpaper, the glass over the wash, the wash itself, the edge
+     highlight every glass panel carries, and the blur behind glass over the wallpaper */
+  --th-glass: rgba(255, 255, 255, 0.62);
+  --th-glass-pane: rgba(255, 255, 255, 0.5);
+  --th-glass-strong: rgba(255, 255, 255, 0.84);
+  --th-wash: linear-gradient(165deg, #cddbf2 0%, #f1dccf 48%, #ead0da 74%, #cfd5ec 100%);
+  --th-edge: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+  --th-blur: blur(24px) saturate(180%);
+  --th-shadow: 0 20px 50px rgba(10, 20, 40, 0.3);
+  --th-ring: 0 0 0 3px rgba(10, 132, 255, 0.45);
+  /* a Desktop window's glass: the tint over the blurred wallpaper behind its iframe, under its panes */
+  --th-window: rgba(246, 247, 250, 0.32);
+  /* the ribbon: the lightest glass, so the window behind it shows its colour */
+  --th-glass-ribbon: rgba(255, 255, 255, 0.2);
+  --th-window-blur: blur(30px) saturate(180%);
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="tahoe"] {
+    --sct-app-bg: #1c1d22;
+    --sct-app-fg: #e6e6ea;
+    --sct-panel-bg: #26272d;
+    --sct-panel-fg: #e6e6ea;
+    --sct-muted-fg: #9d9da6;
+    --sct-border: #393a42;
+    --sct-border-strong: #55565f;
+    --sct-accent: #0a70e8;
+    --sct-accent-fg: #ffffff;
+    --sct-link: #4ea3ff;
+    --sct-focus-ring: #0a84ff;
+    --sct-raised-bg: #2e2f36;
+    --sct-chrome-bg: #2a2b31;
+    --sct-chrome-fg: #f2f2f7;
+    --sct-selected-bg: #173b66;
+
+    --sct-titlebar-bg: #2a2b31;
+    --sct-titlebar-fg: #e6e6ea;
+    --sct-titlebar-inactive-bg: #222328;
+    --sct-titlebar-inactive-fg: #9d9da6;
+    --sct-window-border: #000000;
+
+    --sct-ribbon-bg: #24252b;
+    --sct-ribbon-fg: #e6e6ea;
+    --sct-ribbon-tab-bg: #1c1d22;
+    --sct-ribbon-tab-fg: #b5b5bd;
+    --sct-ribbon-tab-active-bg: #0a70e8;
+    --sct-ribbon-tab-active-fg: #ffffff;
+    --sct-ribbon-chunk-bg: #24252b;
+    --sct-ribbon-chunk-caption-bg: #24252b;
+    --sct-ribbon-chunk-caption-fg: #9d9da6;
+    --sct-ribbon-button-hover-bg: #32333a;
+    --sct-ribbon-button-pressed-bg: #3d3e46;
+
+    --sct-tree-bg: #202127;
+    --sct-tree-fg: #e6e6ea;
+    --sct-tree-hover-bg: #2c2d34;
+    --sct-tree-selected-bg: #0a70e8;
+    --sct-tree-selected-fg: #ffffff;
+    --sct-tree-selected-border: #0a70e8;
+
+    --sct-section-header-bg: #2a2b31;
+    --sct-section-header-fg: #e6e6ea;
+    --sct-section-body-bg: #24252b;
+    --sct-field-label-fg: #c9c9d0;
+
+    --sct-input-bg: #1a1b20;
+    --sct-input-fg: #e6e6ea;
+    --sct-input-border: #45464e;
+    --sct-input-focus-border: #0a84ff;
+
+    --sct-button-bg: #34353c;
+    --sct-button-fg: #e6e6ea;
+    --sct-button-border: #4a4b53;
+    --sct-button-hover-bg: #3e3f47;
+    --sct-button-primary-bg: #0a70e8;
+    --sct-button-primary-fg: #ffffff;
+    --sct-button-primary-hover-bg: #0a66d6;
+
+    --sct-table-header-bg: #2a2b31;
+    --sct-table-header-fg: #cfcfd6;
+    --sct-table-row-hover-bg: #2c2d34;
+
+    --sct-scrollbar-thumb: #55565f;
+    --sct-scrollbar-track: #1c1d22;
+
+    --sct-desktop-bg: #232b4f;
+    --sct-taskbar-bg: #26272d;
+    --sct-taskbar-fg: #e6e6ea;
+
+    --sct-glyph-filter: invert(1) hue-rotate(180deg);
+    --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+    --sct-content-filter: brightness(0.8);
+
+    --th-glass: rgba(38, 39, 45, 0.66);
+    --th-glass-pane: rgba(38, 39, 45, 0.5);
+    --th-glass-strong: rgba(36, 37, 43, 0.86);
+    --th-wash: linear-gradient(165deg, #172240 0%, #2b2142 48%, #33223a 74%, #161b30 100%);
+    --th-edge: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    --th-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    --th-ring: 0 0 0 3px rgba(10, 132, 255, 0.55);
+    --th-window: rgba(30, 31, 37, 0.45);
+    --th-glass-ribbon: rgba(38, 39, 45, 0.28);
+  }
+}
+
+/* A system set to reduce transparency gets windows all but opaque. */
+@media (prefers-reduced-transparency: reduce) {
+  html[data-sct-theme="tahoe"] {
+    --th-window: rgba(246, 247, 249, 0.96);
+    --th-glass-ribbon: rgba(255, 255, 255, 0.5);
+  }
+  @media (prefers-color-scheme: dark) {
+    html[data-sct-theme="tahoe"] {
+      --th-window: rgba(38, 39, 45, 0.96);
+      --th-glass-ribbon: rgba(38, 39, 45, 0.5);
+    }
+  }
+}
+
+/* Without backdrop-filter (older engines) the glass would show the wallpaper sharp behind it: it turns
+   all but opaque instead, so text keeps its contrast. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html[data-sct-theme="tahoe"] {
+    --th-glass: rgba(246, 247, 249, 0.96);
+    --th-glass-strong: rgba(255, 255, 255, 0.98);
+    --th-window: rgba(246, 247, 249, 0.96);
+  }
+  @media (prefers-color-scheme: dark) {
+    html[data-sct-theme="tahoe"] {
+      --th-glass: rgba(38, 39, 45, 0.96);
+      --th-glass-strong: rgba(36, 37, 43, 0.98);
+      --th-window: rgba(38, 39, 45, 0.96);
+    }
+  }
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="tahoe"]:not([data-sct-surface="ee"]) {
+  color-scheme: light dark;
+}

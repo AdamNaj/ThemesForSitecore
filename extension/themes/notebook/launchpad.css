@@ -1,0 +1,190 @@
+/* Notebook: Launchpad as index cards pinned to a kraft board, one card per group. The group name is
+   handwritten on the card's header line, the applications are listed on its ruled lines with their
+   icons left of the red margin. */
+
+/* :not(#sct-nb) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="notebook"][data-sct-surface="launchpad"]:not(#sct-nb) {
+  & body {
+    background: var(--nb-kraft-bg);
+  }
+  .sc-list,
+  .container-narrow,
+  .sc-applicationContent,
+  .sc-applicationContent-main,
+  .sc-applicationContent-main .row,
+  .sc-applicationContent-main .col-md-12 {
+    background: transparent;
+  }
+
+  /* ---- Header: the board's kraft, a shade darker ---- */
+  .sc-globalHeader {
+    border-bottom: 1px solid rgb(0 0 0 / 0.18);
+    box-shadow: none;
+    background: radial-gradient(rgb(0 0 0 / 0.09) 1px, transparent 1.2px) 0 0 / 6px 6px, #c49b60 !important;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a),
+  .sc-globalHeader .sc-globalHeader-applicationName,
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--sct-taskbar-fg);
+  }
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1 {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-applicationHeader-title .sc-text {
+    font-family: var(--nb-hand);
+  }
+
+  /* ---- The board: cards wrap and centre ---- */
+  .sc-applicationContent-main .col-md-12:has(> .sc-launchpad) {
+    display: block;
+  }
+  .sc-launchpad {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 36px 32px;
+    float: none;
+    box-sizing: border-box;
+    width: auto;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 40px 24px 32px;
+  }
+
+  /* ---- A group: an index card. The 34px header line is ruled off in red; every row below sits on a
+     blue rule 36px apart; the red margin runs 52px in, right of the icons. ---- */
+  .sc-launchpad-group {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    width: 300px;
+    margin: 0;
+    padding: 0 12px 10px 0;
+    border: 0;
+    border-radius: 2px;
+    background:
+      linear-gradient(90deg, transparent 52px, var(--nb-margin) 52px 53.5px, transparent 53.5px),
+      linear-gradient(transparent 44px, var(--nb-margin) 44px 46px, transparent 46px),
+      repeating-linear-gradient(transparent 0 35px, var(--nb-rule) 35px 36px) 0 46px / 100% calc(100% - 46px) no-repeat,
+      var(--nb-paper);
+    box-shadow: 2px 5px 12px rgb(60 40 10 / 0.35);
+    transform: rotate(-0.8deg);
+  }
+  .sc-launchpad-group:nth-child(even) {
+    transform: rotate(0.7deg);
+  }
+  .sc-launchpad-group:nth-child(3n) {
+    transform: rotate(-0.3deg);
+  }
+  /* a red push pin at the top of each card */
+  .sc-launchpad-group::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ff9a9a 0 20%, #d9363e 45%, #8f1d22 100%);
+    box-shadow: 1px 3px 3px rgb(0 0 0 / 0.35);
+  }
+  .sc-launchpad-group-title {
+    position: static;
+    box-sizing: border-box;
+    width: auto;
+    height: 46px;
+    margin: 0;
+    padding: 8px 0 0 64px;
+    border: 0;
+    color: var(--nb-ink);
+    font-family: var(--nb-hand);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 32px;
+    text-transform: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ---- An application: one ruled row, its icon in the margin ---- */
+  .sc-launchpad-item {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 36px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    float: none;
+    text-decoration: none;
+  }
+  .sc-launchpad-item:is(:hover, :focus, :active) {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    text-decoration: none;
+  }
+  .sc-launchpad-item:focus {
+    outline: none;
+  }
+  .sc-launchpad-item:focus-visible .sc-launchpad-text {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: 1px;
+  }
+  .sc-launchpad-item .icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 52px;
+    height: 35px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+  .sc-launchpad-item .icon img {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    filter: none;
+    opacity: 0.85;
+  }
+  .sc-launchpad-text {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    padding: 0 6px 0 12px;
+    overflow: hidden;
+    color: var(--nb-ink);
+    font-family: var(--nb-hand);
+    font-size: 15px;
+    line-height: 34px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  /* other titles on the board (Custom Analytics) handwritten in ink on the kraft */
+  .sc-applicationContent-main .sc-text-title {
+    color: var(--sct-taskbar-fg);
+    font-family: var(--nb-hand);
+  }
+  /* the hovered application marked with the highlighter */
+  .sc-launchpad-item:hover .sc-launchpad-text {
+    background: linear-gradient(transparent 28%, var(--nb-hi) 28% 82%, transparent 82%) 10px 0 / calc(100% - 10px) 100% no-repeat;
+  }
+  .sc-launchpad-item:active .sc-launchpad-text {
+    color: var(--nb-divider-fg);
+  }
+}

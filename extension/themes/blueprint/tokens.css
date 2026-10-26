@@ -1,0 +1,113 @@
+/* Blueprint: a technical drawing. White hairlines on cyanotype blue; chrome drawn as outlines, not fills.
+
+   Spec (the approved concept board, test-results/theme-ideas, .t-bp):
+   | Sheet (panels, windows, ribbon)   | #1d4f91 cyanotype blue                                  |
+   | Wells (tree, fields, scroll track)| #173f75                                                  |
+   | Line (frames, open tab, selection)| #eaf2ff, 1px (windows 1.5px rounded to 1px plus 1px gap)|
+   | Secondary dividers                | rgba(234,242,255,.45) dashed, 1px                         |
+   | Grid (Desktop, Launchpad, login)  | major 20px at 10% white, minor 4px at 4% white            |
+   | Text                              | #eaf2ff (7.2:1 on the sheet, 9.3:1 in a well)            |
+   | Muted text                        | #b9cdea (5.0:1 on the sheet)                             |
+   | Selection                         | 1px #eaf2ff outline over a 12% white fill (#34619c)      |
+   | Chrome type                       | Bahnschrift (Segoe UI), uppercase, 0.06em tracking       |
+   | Field and tree type               | the same family, normal case                             |
+   One appearance (dark). The accent is the line colour on both versions: 10.4's red has no place on a
+   drawing. */
+html[data-sct-theme="blueprint"] {
+  --sct-font-family: Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  --sct-font-size: inherit;
+  --sct-radius: 0;
+
+  --sct-app-bg: #1d4f91;
+  --sct-app-fg: #eaf2ff;
+  --sct-panel-bg: #1d4f91;
+  --sct-panel-fg: #eaf2ff;
+  --sct-muted-fg: #b9cdea;
+  --sct-border: #4f7ab5;
+  --sct-border-strong: #a9c2e6;
+  --sct-accent: #eaf2ff;
+  --sct-accent-fg: #173f75;
+  --sct-link: #d4e4ff;
+  --sct-focus-ring: #ffffff;
+  --sct-raised-bg: #1d4f91;
+  --sct-chrome-bg: #1d4f91;
+  --sct-chrome-fg: #eaf2ff;
+  --sct-selected-bg: #34619c;
+
+  --sct-titlebar-bg: #1d4f91;
+  --sct-titlebar-fg: #eaf2ff;
+  --sct-titlebar-inactive-bg: #1d4f91;
+  --sct-titlebar-inactive-fg: #b9cdea;
+  --sct-window-border: #eaf2ff;
+
+  --sct-ribbon-bg: #1d4f91;
+  --sct-ribbon-fg: #eaf2ff;
+  --sct-ribbon-tab-bg: #1d4f91;
+  --sct-ribbon-tab-fg: #b9cdea;
+  --sct-ribbon-tab-active-bg: #1d4f91;
+  --sct-ribbon-tab-active-fg: #ffffff;
+  --sct-ribbon-chunk-bg: #1d4f91;
+  --sct-ribbon-chunk-caption-bg: #1d4f91;
+  --sct-ribbon-chunk-caption-fg: #d6e4f8;
+  --sct-ribbon-button-hover-bg: #2a5b9b;
+  --sct-ribbon-button-pressed-bg: #34619c;
+
+  --sct-tree-bg: #173f75;
+  --sct-tree-fg: #eaf2ff;
+  --sct-tree-hover-bg: #22508c;
+  --sct-tree-selected-bg: #31598f;
+  --sct-tree-selected-fg: #ffffff;
+  --sct-tree-selected-border: #eaf2ff;
+
+  --sct-section-header-bg: #1d4f91;
+  --sct-section-header-fg: #ffffff;
+  --sct-section-body-bg: #1d4f91;
+  --sct-field-label-fg: #d6e4f8;
+
+  --sct-input-bg: #173f75;
+  --sct-input-fg: #ffffff;
+  --sct-input-border: #bcd0ec;
+  --sct-input-focus-border: #ffffff;
+
+  --sct-button-bg: #1d4f91;
+  --sct-button-fg: #eaf2ff;
+  --sct-button-border: #eaf2ff;
+  --sct-button-hover-bg: #2a5b9b;
+  --sct-button-primary-bg: #2c62aa;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #3a6fb6;
+
+  --sct-table-header-bg: #1d4f91;
+  --sct-table-header-fg: #eaf2ff;
+  --sct-table-row-hover-bg: #2a5b9b;
+
+  --sct-scrollbar-thumb: #6f93c6;
+  --sct-scrollbar-track: #173f75;
+
+  --sct-desktop-bg: #1d4f91;
+  --sct-taskbar-bg: #1d4f91;
+  --sct-taskbar-fg: #eaf2ff;
+
+  --sct-glyph-filter: invert(1) hue-rotate(180deg);
+  --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+  --sct-content-filter: brightness(0.85);
+
+  /* the theme's own lines */
+  --bp-line: #eaf2ff;
+  --bp-line-soft: rgb(234 242 255 / 0.45);
+  --bp-well: #173f75;
+  --bp-fill: rgb(255 255 255 / 0.12);
+  --bp-grid: linear-gradient(rgb(255 255 255 / 0.09) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(90deg, rgb(255 255 255 / 0.09) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px) 0 0 / 4px 4px,
+    linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px) 0 0 / 4px 4px;
+  --bp-chrome-font: Bahnschrift, "Segoe UI", system-ui, sans-serif;
+  /* colour icons as white silhouettes: grey detail inside, a white hairline halo round the shape */
+  --bp-icon-filter: grayscale(1) contrast(0.85) brightness(1.35) drop-shadow(0 0 1px rgb(234 242 255 / 0.9));
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="blueprint"]:not([data-sct-surface="ee"]) {
+  color-scheme: dark;
+}

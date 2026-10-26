@@ -1,0 +1,9 @@
+/* Warp: a title in the blue title bar, white bold */
+html[data-sct-theme="warp"] sct-bar-postfix {
+  border-color: transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font: bold 12px/17px WarpSans, "Workplace Sans", Verdana, Tahoma, sans-serif;
+  letter-spacing: 0;
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Compact",
+  "description": "Sitecore's own colours at laptop density: shorter rows, a slimmer ribbon, labels beside fields",
+  "category": "everyday",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#ffffff", "#6e3fff", "#ebebef"],
+  "swatch": { "desk": "#dfe3ea", "bar": "#ffffff", "barLine": "#e4e4e8", "start": "#6e3fff", "app": "#ebe7fb", "win": "#ffffff", "border": "#c9c9d1", "cap": "#ffffff", "btns": "right", "btn": "#8a8a8a", "ribbon": "#ffffff", "tab": "#6e3fff", "tree": "#ffffff", "ed": "#ffffff", "sec": "#f6f6f8", "field": "#ffffff", "line": "#c4c4cc", "sel": "#e7e0ff", "fg": "#3a3a3a" },
+  "swatchFor": {
+    "10.4": { "desk": "#3c3c3c", "bar": "#262626", "start": "#dc291e", "app": "#474747", "win": "#f0f0f0", "border": "#2a2a2a", "cap": "#474747", "btns": "right", "ribbon": "#f0f0f0", "tab": "#dc291e", "tree": "#ffffff", "ed": "#ffffff", "sec": "#e4e4e4", "field": "#ffffff", "line": "#c8c8c8", "sel": "#e2e2e2", "fg": "#333333" }
+  }
+}

@@ -1,0 +1,239 @@
+/* The popup's page, or the Sitecore module's panel: the same rules in a shadow root (sitecore/host.js). */
+:root, :host {
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #59636e;
+  --line: #d8dee4;
+  --hover: #f3f4f6;
+  --accent: #5319e0;
+  --accent-fg: #ffffff;
+  --notice: #fff8c5;
+  --warn: #9a6700;
+  --danger: #cf222e;
+  --panel: #f6f8fa;   /* the settings' grouped rows */
+  --divider: #eaeef2; /* between rows on a panel */
+  --well: #e8ecf0;    /* a segmented control's track */
+  --raised: #ffffff;  /* its chosen segment */
+  --accent-soft: #efe9fd;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root, :host {
+    --bg: #1e1f22;
+    --fg: #d6d8db;
+    --muted: #9aa0a6;
+    --line: #3a3d42;
+    --hover: #2e3135;
+    --accent: #9d86ff;
+    --accent-fg: #1e1f22;
+    --notice: #3b3418;
+    --warn: #d29922;
+    --danger: #ff7b72;
+    --panel: #26282b;
+    --divider: #2f3236;
+    --well: #161719;
+    --raised: #3a3d42;
+    --accent-soft: #2f2a4a;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body, .sct-panel {
+  width: 440px;
+  margin: 0;
+  padding: 10px 12px 10px;
+  font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+header { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; }
+h1 { font-size: 14px; margin: 0; }
+h2 { font-size: 12px; font-weight: 600; margin: 14px 4px 6px; color: var(--muted); }
+p { margin: 0 0 8px; }
+.muted { color: var(--muted); margin: 0; }
+.small { font-size: 12px; margin-top: 6px; }
+.notice { background: var(--notice); padding: 6px 8px; border-radius: 6px; }
+
+/* The theme under the pointer (or this site's), as a screenshot or, without one, its miniature drawn large. */
+#hero { position: relative; margin: 36px 0 0; border-radius: 8px; overflow: hidden; box-shadow: 0 0 0 1px var(--line); }
+#hero-art, #hero-art img, #hero-art svg { display: block; width: 100%; height: 176px; }
+#hero-art img { object-fit: cover; object-position: left top; }
+#hero-art svg { padding: 10px 0 46px; } /* the miniature sits above the caption */
+#hero-art { position: relative; }
+/* A theme with light and dark modes: light on the left, dark on the right, cut along a "/" */
+#hero-art img.dark { position: absolute; inset: 0; clip-path: polygon(62% 0, 100% 0, 100% 100%, 38% 100%); }
+/* The name sits on its own translucent panel: dark with white text in light mode, light with dark text in dark mode. */
+#hero figcaption {
+  --panel: rgba(20, 20, 24, 0.4); --ink: #fff; --chip: rgba(255, 255, 255, 0.2); --halo: rgba(0, 0, 0, 0.6);
+  position: absolute; left: 8px; right: 8px; bottom: 8px; padding: 6px 10px; border-radius: 8px;
+  display: flex; align-items: baseline; gap: 8px;
+  background: var(--panel); color: var(--ink); backdrop-filter: blur(1.5px);
+  text-shadow: 0 0 3px var(--halo), 0 0 1px var(--halo);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  #hero figcaption { --panel: rgba(250, 250, 252, 0.5); --ink: #1b1c1f; --chip: rgba(0, 0, 0, 0.1); --halo: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.25); }
+}
+#hero-name { font-size: 14px; white-space: nowrap; }
+#hero-desc { flex: 1; min-width: 0; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#hero-tag { font-style: normal; font-size: 10.5px; font-weight: 600; padding: 1px 7px; border-radius: 99px; background: var(--chip); }
+
+/* Guardrail's environment: a segmented control under the preview */
+/* A theme's own settings (Guardrail's environment, a hue) sit in one slot that is always there, empty for
+   themes without any, so picking a theme never moves the strip of miniatures under the pointer. */
+#params { display: flex; align-items: center; justify-content: center; height: 26px; margin-top: 8px; }
+#env[hidden], #phase[hidden] { display: none; }
+#env, #phase { display: flex; width: max-content; margin: 0; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+#env label, #phase label { padding: 3px 10px; font-size: 12px; font-weight: 600; cursor: pointer; border-right: 1px solid var(--line); }
+#env label:last-child, #phase label:last-child { border-right: 0; }
+#env input, #phase input { position: absolute; opacity: 0; pointer-events: none; }
+#env label:has(input:focus-visible), #phase label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
+#env label:has(input[value="prod"]:checked) { background: #c62828; color: #fff; }
+#env label:has(input[value="staging"]:checked) { background: #a85f00; color: #fff; }
+#env label:has(input[value="dev"]:checked) { background: #2e7d32; color: #fff; }
+#env label:has(input[value="beta"]:checked) { background: #7b1fa2; color: #fff; }
+#env label:has(input[value="qa"]:checked) { background: #1565c0; color: #fff; }
+#env label:has(input[value="sandbox"]:checked) { background: #00796b; color: #fff; }
+#env label:has(input[value="local"]:checked) { background: #546e7a; color: #fff; }
+/* Meridian's time of day, each in its phase's accent */
+#phase label:has(input[value=""]:checked) { background: var(--accent); color: var(--accent-fg); }
+#phase label:has(input[value="dawn"]:checked) { background: #3d67a8; color: #fff; }
+#phase label:has(input[value="day"]:checked) { background: #0d7480; color: #fff; }
+#phase label:has(input[value="dusk"]:checked) { background: #bd5076; color: #fff; }
+#phase label:has(input[value="night"]:checked) { background: #8a94ff; color: #14162b; }
+
+/* A hue slider: the thumb over a rainbow track (popup.js paints it). The theme's hue control marks the
+   theme's own colour at the track's start. */
+input.hue { -webkit-appearance: none; appearance: none; height: 12px; margin: 0; border-radius: 6px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15); cursor: pointer; background: var(--line); }
+input.hue::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid #1f2328; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); }
+input.hue::-moz-range-thumb { box-sizing: border-box; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid #1f2328; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); }
+input.hue:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#hue[hidden] { display: none; }
+#hue { display: flex; flex: 1; gap: 8px; align-items: center; margin: 0; font-size: 12px; font-weight: 600; }
+.hue-track { position: relative; flex: 1; display: flex; }
+.hue-track input { flex: 1; }
+.hue-track::after { content: ""; position: absolute; left: 6px; top: -4px; width: 2px; height: 20px; border-radius: 1px; background: var(--fg); pointer-events: none; }
+#hue-reset { padding: 2px 10px; font-size: 12px; font-weight: 600; background: var(--bg); border: 1px solid var(--line); border-radius: 7px; cursor: pointer; }
+#hue-reset:hover:not(:disabled) { background: var(--hover); }
+#hue-reset:disabled { color: var(--muted); cursor: default; }
+
+/* A centred row of tabs over a line: the theme groups, and the settings' pages. */
+#groups, #settings-tabs { display: flex; justify-content: center; margin-top: 8px; border-bottom: 1px solid var(--line); }
+#groups button, #settings-tabs button { position: relative; padding: 6px 9px; border: 0; background: none; font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; }
+:is(#groups, #settings-tabs) button:hover { color: var(--fg); }
+:is(#groups, #settings-tabs) button[aria-selected="true"] { color: var(--fg); box-shadow: inset 0 -2px 0 var(--accent); }
+:is(#groups, #settings-tabs) button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 4px; }
+/* The themes as miniatures, one group at a time; a dot marks the tab holding the site's theme */
+#groups button.current::after { content: ""; display: inline-block; width: 5px; height: 5px; margin-left: 5px; border-radius: 50%; background: var(--accent); vertical-align: 2px; }
+/* the settings' pages, one at a time under their tabs */
+#settings-tabs .count { display: inline-grid; margin-left: 6px; vertical-align: 1px; }
+#settings-tabs .count[hidden] { display: none; }
+.pane { padding-top: 10px; }
+#themes { display: flex; flex-wrap: wrap; gap: 6px; min-height: 92px; align-content: flex-start; padding-top: 10px; } /* two rows and the chosen ring: tabs switch without the popup changing height */
+.frame { position: relative; display: block; width: 54px; height: 36px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 0 0 1px var(--line); }
+.frame svg { display: block; }
+.frame input { position: absolute; opacity: 0; pointer-events: none; }
+.frame:hover { box-shadow: 0 0 0 2px var(--muted); }
+.frame:has(input:checked) { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+.frame:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+input, button { font: inherit; color: inherit; }
+input[type="text"] { height: 28px; padding: 0 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; }
+input[type="text"]::placeholder { color: var(--muted); }
+input[type="text"]:focus-visible { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+
+button.primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+/* The popup's two views side by side; the gear slides the picker out to the left and the settings in from the
+   right (popup.js), the back arrow returns. The body's side padding moves onto each view, so a view slides in
+   from the popup's edge. */
+#views { margin: 0 -12px; overflow: hidden; }
+#track { display: flex; align-items: flex-start; width: 200%; transition: transform 250ms cubic-bezier(.2, .8, .2, 1); }
+.view { box-sizing: border-box; width: 50%; padding: 0 12px; }
+.settings-open #track { transform: translateX(-50%); }
+@media (prefers-reduced-motion: reduce) { #track { transition: none; } }
+
+/* a borderless 28px icon button: the gear at the header's right end, the back arrow at its left */
+.icon-button { display: grid; place-items: center; flex: none; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 6px; background: none; color: var(--muted); cursor: pointer; }
+.icon-button:hover { background: var(--hover); color: var(--fg); }
+.icon-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+#open-settings { margin-left: auto; }
+#mode { margin-left: auto; }
+#mode[hidden] { display: none; }
+#mode:not([hidden]) + #open-settings { margin-left: 0; }
+.seg.icons label { padding: 0 6px; }
+
+/* The settings view: rows on soft panels, label on the left and control on the right. */
+.panel { background: var(--panel); border-radius: 8px; }
+.row { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 44px; padding: 8px 10px; }
+.row + .row { border-top: 1px solid var(--divider); }
+.row.sub { min-height: 0; padding-top: 0; padding-bottom: 10px; border-top: 0; }
+.label { flex: 1; min-width: 0; }
+.label small { display: block; font-size: 12px; color: var(--muted); }
+.warn { color: var(--warn); font-size: 12px; cursor: help; margin-left: 2px; }
+#title-postfix { width: 150px; }
+/* Accessibility: each reading font's choice in that font (lib/settings.js FONTS) */
+@font-face { font-family: "SCT Atkinson Hyperlegible"; src: url("../fonts/AtkinsonHyperlegible-Regular.ttf"); }
+@font-face { font-family: "SCT OpenDyslexic"; src: url("../fonts/OpenDyslexic-Regular.woff2"); }
+#font label:has(input[value="hyperlegible"]) { font-family: "SCT Atkinson Hyperlegible", sans-serif; }
+#font label:has(input[value="opendyslexic"]) { font-family: "SCT OpenDyslexic", sans-serif; font-size: 11px; }
+#spacing label:has(input[value="wide"]) { letter-spacing: .06em; word-spacing: .16em; }
+/* the colour filter's strength, on the hue slider's track */
+#strength-row[hidden] { display: none; }
+#strength-row label { font-size: 12px; color: var(--muted); }
+#strength { flex: 1; }
+#strength-value { width: 36px; font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* A segmented control (Mode, Icon tint): radios in labels on a recessed track; the chosen one is raised. */
+.seg { display: inline-flex; flex: none; padding: 2px; background: var(--well); border-radius: 7px; }
+.seg label { display: flex; align-items: center; gap: 5px; height: 24px; padding: 0 10px; border-radius: 5px; font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; transition: background-color 150ms, color 150ms; }
+.seg label:hover { color: var(--fg); }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label:has(input:checked) { background: var(--raised); color: var(--fg); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.14), 0 0 0 0.5px rgba(0, 0, 0, 0.08); }
+.seg label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+#tint-swatches { display: flex; gap: 6px; }
+#tint-swatches button { width: 18px; height: 18px; padding: 0; border: 0; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15); cursor: pointer; }
+#tint-swatches button[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--fg); }
+#tint-swatches button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+#tint-hue { flex: 1; min-width: 0; }
+
+/* Disable on this site: an outlined button at the right of the settings' header */
+#disable { margin-left: auto; height: 28px; padding: 0 12px; border: 1px solid color-mix(in srgb, var(--danger) 40%, var(--line)); border-radius: 6px; background: var(--bg); color: var(--danger); font-weight: 500; cursor: pointer; }
+#disable:hover { background: color-mix(in srgb, var(--danger) 8%, var(--bg)); }
+#disable:focus-visible { outline: 2px solid var(--danger); outline-offset: 1px; }
+.text-button { padding: 2px 4px; border: 0; border-radius: 4px; background: none; color: var(--muted); font-weight: 500; cursor: pointer; }
+.text-button:hover { color: var(--fg); }
+.text-button.danger { color: var(--danger); }
+.text-button:focus-visible { outline: 2px solid var(--accent); }
+
+/* Imported themes: the drop zone and the list */
+.count { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--well); color: var(--muted); font-size: 11px; font-weight: 600; display: grid; place-items: center; }
+.count[hidden] { display: none; }
+#import-body { padding: 8px 8px 4px; }
+#import-body .row { padding-left: 2px; padding-right: 2px; }
+.drop { display: flex; align-items: center; justify-content: center; gap: 8px; height: 52px; border: 1px dashed var(--line); border-radius: 6px; color: var(--muted); cursor: pointer; }
+.drop b { color: var(--accent); font-weight: 600; }
+.drop:hover { border-color: var(--muted); }
+.drop:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 1px; }
+.drop input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.drop .over, .drop.dragging .idle { display: none; }
+.drop.dragging .over { display: inline; }
+.drop.dragging { border-style: solid; border-color: var(--accent); background: var(--accent-soft); color: var(--fg); }
+.drop * { pointer-events: none; }
+.status { margin: 6px 2px 0; font-size: 12px; color: var(--muted); }
+.status:empty { display: none; }
+.error { color: var(--danger); }
+
+@media (prefers-reduced-motion: reduce) { .seg label { transition: none; } }

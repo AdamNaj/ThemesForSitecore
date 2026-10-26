@@ -1,0 +1,7 @@
+/* Focus: the postfix badge quiet, a grey chip with the quiet text, so the top bar stays calm */
+html[data-sct-theme="focus"] sct-bar-postfix {
+  border-color: #d8d8d4;
+  border-radius: 10px;
+  background: #ebebe7;
+  color: #4a4a45;
+}

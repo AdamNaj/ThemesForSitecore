@@ -1,0 +1,124 @@
+/* Loaded under every theme on every surface, never under Native: fixes every theme needs for Sitecore's top
+   bar and for the Sitecore Extensions add-on (its field-search clear button, near the end of this file), white
+   and black icons outlined, and 10.5's extra spacing in the Content Editor taken out, so a theme looks the same on 10.4 and 10.5 (last).
+   The top bar (the global header):
+   - the site's postfix (engine.js adds <sct-bar-postfix>, centred by its own zero-specificity rules), an
+     accent badge here that each theme can restyle in its own themes/<id>/bar.css, loaded after this file;
+   - the Sitecore Extensions add-on's database name (.sc-ext-dbName, a fixed full-width line it puts first in
+     the header) moved off the centre to the right of the bar, just left of Log out and the user. */
+
+/* The database name: anchored to the first account item (Log out), on the bar's centre line. Browsers
+   without anchor positioning keep it 300px from the right edge, clear of the account items. The Sitecore
+   module's logo sits beside Log out and sets --sct-logo-room on the bar: the name goes beyond it. */
+html[data-sct-theme] .sc-globalHeader .sc-accountInformation > li:first-child {
+  anchor-name: --sct-account;
+}
+html[data-sct-theme] .sc-globalHeader > .sc-ext-dbName {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  bottom: auto;
+  left: auto;
+  right: calc(300px + var(--sct-logo-room, 0px));
+  right: calc(anchor(--sct-account left) + 12px + var(--sct-logo-room, 0px));
+  width: auto;
+  transform: translateY(-50%);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Shared look from the theme's tokens: an accent badge (accent and accent-fg are a readable pair). */
+html[data-sct-theme] sct-bar-postfix {
+  border-color: var(--sct-accent, #6e3fff);
+  background: var(--sct-accent, #6e3fff);
+  color: var(--sct-accent-fg, #fff);
+  font-family: var(--sct-font-family, inherit);
+}
+
+/* The Sitecore Extensions add-on's "Search for fields" box in the Content Editor: its clear button is a
+   bitmap X that suits no theme (a light square once a dark theme's glyph filter inverts it). Every theme
+   draws it as a vector X in the field's text colour instead, from two lines: no image, so no page's CSP
+   can block it. The add-on places it with fixed offsets that fit only its own field, so it sits centred on the
+   field's right end instead: the wrapper is as tall as the field. */
+html[data-sct-theme]:not(#sct-bar) .sc-ext-searchFieldContainer {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-right: 10px; /* the add-on's gap after the field, moved off the field so the wrapper ends where it does */
+}
+html[data-sct-theme]:not(#sct-bar) .sc-ext-searchFieldContainer > .sc-ext-fieldSearch {
+  margin-right: 0;
+}
+html[data-sct-theme]:not(#sct-bar) .sc-ext-fieldSearchClear {
+  top: 50%;
+  right: 5px;
+  left: auto;
+  width: 10px;
+  height: 10px;
+  border: 0 !important; /* the add-on's 6px white frame round the bitmap */
+  transform: translateY(-50%);
+  background-image: none !important;
+  filter: none !important;
+  color: var(--sct-input-fg, var(--sct-muted-fg, #555));
+  opacity: 0.7;
+}
+html[data-sct-theme]:not(#sct-bar) .sc-ext-fieldSearchClear:hover {
+  opacity: 1;
+}
+html[data-sct-theme]:not(#sct-bar) .sc-ext-fieldSearchClear::before,
+html[data-sct-theme]:not(#sct-bar) .sc-ext-fieldSearchClear::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+html[data-sct-theme]:not(#sct-bar) .sc-ext-fieldSearchClear::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Monochrome icons outlined, as Sitecore 6 did, so they never vanish into a panel of their own colour. The
+   OfficeWhite set (all 1311 icons white; SPE dialogs and items pick them, as the Kitchen Sink does) is made
+   for Sitecore's dark headers and disappears on a theme's white or pale one; the few black icons
+   (`magnifying_glass_black`) do the same on a dark theme. A 1px halo of the opposite colour is invisible
+   where the icon already stands out, so it applies everywhere. Zero specificity: a theme's own filter on an
+   icon (an invert, a recolour) wins. */
+:where(html[data-sct-theme]) :where(img[src*="officewhite/" i]) {
+  filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.7));
+}
+:where(html[data-sct-theme]) :where(img[src*="_black." i]) {
+  filter: drop-shadow(0 0 1px rgb(255 255 255 / 0.7));
+}
+
+/* The Content Editor the same on Sitecore 10.4 and 10.5. 10.5 spaces it out where 10.4 does not: 16px under
+   the ribbon (set inline on the caption), 12px beside the tree, 16px before the editor, the editor 16px
+   narrower, its sections 30px in, and the pager a padded, rounded box with 12px round it where 10.4 has a
+   strip along the foot. A theme looks the same on both versions, so on 10.5 those go. These rules are just
+   heavier than Sitecore's own (an id and a class, nothing on <html>), so a theme that sets its own keeps it;
+   the Sitecore 10.5 theme keeps 10.5's. */
+:where(html[data-sct-version="10.5"][data-sct-surface="shell"]:not([data-sct-theme="sitecore105"])) .scFlexColumnContainer > .scCaption.scDockTop {
+  margin-bottom: 0 !important;
+}
+:where(html[data-sct-version="10.5"][data-sct-surface="shell"]:not([data-sct-theme="sitecore105"])) .scContentEditorSplitter > #ContentTreePanel {
+  margin-left: 0;
+}
+:where(html[data-sct-version="10.5"][data-sct-surface="shell"]:not([data-sct-theme="sitecore105"])) .scContentEditorSplitter #ContentEditor {
+  margin-left: 0;
+}
+:where(html[data-sct-version="10.5"][data-sct-surface="shell"]:not([data-sct-theme="sitecore105"])) .scPager.scDockBottom {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border-width: 2px 0 0;
+  border-radius: 0;
+}
+:where(html[data-sct-version="10.5"][data-sct-surface="shell"]:not([data-sct-theme="sitecore105"])) .scContentEditorSplitter #Editors {
+  width: 100%;
+}
+:where(html[data-sct-version="10.5"][data-sct-surface="shell"]:not([data-sct-theme="sitecore105"])) .scEditorGrid .scEditorPanel {
+  padding-left: 0;
+}

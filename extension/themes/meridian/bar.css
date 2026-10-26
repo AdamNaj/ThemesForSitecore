@@ -1,0 +1,6 @@
+/* The accent badge as a pill */
+html[data-sct-theme="meridian"] sct-bar-postfix {
+  padding: 3px 12px;
+  border-color: color-mix(in srgb, var(--sct-accent-fg) 55%, transparent);
+  border-radius: 999px;
+}

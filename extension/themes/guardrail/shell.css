@@ -1,0 +1,204 @@
+/* Guardrail: classic shell. Sitecore's own look from tokens.css; this file adds the environment marker.
+   --gr-* (tokens.css) carry the environment: a striped caption with white text and a badge on every
+   window and dialog, an edge round the Content Editor and every Desktop window, the taskbar's top edge
+   and a badge in its tray, and the global header's bottom edge. */
+
+/* ---- The Content Editor's caption: the ribbon's tab row on the hazard stripes, the tab labels and the
+   system menu white. The open tab stays the ribbon's white, joined to the ribbon below it. */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scCaption.scDockTop {
+  --sct-ribbon-tab-fg: #ffffff;
+  background: var(--gr-stripes) fixed;
+}
+/* the ribbon spans the system menu's column too; only its toolbar is white */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scCaption.scDockTop :is(#RibbonPanel, .scRibbon, .scSystemMenu) {
+  background-color: transparent;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scCaption.scDockTop .scRibbonNavigator {
+  position: relative;
+  background: var(--gr-stripes) fixed;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scCaption.scDockTop .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsHover, a.scRibbonNavigatorButtonsNormal:hover) {
+  color: #ffffff;
+  background-color: transparent;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scCaption.scDockTop .scRibbon :is(a.scRibbonNavigatorButtonsNormal:hover, a.scRibbonNavigatorButtonsHover) {
+  background-color: rgb(0 0 0 / 0.18);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scCaption.scDockTop .scRibbon a.scRibbonNavigatorButtonsActive {
+  color: var(--sct-ribbon-tab-active-fg);
+  box-shadow: inset 0 3px 0 var(--gr-env);
+}
+/* the tab row is positioned (for the badge), so the window buttons Sitecore positions before it go above it */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scCaption.scDockTop .scSystemButtons {
+  z-index: 2;
+}
+/* the window buttons and the application switcher: Sitecore's dark glyphs, white on the stripes */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+  /* 10.5 draws them at 55% opacity; the shadow at zero offset doubles that */
+  filter: brightness(0) invert(1) drop-shadow(0 0 0 #ffffff);
+}
+/* the badge: the environment name in white, on every caption (the tray's takes the environment colour below) */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scCaption.scDockTop .scRibbonNavigator::after,
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .standardWindowCaption .scWindowCaption::after,
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader::after,
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] #Tray::before {
+  content: var(--gr-env-label);
+  display: inline-block;
+  margin-left: 10px;
+  padding: 0 7px;
+  border-radius: 3px;
+  background: #ffffff;
+  color: var(--gr-env-2);
+  font: 700 11px/18px "Segoe UI", "Open Sans", Arial, sans-serif;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+/* on the right of the tab row, left of the window buttons (or the ribbon options arrow) */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scCaption.scDockTop .scRibbonNavigator::after {
+  position: absolute;
+  right: 150px;
+  bottom: 12px;
+  margin: 0;
+}
+
+/* ---- Standard windows (ISE, Console, Control Panel...) and the Workbox: the caption on the stripes, the title white. */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] :is(.standardWindowCaption, .scWorkboxWindowCaption) {
+  background: var(--gr-stripes) fixed;
+}
+/* the Workbox's caption has no title: the badge sits on its left */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scWorkboxWindowCaption::before {
+  content: var(--gr-env-label);
+  position: absolute;
+  left: 10px;
+  top: 4px;
+  padding: 0 7px;
+  border-radius: 3px;
+  background: #ffffff;
+  color: var(--gr-env-2);
+  font: 700 11px/18px "Segoe UI", "Open Sans", Arial, sans-serif;
+  letter-spacing: 0.08em;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .standardWindowCaption .scWindowCaption,
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .standardWindowCaption .scWindowCaption * {
+  color: #ffffff !important;
+}
+
+/* ---- Dialogs: the header with the title and description on the stripes; jQuery UI's strip above it, and
+   its maximize and close buttons, in the darker environment colour and white. */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] :is(.scFormDialogHeader, .scDialogHeader, .ui-dialog > .ui-dialog-titlebar + .DialogHeader) {
+  background: var(--gr-stripes) fixed;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] :is(.scFormDialogHeader, .scDialogHeader) :is(.DialogHeader, .DialogHeaderDescription),
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+  color: #ffffff;
+}
+/* SPE's ListView puts its title straight into the jQuery UI dialog, under the title strip */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .ui-dialog > .ui-dialog-titlebar + .DialogHeader::after {
+  content: var(--gr-env-label);
+  display: inline-block;
+  margin-left: 10px;
+  padding: 0 7px;
+  border-radius: 3px;
+  background: #ffffff;
+  color: var(--gr-env-2);
+  font: 700 11px/18px "Segoe UI", "Open Sans", Arial, sans-serif;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .ui-dialog > .ui-dialog-titlebar {
+  background: var(--gr-stripes) fixed;
+  border-color: transparent;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > :is(button, a) {
+  background-color: transparent;
+  border-color: transparent;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > :is(button, a):hover {
+  background-color: rgb(0 0 0 / 0.2);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon {
+  filter: brightness(0) invert(1);
+}
+
+/* ---- The edge round every window: the Content Editor (standalone or in a Desktop window) and the
+   Desktop's standard windows each draw it inside their own document, over everything in it. */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"]:has(.scCaption.scDockTop, .standardWindowCaption, .scWorkboxWindowCaption) body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  border: var(--gr-edge) solid var(--gr-env);
+  pointer-events: none;
+}
+
+/* ---- Taskbar: Sitecore's dark bar, the environment along its top edge and as a badge in the tray. */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scStartbar {
+  background-color: var(--sct-taskbar-bg);
+  box-shadow: inset 0 var(--gr-edge) 0 var(--gr-env);
+  color: var(--sct-taskbar-fg);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] :is(.scStartBarScroller, .scStartbarTray, .scStartButton) {
+  border-top-color: transparent;
+}
+/* The start button in the environment's colour: Sitecore's PNGs (the red tile, and the white one on hover) keep
+   their lightness and take the environment's hue. Sitecore's red and every environment colour are close in
+   lightness, so the tile lands near the environment colour and the white stays white. */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scStartButton {
+  background-color: var(--gr-env);
+  background-blend-mode: luminosity;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] #StartbarApplications .scInactiveApplication {
+  background-color: transparent;
+  border-color: transparent;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] #StartbarApplications :is(.scActiveApplication, .scInactiveApplication:hover) {
+  background-color: #2b2b2b;
+  border-color: #2b2b2b;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] :is(#StartbarApplications, #StartbarApplications *, #Tray, #DatabaseSelector) {
+  color: var(--sct-taskbar-fg);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] #Tray::before {
+  content: var(--gr-env-short);
+  margin: 0 12px 0 4px;
+  background: var(--gr-env);
+  color: #ffffff;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] :is(#SearchBox, #SearchBox.focus) {
+  background-color: #5c5c5c;
+  color: #ffffff;
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] #SearchBox::placeholder {
+  color: #d6d6d6;
+}
+
+/* ---- Global header (the standalone Content Editor's): the environment along its bottom edge. */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .sc-globalHeader {
+  box-shadow: inset 0 calc(-1 * var(--gr-edge)) 0 var(--gr-env);
+}
+
+/* ---- Start menu: the generated map tints the right column cream; 10.5 paints both columns white. */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scStartMenuRight {
+  background-color: var(--sct-panel-bg);
+}
+
+/* Sitecore's red application header band (SPE Reports and other SPEAK-style pages): white, as the Control
+   Panel's, since red means production here. */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .sc-applicationHeader {
+  background-color: var(--sct-panel-bg);
+  border-bottom: 1px solid var(--sct-border);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] .sc-applicationHeader :is(.sc-applicationHeader-title, h1, h2, span) {
+  color: var(--sct-panel-fg);
+}
+
+/* ---- Dark (tokens.css): 10.4's search options glyph light, and its pale chunk launchers inked, as Fjord does. */
+html[data-sct-theme="guardrail"][data-sct-version="10.4"][data-sct-surface="shell"] a.scSearchOptionsButton img {
+  filter: var(--sct-glyph-filter);
+}
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="guardrail"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+    filter: brightness(0) opacity(0.55) var(--sct-glyph-filter);
+  }
+}

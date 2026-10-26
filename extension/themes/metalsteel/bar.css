@@ -1,0 +1,16 @@
+/* Metal Steel: the title pane's title, knocking the bumps out around it, like the app name; the database
+   name likewise */
+html[data-sct-theme="metalsteel"] sct-bar-postfix {
+  padding: 3px 8px;
+  border-color: transparent;
+  border-radius: 0;
+  background: #ccccff;
+  color: #000;
+  font: bold 12px/16px Arial, "Liberation Sans", Helvetica, sans-serif;
+  letter-spacing: 0;
+}
+html[data-sct-theme="metalsteel"]:not(#sct-bar) .sc-globalHeader > .sc-ext-dbName {
+  padding: 0 8px;
+  font-weight: bold;
+  background: #ccccff;
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Meridian",
+  "description": "Dawn, day, dusk and night palettes that follow your clock",
+  "category": "creative",
+  "order": 200,
+  "versions": ["10.4", "10.5"],
+  "controls": ["phase"],
+  "preview": ["#fff4ec", "#c2557a", "#4a3a78"],
+  "swatch": { "desk": "#2d2350", "desk2": "#f08a6c", "bar": "#2d2350", "start": "#c2557a", "app": "#4a3a78", "win": "#fff4ec", "border": "#e8cfc2", "r": 4, "cap": "#4a3a78", "cap2": "#c2557a", "btns": "right", "btn": "#f3d6e0", "ribbon": "#fff4ec", "tab": "#c2557a", "tree": "#fbeee6", "ed": "#f6e7df", "sec": "#f3dcd2", "field": "#fffaf6", "line": "#e2c3b6", "sel": "#f3cfd8", "fg": "#3a2a3a" }
+}

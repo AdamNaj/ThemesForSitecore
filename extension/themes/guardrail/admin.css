@@ -1,0 +1,16 @@
+/* Guardrail: /sitecore/admin. The Angular index's top row carries the environment along its bottom edge
+   and as a badge on its right. */
+html[data-sct-theme="guardrail"][data-sct-surface="admin"] .app-toolbar .first-row {
+  box-shadow: inset 0 calc(-1 * var(--gr-edge)) 0 var(--gr-env);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="admin"] .app-toolbar .first-row::after {
+  content: var(--gr-env-label);
+  margin: 0 16px 0 auto;
+  padding: 0 7px;
+  border-radius: 3px;
+  background: var(--gr-env);
+  color: #ffffff;
+  font: 700 11px/18px "Segoe UI", "Open Sans", Arial, sans-serif;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}

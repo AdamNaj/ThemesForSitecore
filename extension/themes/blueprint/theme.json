@@ -1,0 +1,9 @@
+{
+  "name": "Blueprint",
+  "description": "A technical drawing in white on cyanotype blue",
+  "category": "creative",
+  "order": 180,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#1d4f91", "#eaf2ff", "#2c62aa"],
+  "swatch": { "desk": "#1d4f91", "deco": "grid", "bar": "#1d4f91", "barLine": "#eaf2ff", "start": "#eaf2ff", "app": "#2c62aa", "win": "#1d4f91", "border": "#eaf2ff", "cap": "#1d4f91", "btns": "right", "btn": "#eaf2ff", "tab": "#eaf2ff", "line": "#eaf2ff", "sel": "#eaf2ff", "fg": "#eaf2ff", "outline": 1 }
+}

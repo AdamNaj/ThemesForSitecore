@@ -1,0 +1,10 @@
+{
+  "name": "Sun Valley",
+  "description": "Inspired by Windows 11, follows your light or dark setting",
+  "category": "modern",
+  "order": 80,
+  "versions": ["10.4", "10.5"],
+  "appearance": "auto",
+  "preview": ["#f3f3f3", "#005fb8", "#202020"],
+  "swatch": { "desk": "#c9dcf6", "desk2": "#4f87e0", "barPos": "center", "bar": "#eef1f6", "start": "#005fb8", "app": "#9aa4b2", "win": "#f3f3f3", "border": "#d4d4d4", "r": 4, "shadow": 1, "cap": "#f3f3f3", "btns": "right", "btn": "#5c5c5c", "close": "#5c5c5c", "ribbon": "#fbfbfb", "tab": "#005fb8", "tree": "#f3f3f3", "ed": "#f3f3f3", "sec": "#ffffff", "field": "#ffffff", "line": "#9a9a9a", "sel": "#dfe8f5", "fg": "#1b1b1b" }
+}

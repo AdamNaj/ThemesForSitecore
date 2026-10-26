@@ -1,0 +1,9 @@
+{
+  "name": "Miami",
+  "description": "Synthwave neon over a sunset grid",
+  "category": "creative",
+  "order": 220,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#170830", "#ff2e88", "#00e5ff"],
+  "swatch": { "desk": "#12002b", "desk2": "#a5185f", "deco": "synth", "bar": "#0a0218", "barLine": "#ff2e88", "start": "#ff2e88", "app": "#00e5ff", "app2": "#2a0a4f", "win": "#170830", "border": "#ff2e88", "r": 2, "cap": "#1b0538", "cap2": "#2a0a4f", "btns": "right", "btn": "#00e5ff", "ribbon": "#170830", "tab": "#00e5ff", "tree": "#12052a", "ed": "#12052a", "sec": "#3a1466", "field": "#0d0320", "line": "#7a3cc2", "sel": "#ff2e88", "fg": "#f4e9ff" }
+}

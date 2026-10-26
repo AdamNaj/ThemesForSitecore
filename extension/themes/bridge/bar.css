@@ -1,0 +1,11 @@
+/* Bridge: a console pill */
+html[data-sct-theme="bridge"] sct-bar-postfix {
+  padding: 3px 18px;
+  border-color: #ff9966;
+  border-radius: 999px;
+  background: #ff9966;
+  color: #000;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

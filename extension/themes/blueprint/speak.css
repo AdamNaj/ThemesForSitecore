@@ -1,0 +1,292 @@
+/* Blueprint: SPEAK pages (Control Panel, Experience Editor ribbon) in the same blue as the
+   Content Editor. Layout and shapes stay Sitecore's. */
+
+/* Global header: "Log out" a quieter step of the header text, as in 10.5 (not the link colour). */
+html[data-sct-theme="blueprint"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 80%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="blueprint"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+
+/* ---- Experience Editor ribbon: the Content Editor's ribbon colours. The tab band is the ribbon tab
+   colour, tabs are text on it, the selected tab joins the ribbon below; quick buttons have no boxes. */
+html[data-sct-theme="blueprint"][data-sct-surface="speak"] .sc-pageeditbar {
+  .sc-quickbar {
+    background: var(--sct-ribbon-tab-bg);
+  }
+  .sc-quickbar-item {
+    color: var(--sct-ribbon-tab-fg);
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    background: transparent;
+    border-color: transparent;
+  }
+  .sc-quickbar-button:not(.disabled):hover,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-quickbar-tab {
+    background: transparent;
+    border-color: transparent;
+    color: var(--sct-ribbon-tab-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: var(--sct-ribbon-tab-active-fg);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected {
+    background: var(--sct-ribbon-tab-active-bg);
+    color: var(--sct-ribbon-tab-active-fg);
+  }
+  /* a mouse click left a white focus ring on the tab; keyboard focus keeps the theme's ring */
+  .sc-quickbar-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+
+  .sc-ribbon {
+    background-color: var(--sct-ribbon-bg);
+    border-top: 0;
+    border-bottom-color: var(--sct-border);
+  }
+  .sc-ribbon .sc-chunk::after {
+    background-color: var(--sct-border);
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--sct-ribbon-chunk-caption-fg);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):active {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+  }
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: var(--sct-selected-bg);
+  }
+  .sc-ribbon .pressed :is(.sc-chunk-button-label, span) {
+    color: var(--sct-tree-selected-fg);
+  }
+  .sc-ribbon .sc-chunk-button-list ul {
+    background: var(--sct-input-bg);
+    border-color: var(--sct-input-border);
+  }
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-changedate:hover,
+  .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-datetime:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
+   text colour instead (as the shared shell map does on shell pages). */
+html[data-sct-theme="blueprint"][data-sct-surface="speak"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}
+
+/* Dark sprite glyphs on the EE ribbon (scan.cjs DARKGLYPH): the breadcrumb's separators. (The quick bar's
+   collapse chevron is the token layer's.) */
+html[data-sct-theme="blueprint"][data-sct-surface="speak"] .sc-breadcrumb .sprite-speak-ribbon-clean-ee[class*="separator"] {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ======================================================================================================
+   The drawing (Experience Editor ribbon, Control Panel and other SPEAK pages).
+   ====================================================================================================== */
+html[data-sct-theme="blueprint"][data-sct-surface="speak"] {
+  .sc-globalHeader {
+    border-bottom: 1px solid var(--bp-line);
+    box-shadow: none;
+  }
+  .sc-globalHeader .sc-globalheader-appName {
+    font-family: var(--bp-chrome-font);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ---- EE ribbon tabs: uppercase drafting labels; the open tab an outline joined to the ribbon. */
+  .sc-pageeditbar {
+    .sc-quickbar {
+      border-bottom: 1px solid var(--bp-line);
+    }
+    .sc-quickbar-tab {
+      font-family: var(--bp-chrome-font);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border: 1px solid transparent;
+      border-bottom: 0;
+      border-radius: 0;
+    }
+    .sc-quickbar-tab:hover {
+      border-color: var(--bp-line-soft);
+      border-style: dashed;
+      background: transparent;
+    }
+    .sc-quickbar-tab.sc-quickbar-tab-selected {
+      border: 1px solid var(--bp-line);
+      border-bottom: 0;
+      box-shadow: 0 1px 0 var(--sct-ribbon-bg);
+      position: relative;
+      z-index: 1;
+    }
+    .sc-ribbon {
+      border-bottom: 1px solid var(--bp-line);
+    }
+    /* chunks divided by dashed lines */
+    .sc-ribbon .sc-chunk::after {
+      background: repeating-linear-gradient(var(--bp-line-soft) 0 3px, transparent 3px 6px);
+    }
+    /* chunk labels as dimension lines with end ticks */
+    .sc-ribbon .sc-chunk-label {
+      position: relative;
+      margin-left: 5px;
+      margin-right: 5px;
+      border-top: 1px solid var(--bp-line-soft);
+      font-family: var(--bp-chrome-font);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--sct-ribbon-chunk-caption-fg);
+    }
+    .sc-ribbon .sc-chunk-label::before,
+    .sc-ribbon .sc-chunk-label::after {
+      content: "";
+      position: absolute;
+      top: -4px;
+      height: 7px;
+      border-left: 1px solid var(--bp-line);
+    }
+    .sc-ribbon .sc-chunk-label::before { left: 0; }
+    .sc-ribbon .sc-chunk-label::after { right: 0; }
+    /* buttons: dashed outline on hover, solid when pressed; icons as white silhouettes */
+    .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+      outline: 1px dashed var(--bp-line);
+      outline-offset: -1px;
+      border-radius: 0;
+    }
+    .sc-ribbon .pressed {
+      outline: 1px solid var(--bp-line);
+      outline-offset: -1px;
+    }
+    .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small) img {
+      filter: var(--bp-icon-filter);
+    }
+  }
+
+  /* ---- Buttons (breadcrumb Go/Edit, dialogs): square outlines; the primary one a white stamp. */
+  .btn,
+  .sc-button {
+    border-radius: 0;
+    font-family: var(--bp-chrome-font);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    box-shadow: none;
+  }
+  .btn-default,
+  .btn.btn-default {
+    background-color: transparent;
+    border: 1px solid var(--bp-line);
+    color: var(--sct-button-fg);
+  }
+  .btn-default:hover {
+    background-color: var(--sct-button-hover-bg);
+  }
+  .btn-primary,
+  .btn.btn-primary {
+    border: 1px solid var(--bp-line);
+    box-shadow: inset 0 0 0 1px var(--sct-button-primary-bg), inset 0 0 0 2px var(--bp-line);
+  }
+  .btn-primary:hover {
+    background-color: var(--sct-button-primary-hover-bg);
+  }
+  :is(input:not([type="checkbox"]):not([type="radio"]), textarea, select, .form-control) {
+    border-radius: 0;
+  }
+}
+
+/* ---- Control Panel: a sheet index like the Launchpad. Each box is a titled sheet on the board. */
+html[data-sct-theme="blueprint"][data-sct-surface="speak"] body:has(.sc-controlpanel-box) {
+  background: var(--bp-grid), var(--sct-app-bg);
+  background-attachment: fixed;
+  :is(.sc-applicationContent, .sc-applicationHeader, .sc-applicationHeader-row1, .sc-applicationHeader-row2, .sc-applicationContent-main, .sc-applicationContent-navigation) {
+    background-color: transparent !important;
+  }
+  .sc-applicationHeader-title {
+    font-family: var(--bp-chrome-font);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .sc-controlpanel-box {
+    border: 1px solid var(--bp-line);
+    background-color: var(--sct-panel-bg);
+    box-shadow: 0 0 0 3px var(--sct-panel-bg), 0 0 0 4px var(--bp-line-soft);
+  }
+  .sc-controlpanel-box-header {
+    height: auto;
+    border-bottom: 1px solid var(--bp-line);
+  }
+  .sc-controlpanel-box-header h4 {
+    margin: 0;
+    padding: 6px 10px;
+    font-family: var(--bp-chrome-font);
+    font-size: 12px;
+    line-height: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .sc-controlpanel-box-header h4 img {
+    width: 18px;
+    height: 18px;
+    vertical-align: -4px;
+    filter: var(--bp-icon-filter);
+  }
+  .sc-controlpanel-box-content {
+    background-color: transparent;
+  }
+  .sc-controlpanel-box-content li {
+    border-color: transparent;
+    border-bottom: 1px dashed var(--bp-line-soft);
+    margin: 0;
+  }
+  .sc-controlpanel-box-content li:last-child {
+    border-bottom: 0;
+  }
+  .sc-controlpanel-box-content li a {
+    display: block;
+    padding: 5px 10px;
+    line-height: 18px;
+  }
+  .sc-controlpanel-box-content li a:hover {
+    background-color: var(--bp-fill);
+    outline: 1px solid var(--bp-line);
+    outline-offset: -1px;
+    text-decoration: none;
+  }
+}
+
+/* ---- SPEAK application header (Control Panel on 10.4, SPE Reports): the red breadcrumb band becomes a title
+   strip on the sheet, ruled off by a hairline. */
+html[data-sct-theme="blueprint"][data-sct-surface="speak"] :is(.sc-applicationHeader, .sc-applicationHeader-row1, .sc-applicationHeader-row2) {
+  background-image: none !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid var(--bp-line);
+}
+html[data-sct-theme="blueprint"][data-sct-surface="speak"] :is(.sc-applicationHeader-title, .sc-applicationHeader-title .sc-text) {
+  font-family: var(--bp-chrome-font);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sct-app-fg);
+}
+/* 10.4 adds Sitecore's red spiral to the band's corner */
+html[data-sct-theme="blueprint"][data-sct-surface="speak"] .sc-applicationHeader-row1::after {
+  background-image: none !important;
+}

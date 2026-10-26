@@ -1,0 +1,9 @@
+{
+  "name": "Metal Steel",
+  "description": "Inspired by Java Swing's Metal look in its Steel theme",
+  "category": "retro",
+  "order": 170,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#cccccc", "#ccccff", "#666699"],
+  "swatch": { "desk": "#666699", "bar": "#cccccc", "barLine": "#ffffff", "start": "#ccccff", "app": "#b8b8d8", "win": "#cccccc", "border": "#666699", "cap": "#ccccff", "stripes": "#9999cc", "btns": "right", "btn": "#cccccc", "ribbon": "#cccccc", "tab": "#ccccff", "tree": "#ffffff", "ed": "#eeeeee", "sec": "#cccccc", "field": "#ffffff", "line": "#666666", "sel": "#ccccff", "fg": "#000000" }
+}

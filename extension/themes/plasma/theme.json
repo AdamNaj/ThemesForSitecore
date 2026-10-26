@@ -1,0 +1,9 @@
+{
+  "name": "Plasma",
+  "description": "Flat grey windows, centred titles and a sky-blue accent, follows your light or dark setting",
+  "category": "modern",
+  "versions": ["10.4", "10.5"],
+  "appearance": "auto",
+  "preview": ["#eff0f1", "#3daee9", "#232629"],
+  "swatch": { "desk": "#1b4f8a", "desk2": "#7fc8f8", "bar": "#232629", "start": "#3daee9", "app": "#4a5157", "win": "#eff0f1", "border": "#3daee9", "r": 1, "shadow": 1, "cap": "#dee0e2", "btns": "right", "btn": "#232629", "close": "#da4453", "ribbon": "#eff0f1", "tab": "#3daee9", "tree": "#fcfcfc", "ed": "#eff0f1", "sec": "#fcfcfc", "field": "#fcfcfc", "line": "#bdc3c7", "sel": "#3daee9", "fg": "#232629" }
+}

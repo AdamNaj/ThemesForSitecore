@@ -1,0 +1,8 @@
+{
+  "name": "Longhorn",
+  "description": "Tinted glass captions with a sheen, glossy buttons and a black taskbar with a round orb",
+  "category": "retro",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#f0f0f0", "#3c7fb1", "#141414"],
+  "swatch": { "desk": "#0b2a3a", "desk2": "#1c6b5a", "bar": "#141414", "barLine": "#5f5f5f", "start": "#4fa9e8", "app": "#3a3a3a", "win": "#f0f0f0", "border": "#5a7fa3", "r": 3, "cap": "#a9c6e3", "cap2": "#7ea6cf", "btns": "right", "btn": "#d6e6f4", "close": "#c0392b", "ribbon": "#e9eef5", "tab": "#3c7fb1", "tree": "#ffffff", "ed": "#f0f0f0", "sec": "#ffffff", "field": "#ffffff", "line": "#abadb3", "sel": "#c4ddfa", "fg": "#000000" }
+}

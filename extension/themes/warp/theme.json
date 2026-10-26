@@ -1,0 +1,8 @@
+{
+  "name": "Warp",
+  "description": "Grey bevelled windows, blue title bars, a control bar along the top and notebook tabs",
+  "category": "retro",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#cccccc", "#3c5a9a", "#2a5a8c"],
+  "swatch": { "desk": "#2a5a8c", "barPos": "top", "bar": "#cccccc", "barLine": "#808080", "start": "#3c5a9a", "app": "#e6e6e6", "win": "#cccccc", "border": "#404040", "bw": 2, "cap": "#3c5a9a", "btns": "both", "btn": "#cccccc", "ribbon": "#cccccc", "tab": "#ffffff", "tree": "#ffffff", "ed": "#cccccc", "sec": "#d8d8d8", "field": "#ffffff", "line": "#808080", "sel": "#3c5a9a", "fg": "#000000" }
+}

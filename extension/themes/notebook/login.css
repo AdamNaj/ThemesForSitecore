@@ -1,0 +1,96 @@
+/* Notebook: the sign-in page as a sheet of graph paper taped to the kraft desk. Labels and the button
+   are handwritten; the fields are an ink underline on a light paper fill. */
+html[data-sct-theme="notebook"][data-sct-surface="login"]:not(#sct-nb) {
+  & body {
+    background: var(--nb-kraft-bg);
+    background-attachment: fixed;
+  }
+  .main-wrap {
+    background: transparent none;
+  }
+  .top,
+  .top :is(a, span) {
+    background: transparent;
+    color: var(--sct-taskbar-fg);
+  }
+  .main {
+    position: relative;
+    overflow: visible;
+    border: 0;
+    border-radius: 2px;
+    background:
+      linear-gradient(90deg, transparent 22px, var(--nb-margin) 22px 23.5px, transparent 23.5px),
+      linear-gradient(var(--nb-grid) 1px, transparent 1px) 0 0 / 14px 14px,
+      linear-gradient(90deg, var(--nb-grid) 1px, transparent 1px) 0 0 / 14px 14px,
+      var(--nb-paper);
+    box-shadow: 3px 8px 20px rgb(60 40 10 / 0.4);
+    color: var(--nb-ink);
+  }
+  /* two strips of translucent tape across the top corners */
+  .main::before,
+  .main::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: -6px;
+    width: 80px;
+    height: 22px;
+    background: var(--nb-tape);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
+    pointer-events: none;
+  }
+  .main::before {
+    left: -22px;
+    transform: rotate(-32deg);
+  }
+  .main::after {
+    right: -22px;
+    transform: rotate(32deg);
+  }
+  :is(label, .login-label, h1, h2, h3, legend) {
+    color: var(--nb-ink);
+    font-family: var(--nb-hand);
+  }
+  .form-control {
+    border: 0;
+    border-bottom: 1.5px solid var(--sct-input-border);
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+  }
+  .form-control:focus {
+    border-width: 0 0 1.5px;
+    border-bottom-color: var(--sct-input-focus-border);
+    box-shadow: 0 1.5px 0 var(--sct-input-focus-border);
+    outline: none;
+  }
+  .form-control::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  .btn.btn-primary {
+    border: 1.5px solid var(--nb-ink);
+    border-radius: 4px 7px 5px 8px;
+    background: var(--sct-button-primary-bg);
+    box-shadow: 1px 2px 0 rgb(29 58 138 / 0.25);
+    color: var(--sct-button-primary-fg);
+    font-family: var(--nb-hand);
+    font-size: 16px;
+    text-transform: none;
+  }
+  .btn.btn-primary:is(:hover, :focus) {
+    border-color: var(--sct-button-primary-hover-bg);
+    background: var(--sct-button-primary-hover-bg);
+  }
+  /* the Sitecore wordmark is white art for a dark page: on the paper it is inked */
+  .logo-wrap img {
+    filter: brightness(0) opacity(0.85);
+  }
+  input[type="checkbox"] {
+    accent-color: var(--nb-ink);
+  }
+  .warning {
+    background: var(--nb-note);
+    color: var(--nb-divider-fg);
+  }
+}

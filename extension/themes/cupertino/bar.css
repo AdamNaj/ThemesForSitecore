@@ -1,0 +1,5 @@
+/* A rounded accent capsule */
+html[data-sct-theme="cupertino"] sct-bar-postfix {
+  border-radius: 6px;
+  font-weight: 600;
+}

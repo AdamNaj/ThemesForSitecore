@@ -1,0 +1,86 @@
+/* Longhorn: inspired by Windows Vista's Aero. #f0f0f0 window bodies, tinted glass captions (drawn opaque
+   inside a window: #a9c6e3 to #7ea6cf with the diagonal sheen, black caption text with a white glow), Segoe UI
+   9pt (12px), the Explorer's pale blue selection boxes (#84acdd round #f1f7fe to #d0e5fc, black text), field
+   borders #abadb3, push buttons #707070 with the blue hover gel (#3c7fb1). Vista's #3399ff highlight fails
+   AA under white text (3.0:1): the accent is its link blue, #0066cc (5.6:1). */
+html[data-sct-theme="longhorn"] {
+  --sct-font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  --sct-font-size: 12px;
+  --sct-radius: 3px;
+
+  --sct-app-bg: #f0f0f0;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #5a5a5a;
+  --sct-border: #a0a0a0;
+  --sct-border-strong: #898c95;
+  --sct-accent: #0066cc;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #0055b3;
+  --sct-focus-ring: #3c7fb1;
+  --sct-raised-bg: #f7f7f7;
+  --sct-chrome-bg: #e9eef5;
+  --sct-chrome-fg: #000000;
+  --sct-selected-bg: #c4ddfa;
+
+  --sct-titlebar-bg: #a9c6e3;
+  --sct-titlebar-fg: #000000;
+  --sct-titlebar-inactive-bg: #d3e1ee;
+  --sct-titlebar-inactive-fg: #3c3c3c;
+  --sct-window-border: #5a7fa3;
+
+  --sct-ribbon-bg: #eef2f8;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #e6e6e6;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #ffffff;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #eef2f8;
+  --sct-ribbon-chunk-caption-bg: #eef2f8;
+  --sct-ribbon-chunk-caption-fg: #3c4b5c;
+  --sct-ribbon-button-hover-bg: #d9f0fc;
+  --sct-ribbon-button-pressed-bg: #a7d9f5;
+
+  --sct-tree-bg: #ffffff;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #eef5fd;
+  --sct-tree-selected-bg: #d9e9fc;
+  --sct-tree-selected-fg: #000000;
+  --sct-tree-selected-border: #84acdd;
+
+  --sct-section-header-bg: #ffffff;
+  --sct-section-header-fg: #1e3287;
+  --sct-section-body-bg: #ffffff;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #abadb3;
+  --sct-input-focus-border: #3d7bad;
+
+  --sct-button-bg: #e6e6e6;
+  --sct-button-fg: #000000;
+  --sct-button-border: #707070;
+  --sct-button-hover-bg: #d9f0fc;
+  --sct-button-primary-bg: #e6e6e6;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #d9f0fc;
+
+  --sct-table-header-bg: #f3f5f8;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #eef5fd;
+
+  --sct-scrollbar-thumb: #dcdcdc;
+  --sct-scrollbar-track: #f2f2f2;
+
+  --sct-desktop-bg: #0b2a3a;
+  --sct-taskbar-bg: #141414;
+  --sct-taskbar-fg: #ffffff;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="longhorn"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

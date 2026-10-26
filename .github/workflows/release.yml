@@ -1,0 +1,30 @@
+# A tag such as v0.4.0 builds the browser packages and attaches them to a draft release, to check and publish
+# by hand. The Sitecore module's packages need Sitecore's assemblies and msdeploy, so they are built locally
+# (npm run package:sitecore) and added to the release by hand.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: The tag matches the manifest's version
+        run: test "v$(node -p "require('./extension/manifest.json').version")" = "$GITHUB_REF_NAME"
+      - run: npm run build
+      - name: Draft release with the packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/*.zip --draft --title "$GITHUB_REF_NAME" --generate-notes

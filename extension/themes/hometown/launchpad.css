@@ -1,0 +1,188 @@
+/* Hometown: Launchpad as a homepage's links page. A welcome banner in yellow Comic Sans over a rainbow
+   rule, on the night sky; each group a grey bevelled box with a navy "~ title ~" band; each application
+   an underlined blue link beside its icon. */
+
+/* :not(#sct-ht) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="hometown"][data-sct-surface="launchpad"]:not(#sct-ht) {
+  & body {
+    background: var(--ht-stars);
+    background-attachment: fixed;
+  }
+  .sc-list,
+  .container-narrow,
+  .sc-applicationContent,
+  .sc-applicationContent-main,
+  .sc-applicationContent-main .row,
+  .sc-applicationContent-main .col-md-12 {
+    background: transparent;
+  }
+
+  /* ---- Header ---- */
+  .sc-globalHeader {
+    border-bottom: 4px solid;
+    border-image: var(--ht-rainbow) 1;
+    box-shadow: none;
+    background: var(--ht-grey) !important;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a),
+  .sc-globalHeader .sc-globalHeader-applicationName {
+    color: #000000;
+  }
+  .sc-globalHeader .sc-accountInformation a {
+    color: #0000ee;
+    text-decoration: underline;
+  }
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1 {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--ht-navy);
+    background: var(--ht-grey);
+    font-family: var(--ht-comic);
+  }
+
+  /* ---- The page: a welcome banner, then the boxes wrap and centre ---- */
+  .sc-applicationContent-main .col-md-12:has(> .sc-launchpad) {
+    display: block;
+  }
+  .sc-launchpad {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+    float: none;
+    box-sizing: border-box;
+    width: auto;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 12px 24px 28px;
+  }
+  .sc-launchpad::before {
+    content: "Welcome to my Launchpad!!";
+    flex: 0 0 100%;
+    padding: 0 0 8px;
+    border-bottom: 4px solid;
+    border-image: var(--ht-rainbow) 1;
+    color: #ffff00;
+    font: 700 28px/38px var(--ht-comic);
+    text-align: center;
+    text-shadow: 2px 2px 0 #ff00ff;
+  }
+
+  /* ---- A group: a grey bevelled box ---- */
+  .sc-launchpad-group {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 250px;
+    margin: 0;
+    padding: 6px;
+    border: 0;
+    border-radius: 0;
+    background: var(--ht-grey);
+    box-shadow: var(--ht-out);
+  }
+  .sc-launchpad-group-title {
+    position: static;
+    box-sizing: border-box;
+    width: auto;
+    height: auto;
+    margin: 0 0 4px;
+    padding: 2px 6px;
+    border: 0;
+    background: var(--ht-navy);
+    color: #ffffff;
+    font-family: var(--ht-comic);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+    text-transform: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sc-launchpad-group-title::before {
+    content: "~ ";
+  }
+  .sc-launchpad-group-title::after {
+    content: " ~";
+  }
+
+  /* ---- An application: a link with its icon ---- */
+  .sc-launchpad-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 26px;
+    margin: 0;
+    padding: 0 4px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    float: none;
+  }
+  .sc-launchpad-item:is(:hover, :focus, :active) {
+    border: 0;
+    background: #ffff99;
+    box-shadow: none;
+  }
+  .sc-launchpad-item:focus {
+    outline: none;
+  }
+  .sc-launchpad-item:focus-visible {
+    outline: 1px dotted #000000;
+    outline-offset: -2px;
+  }
+  .sc-launchpad-item .icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+  .sc-launchpad-item .icon img {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    filter: none;
+  }
+  .sc-launchpad-text {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: #0000ee;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
+    text-decoration: underline;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sc-launchpad-item:hover .sc-launchpad-text {
+    color: #cc0000;
+  }
+  .sc-launchpad-item:visited .sc-launchpad-text {
+    color: #551a8b;
+  }
+  /* the Custom Analytics heading (its description is a .sc-text-title too) */
+  .sc-applicationContent-main .col-md-12 > .sc-text-title {
+    color: #ffff00;
+    font-family: var(--ht-comic);
+  }
+}

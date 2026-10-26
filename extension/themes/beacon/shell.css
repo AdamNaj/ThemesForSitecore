@@ -1,0 +1,631 @@
+/* Beacon: high contrast on Sitecore's layout. Debrightify's dark-theme fixes first, then the Beacon signature
+   (outlines, underlined commands, yellow selection, focus ring, 13px) at the end of the file. */
+
+/* Window buttons: light glyphs on the dark strip. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="page_switcher"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher.png");
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="page_switcher"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher_h.png");
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png");
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize_h.png");
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png");
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize_h.png");
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png");
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore_h.png");
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png");
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close_h.png");
+}
+
+/* Dialog title buttons: no boxes, light glyphs, a quiet hover. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+  background-color: transparent;
+  border-color: transparent;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > *:hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* The jQuery UI title bar on the modal host is a 15px strip above the dialog page's own header; it was
+   the app background (a dark band over the header). It takes the header's colour so the title area,
+   window buttons included, reads as one band. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar {
+  background: var(--sct-chrome-bg);
+  border-color: transparent;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-closethick {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png") center no-repeat;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-extlink {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png") center no-repeat;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-newwin {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png") center no-repeat;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-minus {
+  background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png") center no-repeat;
+}
+
+/* ---- Hover and pressed states. The area map turns 10.5's light-grey hovers into the app background,
+   which on a dark theme is darker than the panel (or the same colour as a menu). They lift instead. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton, a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton, a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):active {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* toggled-on buttons keep their selected colour under the pointer */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, .scRibbonToolbarLargeComboButtonDown, .scRibbonLargeImageButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown):is(*, :hover, :active) {
+  background-color: var(--sct-selected-bg);
+  color: var(--sct-tree-selected-fg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSearchLink:hover, .scElementHover:hover, .scSearchOptionName:hover, .scListControl > tbody > tr:hover, .Row:hover, .scTab_Hover, .scVerticalTabstrip .scVerticalTabs a:not(.active):hover, .scPagerButtonNormal:hover, .scEditorHeaderTitle:hover, .scEditorHeaderNavigatorField:hover, a.scEditorHeaderNavigatorSection:hover, .scNavButton:hover, .scListviewItemIcons:hover, .scListviewItemList:hover, .scCommand_Hover, .scComboboxDropDown:hover, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-button:not(.ui-state-active):hover, td.scCalendarCell:hover, .scTimePicker a:hover, .scLink:hover, .scInstallerPager:hover, .spe-variables-list .spe-variable:hover, .scStartMenuLeftOption:hover, .scStartMenuRightOption:hover, .scStartMenuRightFolder:hover, .scStartMenuProgramsMenu:hover, .BlogPostArea:hover, .side li a:hover, .pagination li a:hover, .quickactions > ul > li:hover, .quickactions ul li ul li a:hover, .sb_dropdown .sb_filter:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+/* (kept apart: id selectors would lift the specificity of the whole list above selected states) */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(#InstantResults li:hover, #InstantResults .scSearchResultsTable a:hover, #results table > tbody > tr:hover, #grid-content .post_float:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+
+/* ---- Menus (context menu, start menu fly-outs, drop-downs): a raised surface with body text,
+   not the app background with link-coloured items. Disabled items read as disabled. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] table.scMenu {
+  background-color: var(--sct-raised-bg);
+  color: var(--sct-panel-fg);
+  box-shadow: 0 0 0 1px var(--sct-border-strong), 0 4px 12px rgb(0 0 0 / 0.45);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon, .scMenuItemCaption, .scMenuItemHotkey, .scMenuItemIcon_Disabled, .scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  background-color: transparent;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+  color: var(--sct-chrome-fg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  color: color-mix(in srgb, var(--sct-panel-fg) 45%, var(--sct-raised-bg));
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] table.scMenu .scMenuItemIcon_Disabled img {
+  opacity: 0.4;
+}
+/* separators are 1px cells painted with a background colour */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] table.scMenu :is(.scMenuDividerIcon, .scMenuDividerCaption, .scMenuDividerHotkey) {
+  background-color: var(--sct-border-strong);
+  border-color: transparent;
+}
+
+/* ---- Desktop */
+/* the right column of the start menu got a tint of 6.x's cream; 10.5 paints both columns alike */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scStartMenuRight {
+  background-color: var(--sct-panel-bg);
+}
+/* 10.5's hover and open start button is a white tile; the red one, a touch brighter, stays dark */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scStartButton:hover, .scStartButton.scPopupOpener) {
+  background-image: url("/sitecore/shell/themes/standard/Images/Startbar/StartButton.png");
+  filter: brightness(1.15);
+  border-top-color: transparent;
+}
+/* the taskbar search field is a field, not a patch of taskbar */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #SearchBox,
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #SearchBox.focus {
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  box-shadow: inset 0 0 0 1px var(--sct-input-border);
+}
+
+/* ---- Light leftovers Sheer UI writes inline in other spellings than the shared map knows. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is([style*="background:white" i], [style*="background: white" i], [style*="background-color:white" i], [style*="background-color: white" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+/* hidden and system items in the trees are marked with an inline #666 */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is([style*="color:#666666" i], [style*="color: #666666" i]) {
+  color: color-mix(in srgb, var(--sct-muted-fg) 85%, var(--sct-app-fg)) !important;
+}
+/* soft light glows round the tree and editor panes (one inline, one in Content Manager.css) */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #ContentTreePanel > div[style*="box-shadow"] {
+  box-shadow: 0 0 0 1px var(--sct-border) !important;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #EditorFrames {
+  box-shadow: 0 0 0 1px var(--sct-border);
+}
+/* the bucket search box's buttons carry a white 1px highlight */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.btn-clear, .btn-search) {
+  box-shadow: none;
+}
+
+/* ---- Images painted for a white page */
+/* Security Editor's access-right tiles and key, and the ComponentArt grid pager (User Manager etc.):
+   white tiles with grey glyphs. Inverting keeps the green/red hues and makes the tiles dark. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] img[src*="/images/security/" i],
+html[data-sct-theme="beacon"][data-sct-surface="shell"] img[src*="/componentart/grid/pager/" i] {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Bucket search box (Media Library, bucket folders): one field, as in 10.5. The area map paints
+   its buttons as black blocks and drops their glyphs (they share a declaration with a gradient). */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .search-box {
+  background-color: var(--sct-input-bg);
+  border-color: var(--sct-input-border);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search) {
+  background-color: transparent;
+  border-color: transparent;
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .btn-clear {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/clear.png");
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .btn-search {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png");
+}
+/* under the inverting filter (invert + hue-rotate) this light grey shows as the theme's hover colour (#34373c) */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search):is(:hover, :active) {
+  background-color: #c5c8cb;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .filters .filter {
+  background-color: var(--sct-raised-bg);
+  border-color: var(--sct-border);
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .filters .filter :is(.icon, .value .display-value) {
+  background-color: transparent;
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .filters .filter :is(.icon, .remove):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .raw-user-input {
+  background-color: transparent;
+}
+/* view switcher: the selected view is drawn dark, the others light grey. Light now means selected. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #views a {
+  opacity: 0.55;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #views a.active {
+  opacity: 1;
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Ribbon galleries (Security > Presets, Insert, Languages): a raised, outlined pop-up like the
+   menus, with menu-row hovers. The gallery page paints itself White inline. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] iframe.scGalleryFrame {
+  box-shadow: 0 0 0 1px var(--sct-border-strong), 0 4px 12px rgb(0 0 0 / 0.45);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+  background-color: var(--sct-raised-bg) !important;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+  background-color: transparent;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+  background-color: var(--sct-border-strong);
+}
+
+/* ---- Start menu: the fly-out arrows are dark glyphs */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph) {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- 10.4 lacks 10.5's _grey glyphs: its pale ribbon chunk launcher inverted to dark, and its tree search
+   arrow is a black down_h.png. Both drawn light, in 10.5's tones. */
+html[data-sct-theme="beacon"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+  filter: brightness(0) opacity(0.55) var(--sct-glyph-filter);
+}
+html[data-sct-theme="beacon"][data-sct-version="10.4"][data-sct-surface="shell"] a.scSearchOptionsButton img {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Tree search: both buttons centre on the field (row centre 246px). The magnifier is a 22px image
+   in a 16px link, so it hung 3px low; the chevron's float has an inline 8px top padding that pushes it 4px low. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] a.scSearchButton img {
+  display: block;
+  margin: -3px;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #SearchPanel td > div[style*="padding-top"] {
+  padding-top: 0 !important;
+}
+
+/* ---- ComponentArt grid pager slider (User Manager, Role Manager...): its track is a white image, set
+   with the table cell's background attribute */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is([style*="slider_bg" i], [background*="slider_bg" i]) {
+  background: linear-gradient(var(--sct-border-strong), var(--sct-border-strong)) center / 100% 4px no-repeat !important;
+}
+
+/* ---- Dark glyphs the sweep found (scan.cjs DARKGLYPH) */
+/* the menus' submenu arrows and the bucket filter token's remove cross (the ribbon toggle is the token
+   layer's) */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .filters .filter .remove,
+html[data-sct-theme="beacon"][data-sct-surface="shell"] img[src*="Submenu16x16" i] {
+  filter: var(--sct-glyph-filter);
+}
+/* the bucket view switcher shows its dark "selected" image on hover too */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #views a:hover {
+  opacity: 1;
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Text the sweep found below AA */
+/* the taskbar search placeholder (#757575 on the field) */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #SearchBox::placeholder {
+  color: var(--sct-muted-fg);
+}
+/* a selected tree node (content tree, treelist fields, dialog trees) is the selected text colour: standard
+   roots' inline green fell to 4:1 on the selected purple */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(a.scContentTreeNodeActive, a.scContentTreeNodeActive *) {
+  color: var(--sct-tree-selected-fg) !important;
+}
+/* inline system and light colours the shared map does not catch: Access Viewer's splitter (#e3e3e3)
+   and its explanation pane (the system colour "window", near-black under color-scheme: dark) */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is([style*="background:#e3e3e3" i], [style*="background: #e3e3e3" i], [style*="background-color:#e3e3e3" i]) {
+  background-color: var(--sct-border) !important;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is([style*="background:window" i], [style*="background: window" i], [style*="background-color:window" i], [style*="background-color: window" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+
+/* ---- SPE ISE: Ace's own scrollbars sit inside the editor's inverting filter
+   (--sct-editor-filter: invert(1) hue-rotate(180deg)). On greys that filter is 255 - x, so these are the
+   theme's thumb (#d0d0d0) and track (#000) run backwards through it. Change them with the scrollbar tokens. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ace_editor {
+  scrollbar-color: #2f2f2f #ffffff;
+}
+
+/* Dialog headers: 10.5 drops 10.4's 15px under the description, so the header band ended on the text's
+   baseline. Both versions get 10.4's. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeaderDescription {
+  padding-bottom: 15px;
+}
+
+/* ======== Beacon signature ======== */
+
+/* ---- Text: 13px instead of Sitecore's 12px. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] body {
+  font-size: 13px;
+}
+
+/* ---- Focus: a 3px yellow ring on keyboard focus, on every control, never hidden. Mouse focus stays quiet
+   (Sitecore focuses fields and buttons on dialog open). */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :focus-visible {
+  outline: 3px solid var(--sct-focus-ring) !important;
+  outline-offset: 1px !important;
+  box-shadow: none;
+}
+
+/* ---- Commands underlined: ribbon button labels and links. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeTextButton) .header,
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(a.scLink, a.scSearchLink, .scEditorFieldMarkerBarCommands a, a[href]:not([class]), a.scEditorHeaderNavigatorSection) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---- Ribbon: tabs are white-outlined boxes on black, the open one yellow with bold black text. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualActive) {
+  box-sizing: border-box;
+  margin-right: 4px;
+  border: 2px solid var(--sct-border-strong);
+  border-bottom: 0;
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualActive) {
+  border-color: var(--sct-accent);
+  background-color: var(--sct-accent);
+  color: var(--sct-accent-fg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+  color: var(--sct-ribbon-tab-fg);
+}
+/* the toolbar starts on the open tab's yellow and ends on a 2px white line; chunks are divided by white */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scRibbonToolbar {
+  border-top: 2px solid var(--sct-accent);
+  border-bottom: 2px solid var(--sct-border-strong);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scRibbonToolbar .chunk {
+  border-right: 2px solid var(--sct-border-strong);
+}
+/* ribbon buttons: an outline on hover, so the target reads without relying on a shade */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton):hover {
+  outline: 2px solid var(--sct-border-strong);
+  outline-offset: -2px;
+}
+/* toggled-on ribbon buttons are a current state: yellow, bold black */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, .scRibbonToolbarLargeComboButtonDown, .scRibbonLargeImageButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown):is(*, :hover, :active) {
+  background-color: var(--sct-accent);
+  color: var(--sct-accent-fg);
+  font-weight: 700;
+}
+
+/* ---- Content tree: the selected node yellow with bold black text; hover outlined. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] a.scContentTreeNodeActive {
+  background-color: var(--sct-tree-selected-bg);
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] a.scContentTreeNodeNormal:hover {
+  background-color: var(--sct-tree-hover-bg);
+  outline: 2px solid var(--sct-border-strong);
+  outline-offset: -2px;
+}
+
+/* ---- Panels: 2px white outlines round the tree and the editor. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #ContentTreePanel > div[style*="box-shadow"] {
+  box-shadow: 0 0 0 2px var(--sct-border-strong) !important;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #EditorFrames {
+  box-shadow: 0 0 0 2px var(--sct-border-strong);
+}
+
+/* ---- Editor tabs (Content, Search): outlined, the open one yellow and bold. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scEditorTabHeaderNormal, .scEditorTabHeaderActive) {
+  box-sizing: border-box;
+  margin-right: 4px;
+  border: 2px solid var(--sct-border-strong);
+  border-bottom: 0;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scEditorTabHeaderActive {
+  border-color: var(--sct-accent);
+  background-color: var(--sct-accent);
+  color: var(--sct-accent-fg);
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scEditorTabHeaderActive * {
+  color: var(--sct-accent-fg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scEditorTabHeaderNormal:hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+
+/* ---- Sections: white caption bars with bold black text over the black fields. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+  background-color: var(--sct-section-header-bg);
+  color: var(--sct-section-header-fg);
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) img {
+  filter: none;
+}
+
+/* ---- Fields and buttons: 2px white frames, square. Multi-row lists keep their own sizing. :where() keeps
+   the specificity low so the combo table's inner input (below) can drop its frame: one frame per field. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :where(input:not([type="checkbox"]):not([type="radio"]):not([type="image"]):not([type="hidden"]):not([type="button"]):not([type="submit"]), textarea, select, table.scCombobox) {
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: var(--sct-input-border);
+  border-radius: 0 !important;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] table.scCombobox input.scComboboxEdit {
+  border-width: 0 !important;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] table.scCombobox td:has(> img.scComboboxDropDown) {
+  border-left-width: 2px;
+  border-left-color: var(--sct-input-border);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(input, textarea, select):focus {
+  border-color: var(--sct-input-focus-border);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(button, input[type="button"], input[type="submit"], .scButton) {
+  border: 2px solid var(--sct-button-border);
+  border-radius: 0;
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(button, input[type="button"], input[type="submit"], .scButton):hover {
+  background-color: var(--sct-button-hover-bg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] ::placeholder {
+  color: var(--sct-muted-fg);
+  opacity: 1;
+}
+
+/* ---- Dialog tab strips (Sheer UI, jQuery UI): outlined tabs, the open one yellow. */
+/* 12px sides (Sitecore's 20px): with 2px frames and 13px text, the Kitchen Sink's seven tabs wrapped and
+   the second row covered the page's first field. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+  padding-left: 12px;
+  padding-right: 12px;
+  border: 2px solid var(--sct-border-strong);
+  border-bottom: 0;
+  text-transform: none;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scTabActive, .scTabActive_Hover) {
+  border-color: var(--sct-accent);
+  background-color: var(--sct-accent);
+  color: var(--sct-accent-fg);
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scTabActive, .scTabActive_Hover) * {
+  color: var(--sct-accent-fg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scTabPage {
+  border: 2px solid var(--sct-border-strong);
+  border-top: 0;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(input[type="checkbox"], input[type="radio"]) {
+  accent-color: var(--sct-accent);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-tabs .ui-tabs-nav li {
+  border: 2px solid var(--sct-border-strong);
+  border-bottom: 0;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-tabs .ui-tabs-nav li.ui-tabs-active {
+  border-color: var(--sct-accent);
+  background: var(--sct-accent);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-tabs .ui-tabs-nav li.ui-tabs-active a {
+  color: var(--sct-accent-fg);
+  font-weight: 700;
+}
+
+/* ---- Menus: white frame, the row under the pointer yellow with black text. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+  background-color: var(--sct-accent);
+  color: var(--sct-accent-fg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  color: var(--sct-muted-fg);
+  font-style: italic;
+}
+
+/* ---- Windows and dialogs: bold captions, a 2px white frame. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scWindowCaption, .ui-dialog-title, .DialogHeader) {
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-dialog {
+  box-shadow: 0 0 0 2px var(--sct-window-border);
+}
+
+/* ---- Pop-ups (context menus, the start menu, fly-outs): a 2px white frame drawn inside the pop-up,
+   which clips anything outside its box. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scPopup {
+  outline: 2px solid var(--sct-border-strong);
+  outline-offset: -2px;
+}
+
+/* ---- Desktop: plain black instead of the photo wallpaper (busy pixels under nothing but noise for low
+   vision); the taskbar on a white line, the open app yellow; start menu rows outlined under the pointer. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #Desktop.DesktopArea {
+  background-image: none !important;
+  background-color: var(--sct-desktop-bg) !important;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scStartbar {
+  border-top: 2px solid var(--sct-border-strong);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] td.scActiveApplication {
+  border-color: var(--sct-accent);
+  background-color: var(--sct-accent);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] td.scActiveApplication * {
+  color: var(--sct-accent-fg);
+  font-weight: 700;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scStartMenuLeftOption, .scStartMenuRightOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+  outline: 2px solid var(--sct-border-strong);
+  outline-offset: -2px;
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scStartMenuLeftOption, .scStartMenuRightOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):hover * {
+  color: var(--sct-app-fg);
+}
+
+/* ---- 10.5's section captions are 59px bars; 10.4's 36px, which is plenty for a white bar. */
+html[data-sct-theme="beacon"][data-sct-version="10.5"][data-sct-surface="shell"] :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+
+/* ---- Selected nodes in the other trees (Security Editor, dialog trees) and the selected row of the language
+   and version galleries take the selection's text: the token layer paints them in the selection colour but
+   leaves the body text (1.4:1). */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.nodeSelected, .nodeSelected *, .scTreeItemSelected, .scTreeItemSelected *, .scMenuPanelItemSelected, .scMenuPanelItemSelected *, .versionNumSelected) {
+  color: var(--sct-tree-selected-fg) !important;
+  font-weight: 700;
+}
+
+/* ---- SPE ISE status bar: the tip panel was SPE's pale yellow under the theme's white text */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #StatusBar .status-bar-panel {
+  background-color: var(--sct-app-bg) !important;
+  color: var(--sct-app-fg);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] #StatusBar {
+  border-top: 2px solid var(--sct-border-strong);
+}
+
+/* ---- SPEAK-style application header on shell pages (SPE Reports): no red photo band (white on red is
+   4.6:1); black over a white line, as in speak.css. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .sc-applicationHeader-row1 {
+  background-image: none !important;
+  background-color: var(--sct-chrome-bg) !important;
+  border-bottom: 2px solid var(--sct-border-strong);
+}
+
+/* ---- 10.4's ribbon chunks are wider than 10.5's; at 13px the Configure tab wrapped a chunk onto a second
+   row in a 1300px window. Its ribbon keeps Sitecore's 12px (bold tabs and underlines still carry it). */
+html[data-sct-theme="beacon"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar {
+  font-size: 12px;
+}
+
+/* ---- Sitecore focuses a dialog's open tab when the dialog opens, which counts as keyboard focus in a fresh
+   frame. On the yellow open tab the focus is a black ring inside the tab instead: still shown, not a yellow
+   frame round every dialog's first tab. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scTabActive, .scTabActive_Hover):focus-visible {
+  outline: 2px solid var(--sct-accent-fg) !important;
+  outline-offset: -6px !important;
+}
+
+/* ---- ISE script tabs: SPE pulls the close X 10px into a 20px right padding; with the 12px above it sits
+   6px after the label and 8px from the tab's edge. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scTabstrip .closeTab {
+  margin: 0 -4px 0 6px;
+}
+
+/* ---- jQuery UI highlight boxes (the ISE's "Did you know" tip): the token layer paints them yellow but
+   keeps jQuery UI's olive text (2.9:1); black text on the yellow. */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.ui-state-highlight, .ui-state-highlight *) {
+  color: var(--sct-accent-fg) !important;
+}
+/* the open (yellow) script tab's grey X drawn black */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .scTabActive .closeTab {
+  filter: brightness(0);
+}
+
+/* ---- The global header ends on a 2px white line, as on SPEAK pages and Launchpad; "Log out" underlined, in
+   the header's text colour (on shell pages the header is the panel, not the title bar). */
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .sc-globalHeader {
+  border-bottom: 2px solid var(--sct-border-strong);
+}
+html[data-sct-theme="beacon"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout {
+  color: var(--sct-panel-fg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ======== Light (Desert): the dark rules above that assume black panels and an inverting glyph filter ======== */
+@media (prefers-color-scheme: light) {
+  /* pale glyphs Sitecore draws for its own white or dark chrome, drawn dark: the ribbon chunk launchers, the
+     tree search options arrow (white while hovered), the taskbar's database icon */
+  html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scRibbonChunkEndLink img.glyph, a.scSearchOptionsButton img, #DatabaseSelector img) {
+    filter: brightness(0) opacity(0.7);
+  }
+  /* no filter on the bucket search buttons, so their hover is the theme's own */
+  html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search):is(:hover, :active) {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  /* the view switcher keeps Sitecore's dark selected and grey other views */
+  html[data-sct-theme="beacon"][data-sct-surface="shell"] #views a {
+    opacity: 1;
+  }
+  /* Ace's scrollbars, with no editor filter in between */
+  html[data-sct-theme="beacon"][data-sct-surface="shell"] .ace_editor {
+    scrollbar-color: var(--sct-scrollbar-thumb) var(--sct-scrollbar-track);
+  }
+  /* window and dialog title buttons sit on the cream panel, not a dark strip: the white glyphs above
+     (10.4 has no dark ones) drawn near-black, full black under the pointer */
+  html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img,
+  html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon {
+    filter: brightness(0) opacity(0.8);
+  }
+  html[data-sct-theme="beacon"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover,
+  html[data-sct-theme="beacon"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > *:hover .ui-icon {
+    filter: brightness(0);
+  }
+  /* the open (rust) script tab's X drawn in the selection's light text */
+  html[data-sct-theme="beacon"][data-sct-surface="shell"] .scTabActive .closeTab {
+    filter: brightness(0) invert(1);
+  }
+}

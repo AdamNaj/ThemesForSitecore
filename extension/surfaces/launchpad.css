@@ -1,0 +1,519 @@
+/* Hand-tuned area map for the launchpad area. Loaded after launchpad.gen.css, so these win. */
+
+html[data-sct-tokens][data-sct-surface="launchpad"] {
+  scrollbar-color: var(--sct-scrollbar-thumb) var(--sct-scrollbar-track);
+}
+
+html[data-sct-tokens][data-sct-surface="launchpad"] body {
+  background-color: var(--sct-app-bg);
+  color: var(--sct-app-fg);
+}
+
+/* LaunchPad.css gives the content 100vh under its 48px header, so the page scrolls by the header's height with
+   nothing below (on Native too); the body already covers the window. */
+html[data-sct-tokens][data-sct-surface="launchpad"] .sc-applicationContent-main {
+  min-height: 0;
+}
+
+html[data-sct-tokens][data-sct-surface="launchpad"] input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+html[data-sct-tokens][data-sct-surface="launchpad"] textarea,
+html[data-sct-tokens][data-sct-surface="launchpad"] select {
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  border-color: var(--sct-input-border);
+}
+
+/* Component roles */
+html[data-sct-tokens][data-sct-surface="launchpad"] .sc-globalHeader,
+html[data-sct-tokens][data-sct-surface="launchpad"] .sc-flx-global-header {
+  background-color: var(--sct-titlebar-bg) !important;
+  color: var(--sct-titlebar-fg);
+}
+html[data-sct-tokens][data-sct-surface="launchpad"] .sc-globalHeader .sc-globalheader-appName,
+html[data-sct-tokens][data-sct-surface="launchpad"] .sc-globalHeader .sc-accountInformation li,
+html[data-sct-tokens][data-sct-surface="launchpad"] .sc-globalHeader .sc-accountInformation span,
+html[data-sct-tokens][data-sct-surface="launchpad"] .sc-globalHeader .sc-accountInformation a {
+  color: var(--sct-titlebar-fg);
+}
+html[data-sct-tokens][data-sct-surface="launchpad"] .btn-primary,
+html[data-sct-tokens][data-sct-surface="launchpad"] .btn.btn-primary {
+  background-color: var(--sct-button-primary-bg);
+  border-color: var(--sct-button-primary-bg);
+}
+html[data-sct-tokens][data-sct-surface="launchpad"] .btn-primary,
+html[data-sct-tokens][data-sct-surface="launchpad"] .btn-primary * {
+  color: var(--sct-button-primary-fg);
+}
+html[data-sct-tokens][data-sct-surface="launchpad"] .sc-listcontrol,
+html[data-sct-tokens][data-sct-surface="launchpad"] .sc-listcontrol-icon-content {
+  color: var(--sct-panel-fg);
+}
+
+/* BEGIN 10.0 Launchpad: Sitecore 10.0 still ships the icon-grid Launchpad of 9.x, and themes are written for the tile
+   layout 10.1 brought. This puts 10.1 and 10.2's LaunchPad.css values back on 10.0 pages (data-sct-legacy="10.0") with
+   no specificity of its own, so the generated map and every theme still win. The engine unwraps 10.0's tile rows.
+   Generated, do not edit: node tools/css-diff.mjs --page --cross-closure <10.2 webroot>
+     <10.0 webroot> ':where(html[data-sct-legacy="10.0"])' sitecore/shell/client/Applications/LaunchPad/LaunchPad.css */
+/* ---- sitecore/shell/client/Applications/LaunchPad/LaunchPad.css ---- */
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group-row {
+  white-space: unset;
+  vertical-align: unset;
+  height: unset;
+  overflow: unset;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-item .icon:hover {
+  background: unset;
+}
+@media (max-width: 767px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="RowPanelTilesWrapper"] {
+  padding: unset;
+}
+}
+@media (max-width: 767px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="FallBackMessageBorder"] {
+  padding: unset;
+}
+}
+@media (max-width: 360px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="RowPanelTilesWrapper"] {
+  padding: unset;
+}
+}
+@media (max-width: 360px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="FallBackMessageBorder"] {
+  padding: unset;
+}
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="RowPanelTilesWrapper"] {
+  padding: unset;
+}
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="FallBackMessageBorder"] {
+  padding: unset;
+}
+}
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="FallbackMessageHeaderWrap"] {
+  padding: unset;
+  color: unset;
+}
+@media (max-width: 767px) {
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group {
+  margin: unset;
+}
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group {
+  margin: unset;
+}
+}
+@media (max-width: 360px) {
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group {
+  margin: unset;
+}
+}
+:where(html[data-sct-legacy="10.0"]) .subheader-style {
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-size: 18px;
+  color: #2c2c2c;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad {
+  margin: unset;
+  display: unset;
+  flex-wrap: unset;
+  max-width: 1140px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group {
+  margin: unset;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group:nth-child(2) .icon {
+  background-color: #c3ecf6;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group:nth-child(3) .icon {
+  background-color: #c6e9e8;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group:nth-child(4) .icon {
+  background-color: #c1d2e8;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group-title {
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-size: 18px;
+  color: #2c2c2c;
+  grid-column-start: 1;
+  grid-column-end: 5;
+  margin: 15px 0 20px 0;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-item {
+  min-height: unset;
+  text-align: unset;
+  color: unset;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 80px 1fr;
+  grid-template-areas: "img content";
+  width: 270px;
+  height: 80px;
+  background: #ffffff;
+  border: 1px solid #e3e3e3;
+  box-sizing: border-box;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+  margin: 0 20px 20px 0;
+  vertical-align: middle;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-item:hover {
+  color: unset;
+  box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.15);
+  margin: -2px 22px 22px -2px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-item .icon {
+  background-image: unset;
+  border: unset;
+  border-radius: unset;
+  margin-bottom: unset;
+  background-color: #bfe1fa;
+  height: 78px;
+  width: 78px;
+  grid-area: img;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-item .icon img {
+  margin: 16px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-item:active .icon {
+  box-shadow: inset 0 0 20px hsl(0, 0%, 84%);
+}
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-item .sc-launchpad-text {
+  -ms-text-overflow: unset;
+  -o-text-overflow: unset;
+  color: #000;
+  grid-area: content;
+  padding: 10px;
+  float: left;
+  max-width: 170px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-size: 14px;
+  line-height: 17px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-tile-header {
+  color: hsl(0, 0%, 28%);
+}
+:where(html[data-sct-legacy="10.0"]) .sc-tile-content {
+  border: 1px solid hsl(0, 0%, 84%);
+}
+:where(html[data-sct-legacy="10.0"]) .sc .sc-applicationContent {
+  padding-left: 65px;
+  background: #f8f8f8 url("/sitecore/shell/client/Applications/LaunchPad/Assets/launchpad-bg@1x.png") top left no-repeat;
+}
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] {
+  display: grid;
+  grid-template-columns: minmax(270px, 1200px) minmax(0, 580px);
+}
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] .sc-launchpad {
+  float: left;
+}
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] .sc-border[data-sc-id="RowPanelTilesWrapper"] {
+  float: left;
+}
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] div[data-sc-id="ColumnPanelInteractions"] {
+  margin-bottom: 20px;
+  float: none;
+  width: 580px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] div[data-sc-id="ColumnPanelCampaigns"] {
+  float: none;
+  width: 580px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] div[data-sc-id="FallBackMessageCol"] {
+  float: none;
+  width: 100%;
+}
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] .sc-ChartComposites .sc-advancedExpander-bodywrapper {
+  padding: 0 20px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] .sc-advancedExpander {
+  border: 1px solid #e3e3e3;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+}
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] .sc-border[data-sc-id="FallBackMessageBorder"] {
+  float: left;
+  width: 500px;
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+}
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="RowPanelTilesWrapper"] {
+  padding: unset;
+  margin: 60px 0 20px 0;
+  grid-column-start: 2;
+  grid-row-start: 1;
+}
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="FallBackMessageBorder"] {
+  padding: unset;
+  margin: 60px 0 20px 0;
+  grid-column-start: 2;
+  grid-row-start: 1;
+}
+:where(html[data-sct-legacy="10.0"]) .sc .sc-text[data-sc-id="CustomAnalyticsLabel"] {
+  display: block;
+  margin: 15px 0 0 0;
+  float: left;
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-size: 18px;
+  color: #2c2c2c;
+  grid-column-start: 2;
+  grid-row-start: 1;
+}
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="FallbackMessageWrap"] {
+  border-top: 1px solid #f0f0f0;
+}
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="FallbackMessageWrap"] .sc-text[data-sc-id="FallBackMessage"] {
+  top: 30px;
+  left: 40px;
+  right: 40px;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+}
+@media (max-width: 700px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-applicationContent {
+  padding-left: 0;
+}
+}
+@media only screen and (min-width: 1570px) and (max-width: 1850px) {
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group {
+  grid-template-columns: repeat(3, 1fr);
+}
+}
+@media only screen and (min-width: 1570px) and (max-width: 1850px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-launchpad-group-title {
+  grid-column-end: 4;
+}
+}
+@media only screen and (min-width: 1230px) and (max-width: 1570px) {
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group {
+  grid-template-columns: repeat(4, 1fr);
+}
+}
+@media only screen and (min-width: 1230px) and (max-width: 1570px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-launchpad-group-title {
+  grid-column-end: 5;
+}
+}
+@media only screen and (min-width: 1230px) and (max-width: 1570px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="RowPanelTilesWrapper"] {
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-column-end: 4;
+}
+}
+@media only screen and (min-width: 1230px) and (max-width: 1570px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="FallBackMessageBorder"] {
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-column-end: 4;
+}
+}
+@media only screen and (min-width: 1230px) and (max-width: 1570px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-text[data-sc-id="CustomAnalyticsLabel"] {
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-column-end: 4;
+}
+}
+@media only screen and (min-width: 1230px) and (max-width: 1570px) {
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] div[data-sc-id="ColumnPanelInteractions"] {
+  float: left;
+}
+}
+@media only screen and (min-width: 1230px) and (max-width: 1570px) {
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] div[data-sc-id="ColumnPanelCampaigns"] {
+  float: left;
+}
+}
+@media only screen and (min-width: 1230px) and (max-width: 1570px) {
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] {
+  grid-column-gap: 0;
+}
+}
+@media only screen and (min-width: 930px) and (max-width: 1230px) {
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group {
+  grid-template-columns: repeat(3, 1fr);
+}
+}
+@media only screen and (min-width: 930px) and (max-width: 1230px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-launchpad-group-title {
+  grid-column-end: 4;
+}
+}
+@media only screen and (min-width: 930px) and (max-width: 1230px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="RowPanelTilesWrapper"] {
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-column-end: 4;
+}
+}
+@media only screen and (min-width: 930px) and (max-width: 1230px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="FallBackMessageBorder"] {
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-column-end: 4;
+}
+}
+@media only screen and (min-width: 930px) and (max-width: 1230px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-text[data-sc-id="CustomAnalyticsLabel"] {
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-column-end: 4;
+}
+}
+@media only screen and (min-width: 930px) and (max-width: 1230px) {
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] div[data-sc-id="ColumnPanelInteractions"] {
+  float: left;
+}
+}
+@media only screen and (min-width: 930px) and (max-width: 1230px) {
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] div[data-sc-id="ColumnPanelCampaigns"] {
+  float: left;
+}
+}
+@media only screen and (min-width: 930px) and (max-width: 1230px) {
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] {
+  grid-column-gap: 0;
+}
+}
+@media only screen and (max-width: 930px) {
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group {
+  grid-template-columns: repeat(2, 1fr);
+}
+}
+@media only screen and (max-width: 930px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-launchpad-group-title {
+  grid-column-end: 3;
+}
+}
+@media only screen and (max-width: 930px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="RowPanelTilesWrapper"] {
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-column-end: 3;
+}
+}
+@media only screen and (max-width: 930px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-border[data-sc-id="FallBackMessageBorder"] {
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-column-end: 3;
+}
+}
+@media only screen and (max-width: 930px) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-text[data-sc-id="CustomAnalyticsLabel"] {
+  grid-column-start: 1;
+  grid-row-start: 2;
+  grid-column-end: 3;
+}
+}
+@media only screen and (max-width: 930px) {
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] .sc-launchpad {
+  margin: 0;
+}
+}
+@media only screen and (max-width: 930px) {
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] {
+  grid-column-gap: 0;
+}
+}
+@media (max-width: 360px) {
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-group-row {
+  height: 155px;
+}
+}
+@media (max-width: 360px) {
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-item .icon {
+  width: 90px;
+}
+}
+@media (max-width: 360px) {
+:where(html[data-sct-legacy="10.0"]) .sc-launchpad-item .icon img {
+  margin: 24px 20px;
+}
+}
+@media (max-width: 360px) {
+:where(html[data-sct-legacy="10.0"]) .sc div[data-sc-id="ColumnPanel1"] {
+  grid-column-gap: 0;
+}
+}
+:where(html[data-sct-legacy="10.0"]) .sc-globalHeader {
+  background: #171d52;
+  height: 40px;
+  line-height: 40px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-applicationHeader {
+  background: #171d52;
+  padding-top: 40px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc .sc-global-logo.medium {
+  margin-top: 0;
+  width: 50px;
+  height: 40px;
+  margin-left: -15px;
+  background: url("/sitecore/shell/client/Applications/LaunchPad/Assets/logo.svg");
+}
+:where(html[data-sct-legacy="10.0"]) ul.sc-accountInformation li a.logout {
+  color: #fff;
+}
+:where(html[data-sct-legacy="10.0"]) ul.sc-accountInformation li:after {
+  color: #ccc;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-applicationHeader-row1.no-breadcrumb {
+  height: 0;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-applicationHeader-row1.no-breadcrumb .sc-applicationHeader-content {
+  padding: 0;
+  position: static;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-applicationHeader-row1.no-breadcrumb:after {
+  display: none;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-applicationHeader-row1.no-breadcrumb .sc-applicationHeader-title {
+  font-size: 14px;
+  font-weight: 600;
+  position: fixed;
+  top: 10px;
+  left: 60px;
+  z-index: 100;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-applicationContent-main {
+  background-color: transparent;
+  min-height: 100vh;
+  min-width: 580px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc-advancedExpander-header-actionbar {
+  width: 50px;
+}
+:where(html[data-sct-legacy="10.0"]) .sc .sc-d3-combinationchart .sc-d3-chart-legend {
+  display: none;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192 dpi), only screen and (min-resolution: 2 dppx) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-applicationContent {
+  background: #f8f8f8 url("/sitecore/shell/client/Applications/LaunchPad/Assets/launchpad-bg@2x.png") top left no-repeat;
+}
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 3), only screen and (min--moz-device-pixel-ratio: 3), only screen and (-o-min-device-pixel-ratio: 3), only screen and (min-device-pixel-ratio: 3), only screen and (min-resolution: 386 dpi), only screen and (min-resolution: 3 dppx) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-applicationContent {
+  background: #f8f8f8 url("/sitecore/shell/client/Applications/LaunchPad/Assets/launchpad-bg@3x.png") top left no-repeat;
+}
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 4), only screen and (min--moz-device-pixel-ratio: 4), only screen and (-o-min-device-pixel-ratio: 4), only screen and (min-device-pixel-ratio: 4), only screen and (min-resolution: 515 dpi), only screen and (min-resolution: 4 dppx) {
+:where(html[data-sct-legacy="10.0"]) .sc .sc-applicationContent {
+  background: #f8f8f8 url("/sitecore/shell/client/Applications/LaunchPad/Assets/launchpad-bg@4x.png") top left no-repeat;
+}
+}
+/* END 10.0 Launchpad */

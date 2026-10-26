@@ -1,0 +1,32 @@
+/* Sitecore 10.4: restores the stock 10.4 values that Sitecore 10.5 changed.
+   Generated with tools/css-diff.mjs against a stock 10.4.1 install. Hand-written rules live in glyphs.css. */
+
+/* ---- sitecore/shell/Applications/Page Modes/Output/5538856292437293975.css ---- */
+html[data-sct-theme="sitecore104"] .scChromeName {
+  border-radius: unset;
+  background-color: #474747;
+  background: #474747;
+}
+html[data-sct-theme="sitecore104"] span.scChromeText {
+  color: rgb(255, 255, 255) !important;
+}
+html[data-sct-theme="sitecore104"] .scChromeToolbar {
+  background: transparent url('/sitecore/shell/themes/standard/images/pageeditor/bg_transparent.png') repeat;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.175);
+}
+html[data-sct-theme="sitecore104"] .scChromeControls {
+  border-radius: unset;
+  border: solid 1px #ccc;
+}
+html[data-sct-theme="sitecore104"] .scChromeDropDown {
+  border-radius: unset;
+  border: solid 1px #ccc;
+}
+html[data-sct-theme="sitecore104"] .sc-breadcrumb {
+  background: #e6e6e6;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #f7f7f7), color-stop(1, #ebebeb));
+  background: -ms-linear-gradient(bottom, #f7f7f7, #ebebeb);
+  background: -moz-linear-gradient(center bottom, #f7f7f7 0%, #ebebeb 100%);
+  background: -o-linear-gradient(#ebebeb, #f7f7f7);
+  border-bottom: 1px solid #cccccc;
+}

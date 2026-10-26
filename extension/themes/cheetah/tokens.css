@@ -1,0 +1,86 @@
+/* Cheetah: inspired by Mac OS X's Aqua (10.0 to 10.3). Pinstriped window bodies (#efefef and #f8f8f8 in
+   2px stripes, #f4f4f4 as one colour), brushed metal title bars and toolbars (#dcdcdc to #a9a9a9), blue
+   gel (#3d8fe8 under #6bb1ff, #a6d2ff below the split) for the default button, the open segment and the
+   scroll thumb, selection #3670d0 under white text (Aqua's #3875d7 reaches 4.47:1, so a shade darker: 4.8:1), Lucida Grande 12px (Lucida Sans Unicode on
+   Windows). */
+html[data-sct-theme="cheetah"] {
+  --sct-font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+  --sct-font-size: 12px;
+  --sct-radius: 4px;
+
+  --sct-app-bg: #f4f4f4;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #555555;
+  --sct-border: #a5a5a5;
+  --sct-border-strong: #7a7a7a;
+  --sct-accent: #3670d0;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #1c5bc0;
+  --sct-focus-ring: #5b99e8;
+  --sct-raised-bg: #fafafa;
+  --sct-chrome-bg: #dadada;
+  --sct-chrome-fg: #000000;
+  --sct-selected-bg: #c6d8f5;
+
+  --sct-titlebar-bg: #cdcdcd;
+  --sct-titlebar-fg: #000000;
+  --sct-titlebar-inactive-bg: #e6e6e6;
+  --sct-titlebar-inactive-fg: #4d4d4d;
+  --sct-window-border: #6e6e6e;
+
+  --sct-ribbon-bg: #c4c4c4;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #e4e4e4;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #8fc3ff;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #c4c4c4;
+  --sct-ribbon-chunk-caption-bg: #c4c4c4;
+  --sct-ribbon-chunk-caption-fg: #222222;
+  --sct-ribbon-button-hover-bg: #d6d6d6;
+  --sct-ribbon-button-pressed-bg: #a8a8a8;
+
+  --sct-tree-bg: #ffffff;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #edf3fe;
+  --sct-tree-selected-bg: #3670d0;
+  --sct-tree-selected-fg: #ffffff;
+  --sct-tree-selected-border: #3670d0;
+
+  --sct-section-header-bg: #e4e4e4;
+  --sct-section-header-fg: #000000;
+  --sct-section-body-bg: #f4f4f4;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #7a7a7a;
+  --sct-input-focus-border: #5b99e8;
+
+  --sct-button-bg: #e8e8e8;
+  --sct-button-fg: #000000;
+  --sct-button-border: #8a8a8a;
+  --sct-button-hover-bg: #f2f2f2;
+  --sct-button-primary-bg: #8fc3ff;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #a6d2ff;
+
+  --sct-table-header-bg: #e8e8e8;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #edf3fe;
+
+  --sct-scrollbar-thumb: #5ea2f0;
+  --sct-scrollbar-track: #eeeeee;
+
+  --sct-desktop-bg: #3b6cc4;
+  --sct-taskbar-bg: #dfe8f4;
+  --sct-taskbar-fg: #000000;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="cheetah"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

@@ -1,0 +1,70 @@
+/* Meridian: Launchpad. Sitecore's grid of cards, tinted by the phase: the header carries the title
+   gradient, the page a wash of the phase's sky colour at the top, the cards and their icon squares the
+   phase's tint. */
+
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-globalHeader {
+  background-image: linear-gradient(90deg, var(--mer-title-from), var(--mer-title-to));
+}
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-globalHeader :is(a, span, li, h1, h2, div) {
+  color: var(--sct-titlebar-fg);
+}
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-globalHeader ul.sc-accountInformation li a.logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 85%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-globalHeader ul.sc-accountInformation li a.logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
+   text colour instead (as the shared shell map does on shell pages). */
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}
+
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] body {
+  background: linear-gradient(color-mix(in srgb, var(--mer-card-tint) 60%, var(--sct-app-bg)), var(--sct-app-bg) 360px) var(--sct-app-bg) no-repeat;
+}
+
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-launchpad-item {
+  background-color: color-mix(in srgb, var(--mer-card-tint) 30%, var(--sct-panel-bg));
+  box-shadow: inset 0 0 0 1px var(--sct-border), 0 1px 3px rgb(40 20 60 / 0.08);
+}
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-launchpad-item:hover {
+  background-color: color-mix(in srgb, var(--mer-card-tint) 60%, var(--sct-panel-bg));
+  box-shadow: inset 0 0 0 1px var(--sct-border-strong), 0 2px 8px rgb(40 20 60 / 0.14);
+}
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-launchpad-item:active {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-launchpad-item .sc-launchpad-text {
+  color: var(--sct-panel-fg);
+}
+/* 10.5's group tints (rose, lavender, grey, mint), each pulled toward the phase's tint */
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-launchpad-item .icon {
+  background-color: color-mix(in srgb, var(--mer-card-tint) 70%, var(--sct-accent) 30%);
+}
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-launchpad-group:nth-last-child(3) .icon {
+  background-color: color-mix(in srgb, var(--mer-card-tint) 75%, #8a6ad8 25%);
+}
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-launchpad-group:nth-last-child(2) .icon {
+  background-color: color-mix(in srgb, var(--mer-card-tint) 80%, var(--sct-border-strong) 20%);
+}
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-launchpad-group:nth-last-child(1) .icon {
+  background-color: color-mix(in srgb, var(--mer-card-tint) 75%, #2fb9a0 25%);
+}
+/* night: the dark glyphs drawn light */
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="launchpad"] .sc-launchpad-item .icon img {
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="meridian"][data-sct-phase="night"][data-sct-surface="launchpad"] .sc-launchpad-item {
+  box-shadow: inset 0 0 0 1px var(--sct-border);
+}
+/* the "Sitecore Experience Management" title is an application header laid over the global header */
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"] .sc-applicationHeader-title :is(span, a) {
+  color: var(--sct-titlebar-fg);
+}
+/* 10.4's Launchpad button is a grey image drawn for a white header */
+html[data-sct-theme="meridian"][data-sct-surface="launchpad"][data-sct-version="10.4"] .sc-globalHeader .sc-global-logo {
+  filter: brightness(0) invert(1);
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Mountain View",
+  "description": "Tonal surfaces, pill indicators and rounded cards, follows your light or dark setting",
+  "category": "modern",
+  "versions": ["10.4", "10.5"],
+  "appearance": "auto",
+  "preview": ["#fef7ff", "#6750a4", "#f3edf7"],
+  "swatch": { "desk": "#e8def8", "desk2": "#d0bcff", "barPos": "pills", "bar": "#f3edf7", "start": "#6750a4", "app": "#e8def8", "app2": "#ece6f0", "win": "#fef7ff", "border": "#cac4d0", "r": 4, "shadow": 1, "cap": "#f3edf7", "btns": "right", "btn": "#49454f", "close": "#49454f", "ribbon": "#f7f2fa", "tab": "#6750a4", "tree": "#f3edf7", "ed": "#fef7ff", "sec": "#ffffff", "field": "#ffffff", "line": "#79747e", "sel": "#e8def8", "fg": "#1d1b20" }
+}

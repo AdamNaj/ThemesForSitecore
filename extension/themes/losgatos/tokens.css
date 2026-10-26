@@ -1,0 +1,93 @@
+/* Los Gatos: a recreation of the Amiga Workbench 1.3. Four colours only: blue #0055aa, white #ffffff,
+   black #000000 and orange #ff8800. Blue surfaces carry white text (7.1:1); orange fails AA under white
+   and on blue, so it appears only as a fill with black text (8.7:1): the open tab, the selected tree
+   node, pressed gadgets. Those fills are set by the theme's own rules; the roles the area map pairs
+   with white text (accent, selected, hover) are black here. The font is a system monospace standing
+   in for Topaz. */
+html[data-sct-theme="losgatos"] {
+  --sct-font-family: "Cascadia Mono", Consolas, monospace;
+  --sct-font-size: 12px;
+  --sct-radius: 0;
+
+  --sct-app-bg: #0055aa;
+  --sct-app-fg: #ffffff;
+  --sct-panel-bg: #0055aa;
+  --sct-panel-fg: #ffffff;
+  --sct-muted-fg: #ffffff;
+  --sct-border: #ffffff;
+  --sct-border-strong: #ffffff;
+  --sct-accent: #000000;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #ffffff;
+  --sct-focus-ring: #ffffff;
+  --sct-raised-bg: #0055aa;
+  --sct-chrome-bg: #0055aa;
+  --sct-chrome-fg: #ffffff;
+  --sct-selected-bg: #000000;
+
+  --sct-titlebar-bg: #ffffff;
+  --sct-titlebar-fg: #0055aa;
+  --sct-titlebar-inactive-bg: #0055aa;
+  --sct-titlebar-inactive-fg: #ffffff;
+  --sct-window-border: #ffffff;
+
+  --sct-ribbon-bg: #0055aa;
+  --sct-ribbon-fg: #ffffff;
+  --sct-ribbon-tab-bg: #0055aa;
+  --sct-ribbon-tab-fg: #ffffff;
+  --sct-ribbon-tab-active-bg: #ff8800;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #0055aa;
+  --sct-ribbon-chunk-caption-bg: #0055aa;
+  --sct-ribbon-chunk-caption-fg: #ffffff;
+  --sct-ribbon-button-hover-bg: #000000;
+  --sct-ribbon-button-pressed-bg: #000000;
+
+  --sct-tree-bg: #0055aa;
+  --sct-tree-fg: #ffffff;
+  --sct-tree-hover-bg: #000000;
+  --sct-tree-selected-bg: #ff8800;
+  --sct-tree-selected-fg: #000000;
+  --sct-tree-selected-border: #ff8800;
+
+  --sct-section-header-bg: #ffffff;
+  --sct-section-header-fg: #0055aa;
+  --sct-section-body-bg: #0055aa;
+  --sct-field-label-fg: #ffffff;
+
+  --sct-input-bg: #0055aa;
+  --sct-input-fg: #ffffff;
+  --sct-input-border: #ffffff;
+  --sct-input-focus-border: #ff8800;
+
+  --sct-button-bg: #0055aa;
+  --sct-button-fg: #ffffff;
+  --sct-button-border: #ffffff;
+  --sct-button-hover-bg: #000000;
+  --sct-button-primary-bg: #0055aa;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #000000;
+
+  --sct-table-header-bg: #ffffff;
+  --sct-table-header-fg: #0055aa;
+  --sct-table-row-hover-bg: #000000;
+
+  --sct-scrollbar-thumb: #ffffff;
+  --sct-scrollbar-track: #0055aa;
+
+  --sct-desktop-bg: #0055aa;
+  --sct-taskbar-bg: #ffffff;
+  --sct-taskbar-fg: #0055aa;
+
+  /* Sitecore's dark monochrome glyphs drawn light on the blue; colour icons keep their hues */
+  --sct-glyph-filter: invert(1) hue-rotate(180deg);
+  /* the SPE ISE's Ace editor and Rich Text previews: a dark page with light text */
+  --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+  --sct-content-filter: none;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="losgatos"]:not([data-sct-surface="ee"]) {
+  color-scheme: dark;
+}

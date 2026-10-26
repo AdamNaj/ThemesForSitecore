@@ -1,0 +1,374 @@
+/* Fjord: the classic shell. A Recolour: Sitecore's layout, the Nordic palette from tokens.css, soft 4-6px
+   corners, a frost underline on the open tab and a frost bar on the selected tree node. Rules outside the
+   dark media query hold in both appearances; light glyph swaps live inside it. */
+
+/* ---- Signature: the open tab carries a frost underline */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsNormal,
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsActive {
+  border-radius: var(--sct-radius) var(--sct-radius) 0 0;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsActive {
+  box-shadow: inset 0 -2px 0 var(--fjord-line);
+}
+/* a hover only hints at the line, so it never outshines the open tab */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsNormal:hover {
+  background-color: transparent;
+  color: var(--sct-ribbon-tab-active-fg);
+  box-shadow: inset 0 -2px 0 var(--sct-border-strong);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] a.scRibbonEditorTabActive {
+  box-shadow: inset 0 -2px 0 var(--fjord-line);
+}
+/* dialog tab strips (Sheer UI): the open tab joins its page and carries the same line; hover keeps case */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+  border-radius: var(--sct-radius) var(--sct-radius) 0 0;
+  text-transform: none;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scTabstrip :is(.scTabActive, .scTabActive_Hover) {
+  box-shadow: inset 0 2px 0 var(--fjord-line);
+}
+/* Sitecore focuses the open tab when a dialog opens, which counts as :focus-visible: no ring on open,
+   the frost line already marks the tab */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scTabstrip :is(.scTabActive, .scTabActive_Hover):focus {
+  outline: none;
+}
+/* modals tint what is beneath them faintly */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .ui-widget-overlay {
+  background: rgb(36 41 51 / 0.25);
+  opacity: 1;
+}
+
+/* ---- Signature: the selected tree node is a soft slab with a frost bar on its left */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(.scContentTree, .scTreeview) :is(a.scContentTreeNodeActive, a.scContentTreeNodeNormal) {
+  border-radius: 4px;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] a.scContentTreeNodeActive {
+  border-color: transparent;
+  box-shadow: inset 2px 0 0 var(--fjord-line);
+}
+
+/* ---- Soft corners on the editor's parts */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scEditorSectionCaptionCollapsed {
+  border-radius: var(--sct-radius);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scEditorSectionCaptionExpanded {
+  border-radius: var(--sct-radius) var(--sct-radius) 0 0;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(.scEditorSections input:not([type="checkbox"]):not([type="radio"]), .scEditorSections textarea, .scEditorSections select, .scContentControl, input.scSearchInput, #TreeSearch, #SearchBox) {
+  border-radius: 4px;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(button, .scButton, input[type="button"], input[type="submit"]) {
+  border-radius: 4px;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"] {
+  border-radius: 4px;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(input, textarea, select):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--sct-focus-ring) 45%, transparent);
+}
+
+/* ---- Window and dialog title buttons: no boxes, a quiet hover */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 4px;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > *:hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* the jQuery UI title strip above a dialog page's own header takes the header's colour: one band */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar {
+  background: var(--sct-chrome-bg);
+  border-color: transparent;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .ui-dialog {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* ---- Hover and pressed: a hover lifts above its own panel */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton):hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton):active {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* toggled-on buttons keep their selected colour under the pointer */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, .scRibbonToolbarLargeComboButtonDown, .scRibbonLargeImageButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown):is(*, :hover, :active) {
+  background-color: var(--sct-selected-bg);
+  color: var(--sct-tree-selected-fg);
+  box-shadow: inset 0 -2px 0 var(--fjord-line);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(.scSearchLink:hover, .scElementHover:hover, .scSearchOptionName:hover, .scListControl > tbody > tr:hover, .Row:hover, .scTab_Hover, .scVerticalTabstrip .scVerticalTabs a:not(.active):hover, .scPagerButtonNormal:hover, .scEditorHeaderTitle:hover, .scEditorHeaderNavigatorField:hover, a.scEditorHeaderNavigatorSection:hover, .scNavButton:hover, .scListviewItemIcons:hover, .scListviewItemList:hover, .scCommand_Hover, .scComboboxDropDown:hover, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-button:not(.ui-state-active):hover, td.scCalendarCell:hover, .scTimePicker a:hover, .scLink:hover, .scInstallerPager:hover, .spe-variables-list .spe-variable:hover, .scStartMenuLeftOption:hover, .scStartMenuRightOption:hover, .scStartMenuRightFolder:hover, .scStartMenuProgramsMenu:hover, .BlogPostArea:hover, .side li a:hover, .pagination li a:hover, .quickactions > ul > li:hover, .quickactions ul li ul li a:hover, .sb_dropdown .sb_filter:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+/* (kept apart: id selectors would lift the specificity of the whole list above selected states) */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(#InstantResults li:hover, #InstantResults .scSearchResultsTable a:hover, #results table > tbody > tr:hover, #grid-content .post_float:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+
+/* ---- Menus: a raised, rounded surface with body text and a soft shadow */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] table.scMenu {
+  background-color: var(--sct-raised-bg);
+  color: var(--sct-panel-fg);
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--sct-border-strong), 0 6px 16px rgb(36 41 51 / 0.35);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon, .scMenuItemCaption, .scMenuItemHotkey, .scMenuItemIcon_Disabled, .scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  background-color: transparent;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+  background-color: var(--sct-selected-bg);
+  color: var(--sct-chrome-fg);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  color: color-mix(in srgb, var(--sct-panel-fg) 45%, var(--sct-raised-bg));
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] table.scMenu .scMenuItemIcon_Disabled img {
+  opacity: 0.4;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] table.scMenu :is(.scMenuDividerIcon, .scMenuDividerCaption, .scMenuDividerHotkey) {
+  background-color: var(--sct-border-strong);
+  border-color: transparent;
+}
+
+/* ---- Desktop: start menu, taskbar */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .scStartMenuRight {
+  background-color: var(--sct-panel-bg);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] #StartMenu {
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(.scStartButton:hover, .scStartButton.scPopupOpener) {
+  background-image: url("/sitecore/shell/themes/standard/Images/Startbar/StartButton.png");
+  filter: brightness(1.15);
+  border-top-color: transparent;
+}
+/* taskbar apps: soft tiles; the active one carries the frost line, like the open tab */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] #StartbarApplications :is(td.scActiveApplication, td.scInactiveApplication) {
+  border-color: transparent;
+  border-radius: 4px;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] #StartbarApplications td.scActiveApplication {
+  background-color: var(--sct-ribbon-button-hover-bg);
+  box-shadow: inset 0 -2px 0 var(--fjord-line);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] #StartbarApplications td.scInactiveApplication:hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] #SearchBox,
+html[data-sct-theme="fjord"][data-sct-surface="shell"] #SearchBox.focus {
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  box-shadow: inset 0 0 0 1px var(--sct-input-border);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] #SearchBox::placeholder {
+  color: var(--sct-muted-fg);
+}
+
+/* ---- Global header: "Log out" a quieter step of the header text, not the link colour */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 80%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+
+/* ---- Inline leftovers Sheer UI writes in spellings the shared map does not know */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is([style*="background:white" i], [style*="background: white" i], [style*="background-color:white" i], [style*="background-color: white" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is([style*="color:#666666" i], [style*="color: #666666" i]) {
+  color: color-mix(in srgb, var(--sct-muted-fg) 85%, var(--sct-app-fg)) !important;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is([style*="background:#e3e3e3" i], [style*="background: #e3e3e3" i], [style*="background-color:#e3e3e3" i]) {
+  background-color: var(--sct-border) !important;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is([style*="background:window" i], [style*="background: window" i], [style*="background-color:window" i], [style*="background-color: window" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+/* soft glows round the tree and editor panes become hairlines */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] #ContentTreePanel > div[style*="box-shadow"] {
+  box-shadow: 0 0 0 1px var(--sct-border) !important;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] #EditorFrames {
+  box-shadow: 0 0 0 1px var(--sct-border);
+}
+/* a selected tree node (content tree, treelists, dialog trees) is the selected text colour: standard
+   roots' inline green would sit on the selection slab */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(a.scContentTreeNodeActive, a.scContentTreeNodeActive *) {
+  color: var(--sct-tree-selected-fg) !important;
+}
+
+/* ---- Bucket search box (Media Library, bucket folders): one field */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .search-box {
+  background-color: var(--sct-input-bg);
+  border-color: var(--sct-input-border);
+  border-radius: 4px;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search) {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .btn-clear {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/clear.png");
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .btn-search {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png");
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search):is(:hover, :active) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .filters .filter {
+  background-color: var(--sct-raised-bg);
+  border-color: var(--sct-border);
+  border-radius: 4px;
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .filters .filter :is(.icon, .value .display-value) {
+  background-color: transparent;
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .filters .filter :is(.icon, .remove):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] .raw-user-input {
+  background-color: transparent;
+}
+/* view switcher: the selected view is drawn dark, the others light grey; in the dark set light means selected */
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="fjord"][data-sct-surface="shell"] #views a {
+    opacity: 0.55;
+  }
+  html[data-sct-theme="fjord"][data-sct-surface="shell"] #views a:is(.active, :hover) {
+    opacity: 1;
+    filter: var(--sct-glyph-filter);
+  }
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] {
+  accent-color: var(--sct-accent);
+}
+
+/* ---- Ribbon galleries (Security > Presets, Insert, Languages): a raised pop-up like the menus */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] iframe.scGalleryFrame {
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--sct-border-strong), 0 6px 16px rgb(36 41 51 / 0.35);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+  background-color: var(--sct-raised-bg) !important;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+  background-color: transparent;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+  background-color: var(--sct-border-strong);
+}
+
+/* ---- Dark monochrome glyphs: light under the dark set, untouched under the light one (the filter
+   variable is unset there, so these rules fall back to no filter) */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph, img[src*="Submenu16x16" i], .filters .filter .remove, img[src*="/images/security/" i], img[src*="/componentart/grid/pager/" i]) {
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="fjord"][data-sct-version="10.4"][data-sct-surface="shell"] a.scSearchOptionsButton img {
+  filter: var(--sct-glyph-filter);
+}
+/* 10.4 lacks 10.5's _grey glyphs: ink its pale chunk launchers and section chevrons as 10.5 does,
+   turned light by the glyph filter in dark mode */
+html[data-sct-theme="fjord"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+  filter: brightness(0) opacity(0.55) var(--sct-glyph-filter, );
+}
+html[data-sct-theme="fjord"][data-sct-version="10.4"][data-sct-surface="shell"] img.scEditorSectionCaptionGlyph {
+  filter: brightness(0) opacity(0.8) var(--sct-glyph-filter, );
+}
+
+/* ---- Tree search: both buttons centre on the field */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] a.scSearchButton img {
+  display: block;
+  margin: -3px;
+}
+html[data-sct-theme="fjord"][data-sct-surface="shell"] #SearchPanel td > div[style*="padding-top"] {
+  padding-top: 0 !important;
+}
+
+/* ---- ComponentArt grid pager slider: a white track image set through the cell's background attribute */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is([style*="slider_bg" i], [background*="slider_bg" i]) {
+  background: linear-gradient(var(--sct-border-strong), var(--sct-border-strong)) center / 100% 4px no-repeat !important;
+}
+
+/* Dialog headers: 10.5 drops 10.4's 15px under the description; both versions get 10.4's */
+html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeaderDescription {
+  padding-bottom: 15px;
+}
+
+/* ---- Light appearance only: glyphs Sitecore draws pale for its own dark or white chrome */
+@media (prefers-color-scheme: light) {
+  /* the taskbar's database icon is white, for 10.5's dark taskbar */
+  html[data-sct-theme="fjord"][data-sct-surface="shell"] #DatabaseSelector img {
+    filter: brightness(0) opacity(0.7);
+  }
+  /* 10.4's window buttons are white glyphs for its dark caption; at rest they take the caption's ink
+     and hovered ones darken (10.4's hover images are white glyphs too, with no plate) */
+  html[data-sct-theme="fjord"][data-sct-version="10.4"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+    filter: brightness(0) opacity(0.7);
+  }
+  html[data-sct-theme="fjord"][data-sct-version="10.4"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
+    filter: brightness(0) opacity(0.95);
+  }
+  html[data-sct-theme="fjord"][data-sct-version="10.4"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon {
+    filter: brightness(0) opacity(0.7);
+  }
+  /* 10.5's tree chevrons are a pale grey (1.4:1 on the snow tree) */
+  html[data-sct-theme="fjord"][data-sct-version="10.5"][data-sct-surface="shell"] img.scContentTreeNodeGlyph {
+    filter: brightness(0.55);
+  }
+}
+
+/* ---- Dark appearance only */
+@media (prefers-color-scheme: dark) {
+  /* window buttons: Sitecore's light dialog glyphs on the slate caption */
+  html[data-sct-theme="fjord"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+    img[src*="page_switcher"] { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher.png"); }
+    img[src*="page_switcher"]:hover { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher_h.png"); }
+    img[src*="minimize"] { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png"); }
+    img[src*="minimize"]:hover { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize_h.png"); }
+    img[src*="maximize"] { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png"); }
+    img[src*="maximize"]:hover { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize_h.png"); }
+    img[src*="restore"] { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png"); }
+    img[src*="restore"]:hover { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore_h.png"); }
+    img[src*="_close"] { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png"); }
+    img[src*="_close"]:hover { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close_h.png"); }
+  }
+  html[data-sct-theme="fjord"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane {
+    .ui-icon-closethick { background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png") center no-repeat; }
+    .ui-icon-extlink { background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png") center no-repeat; }
+    .ui-icon-newwin { background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png") center no-repeat; }
+    .ui-icon-minus { background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png") center no-repeat; }
+  }
+  /* SPE ISE: Ace's scrollbars sit inside --sct-editor-filter (invert(0.88) hue-rotate(180deg)), so they are
+     the theme's thumb (#4c566a) and track (#2e3440) run backwards through it: per channel
+     in = (224.4 - out) / 0.76 after undoing the hue-rotate. Forward check: #abb8d2 -> rgb(76,86,106),
+     #dce4f4 -> rgb(46,52,64). Change them together with the scrollbar tokens. */
+  html[data-sct-theme="fjord"][data-sct-surface="shell"] .ace_editor {
+    scrollbar-color: #abb8d2 #dce4f4;
+  }
+}
+
+/* 10.4 paints SPEAK-style application headers in shell pages (SPE Reports) with its red swoosh and spiral:
+   the header takes the panel colour, with the title in panel text */
+html[data-sct-theme="fjord"][data-sct-version="10.4"][data-sct-surface="shell"] .sc-applicationHeader-row1 {
+  background-image: none;
+  background-color: var(--sct-panel-bg);
+}
+html[data-sct-theme="fjord"][data-sct-version="10.4"][data-sct-surface="shell"] .sc-applicationHeader-row1::after {
+  content: none;
+}
+html[data-sct-theme="fjord"][data-sct-version="10.4"][data-sct-surface="shell"] :is(.sc-applicationHeader-title, .sc-applicationHeader-title .sc-text) {
+  color: var(--sct-panel-fg);
+}

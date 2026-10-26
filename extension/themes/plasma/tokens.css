@@ -1,0 +1,189 @@
+/* Plasma: a calm, flat desktop. Grey windows, near-white views, one sky-blue accent for focus, selection
+   and the open tab's underline. Follows the system light or dark appearance.
+
+   Spec (the approved mockup at 100%):
+   light       window #eff0f1, view #fcfcfc, header #dee0e2, text #232629, frames #bdc3c7
+   dark        window #31363b, view #232629, header #2a2e32, text #eff0f1, frames #4a5157
+   accent      #3daee9: focus frames, selection, tab underlines, the active window's 1px frame.
+               White on it is 2.5:1, so selections carry #232629 (6.1:1) on the solid blue instead of the
+               mockup's #fcfcfc; inactive text #7f8c8d is 3.1:1 on the window, so it is #565f65 (4.9:1 on the title bar),
+               #a1a9b1 in dark; links #2980b9 are 3.8:1, so #17608f (5.1:1 on the title bar)
+   window      30px title bar, the title centred, 18px round caption buttons at the right, close #da4453
+   toolbars    flat, icon plus text, a hover frame in the accent over a 18% tint
+   type        Noto Sans where installed, else the system stack, 13px (10pt)
+   shape       3px corners */
+html[data-sct-theme="plasma"] {
+  --sct-font-family: "Noto Sans", Oxygen, Ubuntu, Cantarell, "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --sct-font-size: 13px;
+  --sct-radius: 3px;
+
+  --sct-app-bg: #eff0f1;
+  --sct-app-fg: #232629;
+  --sct-panel-bg: #fcfcfc;
+  --sct-panel-fg: #232629;
+  --sct-muted-fg: #565f65;
+  --sct-border: #bdc3c7;
+  --sct-border-strong: #95a5a6;
+  --sct-accent: #3daee9;
+  --sct-accent-fg: #232629;
+  --sct-link: #17608f;
+  --sct-focus-ring: #3daee9;
+  --sct-raised-bg: #fcfcfc;
+  --sct-chrome-bg: #dee0e2;
+  --sct-chrome-fg: #232629;
+  --sct-selected-bg: #c9e7f8;
+
+  --sct-titlebar-bg: #dee0e2;
+  --sct-titlebar-fg: #232629;
+  --sct-titlebar-inactive-bg: #eff0f1;
+  --sct-titlebar-inactive-fg: #565f65;
+  --sct-window-border: #3daee9;
+
+  --sct-ribbon-bg: #eff0f1;
+  --sct-ribbon-fg: #232629;
+  --sct-ribbon-tab-bg: #eff0f1;
+  --sct-ribbon-tab-fg: #232629;
+  --sct-ribbon-tab-active-bg: #fcfcfc;
+  --sct-ribbon-tab-active-fg: #232629;
+  --sct-ribbon-chunk-bg: #eff0f1;
+  --sct-ribbon-chunk-caption-bg: #eff0f1;
+  --sct-ribbon-chunk-caption-fg: #565f65;
+  --sct-ribbon-button-hover-bg: #d6eefa;
+  --sct-ribbon-button-pressed-bg: #c9e7f8;
+
+  --sct-tree-bg: #fcfcfc;
+  --sct-tree-fg: #232629;
+  --sct-tree-hover-bg: #e3f3fb;
+  --sct-tree-selected-bg: #3daee9;
+  --sct-tree-selected-fg: #232629;
+  --sct-tree-selected-border: #3daee9;
+
+  --sct-section-header-bg: #eff0f1;
+  --sct-section-header-fg: #232629;
+  --sct-section-body-bg: #fcfcfc;
+  --sct-field-label-fg: #232629;
+
+  --sct-input-bg: #fcfcfc;
+  --sct-input-fg: #232629;
+  --sct-input-border: #bdc3c7;
+  --sct-input-focus-border: #3daee9;
+
+  --sct-button-bg: #fcfcfc;
+  --sct-button-fg: #232629;
+  --sct-button-border: #bdc3c7;
+  --sct-button-hover-bg: #e3f3fb;
+  --sct-button-primary-bg: #c9e7f8;
+  --sct-button-primary-fg: #232629;
+  --sct-button-primary-hover-bg: #b3ddf5;
+
+  --sct-table-header-bg: #eff0f1;
+  --sct-table-header-fg: #232629;
+  --sct-table-row-hover-bg: #e3f3fb;
+
+  --sct-scrollbar-thumb: #b5bcc2;
+  --sct-scrollbar-track: #eff0f1;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #1d99f3;
+  --sct-taskbar-bg: #232629;
+  --sct-taskbar-fg: #eff0f1;
+
+  /* Plasma's own: the close button's red, the wallpaper, the panel's translucent fill, the hover tint */
+  --pl-close: #da4453;
+  --pl-wall: linear-gradient(160deg, #1b4f8a 0%, #1d99f3 55%, #7fc8f8 100%);
+  --pl-panel: rgba(35, 38, 41, 0.92);
+  --pl-tint: rgba(61, 174, 233, 0.18);
+  --pl-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="plasma"] {
+    --sct-app-bg: #31363b;
+    --sct-app-fg: #eff0f1;
+    --sct-panel-bg: #232629;
+    --sct-panel-fg: #eff0f1;
+    --sct-muted-fg: #a1a9b1;
+    --sct-border: #4a5157;
+    --sct-border-strong: #6e767d;
+    --sct-accent: #3daee9;
+    --sct-accent-fg: #232629;
+    --sct-link: #3daee9;
+    --sct-focus-ring: #3daee9;
+    --sct-raised-bg: #3b4045;
+    --sct-chrome-bg: #2a2e32;
+    --sct-chrome-fg: #eff0f1;
+    --sct-selected-bg: #1e4e68;
+
+    --sct-titlebar-bg: #2a2e32;
+    --sct-titlebar-fg: #eff0f1;
+    --sct-titlebar-inactive-bg: #31363b;
+    --sct-titlebar-inactive-fg: #a1a9b1;
+    --sct-window-border: #3daee9;
+
+    --sct-ribbon-bg: #31363b;
+    --sct-ribbon-fg: #eff0f1;
+    --sct-ribbon-tab-bg: #31363b;
+    --sct-ribbon-tab-fg: #eff0f1;
+    --sct-ribbon-tab-active-bg: #232629;
+    --sct-ribbon-tab-active-fg: #eff0f1;
+    --sct-ribbon-chunk-bg: #31363b;
+    --sct-ribbon-chunk-caption-bg: #31363b;
+    --sct-ribbon-chunk-caption-fg: #a1a9b1;
+    --sct-ribbon-button-hover-bg: #2c4a5c;
+    --sct-ribbon-button-pressed-bg: #1e4e68;
+
+    --sct-tree-bg: #232629;
+    --sct-tree-fg: #eff0f1;
+    --sct-tree-hover-bg: #2a3a45;
+    --sct-tree-selected-bg: #3daee9;
+    --sct-tree-selected-fg: #232629;
+    --sct-tree-selected-border: #3daee9;
+
+    --sct-section-header-bg: #31363b;
+    --sct-section-header-fg: #eff0f1;
+    --sct-section-body-bg: #232629;
+    --sct-field-label-fg: #eff0f1;
+
+    --sct-input-bg: #232629;
+    --sct-input-fg: #eff0f1;
+    --sct-input-border: #5c6166;
+    --sct-input-focus-border: #3daee9;
+
+    --sct-button-bg: #31363b;
+    --sct-button-fg: #eff0f1;
+    --sct-button-border: #5c6166;
+    --sct-button-hover-bg: #2c4a5c;
+    --sct-button-primary-bg: #1e4e68;
+    --sct-button-primary-fg: #eff0f1;
+    --sct-button-primary-hover-bg: #23597a;
+
+    --sct-table-header-bg: #31363b;
+    --sct-table-header-fg: #eff0f1;
+    --sct-table-row-hover-bg: #2a3a45;
+
+    --sct-scrollbar-thumb: #5c6166;
+    --sct-scrollbar-track: #31363b;
+
+    --sct-desktop-bg: #0f3d63;
+    --sct-taskbar-bg: #1b1e20;
+    --sct-taskbar-fg: #eff0f1;
+
+    --sct-glyph-filter: invert(1) hue-rotate(180deg);
+    --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+    --sct-content-filter: brightness(0.8);
+
+    --pl-wall: linear-gradient(160deg, #0b2440 0%, #0f3d63 55%, #1d6fa5 100%);
+    --pl-panel: rgba(27, 30, 32, 0.94);
+    --pl-tint: rgba(61, 174, 233, 0.22);
+    --pl-shadow: 0 6px 24px rgba(0, 0, 0, 0.55);
+  }
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="plasma"]:not([data-sct-surface="ee"]) {
+  color-scheme: light dark;
+}

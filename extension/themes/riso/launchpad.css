@@ -1,0 +1,177 @@
+/* Riso: Launchpad as a printed zine page. The paper carries two big discs overprinted in the corner;
+   each group is a card with a halftone heading and the pink impression off register; each application
+   sits on a pink and a teal dot printed a little apart. */
+
+/* :not(#sct-riso) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="riso"][data-sct-surface="launchpad"]:not(#sct-riso) {
+  & body {
+    background:
+      radial-gradient(circle at 92% 88%, rgb(255 72 176 / 0.9) 0 150px, transparent 151px),
+      radial-gradient(circle at 86% 96%, rgb(0 163 163 / 0.9) 0 150px, transparent 151px),
+      var(--riso-grain),
+      var(--riso-paper);
+    background-attachment: fixed;
+    background-blend-mode: multiply;
+  }
+  .sc-list,
+  .container-narrow,
+  .sc-applicationContent,
+  .sc-applicationContent-main,
+  .sc-applicationContent-main .row,
+  .sc-applicationContent-main .col-md-12 {
+    background: transparent;
+  }
+
+  /* ---- Header: paper, ruled off ---- */
+  .sc-globalHeader {
+    border-bottom: 2px solid var(--riso-rule);
+    box-shadow: 0 3px 0 rgb(255 72 176 / 0.4);
+    background: var(--riso-grain), var(--riso-paper) !important;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a),
+  .sc-globalHeader .sc-globalHeader-applicationName {
+    color: var(--riso-rule);
+  }
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1 {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--riso-rule);
+    font-family: var(--riso-head);
+    font-stretch: condensed;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* ---- The page: cards wrap and centre ---- */
+  .sc-applicationContent-main .col-md-12:has(> .sc-launchpad) {
+    display: block;
+  }
+  .sc-launchpad {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 28px 26px;
+    float: none;
+    box-sizing: border-box;
+    width: auto;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 30px 24px 32px;
+  }
+
+  /* ---- A group: a card, its heading a halftone band ---- */
+  .sc-launchpad-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    position: relative;
+    box-sizing: border-box;
+    width: 344px;
+    margin: 0;
+    padding: 0 6px 10px;
+    border: 2px solid var(--riso-rule);
+    border-radius: 0;
+    background: var(--riso-paper);
+    box-shadow: 6px 5px 0 rgb(255 72 176 / 0.55);
+  }
+  .sc-launchpad-group-title {
+    position: static;
+    box-sizing: border-box;
+    flex: 0 0 calc(100% + 12px);
+    width: auto;
+    height: auto;
+    margin: 0 -6px 8px;
+    padding: 5px 12px;
+    border: 0;
+    border-bottom: 2px solid var(--riso-rule);
+    background: var(--riso-dots), var(--riso-paper);
+    color: var(--sct-section-header-fg);
+    font-family: var(--riso-head);
+    font-stretch: condensed;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 22px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ---- An application: its icon on two overprinted dots, the label in mono below ---- */
+  .sc-launchpad-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    box-sizing: border-box;
+    width: 82px;
+    height: auto;
+    margin: 0;
+    padding: 6px 2px 4px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    float: none;
+    text-decoration: none;
+  }
+  .sc-launchpad-item:is(:hover, :focus, :active) {
+    border: 0;
+    background: var(--sct-ribbon-button-hover-bg);
+    box-shadow: none;
+    text-decoration: none;
+  }
+  .sc-launchpad-item:focus {
+    outline: none;
+  }
+  .sc-launchpad-item:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+  .sc-launchpad-item .icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 58% 58%, rgb(0 163 163 / 0.55) 0 22px, transparent 22.5px),
+      radial-gradient(circle at 44% 44%, rgb(255 72 176 / 0.5) 0 22px, transparent 22.5px);
+  }
+  .sc-launchpad-item .icon img {
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    filter: none;
+  }
+  .sc-launchpad-text {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: var(--riso-ink);
+    font-family: var(--riso-mono);
+    font-size: 11px;
+    line-height: 14px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-decoration: none;
+  }
+  /* the Custom Analytics heading (its description is a .sc-text-title too) */
+  .sc-applicationContent-main .col-md-12 > .sc-text-title {
+    color: var(--riso-rule);
+    font-family: var(--riso-head);
+    font-stretch: condensed;
+    text-transform: uppercase;
+  }
+}

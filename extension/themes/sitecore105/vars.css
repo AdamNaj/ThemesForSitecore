@@ -1,0 +1,59 @@
+/* Sitecore 10.5: hand-copied from stock 10.5 sitecore/shell/Themes/Standard/Default/ColorVariables.css, which 10.4 has no file for.
+   The generated rules read these custom properties. Not on the Experience Editor page itself: that html is the website. */
+html[data-sct-theme="sitecore105"]:not([data-sct-surface="ee"]) {
+    /* Base Colors */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-purple: #6e3fff;
+    --color-purple-light: #eae7ff;
+    --color-purple-x-dark: #4715af;
+    --color-purple-dark: #5319e0;
+    --color-grey: #ebebeb;
+    --color-grey-light: #f0f0f0;
+    --color-grey-light-2: #f7f7f7;
+    --color-grey-dark: #d1d1d1;
+    --color-black-94: rgba(0, 0, 0, 0.94);
+    --color-black-68: rgba(0, 0, 0, 0.68);
+    --color-black-66: rgba(0, 0, 0, 0.66);
+    --color-black-55: rgba(0, 0, 0, 0.55);
+    --color-black-42: rgba(0, 0, 0, 0.42);
+    --color-black-13: rgba(0, 0, 0, 0.13);
+    --color-black-7: rgba(0, 0, 0, 0.07);
+
+    /*  Colour variables */
+    --btn-primary-color: var(--color-white);
+    --btn-default-color: var(--color-black-68);
+    --dialog-header-color: var(--color-black);
+    --tabs-color: var(--color-black-68);
+    --tabs-active-color: var(--color-purple-dark);
+    --input-checkbox-radio-accent-color: var(--color-purple);
+    --table-header-color: var(--color-black-66);
+    --table-color: var(--color-black-94);
+    --accordion-header-color: var(--color-black);
+
+    /* Background colours */
+    --btn-primary-bg-color: var(--color-purple);
+    --btn-default-bg-color: var(--color-white);
+    --dialog-header-bg-color: var(--color-white);
+    --dialog-footer-bg-color: var(--color-white);
+    --btn-default-hover-bg-color: var(--color-grey-light);
+    --btn-default-active-bg-color: var(--color-grey-dark);
+    --btn-primary-active-bg-color: var(--color-purple-x-dark);
+    --btn-primary-hover-bg-color: var(--color-purple-dark);
+    --tabs-bg-color: transparent;
+    --table-bg-color: var(--color-white);
+    --accordion-content-bg-color: var(--color-white);
+    --accordion-header-bg-color: var(--color-grey-light-2);
+    --item-highlight-bg-color: var(--color-purple-light);
+    --item-highlight-hover-bg-color: var(--color-grey);
+
+    /* Border colours */
+    --btn-primary-border-color: var(--color-purple);
+    --btn-default-border-color: var(--color-black-13);
+    --tabs-border-bottom-color: var(--color-black-13);
+    --tabs-active-border-bottom-color: var(--color-purple-dark);
+    --form-control-border-color: var(--color-black-42);
+    --form-control-border-color-focus: var(--color-purple);
+    --table-border-color: var(--color-black-13);
+    --btn-primary-border-color: var(--color-purple);
+}

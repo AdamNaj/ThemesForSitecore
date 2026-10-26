@@ -1,0 +1,7 @@
+/* Solar: the postfix badge in the night base with the cream text, softly rounded, in both appearances */
+html[data-sct-theme="solar"] sct-bar-postfix {
+  border-color: #073642;
+  border-radius: 3px;
+  background: #073642;
+  color: #eee8d5;
+}

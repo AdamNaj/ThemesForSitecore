@@ -1,0 +1,103 @@
+/* Dessau: a Bauhaus poster, light.
+   Spec (from the approved mock-up, Dessau.dc.html):
+     base     #f2ede4  page and panels
+     black    #111111  text and 4px rules between regions (16.9:1 on base)
+     red      #d62828  primary buttons, the tree's open marker; white text on it 5.0:1
+     yellow   #f7c600  the selection block and push buttons; black text on it 11.4:1
+     blue     #1d4ed8  the open tab, links and focus; white text on it 6.7:1
+   Regions are divided by 4px black rules; headings are uppercase, tracked, geometric. The tree marks
+   folders with a blue triangle (closed) and a red circle (open); the selection is a yellow block.
+   Type: Jost, Futura or Century Gothic, whichever the machine has; none bundled. */
+html[data-sct-theme="dessau"] {
+  --sct-font-family: Jost, Futura, "Century Gothic", "Avenir Next", "Segoe UI", sans-serif;
+  --sct-font-size: 12px;
+  --sct-radius: 0px;
+
+  --ds-base: #f2ede4;
+  --ds-black: #111111;
+  --ds-red: #d62828;
+  --ds-yellow: #f7c600;
+  --ds-blue: #1d4ed8;
+  --ds-rule: 4px solid #111111;
+  --ds-head: Jost, Futura, "Century Gothic", "Avenir Next", "Segoe UI", sans-serif;
+
+  --sct-app-bg: #f2ede4;
+  --sct-app-fg: #111111;
+  --sct-panel-bg: #f2ede4;
+  --sct-panel-fg: #111111;
+  --sct-muted-fg: #4a4640;
+  --sct-border: #9b958a;
+  --sct-border-strong: #111111;
+  --sct-accent: #d62828;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #1d4ed8;
+  --sct-focus-ring: #1d4ed8;
+  --sct-raised-bg: #f8f5ef;
+  --sct-chrome-bg: #f2ede4;
+  --sct-chrome-fg: #111111;
+  --sct-selected-bg: #f7c600;
+
+  --sct-titlebar-bg: #f2ede4;
+  --sct-titlebar-fg: #111111;
+  --sct-titlebar-inactive-bg: #e6e0d4;
+  --sct-titlebar-inactive-fg: #4a4640;
+  --sct-window-border: #111111;
+
+  --sct-ribbon-bg: #f2ede4;
+  --sct-ribbon-fg: #111111;
+  --sct-ribbon-tab-bg: #f2ede4;
+  --sct-ribbon-tab-fg: #111111;
+  --sct-ribbon-tab-active-bg: #1d4ed8;
+  --sct-ribbon-tab-active-fg: #ffffff;
+  --sct-ribbon-chunk-bg: #f2ede4;
+  --sct-ribbon-chunk-caption-bg: #f2ede4;
+  --sct-ribbon-chunk-caption-fg: #111111;
+  --sct-ribbon-button-hover-bg: #fbe8a0;
+  --sct-ribbon-button-pressed-bg: #f7c600;
+
+  --sct-tree-bg: #f2ede4;
+  --sct-tree-fg: #111111;
+  --sct-tree-hover-bg: #e6dfd0;
+  --sct-tree-selected-bg: #f7c600;
+  --sct-tree-selected-fg: #111111;
+  --sct-tree-selected-border: #f7c600;
+
+  --sct-section-header-bg: #f2ede4;
+  --sct-section-header-fg: #111111;
+  --sct-section-body-bg: #f2ede4;
+  --sct-field-label-fg: #111111;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #111111;
+  --sct-input-border: #111111;
+  --sct-input-focus-border: #1d4ed8;
+
+  --sct-button-bg: #f7c600;
+  --sct-button-fg: #111111;
+  --sct-button-border: #111111;
+  --sct-button-hover-bg: #ffd83d;
+  --sct-button-primary-bg: #d62828;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #b81f1f;
+
+  --sct-table-header-bg: #111111;
+  --sct-table-header-fg: #f2ede4;
+  --sct-table-row-hover-bg: #fbefc0;
+
+  --sct-scrollbar-thumb: #111111;
+  --sct-scrollbar-track: #e6e0d4;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #f2ede4;
+  --sct-taskbar-bg: #111111;
+  --sct-taskbar-fg: #f2ede4;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="dessau"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

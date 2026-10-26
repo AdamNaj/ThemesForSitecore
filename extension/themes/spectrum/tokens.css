@@ -1,0 +1,199 @@
+/* Spectrum: Sitecore's own layout, safe for colour-blind eyes. Follows the system light or dark appearance.
+   Colours come from the Okabe-Ito palette, which stays apart under protanopia, deuteranopia and tritanopia:
+   blue #0072b2 (accent, selection), sky blue #56b4e9 (the accent by night), orange #e69f00 (warnings),
+   vermillion #d55e00 (errors), bluish green #009e73 (valid). Neutrals are cool greys.
+   State is never colour alone (shell.css): an error is a solid outline and a triangle, a warning a dashed
+   outline and a dotted ring, valid a tick, the selection a tint plus a 3px rule, a locked item a hatch and a
+   padlock. State text uses darker steps of each hue that pass 4.5:1 on the panel: #9e3d00 (vermillion),
+   #7a5300 (orange), #00573f (green) by day; #ff9a5c, #f0b84a, #4cd0a6 by night.
+   #0072b2 under white text is 5.19:1; by night the sky blue takes near-black text (#0b1620, 7.91:1). */
+html[data-sct-theme="spectrum"] {
+  --sct-font-family: inherit;
+  --sct-font-size: inherit;
+  --sct-radius: 4px;
+
+  --sct-app-bg: #f6f8fa;
+  --sct-app-fg: #1f2328;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #1f2328;
+  --sct-muted-fg: #3d444d;
+  --sct-border: #d0d7de;
+  --sct-border-strong: #8c959f;
+  --sct-accent: #0072b2;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #00527f;
+  --sct-focus-ring: #0072b2;
+  --sct-raised-bg: #ffffff;
+  --sct-chrome-bg: #f6f8fa;
+  --sct-chrome-fg: #1f2328;
+  --sct-selected-bg: #d6e9f5;
+
+  --sct-titlebar-bg: #f6f8fa;
+  --sct-titlebar-fg: #1f2328;
+  --sct-titlebar-inactive-bg: #eef1f4;
+  --sct-titlebar-inactive-fg: #3d444d;
+  --sct-window-border: #8c959f;
+
+  --sct-ribbon-bg: #ffffff;
+  --sct-ribbon-fg: #1f2328;
+  --sct-ribbon-tab-bg: #f6f8fa;
+  --sct-ribbon-tab-fg: #3d444d;
+  --sct-ribbon-tab-active-bg: #ffffff;
+  --sct-ribbon-tab-active-fg: #00527f;
+  --sct-ribbon-chunk-bg: #ffffff;
+  --sct-ribbon-chunk-caption-bg: #ffffff;
+  --sct-ribbon-chunk-caption-fg: #3d444d;
+  --sct-ribbon-button-hover-bg: #eef1f4;
+  --sct-ribbon-button-pressed-bg: #d0d7de;
+
+  --sct-tree-bg: #fbfbfc;
+  --sct-tree-fg: #1f2328;
+  --sct-tree-hover-bg: #eef1f4;
+  --sct-tree-selected-bg: #d6e9f5;
+  --sct-tree-selected-fg: #00314d;
+  --sct-tree-selected-border: #0072b2;
+
+  --sct-section-header-bg: #eef1f4;
+  --sct-section-header-fg: #1f2328;
+  --sct-section-body-bg: #ffffff;
+  --sct-field-label-fg: #1f2328;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #1f2328;
+  --sct-input-border: #8c959f;
+  --sct-input-focus-border: #0072b2;
+
+  --sct-button-bg: #ffffff;
+  --sct-button-fg: #1f2328;
+  --sct-button-border: #8c959f;
+  --sct-button-hover-bg: #eef1f4;
+  --sct-button-primary-bg: #0072b2;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #005f94;
+
+  --sct-table-header-bg: #f6f8fa;
+  --sct-table-header-fg: #3d444d;
+  --sct-table-row-hover-bg: #eef1f4;
+
+  --sct-scrollbar-thumb: #8c959f;
+  --sct-scrollbar-track: #f6f8fa;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #d5dbe2;
+  --sct-taskbar-bg: #f6f8fa;
+  --sct-taskbar-fg: #1f2328;
+
+  /* Spectrum's own: the state colours, each a line colour and a text colour; the hatch of locked items */
+  --spectrum-line: #0072b2;
+  --spectrum-error: #d55e00;
+  --spectrum-error-fg: #9e3d00;
+  --spectrum-error-bg: #fbe9dc;
+  --spectrum-warning: #e69f00;
+  --spectrum-warning-fg: #7a5300;
+  --spectrum-warning-bg: #fdf3dc;
+  --spectrum-valid: #009e73;
+  --spectrum-valid-fg: #00573f;
+  --spectrum-valid-bg: #e3f4ee;
+  --spectrum-hatch: repeating-linear-gradient(135deg, transparent 0 5px, rgb(31 35 40 / 0.07) 5px 10px);
+  --spectrum-backdrop: linear-gradient(180deg, #eef1f4, #d5dbe2);
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="spectrum"] {
+    --sct-app-bg: #16181c;
+    --sct-app-fg: #e6e8eb;
+    --sct-panel-bg: #1d2025;
+    --sct-panel-fg: #e6e8eb;
+    --sct-muted-fg: #b0b6be;
+    --sct-border: #30353c;
+    --sct-border-strong: #6b737d;
+    --sct-accent: #56b4e9;
+    --sct-accent-fg: #0b1620;
+    --sct-link: #7cc4ee;
+    --sct-focus-ring: #56b4e9;
+    --sct-raised-bg: #262a30;
+    --sct-chrome-bg: #23272d;
+    --sct-chrome-fg: #e6e8eb;
+    --sct-selected-bg: #163a52;
+
+    --sct-titlebar-bg: #23272d;
+    --sct-titlebar-fg: #e6e8eb;
+    --sct-titlebar-inactive-bg: #1d2025;
+    --sct-titlebar-inactive-fg: #b0b6be;
+    --sct-window-border: #4a5058;
+
+    --sct-ribbon-bg: #1d2025;
+    --sct-ribbon-fg: #e6e8eb;
+    --sct-ribbon-tab-bg: #16181c;
+    --sct-ribbon-tab-fg: #b0b6be;
+    --sct-ribbon-tab-active-bg: #1d2025;
+    --sct-ribbon-tab-active-fg: #e6e8eb;
+    --sct-ribbon-chunk-bg: #1d2025;
+    --sct-ribbon-chunk-caption-bg: #1d2025;
+    --sct-ribbon-chunk-caption-fg: #b0b6be;
+    --sct-ribbon-button-hover-bg: #2a2f36;
+    --sct-ribbon-button-pressed-bg: #343a42;
+
+    --sct-tree-bg: #16181c;
+    --sct-tree-fg: #e6e8eb;
+    --sct-tree-hover-bg: #23272d;
+    --sct-tree-selected-bg: #163a52;
+    --sct-tree-selected-fg: #ffffff;
+    --sct-tree-selected-border: #56b4e9;
+
+    --sct-section-header-bg: #262a30;
+    --sct-section-header-fg: #e6e8eb;
+    --sct-section-body-bg: #1d2025;
+    --sct-field-label-fg: #d0d4da;
+
+    --sct-input-bg: #121417;
+    --sct-input-fg: #e6e8eb;
+    --sct-input-border: #6b737d;
+    --sct-input-focus-border: #56b4e9;
+
+    --sct-button-bg: #262a30;
+    --sct-button-fg: #e6e8eb;
+    --sct-button-border: #4a5058;
+    --sct-button-hover-bg: #30353c;
+    --sct-button-primary-bg: #56b4e9;
+    --sct-button-primary-fg: #0b1620;
+    --sct-button-primary-hover-bg: #7cc4ee;
+
+    --sct-table-header-bg: #23272d;
+    --sct-table-header-fg: #d0d4da;
+    --sct-table-row-hover-bg: #23272d;
+
+    --sct-scrollbar-thumb: #4a5058;
+    --sct-scrollbar-track: #16181c;
+
+    --sct-desktop-bg: #0f1114;
+    --sct-taskbar-bg: #16181c;
+    --sct-taskbar-fg: #e6e8eb;
+
+    --sct-glyph-filter: invert(1) hue-rotate(180deg);
+    --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+    --sct-content-filter: brightness(0.8);
+
+    --spectrum-line: #56b4e9;
+    --spectrum-error: #d55e00;
+    --spectrum-error-fg: #ff9a5c;
+    --spectrum-error-bg: #3a2416;
+    --spectrum-warning: #e69f00;
+    --spectrum-warning-fg: #f0b84a;
+    --spectrum-warning-bg: #352a12;
+    --spectrum-valid: #009e73;
+    --spectrum-valid-fg: #4cd0a6;
+    --spectrum-valid-bg: #12302a;
+    --spectrum-hatch: repeating-linear-gradient(135deg, transparent 0 5px, rgb(255 255 255 / 0.06) 5px 10px);
+    --spectrum-backdrop: linear-gradient(180deg, #1d2025, #0f1114);
+  }
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="spectrum"]:not([data-sct-surface="ee"]) {
+  color-scheme: light dark;
+}

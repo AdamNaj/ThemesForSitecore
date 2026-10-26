@@ -1,0 +1,87 @@
+/* Sitecore 10.5: hand-written, kept out of the generated files (the mirror of sitecore104/glyphs.css).
+   This file loads before the generated ones, so each selector out-specifies the generated rule it corrects. */
+
+/* 10.5's markup points <img> tags at new grey glyphs that 10.4 does not ship; glyphs/ holds our own drawings of them
+   (tools/build-sitecore-glyphs.mjs; 10.5's hover images are the same as the plain ones). Sitecore's scripts read the src
+   (tree state, hover swaps), so it stays and content:url() draws the 10.5 glyph.
+   Sizes are 10.5's, measured on a stock 10.5.0 install. */
+html[data-sct-theme="sitecore105"] img[src*="/treemenu_collapsed.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/treemenu_collapsed_grey.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/treemenu_expanded.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/treemenu_expanded_grey.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/accordion_down.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/accordion_down_grey.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/accordion_down_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/accordion_down_grey.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/accordion_up.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/accordion_up_grey.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/accordion_up_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/accordion_up_grey.svg"); }
+html[data-sct-theme="sitecore105"] img.scEditorSectionCaptionGlyph { width: 19px; height: 19px; }
+html[data-sct-theme="sitecore105"] img[src*="/down_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/accordion_down_grey.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/RibbonChunkGlyph.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/ribbonchunkglyphgrey.svg"); width: 15px; height: 14px; }
+html[data-sct-theme="sitecore105"] img[src*="/RibbonChunkGlyph_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/ribbonchunkglyphgrey.svg"); width: 15px; height: 14px; }
+/* 10.5 keeps the black triangle only on combobox drop-downs. */
+html[data-sct-theme="sitecore105"] img[src*="/ribbondropdown.gif" i]:not(.scComboboxDropDown) { content: url("sct-ext:themes/sitecore105/glyphs/ribbondropdown_grey.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/ribbon_panel_up.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/ribbon_panel_up_grey.svg"); width: 14px; }
+html[data-sct-theme="sitecore105"] img[src*="/ribbon_panel_up_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/ribbon_panel_up_grey.svg"); width: 14px; }
+html[data-sct-theme="sitecore105"] img[src*="/ribbon_panel_down.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/ribbon_panel_down_grey.svg"); width: 14px; }
+html[data-sct-theme="sitecore105"] img[src*="/ribbon_panel_down_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/ribbon_panel_down_grey.svg"); width: 14px; }
+html[data-sct-theme="sitecore105"] img[src*="/ribbon_panel_open.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/ribbon_panel_dots.svg"); width: 14px; }
+html[data-sct-theme="sitecore105"] img[src*="/ribbon_panel_open_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/ribbon_panel_dots.svg"); width: 14px; }
+
+/* Window buttons: 10.5's StandardWindowButtons.xml and Pane.xml name new dark glyphs. */
+html[data-sct-theme="sitecore105"] img[src*="/page_switcher.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/page_switcher_v2.svg"); width: 19px; height: 19px; }
+html[data-sct-theme="sitecore105"] img[src*="/page_switcher_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/page_switcher_v2.svg"); width: 19px; height: 19px; }
+html[data-sct-theme="sitecore105"] img[src*="/dialog_minimize.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/page_minimize_v2.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/dialog_minimize_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/page_minimize_v2.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/dialog_maximize.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/dialog_maximize_v2.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/dialog_maximize_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/dialog_maximize_v2.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/dialog_restore.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/dialog_restore_v2.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/dialog_restore_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/dialog_restore_v2.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/dialog_close.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/dialog_close_v2.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/dialog_close_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/dialog_close_v2.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/page_close.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/page_close_grey.svg"); }
+html[data-sct-theme="sitecore105"] img[src*="/page_close_h.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/page_close_grey.svg"); }
+
+/* ---- Inline styles 10.5's Content Editor writes and 10.4's does not (measured on stock 10.5.0) ---- */
+/* A grey frame, 16px under the ribbon, and the tree as a white card with a shadow, 12px narrower than its pane. */
+html[data-sct-theme="sitecore105"] .scFlexColumnContainer.scWindowBorder2:has(#ContentTreePanel) { background-color: #f7f7f7; }
+html[data-sct-theme="sitecore105"] .scWindowBorder2:has(#ContentTreePanel) .scCaption.scDockTop.scWindowHandle { margin-bottom: 16px; }
+html[data-sct-theme="sitecore105"] #ContentTreePanel .scFlexColumnContainerWithoutFlexie {
+  width: calc(100% - 12px) !important; background-color: #fff; box-shadow: 0 0px 5px 0 #c6c6c6;
+}
+
+/* ---- Computed-style fixes tools/css-diff.mjs cannot infer (closure misses, checked against a 10.5 CSS oracle) ---- */
+/* Navigator / language / version buttons: 10.5's a.scEditorHeaderButton outranks the .scButton white. */
+html[data-sct-theme="sitecore105"] .scEditorTabControls a.scEditorHeaderButton.scButton { background-color: #f7f7f7; background-image: none; }
+html[data-sct-theme="sitecore105"] .scEditorTabControls a.scEditorHeaderButton.scButton:hover { background-color: #fff; background-image: none; }
+/* Date and droplink comboboxes and multilists keep their own colours over the restyled input/select. */
+html[data-sct-theme="sitecore105"] input[type="text"][readonly].scComboboxEdit.scComboboxEdit { background: white; }
+html[data-sct-theme="sitecore105"] select.scContentControlMultilistBox.scContentControlMultilistBox { border: 1px solid #e3e3e3; border-bottom: 0px; }
+
+/* Experience Editor ribbon breadcrumb bar: 10.4's nav.sc-breadcrumb gradient outranks 10.5's flat bar. */
+html[data-sct-theme="sitecore105"] .sc-pageeditbar nav.sc-breadcrumb {
+  background: #f7f7f7; border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+}
+
+/* Content Editor icons 10.5 renders grey (from its icon cache): the tree search button at 22px, the navigator notebook. */
+html[data-sct-theme="sitecore105"] #SearchPanel a.scSearchButton > img[src*="/magnifying_glass.png" i] {
+  content: url("sct-ext:themes/sitecore105/glyphs/magnifying_glass_grey.svg"); width: 22px; height: 22px;
+}
+html[data-sct-theme="sitecore105"] #SearchPanel td > div[style*="float: right"] { padding-top: 8px; }
+html[data-sct-theme="sitecore105"] img.scEditorHeaderNavigatorIcon[src*="/notebook2.png" i] { content: url("sct-ext:themes/sitecore105/glyphs/notebook_grey.svg"); }
+
+/* Recycle Bin: RecycleBin.css's grid rules reach every page through shell.css; the generator can't scope them.
+   10.5 dropped the centring of the grid cells; elsewhere the grid keeps Grid.css's values. */
+html[data-sct-theme="sitecore105"] #GridContainer :is(.Row, .SelectedRow, .HeadingRow) * { margin-left: 0; margin-right: 0; }
+html[data-sct-theme="sitecore105"] .ff .Grid.Grid { margin-left: 1px; }
+html[data-sct-theme="sitecore105"] body:not(:has(#GridContainer)) .GridFooter.GridFooter { padding: 15px 5px 5px; }
+
+/* Workbox: 10.5's Workbox.css paints its window border light (a class the core sheets also style, so left out of shell.css);
+   10.4's Default.css forces its section headers to padding-left: 15px !important;
+   and its page-size box keeps its own border over the restyled select. */
+html[data-sct-theme="sitecore105"] body:has(#WorkboxForm) .scWindowBorder3 { background-color: #f7f7f7; }
+html[data-sct-theme="sitecore105"] body:has(.scWorkBoxData) .scSectionCenter { padding-left: 16px !important; }
+html[data-sct-theme="sitecore105"] select.scWorkboxPageSizeCombobox.scWorkboxPageSizeCombobox { border: 1px solid #898989; }
+
+/* Sheer dialogs: Dialogs.css's `.ui-dialog .ui-dialog-titlebar { padding: 0 }` outranks 10.5's .ui-widget-header padding. */
+html[data-sct-theme="sitecore105"] .ui-dialog .ui-dialog-titlebar.ui-widget-header { padding: 0; }
+
+/* Menus scroll only when they reach the window: 10.4's showPopup pins max-height to the rounded height, with
+   none of the pixel 10.5 adds, so 10.5's row sizes leave a fraction of a row clipped (surfaces/shell.css). */
+html[data-sct-theme="sitecore105"][data-sct-surface="shell"] .scPopup { max-height: 100vh !important; }

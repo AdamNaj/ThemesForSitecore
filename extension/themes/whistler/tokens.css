@@ -1,0 +1,84 @@
+/* Whistler: inspired by Windows XP's Luna Blue. Window face #ece9d8, Luna blue captions (#0054e3 at the
+   text), selection #316ac5, field border #7f9db9, Tahoma 11px. XP's inactive caption (#7a96df with
+   #d8e4f8 text, 3.1:1) fails AA: Whistler darkens it to #5470c0 under white text (4.7:1). */
+html[data-sct-theme="whistler"] {
+  --sct-font-family: Tahoma, Verdana, "Segoe UI", sans-serif;
+  --sct-font-size: 11px;
+  --sct-radius: 3px;
+
+  --sct-app-bg: #ece9d8;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #555555;
+  --sct-border: #aca899;
+  --sct-border-strong: #7f9db9;
+  --sct-accent: #316ac5;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #0033cc;
+  --sct-focus-ring: #316ac5;
+  --sct-raised-bg: #f4f3ee;
+  --sct-chrome-bg: #d6dff7;
+  --sct-chrome-fg: #000000;
+  --sct-selected-bg: #316ac5;
+
+  --sct-titlebar-bg: #0054e3;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #5470c0;
+  --sct-titlebar-inactive-fg: #ffffff;
+  --sct-window-border: #0831d9;
+
+  --sct-ribbon-bg: #f6f5f0;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #ecebe6;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #fcfcfe;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #f6f5f0;
+  --sct-ribbon-chunk-caption-bg: #f6f5f0;
+  --sct-ribbon-chunk-caption-fg: #444444;
+  --sct-ribbon-button-hover-bg: #fdf3d6;
+  --sct-ribbon-button-pressed-bg: #e3e2da;
+
+  --sct-tree-bg: #ffffff;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #eef3fb;
+  --sct-tree-selected-bg: #316ac5;
+  --sct-tree-selected-fg: #ffffff;
+  --sct-tree-selected-border: #316ac5;
+
+  --sct-section-header-bg: #d6dff7;
+  --sct-section-header-fg: #0e3c9c;
+  --sct-section-body-bg: #fcfcfe;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #7f9db9;
+  --sct-input-focus-border: #316ac5;
+
+  --sct-button-bg: #f4f3ee;
+  --sct-button-fg: #000000;
+  --sct-button-border: #003c74;
+  --sct-button-hover-bg: #fdfdfb;
+  --sct-button-primary-bg: #f4f3ee;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #fdfdfb;
+
+  --sct-table-header-bg: #ebeadb;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #eef3fb;
+
+  --sct-scrollbar-thumb: #c1d3fb;
+  --sct-scrollbar-track: #f4f4f0;
+
+  --sct-desktop-bg: #3a6ea5;
+  --sct-taskbar-bg: #245edb;
+  --sct-taskbar-fg: #ffffff;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="whistler"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

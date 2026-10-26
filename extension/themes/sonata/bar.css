@@ -1,0 +1,21 @@
+/* Sonata: a Platinum label. The Desktop's bar is the 21px menu bar, with the account on its left: the
+   database name follows Log out there. */
+html[data-sct-theme="sonata"] sct-bar-postfix {
+  padding: 1px 10px;
+  border-color: #000;
+  border-radius: 0;
+  background: #ccccff;
+  color: #000;
+  font: bold 12px/16px Charcoal, "Charcoal CY", Verdana, Geneva, Tahoma, sans-serif;
+  letter-spacing: 0;
+}
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:has(.DesktopArea) sct-bar-postfix {
+  padding: 0 10px;
+  --sct-bar-side: 390px;
+  line-height: 15px;
+}
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:has(.DesktopArea):not(#sct-bar) .sc-globalHeader > .sc-ext-dbName {
+  left: calc(anchor(--sct-account right) + 12px + var(--sct-logo-room, 0px));
+  right: auto;
+  text-align: left;
+}

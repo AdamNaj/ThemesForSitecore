@@ -1,0 +1,109 @@
+/* Phosphor: the Identity Server login as a terminal's logon screen. The tube instead of the red
+   wallpaper, the card a double-framed window with an inverted "LOGIN" title bar, the logo in phosphor,
+   fields as outlined wells with a green caret, "[ Log in ]" inverted. */
+html[data-sct-theme="phosphor"][data-sct-surface="login"] *,
+html[data-sct-theme="phosphor"][data-sct-surface="login"] *::before,
+html[data-sct-theme="phosphor"][data-sct-surface="login"] *::after {
+  font-family: var(--sct-font-family) !important;
+  border-radius: 0 !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] body {
+  background: radial-gradient(ellipse at center, #062810, #010703 75%) fixed !important;
+  color: var(--sct-app-fg);
+  text-shadow: var(--sct-ph-glow);
+  caret-color: var(--sct-accent);
+  accent-color: var(--sct-accent);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] :is(.main, .top) {
+  position: relative;
+  padding-top: 48px;
+  border: 3px double var(--sct-window-border);
+  background: var(--sct-app-bg);
+  box-shadow: 0 0 18px rgb(57 255 106 / 0.2);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .main::before {
+  content: "LOGIN";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  padding: 0 12px;
+  background: var(--sct-titlebar-bg);
+  color: var(--sct-titlebar-fg);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .logo-wrap img {
+  filter: brightness(0) invert(1) sepia(1) saturate(16) hue-rotate(58deg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] :is(label, .login-label) {
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .form-control {
+  background-color: var(--sct-input-bg);
+  border: 1px solid var(--sct-input-border);
+  color: var(--sct-input-fg);
+  box-shadow: none;
+}
+/* the browser's autofill paints its own light-blue field */
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .form-control:autofill {
+  -webkit-text-fill-color: var(--sct-input-fg);
+  box-shadow: inset 0 0 0 100px var(--sct-input-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .form-control:focus {
+  border-color: var(--sct-input-focus-border);
+  box-shadow: 0 0 0 1px var(--sct-input-focus-border), 0 0 6px rgb(57 255 106 / 0.35);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .form-control:autofill:focus {
+  box-shadow: inset 0 0 0 100px var(--sct-input-bg), 0 0 0 1px var(--sct-input-focus-border), 0 0 6px rgb(57 255 106 / 0.35);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .form-control::placeholder {
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .btn-primary {
+  border: 0;
+  background-color: var(--sct-button-primary-bg);
+  color: var(--sct-button-primary-fg);
+  box-shadow: none;
+  font-weight: 700;
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .btn-primary::before {
+  content: "[ ";
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .btn-primary::after {
+  content: " ]";
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .btn-primary:is(:hover, :focus) {
+  background-color: var(--sct-button-primary-hover-bg);
+  border-color: var(--sct-button-primary-hover-bg);
+  color: var(--sct-button-primary-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .btn-primary:focus-visible {
+  outline: 1px dashed var(--sct-accent-fg);
+  outline-offset: -4px;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] a {
+  color: var(--sct-link);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] .warning {
+  border: 1px dashed var(--sct-border);
+  background-color: var(--sct-raised-bg);
+  color: var(--sct-panel-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="login"] input[type="checkbox"]:focus {
+  outline-color: var(--sct-focus-ring);
+}
+
+/* ---- No flicker and no motion: a steady tube */
+html[data-sct-theme="phosphor"][data-sct-surface="login"] *,
+html[data-sct-theme="phosphor"][data-sct-surface="login"] *::before,
+html[data-sct-theme="phosphor"][data-sct-surface="login"] *::after {
+  animation: none !important;
+  transition: none !important;
+}

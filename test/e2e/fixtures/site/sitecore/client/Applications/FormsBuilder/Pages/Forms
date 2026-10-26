@@ -1,0 +1,4 @@
+<!doctype html>
+<html class="sc-flx"><head><meta charset="utf-8"><title>Forms</title>
+<style>.sc-flx .sc-list { background-color: hsl(0, 0%, 100%); }</style></head>
+<body class="sc"><div class="sc-list" id="list">list</div></body></html>

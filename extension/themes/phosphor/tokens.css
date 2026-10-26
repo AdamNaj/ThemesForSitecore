@@ -1,0 +1,206 @@
+/* Phosphor: a green-screen terminal. One phosphor on a near-black tube.
+   Spec (from the approved concept board, test-results/theme-ideas, .t-ph):
+   - tube #031207, wells (fields, trees) #020a04, desktop #010703
+   - phosphor #39ff6a (14.6:1 on the tube), dim #22c552 (9.6:1) for secondary text,
+     dimmer #1f9a42 (5.2:1) for dividers and quiet lines; inverted bars are #39ff6a with #031207 text
+   - "Cascadia Mono", Consolas, monospace everywhere, 12px; a 3px glow on phosphor text
+   - frames: 3px double lines round windows, 1px dashed dividers, square corners
+   - hover lifts to #0b3d1a; selection is inverted (phosphor fill, tube text) */
+html[data-sct-theme="phosphor"] {
+  --sct-font-family: "Cascadia Mono", Consolas, monospace;
+  --sct-font-size: 12px;
+  --sct-radius: 0;
+
+  --sct-app-bg: #031207;
+  --sct-app-fg: #39ff6a;
+  --sct-panel-bg: #031207;
+  --sct-panel-fg: #39ff6a;
+  --sct-muted-fg: #22c552;
+  --sct-border: #1f9a42;
+  --sct-border-strong: #39ff6a;
+  --sct-accent: #39ff6a;
+  --sct-accent-fg: #031207;
+  --sct-link: #8dffab;
+  --sct-focus-ring: #8dffab;
+  --sct-raised-bg: #062010;
+  --sct-chrome-bg: #062010;
+  --sct-chrome-fg: #39ff6a;
+  --sct-selected-bg: #39ff6a;
+
+  --sct-titlebar-bg: #39ff6a;
+  --sct-titlebar-fg: #031207;
+  --sct-titlebar-inactive-bg: #22c552; /* not #1f9a42: dark text on it held AA only without the glass */
+  --sct-titlebar-inactive-fg: #020a04;
+  --sct-window-border: #39ff6a;
+
+  --sct-ribbon-bg: #031207;
+  --sct-ribbon-fg: #39ff6a;
+  --sct-ribbon-tab-bg: #031207;
+  --sct-ribbon-tab-fg: #22c552;
+  --sct-ribbon-tab-active-bg: #39ff6a;
+  --sct-ribbon-tab-active-fg: #031207;
+  --sct-ribbon-chunk-bg: #031207;
+  --sct-ribbon-chunk-caption-bg: #031207;
+  --sct-ribbon-chunk-caption-fg: #22c552;
+  --sct-ribbon-button-hover-bg: #0b3d1a;
+  --sct-ribbon-button-pressed-bg: #12572a;
+
+  --sct-tree-bg: #020a04;
+  --sct-tree-fg: #39ff6a;
+  --sct-tree-hover-bg: #0b3d1a;
+  --sct-tree-selected-bg: #39ff6a;
+  --sct-tree-selected-fg: #031207;
+  --sct-tree-selected-border: #39ff6a;
+
+  --sct-section-header-bg: #031207;
+  --sct-section-header-fg: #39ff6a;
+  --sct-section-body-bg: #031207;
+  --sct-field-label-fg: #22c552;
+
+  --sct-input-bg: #020a04;
+  --sct-input-fg: #39ff6a;
+  --sct-input-border: #22c552;
+  --sct-input-focus-border: #8dffab;
+
+  --sct-button-bg: #031207;
+  --sct-button-fg: #39ff6a;
+  --sct-button-border: #39ff6a;
+  --sct-button-hover-bg: #0b3d1a;
+  --sct-button-primary-bg: #39ff6a;
+  --sct-button-primary-fg: #031207;
+  --sct-button-primary-hover-bg: #8dffab;
+
+  --sct-table-header-bg: #062010;
+  --sct-table-header-fg: #39ff6a;
+  --sct-table-row-hover-bg: #0b3d1a;
+
+  --sct-scrollbar-thumb: #1f9a42;
+  --sct-scrollbar-track: #020a04;
+
+  --sct-desktop-bg: #010703;
+  --sct-taskbar-bg: #39ff6a;
+  --sct-taskbar-fg: #031207;
+
+  /* Monochrome glyphs come out phosphor: any opaque pixel -> #3aff69, shapes kept. */
+  --sct-glyph-filter: brightness(0) invert(1) sepia(1) saturate(16) hue-rotate(58deg);
+  /* Colour icons: luminance to a phosphor ramp (black #146d1b, mid grey #2ae238, white #34ffaa), so outlines stay
+     visible on the tube and shapes are kept. */
+  --sct-ph-icon-filter: grayscale(1) contrast(0.5) brightness(1.1) sepia(1) saturate(4) hue-rotate(74deg);
+  /* Ace is restyled directly in shell.css rather than flipped with a filter */
+  --sct-editor-filter: none;
+  --sct-content-filter: brightness(0.8);
+  --sct-ph-glow: 0 0 3px rgb(57 255 106 / 0.45);
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="phosphor"]:not([data-sct-surface="ee"]) {
+  color-scheme: dark;
+}
+
+/* ---- The glass, after TOI's Terminal theme: a CRT's glass sits in front of the phosphor. Drawn once per
+   tab, on the top-level document only (dom.js marks it data-sct-ph-top; never the Experience Editor's
+   website), so a Desktop window's frame never doubles it. Four fixed layers, none taking pointer events:
+   - body::after: the static glass. Bottom to top: scanline rows, RGB sub-pixel stripes, a soft vignette,
+     two glass highlights, the inset edge shade.
+   - body::before: the flicker, a breath of black stepping its opacity.
+   - html::before: the retrace band, a phosphor glow line rolling down the screen.
+   - html::after: crawling grain (SVG turbulence, screen-blended).
+   The rolling and crawling layers move by transform and the flicker by opacity, so none of them repaints.
+   Lighter than TOI's: the worst pixel (a scanline row in a corner, under the band, a white grain speck and
+   the darkest flicker) keeps #22c552 on the tube at 4.7:1 and #39ff6a at 7.2:1 (TOI's own values would
+   bring both near 1:1 there). */
+html[data-sct-theme="phosphor"][data-sct-ph-top] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  background:
+    radial-gradient(55% 40% at 20% 6%, rgb(255 255 255 / 0.03), rgb(255 255 255 / 0) 70%),
+    radial-gradient(40% 22% at 84% 96%, rgb(255 255 255 / 0.015), rgb(255 255 255 / 0) 70%),
+    linear-gradient(168deg, rgb(255 255 255 / 0.02) 0%, rgb(255 255 255 / 0) 32%),
+    radial-gradient(ellipse 78% 74% at 50% 50%, rgb(0 0 0 / 0) 56%, rgb(0 0 0 / 0.05) 78%, rgb(0 0 0 / 0.1) 100%),
+    repeating-linear-gradient(90deg, rgb(255 40 40 / 0.03) 0 1px, rgb(40 255 40 / 0.015) 1px 2px, rgb(40 40 255 / 0.03) 2px 3px),
+    repeating-linear-gradient(180deg, rgb(0 0 0 / 0) 0 2px, rgb(0 0 0 / 0.2) 2px 3px);
+  box-shadow: inset 0 0 90px 18px rgb(0 0 0 / 0.06);
+  animation: none !important;
+}
+html[data-sct-theme="phosphor"][data-sct-ph-top] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483001;
+  pointer-events: none;
+  background: #000;
+  opacity: 0;
+  animation: sct-ph-flicker 5.3s steps(1) infinite !important;
+}
+html[data-sct-theme="phosphor"][data-sct-ph-top]::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20vh;
+  z-index: 2147483002;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(57 255 106 / 0) 0%, rgb(57 255 106 / 0.015) 55%, rgb(57 255 106 / 0.032) 90%, rgb(57 255 106 / 0.05) 96%, rgb(57 255 106 / 0.012) 99%, rgb(57 255 106 / 0) 100%);
+  transform: translateY(-20vh);
+  animation: sct-ph-roll 8.5s linear infinite;
+}
+html[data-sct-theme="phosphor"][data-sct-ph-top]::after {
+  content: "";
+  position: fixed;
+  inset: -180px;
+  z-index: 2147483003;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: screen;
+  background: url("sct-ext:themes/phosphor/glyphs/noise.svg") 0 0 / 180px 180px;
+  animation: sct-ph-grain 1s steps(1) infinite;
+}
+@keyframes sct-ph-roll {
+  to { transform: translateY(104vh); }
+}
+@keyframes sct-ph-flicker {
+  0% { opacity: 0.007; } 4% { opacity: 0.018; } 8% { opacity: 0; } 12% { opacity: 0.013; }
+  19% { opacity: 0.004; } 23% { opacity: 0.022; } 26% { opacity: 0.005; } 34% { opacity: 0.014; }
+  41% { opacity: 0; } 47% { opacity: 0.011; } 52% { opacity: 0.025; } 54% { opacity: 0.004; }
+  63% { opacity: 0.016; } 71% { opacity: 0.007; } 77% { opacity: 0.02; } 83% { opacity: 0.004; }
+  90% { opacity: 0.014; } 96% { opacity: 0.007; }
+}
+/* jumps of under one 180px tile, so the oversized layer always covers the screen */
+@keyframes sct-ph-grain {
+  0% { transform: none; } 12.5% { transform: translate(-37px, 61px); }
+  25% { transform: translate(83px, -22px); } 37.5% { transform: translate(-110px, -70px); }
+  50% { transform: translate(44px, 97px); } 62.5% { transform: translate(-64px, 15px); }
+  75% { transform: translate(121px, -88px); } 87.5% { transform: translate(-18px, -130px); }
+}
+
+/* ---- The distortion: during a burst (dom.js sets data-sct-ph-glitch for about 0.35s, every 2 to 15s) the
+   page goes through the inline #sct-ph-glitch SVG filter: strips torn sideways, each split into red-blue
+   and green. The grain flares with it. On the root element a filter creates no containing block, so nothing fixed moves. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sct-theme="phosphor"][data-sct-ph-top][data-sct-ph-glitch] {
+    filter: url("#sct-ph-glitch");
+  }
+  html[data-sct-theme="phosphor"][data-sct-ph-top][data-sct-ph-glitch]::after {
+    opacity: 0.1;
+  }
+  /* the glass layers are inside the filtered root: held still, the filter only re-runs on a step */
+  html[data-sct-theme="phosphor"][data-sct-ph-top][data-sct-ph-glitch]::before,
+  html[data-sct-theme="phosphor"][data-sct-ph-top][data-sct-ph-glitch]::after,
+  html[data-sct-theme="phosphor"][data-sct-ph-top][data-sct-ph-glitch] body::before {
+    animation-play-state: paused !important;
+  }
+}
+
+/* ---- Reduced motion: no flicker, grain crawl or bursts. The retrace band keeps rolling: it is slow and faint,
+   and Chromium reports reduced motion in every Remote Desktop session, which left Chrome and Edge without it. */
+@media (prefers-reduced-motion: reduce) {
+  html[data-sct-theme="phosphor"][data-sct-ph-top]::after,
+  html[data-sct-theme="phosphor"][data-sct-ph-top] body::before {
+    animation: none !important;
+  }
+}

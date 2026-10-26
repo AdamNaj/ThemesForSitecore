@@ -1,0 +1,10 @@
+/* Longhorn: caption text on glass, black with a soft white glow */
+html[data-sct-theme="longhorn"] sct-bar-postfix {
+  border-color: transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #000;
+  font: 12px/17px "Segoe UI", Tahoma, Verdana, sans-serif;
+  letter-spacing: 0;
+  text-shadow: 0 0 6px #fff, 0 0 3px #fff;
+}

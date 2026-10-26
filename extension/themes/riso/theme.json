@@ -1,0 +1,8 @@
+{
+  "name": "Riso",
+  "description": "A two-ink risograph print in fluorescent pink and teal",
+  "category": "creative",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#f6f1e7", "#ff48b0", "#00a3a3"],
+  "swatch": { "desk": "#f6f1e7", "bar": "#f6f1e7", "barLine": "#0b5c5c", "start": "#ff48b0", "app": "#00a3a3", "win": "#f6f1e7", "border": "#0b5c5c", "shadow": 1, "cap": "#f6f1e7", "btns": "right", "btn": "#0b5c5c", "close": "#ff48b0", "ribbon": "#f6f1e7", "tab": "#00a3a3", "tree": "#f6f1e7", "ed": "#f6f1e7", "sec": "#9edcdc", "field": "#f6f1e7", "line": "#ff48b0", "underline": 1, "sel": "#ff48b0", "fg": "#1a3a4a" }
+}

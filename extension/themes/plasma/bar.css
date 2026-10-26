@@ -1,0 +1,5 @@
+/* A flat accent tag with Plasma's 3px corners */
+html[data-sct-theme="plasma"] sct-bar-postfix {
+  border-radius: 3px;
+  font-weight: 600;
+}

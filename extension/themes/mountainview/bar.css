@@ -1,0 +1,8 @@
+/* A filled pill in the primary colour, as Material draws a badge */
+html[data-sct-theme="mountainview"] sct-bar-postfix {
+  border-radius: 999px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}

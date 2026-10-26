@@ -1,0 +1,60 @@
+/* Hand-tuned area map for /sitecore/admin pages; wins over admin.gen.css. */
+
+/* WebFramework.css paints a light grey swoosh image over the page background. */
+html[data-sct-tokens][data-sct-surface="admin"] body {
+  background-image: none;
+}
+
+/* The Angular index (/sitecore/admin/) colours its toolbars and tool links in component styles
+   compiled into main.bundle.js, which the generator never reads. */
+html[data-sct-tokens][data-sct-surface="admin"] .app-toolbar .first-row {
+  background-color: var(--sct-chrome-bg);
+  color: var(--sct-chrome-fg);
+  border-bottom-color: var(--sct-border);
+}
+html[data-sct-tokens][data-sct-surface="admin"] .app-toolbar :is(.second-row, .third-row) {
+  background-color: var(--sct-panel-bg);
+  background-image: none;
+  color: var(--sct-panel-fg);
+  border-bottom-color: var(--sct-border);
+}
+/* 10.4's title row carries a spiral after the red wallpaper above. */
+html[data-sct-tokens][data-sct-surface="admin"] .app-toolbar .second-row::after {
+  content: none;
+}
+/* 10.4's Back button is a grey sprite in three pieces (arrow cap, body, end cap). The sprite goes; the arrow
+   is the shell's chevron, turned, in the text colour (as on SPEAK pages). */
+html[data-sct-tokens][data-sct-surface="admin"][data-sct-version="10.4"] .sc-backbutton.btn .sc-backbutton-text {
+  background: none;
+}
+html[data-sct-tokens][data-sct-surface="admin"][data-sct-version="10.4"] .sc-backbutton.btn::after {
+  content: none;
+}
+html[data-sct-tokens][data-sct-surface="admin"][data-sct-version="10.4"] .sc-backbutton.btn::before {
+  top: 9px;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: url("/sitecore/shell/themes/standard/images/accordion_up.png") center / 16px 16px no-repeat;
+  transform: rotate(-90deg);
+}
+/* 10.5's Launchpad glyph is a dark data: image for a white toolbar; it takes the toolbar's text colour
+   instead (as on shell pages). */
+html[data-sct-tokens][data-sct-surface="admin"][data-sct-version="10.5"] .app-toolbar .sc-global-logo {
+  color: inherit;
+  background: currentColor;
+  mask: url("/sitecore/shell/Themes/Standard/Images/global_logo_v2.svg") center / cover no-repeat;
+}
+html[data-sct-tokens][data-sct-surface="admin"] .app-toolbar .third-row a {
+  color: var(--sct-panel-fg);
+}
+html[data-sct-tokens][data-sct-surface="admin"] .mat-card a {
+  color: var(--sct-link);
+}
+
+/* SPE's admin console: the generator maps its PowerShell navy to the accent, a page-wide slab of
+   accent colour here; the theme's chrome keeps it a dark console in dark themes. */
+html[data-sct-tokens][data-sct-surface="admin"] .console.bottom-half {
+  background-color: var(--sct-chrome-bg);
+  color: var(--sct-chrome-fg);
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Fjord",
+  "description": "A calm Nordic palette, follows your light or dark setting",
+  "category": "everyday",
+  "order": 50,
+  "versions": ["10.4", "10.5"],
+  "appearance": "auto",
+  "hue": true,
+  "preview": ["#2e3440", "#88c0d0", "#d8dee9"],
+  "swatch": { "desk": "#242933", "desk2": "#3b4a63", "bar": "#1f232b", "start": "#88c0d0", "app": "#3b4252", "win": "#2e3440", "border": "#4c566a", "r": 3, "cap": "#3b4252", "btns": "right", "btn": "#88c0d0", "ribbon": "#2e3440", "tab": "#88c0d0", "tree": "#2e3440", "ed": "#272c36", "sec": "#434c5e", "field": "#2e3440", "line": "#4c566a", "sel": "#434c5e", "fg": "#d8dee9" }
+}

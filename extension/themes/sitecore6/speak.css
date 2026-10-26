@@ -1,0 +1,518 @@
+/* Copenhagen: SPEAK applications did not exist in 6.x; they get its palette, fonts and dark header. */
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] body,
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] input,
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] button,
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] select,
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] textarea {
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] .sc-globalHeader,
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] .sc-flx-global-header {
+  background: linear-gradient(#6e7388, #3d4255 48%, #252733 52%, #13131d);
+  border-bottom: 1px solid #000;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] .sc-globalHeader *,
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] .sc-flx-global-header * {
+  color: #fff;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] .sc-globalHeader .sc-accountInformation li,
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] .sc-globalHeader .sc-accountInformation span,
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"] .sc-globalHeader .sc-accountInformation a {
+  color: #fff;
+}
+
+/* ---- Experience Editor ribbon: SPEAK markup dressed as 6.6's Sheer ribbon, with the metrics and
+   images of 6.6's Ribbon.css, so it matches the Content Editor's. */
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"]:not(#sct-sc6) .sc-pageeditbar {
+  font: 8pt tahoma;
+  color: #000;
+
+  /* the tabs sit on the same dark band as the Content Editor's caption */
+  .sc-quickbar {
+    display: flow-root;
+    height: auto;
+    padding: 2px 3px 0 4px;
+    border: 0;
+    background: #4e4e4e url("/sitecore/shell/themes/standard/gradients/gray1.gif") 50% 0 repeat-y;
+  }
+  .sc-quickbar-item {
+    float: left;
+    height: 17px;
+    margin: 0 2px 0 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    font: 8pt tahoma;
+    text-transform: none;
+    line-height: 16px;
+    cursor: default;
+  }
+  .sc-quickbar-item:focus {
+    outline: none;
+  }
+  .sc-quickbar-button {
+    box-sizing: border-box;
+    padding: 0 3px;
+    opacity: 1;
+  }
+  .sc-quickbar-button.disabled {
+    opacity: 0.45;
+  }
+  .sc-quickbar-tab {
+    padding: 1px 12px 0;
+    color: #fff;
+  }
+  .sc-quickbar-button:not(.disabled):hover,
+  .sc-quickbar-tab:not(.sc-quickbar-tab-selected):hover {
+    padding: 0 11px;
+    border: 1px solid #999;
+    border-bottom: 0;
+    background: #ffde59 url("/sitecore/shell/themes/standard/images/RibbonButtonHover.png") repeat-x;
+    text-decoration: underline;
+  }
+  .sc-quickbar-button:not(.disabled):hover {
+    padding: 0 2px;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected {
+    padding: 0 11px;
+    border: 1px solid #fff;
+    border-bottom: 0;
+    background: #d9dbe1 url("/sitecore/shell/themes/standard/images/RibbonNavigatorButtonActive.png") repeat-x;
+    color: #000;
+  }
+
+  /* framed by 3px of the dark band, as in the Content Editor */
+  .sc-ribbon {
+    margin: 0 3px 3px;
+    box-shadow: 0 0 0 3px #4e4e4e;
+    border: 1px solid #999;
+    border-top: 0;
+    border-bottom-color: #000;
+    background: #e0eced url("/sitecore/shell/themes/standard/images/RibbonToolbarStrip.png") repeat-x;
+  }
+  /* no display here: Sitecore switches strips with jQuery hide and show */
+  .sc-strip {
+    height: 66px;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  .sc-chunk {
+    display: block;
+    float: left;
+    box-sizing: content-box;
+    height: 58px;
+    margin: 2px 1px;
+    padding: 0;
+    border: 2px groove #f0f0f0;
+    background: #818383 url("/sitecore/shell/themes/standard/images/RibbonToolbarChunk.png") repeat-x;
+    white-space: nowrap;
+  }
+  .sc-chunk:hover {
+    background: #626363 url("/sitecore/shell/themes/standard/images/RibbonToolbarChunkHover.png") repeat-x;
+  }
+  .sc-chunk::before,
+  .sc-chunk::after {
+    content: none;
+  }
+  .sc-chunk-button-list,
+  .sc-chunk-check-list {
+    display: flow-root;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+  }
+  .sc-chunk-label {
+    height: 14px;
+    margin: 0;
+    padding: 1px 6px;
+    color: #fff;
+    font: 8pt tahoma;
+    line-height: 14px;
+    text-align: center;
+  }
+
+  /* large buttons */
+  :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton) {
+    float: left;
+    box-sizing: border-box;
+    height: 44px;
+    margin: 0;
+    padding: 5px 6px 2px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    color: #303030;
+    text-align: center;
+    white-space: nowrap;
+    cursor: default;
+  }
+  :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton) > .sprite-speak-ribbon-clean-ee {
+    display: block;
+    margin: 0 auto;
+  }
+  .sc-chunk-button-label {
+    margin: 0;
+    padding: 0;
+    color: #303030;
+    font: 8pt tahoma;
+    line-height: 13px;
+  }
+  :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton):not(.disabled):is(:hover, :active) {
+    padding: 4px 5px 1px;
+    border: 1px solid;
+    border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+    background: #ffe695 url("/sitecore/shell/themes/standard/images/RibbonLargeButtonHover.png") repeat-x;
+  }
+  :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton):not(.disabled):active {
+    background: #ffe594 url("/sitecore/shell/themes/standard/images/Ribbon/LargeButtonActive.png") repeat-x;
+  }
+  :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton).pressed {
+    padding: 4px 5px 1px;
+    border: 1px solid;
+    border-color: #8e8165 #9f937c #868686 #9f937c;
+    background: #ffb70b url("/sitecore/shell/themes/standard/images/RibbonlargeButtonDown.png") repeat-x;
+  }
+  :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton).pressed .sc-chunk-button-label {
+    color: #000;
+  }
+  :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small).disabled .sc-chunk-button-label {
+    color: #8d8d8d;
+  }
+
+  /* small buttons, two to a column */
+  .sc-chunk-button-small-list {
+    float: left;
+    margin: 0;
+    padding: 0;
+  }
+  .sc-chunk-button-small,
+  .sc-chunk-check-small {
+    display: block;
+    box-sizing: border-box;
+    height: 21px;
+    margin: 0;
+    padding: 4px 6px 3px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    color: #303030;
+    white-space: nowrap;
+    cursor: default;
+  }
+  .sc-chunk-button-small > .sprite-speak-ribbon-clean-ee {
+    display: inline-block;
+    float: none;
+    margin: -1px 4px 0 0;
+    vertical-align: text-top;
+  }
+  .sc-chunk-button-small .sc-chunk-button-label,
+  .sc-chunk-check-small-label {
+    display: inline;
+    float: none;
+  }
+  .sc-chunk-button-small:not(.disabled):hover,
+  .sc-chunk-check-small:not(.disabled):hover {
+    padding: 3px 5px 2px;
+    border: 1px solid;
+    border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e;
+    background: #ffe89d url("/sitecore/shell/themes/standard/images/RibbonSmallButtonHover.png") repeat-x;
+  }
+  .sc-chunk-button-small.pressed {
+    padding: 3px 5px 2px;
+    border: 1px solid;
+    border-color: #ddcf9b #c1a877 #dfd8bd #c1a877;
+    background: #ffb70b url("/sitecore/shell/themes/standard/images/RibbonSmallButtonDown.png") repeat-x;
+  }
+
+  /* drop-down buttons end their caption in 6.6's 7x5 arrow */
+  :is(.sc-chunk-button-dropdown, .sc-chunk-gallerybutton)::after {
+    content: none;
+  }
+  :is(.sc-chunk-button-dropdown, .sc-chunk-gallerybutton) .sc-chunk-button-label::after {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 5px;
+    margin-left: 3px;
+    background: url("/sitecore/shell/themes/standard/images/ribbondropdown.gif") no-repeat;
+  }
+
+  /* check boxes: Windows 7's, as in the Content Editor */
+  .sc-chunk-check-list {
+    float: left;
+  }
+  .sc-chunk-check-small {
+    text-align: left;
+  }
+  input.sc-smallcheckbox {
+    --sct-mark: linear-gradient(transparent, transparent);
+    appearance: none;
+    box-sizing: border-box;
+    width: 13px;
+    height: 13px;
+    margin: 0 4px 0 0;
+    padding: 0;
+    border: 1px solid #8e8f8f;
+    border-radius: 0;
+    outline: none;
+    background: var(--sct-mark), linear-gradient(135deg, #dcdcdc, #fbfbfb 80%);
+    vertical-align: -2px;
+  }
+  .sc-chunk-check-small:hover input.sc-smallcheckbox {
+    border-color: #3c7fb1;
+    background: var(--sct-mark), linear-gradient(135deg, #b9dff5, #eaf6fd 80%);
+  }
+  input.sc-smallcheckbox:checked {
+    --sct-mark: linear-gradient(45deg, transparent calc(50% - 1.2px), #2b3f55 calc(50% - 1.2px) calc(50% + 1.2px), transparent calc(50% + 1.2px)) 1px 4px / 5px 5px no-repeat,
+      linear-gradient(-45deg, transparent calc(50% - 1.2px), #2b3f55 calc(50% - 1.2px) calc(50% + 1.2px), transparent calc(50% + 1.2px)) 4px 1px / 7px 7px no-repeat;
+  }
+  .sc-chunk-check-small-label {
+    color: #303030;
+    font: 8pt tahoma;
+  }
+
+  /* the preview date: a small white box between the two arrows, inside the 44px panel */
+  .sc-chunk-datepanel {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 44px;
+    margin: 0;
+    padding: 0 2px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+  }
+  :is(.sc-chunk-datepanel-changedate, .sc-chunk-datepanel-datetime) {
+    height: auto;
+    margin: 0;
+  }
+  .sc-chunk-datepanel-changedate {
+    padding: 0 2px;
+  }
+  .sc-chunk-datepanel-changedate > .sprite-speak-ribbon-clean-ee {
+    zoom: 0.5;
+  }
+  .sc-chunk-datepanel-selector {
+    display: flex;
+    box-sizing: border-box;
+    height: auto;
+    min-height: 0;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 5px;
+    border: 1px solid #8e8f8f;
+    background: #fff;
+    color: #000;
+    font: 8pt tahoma;
+    line-height: 1.1;
+  }
+  .sc-chunk-datepanel-selector * {
+    height: auto;
+    margin: 0;
+    padding: 0;
+    line-height: 1.1;
+    font: 8pt tahoma;
+  }
+  .sc-chunk-datepanel-monthyear {
+    text-align: center;
+  }
+  .sc-chunk-datepanel-day {
+    display: none;
+  }
+  .sc-chunk-datepanel-date {
+    font: bold 16pt tahoma;
+  }
+  .sc-chunk-datepanel-time {
+    font-weight: bold;
+  }
+
+  /* the item path under the ribbon: 6.6's grey bar, like the Content Editor's tree search */
+  .sc-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-sizing: content-box;
+    height: 25px;
+    min-height: 0;
+    margin: 0;
+    padding: 2px 6px;
+    border: 0;
+    border-bottom: 1px solid #4c4c4c;
+    background: #e9e9e9;
+    box-shadow: none;
+  }
+  .sc-breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    float: none;
+    height: auto;
+    padding: 0;
+  }
+  .sc-breadcrumb .scContentButton {
+    padding: 0;
+  }
+  .sc-breadcrumb-item-path {
+    color: #000;
+    font: 8pt tahoma;
+  }
+  .sc-breadcrumb-item-button,
+  .sc-breadcrumb-item-action {
+    padding: 2px;
+    border: 1px solid transparent;
+  }
+  :is(.sc-breadcrumb-item-button, .sc-breadcrumb-item-action):hover {
+    border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e;
+    background: #ffe89d url("/sitecore/shell/themes/standard/images/RibbonSmallButtonHover.png") repeat-x;
+  }
+}
+
+/* SPEAK push buttons: Windows 7's, as 6.6's dialogs drew them */
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"]:not(#sct-sc6) .btn.sc-button {
+  min-width: 76px;
+  height: 23px;
+  margin: 0;
+  padding: 0 8px;
+  border: 1px solid #707070;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+  background: linear-gradient(#f2f2f2, #ebebeb 49%, #dddddd 50%, #cfcfcf);
+  color: #000;
+  font: 8pt tahoma;
+  line-height: 21px;
+  text-transform: none;
+  text-shadow: none;
+
+  &:hover {
+    border-color: #3c7fb1;
+    background: linear-gradient(#eaf6fd, #d9f0fc 49%, #bee6fd 50%, #a7d9f5);
+  }
+  &:active {
+    border-color: #2c628b;
+    background: linear-gradient(#e5f4fc, #c4e5f6 49%, #98d1ef 50%, #68b3db);
+  }
+  &:disabled,
+  &.disabled {
+    border-color: #adb2b5;
+    background: #f4f4f4;
+    color: #838383;
+  }
+  /* the default button carries Windows' blue rim */
+  &.btn-primary {
+    border-color: #3399ff;
+  }
+  &:focus {
+    outline: none;
+  }
+  & .sc-button-text {
+    color: inherit;
+    font: inherit;
+  }
+}
+
+/* ---- Control Panel: 6.6's task page (Controls/Tasks): a blue page with the control panel watermark in
+   the corner, a gradient title bar, pale headlines and white task links behind a green arrow. ---- */
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"]:not(#sct-sc6) body:has(.sc-controlpanel-box) {
+  background: #6375d6;
+
+  .sc-applicationContent {
+    min-height: 100vh;
+    background: #6375d6 url("/sitecore/shell/themes/standard/images/controlpanel.png") no-repeat right bottom fixed;
+    color: #fff;
+    font: 8pt tahoma;
+  }
+  .sc-applicationHeader {
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .sc-applicationHeader-row1 {
+    background: linear-gradient(90deg, #3366cc, #6375d6);
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: #fff;
+    font: bold 14pt tahoma;
+  }
+  .sc-applicationHeader-row2 {
+    border: 0;
+    background: none;
+  }
+  .btn.sc-backbutton {
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+    color: #fff;
+    background: none;
+    box-shadow: none;
+  }
+  /* the arrow is a dark image: drawn white here */
+  .btn.sc-backbutton::before {
+    filter: brightness(0) invert(1);
+  }
+  .sc-backbutton-text {
+    position: static;
+    height: auto;
+    margin: 0 0 0 4px;
+    padding: 0;
+    line-height: normal;
+    color: #fff;
+    font: bold 8pt tahoma;
+  }
+  .btn.sc-backbutton:hover .sc-backbutton-text {
+    text-decoration: underline;
+  }
+  .sc-applicationContent-main {
+    background: none;
+  }
+  .sc-controlpanel-box-header h4 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 4px;
+    color: #d6dff5;
+    font: bold 14pt tahoma;
+    text-transform: none;
+  }
+  .sc-controlpanel-box-content {
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .sc-controlpanel-box-content li {
+    height: auto;
+    padding: 0;
+    border: 0;
+  }
+  .sc-controlpanel-box-content a {
+    display: inline-block;
+    padding: 6px 0 6px 28px;
+    background: url("/sitecore/shell/themes/standard/images/go16x16.png") no-repeat 6px 50%;
+    color: #fff;
+    font: bold 8pt tahoma;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .sc-controlpanel-box-content a:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+}
+
+/* the account links stay white on the dark header */
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"]:not(#sct-sc6) .sc-globalHeader .sc-accountInformation a {
+  color: #fff;
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; on 6.6's dark header it is white. */
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"][data-sct-version="10.5"]:not(#sct-sc6) .sc-globalHeader .sc-global-logo {
+  background: #fff;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}

@@ -1,0 +1,7 @@
+/* Miami: a neon sign */
+html[data-sct-theme="miami"] sct-bar-postfix {
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(255, 46, 136, 0.75);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}

@@ -1,0 +1,38 @@
+{
+  "name": "themes-for-sitecore",
+  "version": "0.4.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Adam Najmanowicz",
+  "description": "Browser extension that re-themes the Sitecore 10.0 to 10.5 Content Management UIs",
+  "homepage": "https://github.com/AdamNaj/ThemesForSitecore#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdamNaj/ThemesForSitecore.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AdamNaj/ThemesForSitecore/issues"
+  },
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test \"test/unit/*.test.js\"",
+    "themes": "node tools/themes.mjs",
+    "test:e2e": "playwright test",
+    "lint": "web-ext lint -s extension",
+    "build": "node tools/themes.mjs && node tools/build.mjs",
+    "build:sitecore": "node tools/themes.mjs && node tools/build-sitecore.mjs",
+    "package:sitecore": "node tools/themes.mjs && node tools/build-sitecore.mjs && node tools/package-sitecore.mjs",
+    "sign:firefox": "web-ext sign --channel=unlisted -s dist/firefox-unlisted -a dist"
+  },
+  "config": {
+    "updateBase": ""
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "postcss": "^8.5.31",
+    "web-ext": "^10.8.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

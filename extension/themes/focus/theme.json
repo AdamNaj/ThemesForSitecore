@@ -1,0 +1,8 @@
+{
+  "name": "Focus",
+  "description": "Quiet warm greys for long editing sessions: the chrome steps back, the field you edit stands out",
+  "category": "everyday",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#ffffff", "#2f6f5e", "#f4f4f2"],
+  "swatch": { "desk": "#e8e8e4", "bar": "#f4f4f2", "barLine": "#e4e4e0", "start": "#6b6b66", "app": "#ebebe7", "win": "#ffffff", "border": "#d8d8d4", "r": 4, "shadow": 1, "cap": "#f4f4f2", "btns": "right", "btn": "#b8b8b2", "ribbon": "#f7f7f5", "tab": "#b8b8b2", "tree": "#f7f7f5", "ed": "#ffffff", "sec": "#ffffff", "field": "#ffffff", "underline": 1, "line": "#2f6f5e", "sel": "#ebebe7", "fg": "#6b6b66" }
+}

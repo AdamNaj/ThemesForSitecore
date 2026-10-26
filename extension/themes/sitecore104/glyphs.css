@@ -1,0 +1,113 @@
+/* Sitecore 10.4: hand-written, kept out of the generated files. */
+/* 10.5 points some <img> tags at new grey glyphs. Sitecore's scripts read those file names to track
+   tree state, so the src must stay; the image is pushed out of its box (object-position) and the 10.4 glyph drawn as its background. */
+html[data-sct-theme="sitecore104"] img[src*="/treemenu_collapsed_grey.png"] {
+  object-fit: none; object-position: -999px -999px; overflow: hidden; background: url("/sitecore/shell/themes/standard/images/treemenu_collapsed.png") center no-repeat;
+}
+html[data-sct-theme="sitecore104"] img[src*="/treemenu_expanded_grey.png"] {
+  object-fit: none; object-position: -999px -999px; overflow: hidden; background: url("/sitecore/shell/themes/standard/images/treemenu_expanded.png") center no-repeat;
+}
+html[data-sct-theme="sitecore104"] img[src*="/accordion_down_grey.png"] {
+  object-fit: none; object-position: -999px -999px; overflow: hidden; background: url("/sitecore/shell/themes/standard/images/accordion_down.png") center no-repeat; width: 16px; height: 16px;
+}
+html[data-sct-theme="sitecore104"] img[src*="/accordion_down_grey_h.png"] {
+  object-fit: none; object-position: -999px -999px; overflow: hidden; background: url("/sitecore/shell/themes/standard/images/accordion_down_h.png") center no-repeat; width: 16px; height: 16px;
+}
+html[data-sct-theme="sitecore104"] img[src*="/accordion_up_grey.png"] {
+  object-fit: none; object-position: -999px -999px; overflow: hidden; background: url("/sitecore/shell/themes/standard/images/accordion_up.png") center no-repeat; width: 16px; height: 16px;
+}
+html[data-sct-theme="sitecore104"] img[src*="/accordion_up_grey_h.png"] {
+  object-fit: none; object-position: -999px -999px; overflow: hidden; background: url("/sitecore/shell/themes/standard/images/accordion_up_h.png") center no-repeat; width: 16px; height: 16px;
+}
+html[data-sct-theme="sitecore104"] img[src*="/down_grey_h.png"] {
+  object-fit: none; object-position: -999px -999px; overflow: hidden; background: url("/sitecore/shell/themes/standard/images/down_h.png") center no-repeat;
+}
+html[data-sct-theme="sitecore104"] img[src*="/RibbonChunkGlyphGrey.png"] {
+  object-fit: none; object-position: -999px -999px; overflow: hidden; background: url("/sitecore/shell/themes/standard/images/RibbonChunkGlyph.png") center no-repeat; width: 8px; height: 8px;
+}
+html[data-sct-theme="sitecore104"] img[src*="/RibbonChunkGlyphGrey_h.png"] {
+  object-fit: none; object-position: -999px -999px; overflow: hidden; background: url("/sitecore/shell/themes/standard/images/RibbonChunkGlyph_h.png") center no-repeat; width: 8px; height: 8px;
+}
+/* (Above: the chunk-glyph and accordion boxes take the 10.4 glyph sizes, 8px and 16px, not 10.5's 15px and 19px.) */
+/* Other 10.5-only glyphs, swapped with content:url() (the src stays for Sitecore's scripts). */
+html[data-sct-theme="sitecore104"] img[src*="/ribbondropdown_grey.png"] { content: url("/sitecore/shell/themes/standard/images/ribbondropdown.gif"); }
+html[data-sct-theme="sitecore104"] img[src*="/ribbon_panel_up_grey.png"] { content: url("/sitecore/shell/themes/standard/images/Ribbon/ribbon_panel_up.png"); }
+html[data-sct-theme="sitecore104"] img[src*="/ribbon_panel_up_grey_h.png"] { content: url("/sitecore/shell/themes/standard/images/Ribbon/ribbon_panel_up_h.png"); }
+html[data-sct-theme="sitecore104"] img[src*="/ribbon_panel_down_grey.png"] { content: url("/sitecore/shell/themes/standard/images/Ribbon/ribbon_panel_down.png"); }
+html[data-sct-theme="sitecore104"] img[src*="/ribbon_panel_down_grey_h.png"] { content: url("/sitecore/shell/themes/standard/images/Ribbon/ribbon_panel_down_h.png"); }
+html[data-sct-theme="sitecore104"] img[src*="/ribbon_panel_dots.png"] { content: url("/sitecore/shell/themes/standard/images/Ribbon/ribbon_panel_open.png"); }
+html[data-sct-theme="sitecore104"] img[src*="/ribbon_panel_dots_h.png"] { content: url("/sitecore/shell/themes/standard/images/Ribbon/ribbon_panel_open_h.png"); }
+html[data-sct-theme="sitecore104"] img[src*="/notebook_grey.png"] { content: url("/sitecore/shell/themes/standard/~/icon/Office/16x16/notebook2.png"); }
+
+/* Window buttons: 10.5 draws dark glyphs; 10.4's light ones sit on its dark ribbon strip. */
+html[data-sct-theme="sitecore104"] :is(.scSystemButtons, .standartWindowButtons) img[src*="page_switcher"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher.png");
+}
+html[data-sct-theme="sitecore104"] :is(.scSystemButtons, .standartWindowButtons) img[src*="page_switcher"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher_h.png");
+}
+html[data-sct-theme="sitecore104"] :is(.scSystemButtons, .standartWindowButtons) img[src*="minimize"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png");
+}
+html[data-sct-theme="sitecore104"] :is(.scSystemButtons, .standartWindowButtons) img[src*="minimize"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize_h.png");
+}
+html[data-sct-theme="sitecore104"] :is(.scSystemButtons, .standartWindowButtons) img[src*="dialog_maximize"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png");
+}
+html[data-sct-theme="sitecore104"] :is(.scSystemButtons, .standartWindowButtons) img[src*="dialog_maximize"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize_h.png");
+}
+html[data-sct-theme="sitecore104"] :is(.scSystemButtons, .standartWindowButtons) img[src*="dialog_restore"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png");
+}
+html[data-sct-theme="sitecore104"] :is(.scSystemButtons, .standartWindowButtons) img[src*="dialog_restore"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore_h.png");
+}
+html[data-sct-theme="sitecore104"] :is(.scSystemButtons, .standartWindowButtons) img[src*="dialog_close"] {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png");
+}
+html[data-sct-theme="sitecore104"] :is(.scSystemButtons, .standartWindowButtons) img[src*="dialog_close"]:hover {
+  content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close_h.png");
+}
+
+/* ---- Fixes tools/css-diff.mjs cannot infer (measured against 10.4.1: its stylesheets and screenshots) ----
+   This file loads before the generated ones, so each selector out-specifies the generated rule it corrects. */
+
+/* Content Editor: 10.5's Default.aspx adds inline styles 10.4 did not have (16px gap under the ribbon, a white tree card
+   with a shadow, a grey 22px magnifier). */
+html[data-sct-theme="sitecore104"] .scWindowBorder2[style*="#f7f7f7"] { background-color: transparent !important; }
+html[data-sct-theme="sitecore104"] .scCaption.scDockTop.scWindowHandle[style*="margin-bottom"] { margin-bottom: 0 !important; }
+html[data-sct-theme="sitecore104"] #ContentTreePanel .scFlexColumnContainerWithoutFlexie[style*="box-shadow"] {
+  width: 100% !important; background-color: transparent !important; box-shadow: none !important;
+}
+html[data-sct-theme="sitecore104"] #SearchPanel div[style*="padding-top: 8px"] { padding-top: 0 !important; }
+html[data-sct-theme="sitecore104"] #SearchPanel img[src*="magnifying_glass_grey"] {
+  content: url("/sitecore/shell/themes/standard/~/icon/Office/16x16/magnifying_glass.png"); width: 16px; height: 16px;
+}
+/* 10.5 gave #TreeSearch its own border; in 10.4 it came from input[type="text"]. */
+html[data-sct-theme="sitecore104"] input#TreeSearch.scSearchInput { border: 1px solid #cccccc; border-radius: 2px; }
+/* Navigator / language / version buttons: 10.4's a.scEditorHeaderButton outranked the .scButton gradient. */
+html[data-sct-theme="sitecore104"] .scEditorTabControls a.scEditorHeaderButton.scButton { background-color: #f7f7f7; background-image: none; }
+html[data-sct-theme="sitecore104"] .scEditorTabControls a.scEditorHeaderButton.scButton:hover { background-color: #fff; background-image: none; }
+
+/* Sheer dialogs: jQuery UI's bold title (its sheet is a minified lib the generator skips). */
+html[data-sct-theme="sitecore104"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar.ui-widget-header { font-weight: bold; }
+
+/* Experience Editor ribbon breadcrumb bar (10.4's ribbon bundle; the class is shared with other SPEAK breadcrumbs). */
+html[data-sct-theme="sitecore104"] .sc-pageeditbar nav.sc-breadcrumb {
+  background: #e6e6e6; background: linear-gradient(to top, #f7f7f7, #ebebeb); border-bottom: 1px solid #cccccc;
+}
+
+/* The ribbon's collapse/expand toggle: 10.4's own chevron is #ccc at half opacity, close to invisible on the
+   light ribbon. Darkened, its shape kept. */
+html[data-sct-theme="sitecore104"] :is(.scRibbonClose, .scRibbonOpen) {
+  filter: brightness(0);
+}
+
+/* The rule editor's two lists: 10.5 gives them a custom ::-webkit-scrollbar, which unset values can't take
+   back (any such rule switches the scrollbar to the custom one; unset left a hollow thumb). A standard
+   scrollbar-color makes Chrome ignore those rules: Chrome's own colours, as 10.4 showed. */
+html[data-sct-theme="sitecore104"] :is(#Conditions, #Description) {
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}

@@ -1,0 +1,113 @@
+/* Notebook: graph paper and pen, light.
+   Spec (from the approved mock-up, test-results/theme-ideas, .t-nb):
+   paper #fdfdf8 with a 14px graph grid in #dfe7f5; blue ink #1d3a8a; red margin line #f07a8c;
+   highlighter #fff27a; dividers pink #f7b6c2, yellow #fbe29a, blue #b9dcf7, green #c9efc0;
+   kraft desk #cfa96f with a 6px dot texture; sticky notes #fff59a (active #ffd0e0).
+   Handwriting (--nb-hand) only for chrome: titles, tabs, ribbon captions, section headers, buttons.
+   Data (fields, tree, grids) stays in the system font below. Fonts are the machine's own; none bundled. */
+html[data-sct-theme="notebook"] {
+  --sct-font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --sct-font-size: 12px;
+  --sct-radius: 3px;
+
+  --nb-hand: "Segoe Print", "Bradley Hand", "Ink Free", cursive;
+  --nb-paper: #fdfdf8;
+  --nb-grid: #dfe7f5;
+  --nb-ink: #1d3a8a;
+  --nb-margin: #f07a8c;
+  --nb-rule: #b7c8ea;
+  --nb-hi: #fff27a;
+  --nb-pink: #f7b6c2;
+  --nb-yellow: #fbe29a;
+  --nb-blue: #b9dcf7;
+  --nb-green: #c9efc0;
+  --nb-kraft: #cfa96f;
+  --nb-note: #fff59a;
+  --nb-note-on: #ffd0e0;
+  --nb-tape: rgb(255 240 170 / 0.72);
+  --nb-divider-fg: #3a2a20;
+  /* graph paper: two 1px line sets every 14px over the paper colour */
+  --nb-graph: linear-gradient(var(--nb-grid) 1px, transparent 1px) 0 0 / 14px 14px,
+    linear-gradient(90deg, var(--nb-grid) 1px, transparent 1px) 0 0 / 14px 14px, var(--nb-paper);
+  --nb-kraft-bg: radial-gradient(rgb(0 0 0 / 0.09) 1px, transparent 1.2px) 0 0 / 6px 6px, var(--nb-kraft);
+
+  --sct-app-bg: #fdfdf8;
+  --sct-app-fg: #1d3a8a;
+  --sct-panel-bg: #fdfdf8;
+  --sct-panel-fg: #1d3a8a;
+  --sct-muted-fg: #4f629c;
+  --sct-border: #b7c8ea;
+  --sct-border-strong: #7488c0;
+  --sct-accent: #1d3a8a;
+  --sct-accent-fg: #fdfdf8;
+  --sct-link: #1f4fbf;
+  --sct-focus-ring: #d6455c;
+  --sct-raised-bg: #f7f5ea;
+  --sct-chrome-bg: #f5f1e2;
+  --sct-chrome-fg: #1d3a8a;
+  --sct-selected-bg: #fff27a;
+
+  --sct-titlebar-bg: #fdfdf8;
+  --sct-titlebar-fg: #1d3a8a;
+  --sct-titlebar-inactive-bg: #f5f3ea;
+  --sct-titlebar-inactive-fg: #4f629c;
+  --sct-window-border: #7488c0;
+
+  --sct-ribbon-bg: #fcebeb;
+  --sct-ribbon-fg: #1d3a8a;
+  --sct-ribbon-tab-bg: #fdfdf8;
+  --sct-ribbon-tab-fg: #3a2a20;
+  --sct-ribbon-tab-active-bg: #fcebeb;
+  --sct-ribbon-tab-active-fg: #3a2a20;
+  --sct-ribbon-chunk-bg: #fcebeb;
+  --sct-ribbon-chunk-caption-bg: #fcebeb;
+  --sct-ribbon-chunk-caption-fg: #44568f;
+  --sct-ribbon-button-hover-bg: #fff6c4;
+  --sct-ribbon-button-pressed-bg: #fbe29a;
+
+  --sct-tree-bg: #fdfdf8;
+  --sct-tree-fg: #1d3a8a;
+  --sct-tree-hover-bg: #eef3fb;
+  --sct-tree-selected-bg: #fff27a;
+  --sct-tree-selected-fg: #1d3a8a;
+  --sct-tree-selected-border: #fff27a;
+
+  --sct-section-header-bg: #fdfdf8;
+  --sct-section-header-fg: #1d3a8a;
+  --sct-section-body-bg: #fdfdf8;
+  --sct-field-label-fg: #1d3a8a;
+
+  --sct-input-bg: #fffffc;
+  --sct-input-fg: #142a66;
+  --sct-input-border: #1d3a8a;
+  --sct-input-focus-border: #d6455c;
+
+  --sct-button-bg: #fdfdf8;
+  --sct-button-fg: #1d3a8a;
+  --sct-button-border: #1d3a8a;
+  --sct-button-hover-bg: #fff6c4;
+  --sct-button-primary-bg: #1d3a8a;
+  --sct-button-primary-fg: #fdfdf8;
+  --sct-button-primary-hover-bg: #2a4ba8;
+
+  --sct-table-header-bg: #f5f1e2;
+  --sct-table-header-fg: #1d3a8a;
+  --sct-table-row-hover-bg: #fff9d6;
+
+  --sct-scrollbar-thumb: #b7c8ea;
+  --sct-scrollbar-track: #f3f5fa;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #cfa96f;
+  --sct-taskbar-bg: #b88d52;
+  --sct-taskbar-fg: #24180b;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="notebook"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

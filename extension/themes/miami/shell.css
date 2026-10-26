@@ -1,0 +1,577 @@
+/* Miami: synthwave neon over a sunset grid. Sitecore's layout on deep violet; the chrome glows (window
+   frames pink, window buttons and the active tab cyan, the Desktop a striped sun over a neon grid), while
+   field contents, the tree and dense text stay plain colours at AA. Palette and spec in tokens.css.
+
+   Title lettering: italic uppercase "chrome", a gradient clipped to the text. Every stop is a light colour
+   (white, ice blue #bfefff, pink #ffb3dd), so the darkest point of the text is still above 9:1 on the
+   #1b0538 title bar. The text keeps its real colour for the scanner, selection and forced colours;
+   only -webkit-text-fill-color goes transparent. */
+
+/* ==== Desktop: night sky, a striped setting sun and a neon perspective floor, all gradients ==== */
+/* The scene is tokens.css's --sct-mi-scene, its horizon 60% down the Desktop area. Sitecore sets the
+   user's wallpaper inline, hence !important. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] #Desktop.DesktopArea {
+  background: var(--sct-mi-scene) !important;
+}
+/* The sun: yellow to orange to pink, cut by horizontal gaps that widen towards the horizon, setting
+   (its lower fifth hidden) on the horizon line. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] #Desktop.DesktopArea::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 40%;
+  width: min(44vh, 360px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, 20%);
+  clip-path: inset(0 0 20% 0);
+  background: var(--sct-mi-sun);
+  mask: var(--sct-mi-sun-mask);
+  pointer-events: none;
+}
+
+/* ==== Windows: deep violet with a 1px pink frame and a pink glow ==== */
+/* Desktop windows are iframes on the Desktop; a maximised one fills it and needs no frame. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] #Desktop > iframe:not([style*="width: 100%"]) {
+  box-sizing: border-box;
+  border: 1px solid #ff2e88;
+  border-radius: 4px;
+  background: #170830;
+  box-shadow: 0 0 0 1px rgb(255 46 136 / 0.25), 0 0 22px rgb(255 46 136 / 0.5);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog {
+  border: 1px solid #ff2e88;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgb(255 46 136 / 0.25), 0 0 22px rgb(255 46 136 / 0.5);
+}
+/* the jQuery UI title strip above the dialog page's header takes the header's colour */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar {
+  background: linear-gradient(90deg, #1b0538, #2a0a4f);
+  border-color: transparent;
+  border-radius: 3px 3px 0 0;
+}
+/* a faint violet tint over what the dialog covers */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-widget-overlay {
+  background: rgb(10 0 30 / 0.3);
+  opacity: 1;
+}
+
+/* ---- Title bars: the title in italic uppercase chrome */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.standardWindowCaption, .scDialogHeader, .scFormDialogHeader, .ui-dialog > .DialogHeader) {
+  background: linear-gradient(90deg, #1b0538, #2a0a4f);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.standardWindowCaption .scWindowCaption, :is(.scDialogHeader, .scFormDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
+  color: #f4e9ff;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-image: linear-gradient(#ffffff 0%, #bfefff 48%, #ffb3dd 52%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* The header the dialog host adds under its title strip (SPE's ListView) is the title itself: the chrome
+   lettering on the text, the bar's gradient behind it, as on the strip above. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+  background-image: linear-gradient(#ffffff 0%, #bfefff 48%, #ffb3dd 52%, #ffffff 100%), linear-gradient(90deg, #1b0538, #2a0a4f);
+  -webkit-background-clip: text, border-box;
+  background-clip: text, border-box;
+}
+/* Standard windows (ISE, Console, Package Designer...): a 32px bar, the title clear of the buttons,
+   which are centred on it 8px from the right edge */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .standardWindowCaption {
+  height: 32px;
+  border-bottom: 1px solid rgb(255 46 136 / 0.5);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .standardWindowCaption + .windowPlaceholderContainer {
+  top: 33px;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .standardWindowCaption .windowCaptionIcon {
+  vertical-align: top;
+  margin-top: 8px;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .standardWindowCaption .scWindowCaption {
+  display: inline-block;
+  max-width: calc(100% - 140px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: top;
+  font-size: 14px;
+  line-height: 32px;
+  padding: 0 4px 0 8px;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .standardWindowCaption .scWindowCaption * {
+  font-size: inherit;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .standartWindowButtons {
+  top: 0;
+  right: 8px;
+  height: 32px;
+}
+/* the gradient spans the text's line box: one line, so the horizon band crosses every letter */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeader {
+  display: inline-block;
+}
+/* the ISE writes its script path in an inline #bbb <i>: chrome lettering too, without the forced caps */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .standardWindowCaption .scWindowCaption i {
+  color: #f4e9ff !important;
+  text-transform: none;
+}
+/* the description under a dialog title is body text: no chrome, no glow */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeaderDescription {
+  color: #dccbf7;
+}
+
+/* ---- Window buttons: cyan outlines with a soft glow, Sitecore's images swapped for vector glyphs */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img,
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #00e5ff;
+  border-radius: 3px;
+  filter: none;
+  object-fit: none;
+  object-position: -999px -999px;
+  background: transparent center / 16px 16px no-repeat;
+  box-shadow: 0 0 6px rgb(0 229 255 / 0.6), inset 0 0 4px rgb(0 229 255 / 0.25);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover,
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > *:hover {
+  background-color: rgb(0 229 255 / 0.16);
+  box-shadow: 0 0 10px rgb(0 229 255 / 0.85), inset 0 0 6px rgb(0 229 255 / 0.4);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="page_switcher"] { background-image: url("sct-ext:themes/miami/glyphs/switcher.svg"); }
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"] { background-image: url("sct-ext:themes/miami/glyphs/minimize.svg"); }
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"] { background-image: url("sct-ext:themes/miami/glyphs/maximize.svg"); }
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"] { background-image: url("sct-ext:themes/miami/glyphs/restore.svg"); }
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"] { background-image: url("sct-ext:themes/miami/glyphs/close.svg"); }
+/* jQuery UI's dialog buttons hold an icon span: the glyph goes on the span */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * > .ui-icon {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  background: transparent center / 16px 16px no-repeat;
+  text-indent: -999px;
+  overflow: hidden;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-closethick { background-image: url("sct-ext:themes/miami/glyphs/close.svg"); }
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-extlink { background-image: url("sct-ext:themes/miami/glyphs/maximize.svg"); }
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-newwin { background-image: url("sct-ext:themes/miami/glyphs/restore.svg"); }
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon-minus { background-image: url("sct-ext:themes/miami/glyphs/minimize.svg"); }
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane :is(.ui-icon-triangle-1-n, .ui-icon-triangle-1-s, .ui-icon-carat-1-n, .ui-icon-carat-1-s) { background-image: url("sct-ext:themes/miami/glyphs/collapse.svg"); }
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane {
+  display: flex;
+  gap: 6px;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+  position: relative;
+}
+
+/* ==== Active and selected states: cyan underline and glow for tabs, cyan glow on focused fields ==== */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scRibbonNavigatorButtonsActive, .scRibbonNavigatorButtonsContextualActive, .scEditorTabHeaderActive, .scTabstrip [class*="scTabActive"], .ui-tabs .ui-tabs-active) {
+  color: #00e5ff;
+  text-shadow: 0 0 6px rgb(0 229 255 / 0.7);
+  box-shadow: inset 0 -2px #00e5ff, 0 4px 8px -4px rgb(0 229 255 / 0.7);
+  border-bottom-color: transparent;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scRibbonNavigatorButtonsActive, .scRibbonNavigatorButtonsContextualActive, .scEditorTabHeaderActive, .scTabstrip [class*="scTabActive"], .ui-tabs .ui-tabs-active) :is(span, a, b) {
+  color: inherit;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"], [type="image"]), textarea, select):focus {
+  border-color: #00e5ff;
+  outline: none;
+  box-shadow: 0 0 0 1px #00e5ff, 0 0 8px rgb(0 229 255 / 0.55);
+}
+/* the date/time pickers' table is the field: it glows instead of the frameless input inside */
+html[data-sct-theme="miami"][data-sct-surface="shell"] table.scCombobox:focus-within {
+  border-color: #00e5ff;
+  box-shadow: 0 0 0 1px #00e5ff, 0 0 8px rgb(0 229 255 / 0.55);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] table.scCombobox input:focus {
+  box-shadow: none;
+}
+
+/* Content Editor sections: a pink wash fading out to the right */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scEditorSectionCaptionCollapsed, .scEditorSectionCaptionExpanded) {
+  background: linear-gradient(90deg, #5a1660, #3a1259 45%, #23104a) !important;
+  color: #ffd1ec;
+}
+/* toggled-on ribbon buttons (View > Raw values...): a cyan outline, not a fill */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, .scRibbonToolbarLargeComboButtonDown, .scRibbonLargeImageButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown):is(*, :hover, :active) {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+  color: var(--sct-ribbon-fg);
+  box-shadow: inset 0 0 0 1px #00e5ff;
+}
+
+/* ==== Taskbar: a dark bar with a pink neon top edge, START in italic pink, the active app in cyan ==== */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scStartbar {
+  background: #0a0218;
+  border-top: 1px solid #ff2e88;
+  box-shadow: 0 -2px 12px rgb(255 46 136 / 0.45);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(#Startbar, #Startbar > table) {
+  background: transparent;
+}
+/* the button is positioned inside its container, which sets the width of the start cell */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scStartButtonContainer {
+  width: 112px;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scStartButton, .scStartButton:hover, .scStartButton.scPopupOpener) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  width: 112px;
+  box-sizing: border-box;
+  padding: 0 14px;
+  background: transparent;
+  border: 0;
+  filter: none;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scStartButton::before {
+  content: "Start";
+  color: #ff2e88;
+  font: italic 800 18px/1 "Segoe UI", system-ui, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 0 6px rgb(255 46 136 / 0.9), 0 0 14px rgb(255 46 136 / 0.5);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scStartButton:hover, .scStartButton.scPopupOpener) {
+  background: rgb(255 46 136 / 0.14);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scStartButton:hover::before,
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scStartButton.scPopupOpener::before {
+  color: #ff6aa9;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scStartButton:focus-visible {
+  outline: 2px solid #00e5ff;
+  outline-offset: -4px;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] #StartbarApplications td .scStartBarApplication {
+  background: transparent;
+  border-color: transparent;
+  border-radius: 0;
+  color: #c3b1e3;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] #StartbarApplications td .scStartBarApplication * {
+  color: inherit;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] #StartbarApplications td .scStartBarApplication:hover {
+  background: #1d0b3d;
+  color: #f4e9ff;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] #StartbarApplications td.scActiveApplication {
+  background: transparent;
+  border-color: transparent;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] #StartbarApplications td.scActiveApplication .scStartBarApplication {
+  color: #00e5ff;
+  text-shadow: 0 0 6px rgb(0 229 255 / 0.7);
+  box-shadow: inset 0 -2px #00e5ff;
+}
+/* the start menu and every pop-up menu: a pink neon frame */
+html[data-sct-theme="miami"][data-sct-surface="shell"] #StartMenu {
+  border: 1px solid #ff2e88;
+  box-shadow: 0 0 18px rgb(255 46 136 / 0.45);
+}
+/* the global header: a pink hairline under it, as the taskbar has over it */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .sc-globalHeader {
+  border-bottom: 1px solid rgb(255 46 136 / 0.6);
+}
+
+/* ---- Hover and pressed states. The area map turns 10.5's light-grey hovers into the app background,
+   which on a dark theme is darker than the panel (or the same colour as a menu). They lift instead. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton, a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton, a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):active {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* toggled-on buttons keep their selected colour under the pointer */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, .scRibbonToolbarLargeComboButtonDown, .scRibbonLargeImageButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown):is(*, :hover, :active) {
+  background-color: var(--sct-selected-bg);
+  color: var(--sct-tree-selected-fg);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scSearchLink:hover, .scElementHover:hover, .scSearchOptionName:hover, .scListControl > tbody > tr:hover, .Row:hover, .scTab_Hover, .scVerticalTabstrip .scVerticalTabs a:not(.active):hover, .scPagerButtonNormal:hover, .scEditorHeaderTitle:hover, .scEditorHeaderNavigatorField:hover, a.scEditorHeaderNavigatorSection:hover, .scNavButton:hover, .scListviewItemIcons:hover, .scListviewItemList:hover, .scCommand_Hover, .scComboboxDropDown:hover, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-button:not(.ui-state-active):hover, td.scCalendarCell:hover, .scTimePicker a:hover, .scLink:hover, .scInstallerPager:hover, .spe-variables-list .spe-variable:hover, .scStartMenuLeftOption:hover, .scStartMenuRightOption:hover, .scStartMenuRightFolder:hover, .scStartMenuProgramsMenu:hover, .BlogPostArea:hover, .side li a:hover, .pagination li a:hover, .quickactions > ul > li:hover, .quickactions ul li ul li a:hover, .sb_dropdown .sb_filter:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+/* (kept apart: id selectors would lift the specificity of the whole list above selected states) */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(#InstantResults li:hover, #InstantResults .scSearchResultsTable a:hover, #results table > tbody > tr:hover, #grid-content .post_float:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+
+/* ---- Menus (context menu, start menu fly-outs, drop-downs): a raised surface with body text,
+   not the app background with link-coloured items. Disabled items read as disabled. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] table.scMenu {
+  background-color: var(--sct-raised-bg);
+  color: var(--sct-panel-fg);
+  box-shadow: 0 0 0 1px #ff2e88, 0 0 14px rgb(255 46 136 / 0.4);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon, .scMenuItemCaption, .scMenuItemHotkey, .scMenuItemIcon_Disabled, .scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  background-color: transparent;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+  color: var(--sct-chrome-fg);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  color: color-mix(in srgb, var(--sct-panel-fg) 45%, var(--sct-raised-bg));
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] table.scMenu .scMenuItemIcon_Disabled img {
+  opacity: 0.4;
+}
+/* separators are 1px cells painted with a background colour */
+html[data-sct-theme="miami"][data-sct-surface="shell"] table.scMenu :is(.scMenuDividerIcon, .scMenuDividerCaption, .scMenuDividerHotkey) {
+  background-color: var(--sct-border-strong);
+  border-color: transparent;
+}
+
+/* ---- Desktop */
+/* the right column of the start menu got a tint of 6.x's cream; 10.5 paints both columns alike */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scStartMenuRight {
+  background-color: var(--sct-panel-bg);
+}
+/* the taskbar search field is a field, not a patch of taskbar */
+html[data-sct-theme="miami"][data-sct-surface="shell"] #SearchBox,
+html[data-sct-theme="miami"][data-sct-surface="shell"] #SearchBox.focus {
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  box-shadow: inset 0 0 0 1px var(--sct-input-border);
+}
+
+/* ---- Global header: "Log out" a quieter step of the header text, as in 10.5, on every surface. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 80%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+
+/* ---- Light leftovers Sheer UI writes inline in other spellings than the shared map knows. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is([style*="background:white" i], [style*="background: white" i], [style*="background-color:white" i], [style*="background-color: white" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+/* hidden and system items in the trees are marked with an inline #666 */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is([style*="color:#666666" i], [style*="color: #666666" i]) {
+  color: color-mix(in srgb, var(--sct-muted-fg) 85%, var(--sct-app-fg)) !important;
+}
+/* soft light glows round the tree and editor panes (one inline, one in Content Manager.css) */
+html[data-sct-theme="miami"][data-sct-surface="shell"] #ContentTreePanel > div[style*="box-shadow"] {
+  box-shadow: 0 0 0 1px var(--sct-border) !important;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] #EditorFrames {
+  box-shadow: 0 0 0 1px var(--sct-border);
+}
+/* the bucket search box's buttons carry a white 1px highlight */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.btn-clear, .btn-search) {
+  box-shadow: none;
+}
+
+/* ---- Images painted for a white page */
+/* Security Editor's access-right tiles and key, and the ComponentArt grid pager (User Manager etc.):
+   white tiles with grey glyphs. Inverting keeps the green/red hues and makes the tiles dark. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] img[src*="/images/security/" i],
+html[data-sct-theme="miami"][data-sct-surface="shell"] img[src*="/componentart/grid/pager/" i] {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Bucket search box (Media Library, bucket folders): one field, as in 10.5. The area map paints
+   its buttons as black blocks and drops their glyphs (they share a declaration with a gradient). */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .search-box {
+  background-color: var(--sct-input-bg);
+  border-color: var(--sct-input-border);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search) {
+  background-color: transparent;
+  border-color: transparent;
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .btn-clear {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/clear.png");
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .btn-search {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png");
+}
+/* under the inverting filter (invert + hue-rotate) this light grey shows as the theme's hover colour (#34373c) */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search):is(:hover, :active) {
+  background-color: #c5c8cb;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .filters .filter {
+  background-color: var(--sct-raised-bg);
+  border-color: var(--sct-border);
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .filters .filter :is(.icon, .value .display-value) {
+  background-color: transparent;
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .filters .filter :is(.icon, .remove):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] .raw-user-input {
+  background-color: transparent;
+}
+/* view switcher: the selected view is drawn dark, the others light grey. Light now means selected. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] #views a {
+  opacity: 0.55;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] #views a.active {
+  opacity: 1;
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Ribbon galleries (Security > Presets, Insert, Languages): a raised, outlined pop-up like the
+   menus, with menu-row hovers. The gallery page paints itself White inline. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] iframe.scGalleryFrame {
+  box-shadow: 0 0 0 1px #ff2e88, 0 0 14px rgb(255 46 136 / 0.4);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+  background-color: var(--sct-raised-bg) !important;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+  background-color: transparent;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+  background-color: var(--sct-border-strong);
+}
+
+/* ---- Start menu: the fly-out arrows are dark glyphs */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph) {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- 10.4 lacks 10.5's _grey glyphs: its pale ribbon chunk launcher inverted to dark, and its tree search
+   arrow is a black down_h.png. Both drawn light, in 10.5's tones. */
+html[data-sct-theme="miami"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+  filter: brightness(0) opacity(0.55) var(--sct-glyph-filter);
+}
+html[data-sct-theme="miami"][data-sct-version="10.4"][data-sct-surface="shell"] a.scSearchOptionsButton img {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Tree search: both buttons centre on the field (row centre 246px). The magnifier is a 22px image
+   in a 16px link, so it hung 3px low; the chevron's float has an inline 8px top padding that pushes it 4px low. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] a.scSearchButton img {
+  display: block;
+  margin: -3px;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] #SearchPanel td > div[style*="padding-top"] {
+  padding-top: 0 !important;
+}
+
+/* ---- ComponentArt grid pager slider (User Manager, Role Manager...): its track is a white image, set
+   with the table cell's background attribute */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is([style*="slider_bg" i], [background*="slider_bg" i]) {
+  background: linear-gradient(var(--sct-border-strong), var(--sct-border-strong)) center / 100% 4px no-repeat !important;
+}
+
+/* ---- Dark glyphs the sweep found (scan.cjs DARKGLYPH) */
+/* the menus' submenu arrows and the bucket filter token's remove cross (the ribbon toggle is the token
+   layer's) */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .filters .filter .remove,
+html[data-sct-theme="miami"][data-sct-surface="shell"] img[src*="Submenu16x16" i] {
+  filter: var(--sct-glyph-filter);
+}
+/* the bucket view switcher shows its dark "selected" image on hover too */
+html[data-sct-theme="miami"][data-sct-surface="shell"] #views a:hover {
+  opacity: 1;
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Text the sweep found below AA */
+/* the taskbar search placeholder (#757575 on the field) */
+html[data-sct-theme="miami"][data-sct-surface="shell"] #SearchBox::placeholder {
+  color: var(--sct-muted-fg);
+}
+/* a selected tree node (content tree, treelist fields, dialog trees) is the selected text colour: standard
+   roots' inline green fell to 4:1 on the selected purple */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(a.scContentTreeNodeActive, a.scContentTreeNodeActive *) {
+  color: var(--sct-tree-selected-fg) !important;
+}
+/* inline system and light colours the shared map does not catch: Access Viewer's splitter (#e3e3e3)
+   and its explanation pane (the system colour "window", near-black under color-scheme: dark) */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is([style*="background:#e3e3e3" i], [style*="background: #e3e3e3" i], [style*="background-color:#e3e3e3" i]) {
+  background-color: var(--sct-border) !important;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is([style*="background:window" i], [style*="background: window" i], [style*="background-color:window" i], [style*="background-color: window" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+
+/* ---- SPE ISE: Ace's own scrollbars sit inside the editor's inverting filter
+   (--sct-editor-filter: invert(0.88) hue-rotate(180deg)), which turned the theme's dark scrollbar light.
+   These colours are the theme's thumb (#4a4e54) and track (#1e1f22) run backwards through that filter:
+   undo the hue-rotate (it is its own inverse at 180deg, CSS matrix), then invert(0.88), whose output per
+   channel is 224.4 - 0.76 * in, so in = (224.4 - out) / 0.76. Forward check: #bcc2ca -> rgb(73,78,84),
+   #fdfeff -> rgb(31,32,32). Change them together with the scrollbar tokens. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .ace_editor {
+  scrollbar-color: #ffc2ff #ffffff;
+}
+
+/* Dialog headers: 10.5 drops 10.4's 15px under the description, so the header band ended on the text's
+   baseline. Both versions get 10.4's. */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeaderDescription {
+  padding-bottom: 15px;
+}
+
+/* Checkboxes and radios in the neon pink on both versions (10.4 left the browser's blue) */
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(input[type="checkbox"], input[type="radio"]) {
+  accent-color: #ff2e88;
+}
+/* 10.4 frames the open dialog tab in a light border: the cyan underline is the only mark */
+html[data-sct-theme="miami"][data-sct-version="10.4"][data-sct-surface="shell"] .scTabstrip [class*="scTabActive"] {
+  border-color: transparent;
+}
+/* the ISE's unsaved-script dot (#fc2929, 4.4:1 on the tab) lifted to AA, and its tips in gold on the
+   highlight */
+html[data-sct-theme="miami"][data-sct-surface="shell"] .scTabstrip .scriptModified {
+  color: #ff6b6b;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] :is(.ui-state-highlight, .ui-state-highlight *) {
+  color: #ffe9a8 !important;
+}
+/* the selected node in dialog trees (Copy To, Move To, item pickers) is the content tree's pink, not the
+   generic selection colour its dark text would not read on */
+html[data-sct-theme="miami"][data-sct-surface="shell"] a.scContentTreeNodeActive {
+  background-color: var(--sct-tree-selected-bg);
+}
+/* taskbar entries are text on the bar, no tile: Sitecore frames every entry's cell */
+html[data-sct-theme="miami"][data-sct-surface="shell"] #StartbarApplications > tbody > tr > td {
+  background: transparent;
+  border-color: transparent;
+}
+/* SPEAK-style app headers in the shell (SPE Reports): Sitecore's red band with its swoosh image becomes
+   a dusk sky, the title in chrome lettering */
+html[data-sct-theme="miami"][data-sct-surface="shell"] header.sc-applicationHeader {
+  background: linear-gradient(90deg, #1b0538, #3a0a5e 60%, #7a1563);
+  border-bottom: 1px solid rgb(255 46 136 / 0.6);
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] header.sc-applicationHeader .sc-applicationHeader-row1 {
+  background-image: none;
+}
+html[data-sct-theme="miami"][data-sct-surface="shell"] header.sc-applicationHeader .sc-applicationHeader-title {
+  color: #f4e9ff;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background-image: linear-gradient(#ffffff 0%, #bfefff 48%, #ffb3dd 52%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

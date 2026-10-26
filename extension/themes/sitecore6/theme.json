@@ -1,0 +1,8 @@
+{
+  "name": "Copenhagen",
+  "description": "The classic look of Sitecore 6 and 7",
+  "order": 40,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#4e4e4e", "#b1b9c3", "#ffe695"],
+  "swatch": { "desk": "#3d5f8f", "desk2": "#1d2f4d", "bar": "#1b1f27", "barLine": "#4b5568", "start": "#b3201b", "app": "#3a4150", "win": "#eef1f4", "border": "#2a2a2a", "cap": "#909090", "cap2": "#4e4e4e", "btns": "right", "btn": "#c4c4c4", "close": "#c0392b", "ribbon": "#d7dde5", "tab": "#ffe695", "tree": "#ffffff", "ed": "#eef1f4", "sec": "#dfe5ec", "field": "#ffffff", "line": "#7f9db9", "sel": "#ffe695", "fg": "#222222" }
+}

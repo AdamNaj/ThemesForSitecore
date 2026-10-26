@@ -1,0 +1,10 @@
+{
+  "name": "Cupertino",
+  "description": "Inspired by macOS, follows your light or dark setting",
+  "category": "modern",
+  "order": 70,
+  "versions": ["10.4", "10.5"],
+  "appearance": "auto",
+  "preview": ["#ececec", "#0071e3", "#1e1e1e"],
+  "swatch": { "desk": "#7fa6d9", "desk2": "#c9a2d8", "barPos": "dock", "bar": "#f2f2f7", "barLine": "#ffffff", "start": "#0071e3", "app": "#a1a1a6", "win": "#ececec", "border": "#b8b8bd", "r": 4, "shadow": 1, "cap": "#e8e8ed", "btns": "traffic", "ribbon": "#f5f5f7", "tab": "#0071e3", "tree": "#f5f5f7", "ed": "#ffffff", "sec": "#f0f0f5", "field": "#ffffff", "line": "#d2d2d7", "sel": "#0071e3", "fg": "#1d1d1f" }
+}

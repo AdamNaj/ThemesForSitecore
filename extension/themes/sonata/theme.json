@@ -1,0 +1,9 @@
+{
+  "name": "Sonata",
+  "description": "Inspired by Mac OS 9",
+  "category": "retro",
+  "order": 130,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#dddddd", "#8c8cdb", "#5c6fa8"],
+  "swatch": { "desk": "#5c6fa8", "barPos": "top", "bar": "#dddddd", "barLine": "#000000", "start": "#5c6fa8", "win": "#dddddd", "border": "#000000", "cap": "#dddddd", "pin": "#999999", "btns": "both", "btn": "#eeeeee", "ribbon": "#eeeeee", "tab": "#8c8cdb", "tree": "#ffffff", "ed": "#dddddd", "sec": "#eeeeee", "field": "#ffffff", "line": "#555555", "sel": "#ccccff", "fg": "#000000" }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Redwood",
+  "description": "Inspired by NeXTSTEP",
+  "category": "retro",
+  "order": 150,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#aaaaaa", "#000000", "#505050"],
+  "swatch": { "desk": "#505050", "barPos": "right", "bar": "#505050", "barLine": "#2a2a2a", "start": "#1d1d1d", "app": "#a8a8a8", "menu": 1, "win": "#aaaaaa", "border": "#000000", "cap": "#000000", "btns": "both", "btn": "#aaaaaa", "ribbon": "#aaaaaa", "tab": "#ffffff", "tree": "#ffffff", "ed": "#aaaaaa", "sec": "#bdbdbd", "field": "#ffffff", "line": "#555555", "sel": "#c8c8c8", "fg": "#000000" }
+}

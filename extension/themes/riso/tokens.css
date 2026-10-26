@@ -1,0 +1,113 @@
+/* Riso: a two-ink risograph print, light.
+   Spec (from the approved mock-up, Riso.dc.html):
+     paper        #f6f1e7  with a fine 5px grain of rgb(60 40 20 / 0.07) dots
+     pink ink     #ff48b0  fills (selection, primary buttons, offset shadows); text on it #2a0a1c (6.6:1)
+     teal ink     #00a3a3  fills (open tab, halftone dots, scrollbar); text on it #062a2a (4.9:1)
+     dark teal    #0b5c5c  rules, frames, labels (6.9:1 on paper)
+     body ink     #1a3a4a  text (10.9:1 on paper)
+   Panels and buttons carry a 2 to 4px misregistered offset shadow in the other ink, multiplied.
+   Section headers are a teal halftone. Fully opaque teal under paper-coloured text fails (2.9:1), so
+   text on an ink fill is the dark ink, as a real two-colour print would overprint it.
+   Type: a condensed grotesque for headings, a mono for labels; the machine's own fonts, none bundled
+   (Archivo Narrow and Space Mono where installed, else Bahnschrift Condensed and Consolas). */
+html[data-sct-theme="riso"] {
+  --sct-font-family: "Archivo Narrow", Bahnschrift, "Segoe UI", sans-serif;
+  --sct-font-size: 12px;
+  --sct-radius: 0px;
+
+  --riso-paper: #f6f1e7;
+  --riso-pink: #ff48b0;
+  --riso-teal: #00a3a3;
+  --riso-rule: #0b5c5c;
+  --riso-ink: #1a3a4a;
+  --riso-on-pink: #2a0a1c;
+  --riso-on-teal: #062a2a;
+  --riso-head: "Archivo Narrow", "Bahnschrift Condensed", "Arial Narrow", sans-serif;
+  --riso-mono: "Space Mono", Consolas, "Courier New", monospace;
+  --riso-grain: radial-gradient(rgb(60 40 20 / 0.07) 1px, transparent 1.2px) 0 0 / 5px 5px;
+  --riso-dots: radial-gradient(rgb(0 163 163 / 0.42) 1.3px, transparent 1.6px) 0 0 / 6px 6px;
+  --riso-dots-pink: radial-gradient(rgb(255 72 176 / 0.4) 1.3px, transparent 1.6px) 0 0 / 6px 6px;
+  /* the misregistered second impression */
+  --riso-off: 3px 2px 0 rgb(255 72 176 / 0.55);
+  --riso-off-teal: -2px 2px 0 rgb(0 163 163 / 0.7);
+
+  --sct-app-bg: #f6f1e7;
+  --sct-app-fg: #1a3a4a;
+  --sct-panel-bg: #f6f1e7;
+  --sct-panel-fg: #1a3a4a;
+  --sct-muted-fg: #0b5c5c;
+  --sct-border: #9ccfca;
+  --sct-border-strong: #0b5c5c;
+  --sct-accent: #ff48b0;
+  --sct-accent-fg: #2a0a1c;
+  --sct-link: #0b5c5c;
+  --sct-focus-ring: #ff48b0;
+  --sct-raised-bg: #fbf8f1;
+  --sct-chrome-bg: #efe8d9;
+  --sct-chrome-fg: #1a3a4a;
+  --sct-selected-bg: #ffc6e5;
+
+  --sct-titlebar-bg: #f6f1e7;
+  --sct-titlebar-fg: #0b5c5c;
+  --sct-titlebar-inactive-bg: #ece6d8;
+  --sct-titlebar-inactive-fg: #3f5f66;
+  --sct-window-border: #0b5c5c;
+
+  --sct-ribbon-bg: #f6f1e7;
+  --sct-ribbon-fg: #1a3a4a;
+  --sct-ribbon-tab-bg: #f6f1e7;
+  --sct-ribbon-tab-fg: #0b5c5c;
+  --sct-ribbon-tab-active-bg: #00a3a3;
+  --sct-ribbon-tab-active-fg: #062a2a;
+  --sct-ribbon-chunk-bg: #f6f1e7;
+  --sct-ribbon-chunk-caption-bg: #f6f1e7;
+  --sct-ribbon-chunk-caption-fg: #0b5c5c;
+  --sct-ribbon-button-hover-bg: #ffdcef;
+  --sct-ribbon-button-pressed-bg: #ffb8de;
+
+  --sct-tree-bg: #f6f1e7;
+  --sct-tree-fg: #1a3a4a;
+  --sct-tree-hover-bg: #dff0ec;
+  --sct-tree-selected-bg: #ff48b0;
+  --sct-tree-selected-fg: #2a0a1c;
+  --sct-tree-selected-border: #ff48b0;
+
+  --sct-section-header-bg: #f6f1e7;
+  --sct-section-header-fg: #0b3a3a;
+  --sct-section-body-bg: #f6f1e7;
+  --sct-field-label-fg: #0b5c5c;
+
+  --sct-input-bg: #fffcf5;
+  --sct-input-fg: #1a3a4a;
+  --sct-input-border: #0b5c5c;
+  --sct-input-focus-border: #e0168f;
+
+  --sct-button-bg: #f6f1e7;
+  --sct-button-fg: #0b5c5c;
+  --sct-button-border: #0b5c5c;
+  --sct-button-hover-bg: #ffdcef;
+  --sct-button-primary-bg: #ff48b0;
+  --sct-button-primary-fg: #2a0a1c;
+  --sct-button-primary-hover-bg: #ff6fc2;
+
+  --sct-table-header-bg: #bfe6e3;
+  --sct-table-header-fg: #0b3a3a;
+  --sct-table-row-hover-bg: #ffe6f3;
+
+  --sct-scrollbar-thumb: #00a3a3;
+  --sct-scrollbar-track: #ece6d8;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #f6f1e7;
+  --sct-taskbar-bg: #f6f1e7;
+  --sct-taskbar-fg: #0b3a3a;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="riso"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

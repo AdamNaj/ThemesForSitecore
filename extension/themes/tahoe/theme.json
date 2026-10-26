@@ -1,0 +1,9 @@
+{
+  "name": "Tahoe",
+  "description": "Frosted glass panels over a wallpaper, pill tabs and buttons, follows your light or dark setting",
+  "category": "modern",
+  "versions": ["10.4", "10.5"],
+  "appearance": "auto",
+  "preview": ["#e9edf3", "#0a84ff", "#4a5f86"],
+  "swatch": { "desk": "#f0b48c", "desk2": "#2f4569", "barPos": "dock", "bar": "#eef1f5", "barLine": "#ffffff", "start": "#0a84ff", "app": "#a9adb5", "win": "#e9edf3", "border": "#ffffff", "r": 4, "shadow": 1, "cap": "#e9edf3", "btns": "traffic", "ribbon": "#e9edf3", "tab": "#0a84ff", "tree": "#f3f5f8", "ed": "#ffffff", "sec": "#f3f5f8", "field": "#ffffff", "line": "#c9ced6", "sel": "#0a84ff", "fg": "#1d1d1f" }
+}

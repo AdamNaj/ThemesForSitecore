@@ -1,0 +1,64 @@
+/* Solar: Identity Server login. Sitecore's layout; the red wallpaper gives way to the base-tone backdrop,
+   the card is a translucent panel with soft corners, the fields and button the theme's own. */
+html[data-sct-theme="solar"][data-sct-surface="login"] body {
+  background: var(--solar-backdrop) fixed;
+  background-color: var(--sct-app-bg);
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] .main-wrap {
+  background: transparent none;
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] :is(.top, .top a, .top span) {
+  background-color: transparent;
+  color: var(--sct-app-fg);
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] .main {
+  background-color: color-mix(in srgb, var(--sct-panel-bg) 88%, transparent);
+  backdrop-filter: blur(16px);
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--sct-border), 0 10px 30px rgb(0 43 54 / 0.3);
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] :is(label, .login-label) {
+  color: var(--sct-panel-fg);
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] .form-control {
+  background-color: var(--sct-input-bg);
+  border: 1px solid var(--sct-input-border);
+  border-radius: 4px;
+  color: var(--sct-input-fg);
+  box-shadow: none;
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] .form-control:focus {
+  border-color: var(--sct-input-focus-border);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--sct-focus-ring) 45%, transparent);
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] .form-control::placeholder {
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] .btn.btn-primary {
+  background-color: var(--sct-button-primary-bg);
+  border-color: var(--sct-button-primary-bg);
+  border-radius: 4px;
+  color: var(--sct-button-primary-fg);
+  box-shadow: none;
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] .btn.btn-primary:hover {
+  background-color: var(--sct-button-primary-hover-bg);
+  border-color: var(--sct-button-primary-hover-bg);
+}
+/* the licence/error banner is pale yellow: Solarized yellow as a tint of the card */
+html[data-sct-theme="solar"][data-sct-surface="login"] .warning {
+  background-color: color-mix(in srgb, #b58900 22%, var(--sct-panel-bg));
+  color: var(--sct-panel-fg);
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] input[type="checkbox"] {
+  accent-color: var(--sct-accent);
+}
+html[data-sct-theme="solar"][data-sct-surface="login"] input[type="checkbox"]:focus {
+  outline-color: var(--sct-focus-ring);
+}
+/* the Sitecore wordmark is white art for a dark page: on the light backdrop it takes the text colour */
+@media (prefers-color-scheme: light) {
+  html[data-sct-theme="solar"][data-sct-surface="login"] .logo-wrap img {
+    filter: brightness(0) opacity(0.85);
+  }
+}

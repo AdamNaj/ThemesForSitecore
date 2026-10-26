@@ -1,0 +1,8 @@
+{
+  "name": "Santa Clara",
+  "description": "Chunky sand bevels, maroon window frames and a front panel of workspace buttons",
+  "category": "retro",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#ae9c88", "#a85c60", "#64748b"],
+  "swatch": { "desk": "#5f7f8c", "bar": "#64748b", "barLine": "#b8c4d4", "start": "#a85c60", "app": "#8a9a6e", "win": "#ae9c88", "border": "#a85c60", "bw": 2, "cap": "#a85c60", "btns": "both", "btn": "#a85c60", "ribbon": "#ae9c88", "tab": "#e6dccf", "tree": "#c9bcae", "ed": "#ae9c88", "sec": "#bfae9b", "field": "#c9bcae", "line": "#5e5248", "sel": "#a85c60", "fg": "#000000" }
+}

@@ -1,0 +1,8 @@
+/* Spectrum: the postfix badge outlined in the accent, a panel-coloured chip, so it never reads as a state */
+html[data-sct-theme="spectrum"] sct-bar-postfix {
+  border: 2px solid var(--sct-accent);
+  border-radius: 4px;
+  background: var(--sct-panel-bg);
+  color: var(--sct-panel-fg);
+  font-weight: 700;
+}

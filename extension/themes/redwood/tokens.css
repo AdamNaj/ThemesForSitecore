@@ -1,0 +1,84 @@
+/* Redwood: a recreation of NeXTSTEP's grey look. Controls #aaaaaa with NeXT's bevel (white top-left,
+   #555555 bottom-right, a black outline), content wells #cccccc, lists and fields white, black title bars,
+   a #505050 workspace. The pixel art and window chrome come from tools/build-redwood-css.cjs. */
+html[data-sct-theme="redwood"] {
+  --sct-font-family: Helvetica, Arial, sans-serif;
+  --sct-font-size: 12px;
+  --sct-radius: 0;
+
+  --sct-app-bg: #aaaaaa;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #cccccc;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #333333;
+  --sct-border: #555555;
+  --sct-border-strong: #000000;
+  --sct-accent: #000000;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #000000;
+  --sct-focus-ring: #000000;
+  --sct-raised-bg: #aaaaaa;
+  --sct-chrome-bg: #000000;
+  --sct-chrome-fg: #ffffff;
+  --sct-selected-bg: #ffffff;
+
+  --sct-titlebar-bg: #000000;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #aaaaaa;
+  --sct-titlebar-inactive-fg: #000000;
+  --sct-window-border: #000000;
+
+  --sct-ribbon-bg: #aaaaaa;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #999999;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #aaaaaa;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #aaaaaa;
+  --sct-ribbon-chunk-caption-bg: #aaaaaa;
+  --sct-ribbon-chunk-caption-fg: #000000;
+  --sct-ribbon-button-hover-bg: #bbbbbb;
+  --sct-ribbon-button-pressed-bg: #ffffff;
+
+  --sct-tree-bg: #ffffff;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #eeeeee;
+  --sct-tree-selected-bg: #aaaaaa;
+  --sct-tree-selected-fg: #000000;
+  --sct-tree-selected-border: #aaaaaa;
+
+  --sct-section-header-bg: #aaaaaa;
+  --sct-section-header-fg: #000000;
+  --sct-section-body-bg: #cccccc;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #555555;
+  --sct-input-focus-border: #000000;
+
+  --sct-button-bg: #aaaaaa;
+  --sct-button-fg: #000000;
+  --sct-button-border: #000000;
+  --sct-button-hover-bg: #aaaaaa;
+  --sct-button-primary-bg: #aaaaaa;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #aaaaaa;
+
+  --sct-table-header-bg: #aaaaaa;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #eeeeee;
+
+  --sct-scrollbar-thumb: #aaaaaa;
+  --sct-scrollbar-track: #555555;
+
+  --sct-desktop-bg: #505050;
+  --sct-taskbar-bg: #aaaaaa;
+  --sct-taskbar-fg: #000000;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="redwood"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

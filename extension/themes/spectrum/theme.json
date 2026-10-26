@@ -1,0 +1,9 @@
+{
+  "name": "Spectrum",
+  "description": "Colour-blind safe: states carry a shape as well as a colour; follows your light or dark setting",
+  "category": "everyday",
+  "versions": ["10.4", "10.5"],
+  "appearance": "auto",
+  "preview": ["#ffffff", "#0072b2", "#f6f8fa"],
+  "swatch": { "desk": "#d5dbe2", "bar": "#f6f8fa", "barLine": "#d0d7de", "start": "#0072b2", "app": "#d6e9f5", "win": "#ffffff", "border": "#8c959f", "r": 4, "cap": "#f6f8fa", "btns": "right", "btn": "#3d444d", "close": "#d55e00", "ribbon": "#ffffff", "tab": "#0072b2", "tree": "#fbfbfc", "ed": "#ffffff", "sec": "#eef1f4", "field": "#ffffff", "line": "#8c959f", "sel": "#d6e9f5", "fg": "#1f2328" }
+}

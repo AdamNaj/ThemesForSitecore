@@ -1,0 +1,120 @@
+/* Hometown: a 1998 personal homepage, light panels on a night sky.
+   Spec (from the approved mock-up, Hometown.dc.html):
+     sky        #000033  tiled starfield (white and #ffff99 dots) behind the Desktop and pages
+     panel      #c0c0c0  3px outset bevels: #e0e0e0/#ffffff light, #808080/#404040 dark
+     page       #ffffff  the editor, with field grids as a bevelled table, label cells #ccccff
+     links      #0000ee  unvisited (5.2:1 on the panel grey), #551a8b visited; underlined
+     headings   Comic Sans, #b0005a on white (5.9:1); the welcome banner #ffff00 with a #ff00ff shadow
+     title bar  #000080 with white text (16:1)
+     rules      a 4px rainbow, #ff0000 #ff9900 #ffff00 #00cc00 #0066ff #9900cc
+     hazard     #ffcc00/#111111 construction-tape hatch; the under-construction banner #ffff00 with a
+                dashed #ff0000 border
+   The mock-up's red #ff0000 on pale yellow (3.8:1) is #cc0000 here (5.5:1).
+   Type: Times New Roman for text, Comic Sans MS for headings, Arial on push buttons; none bundled. */
+html[data-sct-theme="hometown"] {
+  --sct-font-family: "Times New Roman", Times, serif;
+  --sct-font-size: 13px;
+  --sct-radius: 0px;
+
+  --ht-sky: #000033;
+  --ht-grey: #c0c0c0;
+  --ht-light: #ffffff;
+  --ht-light2: #e0e0e0;
+  --ht-dark: #808080;
+  --ht-dark2: #404040;
+  --ht-navy: #000080;
+  --ht-lav: #ccccff;
+  --ht-pink: #b0005a;
+  --ht-comic: "Comic Sans MS", "Comic Neue", "Chalkboard SE", cursive;
+  --ht-arial: Arial, Helvetica, sans-serif;
+  --ht-stars: radial-gradient(circle at 13px 29px, #ffffff 1.2px, transparent 1.8px) 0 0 / 97px 89px,
+    radial-gradient(circle at 61px 7px, #ffff99 1px, transparent 1.6px) 0 0 / 113px 101px,
+    radial-gradient(circle at 40px 52px, #ffffff 0.8px, transparent 1.3px) 0 0 / 67px 73px,
+    radial-gradient(circle at 5px 11px, rgb(255 255 255 / 0.7) 0.7px, transparent 1.2px) 0 0 / 41px 47px,
+    radial-gradient(circle at 120px 140px, #ffffff 1.6px, transparent 2.4px) 0 0 / 191px 167px, #000033;
+  --ht-rainbow: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #00cc00, #0066ff, #9900cc);
+  --ht-hazard: repeating-linear-gradient(135deg, #ffcc00 0 8px, #111111 8px 16px);
+  /* 3px outset and inset bevels as box-shadows, so a border width never moves the box */
+  --ht-out: inset 1px 1px #ffffff, inset -1px -1px #404040, inset 2px 2px #e0e0e0, inset -2px -2px #808080;
+  --ht-in: inset 1px 1px #808080, inset -1px -1px #ffffff, inset 2px 2px #404040, inset -2px -2px #e0e0e0;
+
+  --sct-app-bg: #c0c0c0;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #c0c0c0;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #404040;
+  --sct-border: #808080;
+  --sct-border-strong: #000000;
+  --sct-accent: #000080;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #0000ee;
+  --sct-focus-ring: #000000;
+  --sct-raised-bg: #dfdfdf;
+  --sct-chrome-bg: #c0c0c0;
+  --sct-chrome-fg: #000000;
+  --sct-selected-bg: #ffff99;
+
+  --sct-titlebar-bg: #000080;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #6b6b6b;
+  --sct-titlebar-inactive-fg: #ffffff;
+  --sct-window-border: #c0c0c0;
+
+  --sct-ribbon-bg: #c0c0c0;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #c0c0c0;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #ffffff;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #c0c0c0;
+  --sct-ribbon-chunk-caption-bg: #c0c0c0;
+  --sct-ribbon-chunk-caption-fg: #000080;
+  --sct-ribbon-button-hover-bg: #d4d4d4;
+  --sct-ribbon-button-pressed-bg: #a9a9a9;
+
+  --sct-tree-bg: #c0c0c0;
+  --sct-tree-fg: #0000ee;
+  --sct-tree-hover-bg: #d4d4d4;
+  --sct-tree-selected-bg: #ffff99;
+  --sct-tree-selected-fg: #cc0000;
+  --sct-tree-selected-border: #ffff99;
+
+  --sct-section-header-bg: #ffffff;
+  --sct-section-header-fg: #b0005a;
+  --sct-section-body-bg: #ffffff;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #808080;
+  --sct-input-focus-border: #000080;
+
+  --sct-button-bg: #c0c0c0;
+  --sct-button-fg: #000000;
+  --sct-button-border: #000000;
+  --sct-button-hover-bg: #d4d4d4;
+  --sct-button-primary-bg: #c0c0c0;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #d4d4d4;
+
+  --sct-table-header-bg: #000080;
+  --sct-table-header-fg: #ffffff;
+  --sct-table-row-hover-bg: #ffffcc;
+
+  --sct-scrollbar-thumb: #c0c0c0;
+  --sct-scrollbar-track: #e0e0e0;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #000033;
+  --sct-taskbar-bg: #c0c0c0;
+  --sct-taskbar-fg: #000000;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="hometown"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

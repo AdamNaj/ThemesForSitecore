@@ -1,0 +1,82 @@
+/* Redmond 3.11: inspired by the Windows for Workgroups 3.11 default colour scheme. */
+html[data-sct-theme="workgroups311"] {
+  --sct-font-family: "MS Sans Serif", "Microsoft Sans Serif", Arial, sans-serif;
+  --sct-font-size: 11px;
+  --sct-radius: 0;
+
+  --sct-app-bg: #c0c0c0;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #404040;
+  --sct-border: #808080;
+  --sct-border-strong: #000000;
+  --sct-accent: #000080;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #000080;
+  --sct-focus-ring: #000000;
+  --sct-raised-bg: #c0c0c0;
+  --sct-chrome-bg: #000080;
+  --sct-chrome-fg: #ffffff;
+  --sct-selected-bg: #dfdfdf;
+
+  --sct-titlebar-bg: #000080;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #ffffff;
+  --sct-titlebar-inactive-fg: #000000;
+  --sct-window-border: #000000;
+
+  --sct-ribbon-bg: #c0c0c0;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #ffffff;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #000080;
+  --sct-ribbon-tab-active-fg: #ffffff;
+  --sct-ribbon-chunk-bg: #c0c0c0;
+  --sct-ribbon-chunk-caption-bg: #c0c0c0;
+  --sct-ribbon-chunk-caption-fg: #000000;
+  --sct-ribbon-button-hover-bg: #dfdfdf;
+  --sct-ribbon-button-pressed-bg: #a0a0a0;
+
+  --sct-tree-bg: #ffffff;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #e0e0e0;
+  --sct-tree-selected-bg: #000080;
+  --sct-tree-selected-fg: #ffffff;
+  --sct-tree-selected-border: #000080;
+
+  --sct-section-header-bg: #c0c0c0;
+  --sct-section-header-fg: #000000;
+  --sct-section-body-bg: #c0c0c0;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #808080;
+  --sct-input-focus-border: #000000;
+
+  --sct-button-bg: #c0c0c0;
+  --sct-button-fg: #000000;
+  --sct-button-border: #000000;
+  --sct-button-hover-bg: #c0c0c0;
+  --sct-button-primary-bg: #c0c0c0;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #c0c0c0;
+
+  --sct-table-header-bg: #c0c0c0;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #e0e0e0;
+
+  --sct-scrollbar-thumb: #c0c0c0;
+  --sct-scrollbar-track: #e0e0e0;
+
+  --sct-desktop-bg: #c0c0c0;
+  --sct-taskbar-bg: #c0c0c0;
+  --sct-taskbar-fg: #000000;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="workgroups311"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

@@ -1,0 +1,117 @@
+/* Miami: synthwave neon over a sunset grid. Sitecore's layout on deep violet surfaces, a hot pink
+   (#ff2e88) and cyan (#00e5ff) neon pair for chrome and states.
+   Spec: panels #170830, wells #12052a, content #23104a, text #f4e9ff, borders #3a1466 / #5a2a8f,
+   window frames 1px #ff2e88 with a pink glow, fields #0d0320 with a #7a3cc2 frame and a cyan focus.
+   Only the chrome glows; field text, the tree and dense text are plain colours at AA. */
+html[data-sct-theme="miami"] {
+  --sct-font-family: inherit;
+  --sct-font-size: inherit;
+  --sct-radius: inherit;
+
+  --sct-app-bg: #12052a;
+  --sct-app-fg: #f4e9ff;
+  --sct-panel-bg: #23104a;
+  --sct-panel-fg: #f4e9ff;
+  --sct-muted-fg: #bba6e0;
+  --sct-border: #3a1466;
+  --sct-border-strong: #5a2a8f;
+  --sct-accent: #ff2e88;
+  --sct-accent-fg: #12002b;
+  --sct-link: #00e5ff;
+  --sct-focus-ring: #00e5ff;
+  --sct-raised-bg: #2a1457;
+  --sct-chrome-bg: #170830;
+  --sct-chrome-fg: #f4e9ff;
+  --sct-selected-bg: #4f1466;
+
+  --sct-titlebar-bg: #1b0538;
+  --sct-titlebar-fg: #f4e9ff;
+  --sct-titlebar-inactive-bg: #170830;
+  --sct-titlebar-inactive-fg: #a996cc;
+  --sct-window-border: #ff2e88;
+
+  --sct-ribbon-bg: #170830;
+  --sct-ribbon-fg: #ece0ff;
+  --sct-ribbon-tab-bg: #12052a;
+  --sct-ribbon-tab-fg: #c3b1e3;
+  --sct-ribbon-tab-active-bg: #170830;
+  --sct-ribbon-tab-active-fg: #00e5ff;
+  --sct-ribbon-chunk-bg: #170830;
+  --sct-ribbon-chunk-caption-bg: #170830;
+  --sct-ribbon-chunk-caption-fg: #bba6e0;
+  --sct-ribbon-button-hover-bg: #2e1560;
+  --sct-ribbon-button-pressed-bg: #3d1c78;
+
+  --sct-tree-bg: #12052a;
+  --sct-tree-fg: #ece0ff;
+  --sct-tree-hover-bg: #24104d;
+  --sct-tree-selected-bg: #ff2e88;
+  --sct-tree-selected-fg: #12002b;
+  --sct-tree-selected-border: #ff7ab8;
+
+  --sct-section-header-bg: #3d1257;
+  --sct-section-header-fg: #ffd1ec;
+  --sct-section-body-bg: #23104a;
+  --sct-field-label-fg: #dccbf7;
+
+  --sct-input-bg: #0d0320;
+  --sct-input-fg: #f4e9ff;
+  --sct-input-border: #7a3cc2;
+  --sct-input-focus-border: #00e5ff;
+
+  --sct-button-bg: #2a1257;
+  --sct-button-fg: #f4e9ff;
+  --sct-button-border: #7a3cc2;
+  --sct-button-hover-bg: #3a1a72;
+  --sct-button-primary-bg: #ff2e88;
+  --sct-button-primary-fg: #12002b;
+  --sct-button-primary-hover-bg: #ff5aa2;
+
+  --sct-table-header-bg: #170830;
+  --sct-table-header-fg: #dccbf7;
+  --sct-table-row-hover-bg: #24104d;
+
+  --sct-scrollbar-thumb: #5a2a8f;
+  --sct-scrollbar-track: #12052a;
+
+  --sct-desktop-bg: #12002b;
+  --sct-taskbar-bg: #0a0218;
+  --sct-taskbar-fg: #f4e9ff;
+
+  /* The synthwave scene, shared by the Desktop, Launchpad and the login: a night sky, the haze round the
+     sun, then a neon floor below a horizon 60% down the box. Floor layers, top first: its fade to the
+     horizon, horizontal lines spaced as a receding floor, rays from the vanishing point (a repeating
+     conic: the angular width makes near lines thicker, as perspective does), its base. */
+  --sct-mi-scene:
+    linear-gradient(#1d0640 0%, rgb(29 6 64 / 0.6) 12%, transparent 30%) 0 100% / 100% 40% no-repeat,
+    linear-gradient(
+      rgb(255 46 136 / 0.95) 0 1.5px,
+      transparent 1.5px calc(4% - 1px), rgb(255 46 136 / 0.55) calc(4% - 1px) calc(4% + 1px),
+      transparent calc(4% + 1px) calc(9% - 1px), rgb(255 46 136 / 0.6) calc(9% - 1px) calc(9% + 1px),
+      transparent calc(9% + 1px) calc(16% - 1px), rgb(255 46 136 / 0.65) calc(16% - 1px) calc(16% + 1px),
+      transparent calc(16% + 1px) calc(25% - 1px), rgb(255 46 136 / 0.7) calc(25% - 1px) calc(25% + 1px),
+      transparent calc(25% + 1px) calc(37% - 1px), rgb(255 46 136 / 0.75) calc(37% - 1px) calc(37% + 1px),
+      transparent calc(37% + 1px) calc(52% - 1.5px), rgb(255 46 136 / 0.8) calc(52% - 1.5px) calc(52% + 1.5px),
+      transparent calc(52% + 1.5px) calc(71% - 1.5px), rgb(255 46 136 / 0.85) calc(71% - 1.5px) calc(71% + 1.5px),
+      transparent calc(71% + 1.5px) calc(94% - 2px), rgb(255 46 136 / 0.9) calc(94% - 2px) calc(94% + 2px),
+      transparent calc(94% + 2px)
+    ) 0 100% / 100% 40% no-repeat,
+    repeating-conic-gradient(from 90deg at 50% 0, rgb(255 46 136 / 0.7) 0 0.4deg, transparent 0.4deg 7.5deg) 0 100% / 100% 40% no-repeat,
+    linear-gradient(#1d0640, #0c0120) 0 100% / 100% 40% no-repeat,
+    radial-gradient(ellipse 40% 30% at 50% 58%, rgb(255 90 120 / 0.45), transparent 70%) 0 0 / 100% 60% no-repeat,
+    linear-gradient(#12002b 0%, #24063f 30%, #3a0a5e 55%, #7a1563 85%, #c41f6e 100%) 0 0 / 100% 60% no-repeat,
+    #12002b;
+  /* the sun: yellow to orange to pink, cut by gaps that widen towards the horizon */
+  --sct-mi-sun: linear-gradient(#ffd23f 0%, #ffb02e 30%, #ff7a3d 55%, #ff2e88 85%);
+  --sct-mi-sun-mask: linear-gradient(#000 48%, transparent 48% 51%, #000 51% 58%, transparent 58% 62%, #000 62% 68%, transparent 68% 73%, #000 73% 78%, transparent 78% 84%, #000 84%);
+
+  --sct-glyph-filter: invert(1) hue-rotate(180deg);
+  --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+  --sct-content-filter: brightness(0.8);
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="miami"]:not([data-sct-surface="ee"]) {
+  color-scheme: dark;
+}

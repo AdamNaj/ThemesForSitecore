@@ -1,0 +1,11 @@
+/* Beacon: big, bold, in the selection colour (yellow, or Desert's rust) with a rule in the outline colour */
+html[data-sct-theme="beacon"] sct-bar-postfix {
+  padding: 2px 12px;
+  border: 2px solid var(--sct-border-strong);
+  border-radius: 0;
+  background: var(--sct-accent);
+  color: var(--sct-accent-fg);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<!-- Theme dial: one ring segment per theme colour round a control knob pointing at the chosen one. Our own drawing. -->
+<g fill="none" stroke-width="24">
+<path d="M66.62 14.07A50 50 0 0 1 105.93 36.77" stroke="#9d86ff"/>
+<path d="M108.55 41.3A50 50 0 0 1 108.55 86.7" stroke="#c73318"/>
+<path d="M105.93 91.23A50 50 0 0 1 66.62 113.93" stroke="#008b8b"/>
+<path d="M61.38 113.93A50 50 0 0 1 22.07 91.23" stroke="#f89820"/>
+<path d="M19.45 86.7A50 50 0 0 1 19.45 41.3" stroke="#0071e3"/>
+<path d="M22.07 36.77A50 50 0 0 1 61.38 14.07" stroke="#c0c0c0"/>
+</g>
+<circle cx="64" cy="64" r="30" fill="#2e3135" stroke="#e6e7e9" stroke-width="4"/>
+<path d="M64 64L74.5 45.81" stroke="#e6e7e9" stroke-width="9" stroke-linecap="round"/>
+</svg>

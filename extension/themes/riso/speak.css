@@ -1,0 +1,196 @@
+/* Riso: SPEAK pages (Control Panel, the Experience Editor's ribbon and other SPEAK apps). Paper with
+   grain, the header ruled off in dark teal over a pink impression; the Experience Editor's tabs are
+   the Content Editor's outlined tabs, the open one teal. */
+
+/* :not(#sct-riso) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="riso"][data-sct-surface="speak"]:not(#sct-riso) {
+  & body {
+    background-image: radial-gradient(rgb(60 40 20 / 0.07) 1px, transparent 1.2px);
+    background-size: 5px 5px;
+    background-attachment: fixed;
+  }
+
+  /* ---- Global header ---- */
+  .sc-globalHeader {
+    border-bottom: 2px solid var(--riso-rule);
+    box-shadow: 0 3px 0 rgb(255 72 176 / 0.4);
+    background: var(--riso-grain), var(--riso-paper) !important;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a),
+  .sc-globalHeader .sc-globalheader-appName {
+    color: var(--riso-rule);
+  }
+  .sc-globalHeader .sc-globalheader-appName {
+    font-family: var(--riso-head);
+    font-stretch: condensed;
+    text-transform: uppercase;
+  }
+
+  /* ---- Application header (Control Panel and other SPEAK apps): the title overprinted. 10.4 paints a
+     red banner image here. ---- */
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1,
+  .sc-applicationHeader-row2 {
+    box-shadow: none;
+    background: transparent !important;
+  }
+  .sc-applicationHeader-row1 {
+    border-bottom: 2px solid var(--riso-rule);
+  }
+  .sc-applicationHeader-row1::after {
+    content: none;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--riso-rule);
+    font-family: var(--riso-head);
+    font-stretch: condensed;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 2px 1.5px 0 rgb(255 72 176 / 0.6);
+  }
+  .sc-backbutton,
+  .sc-backbutton-text {
+    color: var(--riso-rule);
+  }
+  .sc-applicationContent,
+  .sc-applicationContent-main {
+    background: transparent;
+  }
+
+  /* ---- Control Panel: each box a printed card with a halftone heading ---- */
+  .sc-controlpanel-box {
+    padding: 0 0 10px;
+    border: 2px solid var(--riso-rule);
+    background: var(--riso-paper);
+    box-shadow: 5px 4px 0 rgb(255 72 176 / 0.55);
+  }
+  .sc-controlpanel-box-header {
+    margin-bottom: 6px;
+    padding: 4px 12px;
+    border-bottom: 2px solid var(--riso-rule);
+    background: var(--riso-dots), var(--riso-paper);
+  }
+  .sc-controlpanel-box-header h4 {
+    margin: 0;
+    color: var(--sct-section-header-fg);
+    font-family: var(--riso-head);
+    font-stretch: condensed;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  /* the heading's colour icon on a paper tile, clear of the halftone */
+  .sc-controlpanel-box-header h4 img {
+    padding: 2px;
+    border: 1.5px solid var(--riso-rule);
+    background: var(--riso-paper);
+  }
+  .sc-controlpanel-box-content {
+    padding: 0 12px;
+  }
+  .sc-controlpanel-box-content li {
+    border-color: var(--sct-border);
+  }
+  .sc-controlpanel-box-content a:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    text-decoration: none;
+  }
+
+  /* ---- Push buttons ---- */
+  .btn.sc-button {
+    border: 2px solid var(--riso-rule);
+    border-radius: 0;
+    box-shadow: var(--riso-off);
+    font-family: var(--riso-head);
+    font-stretch: condensed;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .btn.sc-button.btn-primary {
+    border-color: var(--riso-pink);
+    box-shadow: var(--riso-off-teal);
+  }
+}
+
+/* ---- Experience Editor ribbon ---- */
+html[data-sct-theme="riso"][data-sct-surface="speak"]:not(#sct-riso) .sc-pageeditbar {
+  .sc-quickbar {
+    border: 0;
+    background: var(--riso-paper);
+  }
+  /* the quick bar is 39px of floats: tabs are 22px, dropped to stand on its bottom */
+  .sc-quickbar-tab {
+    box-sizing: border-box;
+    height: 22px;
+    margin: 17px 5px 0 0;
+    padding: 0 11px;
+    line-height: 20px;
+    border: 1.5px solid var(--riso-rule);
+    border-bottom: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    color: var(--riso-rule);
+    font-family: var(--riso-head);
+    font-stretch: condensed;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: var(--riso-ink);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected {
+    border-color: var(--riso-teal);
+    background: var(--riso-teal);
+    color: var(--riso-on-teal);
+    font-weight: 700;
+  }
+  .sc-quickbar-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 2px solid var(--sct-focus-ring);
+    outline-offset: -2px;
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    border-color: transparent;
+    background: transparent;
+  }
+  .sc-quickbar-button:not(.disabled):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+
+  .sc-ribbon {
+    border-top: 3px solid var(--riso-teal);
+    border-bottom: 2px solid var(--riso-rule);
+    background: var(--riso-grain), var(--riso-paper);
+  }
+  .sc-ribbon .sc-chunk::after {
+    width: 0;
+    border-right: 1.5px dotted var(--riso-teal);
+    background: transparent;
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--sct-ribbon-chunk-caption-fg);
+    font-family: var(--riso-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small) {
+    border-radius: 0;
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+    box-shadow: inset 0 0 0 1.5px var(--riso-rule);
+  }
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: var(--sct-ribbon-button-pressed-bg);
+  }
+}

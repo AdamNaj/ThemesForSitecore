@@ -1,0 +1,9 @@
+{
+  "name": "Menlo",
+  "description": "Inspired by BeOS",
+  "category": "retro",
+  "order": 140,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#dedede", "#ffcb00", "#336698"],
+  "swatch": { "desk": "#336698", "barPos": "deskbar", "bar": "#dedede", "start": "#1a3f8f", "win": "#dedede", "border": "#555555", "cap": "#ffcb00", "btn": "#fff6c8", "tabCap": 1, "ribbon": "#f0f0f0", "tab": "#999999", "tree": "#ffffff", "ed": "#dedede", "sec": "#e8e8e8", "field": "#ffffff", "line": "#999999", "sel": "#9db4d8", "fg": "#000000" }
+}

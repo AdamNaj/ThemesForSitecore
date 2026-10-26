@@ -1,0 +1,48 @@
+/* Meridian: Identity Server login. Sitecore's layout; the red wallpaper becomes the phase's sky with its
+   sun, and the card a panel of the phase's colours. */
+html[data-sct-theme="meridian"][data-sct-surface="login"] body {
+  background: var(--mer-sun), var(--mer-sky), var(--sct-desktop-bg) !important;
+  background-attachment: fixed !important;
+}
+html[data-sct-theme="meridian"][data-sct-surface="login"] :is(.main, .top) {
+  background-color: var(--sct-panel-bg);
+  box-shadow: 0 0 0 1px var(--sct-border), 0 10px 30px rgb(20 10 40 / 0.35);
+}
+/* the white Sitecore logo is drawn for the stock dark card; on the light phases' cards it is dark */
+html[data-sct-theme="meridian"]:not([data-sct-phase="night"])[data-sct-surface="login"] .logo-wrap img {
+  filter: brightness(0) opacity(0.78);
+}
+html[data-sct-theme="meridian"][data-sct-surface="login"] :is(label, .login-label) {
+  color: var(--sct-panel-fg);
+}
+html[data-sct-theme="meridian"][data-sct-surface="login"] .form-control {
+  background-color: var(--sct-input-bg);
+  border-color: var(--sct-input-border);
+  color: var(--sct-input-fg);
+  box-shadow: none;
+}
+html[data-sct-theme="meridian"][data-sct-surface="login"] .form-control:focus {
+  border-color: var(--sct-input-focus-border);
+  box-shadow: 0 0 0 1px var(--sct-input-focus-border);
+}
+html[data-sct-theme="meridian"][data-sct-surface="login"] .form-control::placeholder {
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="meridian"][data-sct-surface="login"] .btn-primary {
+  background-color: var(--sct-button-primary-bg);
+  border-color: var(--sct-button-primary-bg);
+  color: var(--sct-button-primary-fg);
+  box-shadow: none;
+}
+html[data-sct-theme="meridian"][data-sct-surface="login"] .btn-primary:hover {
+  background-color: var(--sct-button-primary-hover-bg);
+  border-color: var(--sct-button-primary-hover-bg);
+}
+/* the licence/error banner is pale yellow */
+html[data-sct-theme="meridian"][data-sct-surface="login"] .warning {
+  background-color: color-mix(in srgb, #fce99c 35%, var(--sct-panel-bg));
+  color: var(--sct-panel-fg);
+}
+html[data-sct-theme="meridian"][data-sct-surface="login"] input[type="checkbox"]:focus {
+  outline-color: var(--sct-focus-ring);
+}

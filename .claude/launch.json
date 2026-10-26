@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "test-results",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--yes",
+        "http-server",
+        "test-results",
+        "-p",
+        "8765",
+        "-c-1",
+        "-s"
+      ],
+      "port": 8765
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Metal Steel desktop fixture</title></head>
+<body>
+  <div id="Desktop">
+    <iframe id="FRAME1" srcdoc="<p>Content Editor</p>"></iframe>
+    <iframe id="FRAME2" srcdoc="<p>Media Library</p>"></iframe>
+  </div>
+  <table><tr id="StartbarApplications">
+    <td id="startbar_application_FRAME1" class="scInactiveApplication"></td>
+    <td id="startbar_application_FRAME2" class="scActiveApplication"></td>
+  </tr></table>
+  <script src="../../../extension/lib/dom-kit.js"></script>
+  <script src="../../../extension/themes/metalsteel/dom.js"></script>
+  <script>
+    // What content.js does for a theme's DOM module, reduced to apply and revert.
+    let kit = null;
+    window.applyTheme = () => {
+      kit = kit || SCT.createDomKit(document);
+      SCT.domModules.metalsteel.apply({ doc: document, own: kit.own, addClass: kit.addClass, setAttr: kit.setAttr, move: kit.move });
+    };
+    window.revertTheme = () => {
+      kit.revertAll();
+      SCT.domModules.metalsteel.revert({ doc: document });
+      kit = null;
+    };
+    window.states = () => ["FRAME1", "FRAME2"].map((id) => {
+      const f = document.getElementById(id);
+      return `${f.getAttribute("data-sct-window")}/${f.contentDocument?.documentElement?.getAttribute("data-sct-window")}`;
+    });
+    window.focusWindow = (id) => {
+      for (const td of document.querySelectorAll("#StartbarApplications td")) {
+        td.className = td.id === "startbar_application_" + id ? "scActiveApplication" : "scInactiveApplication";
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,898 @@
+/* Phosphor: a green-screen terminal on the classic shell. Monospace everywhere, a faint glow on the
+   phosphor, windows framed in double lines with inverted title bars, [_] [□] [X] window buttons,
+   [+]/[-] tree toggles, inverted selection, dashed dividers, a tmux status line for a taskbar, and
+   the CRT glass of tokens.css over the top-level document. No other animation.
+   Text glyphs ([_], [X], [+]...) are SVG masks in glyphs/, filled with the colour of what they sit on. */
+
+/* ---- Type, glow, caret, corners */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] *:not(.ace_editor, .ace_editor *) {
+  font-family: var(--sct-font-family) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body {
+  text-shadow: var(--sct-ph-glow);
+  caret-color: var(--sct-accent);
+  accent-color: var(--sct-accent);
+}
+/* a terminal has no rounded corners (10.5 rounds fields, buttons, tabs and the avatar) */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] *,
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] *::before,
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] *::after {
+  border-radius: 0 !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] ::selection {
+  background: var(--sct-accent);
+  color: var(--sct-accent-fg);
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] ::placeholder {
+  color: var(--sct-muted-fg);
+  opacity: 1;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :focus-visible {
+  outline: 1px dashed var(--sct-focus-ring);
+  outline-offset: 1px;
+}
+/* Sheer dialogs focus their open tab from script on open; the inverted tab already marks it */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scTab, .scTabActive):focus-visible {
+  outline: 0;
+}
+
+/* ---- Icons: tinted to the phosphor, shapes kept. Only in the chrome (ribbon, trees, menus, tabs,
+   lists, taskbar); never on item content, media thumbnails or the website. Monochrome glyphs (the Insert
+   gallery's arrows among them) take the glyph filter instead. */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :where(.scRibbon, .scRibbonToolbar, .scRibbonNavigator, .scContentTree, #ContentTreeInnerPanel, .scContentTreeContainer, table.scMenu, .scStartMenu, #Startbar, .scEditorHeader, .scEditorTabs, #EditorTabs, .scDockTop, .scTabs, .scTabstrip, .scListControl, .scGalleryContent, .scWindowCaption, .standardWindowCaption, .scDialogHeader, .scFormDialogHeader, .scEditorQuickInfo, .scEditorFieldMarker, .scFolderButtons, .scTreeview, .scNavigator, .scTreelistEx, .scContentControlTreelist, .scContentControlMultilistBox, .scShortcuts, .scDatabaseSelector, #Tray, .scBottomTabs, .scListview, .scListviewItem, .spe-ribbon, .ui-dialog-titlebar, .scWizardHeader) img:not(.scWindowManagementButton, .scWindowManagementCloseButton, .scContentTreeNodeGlyph, .scEditorSectionCaptionGlyph, .scRibbonPanelUp, .scRibbonPanelDown, .scRibbonPanelOpen, [src*="/-/media/" i], [src*="thn=" i], [src*="portrait" i], [src*="/sitecore/images/blank" i]) {
+  filter: var(--sct-ph-icon-filter);
+}
+/* on an inverted (phosphor) row the icon goes dark, as the text does. A start menu folder holds its
+   fly-out menu, which stays on the tube, so its rows are left out and dark only where hovered. */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(a.scContentTreeNodeActive, .scPagerButtonActive, .scStartMenuLeftOption:hover, .scStartMenuRightOption:hover, .scStartMenuRightFolder:hover, .scStartMenuProgramsMenu:hover, .scRibbonToolbarLargeButtonDown, .scRibbonToolbarSmallButtonDown, .scListControl tr.scSelected, .scListviewItemSelected, .scTabActive, a.scRibbonEditorTabActive) img:not(.scContentTreeNodeGlyph, table.scMenu img),
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] table.scMenu tr:has(.scMenuItemCaption_Hover) > td > img {
+  filter: grayscale(1) contrast(0.6) brightness(0.35);
+}
+
+/* ---- Desktop: a dark tube instead of the wallpaper; every window framed in a double line */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #Desktop {
+  background: radial-gradient(ellipse at center, #062810, #010703 75%) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #Desktop > iframe {
+  outline: 3px double var(--sct-window-border);
+  outline-offset: -3px;
+  box-shadow: 0 0 14px rgb(57 255 106 / 0.18);
+}
+/* the glass (scanlines, vignette, retrace band, grain) and the glitch bursts: tokens.css and dom.js */
+
+/* ---- Window buttons: [v] [_] [□] [X] as text glyphs (masks), in the colour of their bar.
+   Hover inverts the glyph into a block. Both kinds: the Content Editor's .scSystemButtons on the tab
+   row, the standard frame's .standartWindowButtons on its title bar. */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  --ph-btn: var(--sct-ribbon-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .standartWindowButtons {
+  --ph-btn: var(--sct-titlebar-fg);
+}
+/* the Content Editor's buttons centred on the ribbon tab row (tabs 17px down a 30px row), 8px clear of
+   the window's 3px double frame (drawn over the window's edge) */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scCaption > .scSystemButtons {
+  top: 17px;
+  right: 11px;
+  height: 30px;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+  box-sizing: border-box;
+  width: 26px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  content: normal;
+  object-fit: none;
+  object-position: -999px -999px;
+  filter: none;
+  background: var(--ph-btn);
+  mask: var(--ph-glyph) center / 24px 14px no-repeat;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
+  mask: var(--ph-glyph) center / 24px 14px no-repeat, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="switcher"] { --ph-glyph: url("sct-ext:themes/phosphor/glyphs/switch.svg"); }
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"] { --ph-glyph: url("sct-ext:themes/phosphor/glyphs/min.svg"); }
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"] { --ph-glyph: url("sct-ext:themes/phosphor/glyphs/max.svg"); }
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"] { --ph-glyph: url("sct-ext:themes/phosphor/glyphs/restore.svg"); }
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="close"] { --ph-glyph: url("sct-ext:themes/phosphor/glyphs/close.svg"); }
+
+/* Standard windows (ISE, Console, Workbox...): the inverted title bar, buttons centred on it */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .standardWindowCaption {
+  height: 24px;
+  border: 0;
+  background: var(--sct-titlebar-bg);
+  color: var(--sct-titlebar-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .standardWindowCaption + .windowPlaceholderContainer {
+  top: 24px;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .standardWindowCaption :is(.scWindowCaption, .scWindowCaption *) {
+  color: var(--sct-titlebar-fg) !important;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 24px;
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .standardWindowCaption .scWindowCaption {
+  display: block;
+  padding: 0 8px;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .standartWindowButtons {
+  top: 0;
+  right: 11px;
+  height: 24px;
+}
+
+/* ---- jQuery UI dialogs: a double-line frame, the inverted title bar, text buttons */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog {
+  border: 3px double var(--sct-window-border) !important;
+  box-shadow: 0 0 18px rgb(57 255 106 / 0.2);
+  background: var(--sct-app-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar {
+  border: 0;
+  background: var(--sct-titlebar-bg);
+  color: var(--sct-titlebar-fg);
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar :is(.ui-dialog-title, span) {
+  color: var(--sct-titlebar-fg);
+  font-weight: 700;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > *,
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-close {
+  width: 26px;
+  border: 0;
+  background: transparent;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar :is(.ui-icon-closethick, .ui-icon-extlink, .ui-icon-newwin, .ui-icon-minus) {
+  width: 24px;
+  height: 14px;
+  margin: -7px 0 0 -12px;
+  left: 50%;
+  top: 50%;
+  background: var(--sct-titlebar-fg);
+  mask: var(--ph-glyph) center / 24px 14px no-repeat;
+  text-indent: -999px;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar :is(.ui-icon-closethick, .ui-icon-extlink, .ui-icon-newwin, .ui-icon-minus):hover {
+  mask: var(--ph-glyph) center / 24px 14px no-repeat, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog .ui-icon-closethick { --ph-glyph: url("sct-ext:themes/phosphor/glyphs/close.svg"); }
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog .ui-icon-extlink { --ph-glyph: url("sct-ext:themes/phosphor/glyphs/max.svg"); }
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog .ui-icon-newwin { --ph-glyph: url("sct-ext:themes/phosphor/glyphs/restore.svg"); }
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog .ui-icon-minus { --ph-glyph: url("sct-ext:themes/phosphor/glyphs/min.svg"); }
+/* the modal overlay: a faint tint, the tube showing through */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-widget-overlay {
+  background: rgb(1 7 3 / 0.3);
+  opacity: 1;
+}
+/* dialog page headers: the title is the inverted bar, run on from the jQuery UI strip above it (also
+   phosphor), so strip and title read as one title bar; the description sits under it in dim phosphor */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) {
+  padding: 0;
+  border-bottom: 1px dashed var(--sct-border);
+  background: var(--sct-app-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeader,
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+  display: block;
+  height: 26px;
+  margin: 0;
+  padding: 0 12px;
+  background: var(--sct-titlebar-bg);
+  color: var(--sct-titlebar-fg);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 26px;
+  text-shadow: none;
+}
+/* the dialog's icon sits on the inverted bar: dark, like the title */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) img {
+  filter: grayscale(1) contrast(0.6) brightness(0.35);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeaderDescription {
+  padding: 8px 12px;
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeaderDescription::before {
+  content: "> ";
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scFormDialogFooter, .scDialogFooter, .footer) {
+  border-top: 1px dashed var(--sct-border);
+}
+
+/* ---- Tabs: the open one inverted, the others text on the tube. Every strip: ribbon (token layer),
+   editor tabs, Sheer dialog tabs, jQuery UI tabs, hover classes included. */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] a.scRibbonNavigatorButtonsActive,
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] a.scRibbonNavigatorButtonsContextualActive {
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] a:is(.scRibbonNavigatorButtonsNormal, .scRibbonNavigatorButtonsContextualNormal):hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+  color: var(--sct-ribbon-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] a.scRibbonEditorTabActive {
+  background: var(--sct-accent);
+  box-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] a.scRibbonEditorTabActive :is(.scEditorTabHeaderActive, .scEditorTabHeaderActive *) {
+  color: var(--sct-accent-fg);
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] a.scRibbonEditorTabActive#BTAddNewSearch .scEditorTabHeaderNormal > span,
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] a.scRibbonEditorTabActive .scEditorTabHeaderActive > span:empty {
+  filter: brightness(0);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] a.scRibbonEditorTabNormal:hover {
+  background: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scTabActive, .scTabActive_Hover) {
+  background: var(--sct-accent) !important;
+  color: var(--sct-accent-fg) !important;
+  border-color: var(--sct-accent) !important;
+  text-shadow: none;
+  text-transform: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scTabActive, .scTabActive_Hover) * {
+  color: var(--sct-accent-fg) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scTab, .scTab_Hover) {
+  border-color: var(--sct-border) !important;
+  background: var(--sct-app-bg) !important;
+  color: var(--sct-app-fg) !important;
+  text-transform: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scTab_Hover {
+  background: var(--sct-ribbon-button-hover-bg) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-tabs .ui-tabs-nav li.ui-tabs-active {
+  background: var(--sct-accent);
+  border-color: var(--sct-accent);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ui-tabs .ui-tabs-nav li.ui-tabs-active :is(a, span) {
+  color: var(--sct-accent-fg);
+  text-shadow: none;
+}
+
+/* the application tabs under the Content Editor (Content Editor, Media Library, Workbox) */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scPager .scPagerButtonActive {
+  background: var(--sct-accent);
+  color: var(--sct-accent-fg);
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scPager .scPagerButtonActive * {
+  color: var(--sct-accent-fg);
+}
+
+/* ---- Ribbon: dashed dividers between chunks and under the strip */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scRibbonToolbar .chunk {
+  border-right: 1px dashed var(--sct-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scRibbonToolbar {
+  border-bottom: 1px dashed var(--sct-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #EditorTabs {
+  border-bottom-color: var(--sct-accent);
+}
+
+/* ---- Content tree: [+] and [-] in place of the chevrons, inverted selection */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] img.scContentTreeNodeGlyph:is([src*="collapsed" i], [src*="expanded" i]) {
+  width: 22px;
+  height: 16px;
+  object-fit: none;
+  object-position: -999px -999px;
+  filter: none;
+  background: var(--sct-muted-fg);
+  mask: url("sct-ext:themes/phosphor/glyphs/plus.svg") center / 22px 13px no-repeat;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] img.scContentTreeNodeGlyph[src*="expanded" i] {
+  mask-image: url("sct-ext:themes/phosphor/glyphs/minus.svg");
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] img.scContentTreeNodeGlyph:is([src*="collapsed" i], [src*="expanded" i]):hover {
+  background: var(--sct-app-fg);
+}
+/* the leaf spacer keeps the toggles' width so names line up */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] img.scContentTreeNodeGlyph[src*="noexpand" i] {
+  width: 22px;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] a.scContentTreeNodeActive {
+  outline: 0;
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(a.scContentTreeNodeActive, a.scContentTreeNodeActive *) {
+  color: var(--sct-tree-selected-fg) !important;
+}
+
+/* ---- Content Editor: sections as "## Title" lines, [+]/[-] toggles, dashed rules; 10.5's spacing
+   pulled back to a terminal's density on both versions */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scEditorSectionCaptionCollapsed, .scEditorSectionCaptionExpanded) {
+  height: 26px;
+  padding: 0 8px;
+  border: 0;
+  border-bottom: 1px dashed var(--sct-border);
+  background: var(--sct-app-bg);
+  color: var(--sct-section-header-fg);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 26px;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scEditorSectionCaptionCollapsed, .scEditorSectionCaptionExpanded):hover {
+  background: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scEditorSectionCaptionCollapsed, .scEditorSectionCaptionExpanded)::before {
+  content: "## ";
+  float: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] img.scEditorSectionCaptionGlyph {
+  width: 24px;
+  height: 14px;
+  margin: 6px 0 0;
+  object-fit: none;
+  object-position: -999px -999px;
+  filter: none;
+  background: var(--sct-section-header-fg);
+  mask: url("sct-ext:themes/phosphor/glyphs/plus.svg") center / 24px 14px no-repeat;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] img.scEditorSectionCaptionGlyph[src*="_up" i] {
+  mask-image: url("sct-ext:themes/phosphor/glyphs/minus.svg");
+}
+/* fields: one green outline, square, a terminal line high */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(input:not([type="checkbox"], [type="radio"], [type="image"], [type="button"], [type="submit"]), select:not([multiple], [size])).scContentControl {
+  box-sizing: border-box;
+  min-height: 0;
+  height: 24px;
+  padding: 0 6px;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(input, textarea, select):focus {
+  border-color: var(--sct-input-focus-border);
+  box-shadow: 0 0 0 1px var(--sct-input-focus-border), 0 0 6px rgb(57 255 106 / 0.35);
+  outline: 0;
+}
+
+/* ---- Buttons: outlined text; the default one inverted */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scButton {
+  border: 1px solid var(--sct-button-border);
+  box-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scButton.scButtonPrimary {
+  text-shadow: none;
+}
+/* plain input buttons (the pickers' "..." in SPE dialogs) are grey bevelled boxes in 10.4 */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] input:is([type="button"], [type="submit"]):not([class]) {
+  border: 1px solid var(--sct-button-border);
+  background: var(--sct-button-bg);
+  color: var(--sct-button-fg);
+  box-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] input:is([type="button"], [type="submit"]):not([class]):hover {
+  background: var(--sct-button-hover-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(button, .scButton):active {
+  background: var(--sct-accent);
+  color: var(--sct-accent-fg);
+}
+
+/* ---- Taskbar: a tmux status line. A green bar with the host on the left (dom.js names it), the
+   windows as numbered text items "0:Content Editor", the active one inverted and starred. */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] {
+  .DesktopArea {
+    bottom: 24px;
+  }
+  .scStartbar {
+    height: 24px;
+    border: 0;
+    background: var(--sct-taskbar-bg);
+    color: var(--sct-taskbar-fg);
+    text-shadow: none;
+  }
+  #Startbar,
+  #Startbar > table,
+  .scStartBarScroller,
+  .scStartbarTray {
+    height: 24px !important;
+    border: 0;
+    background: none;
+  }
+  #Startbar > table > tbody > tr > td {
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: none;
+    vertical-align: middle;
+  }
+  .scStartButtonContainer {
+    width: auto;
+    height: 24px;
+  }
+  .scStartButton,
+  .scStartButton:hover,
+  .scStartButton.scPopupOpener {
+    position: static;
+    display: block;
+    width: auto;
+    min-width: 0;
+    height: 24px;
+    padding: 0 8px;
+    border: 0;
+    /* the dim phosphor rather than the dimmer one: dark text on #1f9a42 is 5.3:1 bare and falls under AA
+       beneath the glass's corner shade */
+    background: var(--sct-muted-fg);
+    filter: none;
+    color: var(--sct-taskbar-fg);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 24px;
+    cursor: pointer;
+  }
+  .scStartButton::before {
+    content: "[sitecore]";
+  }
+  .scStartButton[data-sct-ph-host]::before {
+    content: "[" attr(data-sct-ph-host) "]";
+  }
+  .scStartButton:is(:hover, .scPopupOpener) {
+    background: var(--sct-app-bg);
+    color: var(--sct-app-fg);
+  }
+  .scStartButton:focus-visible {
+    outline: 1px dashed var(--sct-accent-fg);
+    outline-offset: -3px;
+  }
+  #Startbar > table {
+    border-spacing: 0;
+  }
+  .scStartBarScroller {
+    padding: 0;
+  }
+  #StartbarApplications {
+    counter-reset: ph-window -1;
+    height: 24px;
+    margin: 0;
+    border-spacing: 0;
+  }
+  #StartbarApplications > tbody > tr > td {
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: none;
+    counter-increment: ph-window;
+  }
+  #StartbarApplications > tbody > tr > td::before,
+  #StartbarApplications > tbody > tr > td::after {
+    content: none;
+  }
+  .scStartBarApplication,
+  .scStartBarApplication:hover {
+    display: flex;
+    align-items: center;
+    height: 24px;
+    margin: 0;
+    padding: 0 8px;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    color: var(--sct-taskbar-fg);
+  }
+  .scStartBarApplication:hover {
+    text-decoration: underline;
+  }
+  .scStartBarApplication span {
+    padding: 0;
+    color: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 24px;
+    text-shadow: none;
+  }
+  .scStartBarApplication span img {
+    display: none;
+  }
+  .scStartBarApplication span::before {
+    content: counter(ph-window) ":";
+  }
+  .scActiveApplication .scStartBarApplication {
+    background: var(--sct-app-bg);
+    color: var(--sct-app-fg);
+  }
+  .scActiveApplication .scStartBarApplication span::after {
+    content: "*";
+  }
+  .scStartbarTray > tbody > tr > td {
+    height: 24px;
+    padding: 0 4px;
+    border: 0;
+    line-height: 24px !important;
+    vertical-align: middle;
+  }
+  #SearchBox,
+  #SearchBox.focus {
+    box-sizing: border-box;
+    width: 180px;
+    height: 18px;
+    min-height: 0;
+    margin: 0;
+    padding: 0 6px;
+    border: 0;
+    box-shadow: none;
+    background: var(--sct-app-bg);
+    color: var(--sct-app-fg);
+    font-size: 12px;
+  }
+  #SearchBox::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  #DatabaseSelector {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    margin: 0;
+    padding: 0 6px;
+    border: 0;
+    background: none;
+    color: var(--sct-taskbar-fg);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 24px;
+    text-shadow: none;
+  }
+  #DatabaseSelector::before {
+    content: "db:";
+    font-weight: 400;
+  }
+  #DatabaseSelector:hover {
+    background: var(--sct-app-bg);
+    color: var(--sct-app-fg);
+  }
+  #DatabaseSelector img {
+    display: none;
+  }
+}
+
+/* ---- Start menu: a framed terminal menu; rows invert under the pointer */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scStartMenu {
+  border: 3px double var(--sct-window-border);
+  background: var(--sct-app-bg);
+  box-shadow: 0 0 14px rgb(57 255 106 / 0.2);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scStartMenuLeft, .scStartMenuRight) {
+  background-color: var(--sct-app-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scStartMenuDivider,
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scStartMenuRight :is(.scStartMenuDivider, .scStartMenuSeparator) {
+  height: 0;
+  border: 0;
+  border-top: 1px dashed var(--sct-border);
+  background: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scStartMenuLeftOption, .scStartMenuRightOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):hover {
+  background-color: var(--sct-accent) !important;
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scStartMenuLeftOption, .scStartMenuRightOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):hover :not(table.scMenu, table.scMenu *) {
+  color: var(--sct-accent-fg) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scStartMenuLeftOptionTooltip, .scStartMenuRightOptionTooltip) {
+  color: var(--sct-muted-fg);
+}
+
+/* ---- Menus (context menus, fly-outs, drop-downs): framed, rows invert, disabled rows stay put */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] table.scMenu {
+  border: 3px double var(--sct-window-border);
+  background-color: var(--sct-app-bg);
+  color: var(--sct-panel-fg);
+  box-shadow: 0 0 12px rgb(57 255 106 / 0.2);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon, .scMenuItemCaption, .scMenuItemHotkey, .scMenuItemIcon_Disabled, .scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  background-color: transparent;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+  background-color: var(--sct-accent);
+  color: var(--sct-accent-fg);
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  color: var(--sct-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] table.scMenu .scMenuItemIcon_Disabled img {
+  opacity: 0.4;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] table.scMenu :is(.scMenuDividerIcon, .scMenuDividerCaption, .scMenuDividerHotkey) {
+  background: linear-gradient(90deg, var(--sct-border) 50%, transparent 0) 0 50% / 6px 1px repeat-x;
+  border-color: transparent;
+}
+
+/* ---- Hover and pressed states lift above the tube; toggled-on buttons are inverted */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton):hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+  box-shadow: inset 0 0 0 1px var(--sct-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton):active {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, .scRibbonToolbarLargeComboButtonDown, .scRibbonLargeImageButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown):is(*, :hover, :active) {
+  background-color: var(--sct-selected-bg);
+  color: var(--sct-tree-selected-fg);
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown) * {
+  color: var(--sct-tree-selected-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.scSearchLink:hover, .scElementHover:hover, .scSearchOptionName:hover, .scListControl > tbody > tr:hover, .Row:hover, .scVerticalTabstrip .scVerticalTabs a:not(.active):hover, .scPagerButtonNormal:hover, .scEditorHeaderTitle:hover, .scEditorHeaderNavigatorField:hover, a.scEditorHeaderNavigatorSection:hover, .scNavButton:hover, .scListviewItemIcons:hover, .scListviewItemList:hover, .scCommand_Hover, .scComboboxDropDown:hover, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-button:not(.ui-state-active):hover, td.scCalendarCell:hover, .scTimePicker a:hover, .scLink:hover, .scInstallerPager:hover, .spe-variables-list .spe-variable:hover, .BlogPostArea:hover, .side li a:hover, .pagination li a:hover, .quickactions > ul > li:hover, .quickactions ul li ul li a:hover, .sb_dropdown .sb_filter:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(#InstantResults li:hover, #InstantResults .scSearchResultsTable a:hover, #results table > tbody > tr:hover, #grid-content .post_float:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+
+/* ---- Global header (10.5's standalone Content Editor): "Log out" in dim phosphor */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout {
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout:hover {
+  color: var(--sct-app-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .sc-globalHeader {
+  border-bottom: 1px dashed var(--sct-border);
+}
+
+/* ---- Light leftovers Sheer UI writes inline in other spellings than the shared map knows */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is([style*="background:white" i], [style*="background: white" i], [style*="background-color:white" i], [style*="background-color: white" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+/* hidden and system items in the trees are marked with an inline #666 */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is([style*="color:#666666" i], [style*="color: #666666" i]) {
+  color: var(--sct-muted-fg) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #ContentTreePanel > div[style*="box-shadow"] {
+  box-shadow: 0 0 0 1px var(--sct-border) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #EditorFrames {
+  box-shadow: 0 0 0 1px var(--sct-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is([style*="background:#e3e3e3" i], [style*="background: #e3e3e3" i], [style*="background-color:#e3e3e3" i]) {
+  background-color: var(--sct-border) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is([style*="background:window" i], [style*="background: window" i], [style*="background-color:window" i], [style*="background-color: window" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+
+/* ---- Images painted for a white page (Security Editor tiles, ComponentArt pager): inverted, then
+   tinted, so the tiles go dark and their glyphs phosphor */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] img[src*="/images/security/" i],
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] img[src*="/componentart/grid/pager/" i] {
+  filter: invert(1) hue-rotate(180deg) grayscale(1) sepia(1) saturate(8) hue-rotate(60deg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is([style*="slider_bg" i], [background*="slider_bg" i]) {
+  background: linear-gradient(var(--sct-border), var(--sct-border)) center / 100% 4px no-repeat !important;
+}
+
+/* ---- Bucket search box (Media Library, bucket folders): one field */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .search-box {
+  background-color: var(--sct-input-bg);
+  border-color: var(--sct-input-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search) {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .btn-clear {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/clear.png");
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .btn-search {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png");
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search):is(:hover, :active) {
+  outline: 1px solid var(--sct-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .filters .filter {
+  background-color: var(--sct-raised-bg);
+  border-color: var(--sct-border);
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .filters .filter :is(.icon, .value .display-value) {
+  background-color: transparent;
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .filters .filter :is(.icon, .remove):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .raw-user-input {
+  background-color: transparent;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #views a {
+  opacity: 0.55;
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #views a:is(.active, :hover) {
+  opacity: 1;
+}
+
+/* ---- Ribbon galleries (Security > Presets, Insert, Languages): a framed pop-up like the menus */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] iframe.scGalleryFrame {
+  outline: 3px double var(--sct-window-border);
+  outline-offset: -3px;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+  background-color: var(--sct-app-bg) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+  background-color: transparent;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* Sitecore sizes the frame for its own font: the wider monospace labels made the Insert gallery scroll
+   both ways (10.4). The list takes the frame's width and a label too long for it ends in an ellipsis. */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenu .scScrollbox {
+  width: 0;
+  min-width: 100%;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenu .scScrollbox > a.scRibbonToolbarSmallButton {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+  background: linear-gradient(90deg, var(--sct-border) 50%, transparent 0) 0 50% / 6px 1px repeat-x;
+}
+
+/* ---- Monochrome glyphs: phosphor */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph, img[src*="Submenu16x16" i], .filters .filter .remove) {
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="phosphor"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+  filter: var(--sct-glyph-filter) opacity(0.7);
+}
+html[data-sct-theme="phosphor"][data-sct-version="10.4"][data-sct-surface="shell"] a.scSearchOptionsButton img {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Tree search: both buttons centre on the field */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] a.scSearchButton img {
+  display: block;
+  margin: -3px;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #SearchPanel td > div[style*="padding-top"] {
+  padding-top: 0 !important;
+}
+
+/* ---- SPE ISE: Ace drawn directly as a terminal (no inverting filter; tokens.css sets
+   --sct-editor-filter to none): phosphor text on the well, comments dim, strings bright */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor {
+  background: var(--sct-input-bg);
+  color: var(--sct-app-fg);
+  text-shadow: var(--sct-ph-glow);
+  scrollbar-color: var(--sct-scrollbar-thumb) var(--sct-scrollbar-track);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor :is(.ace_gutter, .ace_gutter-layer) {
+  background: var(--sct-app-bg);
+  color: var(--sct-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor .ace_gutter-active-line {
+  background: var(--sct-ribbon-button-hover-bg);
+  color: var(--sct-app-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor .ace_marker-layer .ace_active-line {
+  background: #06200d;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor .ace_marker-layer :is(.ace_selection, .ace_selected-word) {
+  background: #12572a;
+  border-color: transparent;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor .ace_cursor {
+  border-left: 8px solid rgb(57 255 106 / 0.75);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor .ace_print-margin {
+  background: var(--sct-raised-bg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor .ace_line :is(span, .ace_keyword, .ace_variable, .ace_identifier, .ace_constant, .ace_support, .ace_storage, .ace_type, .ace_function, .ace_paren, .ace_operator, .ace_numeric) {
+  color: var(--sct-app-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor .ace_line :is(.ace_keyword, .ace_storage) {
+  font-weight: 700;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor .ace_line .ace_string {
+  color: #b5ffc9;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor .ace_line .ace_comment {
+  color: var(--sct-muted-fg);
+  font-style: normal;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .ace_editor .ace_line .ace_variable {
+  color: #8dffab;
+}
+
+/* ---- SPE Console: the terminal it already is, on the tube instead of PowerShell's navy. Output that
+   SPE colours itself (errors, warnings) keeps its colour; the cursor is a steady block, no blink. */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(#terminal.terminal, #ScriptResultCode.terminal, #Result.console, #ScriptResult.console) {
+  background: var(--sct-input-bg) !important;
+  color: var(--sct-app-fg) !important;
+  text-shadow: var(--sct-ph-glow);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(#terminal, #ScriptResultCode, #Result, #ScriptResult) :is(div, span, pre):not([style*="color"]) {
+  color: inherit;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .terminal .cursor {
+  animation: none;
+  background: var(--sct-app-fg);
+  color: var(--sct-input-bg);
+  text-shadow: none;
+}
+
+/* ---- SPEAK-style headers inside the shell (SPE Reports): 10.4 paints the application header band
+   Sitecore red with a swoosh image; the tube instead, with a dashed rule */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .sc-applicationHeader {
+  background-color: var(--sct-app-bg) !important;
+  border-bottom: 1px dashed var(--sct-border);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .sc-applicationHeader-row1 {
+  background-image: none !important;
+}
+/* 10.4's Launchpad button in the global header is a white and red tile grid: phosphor */
+html[data-sct-theme="phosphor"][data-sct-version="10.4"][data-sct-surface="shell"] .sc-globalHeader .sc-global-logo {
+  filter: var(--sct-ph-icon-filter);
+}
+
+/* the ISE's tip of the session: a dashed note on the tube rather than a phosphor slab with olive text */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #TipOfTheSession .ui-state-highlight {
+  border: 1px dashed var(--sct-border);
+  background: var(--sct-raised-bg);
+  color: var(--sct-app-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #TipOfTheSession .ui-state-highlight :is(p, b, strong, span) {
+  color: var(--sct-app-fg);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #TipOfTheSession .ui-state-highlight a {
+  color: var(--sct-link);
+}
+/* the ISE status bar: the tube with a dashed rule (SPE turns it pale yellow while a script runs) */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #StatusBar {
+  border-top: 1px dashed var(--sct-border);
+  background: var(--sct-app-bg) !important;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #StatusBar * {
+  background-color: transparent !important;
+  color: var(--sct-app-fg);
+}
+/* the ISE status bar's icons */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] #StatusBar img {
+  filter: var(--sct-ph-icon-filter);
+}
+
+/* ---- Security Editor and Access Viewer: the selected node is inverted, its icon dark; the tree's
+   chevrons in phosphor */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .nodeSelected,
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .nodeSelected * {
+  color: var(--sct-accent-fg) !important;
+  text-shadow: none;
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .nodeSelected img {
+  filter: grayscale(1) contrast(0.6) brightness(0.35);
+}
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] :is(img.glyph[id$="_toggle"], img.scRibbonToolbarLargeComboButtonGlyph, img.scRibbonToolbarSmallComboButtonGlyph) {
+  filter: var(--sct-glyph-filter);
+}
+/* 10.4 marks the Workbox's workflow panes with its red stripe */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] .scPaneHeader {
+  border-left-color: var(--sct-accent) !important;
+}
+
+/* ---- No flicker and no motion: a steady tube */
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] *,
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] *::before,
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] *::after {
+  animation: none !important;
+  transition: none !important;
+}

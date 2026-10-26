@@ -1,0 +1,84 @@
+/* Menlo: inspired by BeOS R5. Panel grey #dedede with a #555 outline and white inner highlight, the
+   yellow window tab (#ffe066 to #ffcb00), a #336698 desktop, light-blue selection (#9db4d8), the
+   keyboard-navigation blue #0000e5 for focus, Verdana 11px (BeOS's own Swis721 is not bundled). */
+html[data-sct-theme="menlo"] {
+  --sct-font-family: Verdana, "DejaVu Sans", Geneva, sans-serif;
+  --sct-font-size: 11px;
+  --sct-radius: 0;
+
+  --sct-app-bg: #dedede;
+  --sct-app-fg: #000000;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #000000;
+  --sct-muted-fg: #555555;
+  --sct-border: #989898;
+  --sct-border-strong: #555555;
+  --sct-accent: #336698;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #0000e5;
+  --sct-focus-ring: #0000e5;
+  --sct-raised-bg: #e8e8e8;
+  --sct-chrome-bg: #cbcbcb;
+  --sct-chrome-fg: #000000;
+  --sct-selected-bg: #9db4d8;
+
+  --sct-titlebar-bg: #ffcb00;
+  --sct-titlebar-fg: #000000;
+  --sct-titlebar-inactive-bg: #e2dcc0;
+  --sct-titlebar-inactive-fg: #000000;
+  --sct-window-border: #555555;
+
+  --sct-ribbon-bg: #dedede;
+  --sct-ribbon-fg: #000000;
+  --sct-ribbon-tab-bg: #c8c8c8;
+  --sct-ribbon-tab-fg: #000000;
+  --sct-ribbon-tab-active-bg: #dedede;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #dedede;
+  --sct-ribbon-chunk-caption-bg: #dedede;
+  --sct-ribbon-chunk-caption-fg: #333333;
+  --sct-ribbon-button-hover-bg: #ececec;
+  --sct-ribbon-button-pressed-bg: #c4c4c4;
+
+  --sct-tree-bg: #ffffff;
+  --sct-tree-fg: #000000;
+  --sct-tree-hover-bg: #eef2f8;
+  --sct-tree-selected-bg: #9db4d8;
+  --sct-tree-selected-fg: #000000;
+  --sct-tree-selected-border: #7d94b8;
+
+  --sct-section-header-bg: #e8e8e8;
+  --sct-section-header-fg: #000000;
+  --sct-section-body-bg: #dedede;
+  --sct-field-label-fg: #000000;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #000000;
+  --sct-input-border: #989898;
+  --sct-input-focus-border: #0000e5;
+
+  --sct-button-bg: #e8e8e8;
+  --sct-button-fg: #000000;
+  --sct-button-border: #555555;
+  --sct-button-hover-bg: #f2f2f2;
+  --sct-button-primary-bg: #e8e8e8;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #f2f2f2;
+
+  --sct-table-header-bg: #e8e8e8;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #eef2f8;
+
+  --sct-scrollbar-thumb: #c8c8c8;
+  --sct-scrollbar-track: #b4b4b4;
+
+  --sct-desktop-bg: #336698;
+  --sct-taskbar-bg: #dedede;
+  --sct-taskbar-fg: #000000;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="menlo"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

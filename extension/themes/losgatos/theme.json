@@ -1,0 +1,9 @@
+{
+  "name": "Los Gatos",
+  "description": "Inspired by the Amiga Workbench",
+  "category": "retro",
+  "order": 160,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#0055aa", "#ff8800", "#ffffff"],
+  "swatch": { "desk": "#0055aa", "barPos": "top", "bar": "#ffffff", "barLine": "#0055aa", "start": "#0055aa", "win": "#0055aa", "border": "#ffffff", "bw": 2, "cap": "#ffffff", "pin": "#0055aa", "btns": "both", "btn": "#ffffff", "ribbon": "#0055aa", "tab": "#ff8800", "tree": "#0055aa", "ed": "#0055aa", "sec": "#ffffff", "field": "#0055aa", "line": "#ffffff", "sel": "#ff8800", "fg": "#ffffff" }
+}

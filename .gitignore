@@ -1,0 +1,14 @@
+.superpowers/
+node_modules/
+dist/
+test-results/
+sitecore.local.json
+AGENTS.local.md
+.claude/worktrees/
+.claude/settings.local.json
+playwright-report/
+.auth/
+test/e2e/*-snapshots/
+dist-sitecore/
+sitecore/bin/
+sitecore/obj/

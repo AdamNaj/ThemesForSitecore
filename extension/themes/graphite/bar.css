@@ -1,0 +1,18 @@
+/* A status chip: a hairline pill with the accent dot before the name, no fill */
+html[data-sct-theme="graphite"] sct-bar-postfix {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: transparent;
+  color: #b9b2ff;
+  font-weight: 500;
+}
+html[data-sct-theme="graphite"] sct-bar-postfix::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #7c6cff;
+  vertical-align: 1px;
+}

@@ -1,0 +1,356 @@
+/* Meridian: Sitecore's own layout in a palette that follows the time of day. dom.js sets data-sct-phase
+   on every frame's <html> from the local clock: dawn 05-09, day 09-17, dusk 17-21, night 21-05.
+   The block without a phase is the day palette (and what shows before dom.js runs); each phase block
+   below is a complete set on its own. test/unit/meridian.test.js checks every block. */
+html[data-sct-theme="meridian"] {
+  --sct-font-family: inherit;
+  --sct-font-size: inherit;
+  --sct-radius: inherit;
+
+  /* day: clear light neutrals, a teal accent, a sky-blue Desktop */
+  --sct-app-bg: #eef3f5;
+  --sct-app-fg: #1f2a30;
+  --sct-panel-bg: #ffffff;
+  --sct-panel-fg: #1f2a30;
+  --sct-muted-fg: #56656d;
+  --sct-border: #d3dde1;
+  --sct-border-strong: #a3b3ba;
+  --sct-accent: #0d7480;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #0a6670;
+  --sct-focus-ring: #0d7480;
+  --sct-raised-bg: #ffffff;
+  --sct-chrome-bg: #e3edf0;
+  --sct-chrome-fg: #1f2a30;
+  --sct-selected-bg: #cdeef0;
+
+  --sct-titlebar-bg: #11606f;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #dfe7ea;
+  --sct-titlebar-inactive-fg: #4b5a62;
+  --sct-window-border: #b5c4ca;
+
+  --sct-ribbon-bg: #ffffff;
+  --sct-ribbon-fg: #1f2a30;
+  --sct-ribbon-tab-bg: #e3edf0;
+  --sct-ribbon-tab-fg: #3d4d55;
+  --sct-ribbon-tab-active-bg: #ffffff;
+  --sct-ribbon-tab-active-fg: #0a5f68;
+  --sct-ribbon-chunk-bg: #ffffff;
+  --sct-ribbon-chunk-caption-bg: #ffffff;
+  --sct-ribbon-chunk-caption-fg: #56656d;
+  --sct-ribbon-button-hover-bg: #e2f2f3;
+  --sct-ribbon-button-pressed-bg: #c6e6e9;
+
+  --sct-tree-bg: #f8fbfb;
+  --sct-tree-fg: #1f2a30;
+  --sct-tree-hover-bg: #e6f2f3;
+  --sct-tree-selected-bg: #cdeef0;
+  --sct-tree-selected-fg: #0c2e33;
+  --sct-tree-selected-border: #0d7480;
+
+  --sct-section-header-bg: #e3edf0;
+  --sct-section-header-fg: #1f2a30;
+  --sct-section-body-bg: #ffffff;
+  --sct-field-label-fg: #37464e;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #1f2a30;
+  --sct-input-border: #a3b3ba;
+  --sct-input-focus-border: #0d7480;
+
+  --sct-button-bg: #f1f6f7;
+  --sct-button-fg: #1f2a30;
+  --sct-button-border: #a3b3ba;
+  --sct-button-hover-bg: #e2edf0;
+  --sct-button-primary-bg: #0d7480;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #0a5f68;
+
+  --sct-table-header-bg: #e3edf0;
+  --sct-table-header-fg: #1f2a30;
+  --sct-table-row-hover-bg: #eaf4f5;
+
+  --sct-scrollbar-thumb: #b3c2c8;
+  --sct-scrollbar-track: #eef3f5;
+
+  --sct-desktop-bg: #6fb3dd;
+  --sct-taskbar-bg: #0e3f4a;
+  --sct-taskbar-fg: #e8f6f7;
+
+  /* the title gradient, the sky and the sun, read by the area files (not roles) */
+  --mer-title-from: #0e5868;
+  --mer-title-to: #1f6fa8;
+  --mer-sky: linear-gradient(#3f8fd0, #7fbfe6 55%, #cfe9f5);
+  --mer-sun: radial-gradient(circle at 78% 18%, #fff8d8 0 4%, rgb(255 248 216 / 0.5) 6%, transparent 14%);
+  --mer-card-tint: #d9eff2;
+}
+
+html[data-sct-theme="meridian"][data-sct-phase="dawn"] {
+  --sct-font-family: inherit;
+  --sct-font-size: inherit;
+  --sct-radius: inherit;
+
+  /* dawn: pale peach panels on a soft blue, a dawn-blue accent */
+  --sct-app-bg: #edf1f8;
+  --sct-app-fg: #2a3242;
+  --sct-panel-bg: #fffaf5;
+  --sct-panel-fg: #2a3242;
+  --sct-muted-fg: #59617a;
+  --sct-border: #eadbd1;
+  --sct-border-strong: #bdb3b6;
+  --sct-accent: #3d67a8;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #335c9a;
+  --sct-focus-ring: #3d67a8;
+  --sct-raised-bg: #fffdfa;
+  --sct-chrome-bg: #fbe8dc;
+  --sct-chrome-fg: #2a3242;
+  --sct-selected-bg: #d8e4f5;
+
+  --sct-titlebar-bg: #4a5f96;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #ece6e4;
+  --sct-titlebar-inactive-fg: #575d6e;
+  --sct-window-border: #c9c0c2;
+
+  --sct-ribbon-bg: #fffaf5;
+  --sct-ribbon-fg: #2a3242;
+  --sct-ribbon-tab-bg: #fbe8dc;
+  --sct-ribbon-tab-fg: #594850;
+  --sct-ribbon-tab-active-bg: #fffaf5;
+  --sct-ribbon-tab-active-fg: #2f5893;
+  --sct-ribbon-chunk-bg: #fffaf5;
+  --sct-ribbon-chunk-caption-bg: #fffaf5;
+  --sct-ribbon-chunk-caption-fg: #59617a;
+  --sct-ribbon-button-hover-bg: #fcece2;
+  --sct-ribbon-button-pressed-bg: #f5dacb;
+
+  --sct-tree-bg: #f7f9fd;
+  --sct-tree-fg: #2a3242;
+  --sct-tree-hover-bg: #eaf0f8;
+  --sct-tree-selected-bg: #d8e4f5;
+  --sct-tree-selected-fg: #1b2840;
+  --sct-tree-selected-border: #3d67a8;
+
+  --sct-section-header-bg: #fbe8dc;
+  --sct-section-header-fg: #2a3242;
+  --sct-section-body-bg: #fffaf5;
+  --sct-field-label-fg: #424a5c;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #2a3242;
+  --sct-input-border: #bdb3b6;
+  --sct-input-focus-border: #3d67a8;
+
+  --sct-button-bg: #fdf1e9;
+  --sct-button-fg: #2a3242;
+  --sct-button-border: #c6b9b2;
+  --sct-button-hover-bg: #fae3d6;
+  --sct-button-primary-bg: #3d67a8;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #325893;
+
+  --sct-table-header-bg: #fbe8dc;
+  --sct-table-header-fg: #2a3242;
+  --sct-table-row-hover-bg: #f1f5fb;
+
+  --sct-scrollbar-thumb: #c7c2ca;
+  --sct-scrollbar-track: #f4f1f1;
+
+  --sct-desktop-bg: #e9b39c;
+  --sct-taskbar-bg: #2e3b5a;
+  --sct-taskbar-fg: #f1f4fa;
+
+  --mer-title-from: #3f5c98;
+  --mer-title-to: #8a5a86;
+  --mer-sky: linear-gradient(#5a77b4, #a9b9dc 40%, #f3c9b4 78%, #ffe1c6);
+  --mer-sun: radial-gradient(circle at 24% 92%, #fff1d6 0 5%, rgb(255 225 190 / 0.55) 8%, transparent 18%);
+  --mer-card-tint: #fbe2d4;
+}
+
+html[data-sct-theme="meridian"][data-sct-phase="dusk"] {
+  --sct-font-family: inherit;
+  --sct-font-size: inherit;
+  --sct-radius: inherit;
+
+  /* dusk: warm peach panels, a violet-to-rose title, a rose accent (#c2557a on rings and lines; fills that
+     carry white text take #bd5076, the nearest rose that passes 4.5:1) */
+  --sct-app-bg: #f6e7df;
+  --sct-app-fg: #3a2a3a;
+  --sct-panel-bg: #fff8f3;
+  --sct-panel-fg: #3a2a3a;
+  --sct-muted-fg: #765667;
+  --sct-border: #f0d6c8;
+  --sct-border-strong: #d1a596;
+  --sct-accent: #bd5076;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #a8325a;
+  --sct-focus-ring: #c2557a;
+  --sct-raised-bg: #fffaf6;
+  --sct-chrome-bg: #f3dcd2;
+  --sct-chrome-fg: #3a2a3a;
+  --sct-selected-bg: #f3cfd8;
+
+  --sct-titlebar-bg: #6a3f7e;
+  --sct-titlebar-fg: #ffffff;
+  --sct-titlebar-inactive-bg: #f0dcd2;
+  --sct-titlebar-inactive-fg: #634a57;
+  --sct-window-border: #d1a596;
+
+  --sct-ribbon-bg: #fff4ec;
+  --sct-ribbon-fg: #3a2a3a;
+  --sct-ribbon-tab-bg: #f8e6dc;
+  --sct-ribbon-tab-fg: #66485a;
+  --sct-ribbon-tab-active-bg: #fff4ec;
+  --sct-ribbon-tab-active-fg: #a8325a;
+  --sct-ribbon-chunk-bg: #fff4ec;
+  --sct-ribbon-chunk-caption-bg: #fff4ec;
+  --sct-ribbon-chunk-caption-fg: #765667;
+  --sct-ribbon-button-hover-bg: #fbe3d8;
+  --sct-ribbon-button-pressed-bg: #f3cfd8;
+
+  --sct-tree-bg: #fbeee6;
+  --sct-tree-fg: #3a2a3a;
+  --sct-tree-hover-bg: #f7e0d6;
+  --sct-tree-selected-bg: #f3cfd8;
+  --sct-tree-selected-fg: #3a1a2a;
+  --sct-tree-selected-border: #c2557a;
+
+  --sct-section-header-bg: #f3dcd2;
+  --sct-section-header-fg: #3a2a3a;
+  --sct-section-body-bg: #fff8f3;
+  --sct-field-label-fg: #563e4c;
+
+  --sct-input-bg: #fffaf6;
+  --sct-input-fg: #3a2a3a;
+  --sct-input-border: #d6ae9f;
+  --sct-input-focus-border: #c2557a;
+
+  --sct-button-bg: #fbe9e0;
+  --sct-button-fg: #3a2a3a;
+  --sct-button-border: #d6ae9f;
+  --sct-button-hover-bg: #f6dcd0;
+  --sct-button-primary-bg: #bd5076;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #a5405f;
+
+  --sct-table-header-bg: #f3dcd2;
+  --sct-table-header-fg: #3a2a3a;
+  --sct-table-row-hover-bg: #fbeae2;
+
+  --sct-scrollbar-thumb: #dbb6a8;
+  --sct-scrollbar-track: #f8ece5;
+
+  --sct-desktop-bg: #7b4b8e;
+  --sct-taskbar-bg: #2d2350;
+  --sct-taskbar-fg: #f2e8f4;
+
+  --mer-title-from: #4a3a78;
+  --mer-title-to: #b04d72;
+  --mer-sky: linear-gradient(#2d2350, #7b4b8e 42%, #f08a6c 78%, #ffc58a);
+  --mer-sun: radial-gradient(circle at 70% 82%, #ffd59a 0 6%, rgb(255 213 154 / 0.5) 9%, transparent 18%);
+  --mer-card-tint: #f8dccf;
+}
+
+html[data-sct-theme="meridian"][data-sct-phase="night"] {
+  --sct-font-family: inherit;
+  --sct-font-size: inherit;
+  --sct-radius: inherit;
+
+  /* night: deep indigo, dim text, low glare */
+  --sct-app-bg: #14162b;
+  --sct-app-fg: #c6c9de;
+  --sct-panel-bg: #1b1e38;
+  --sct-panel-fg: #c6c9de;
+  --sct-muted-fg: #8d91b0;
+  --sct-border: #2d3155;
+  --sct-border-strong: #464c7a;
+  --sct-accent: #8a94ff;
+  --sct-accent-fg: #14162b;
+  --sct-link: #a6adff;
+  --sct-focus-ring: #8a94ff;
+  --sct-raised-bg: #232746;
+  --sct-chrome-bg: #282c4e;
+  --sct-chrome-fg: #d6d8ea;
+  --sct-selected-bg: #353a6e;
+
+  --sct-titlebar-bg: #232746;
+  --sct-titlebar-fg: #d6d8ea;
+  --sct-titlebar-inactive-bg: #1b1e38;
+  --sct-titlebar-inactive-fg: #8d91b0;
+  --sct-window-border: #2d3155;
+
+  --sct-ribbon-bg: #1b1e38;
+  --sct-ribbon-fg: #c6c9de;
+  --sct-ribbon-tab-bg: #14162b;
+  --sct-ribbon-tab-fg: #8d91b0;
+  --sct-ribbon-tab-active-bg: #1b1e38;
+  --sct-ribbon-tab-active-fg: #d6d8ea;
+  --sct-ribbon-chunk-bg: #1b1e38;
+  --sct-ribbon-chunk-caption-bg: #1b1e38;
+  --sct-ribbon-chunk-caption-fg: #8d91b0;
+  --sct-ribbon-button-hover-bg: #282c4e;
+  --sct-ribbon-button-pressed-bg: #31365c;
+
+  --sct-tree-bg: #14162b;
+  --sct-tree-fg: #c6c9de;
+  --sct-tree-hover-bg: #20233f;
+  --sct-tree-selected-bg: #353a6e;
+  --sct-tree-selected-fg: #ffffff;
+  --sct-tree-selected-border: #6b74d6;
+
+  --sct-section-header-bg: #232746;
+  --sct-section-header-fg: #d6d8ea;
+  --sct-section-body-bg: #1b1e38;
+  --sct-field-label-fg: #b2b5cf;
+
+  --sct-input-bg: #101226;
+  --sct-input-fg: #c6c9de;
+  --sct-input-border: #424773;
+  --sct-input-focus-border: #8a94ff;
+
+  --sct-button-bg: #232746;
+  --sct-button-fg: #c6c9de;
+  --sct-button-border: #424773;
+  --sct-button-hover-bg: #2c3054;
+  --sct-button-primary-bg: #8a94ff;
+  --sct-button-primary-fg: #14162b;
+  --sct-button-primary-hover-bg: #a0a8ff;
+
+  --sct-table-header-bg: #232746;
+  --sct-table-header-fg: #b2b5cf;
+  --sct-table-row-hover-bg: #20233f;
+
+  --sct-scrollbar-thumb: #424773;
+  --sct-scrollbar-track: #14162b;
+
+  --sct-desktop-bg: #0b0c1c;
+  --sct-taskbar-bg: #101226;
+  --sct-taskbar-fg: #c6c9de;
+
+  --sct-glyph-filter: invert(1) hue-rotate(180deg);
+  --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+  --sct-content-filter: brightness(0.8);
+
+  --mer-title-from: #232746;
+  --mer-title-to: #2f2a55;
+  --mer-sky: linear-gradient(#05061a, #12143a 55%, #232a5c);
+  --mer-sun: radial-gradient(circle at 80% 16%, #c9cdea 0 1.6%, rgb(201 205 234 / 0.12) 2.6%, transparent 6%);
+  --mer-card-tint: #262a50;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="meridian"][data-sct-phase="night"]:not([data-sct-surface="ee"]) {
+  color-scheme: dark;
+}
+
+/* A phase change cross-fades. dom.js sets data-sct-fading only while a phase changes, so hovers and
+   selections keep their usual speed. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sct-theme="meridian"][data-sct-fading],
+  html[data-sct-theme="meridian"][data-sct-fading] * {
+    transition: background-color 6s ease, color 6s ease, border-color 6s ease !important;
+  }
+}

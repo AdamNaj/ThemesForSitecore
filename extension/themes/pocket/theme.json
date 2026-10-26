@@ -1,0 +1,8 @@
+{
+  "name": "Pocket",
+  "description": "A four-shade handheld screen with chunky pixels",
+  "category": "creative",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#e0f8d0", "#346856", "#081820"],
+  "swatch": { "desk": "#88c070", "bar": "#081820", "start": "#e0f8d0", "app": "#346856", "win": "#e0f8d0", "border": "#081820", "bw": 2, "cap": "#081820", "btns": "right", "btn": "#88c070", "ribbon": "#e0f8d0", "tab": "#346856", "tree": "#e0f8d0", "ed": "#e0f8d0", "sec": "#88c070", "field": "#e0f8d0", "line": "#081820", "sel": "#081820", "fg": "#081820" }
+}

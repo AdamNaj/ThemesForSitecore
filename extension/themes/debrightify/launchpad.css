@@ -1,0 +1,48 @@
+/* Debrightify: Launchpad. 10.5's tiles are white cards with pastel icon squares and dark glyphs; here
+   they are panel cards with a hairline, tinted squares and light glyphs. */
+
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-globalHeader ul.sc-accountInformation li a.logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 80%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-globalHeader ul.sc-accountInformation li a.logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-launchpad-item {
+  background-color: var(--sct-panel-bg);
+  box-shadow: inset 0 0 0 1px var(--sct-border);
+}
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-launchpad-item:hover {
+  background-color: var(--sct-raised-bg);
+  box-shadow: inset 0 0 0 1px var(--sct-border-strong);
+}
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-launchpad-item:active {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-launchpad-item .sc-launchpad-text {
+  color: var(--sct-panel-fg);
+}
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-launchpad-item .icon img {
+  filter: var(--sct-glyph-filter);
+}
+/* the group tints of 10.5 (rose, lavender, grey, mint), mixed into the card colour */
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-launchpad-item .icon {
+  background-color: color-mix(in srgb, #ff7a7a 24%, var(--sct-raised-bg));
+}
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-launchpad-group:nth-last-child(3) .icon {
+  background-color: color-mix(in srgb, var(--sct-accent) 30%, var(--sct-raised-bg));
+}
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-launchpad-group:nth-last-child(2) .icon {
+  background-color: var(--sct-border);
+}
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"] .sc-launchpad-group:nth-last-child(1) .icon {
+  background-color: color-mix(in srgb, #2fd9bf 24%, var(--sct-raised-bg));
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
+   text colour instead (as the shared shell map does on shell pages). */
+html[data-sct-theme="debrightify"][data-sct-surface="launchpad"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}

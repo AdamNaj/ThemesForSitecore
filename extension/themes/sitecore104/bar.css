@@ -1,0 +1,7 @@
+/* Native's badge on Sitecore 10.4 */
+html[data-sct-theme="sitecore104"] sct-bar-postfix {
+  border-color: #5a5a5a;
+  border-radius: 2px;
+  background: #3c3c3c;
+  color: #fff;
+}

@@ -1,0 +1,26 @@
+# Unit tests, the theme registry and the extension lint on every push and pull request. The Playwright suites
+# need local Sitecore installs, so they don't run here.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: themes.js and the README's theme table match the theme folders
+        run: node tools/themes.mjs --check
+      - run: npm run lint

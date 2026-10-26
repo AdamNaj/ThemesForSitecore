@@ -1,0 +1,1723 @@
+/* Cupertino: classic shell. Colours come from tokens.css (light and dark); this file adds shape. */
+
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] body,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] input,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] select,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] textarea,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] button {
+  font-family: var(--sct-font-family);
+  -webkit-font-smoothing: antialiased;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] {
+  scrollbar-width: thin;
+}
+
+/* ---- Toolbar: global header and ribbon read as one unified window toolbar ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .sc-globalHeader {
+  background: var(--sct-titlebar-bg);
+  color: var(--sct-titlebar-fg);
+  border-bottom: 1px solid var(--sct-border);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation li,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation span,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation a {
+  color: var(--sct-titlebar-fg);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbonNavigator {
+  padding: 4px 8px;
+}
+/* Ribbon tabs: a segmented control */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsNormal,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsActive {
+  text-transform: none;
+  font-weight: 500;
+  border: 0;
+  border-radius: 6px;
+  margin: 0 1px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsNormal:hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsActive {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbonToolbar {
+  border-bottom: 1px solid var(--sct-border);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbonToolbar .chunk {
+  border: 0;
+  border-right: 1px solid var(--sct-border);
+  border-radius: 0;
+  box-shadow: none;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption {
+  font-size: 11px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"] {
+  border-radius: 6px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scRibbonToolbar [class*="scRibbonToolbar"][class*="Button"]:hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+
+/* ---- Sidebar tree ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scContentTree a.scContentTreeNodeActive,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scContentTree a.scContentTreeNodeNormal {
+  border-radius: 6px;
+  padding: 1px 6px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scContentTree a.scContentTreeNodeActive [style^="color:green" i],
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scContentTree a.scContentTreeNodeActive [style^="color: green" i] {
+  color: var(--sct-tree-selected-fg) !important;
+}
+
+/* ---- Editor: inset grouped sections, as in System Settings ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorHeaderTitle {
+  font-weight: 600;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorSectionCaptionExpanded,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorSectionCaptionCollapsed {
+  border: 1px solid var(--sct-border);
+  font-weight: 600;
+  margin: 10px 0 0;
+  /* a disclosure row, not 10.5's 59px band */
+  line-height: 20px;
+  padding: 8px 14px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] img.scEditorSectionCaptionGlyph {
+  margin: 0 0 0 8px;
+}
+/* 10.4 draws the section chevrons and ribbon chunk launchers as white and pale grey images (10.5 swaps in
+   _grey ones, which 10.4 lacks): ink them as 10.5 renders them, near-black chevrons and #6f6f6f launchers,
+   turned light in dark mode by the glyph filter. */
+html[data-sct-theme="cupertino"][data-sct-version="10.4"][data-sct-surface="shell"] img.scEditorSectionCaptionGlyph {
+  filter: brightness(0) opacity(0.88) var(--sct-glyph-filter, );
+}
+html[data-sct-theme="cupertino"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+  filter: brightness(0) opacity(0.55) var(--sct-glyph-filter, );
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorSectionCaptionCollapsed {
+  border-radius: 10px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorSectionCaptionExpanded {
+  border-radius: 10px 10px 0 0;
+  border-bottom: 0;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorSectionPanel {
+  border: 1px solid var(--sct-border);
+  border-top: 0;
+  border-radius: 0 0 10px 10px;
+  background-color: var(--sct-section-body-bg);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorFieldLabel {
+  font-weight: 500;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorFieldMarkerBarCell {
+  border-radius: 2px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scContentControl,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorSections input:not([type="checkbox"]):not([type="radio"]),
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorSections textarea,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorSections select {
+  border-radius: 6px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] input:focus,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] textarea:focus,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sct-focus-ring) 35%, transparent);
+}
+
+/* ---- Buttons ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scButton,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] button:not(.ui-button) {
+  border-radius: 6px;
+  box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.12);
+}
+
+/* ---- Bottom application tabs: a segmented control ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scPager {
+  border-radius: 8px;
+  border: 1px solid var(--sct-border);
+  background: var(--sct-raised-bg);
+  padding: 2px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scPagerButtonNormal,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scPagerButtonActive {
+  border-radius: 6px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scPagerButtonActive {
+  background: var(--sct-panel-bg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+/* ---- Dialog windows: rounded, soft shadow, traffic lights ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog {
+  border: 0.5px solid var(--sct-window-border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.35), 0 0 0 0.5px rgba(0, 0, 0, 0.2);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar {
+  background: transparent;
+  border: 0;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane {
+  left: 14px;
+  right: auto;
+  top: 14px;
+  width: auto;
+  display: flex;
+  gap: 8px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+  box-sizing: border-box;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0.5px solid rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  background-image: none;
+  overflow: hidden;
+  text-indent: -999px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * > * {
+  display: none;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > button.ui-button {
+  order: -2;
+  background-color: #ff5f57;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-minimize {
+  order: -1;
+  background-color: #febc2e;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-maximize,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-restore {
+  background-color: #28c840;
+}
+/* A window that cannot be minimized still shows the yellow light's place, greyed out, as macOS does. */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane:has(> .ui-dialog-titlebar-minimize[style*="none"])::before {
+  content: "";
+  order: -1;
+  box-sizing: border-box;
+  width: 12px;
+  height: 12px;
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--sct-app-fg) 16%, var(--sct-app-bg));
+}
+/* Sitecore's collapse button has no macOS counterpart; it stays, as a grey light. */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-collapse {
+  background-color: #8e8e93;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-widget-overlay {
+  background: rgba(0, 0, 0, 0.18);
+  opacity: 1;
+}
+/* Dialog headers are centred and kept clear of the traffic lights at the dialog's top left. */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader {
+  padding-left: 44px;
+  padding-right: 44px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 13px;
+}
+/* The ListView's title is a header the dialog host puts under the jQuery UI title bar: a macOS title row.
+   The 15px bar stretches over the header's 40px (so the whole row drags the window) and the header,
+   transparent and click-through, centres its text in the same 55px row as the traffic lights. */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog > .ui-dialog-titlebar:has(+ .DialogHeader) {
+  box-sizing: border-box;
+  height: 55px;
+  margin-bottom: -55px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog > .ui-dialog-titlebar + .DialogHeader {
+  box-sizing: border-box;
+  position: relative;
+  height: 55px;
+  padding: 0 80px;
+  overflow: hidden;
+  background: transparent;
+  pointer-events: none;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 55px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scFormDialogHeader, .scDialogHeader) .DialogHeaderDescription {
+  padding-left: 44px;
+  padding-right: 44px;
+  text-align: center;
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scTabstrip .scTab,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scTabstrip [class*="scTabActive"] {
+  text-transform: none;
+  border-radius: 6px;
+}
+
+/* ---- Desktop: the start menu (the Dock is in the hand-written block below) ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] #StartMenu {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 0.5px solid var(--sct-window-border);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.3);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scStartMenuLeft,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scStartMenuRight {
+  background: var(--sct-panel-bg);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scStartMenuLeft *,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scStartMenuRight * {
+  color: var(--sct-panel-fg);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scStartMenuLeftOption,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scStartMenuRightFolder {
+  border-radius: 6px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scStartMenuLeftOption:hover,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scStartMenuRightFolder:hover,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scMenu :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon)):hover {
+  background: var(--sct-accent);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scStartMenuLeftOption:hover *,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scStartMenuRightFolder:hover *,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scMenu :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon)):hover * {
+  color: var(--sct-accent-fg) !important;
+}
+
+/* ---- Window buttons: traffic lights in macOS order (close, minimize, zoom), glyphs on hover ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Groups Sitecore pins to the right-hand edge are mirrored, so red stays nearest the edge:
+   (grey) green, yellow, red. Each button keeps its own image and click; only the order is visual. */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .scWorkboxWindowButtons) {
+  flex-direction: row-reverse;
+  /* 9px in from the window's right edge, as macOS sets its lights in from the left */
+  right: 9px;
+}
+/* the Content Editor's lights centred on the ribbon tabs beside them (the tabs sit 21px down a 30px row) */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scCaption > .scSystemButtons {
+  top: 21px;
+  height: 30px;
+  /* above the tab row, which is positioned and comes later, so a narrow window's last tabs can't take
+     the lights' clicks */
+  z-index: 2;
+}
+/* the Workbox's lights centred in its 27px caption strip */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scWorkboxWindowButtons {
+  top: 0;
+  height: 27px;
+}
+/* ---- A Desktop window's lights at the top left, as macOS sets them (engine.js names the window). On the
+   Content Editor they share the tab row, as macOS's unified toolbar holds a window's lights: the empty header
+   over the tab group goes while no contextual group needs it, so that row is the window's top. ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu):not(#sct-w)[data-sct-window-title] :is(.scCaption > .scSystemButtons, .scWorkboxWindowButtons) {
+  left: 12px;
+  right: auto;
+  flex-direction: row;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu):not(#sct-w)[data-sct-window-title] .scCaption > .scSystemButtons {
+  top: 4px;
+  height: 30px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu):not(#sct-w)[data-sct-window-title] .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader {
+  display: none;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu):not(#sct-w)[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle {
+  position: relative;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu):not(#sct-w)[data-sct-window-title] .scWorkboxWindowButtons {
+  position: absolute;
+  float: none;
+}
+/* the menu button beside the lights, narrowed to the hamburger, the tabs after it */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu):not(#sct-w)[data-sct-window-title] .scCaption > a.scSystemMenu {
+  top: 4px;
+  left: 92px;
+  width: 36px;
+  height: 30px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu):not(#sct-w)[data-sct-window-title] .scCaption:has(> a.scSystemMenu) .scRibbonNavigator {
+  padding-left: 132px;
+}
+/* Drawn with gradients rather than images, so no page CSP can block them. */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  margin: 0;
+  filter: none;
+  object-fit: none;
+  object-position: -999px -999px;
+  --sct-light: #8e8e93;
+  --sct-mark: none;
+  background: var(--sct-mark), radial-gradient(circle closest-side, var(--sct-light) 80%, rgba(0, 0, 0, 0.22) 86%, transparent 100%);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="page_switcher"] { order: 4; }
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"] { order: 2; --sct-light: #febc2e; }
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"], html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"] { order: 3; --sct-light: #28c840; }
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"] { order: 1; --sct-light: #ff5f57; }
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons):hover img[src*="page_switcher"] {
+  --sct-mark: linear-gradient(45deg, transparent 43%, #2c2c2e 43% 57%, transparent 57%) calc(50% - 1.5px) 55% / 3px 3px no-repeat, linear-gradient(-45deg, transparent 43%, #2c2c2e 43% 57%, transparent 57%) calc(50% + 1.5px) 55% / 3px 3px no-repeat;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons):hover img[src*="minimize"] { --sct-mark: linear-gradient(#5a3c00, #5a3c00) center / 6px 1.2px no-repeat; }
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons):hover img[src*="maximize"], html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons):hover img[src*="restore"] {
+  --sct-mark: linear-gradient(#003d00, #003d00) center / 6px 1.2px no-repeat, linear-gradient(#003d00, #003d00) center / 1.2px 6px no-repeat;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons):hover img[src*="_close"] {
+  --sct-mark: linear-gradient(45deg, transparent 43%, #4d0000 43% 57%, transparent 57%) center / 6px 6px no-repeat, linear-gradient(-45deg, transparent 43%, #4d0000 43% 57%, transparent 57%) center / 6px 6px no-repeat;
+}
+/* Standard windows (ISE, Console, Package Designer...): lights on the left as on macOS, the title centred clear of them. */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .standardWindowCaption {
+  height: 38px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .standardWindowCaption + .windowPlaceholderContainer {
+  top: 38px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .standardWindowCaption .scWindowCaption {
+  display: block;
+  line-height: 38px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  padding: 0 92px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .standartWindowButtons {
+  /* positioned against the window, not the caption */
+  top: 0;
+  height: 38px;
+  left: 14px;
+  right: auto;
+}
+
+/* ---- Editor tabs: a segmented control, vertically centred in the tab row ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] a.scRibbonEditorTabActive,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] a.scRibbonEditorTabNormal {
+  height: 26px;
+  margin: 8px 2px 6px 0;
+  border: 0;
+  border-radius: 6px;
+  box-shadow: none;
+  background-color: transparent;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] a.scRibbonEditorTabActive {
+  background-color: var(--sct-ribbon-tab-active-bg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] a.scRibbonEditorTabNormal:hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorTabHeaderActive,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorTabHeaderNormal {
+  height: 26px;
+  line-height: 26px;
+  padding: 0 12px;
+  border: 0;
+  background-color: transparent;
+  font-weight: 500;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] a#BTAddNewSearch {
+  width: 32px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] a#BTAddNewSearch,
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] a#BTAddNewSearch:hover {
+  height: 26px;
+  margin: 8px 2px 6px 0;
+  border-radius: 6px;
+}
+
+/* ---- Editor header controls: compact toolbar buttons, centred on the segmented tabs ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorTabControlsHolder {
+  margin-top: 10px;
+}
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scEditorTabControls a.scEditorHeaderButton {
+  padding: 2px 8px;
+  margin-left: 4px;
+  line-height: 16px;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+/* ==== Hand-written details. :not(#sct-cu) matches every page; its id weight lets these rules beat
+   Sitecore's own selectors and the generated token layer. ==== */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu) {
+  /* ---- Menus (context menus, start menu fly-outs, drop-downs): macOS's, a translucent 6px-rounded
+     panel inset 5px, 22px rows whose highlight is an accent plate with white text. ---- */
+  .scPopup:has(> table.scMenu) {
+    border: 0.5px solid var(--sct-window-border);
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--sct-panel-bg) 86%, transparent);
+    backdrop-filter: blur(20px) saturate(1.8);
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.12), 0 10px 30px rgba(0, 0, 0, 0.22);
+  }
+  /* gallery pop-ups (Icon, Language, Versions...) frame their page as a popover */
+  .scPopup:has(> iframe) {
+    border: 0.5px solid var(--sct-window-border);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  }
+  .scPopup > table.scMenu {
+    padding: 5px;
+    border: 0;
+    border-spacing: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    color: var(--sct-panel-fg);
+  }
+  /* menus drawn inside gallery pages: labels in the label colour (the token layer gives .scMenu the link
+     colour), section headings small and secondary, as macOS titles a menu section */
+  table.scMenu,
+  table.scMenu .scMenuItem {
+    color: var(--sct-panel-fg);
+  }
+  table.scMenu td.scMenuHeader {
+    padding: 8px 8px 4px;
+    color: var(--sct-muted-fg);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemCaption, td.scMenuItemHotkey, td.scMenuItemIcon_Hover, td.scMenuItemCaption_Hover, td.scMenuItemHotkey_Hover, td.scMenuItemIcon_Disabled, td.scMenuItemCaption_Disabled, td.scMenuItemHotkey_Disabled) {
+    height: 22px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--sct-panel-fg);
+    font-size: 13px;
+    line-height: 16px;
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemIcon_Hover, td.scMenuItemIcon_Disabled) {
+    width: 16px;
+    padding: 0 6px 0 8px;
+    border-radius: 4px 0 0 4px;
+  }
+  table.scMenu :is(td.scMenuItemCaption, td.scMenuItemCaption_Hover, td.scMenuItemCaption_Disabled) {
+    padding: 0 8px 0 0;
+  }
+  table.scMenu :is(td.scMenuItemHotkey, td.scMenuItemHotkey_Hover, td.scMenuItemHotkey_Disabled) {
+    padding: 0 4px 0 12px;
+    border-radius: 0 4px 4px 0;
+    color: var(--sct-muted-fg);
+    text-align: right;
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemIcon_Hover, td.scMenuItemIcon_Disabled) img {
+    display: block;
+  }
+  table.scMenu :is(td.scMenuItemIcon_Hover, td.scMenuItemCaption_Hover, td.scMenuItemHotkey_Hover) {
+    background: var(--sct-accent);
+    color: var(--sct-accent-fg);
+  }
+  table.scMenu :is(td.scMenuItemCaption_Disabled, td.scMenuItemHotkey_Disabled) {
+    color: color-mix(in srgb, var(--sct-panel-fg) 40%, transparent);
+  }
+  /* the submenu arrow: dark art, drawn in the label colour and white on the highlight */
+  table.scMenu td:is(.scMenuItemHotkey, .scMenuItemHotkey_Hover) img:not(.scSpacer) {
+    display: block;
+    margin-left: auto;
+    filter: var(--sct-glyph-filter, none);
+  }
+  table.scMenu td.scMenuItemHotkey_Hover img:not(.scSpacer) {
+    filter: brightness(0) invert(1);
+  }
+  /* keyboard focus in a menu is the highlight plate, not a ring around the row */
+  table.scMenu tr:focus {
+    outline: none;
+  }
+  table.scMenu tr:focus-visible > td:not([class*="Divider"]) {
+    background: var(--sct-accent);
+    color: var(--sct-accent-fg);
+  }
+  /* separators: a hairline with 5px of air above and below */
+  table.scMenu :is(td.scMenuDividerIcon, td.scMenuDividerCaption, td.scMenuDividerHotkey) {
+    height: 11px;
+    padding: 0;
+    border: 0;
+    background: linear-gradient(var(--sct-border), var(--sct-border)) 0 50% / 100% 1px no-repeat;
+  }
+  table.scMenu td.scMenuDividerIcon {
+    background-position: 8px 50%;
+  }
+  table.scMenu :is(td.scMenuDividerIcon, td.scMenuDividerCaption, td.scMenuDividerHotkey) img {
+    display: none;
+  }
+
+  /* ---- Start menu: the menus' vibrancy panel, 12px rounded; columns and rows paint nothing of their
+     own so the blur shows through; hover rows take the menus' accent plate. The 88% base tint keeps
+     text at AA over any wallpaper (light: #1d1d1f on at worst #e0e0e0; dark: #dfdfdf on at worst
+     #555). ---- */
+  .scPopup:has(> #StartMenu) {
+    border: 0.5px solid var(--sct-window-border);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--sct-panel-bg) 88%, transparent);
+    backdrop-filter: blur(24px) saturate(1.8);
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.12), 0 18px 50px rgba(0, 0, 0, 0.3);
+  }
+  #StartMenu {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  :is(#StartMenu, .scStartMenuContent, .scStartMenuContentColumns, .scStartMenuContentColumns td, .scStartMenuLeft, .scStartMenuRight, .scStartMenuPrograms, .scStartMenuTop, .scStartMenuBottom) {
+    background: transparent;
+  }
+  :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):not(:hover) {
+    background: transparent;
+  }
+  .scStartMenuDivider {
+    height: 1px;
+    margin: 4px 10px;
+    background: var(--sct-border);
+  }
+  /* ---- Start menu: the arrows of folders, in the label colour, white on the highlight ---- */
+  :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph) {
+    filter: var(--sct-glyph-filter, none);
+  }
+  :is(.scStartMenuRightFolder, .scStartMenuProgramsMenu):hover :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph) {
+    filter: brightness(0) invert(1);
+  }
+  .scStartMenuProgramsMenu {
+    border-radius: 6px;
+  }
+  .scStartMenuProgramsMenu:hover {
+    background: var(--sct-accent);
+  }
+  .scStartMenuProgramsMenu:hover * {
+    color: var(--sct-accent-fg) !important;
+  }
+
+  /* ---- The taskbar as macOS's Dock: a floating, centred, translucent shelf 6px above the screen's
+     bottom edge. The start button is its first app icon, each running window an item with the running
+     dot under it, and after a separator the search field and the database switcher. Sitecore's own
+     controls, restyled; nothing is moved in the DOM. ---- */
+  /* The desktop runs to the screen's bottom edge, so the wallpaper shows around the Dock, and so do the
+     windows: a maximized window fills it and runs on under the Dock, which floats above every non-modal
+     window (z-index below), as Sitecore's own taskbar does. */
+  .DesktopArea {
+    bottom: 0;
+  }
+  .scStartbar {
+    bottom: 6px;
+    height: 60px;
+    border: 0;
+    background: transparent;
+    pointer-events: none;
+  }
+  #Startbar {
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    height: 60px !important;
+    margin: 0 auto;
+    /* the start tile sits 4px into its 52px cell: 6 + 4 on the left matches 10 on the right */
+    padding: 0 8px 0 6px;
+    border: 0.5px solid color-mix(in srgb, var(--sct-window-border) 70%, transparent);
+    border-radius: 16px;
+    /* an 80% base tint keeps labels at AA over any wallpaper (light: #1d1d1f on at worst #bababd;
+       dark: #dfdfdf on at worst #565656) */
+    background: color-mix(in srgb, var(--sct-taskbar-bg) 80%, transparent);
+    backdrop-filter: blur(30px) saturate(1.8);
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.22), 0 8px 30px rgba(0, 0, 0, 0.28);
+    pointer-events: auto;
+  }
+  /* a flex row rather than a table, so the window cell can shrink below its content when the Dock
+     reaches its cap */
+  #Startbar > table {
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: 100%;
+    border: 0;
+    border-spacing: 0;
+    background: none;
+    backdrop-filter: none;
+  }
+  #Startbar > table > tbody,
+  #Startbar > table > tbody > tr {
+    display: contents;
+  }
+  /* Sitecore stretches the table and its middle cell with width attributes */
+  #Startbar > table > tbody > tr > td {
+    display: block;
+    flex: none;
+    width: auto;
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+    vertical-align: middle;
+  }
+
+  /* the start button: a 44px rounded app icon (Sitecore's own start tile), lifted under the pointer */
+  .scStartButtonContainer {
+    position: relative;
+    width: 52px;
+    height: 60px;
+  }
+  .scStartButton,
+  .scStartButton:hover,
+  .scStartButton.scPopupOpener {
+    top: 0;
+    left: 0;
+    width: 52px;
+    height: 60px;
+    border: 0;
+    background: none;
+  }
+  .scStartButton::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 4px;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: url("/sitecore/shell/themes/standard/Images/Startbar/StartButton.png") center / 74px 60px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), inset 0 0 0 0.5px rgba(0, 0, 0, 0.15);
+  }
+  .scStartButton:hover::before {
+    transform: translateY(-3px);
+  }
+  .scStartButton.scPopupOpener::before {
+    filter: brightness(0.8);
+  }
+  .scStartButton:focus-visible {
+    outline: none;
+  }
+  .scStartButton:focus-visible::before {
+    outline: 3px solid color-mix(in srgb, var(--sct-focus-ring) 55%, transparent);
+    outline-offset: 1px;
+  }
+
+  /* running windows: items with their icon and title, the running dot beneath, the open one on a plate */
+  #Startbar > table > tbody > tr > td:nth-child(2) {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+  .scStartBarScroller {
+    height: 60px;
+    padding: 0;
+    border: 0;
+  }
+  /* the window row is a flex row, so with many windows the items shrink and their titles truncate
+     instead of the Dock outgrowing the screen */
+  #StartbarApplications,
+  #StartbarApplications > tbody {
+    display: block;
+    height: 60px;
+    margin: 0;
+  }
+  #StartbarApplications > tbody > tr {
+    display: flex;
+    align-items: center;
+    height: 60px;
+  }
+  #StartbarApplications > tbody > tr > td {
+    display: flex;
+    align-items: center;
+    flex: 0 1 auto;
+    box-sizing: border-box;
+    min-width: 0;
+    height: 60px;
+    position: relative;
+    padding: 0 2px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    vertical-align: middle;
+  }
+  #StartbarApplications > tbody > tr > td::before {
+    content: none;
+  }
+  #StartbarApplications > tbody > tr > td::after {
+    content: "";
+    position: absolute;
+    top: auto;
+    bottom: 2px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--sct-taskbar-fg) 70%, transparent);
+  }
+  .scStartBarApplication {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 44px;
+    min-width: 44px;
+    max-width: 180px;
+    padding: 0 12px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--sct-taskbar-fg) 6%, transparent);
+    color: var(--sct-taskbar-fg);
+  }
+  .scStartBarApplication span {
+    display: block;
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    color: var(--sct-taskbar-fg);
+    font-size: 12px;
+    line-height: 44px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .scStartBarApplication:hover {
+    background: color-mix(in srgb, var(--sct-taskbar-fg) 12%, transparent);
+    transform: translateY(-3px);
+  }
+  .scActiveApplication .scStartBarApplication {
+    background: color-mix(in srgb, var(--sct-taskbar-fg) 16%, transparent);
+  }
+
+  /* after a separator: a macOS search field and the database switcher as a Dock button */
+  #Startbar > table > tbody > tr > td:last-child {
+    padding-left: 11px;
+    background: linear-gradient(color-mix(in srgb, var(--sct-taskbar-fg) 22%, transparent), color-mix(in srgb, var(--sct-taskbar-fg) 22%, transparent)) 4px 50% / 1px 36px no-repeat;
+  }
+  .scStartbarTray {
+    height: 60px;
+    border: 0;
+    border-spacing: 0;
+    background: none;
+  }
+  .scStartbarTray > tbody > tr > td {
+    height: 60px;
+    padding: 0 2px;
+    border: 0;
+    line-height: normal !important;
+    vertical-align: middle;
+  }
+  .scStartbarTray :is(td, span) {
+    color: var(--sct-taskbar-fg);
+  }
+  .scSearchBoxContainer {
+    width: auto;
+  }
+  #SearchBox {
+    box-sizing: border-box;
+    width: 180px;
+    height: 28px;
+    min-height: 0;
+    margin: 0;
+    padding: 0 10px;
+    border: 1px solid var(--sct-input-border);
+    border-radius: 7px;
+    box-shadow: none;
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+    font-size: 13px;
+  }
+  #SearchBox:focus,
+  #SearchBox.focus {
+    border-color: var(--sct-input-focus-border);
+    background: var(--sct-input-bg);
+  }
+  #DatabaseSelector {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    height: 32px;
+    margin: 0;
+    padding: 0 10px 0 8px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: var(--sct-taskbar-fg);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 32px;
+  }
+  #DatabaseSelector:hover {
+    background: color-mix(in srgb, var(--sct-taskbar-fg) 10%, transparent);
+  }
+  #DatabaseSelector img {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+  }
+
+  /* ---- The Dock dom.js builds: one item per application, drawn as a Mac app icon. Sitecore's own
+     window buttons stay in the table, visually hidden, and receive every click. Without dom.js the
+     rules above still give a Dock of Sitecore's buttons. ---- */
+  /* above the windows (Sitecore stacks them from z-index 1) so the stack and labels overlap them,
+     below the pop-up menus (z-index 1000 and up) */
+  .scStartbar {
+    z-index: 900;
+  }
+  .scStartBarScroller:has(> .sct-cu-dock) {
+    position: relative;
+    overflow: visible;
+  }
+  .scStartBarScroller:has(> .sct-cu-dock) > #StartbarApplications {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .sct-cu-dock {
+    display: flex;
+    align-items: center;
+    height: 60px;
+  }
+  .sct-cu-dock:empty {
+    display: none;
+  }
+  .sct-cu-app {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 1 auto;
+    width: 52px;
+    min-width: 30px;
+    height: 60px;
+  }
+  /* the icon: a 44px squircle with a soft top-lit gradient, a hairline edge and a small shadow,
+     holding the app's 32px colour icon */
+  .sct-cu-app-icon {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    width: min(44px, 100% - 4px);
+    aspect-ratio: 1;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: linear-gradient(var(--sct-button-bg), color-mix(in srgb, var(--sct-button-bg) 86%, #000));
+    box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.35), inset 0 0 0 0.5px rgba(0, 0, 0, 0.18), 0 1px 3px rgba(0, 0, 0, 0.25);
+    color: inherit;
+    cursor: default;
+    appearance: none;
+  }
+  .sct-cu-app-icon img {
+    width: 72%;
+    max-width: 32px;
+    height: auto;
+    aspect-ratio: 1;
+    margin: 0;
+    pointer-events: none;
+  }
+  .sct-cu-app-icon:hover {
+    transform: translateY(-3px);
+  }
+  .sct-cu-app-icon:focus {
+    outline: none;
+  }
+  .sct-cu-app-icon:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--sct-focus-ring) 55%, transparent);
+    outline-offset: 1px;
+  }
+  /* the running indicator */
+  .sct-cu-dot {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--sct-taskbar-fg) 70%, transparent);
+    pointer-events: none;
+  }
+  /* one window: its title as the Dock's label above the icon */
+  .sct-cu-tip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    display: none;
+    max-width: 320px;
+    padding: 3px 10px;
+    overflow: hidden;
+    border: 0.5px solid var(--sct-window-border);
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--sct-panel-bg) 94%, transparent);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    color: var(--sct-panel-fg);
+    font-size: 13px;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .sct-cu-app:hover > .sct-cu-tip,
+  .sct-cu-app:has(> .sct-cu-app-icon:focus-visible) > .sct-cu-tip {
+    display: block;
+  }
+  /* several windows: a stack above the icon listing them, as the Dock shows a folder in list view.
+     The padding is a bridge, so the pointer can travel from the icon into the list. */
+  .sct-cu-stack {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    padding-bottom: 6px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-50%) scaleY(0.6);
+    transform-origin: 50% 100%;
+    transition: opacity 0.14s ease-out, transform 0.14s ease-out, visibility 0s linear 0.14s;
+  }
+  .sct-cu-app:hover > .sct-cu-stack,
+  .sct-cu-app:focus-within > .sct-cu-stack {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) scaleY(1);
+    transition: opacity 0.14s ease-out, transform 0.14s ease-out, visibility 0s;
+  }
+  .sct-cu-stack-list {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    max-width: 340px;
+    padding: 5px;
+    border: 0.5px solid var(--sct-window-border);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--sct-panel-bg) 94%, transparent);
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.12), 0 10px 30px rgba(0, 0, 0, 0.28);
+  }
+  .sct-cu-stack-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 26px;
+    margin: 0;
+    padding: 3px 10px 3px 8px;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: none;
+    background: transparent;
+    color: var(--sct-panel-fg);
+    font-size: 13px;
+    text-align: left;
+    cursor: default;
+    appearance: none;
+  }
+  .sct-cu-stack-row img {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+  }
+  .sct-cu-stack-row span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sct-cu-stack-row-active span {
+    font-weight: 600;
+  }
+  /* the window's selected item, under its title */
+  .sct-cu-path {
+    display: block;
+    overflow: hidden;
+    color: var(--sct-muted-fg);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sct-cu-path:empty {
+    display: none;
+  }
+  .sct-cu-stack-row:is(:hover, :focus-visible) .sct-cu-path {
+    color: inherit;
+    opacity: 0.85;
+  }
+  .sct-cu-stack-row:is(:hover, :focus-visible) {
+    outline: none;
+    background: var(--sct-accent);
+    color: var(--sct-accent-fg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sct-cu-stack,
+    .sct-cu-app:hover > .sct-cu-stack,
+    .sct-cu-app:focus-within > .sct-cu-stack {
+      transition: none;
+    }
+  }
+
+  /* ---- 10.5 spaced its chrome out; Cupertino keeps 10.4's spacing on both versions (values from the
+     stock 10.4.1 stylesheets, minus what this theme sets itself) ---- */
+  &[data-sct-version="10.5"] {
+    .scRibbonToolbarStrip,
+    .scRibbonToolbarContextualStrip {
+      padding: 0;
+    }
+    .scRibbon .chunk .panel {
+      padding: 10px 8px;
+    }
+    .scFormDialogHeader {
+      padding: 0;
+    }
+    :is(.scFormDialogHeader, .scDialogHeader) .DialogHeaderDescription {
+      padding-bottom: 15px;
+    }
+    .scDialogContentContainer {
+      padding: 15px;
+    }
+    .scDialogContentContainer .scMainContainer {
+      margin: 15px 15px 20px;
+    }
+    :is(.scFormDialogFooter, .scWizardButtons) {
+      height: 56px;
+      padding: 8px 15px 9px;
+    }
+    .scFormDialogFooter .footerOkCancel {
+      right: 15px;
+    }
+    .HeadingCell {
+      padding: 14px 10px;
+    }
+    :is(.Row, .SelectedRow) td.DataCell {
+      padding: 5px;
+    }
+    .scListControl > :is(thead th, tbody > tr > td) {
+      padding: 14px 15px;
+    }
+    .scListControl > tbody:first-child > tr:first-child > td {
+      padding: 0;
+    }
+    .scTreeview .header {
+      padding: 14px 10px;
+    }
+    .scPaneHeader {
+      padding: 0 0 0 15px;
+    }
+    #EditorTabs {
+      padding-left: 15px;
+    }
+    .scDockBottomContainer {
+      background-color: transparent;
+    }
+    .scPager {
+      width: auto;
+    }
+    a:is(.scPagerButtonNormal, .scPagerButtonActive) {
+      padding: 0 10px;
+    }
+  }
+
+  /* ---- Content Editor: a rounded sidebar and editor pane, without 10.5's glow ---- */
+  #ContentTreePanel > div {
+    box-sizing: border-box;
+    border: 1px solid var(--sct-border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: none !important;
+    background-color: var(--sct-tree-bg) !important;
+  }
+  #EditorTabs {
+    border-bottom: 0;
+  }
+  /* the tab row runs under the system menu, so the toolbar is one colour edge to edge */
+  .scCaption:has(> a.scSystemMenu) .scRibbonNavigator {
+    margin-left: 0;
+    padding-left: 69px;
+  }
+  /* the system menu centred on the tabs beside it (10.5 sets it 4px higher) */
+  &[data-sct-version="10.5"] .scCaption > a.scSystemMenu {
+    top: 21px;
+  }
+  #EditorFrames {
+    box-sizing: border-box;
+    border: 1px solid var(--sct-border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: none;
+  }
+  /* Room around the panes on both versions: half of 10.5's stock gaps (16px above, 12px beside the
+     tree, 16px before the editor, 12px around the pager); 10.4 has none. 10.5 sets the caption's
+     margin inline, and narrows #Editors by its editor margin so the pane stays flush right. */
+  .scFlexColumnContainer:has(> #MainPanel > .scContentEditorSplitter) {
+    > .scCaption {
+      margin-bottom: 8px !important;
+    }
+    .scDockBottom {
+      margin: 6px;
+    }
+  }
+  .scContentEditorSplitter {
+    > #ContentTreePanel {
+      margin-left: 6px;
+    }
+    > #ContentTreePanel > div {
+      width: calc(100% - 6px) !important;
+    }
+    #ContentEditor {
+      margin-left: 8px;
+    }
+    #ContentEditor #Editors {
+      width: calc(100% - 8px);
+    }
+  }
+
+  /* Tree search: a 26px field and two 26px borderless buttons, centred on one line. */
+  #SearchPanel {
+    padding: 10px 8px 6px 10px;
+    background: transparent;
+  }
+  #SearchPanel > table {
+    width: 100%;
+    border-spacing: 0;
+  }
+  #SearchPanel > table > tbody > tr > td {
+    height: auto;
+    padding: 0;
+    vertical-align: middle;
+  }
+  #SearchPanel > table > tbody > tr > td:first-child {
+    width: 100%;
+  }
+  #SearchPanel > table > tbody > tr > td > div {
+    float: none !important;
+    padding: 0 !important;
+  }
+  #SearchPanel .scElementHover {
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0 0 0 2px;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+  }
+  #SearchPanel .scElementHover:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  #TreeSearch {
+    box-sizing: border-box;
+    width: 100%;
+    height: 26px;
+    min-height: 0;
+    padding: 0 8px;
+    border: 1px solid var(--sct-input-border);
+    border-radius: 6px;
+    box-shadow: none;
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+    font-size: 13px;
+    line-height: 24px;
+  }
+  /* Sitecore writes "Search" into the field as a watermark value, grey until focused */
+  #TreeSearch,
+  #TreeSearch::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  #TreeSearch:focus {
+    color: var(--sct-input-fg);
+  }
+  :is(a.scSearchButton, a.scSearchOptionsButton) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+  }
+  :is(a.scSearchButton, a.scSearchOptionsButton) img {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+  }
+  /* 10.4's options arrow is a black down_h.png, not 10.5's down_grey_h.png that the glyph filter catches */
+  &[data-sct-version="10.4"] a.scSearchOptionsButton img {
+    filter: var(--sct-glyph-filter, none);
+  }
+  /* the expanded options: the theme's small fields and pop-up links */
+  #TreeSearchOptions {
+    margin-top: 6px;
+  }
+  #TreeSearchOptions td {
+    padding: 2px 0;
+    vertical-align: middle;
+  }
+  #TreeSearchOptions .scElementHover {
+    padding: 0;
+    border-radius: 6px;
+  }
+  #TreeSearchOptions .scElementHover:hover,
+  #TreeSearchOptions .scSearchOptionName:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+  #TreeSearchOptions :is(.scSearchOptionName, .scSearchAddCriteria) {
+    display: block;
+    padding: 4px 6px;
+    color: var(--sct-panel-fg);
+    font-size: 12px;
+    line-height: 16px;
+  }
+  #TreeSearchOptions input.scSearchOptionsInput {
+    box-sizing: border-box;
+    height: 24px;
+    min-height: 0;
+    padding: 0 6px;
+    border: 1px solid var(--sct-input-border);
+    border-radius: 6px;
+    box-shadow: none;
+    font-size: 12px;
+  }
+
+  /* Tree rows: a rounded selection plate; the selection itself is the focus mark, as in a sidebar. */
+  .scContentTreeNode > a {
+    border-radius: 6px;
+  }
+  .scContentTreeContainer a.scContentTreeNodeActive:focus-visible {
+    outline: none;
+  }
+  .scContentTreeContainer a.scContentTreeNodeNormal:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--sct-focus-ring) 60%, transparent);
+    outline-offset: 0;
+  }
+
+  /* ---- Ribbon: one toolbar colour under the tabs; galleries as a rounded list with plate rows ---- */
+  .scRibbonToolbar {
+    background-color: var(--sct-ribbon-bg);
+  }
+  .scRibbonGalleryList {
+    border: 1px solid var(--sct-input-border);
+    border-right: 0;
+    border-radius: 6px 0 0 6px;
+    padding: 1px 2px;
+  }
+  .scRibbonPanelButtons {
+    border: 1px solid var(--sct-input-border);
+    border-radius: 0 6px 6px 0;
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton) {
+    display: block;
+    box-sizing: border-box;
+    height: 20px;
+    padding: 2px 6px;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: var(--sct-ribbon-fg);
+    line-height: 16px;
+    text-align: left;
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton):is(:hover, :active) {
+    background: var(--sct-accent);
+    color: var(--sct-accent-fg);
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton) * {
+    background: transparent;
+  }
+  .scRibbonGalleryList > :is(a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeTextButton):is(:hover, :active) * {
+    color: var(--sct-accent-fg);
+  }
+  .scRibbonGalleryList > a.scRibbonToolbarLargeTextButton br {
+    display: none;
+  }
+  .scRibbonGalleryList > a.scRibbonToolbarLargeTextButton .scRibbonToolbarLargeTextButtonText {
+    display: inline;
+    padding: 0;
+  }
+
+  /* ---- Editor header: the navigator, language and version pickers are pop-up buttons ---- */
+  .scEditorTabControls a.scEditorHeaderButton {
+    border: 0;
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.18), 0 0.5px 1.5px rgba(0, 0, 0, 0.18), inset 0 0.5px 0 rgba(255, 255, 255, 0.1);
+    background-color: var(--sct-button-bg);
+    color: var(--sct-button-fg);
+  }
+  .scEditorTabControls a.scEditorHeaderButton:hover {
+    background-color: var(--sct-button-hover-bg);
+  }
+  .scEditorTabControls a.scEditorHeaderButton img:is(.scEditorHeaderNavigatorGlyph, .scEditorHeaderVersionsLanguageGlyph, .scEditorHeaderVersionsVersionGlyph) {
+    margin-left: 3px;
+  }
+  .scEditorHeader,
+  .scEditorSections {
+    background-color: transparent;
+  }
+
+  /* ---- Editor fields: macOS text fields, 28px, a hairline and no inset shadow ---- */
+  .scEditorSections :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], select:not([multiple]):not([size])) {
+    min-height: 28px;
+    padding: 4px 8px;
+    box-shadow: none;
+  }
+  .scEditorSections textarea {
+    box-shadow: none;
+  }
+
+  /* The jQuery UI frame on the dialog host page takes the window colour of the dialog page inside it
+     (its form paints --sct-app-bg), so the 15px title strip with the traffic lights and the body read
+     as one surface. */
+  .ui-dialog,
+  .ui-dialog > .ui-dialog-titlebar,
+  .ui-dialog > .ui-dialog-content {
+    background-color: var(--sct-app-bg);
+  }
+
+  /* ---- Dialogs: one window surface under the traffic lights; tabs as a segmented control set into
+     the top edge of their box; 28px push buttons, the default one in the accent. ---- */
+  .scFormDialogHeader,
+  .scDialogHeader {
+    border: 0;
+    background: transparent;
+  }
+  .scTabstrip {
+    display: flex;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .scTabstrip > nobr {
+    display: flex;
+    padding: 2px 1px;
+    background: var(--sct-raised-bg);
+  }
+  .scTabstrip > nobr:first-of-type {
+    padding-left: 2px;
+    border-radius: 7px 0 0 7px;
+  }
+  .scTabstrip > nobr:last-of-type {
+    padding-right: 2px;
+    border-radius: 0 7px 7px 0;
+  }
+  .scTabstrip > nobr:only-of-type {
+    border-radius: 7px;
+  }
+  .scTabstrip :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+    position: static;
+    left: auto;
+    height: 20px;
+    margin: 0;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--sct-app-fg);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 20px;
+    text-transform: none;
+  }
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover) {
+    background: var(--sct-ribbon-tab-active-bg);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+  }
+  .scTabstrip :is(.scTabActive, .scTabActive_Hover)::after {
+    content: none;
+  }
+  .scTabstrip .scTab_Hover {
+    background: color-mix(in srgb, var(--sct-app-fg) 6%, transparent);
+  }
+  /* SPE pulls a script tab's close X 10px into the tab's 20px right padding; with these 14px it all but
+     touched the edge */
+  .scTabstrip .closeTab {
+    margin: 0 -6px 0 6px;
+  }
+  /* in dialogs the control is centred and set into the top edge of a box, as NSTabView draws it */
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabstrip {
+    justify-content: center;
+  }
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabs {
+    top: 12px;
+    border: 1px solid var(--sct-border);
+    border-radius: 8px;
+    background-color: color-mix(in srgb, var(--sct-app-fg) 3%, var(--sct-app-bg));
+  }
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabPage {
+    padding: 24px 16px 16px;
+  }
+  /* SPE prompt fields carry a 10px right gutter; the left side matches it */
+  :is(.scFormDialogContent, .scDialogContentContainer) .scTabs > .scTabPage:has(> div > .variableWrapper) {
+    padding-left: 26px;
+  }
+  .scTabs .scScrollbox {
+    border: 1px solid var(--sct-border);
+    border-radius: 6px;
+    background-color: var(--sct-panel-bg);
+  }
+  :is(.scFormDialogContent, .scDialogContentContainer) :is(input:not([type]), input[type="text"], input[type="password"], input[type="number"], select:not([multiple]):not([size])) {
+    min-height: 26px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    box-shadow: none;
+    font-size: 13px;
+  }
+  button.scButton,
+  input.scButton {
+    box-sizing: border-box;
+    min-width: 80px;
+    height: 28px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 6px;
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.18), 0 0.5px 1.5px rgba(0, 0, 0, 0.18), inset 0 0.5px 0 rgba(255, 255, 255, 0.12);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 28px;
+    text-transform: none;
+  }
+  button.scButton.scButtonPrimary,
+  input.scButton.scButtonPrimary {
+    background: linear-gradient(var(--sct-button-primary-bg), color-mix(in srgb, var(--sct-button-primary-bg) 90%, #000));
+  }
+  button.scButton.scButtonPrimary:hover,
+  input.scButton.scButtonPrimary:hover {
+    background: var(--sct-button-primary-hover-bg);
+  }
+  .scFormDialogFooter {
+    border: 0;
+    background: transparent;
+  }
+}
+
+/* ---- Bucket search (the Content Editor's and Media Library's Search tab, Buckets/ShowResult.aspx):
+   a macOS search field holding its filter tokens, Sitecore's own glyphs drawn in the label colour,
+   push-button views and results on the window surface. The token layer strips the Search and Clear
+   icons (.btn-search, .btn-clear); they come back here. Glyph art is dark, so it is painted on
+   ::before layers that carry --sct-glyph-filter, leaving the buttons' own backgrounds unfiltered. ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu) {
+  .search-box {
+    box-sizing: border-box;
+    min-height: 32px;
+    border: 1px solid var(--sct-input-border);
+    border-radius: 8px;
+    box-shadow: none;
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+  }
+  .search-box:focus-within {
+    border-color: var(--sct-input-focus-border);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sct-focus-ring) 35%, transparent);
+  }
+  .search-box input.raw-user-input {
+    min-height: 0;
+    height: 19px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    background: transparent;
+    color: var(--sct-input-fg);
+    caret-color: var(--sct-input-fg);
+    font-size: 13px;
+  }
+  .search-box input.raw-user-input::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  /* (.sb_down and .sb_up are already absolutely placed) */
+  :is(.btn-search, .btn-clear, .filters .filter .remove) {
+    position: relative;
+  }
+  :is(.sb_down, .sb_up, .btn-search, .btn-clear, .filters .filter .remove) {
+    background-image: none;
+    box-shadow: none;
+  }
+  :where(.sb_down, .sb_up, .btn-search, .btn-clear, .filters .filter .remove)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: center / 16px 16px no-repeat;
+    filter: var(--sct-glyph-filter, none);
+    pointer-events: none;
+  }
+  .sb_down::before { background-image: url("/sitecore/shell/Applications/Buckets/images/icons/down.png"); background-size: auto; }
+  .sb_up::before { background-image: url("/sitecore/shell/Applications/Buckets/images/icons/up.png"); background-size: auto; }
+  .btn-search::before { background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png"); }
+  .btn-clear::before { background-image: url("/sitecore/shell/Applications/Buckets/images/clear.png"); background-size: auto; }
+  .filters .filter .remove::before { background-image: url("/sitecore/shell/Applications/Buckets/images/cancel_grey.svg"); background-size: 12px 12px; }
+  :is(.sb_down, .sb_up) {
+    border-radius: 7px 0 0 7px;
+    background-color: transparent;
+  }
+  :is(.btn-search, .btn-clear) {
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+  }
+  .btn-search {
+    border-radius: 0 7px 7px 0;
+  }
+  .clear-search-box {
+    background: transparent;
+  }
+  :is(.sb_down, .sb_up, .btn-search, .btn-clear):is(:hover, :active) {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  /* the view switcher: Sitecore draws the current view dark and the others light grey, which reads
+     backwards on a dark window; in dark the current view is white and the others dimmed */
+  @media (prefers-color-scheme: dark) {
+    #views > a {
+      filter: brightness(0) invert(0.88);
+      opacity: 0.45;
+    }
+    #views > a:is(.active, :hover) {
+      opacity: 1;
+    }
+  }
+  /* filter tokens: rounded pills in the field */
+  .filters .filter {
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--sct-input-fg) 9%, transparent);
+    color: var(--sct-input-fg);
+  }
+  .filters .filter :is(.display-name, .value .display-value) {
+    color: var(--sct-input-fg);
+  }
+  .filters .filter :is(.icon, .remove):hover {
+    background-color: color-mix(in srgb, var(--sct-input-fg) 12%, transparent);
+  }
+  .filters .filter .value .raw-value {
+    min-height: 0;
+    border: 0;
+    box-shadow: none;
+    background: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+  }
+}
+
+/* ---- Leftovers the dark sweep found (cu/scan.cjs): Sitecore art and inline colours that the token
+   layer does not reach. ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu) {
+  /* dark arrows and grips drawn as background images */
+  :is(.ui-resizable-handle.ui-icon, .side .sb_filter > span) {
+    filter: var(--sct-glyph-filter, none);
+  }
+  /* inline greys for secondary text (hidden or protected tree items, gallery notes) */
+  :is([style*="color:#666" i], [style*="color: #666" i], [style*="color:#999" i], [style*="color: #999" i]) {
+    color: var(--sct-muted-fg) !important;
+  }
+  /* the standard roots' inline green, on any tree's selection */
+  a.scContentTreeNodeActive:is([style^="color:green" i], [style^="color: green" i]),
+  a.scContentTreeNodeActive :is([style^="color:green" i], [style^="color: green" i]),
+  :is(.scMenuPanelItemSelected, .scMenuPanelItemSelected_Hover) :is([style*="color:#666" i], [style*="color: #666" i]) {
+    color: inherit !important;
+  }
+  .scContentTree a.scContentTreeNodeActive:is([style^="color:green" i], [style^="color: green" i]) {
+    color: var(--sct-tree-selected-fg) !important;
+  }
+  /* inline whites and greys the shared map matches only in lower case (Recycle Bin's grid, splitters) */
+  :is([style*="background:White"], [style*="background: White"], [style*="background-color:White"]) {
+    background-color: var(--sct-panel-bg) !important;
+  }
+  :is([style*="background:#e3e3e3" i], [style*="background: #e3e3e3" i]) {
+    background-color: var(--sct-border) !important;
+  }
+}
+
+/* ---- Instant search results (the Dock's search field): the menus' vibrancy panel, opening above
+   the field. dom.js writes the field's position into --sct-cu-left / --sct-cu-bottom; until it has,
+   the panel stays hidden so it never flashes at Sitecore's old right-hand spot. ---- */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"]:not(#sct-cu) {
+  &:has(.sct-cu-dock) #InstantResults:not([style*="--sct-cu-left"]) {
+    visibility: hidden !important;
+  }
+  #InstantResults[style*="--sct-cu-left"] {
+    position: fixed;
+    top: auto;
+    right: auto;
+    bottom: var(--sct-cu-bottom);
+    left: var(--sct-cu-left);
+  }
+  #InstantResults {
+    box-sizing: border-box;
+    max-height: calc(100vh - 160px);
+    padding: 5px;
+    overflow-y: auto;
+    border: 0.5px solid var(--sct-window-border);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--sct-panel-bg) 86%, transparent);
+    backdrop-filter: blur(20px) saturate(1.8);
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.12), 0 10px 30px rgba(0, 0, 0, 0.25);
+    color: var(--sct-panel-fg);
+    font-size: 13px;
+  }
+  #InstantResults .scSearchResultsTable {
+    border-spacing: 0;
+    background: transparent;
+  }
+  #InstantResults .scSearchResultsTable td:nth-last-child(1) {
+    border-left: 1px solid var(--sct-border);
+    padding-left: 5px;
+  }
+  #InstantResults .category {
+    color: var(--sct-muted-fg);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 26px;
+  }
+  #InstantResults .scSearchResultsTable a {
+    border-radius: 5px;
+    color: var(--sct-panel-fg);
+  }
+  #InstantResults .scSearchResultsTable a img {
+    margin: 5px 7px 5px 0;
+  }
+  #InstantResults .scSearchResultsTable a h2 {
+    color: inherit;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 26px;
+  }
+  #InstantResults .scSearchResultsTable a:is(:hover, .active),
+  #InstantResults li:is(:hover, .active) {
+    background: var(--sct-accent);
+    color: var(--sct-accent-fg);
+  }
+  /* one highlight: the pointer's row while it is over the panel, Sitecore's keyboard row otherwise */
+  #InstantResults:hover .scSearchResultsTable a.active:not(:hover) {
+    background: transparent;
+    color: var(--sct-panel-fg);
+  }
+  #InstantResults li {
+    border-radius: 5px;
+    line-height: 26px;
+  }
+  #InstantResults li h2 {
+    color: inherit;
+  }
+  #InstantResults .noresults li {
+    padding: 4px 14px;
+    color: var(--sct-muted-fg);
+  }
+  /* Sitecore's close and progress marks at the field's end: dark art, in the label colour */
+  img:is([src*="globalsearch_close"], [src*="globalsearch_progress"]) {
+    z-index: 901;
+    filter: var(--sct-glyph-filter, none);
+  }
+}
+
+/* ---- The ISE's Ace editor in dark: the shared layer flips Ace's light theme with
+   filter: invert(0.88) hue-rotate(180deg), which also flips Ace's own scrollbars into light bars.
+   They get the colours the filter maps back onto the theme's: invert(0.88) sends each channel to
+   224.4 - 0.76 * in, so in = (224.4 - target) / 0.76, clamped to 0..255; hue-rotate(180deg) then
+   swaps a slight blue tint for a slight yellow one, so the thumb's tint is entered reversed. Thumb
+   #545456 -> #b9b9bb (renders #545456, sampled), track #1e1e1e -> #ffffff (renders #1f1f1f). ---- */
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ace_editor :is(.ace_scrollbar, .ace_scrollbar-v, .ace_scrollbar-h) {
+    scrollbar-color: #b9b9bb #ffffff;
+    scrollbar-width: thin;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  /* SPE's unsaved-script dot, in macOS's dark red so it holds 3:1 on the tabs and title bar */
+  html[data-sct-theme="cupertino"][data-sct-surface="shell"] .scriptModified {
+    color: #ff6961 !important; /* SPE writes it inline in window captions */
+  }
+}

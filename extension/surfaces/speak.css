@@ -1,0 +1,89 @@
+/* Hand-tuned area map for the speak area. Loaded after speak.gen.css, so these win. */
+
+html[data-sct-tokens][data-sct-surface="speak"] {
+  scrollbar-color: var(--sct-scrollbar-thumb) var(--sct-scrollbar-track);
+}
+
+html[data-sct-tokens][data-sct-surface="speak"] body {
+  background-color: var(--sct-app-bg);
+  color: var(--sct-app-fg);
+}
+
+html[data-sct-tokens][data-sct-surface="speak"] input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+html[data-sct-tokens][data-sct-surface="speak"] textarea,
+html[data-sct-tokens][data-sct-surface="speak"] select {
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  border-color: var(--sct-input-border);
+}
+
+/* The Experience Editor quickbar's collapse/expand toggle: the shell's bold chevron cut out of the button's
+   text colour, so it reads on any quickbar and follows the hover colour. Themes that draw their own set
+   mask: none. */
+html[data-sct-tokens][data-sct-surface="speak"] .sc-quickbar-button > .sprite-speak-ribbon-clean-ee:is(.navigate_up, .navigate_down) {
+  background: currentColor;
+  filter: none;
+  mask: url("/sitecore/shell/themes/standard/images/accordion_up.png") center / 16px 16px no-repeat;
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc-quickbar-button > .sprite-speak-ribbon-clean-ee.navigate_down {
+  mask-image: url("/sitecore/shell/themes/standard/images/accordion_down.png");
+}
+
+/* The back button's arrow, in the button's colour: 10.5 draws it as a grey image that sank into dark bars.
+   (.btn.btn outranks Sitecore's :active rule, which swaps in a darker image.) Themes that draw their own
+   arrow reset mask and transform. */
+html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-backbutton.btn.btn::before {
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/BackButton/back_button_arrow_left.svg") center / contain no-repeat;
+}
+/* 10.4's back button is a grey sprite in three pieces: an arrow cap (::before), a body (the text) and an end
+   cap (::after), in every state. Themes style 10.5's markup, so the sprite showed through. Here the sprite
+   goes, and as 10.4 has no arrow image the arrow is the shell's chevron (on both versions), turned. */
+html[data-sct-tokens][data-sct-surface="speak"][data-sct-version="10.4"] .sc .sc-backbutton.btn .sc-backbutton-text {
+  background-image: none;
+}
+html[data-sct-tokens][data-sct-surface="speak"][data-sct-version="10.4"] .sc .sc-backbutton.btn::after {
+  content: none;
+}
+html[data-sct-tokens][data-sct-surface="speak"][data-sct-version="10.4"] .sc .sc-backbutton.btn.btn::before {
+  top: 10px;
+  width: 16px;
+  height: 16px;
+  mask: url("/sitecore/shell/themes/standard/images/accordion_up.png") center / 16px 16px no-repeat;
+  transform: rotate(-90deg);
+}
+
+/* 10.4's application header (Control Panel) keeps its red wallpaper and spiral over the mapped colour; the
+   band is plain, as on 10.5. */
+html[data-sct-tokens][data-sct-surface="speak"] .sc-applicationHeader-row1 {
+  background-image: none;
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc-applicationHeader-row1::after {
+  background-image: none;
+}
+
+/* Component roles */
+html[data-sct-tokens][data-sct-surface="speak"] .sc-globalHeader,
+html[data-sct-tokens][data-sct-surface="speak"] .sc-flx-global-header {
+  background-color: var(--sct-titlebar-bg) !important;
+  color: var(--sct-titlebar-fg);
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc-globalHeader .sc-globalheader-appName,
+html[data-sct-tokens][data-sct-surface="speak"] .sc-globalHeader .sc-accountInformation li,
+html[data-sct-tokens][data-sct-surface="speak"] .sc-globalHeader .sc-accountInformation span,
+html[data-sct-tokens][data-sct-surface="speak"] .sc-globalHeader .sc-accountInformation a {
+  color: var(--sct-titlebar-fg);
+}
+html[data-sct-tokens][data-sct-surface="speak"] .btn-primary,
+html[data-sct-tokens][data-sct-surface="speak"] .btn.btn-primary {
+  background-color: var(--sct-button-primary-bg);
+  border-color: var(--sct-button-primary-bg);
+}
+html[data-sct-tokens][data-sct-surface="speak"] .btn-primary,
+html[data-sct-tokens][data-sct-surface="speak"] .btn-primary * {
+  color: var(--sct-button-primary-fg);
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc-listcontrol,
+html[data-sct-tokens][data-sct-surface="speak"] .sc-listcontrol-icon-content {
+  color: var(--sct-panel-fg);
+}

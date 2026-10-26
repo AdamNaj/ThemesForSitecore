@@ -1,0 +1,906 @@
+/* Bridge: classic shell. The first part is the dark-surface groundwork (hovers that lift, menus, inline
+   light leftovers, glyphs drawn for white pages), shared in spirit with Debrightify; the signature (elbows,
+   pills, title bars, taskbar) follows in the nested block at the end. */
+
+/* ---- Hover and pressed states. The area map turns 10.5's light-grey hovers into the app background,
+   which on a dark theme is darker than the panel (or the same colour as a menu). They lift instead. */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton, a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeGalleryButton, a.scRibbonToolbarSmallGalleryButton, a.scRibbonToolbarLargeComboButtonTop, a.scRibbonToolbarLargeComboButtonBottom, a.scRibbonToolbarSmallComboButtonLeft, a.scRibbonToolbarSmallComboButtonRight, a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarLargeIconButton, .scRibbonLargeImageButton, a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):active {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+/* toggled-on buttons keep their selected colour under the pointer */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .scRibbon :is(a.scRibbonToolbarLargeButtonDown, a.scRibbonToolbarSmallButtonDown, .scRibbonToolbarLargeComboButtonDown, .scRibbonLargeImageButtonDown, a.scRibbonToolbarLargeTextButtonDown, a.scRibbonToolbarLargeIconButtonDown):is(*, :hover, :active) {
+  background-color: var(--sct-selected-bg);
+  color: var(--sct-tree-selected-fg);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is(.scSearchLink:hover, .scElementHover:hover, .scSearchOptionName:hover, .scListControl > tbody > tr:hover, .Row:hover, .scTab_Hover, .scVerticalTabstrip .scVerticalTabs a:not(.active):hover, .scPagerButtonNormal:hover, .scEditorHeaderTitle:hover, .scEditorHeaderNavigatorField:hover, a.scEditorHeaderNavigatorSection:hover, .scNavButton:hover, .scListviewItemIcons:hover, .scListviewItemList:hover, .scCommand_Hover, .scComboboxDropDown:hover, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-button:not(.ui-state-active):hover, td.scCalendarCell:hover, .scTimePicker a:hover, .scLink:hover, .scInstallerPager:hover, .spe-variables-list .spe-variable:hover, .scStartMenuLeftOption:hover, .scStartMenuRightOption:hover, .scStartMenuRightFolder:hover, .scStartMenuProgramsMenu:hover, .BlogPostArea:hover, .side li a:hover, .pagination li a:hover, .quickactions > ul > li:hover, .quickactions ul li ul li a:hover, .sb_dropdown .sb_filter:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+/* (kept apart: id selectors would lift the specificity of the whole list above selected states) */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is(#InstantResults li:hover, #InstantResults .scSearchResultsTable a:hover, #results table > tbody > tr:hover, #grid-content .post_float:hover) {
+  background-color: var(--sct-ribbon-button-hover-bg);
+}
+
+/* ---- Menus (context menu, start menu fly-outs, drop-downs): a raised surface with body text,
+   not the app background with link-coloured items. Disabled items read as disabled. */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] table.scMenu {
+  background-color: var(--sct-raised-bg);
+  color: var(--sct-panel-fg);
+  box-shadow: 0 0 0 1px var(--sct-border-strong), 0 4px 12px rgb(0 0 0 / 0.45);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon, .scMenuItemCaption, .scMenuItemHotkey, .scMenuItemIcon_Disabled, .scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  background-color: transparent;
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+  color: var(--sct-chrome-fg);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) {
+  color: color-mix(in srgb, var(--sct-panel-fg) 45%, var(--sct-raised-bg));
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] table.scMenu .scMenuItemIcon_Disabled img {
+  opacity: 0.4;
+}
+/* separators are 1px cells painted with a background colour */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] table.scMenu :is(.scMenuDividerIcon, .scMenuDividerCaption, .scMenuDividerHotkey) {
+  background-color: var(--sct-border-strong);
+  border-color: transparent;
+}
+
+/* ---- Global header: "Log out" a quieter step of the header text, as in 10.5, on every surface. */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 80%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .sc-globalHeader .sc-accountInformation .logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+
+/* ---- Light leftovers Sheer UI writes inline in other spellings than the shared map knows. */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is([style*="background:white" i], [style*="background: white" i], [style*="background-color:white" i], [style*="background-color: white" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+/* hidden and system items in the trees are marked with an inline #666 */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is([style*="color:#666666" i], [style*="color: #666666" i]) {
+  color: color-mix(in srgb, var(--sct-muted-fg) 85%, var(--sct-app-fg)) !important;
+}
+/* soft light glows round the tree and editor panes (one inline, one in Content Manager.css) */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] #ContentTreePanel > div[style*="box-shadow"] {
+  box-shadow: 0 0 0 1px var(--sct-border) !important;
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] #EditorFrames {
+  box-shadow: 0 0 0 1px var(--sct-border);
+}
+/* the bucket search box's buttons carry a white 1px highlight */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is(.btn-clear, .btn-search) {
+  box-shadow: none;
+}
+
+/* ---- Images painted for a white page */
+/* Security Editor's access-right tiles and key, and the ComponentArt grid pager (User Manager etc.):
+   white tiles with grey glyphs. Inverting keeps the green/red hues and makes the tiles dark. */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] img[src*="/images/security/" i],
+html[data-sct-theme="bridge"][data-sct-surface="shell"] img[src*="/componentart/grid/pager/" i] {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Bucket search box (Media Library, bucket folders): one field, as in 10.5. The area map paints
+   its buttons as black blocks and drops their glyphs (they share a declaration with a gradient). */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .search-box {
+  background-color: var(--sct-input-bg);
+  border-color: var(--sct-input-border);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search) {
+  background-color: transparent;
+  border-color: transparent;
+  filter: var(--sct-glyph-filter);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .btn-clear {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/clear.png");
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .btn-search {
+  background-image: url("/sitecore/shell/Applications/Buckets/images/edition-magnifier.png");
+}
+/* under the inverting filter (invert + hue-rotate) this light grey shows as the theme's hover colour (#34373c) */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is(.sb_down, .sb_up, .btn-clear, .btn-search):is(:hover, :active) {
+  background-color: #c5c8cb;
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .filters .filter {
+  background-color: var(--sct-raised-bg);
+  border-color: var(--sct-border);
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .filters .filter :is(.icon, .value .display-value) {
+  background-color: transparent;
+  color: var(--sct-input-fg);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .filters .filter :is(.icon, .remove):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .raw-user-input {
+  background-color: transparent;
+}
+/* view switcher: the selected view is drawn dark, the others light grey. Light now means selected. */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] #views a {
+  opacity: 0.55;
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] #views a.active {
+  opacity: 1;
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Ribbon galleries (Security > Presets, Insert, Languages): a raised, outlined pop-up like the
+   menus, with menu-row hovers. The gallery page paints itself White inline. */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] iframe.scGalleryFrame {
+  box-shadow: 0 0 0 1px var(--sct-border-strong), 0 4px 12px rgb(0 0 0 / 0.45);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+  background-color: var(--sct-raised-bg) !important;
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+  background-color: transparent;
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+  background-color: var(--sct-ribbon-button-pressed-bg);
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+  background-color: var(--sct-border-strong);
+}
+
+/* ---- Start menu: the fly-out arrows are dark glyphs */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph) {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- 10.4 lacks 10.5's _grey glyphs: its pale ribbon chunk launcher inverted to dark, and its tree search
+   arrow is a black down_h.png. Both drawn light, in 10.5's tones. */
+html[data-sct-theme="bridge"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
+  filter: brightness(0) opacity(0.55) var(--sct-glyph-filter);
+}
+html[data-sct-theme="bridge"][data-sct-version="10.4"][data-sct-surface="shell"] a.scSearchOptionsButton img {
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Tree search: both buttons centre on the field (row centre 246px). The magnifier is a 22px image
+   in a 16px link, so it hung 3px low; the chevron's float has an inline 8px top padding that pushes it 4px low. */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] a.scSearchButton img {
+  display: block;
+  margin: -3px;
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] #SearchPanel td > div[style*="padding-top"] {
+  padding-top: 0 !important;
+}
+
+/* ---- ComponentArt grid pager slider (User Manager, Role Manager...): its track is a white image, set
+   with the table cell's background attribute */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is([style*="slider_bg" i], [background*="slider_bg" i]) {
+  background: linear-gradient(var(--sct-border-strong), var(--sct-border-strong)) center / 100% 4px no-repeat !important;
+}
+
+/* ---- Dark glyphs the sweep found (scan.cjs DARKGLYPH) */
+/* the menus' submenu arrows and the bucket filter token's remove cross (the ribbon toggle is the token
+   layer's) */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .filters .filter .remove,
+html[data-sct-theme="bridge"][data-sct-surface="shell"] img[src*="Submenu16x16" i] {
+  filter: var(--sct-glyph-filter);
+}
+/* the bucket view switcher shows its dark "selected" image on hover too */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] #views a:hover {
+  opacity: 1;
+  filter: var(--sct-glyph-filter);
+}
+
+/* ---- Text the sweep found below AA */
+/* the taskbar search placeholder (#757575 on the field) */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] #SearchBox::placeholder {
+  color: var(--sct-muted-fg);
+}
+/* a selected tree node (content tree, treelist fields, dialog trees) is the selected text colour: standard
+   roots' inline green fell to 4:1 on the selected purple */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is(a.scContentTreeNodeActive, a.scContentTreeNodeActive *) {
+  color: var(--sct-tree-selected-fg) !important;
+}
+/* inline system and light colours the shared map does not catch: Access Viewer's splitter (#e3e3e3)
+   and its explanation pane (the system colour "window", near-black under color-scheme: dark) */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is([style*="background:#e3e3e3" i], [style*="background: #e3e3e3" i], [style*="background-color:#e3e3e3" i]) {
+  background-color: var(--sct-border) !important;
+}
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is([style*="background:window" i], [style*="background: window" i], [style*="background-color:window" i], [style*="background-color: window" i]) {
+  background-color: var(--sct-panel-bg) !important;
+}
+
+/* ---- SPE ISE: Ace's own scrollbars sit inside the editor's inverting filter
+   (--sct-editor-filter: invert(0.9) hue-rotate(180deg)), which would turn a dark scrollbar light. Greys
+   pass through it as out = 229.5 - 0.8 * in, so #9a9a9a renders #6a6a6a and #ffffff renders #1a1a1a. */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] .ace_editor {
+  scrollbar-color: #9a9a9a #ffffff;
+}
+
+/* Dialog headers: 10.5 drops 10.4's 15px under the description, so the header band ended on the text's
+   baseline. Both versions get 10.4's. */
+html[data-sct-theme="bridge"][data-sct-surface="shell"] :is(.scDialogHeader, .scFormDialogHeader) .DialogHeaderDescription {
+  padding-bottom: 15px;
+}
+
+/* ==== Bridge signature. :not(#sct-br) matches every page; its id weight lets these rules beat Sitecore's
+   own selectors and the generated token layer. Elbows are real borders with a large outer radius; the
+   inner curve is a pseudo-element with a radial gradient. Pills are border-radius 999px. ==== */
+html[data-sct-theme="bridge"][data-sct-surface="shell"]:not(#sct-br) {
+  /* ---- Chrome type: condensed capitals. Fields, the tree and body text keep mixed case. */
+  :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsContextualActive,
+      .scRibbonToolbar .chunk .caption, a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal, .scEditorTabHeaderActive, .scEditorTabHeaderNormal,
+      .scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed, .scPagerButtonNormal, .scPagerButtonActive,
+      .standardWindowCaption .scWindowCaption, .scStartBarApplication span, #DatabaseSelector,
+      .scButton, button, input[type="button"], input[type="submit"], .scTab, [class*="scTabActive"],
+      .DialogHeader, .scStartMenuLeftOptionDisplayName, .scStartMenuRightFolder, .scStartMenuProgramsMenu, .ui-dialog-title) {
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---- Ribbon tabs: pills on black. The system menu (hamburger) is the lilac cap that starts the row. */
+  .scRibbonNavigator {
+    background: #000;
+  }
+  a#SystemMenu.scSystemMenu {
+    box-sizing: border-box;
+    width: 54px;
+    height: 26px;
+    margin: 0;
+    border-radius: 13px 0 0 13px;
+    background-color: var(--bridge-lilac);
+  }
+  a#SystemMenu.scSystemMenu:hover {
+    background-color: #ddb8dd;
+  }
+  a#SystemMenu.scSystemMenu img {
+    filter: brightness(0);
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualNormal, a.scRibbonNavigatorButtonsContextualActive) {
+    height: 24px;
+    margin: 0 4px 0 0;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--bridge-peri);
+    color: #000;
+    font-size: 13px;
+    line-height: 24px;
+    text-decoration: none;
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsNormal, a.scRibbonNavigatorButtonsContextualNormal):hover {
+    background: #b8b8ff;
+    color: #000;
+  }
+  .scRibbon a.scRibbonNavigatorButtonsContextualNormal {
+    background: var(--bridge-lilac);
+  }
+  .scRibbon :is(a.scRibbonNavigatorButtonsActive, a.scRibbonNavigatorButtonsContextualActive) {
+    background: var(--bridge-peach);
+    color: #000;
+  }
+
+  /* ---- The ribbon's elbow: a lilac bar over the toolbar that turns down its left side. */
+  .scRibbonToolbar {
+    position: relative;
+    box-sizing: border-box;
+    border: 0;
+    border-top: 10px solid var(--bridge-lilac);
+    border-left: 28px solid var(--bridge-lilac);
+    border-radius: var(--bridge-elbow) 0 0 0;
+    background: #000;
+  }
+  .scRibbonToolbar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(circle at 100% 100%, transparent 13.5px, var(--bridge-lilac) 14px);
+    pointer-events: none;
+  }
+  .scRibbonToolbar .chunk {
+    border-right: 3px solid #2a2420;
+  }
+  /* 10.5 pads each chunk 16px a side; the elbow takes 28px of the strip, so the chunks pull in to 6px
+     (the Configure tab wrapped its last chunk onto a second row) */
+  .scRibbonToolbar .chunk .panel {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+  .scRibbonToolbar .chunk .caption,
+  .scRibbonToolbar .chunk .caption * {
+    color: var(--bridge-peri);
+    font-size: 12px;
+  }
+
+  /* ---- The tree's elbow: a peach bar down the left that turns along the bottom. */
+  #ContentTreePanel > div.scFlexColumnContainerWithoutFlexie {
+    position: relative;
+    box-sizing: border-box;
+    border-left: 28px solid var(--bridge-peach);
+    border-bottom: 10px solid var(--bridge-peach);
+    border-radius: 0 0 0 var(--bridge-elbow);
+    background: #000;
+  }
+  #ContentTreePanel > div.scFlexColumnContainerWithoutFlexie::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(circle at 100% 0, transparent 13.5px, var(--bridge-peach) 14px);
+    pointer-events: none;
+  }
+  /* 10.5 sets the tree 12px in from the window edge; at 0 its elbow lines up under the ribbon's */
+  #ContentTreePanel {
+    margin-left: 0 !important;
+  }
+  #ContentTreePanel > div[style*="box-shadow"] {
+    box-shadow: none !important;
+  }
+  /* the selected row: a sand pill with black text */
+  a.scContentTreeNodeActive {
+    border-color: transparent;
+    border-radius: 8px;
+    background-color: var(--bridge-sand);
+  }
+  :is(a.scContentTreeNodeActive, a.scContentTreeNodeActive *) {
+    color: #000 !important;
+  }
+
+  /* ---- Editor tabs and the bottom application tabs: pills */
+  :is(a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal) {
+    height: 26px;
+    margin-top: 16px;
+    margin-right: 4px;
+    border: 0;
+    border-radius: 999px;
+  }
+  :is(.scEditorTabHeaderActive, .scEditorTabHeaderNormal) {
+    height: 26px;
+    line-height: 26px;
+    font-size: 13px;
+  }
+  .scEditorTabHeaderNormal img {
+    vertical-align: middle;
+  }
+  /* the Search tab's magnifier is a light glyph (a background image on a span): black on its pill */
+  a#BTAddNewSearch .scEditorTabHeaderNormal > span {
+    filter: brightness(0);
+  }
+  a.scRibbonEditorTabNormal {
+    background: var(--bridge-peri);
+    color: #000;
+  }
+  a.scRibbonEditorTabNormal:hover {
+    background: #b8b8ff;
+  }
+  a.scRibbonEditorTabActive {
+    background: var(--bridge-peach);
+    color: #000;
+  }
+  :is(a.scRibbonEditorTabActive, a.scRibbonEditorTabNormal) :is(span, .scEditorTabHeaderActive, .scEditorTabHeaderNormal) {
+    color: #000;
+  }
+  .scPager {
+    border: 0;
+    border-radius: 0;
+    background: #000;
+    box-shadow: none;
+  }
+  :is(.scPagerButtonNormal, .scPagerButtonActive) {
+    margin-right: 4px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--bridge-peri);
+    color: #000;
+  }
+  .scPagerButtonNormal:hover {
+    background: #b8b8ff;
+    color: #000;
+  }
+  .scPagerButtonActive {
+    background: var(--bridge-peach);
+  }
+  :is(.scPagerButtonNormal, .scPagerButtonActive) * {
+    color: #000;
+  }
+
+  /* ---- Editor sections: lilac bars rounded on the left, black capitals */
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+    box-sizing: border-box;
+    height: 28px;
+    margin-top: 6px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 14px 0 0 14px;
+    background: var(--bridge-lilac);
+    color: #000;
+    font-size: 14px;
+    line-height: 28px;
+  }
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) * {
+    color: #000;
+  }
+  :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) img.scEditorSectionCaptionGlyph {
+    filter: brightness(0);
+  }
+
+  /* ---- Push buttons: pills */
+  :is(.scButton, button:not(.ui-button):not([class*="ui-dialog-titlebar"])) {
+    border-color: transparent;
+    border-radius: 999px;
+  }
+
+  /* ---- Window buttons (both kinds): pills at the end of the title bar. Sitecore's glyph images are
+     hidden behind object-position and replaced by the theme's black vector glyphs on a colour. */
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+    box-sizing: border-box;
+    width: 28px;
+    height: 20px;
+    margin: 0 !important;
+    padding: 0;
+    object-fit: none;
+    object-position: -999px -999px;
+    background: var(--bridge-glyph, none) center / 12px 12px no-repeat, var(--bridge-pill, var(--bridge-peri));
+    border-radius: 0;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:last-child {
+    width: 36px;
+    border-radius: 0 10px 10px 0;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
+    --bridge-pill: #c4c4ff;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="switch" i] { --bridge-glyph: url("sct-ext:themes/bridge/glyphs/switch.svg"); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize" i] { --bridge-glyph: url("sct-ext:themes/bridge/glyphs/min.svg"); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize" i] { --bridge-glyph: url("sct-ext:themes/bridge/glyphs/max.svg"); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore" i] { --bridge-glyph: url("sct-ext:themes/bridge/glyphs/restore.svg"); }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="close" i] {
+    --bridge-glyph: url("sct-ext:themes/bridge/glyphs/close.svg");
+    --bridge-pill: var(--bridge-red);
+    width: 36px;
+    border-radius: 0 10px 10px 0;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="close" i]:hover {
+    --bridge-pill: #e08585;
+  }
+  :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:focus-visible {
+    outline: 2px solid var(--bridge-sand) !important;
+    outline-offset: 1px;
+  }
+
+  /* ---- Standard windows (Console, ISE, Workbox...): the title in large condensed peach, then a long
+     bar that runs to the pill buttons. */
+  .standardWindowCaption {
+    position: relative;
+    box-sizing: border-box;
+    height: 44px;
+    background: #000;
+    border: 0;
+  }
+  .standardWindowCaption .windowCaptionIcon {
+    display: none;
+  }
+  .standardWindowCaption .scWindowCaption {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 14px;
+    right: 128px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    color: var(--bridge-peach);
+    font-size: 24px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .standardWindowCaption .scWindowCaption::after {
+    content: "";
+    flex: 1;
+    min-width: 20px;
+    height: 12px;
+    background: var(--bridge-peach);
+  }
+  /* positioned against the whole window, so pinned to the caption's centre: (44 - 20) / 2 */
+  .standardWindowCaption .standartWindowButtons {
+    top: 12px;
+    right: 14px;
+    height: 20px;
+    margin: 0;
+  }
+
+  /* ---- Taskbar: a row of pills. The start button is the peach cap rounded on the left; the database
+     switcher closes the row as the lilac cap rounded on the right. */
+  .scStartbar,
+  #Startbar,
+  #Startbar > table {
+    background: #000;
+    border: 0;
+  }
+  .scStartButtonContainer {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 8px;
+  }
+  .scStartButton,
+  .scStartButton:hover,
+  .scStartButton.scPopupOpener {
+    position: static;
+    box-sizing: border-box;
+    width: 76px;
+    height: 32px;
+    border: 0;
+    border-radius: 16px 0 0 16px;
+    background: var(--bridge-peach);
+    filter: none;
+  }
+  .scStartButton::before {
+    content: "START";
+    display: block;
+    padding: 0 12px 0 0;
+    color: #000;
+    font: 600 15px/32px var(--bridge-chrome-font);
+    font-stretch: condensed;
+    letter-spacing: 0.06em;
+    text-align: right;
+  }
+  .scStartButton:hover {
+    background: #ffb38c;
+  }
+  .scStartButton.scPopupOpener {
+    background: var(--bridge-sand);
+  }
+  .scStartButton:focus-visible {
+    outline: 2px solid var(--bridge-sand);
+    outline-offset: 2px;
+  }
+  .scStartBarScroller {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0 0 4px;
+    border: 0;
+  }
+  #StartbarApplications {
+    border-spacing: 4px 0;
+  }
+  #StartbarApplications > tbody > tr > td {
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+  #StartbarApplications > tbody > tr > td::before,
+  #StartbarApplications > tbody > tr > td::after {
+    content: none;
+  }
+  .scStartBarApplication,
+  .scStartBarApplication:hover {
+    box-sizing: border-box;
+    height: 32px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 0;
+    background: var(--bridge-peri);
+  }
+  .scStartBarApplication:hover {
+    background: #b8b8ff;
+  }
+  .scActiveApplication .scStartBarApplication {
+    background: var(--bridge-sand);
+  }
+  .scStartBarApplication span {
+    color: #000;
+    font-size: 14px;
+    line-height: 32px;
+  }
+  .scStartbarTray,
+  .scStartbarTray td {
+    background: none;
+    border: 0;
+  }
+  #SearchBox,
+  #SearchBox.focus {
+    box-sizing: border-box;
+    height: 32px;
+    min-height: 0;
+    margin: 0 4px 0 0;
+    padding: 0 14px;
+    border: 2px solid var(--bridge-peri);
+    border-radius: 0;
+    background: #000;
+    box-shadow: none;
+    color: var(--sct-input-fg);
+  }
+  #SearchBox:focus {
+    border-color: var(--bridge-peach);
+  }
+  #Tray {
+    padding-right: 8px;
+  }
+  #DatabaseSelector {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    height: 32px;
+    margin: 0;
+    padding: 0 18px 0 12px;
+    border: 0;
+    border-radius: 0 16px 16px 0;
+    background: var(--bridge-lilac);
+    color: #000;
+    font-size: 15px;
+  }
+  #DatabaseSelector:hover {
+    background: #ddb8dd;
+  }
+  #DatabaseSelector * {
+    color: #000;
+  }
+  #DatabaseSelector img {
+    filter: brightness(0);
+  }
+
+  /* ---- Start menu: a black console panel framed by a lilac elbow */
+  #StartMenu {
+    box-sizing: border-box;
+    border: 0;
+    border-left: 24px solid var(--bridge-lilac);
+    border-top: 10px solid var(--bridge-lilac);
+    border-radius: var(--bridge-elbow) 0 0 0;
+    background: #000;
+  }
+  :is(.scStartMenuLeft, .scStartMenuRight, .scStartMenuPrograms) {
+    background: #000;
+  }
+
+  /* ---- Menus: black panels with a lilac frame; the row under the pointer a periwinkle pill */
+  table.scMenu {
+    border: 2px solid var(--bridge-lilac);
+    border-radius: 14px;
+    background-color: #000;
+    box-shadow: 0 6px 18px rgb(0 0 0 / 0.6);
+  }
+  table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover) {
+    background-color: var(--bridge-peri);
+    color: #000;
+  }
+  table.scMenu .scMenuItemIcon_Hover {
+    border-radius: 10px 0 0 10px;
+  }
+  table.scMenu .scMenuItemHotkey_Hover {
+    border-radius: 0 10px 10px 0;
+  }
+
+  /* ---- Tab strips (dialogs, Application Options, the ISE's script tabs, Read-Variable): pills on black,
+     the open one peach. Sitecore swaps the classes to *_Hover under the mouse; those keep case and size. */
+  .scTabstrip,
+  .scTabstrip > nobr {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow: visible;
+    background: #000;
+  }
+  :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover)::after {
+    content: none;
+    display: none;
+  }
+  :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) {
+    position: relative;
+    top: 0;
+    box-sizing: border-box;
+    height: 24px;
+    margin: 0;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--bridge-peri);
+    color: #000;
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  :is(.scTab_Hover, .scTab:hover) {
+    background: #b8b8ff;
+  }
+  :is(.scTabActive, .scTabActive_Hover) {
+    background: var(--bridge-peach);
+  }
+  :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover) * {
+    color: #000;
+  }
+  :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover):focus {
+    outline: none;
+  }
+  :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover):focus-visible {
+    outline: 2px solid var(--bridge-sand);
+    outline-offset: 2px;
+  }
+  .scTabs {
+    border: 2px solid var(--sct-border);
+    border-radius: 0 0 0 14px;
+  }
+  .scTabs > .scTabPage {
+    border-color: transparent;
+  }
+
+  /* ---- Dialogs: a lilac bracket round the window, rounded on the left */
+  .ui-dialog {
+    box-sizing: border-box;
+    padding: 0;
+    border: 4px solid var(--bridge-lilac);
+    border-left-width: 18px;
+    border-radius: var(--bridge-elbow) 0 0 var(--bridge-elbow);
+    background: #000;
+    box-shadow: 0 10px 40px rgb(0 0 0 / 0.7);
+  }
+  .ui-dialog .ui-dialog-titlebar {
+    border: 0;
+    border-radius: 0;
+    background: #000;
+  }
+  .ui-widget-overlay {
+    background: #000;
+    opacity: 0.45;
+  }
+  /* the title buttons: the same pills as the windows', drawn on jQuery UI's buttons */
+  .ui-dialog .ui-dialog-titlebar-buttonpane {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 4px;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * {
+    position: static;
+    box-sizing: border-box;
+    width: 28px;
+    height: 20px;
+    margin: 0 !important;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: var(--bridge-glyph, none) center / 12px 12px no-repeat, var(--bridge-pill, var(--bridge-peri));
+    box-shadow: none;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > *:hover {
+    --bridge-pill: #c4c4ff;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > * > * {
+    display: none;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > .ui-dialog-titlebar-close {
+    --bridge-glyph: url("sct-ext:themes/bridge/glyphs/close.svg");
+    --bridge-pill: var(--bridge-red);
+    width: 36px;
+    border-radius: 0 10px 10px 0;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > .ui-dialog-titlebar-close:hover {
+    --bridge-pill: #e08585;
+  }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > .ui-dialog-titlebar-maximize { --bridge-glyph: url("sct-ext:themes/bridge/glyphs/max.svg"); }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > .ui-dialog-titlebar-restore { --bridge-glyph: url("sct-ext:themes/bridge/glyphs/restore.svg"); }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > .ui-dialog-titlebar-minimize { --bridge-glyph: url("sct-ext:themes/bridge/glyphs/min.svg"); }
+  .ui-dialog .ui-dialog-titlebar-buttonpane > .ui-dialog-titlebar-collapse { --bridge-glyph: url("sct-ext:themes/bridge/glyphs/switch.svg"); }
+
+  /* the dialog page's title: large condensed peach, then the bar that runs on towards the buttons */
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    padding-right: 96px;
+    color: var(--bridge-peach);
+    font-size: 24px;
+    line-height: 30px;
+    white-space: nowrap;
+  }
+  :is(.scFormDialogHeader, .scDialogHeader) .DialogHeader::after {
+    content: "";
+    flex: 1;
+    min-width: 20px;
+    height: 12px;
+    background: var(--bridge-peach);
+  }
+  /* ---- The application header (Control Panel, PowerShell Reports, the admin landing): black, the
+     title in large condensed peach capitals followed by the console bar; Back a periwinkle pill.
+     10.4 paints the band red with a swoosh image. */
+  .sc-applicationHeader {
+    background: #000;
+  }
+  .sc-applicationHeader-row1,
+  .sc-applicationHeader-row1::after {
+    background-image: none;
+  }
+  .sc-applicationHeader-content,
+  .sc-applicationHeader-title {
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .sc-applicationHeader-title {
+    padding-right: 20px;
+  }
+  .sc-applicationHeader-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--bridge-peach);
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .sc-applicationHeader-title .sc-text {
+    color: var(--bridge-peach);
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+  }
+  .sc-applicationHeader-title::after {
+    content: "";
+    flex: 1;
+    min-width: 40px;
+    height: 12px;
+    border-radius: 0 6px 6px 0;
+    background: var(--bridge-peach);
+  }
+  .sc-backbutton {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    min-height: 0;
+    padding: 0 16px 0 12px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--bridge-peri);
+  }
+  .sc-backbutton:hover {
+    background: #b8b8ff;
+  }
+  .sc-backbutton,
+  .sc-backbutton * {
+    color: #000;
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .sc-backbutton .sc-backbutton-text {
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    line-height: 28px;
+  }
+  .sc-backbutton::before,
+  .sc-backbutton::after {
+    position: static;
+    order: -1;
+    margin: 0;
+    filter: brightness(0);
+  }
+  /* ---- SPE ISE: the status bar flashes a new tip on pale yellow (inline); here the tip stays on black */
+  #StatusBar .status-bar-panel.status-bar-text {
+    background-color: #000 !important;
+  }
+}

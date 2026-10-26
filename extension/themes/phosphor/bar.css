@@ -1,0 +1,15 @@
+/* Phosphor: an inverse-video block: green on the dark Desktop bar, dark on the green SPEAK bar */
+html[data-sct-theme="phosphor"] sct-bar-postfix {
+  border-color: #39ff6a;
+  border-radius: 0;
+  background: #39ff6a;
+  color: #031207;
+  font: bold 12px/16px "Cascadia Mono", Consolas, monospace;
+  letter-spacing: 0;
+}
+html[data-sct-theme="phosphor"]:is([data-sct-surface="speak"], [data-sct-surface="launchpad"]) sct-bar-postfix {
+  border-color: #031207;
+  background: #031207;
+  color: #39ff6a;
+  text-shadow: 0 0 4px rgba(57, 255, 106, 0.7);
+}

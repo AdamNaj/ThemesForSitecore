@@ -1,0 +1,9 @@
+/* Redmond 3.11: a caption's title, white on navy, no box */
+html[data-sct-theme="workgroups311"] sct-bar-postfix {
+  border-color: transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font: bold 13px/16px "MS Sans Serif", "Microsoft Sans Serif", Arial, sans-serif;
+  letter-spacing: 0;
+}

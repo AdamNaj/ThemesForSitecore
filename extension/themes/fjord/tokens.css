@@ -1,0 +1,312 @@
+/* Fjord: Sitecore's own layout in a calm Nordic palette. Follows the system light or dark appearance.
+   Dark: polar-night slates (#2e3440 #3b4252 #434c5e #4c566a), snow text (#d8dee9 #e5e9f0 #eceff4),
+   frost accents (#88c0d0 #81a1c1 #5e81ac); aurora hues only for status colours.
+   Light: snow-storm panels (#eceff4 #e5e9f0 #d8dee9), polar-night text, the deeper frost blue as accent.
+   #5e81ac carries white text at 4.0:1 only, so fills under white text use #4c6f9a (5.2:1) and links
+   #3f6390 (5.1:1 on #e5e9f0); #5e81ac stays for lines and bars (--fjord-line). */
+html[data-sct-theme="fjord"] {
+  --sct-font-family: inherit;
+  --sct-font-size: inherit;
+  --sct-radius: 5px;
+
+  --sct-app-bg: #e5e9f0;
+  --sct-app-fg: #2e3440;
+  --sct-panel-bg: #eceff4;
+  --sct-panel-fg: #2e3440;
+  --sct-muted-fg: #4c566a;
+  --sct-border: #d8dee9;
+  --sct-border-strong: #a7b1c2;
+  --sct-accent: #4c6f9a;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #3f6390;
+  --sct-focus-ring: #5e81ac;
+  --sct-raised-bg: #f8f9fb;
+  --sct-chrome-bg: #d8dee9;
+  --sct-chrome-fg: #2e3440;
+  --sct-selected-bg: #d3dfee;
+
+  --sct-titlebar-bg: #d8dee9;
+  --sct-titlebar-fg: #2e3440;
+  --sct-titlebar-inactive-bg: #e5e9f0;
+  --sct-titlebar-inactive-fg: #4c566a;
+  --sct-window-border: #b5bfce;
+
+  --sct-ribbon-bg: #eceff4;
+  --sct-ribbon-fg: #2e3440;
+  --sct-ribbon-tab-bg: #e5e9f0;
+  --sct-ribbon-tab-fg: #4c566a;
+  --sct-ribbon-tab-active-bg: #eceff4;
+  --sct-ribbon-tab-active-fg: #2e3440;
+  --sct-ribbon-chunk-bg: #eceff4;
+  --sct-ribbon-chunk-caption-bg: #eceff4;
+  --sct-ribbon-chunk-caption-fg: #4c566a;
+  --sct-ribbon-button-hover-bg: #dde3ec;
+  --sct-ribbon-button-pressed-bg: #cdd5e2;
+
+  --sct-tree-bg: #eceff4;
+  --sct-tree-fg: #2e3440;
+  --sct-tree-hover-bg: #e0e5ed;
+  --sct-tree-selected-bg: #d3dfee;
+  --sct-tree-selected-fg: #2e3440;
+  --sct-tree-selected-border: #5e81ac;
+
+  --sct-section-header-bg: #dfe4ec;
+  --sct-section-header-fg: #2e3440;
+  --sct-section-body-bg: #f4f6f9;
+  --sct-field-label-fg: #3b4252;
+
+  --sct-input-bg: #ffffff;
+  --sct-input-fg: #2e3440;
+  --sct-input-border: #b5bfce;
+  --sct-input-focus-border: #5e81ac;
+
+  --sct-button-bg: #f8f9fb;
+  --sct-button-fg: #2e3440;
+  --sct-button-border: #b5bfce;
+  --sct-button-hover-bg: #e5e9f0;
+  --sct-button-primary-bg: #4c6f9a;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #43668f;
+
+  --sct-table-header-bg: #e5e9f0;
+  --sct-table-header-fg: #3b4252;
+  --sct-table-row-hover-bg: #e0e5ed;
+
+  --sct-scrollbar-thumb: #b5bfce;
+  --sct-scrollbar-track: #e5e9f0;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #4c6f9a;
+  --sct-taskbar-bg: #e5e9f0;
+  --sct-taskbar-fg: #2e3440;
+
+  /* Fjord's own: the frost line under the open tab and beside the selected tree node, and the
+     backdrop behind Launchpad and the login card */
+  --fjord-line: #5e81ac;
+  --fjord-backdrop: radial-gradient(120% 90% at 85% 0%, #d3dfee, #e5e9f0 55%, #d8dee9);
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="fjord"] {
+    --sct-app-bg: #2e3440;
+    --sct-app-fg: #d8dee9;
+    --sct-panel-bg: #3b4252;
+    --sct-panel-fg: #e5e9f0;
+    --sct-muted-fg: #aeb7c7;
+    --sct-border: #434c5e;
+    --sct-border-strong: #616e88;
+    --sct-accent: #88c0d0;
+    --sct-accent-fg: #2e3440;
+    --sct-link: #88c0d0;
+    --sct-focus-ring: #88c0d0;
+    --sct-raised-bg: #434c5e;
+    --sct-chrome-bg: #3b4252;
+    --sct-chrome-fg: #eceff4;
+    --sct-selected-bg: #434c5e;
+
+    --sct-titlebar-bg: #3b4252;
+    --sct-titlebar-fg: #eceff4;
+    --sct-titlebar-inactive-bg: #2e3440;
+    --sct-titlebar-inactive-fg: #aeb7c7;
+    --sct-window-border: #252a33;
+
+    --sct-ribbon-bg: #3b4252;
+    --sct-ribbon-fg: #e5e9f0;
+    --sct-ribbon-tab-bg: #2e3440;
+    --sct-ribbon-tab-fg: #aeb7c7;
+    --sct-ribbon-tab-active-bg: #3b4252;
+    --sct-ribbon-tab-active-fg: #eceff4;
+    --sct-ribbon-chunk-bg: #3b4252;
+    --sct-ribbon-chunk-caption-bg: #3b4252;
+    --sct-ribbon-chunk-caption-fg: #aeb7c7;
+    --sct-ribbon-button-hover-bg: #434c5e;
+    --sct-ribbon-button-pressed-bg: #4c566a;
+
+    --sct-tree-bg: #2e3440;
+    --sct-tree-fg: #d8dee9;
+    --sct-tree-hover-bg: #3b4252;
+    --sct-tree-selected-bg: #434c5e;
+    --sct-tree-selected-fg: #eceff4;
+    --sct-tree-selected-border: #88c0d0;
+
+    --sct-section-header-bg: #434c5e;
+    --sct-section-header-fg: #eceff4;
+    --sct-section-body-bg: #3b4252;
+    --sct-field-label-fg: #d8dee9;
+
+    --sct-input-bg: #2e3440;
+    --sct-input-fg: #e5e9f0;
+    --sct-input-border: #4c566a;
+    --sct-input-focus-border: #88c0d0;
+
+    --sct-button-bg: #434c5e;
+    --sct-button-fg: #eceff4;
+    --sct-button-border: #4c566a;
+    --sct-button-hover-bg: #4c566a;
+    --sct-button-primary-bg: #88c0d0;
+    --sct-button-primary-fg: #2e3440;
+    --sct-button-primary-hover-bg: #8fbcbb;
+
+    --sct-table-header-bg: #3b4252;
+    --sct-table-header-fg: #d8dee9;
+    --sct-table-row-hover-bg: #434c5e;
+
+    --sct-scrollbar-thumb: #4c566a;
+    --sct-scrollbar-track: #2e3440;
+
+    --sct-desktop-bg: #242933;
+    --sct-taskbar-bg: #242933;
+    --sct-taskbar-fg: #d8dee9;
+
+    --sct-glyph-filter: invert(1) hue-rotate(180deg);
+    --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+    --sct-content-filter: brightness(0.8);
+
+    --fjord-line: #88c0d0;
+    --fjord-backdrop: radial-gradient(120% 80% at 85% 0%, #3b4a63, #2e3440 55%, #242933);
+  }
+}
+
+/* The site's hue (data-sct-hue, --sct-hue in degrees on <html>, set by content.js) turns every colour round
+   the OKLCH hue wheel at the same lightness and chroma, so contrast stays close to the palette above
+   (test/unit/hue.test.js checks it every 30 degrees). Regenerate from the palette when it changes. */
+html[data-sct-theme="fjord"][data-sct-hue] {
+  --sct-app-bg: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
+  --sct-app-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-panel-bg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+  --sct-panel-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-muted-fg: oklch(from #4c566a l c calc(h + var(--sct-hue)));
+  --sct-border: oklch(from #d8dee9 l c calc(h + var(--sct-hue)));
+  --sct-border-strong: oklch(from #a7b1c2 l c calc(h + var(--sct-hue)));
+  --sct-accent: oklch(from #4c6f9a l c calc(h + var(--sct-hue)));
+  --sct-accent-fg: oklch(from #ffffff l c calc(h + var(--sct-hue)));
+  --sct-link: oklch(from #3f6390 l c calc(h + var(--sct-hue)));
+  --sct-focus-ring: oklch(from #5e81ac l c calc(h + var(--sct-hue)));
+  --sct-raised-bg: oklch(from #f8f9fb l c calc(h + var(--sct-hue)));
+  --sct-chrome-bg: oklch(from #d8dee9 l c calc(h + var(--sct-hue)));
+  --sct-chrome-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-selected-bg: oklch(from #d3dfee l c calc(h + var(--sct-hue)));
+  --sct-titlebar-bg: oklch(from #d8dee9 l c calc(h + var(--sct-hue)));
+  --sct-titlebar-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-titlebar-inactive-bg: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
+  --sct-titlebar-inactive-fg: oklch(from #4c566a l c calc(h + var(--sct-hue)));
+  --sct-window-border: oklch(from #b5bfce l c calc(h + var(--sct-hue)));
+  --sct-ribbon-bg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+  --sct-ribbon-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-ribbon-tab-bg: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
+  --sct-ribbon-tab-fg: oklch(from #4c566a l c calc(h + var(--sct-hue)));
+  --sct-ribbon-tab-active-bg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+  --sct-ribbon-tab-active-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-ribbon-chunk-bg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+  --sct-ribbon-chunk-caption-bg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+  --sct-ribbon-chunk-caption-fg: oklch(from #4c566a l c calc(h + var(--sct-hue)));
+  --sct-ribbon-button-hover-bg: oklch(from #dde3ec l c calc(h + var(--sct-hue)));
+  --sct-ribbon-button-pressed-bg: oklch(from #cdd5e2 l c calc(h + var(--sct-hue)));
+  --sct-tree-bg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+  --sct-tree-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-tree-hover-bg: oklch(from #e0e5ed l c calc(h + var(--sct-hue)));
+  --sct-tree-selected-bg: oklch(from #d3dfee l c calc(h + var(--sct-hue)));
+  --sct-tree-selected-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-tree-selected-border: oklch(from #5e81ac l c calc(h + var(--sct-hue)));
+  --sct-section-header-bg: oklch(from #dfe4ec l c calc(h + var(--sct-hue)));
+  --sct-section-header-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-section-body-bg: oklch(from #f4f6f9 l c calc(h + var(--sct-hue)));
+  --sct-field-label-fg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+  --sct-input-bg: oklch(from #ffffff l c calc(h + var(--sct-hue)));
+  --sct-input-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-input-border: oklch(from #b5bfce l c calc(h + var(--sct-hue)));
+  --sct-input-focus-border: oklch(from #5e81ac l c calc(h + var(--sct-hue)));
+  --sct-button-bg: oklch(from #f8f9fb l c calc(h + var(--sct-hue)));
+  --sct-button-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --sct-button-border: oklch(from #b5bfce l c calc(h + var(--sct-hue)));
+  --sct-button-hover-bg: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
+  --sct-button-primary-bg: oklch(from #4c6f9a l c calc(h + var(--sct-hue)));
+  --sct-button-primary-fg: oklch(from #ffffff l c calc(h + var(--sct-hue)));
+  --sct-button-primary-hover-bg: oklch(from #43668f l c calc(h + var(--sct-hue)));
+  --sct-table-header-bg: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
+  --sct-table-header-fg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+  --sct-table-row-hover-bg: oklch(from #e0e5ed l c calc(h + var(--sct-hue)));
+  --sct-scrollbar-thumb: oklch(from #b5bfce l c calc(h + var(--sct-hue)));
+  --sct-scrollbar-track: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
+  --sct-desktop-bg: oklch(from #4c6f9a l c calc(h + var(--sct-hue)));
+  --sct-taskbar-bg: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
+  --sct-taskbar-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+  --fjord-line: oklch(from #5e81ac l c calc(h + var(--sct-hue)));
+  --fjord-backdrop: radial-gradient(120% 90% at 85% 0%, oklch(from #d3dfee l c calc(h + var(--sct-hue))), oklch(from #e5e9f0 l c calc(h + var(--sct-hue))) 55%, oklch(from #d8dee9 l c calc(h + var(--sct-hue))));
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="fjord"][data-sct-hue] {
+    --sct-app-bg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+    --sct-app-fg: oklch(from #d8dee9 l c calc(h + var(--sct-hue)));
+    --sct-panel-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-panel-fg: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
+    --sct-muted-fg: oklch(from #aeb7c7 l c calc(h + var(--sct-hue)));
+    --sct-border: oklch(from #434c5e l c calc(h + var(--sct-hue)));
+    --sct-border-strong: oklch(from #616e88 l c calc(h + var(--sct-hue)));
+    --sct-accent: oklch(from #88c0d0 l c calc(h + var(--sct-hue)));
+    --sct-accent-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+    --sct-link: oklch(from #88c0d0 l c calc(h + var(--sct-hue)));
+    --sct-focus-ring: oklch(from #88c0d0 l c calc(h + var(--sct-hue)));
+    --sct-raised-bg: oklch(from #434c5e l c calc(h + var(--sct-hue)));
+    --sct-chrome-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-chrome-fg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+    --sct-selected-bg: oklch(from #434c5e l c calc(h + var(--sct-hue)));
+    --sct-titlebar-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-titlebar-fg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+    --sct-titlebar-inactive-bg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+    --sct-titlebar-inactive-fg: oklch(from #aeb7c7 l c calc(h + var(--sct-hue)));
+    --sct-window-border: oklch(from #252a33 l c calc(h + var(--sct-hue)));
+    --sct-ribbon-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-ribbon-fg: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
+    --sct-ribbon-tab-bg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+    --sct-ribbon-tab-fg: oklch(from #aeb7c7 l c calc(h + var(--sct-hue)));
+    --sct-ribbon-tab-active-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-ribbon-tab-active-fg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+    --sct-ribbon-chunk-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-ribbon-chunk-caption-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-ribbon-chunk-caption-fg: oklch(from #aeb7c7 l c calc(h + var(--sct-hue)));
+    --sct-ribbon-button-hover-bg: oklch(from #434c5e l c calc(h + var(--sct-hue)));
+    --sct-ribbon-button-pressed-bg: oklch(from #4c566a l c calc(h + var(--sct-hue)));
+    --sct-tree-bg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+    --sct-tree-fg: oklch(from #d8dee9 l c calc(h + var(--sct-hue)));
+    --sct-tree-hover-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-tree-selected-bg: oklch(from #434c5e l c calc(h + var(--sct-hue)));
+    --sct-tree-selected-fg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+    --sct-tree-selected-border: oklch(from #88c0d0 l c calc(h + var(--sct-hue)));
+    --sct-section-header-bg: oklch(from #434c5e l c calc(h + var(--sct-hue)));
+    --sct-section-header-fg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+    --sct-section-body-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-field-label-fg: oklch(from #d8dee9 l c calc(h + var(--sct-hue)));
+    --sct-input-bg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+    --sct-input-fg: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
+    --sct-input-border: oklch(from #4c566a l c calc(h + var(--sct-hue)));
+    --sct-input-focus-border: oklch(from #88c0d0 l c calc(h + var(--sct-hue)));
+    --sct-button-bg: oklch(from #434c5e l c calc(h + var(--sct-hue)));
+    --sct-button-fg: oklch(from #eceff4 l c calc(h + var(--sct-hue)));
+    --sct-button-border: oklch(from #4c566a l c calc(h + var(--sct-hue)));
+    --sct-button-hover-bg: oklch(from #4c566a l c calc(h + var(--sct-hue)));
+    --sct-button-primary-bg: oklch(from #88c0d0 l c calc(h + var(--sct-hue)));
+    --sct-button-primary-fg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+    --sct-button-primary-hover-bg: oklch(from #8fbcbb l c calc(h + var(--sct-hue)));
+    --sct-table-header-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-table-header-fg: oklch(from #d8dee9 l c calc(h + var(--sct-hue)));
+    --sct-table-row-hover-bg: oklch(from #434c5e l c calc(h + var(--sct-hue)));
+    --sct-scrollbar-thumb: oklch(from #4c566a l c calc(h + var(--sct-hue)));
+    --sct-scrollbar-track: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
+    --sct-desktop-bg: oklch(from #242933 l c calc(h + var(--sct-hue)));
+    --sct-taskbar-bg: oklch(from #242933 l c calc(h + var(--sct-hue)));
+    --sct-taskbar-fg: oklch(from #d8dee9 l c calc(h + var(--sct-hue)));
+    --fjord-line: oklch(from #88c0d0 l c calc(h + var(--sct-hue)));
+    --fjord-backdrop: radial-gradient(120% 80% at 85% 0%, oklch(from #3b4a63 l c calc(h + var(--sct-hue))), oklch(from #2e3440 l c calc(h + var(--sct-hue))) 55%, oklch(from #242933 l c calc(h + var(--sct-hue))));
+  }
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="fjord"]:not([data-sct-surface="ee"]) {
+  color-scheme: light dark;
+}

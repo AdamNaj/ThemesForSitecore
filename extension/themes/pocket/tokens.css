@@ -1,0 +1,107 @@
+/* Pocket: a four-shade handheld LCD.
+   Spec (from the approved mock-up, Pocket.dc.html): only four shades, nothing in between.
+     lightest  #e0f8d0  panels and fields
+     light     #88c070  the screen behind the panels, hover
+     dark      #346856  labels and secondary text (5.7:1 on lightest), the open tab
+     darkest   #081820  text (16:1 on lightest, 8.5:1 on light), frames, title bars, selection
+   Pairs that pass: darkest on lightest or light; lightest on dark or darkest; dark on lightest. Dark on
+   light (3.0:1) and lightest on light (1.9:1) never carry text.
+   4px stepped pixel corners (clip-path), 4px borders on panels, inverse video for the tree's selection
+   (other selections in the light shade). Colour icons are tinted to the screen's green.
+   Type: a pixel face for headings ("Press Start 2P" or VT323 where installed, else Lucida Console), a
+   crisp monospace for text; none bundled. */
+html[data-sct-theme="pocket"] {
+  --sct-font-family: "Lucida Console", Consolas, "Courier New", monospace;
+  --sct-font-size: 12px;
+  --sct-radius: 0px;
+
+  --pk-0: #e0f8d0;
+  --pk-1: #88c070;
+  --pk-2: #346856;
+  --pk-3: #081820;
+  --pk-pixel: "Press Start 2P", "Pixelify Sans", Silkscreen, "Lucida Console", Consolas, monospace;
+  --pk-step: polygon(0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px));
+  --pk-step2: polygon(0 2px, 2px 2px, 2px 0, calc(100% - 2px) 0, calc(100% - 2px) 2px, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 2px calc(100% - 2px), 0 calc(100% - 2px));
+  /* colour icons as the screen shows them: grey, then pushed toward the green */
+  --pk-icon: grayscale(1) sepia(1) hue-rotate(50deg) saturate(1.6) brightness(0.8) contrast(1.3);
+
+  --sct-app-bg: #e0f8d0;
+  --sct-app-fg: #081820;
+  --sct-panel-bg: #e0f8d0;
+  --sct-panel-fg: #081820;
+  --sct-muted-fg: #346856;
+  --sct-border: #346856;
+  --sct-border-strong: #081820;
+  --sct-accent: #081820;
+  --sct-accent-fg: #e0f8d0;
+  --sct-link: #346856;
+  --sct-focus-ring: #081820;
+  --sct-raised-bg: #e0f8d0;
+  --sct-chrome-bg: #88c070;
+  --sct-chrome-fg: #081820;
+  --sct-selected-bg: #88c070;
+
+  --sct-titlebar-bg: #081820;
+  --sct-titlebar-fg: #e0f8d0;
+  --sct-titlebar-inactive-bg: #346856;
+  --sct-titlebar-inactive-fg: #e0f8d0;
+  --sct-window-border: #081820;
+
+  --sct-ribbon-bg: #e0f8d0;
+  --sct-ribbon-fg: #081820;
+  --sct-ribbon-tab-bg: #88c070;
+  --sct-ribbon-tab-fg: #081820;
+  --sct-ribbon-tab-active-bg: #346856;
+  --sct-ribbon-tab-active-fg: #e0f8d0;
+  --sct-ribbon-chunk-bg: #e0f8d0;
+  --sct-ribbon-chunk-caption-bg: #e0f8d0;
+  --sct-ribbon-chunk-caption-fg: #346856;
+  --sct-ribbon-button-hover-bg: #88c070;
+  --sct-ribbon-button-pressed-bg: #88c070;
+
+  --sct-tree-bg: #e0f8d0;
+  --sct-tree-fg: #081820;
+  --sct-tree-hover-bg: #88c070;
+  --sct-tree-selected-bg: #081820;
+  --sct-tree-selected-fg: #e0f8d0;
+  --sct-tree-selected-border: #081820;
+
+  --sct-section-header-bg: #88c070;
+  --sct-section-header-fg: #081820;
+  --sct-section-body-bg: #e0f8d0;
+  --sct-field-label-fg: #346856;
+
+  --sct-input-bg: #e0f8d0;
+  --sct-input-fg: #081820;
+  --sct-input-border: #081820;
+  --sct-input-focus-border: #346856;
+
+  --sct-button-bg: #e0f8d0;
+  --sct-button-fg: #081820;
+  --sct-button-border: #081820;
+  --sct-button-hover-bg: #88c070;
+  --sct-button-primary-bg: #081820;
+  --sct-button-primary-fg: #e0f8d0;
+  --sct-button-primary-hover-bg: #346856;
+
+  --sct-table-header-bg: #346856;
+  --sct-table-header-fg: #e0f8d0;
+  --sct-table-row-hover-bg: #88c070;
+
+  --sct-scrollbar-thumb: #346856;
+  --sct-scrollbar-track: #88c070;
+
+  /* Sitecore 10.5 draws its keyboard focus rings in these */
+  --outline-color-dark: var(--sct-focus-ring);
+  --outline-color-light: var(--sct-focus-ring);
+
+  --sct-desktop-bg: #88c070;
+  --sct-taskbar-bg: #081820;
+  --sct-taskbar-fg: #e0f8d0;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="pocket"]:not([data-sct-surface="ee"]) {
+  color-scheme: light;
+}

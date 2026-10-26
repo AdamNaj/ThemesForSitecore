@@ -1,0 +1,2089 @@
+/* Sitecore 10.4: restores the stock 10.4 values that Sitecore 10.5 changed.
+   Generated with tools/css-diff.mjs against a stock 10.4.1 install. Hand-written rules live in glyphs.css. */
+
+/* ---- sitecore/shell/client/Business Component Library/version 2/Assets/stylesheets/Speak Components - DefaultTheme/speak-components.css ---- */
+html[data-sct-theme="sitecore104"] .form-control.sc-tageditor:focus-within {
+  outline: 0 !important;
+  border: 1px solid hsl(0, 0%, 80%) !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+}
+html[data-sct-theme="sitecore104"] select.form-control {
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] select.form-control.sc-combobox {
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .row.sc-globalHeader-content .col-md-6 {
+  padding-left: 15px;
+}
+html[data-sct-theme="sitecore104"] .sc-applicationContent-main #appbar {
+  background-color: unset !important;
+  border-bottom: unset !important;
+  box-shadow: unset !important;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover:not(.disabled):not([disabled]) {
+  background-image: none;
+  background-position: -19px -144px;
+  border: 1px solid transparent;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover:not(.disabled):not([disabled]) .sc-backbutton-text {
+  text-decoration: unset;
+  text-underline-offset: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover:not(.disabled):not([disabled]):before {
+  background-position: -19px -144px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active:not(.disabled):not([disabled]) {
+  background-image: none;
+  background-position: -19px -216px;
+  border: 1px solid transparent;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active:not(.disabled):not([disabled]) .sc-backbutton-text {
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active:not(.disabled):not([disabled]):before {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/BackButton/back_button.png") no-repeat;
+  background-position: -19px -216px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li a:hover {
+  background-color: transparent;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li.active > a {
+  border: unset;
+  color: hsl(197, 67%, 45%);
+  background-color: transparent;
+}
+html[data-sct-theme="sitecore104"] #help .sc-dialogWindow-header a.sc-dialogWindow-close[target="_blank"] {
+  top: -1px;
+  right: 31px !important;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.highlighted.menuItem a {
+  color: hsl(197, 67%, 45%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.rootItem.selected.rootItem a {
+  color: hsl(197, 67%, 45%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.menuItem:not(.open) {
+  border-bottom: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .itemRow.selected.menuItem a {
+  color: hsl(197, 67%, 45%);
+}
+html[data-sct-theme="sitecore104"] input[type="radio"] {
+  accent-color: unset;
+}
+html[data-sct-theme="sitecore104"] input[type="checkbox"] {
+  accent-color: unset;
+}
+html[data-sct-theme="sitecore104"] .form-control {
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .form-control:focus {
+  border: 1px solid hsl(0, 0%, 80%) !important;
+  border-color: #66afe9;
+  outline: 0 !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+}
+html[data-sct-theme="sitecore104"] .form-control::-ms-expand {
+  border: 0;
+}
+html[data-sct-theme="sitecore104"] .btn-default.focus {
+  box-shadow: none;
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 84%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default:active:hover {
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.active:hover {
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default:active:focus {
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.active:focus {
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default:active.focus {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.active.focus {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary.focus {
+  box-shadow: none;
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 37%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary:active:hover {
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary.active:hover {
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary:active:focus {
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary.active:focus {
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary:active.focus {
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary.active.focus {
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-default .badge {
+  background-image: unset;
+  color: hsl(0, 0%, 94%);
+  background-color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary .badge {
+  background-image: unset;
+  color: hsl(197, 67%, 47%);
+  background-color: #fff;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled] {
+  opacity: 0.65;
+  border-color: hsl(197, 67%, 33%);
+  border-color: hsl(197, 67%, 27%);
+  background-color: hsl(197, 67%, 35%);
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary {
+  opacity: 0.65;
+  border-color: hsl(197, 67%, 33%);
+  border-color: hsl(197, 67%, 27%);
+  background-color: hsl(197, 67%, 35%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled:hover {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled]:hover {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary:hover {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled:focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled]:focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary:focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled.focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled].focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary.focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled:active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled]:active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary:active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled.active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled].active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary.active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled {
+  opacity: 0.65;
+  box-shadow: none;
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+  border-color: hsl(197, 67%, 27%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary:hover {
+  box-shadow: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-position: 0 -15px;
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 47%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 47%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 47%) 100%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-primary:focus {
+  box-shadow: none;
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-position: 0 -15px;
+}
+html[data-sct-theme="sitecore104"] .btn-primary:active {
+  color: #fff;
+  background-color: hsl(197, 67%, 35%);
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: none;
+  border-color: hsl(197, 67%, 27%);
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.active {
+  color: #fff;
+  background-color: hsl(197, 67%, 35%);
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: none;
+  border-color: hsl(197, 67%, 27%);
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.up {
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-repeat: repeat-x;
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 32%);
+  border-color: hsl(197, 67%, 27%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary {
+  border-radius: 6px;
+  color: #fff;
+  background-color: hsl(197, 67%, 47%);
+  border-color: hsl(197, 67%, 33%);
+  border-color: hsl(197, 67%, 27%);
+  box-shadow: inset 0 1px hsl(197, 67%, 62%);
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 35%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 35%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 35%) 100%);
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 38%) 100%);
+}
+html[data-sct-theme="sitecore104"] .btn-default {
+  border-radius: 6px;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 94%);
+  border-color: hsl(0, 0%, 80%);
+  border-color: hsl(0, 0%, 74%);
+  box-shadow: inset 0 1px hsl(0, 0%, 100%);
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 82%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 82%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 82%) 100%);
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 85%) 100%);
+}
+html[data-sct-theme="sitecore104"] .btn-default[disabled] {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 80%);
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-default {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 80%);
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled:hover {
+  opacity: 0.65;
+  background-color: hsl(0, 0%, 82%);
+  border-color: hsl(0, 0%, 74%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default[disabled]:hover {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-default:hover {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled:focus {
+  opacity: 0.65;
+  background-color: hsl(0, 0%, 82%);
+  border-color: hsl(0, 0%, 74%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default[disabled]:focus {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-default:focus {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled.focus {
+  opacity: 0.65;
+  background-color: hsl(0, 0%, 82%);
+  border-color: hsl(0, 0%, 74%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default[disabled].focus {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-default.focus {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled:active {
+  background-color: hsl(0, 0%, 82%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled.active {
+  background-color: hsl(0, 0%, 82%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled {
+  opacity: 0.65;
+  box-shadow: none;
+  background-color: hsl(0, 0%, 82%);
+  background-image: none;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .btn-default:hover {
+  box-shadow: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 82%);
+  border-color: hsl(0, 0%, 74%);
+  background-position: 0 -15px;
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 94%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 94%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 94%) 100%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-default:focus {
+  box-shadow: none;
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 82%);
+  border-color: hsl(0, 0%, 74%);
+  background-position: 0 -15px;
+}
+html[data-sct-theme="sitecore104"] .btn-default:active {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 82%);
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: none;
+  border-color: hsl(0, 0%, 74%);
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-default.active {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 82%);
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: none;
+  border-color: hsl(0, 0%, 74%);
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-default.up {
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-repeat: repeat-x;
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 79%);
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .sc-globalHeader {
+  border-bottom: unset;
+  box-shadow: unset;
+  color: hsl(0, 0%, 100%);
+  border-color: hsl(0, 0%, 17%);
+  background-color: hsl(0, 0%, 17%);
+}
+html[data-sct-theme="sitecore104"] .sc-globalheader-appName {
+  color: hsl(0, 0%, 80%);
+  font-weight: normal;
+  margin-left: 15px;
+}
+html[data-sct-theme="sitecore104"] .sc-applicationHeader {
+  background-color: hsl(3, 76%, 45%);
+}
+html[data-sct-theme="sitecore104"] .sc-applicationHeader-row1 {
+  border-bottom: unset;
+  background-color: hsl(3, 76%, 45%);
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Layouts/breadcrumb_red_bg.png");
+  background-repeat: no-repeat;
+}
+html[data-sct-theme="sitecore104"] .sc-applicationHeader-row1:after {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Layouts/logo_spiral.png") center right;
+  background-repeat: no-repeat;
+}
+html[data-sct-theme="sitecore104"] .sc-applicationContent-navigation {
+  border-right: unset;
+  color: hsl(0, 0%, 7%);
+  border-color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc-dialogHeader {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 0%, 17%);
+}
+html[data-sct-theme="sitecore104"] .sc-dialogFooter {
+  background-color: hsl(0, 0%, 89%);
+  border: 1px solid hsl(0, 0%, 80%);
+  border-left: 0;
+  border-right: 0;
+}
+html[data-sct-theme="sitecore104"] .sc-flx .sc-list {
+  background: hsl(0, 0%, 94%);
+}
+html[data-sct-theme="sitecore104"] .sc-flx .container-narrow {
+  background: hsl(0, 0%, 94%);
+}
+html[data-sct-theme="sitecore104"] .sc-flx .sc-flx-navigation-wrapper {
+  border-right: unset;
+  background-color: hsl(0, 0%, 28%);
+  z-index: 1000;
+}
+html[data-sct-theme="sitecore104"] .sc-flx .sc-flx-global-header {
+  border-bottom: unset;
+  box-shadow: unset;
+  color: hsl(0, 0%, 100%);
+  border-color: hsl(0, 0%, 17%);
+  background-color: hsl(0, 0%, 17%);
+}
+html[data-sct-theme="sitecore104"] .sc-flx .sc-flx-header-pane {
+  background-color: hsl(3, 76%, 45%);
+}
+html[data-sct-theme="sitecore104"] .sc-flx .sc-flx-header-pane .sc-applicationHeader-title {
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc-applicationHeader .sc-applicationHeader-title {
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc-action-bar {
+  border-bottom: unset;
+  background-color: hsl(0, 0%, 100%);
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
+}
+html[data-sct-theme="sitecore104"] .sc-contextdetails .sc-contextdetails-title {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-contextdetails .sc-contextdetails-content {
+  background-color: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-contextdetails .sc-contextdetails-buttons {
+  background-color: hsl(0, 0%, 97%);
+  border-top: 1px solid hsl(0, 0%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:before {
+  width: 19px;
+  height: 36px;
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/BackButton/back_button.png") no-repeat;
+  background-position: 0 0;
+  top: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:after {
+  width: 7px;
+  height: 36px;
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/BackButton/back_button.png") no-repeat;
+  background-position: -19px 0;
+  display: block;
+  content: "";
+  position: absolute;
+  right: 5px;
+  top: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn .sc-backbutton-text {
+  color: unset;
+  font-size: unset;
+  font-weight: unset;
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/BackButton/back_button.png") repeat-x;
+  background-position: 0 -36px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.disabled {
+  color: hsl(0, 0%, 100%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn[disabled] {
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.disabled .sc-backbutton-text {
+  text-decoration: unset;
+  background-position: 0 -108px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn[disabled] .sc-backbutton-text {
+  text-decoration: unset;
+  background-position: 0 -108px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.disabled:before {
+  background-position: 0 -72px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn[disabled]:before {
+  background-position: 0 -72px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.disabled:after {
+  background-position: -19px -72px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn[disabled]:after {
+  background-position: -19px -72px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:focus {
+  background-image: none;
+  background-position: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:focus .sc-backbutton-text {
+  background-position: 0 -36px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:focus:before {
+  background-position: 0 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:focus:after {
+  background-position: -19px 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover {
+  background-image: none;
+  background-position: 0;
+  border-color: none;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover .sc-backbutton-text {
+  background-position: 0 -180px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover:before {
+  background-position: 0 -144px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover:after {
+  background-position: -19px -144px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active {
+  background-image: none;
+  background-position: 0;
+  border-color: none;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.active {
+  background-image: none;
+  background-position: 0;
+  border-color: none;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active .sc-backbutton-text {
+  background-position: 0 -252px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.active .sc-backbutton-text {
+  background-position: 0 -252px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active:before {
+  background-position: 0 -216px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.active:before {
+  background-position: 0 -216px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active:after {
+  background-position: -19px -216px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.active:after {
+  background-position: -19px -216px;
+}
+html[data-sct-theme="sitecore104"] .sc .ui-widget-content.sc-datepicker-dropdown .ui-datepicker-calendar td.ui-datepicker-current-day a.ui-state-active {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-global-logo {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo.png");
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-global-logo:hover {
+  background-position: left bottom;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs {
+  border-bottom: 2px solid hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li > a {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 100%);
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li > a:hover {
+  background-color: hsl(0, 0%, 89%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li.active.first-visible-nav-tab a {
+  border-left: 1px solid hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li.active.last-visible-nav-tab a {
+  border-right: 1px solid hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li.active > a {
+  font-weight: unset;
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 0%, 28%);
+  border: 1px solid hsl(0, 0%, 28%);
+  border-left: 0;
+  border-right: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li.active > a:hover {
+  background-color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li a {
+  border: unset;
+  background-color: transparent;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li > a {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li.active > a:before {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/TabControl/arrow_white_whitetoblack.png");
+}
+html[data-sct-theme="sitecore104"] .modal {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-dialogWindow-header {
+  font-weight: unset;
+  border-radius: unset;
+  padding: 15px;
+  color: hsl(0, 0%, 100%);
+  background: hsl(0, 0%, 17%);
+}
+html[data-sct-theme="sitecore104"] .sc-dialogWindow-buttons {
+  border-radius: unset;
+  background-color: hsl(0, 0%, 94%);
+  border-top: 1px solid hsl(0, 0%, 89%);
+  padding: 10px 15px;
+  height: 56px;
+}
+html[data-sct-theme="sitecore104"] a.sc-dialogWindow-close {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/DialogWindow/close_button_sprite.png") no-repeat 0 0;
+  right: 15px;
+}
+html[data-sct-theme="sitecore104"] a.sc-dialogWindow-close:hover {
+  background-position: 0 -16px;
+}
+html[data-sct-theme="sitecore104"] a.sc-dialogWindow-close:before {
+  right: 31px;
+}
+html[data-sct-theme="sitecore104"] .sc span.dynatree-active a {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc span.dynatree-active a:hover {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li {
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li a.logout {
+  color: hsl(0, 0%, 59%);
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li:after {
+  padding-left: 15px;
+  padding-right: 13px;
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li:last-child:after {
+  padding-left: 12px;
+  padding-right: 0;
+}
+html[data-sct-theme="sitecore104"] .sc-actionpanel .sc-foldout {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .sc-actionpanel .sc-foldout .sc-actionControl-foldout-grid {
+  -webkit-border-radius: unset;
+  -moz-border-radius: unset;
+  -ms-border-radius: unset;
+  -o-border-radius: unset;
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-actionpanel .sc-foldout .sc-foldout-content {
+  -webkit-border-radius: unset;
+  -moz-border-radius: unset;
+  -ms-border-radius: unset;
+  -o-border-radius: unset;
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-expander.open .sc-expander-header {
+  border-left: 5px solid hsl(3, 76%, 49%);
+  padding-left: 9px;
+  background: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc-expander.open .sc-expander-header > table {
+  background: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc-expander {
+  box-shadow: unset;
+  border: none;
+}
+html[data-sct-theme="sitecore104"] .sc-expander.sc-expander-context-pane {
+  box-shadow: unset;
+  border: none;
+  border-bottom: 1px solid hsl(0, 0%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-expander.sc-expander-context-pane .sc-expander-header {
+  border: unset;
+  padding: 0 15px;
+  border-left: none;
+  padding-left: 0;
+}
+html[data-sct-theme="sitecore104"] .sc-expander.sc-expander-context-pane .sc-expander-body {
+  border: none;
+}
+html[data-sct-theme="sitecore104"] .sc-expander .sc-expander-header {
+  padding: 0 15px;
+  background-color: hsl(0, 0%, 28%);
+  border-left: 14px solid hsl(0, 0%, 59%);
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc-expander .sc-expander-header > table {
+  background: hsl(0, 0%, 59%);
+}
+html[data-sct-theme="sitecore104"] .sc-expander .sc-expander-body {
+  border: none;
+  border-left: 1px solid hsl(0, 0%, 80%);
+  border-right: 1px solid hsl(0, 0%, 80%);
+  border-bottom: 1px solid hsl(0, 0%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tab-control .sc-tab-control-nav .sc-tab-control-tab-item a {
+  color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tab-control.sc-tab-control-contextpane > .sc-tab-control-nav-wrap {
+  border-bottom: 2px solid hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tab-control.sc-tab-control-contextpane > .sc-tab-control-nav-wrap > .sc-tab-control-nav > .sc-tab-control-tab-item {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 100%);
+  border: 1px solid hsl(0, 0%, 80%);
+  border-right-width: 0;
+  border-bottom-width: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tab-control.sc-tab-control-contextpane > .sc-tab-control-nav-wrap > .sc-tab-control-nav > .sc-tab-control-tab-item.first-tab {
+  border-left-width: 1px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tab-control.sc-tab-control-contextpane > .sc-tab-control-nav-wrap > .sc-tab-control-nav > .sc-tab-control-tab-item.last-tab {
+  border-right-width: 1px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tab-control.sc-tab-control-contextpane > .sc-tab-control-nav-wrap > .sc-tab-control-nav > .sc-tab-control-tab-item:hover {
+  background-color: hsl(0, 0%, 89%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tab-control.sc-tab-control-contextpane > .sc-tab-control-nav-wrap > .sc-tab-control-nav > .sc-tab-control-tab-item.selected {
+  font-weight: unset;
+  border: 0;
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 0%, 28%);
+  border-color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tab-control.sc-tab-control-contextpane > .sc-tab-control-nav-wrap > .sc-tab-control-nav > .sc-tab-control-tab-item.selected a {
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc-confirmationDialog-header {
+  color: hsl(0, 0%, 100%);
+  background: hsl(0, 0%, 17%);
+}
+html[data-sct-theme="sitecore104"] .sc-confirmationDialog-buttons {
+  background-color: hsl(0, 0%, 94%);
+  border-top: 1px solid hsl(0, 0%, 89%);
+}
+html[data-sct-theme="sitecore104"] a.sc-confirmationDialog-close {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/DialogWindow/close_button_sprite.png") no-repeat 0 0;
+}
+html[data-sct-theme="sitecore104"] a.sc-confirmationDialog-close:hover {
+  background-position: 0 -16px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-dialogWindow.modal.maximize a.sc-dialogWindow-restore {
+  background: url("sct-ext:themes/sitecore104/glyphs/speak_restore.svg")  no-repeat 0 0;
+  right: 44px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-dialogWindow.modal.maximize a.sc-dialogWindow-restore:hover {
+  background: url("sct-ext:themes/sitecore104/glyphs/speak_restore.svg")  no-repeat 0 0;
+  background-image: url("sct-ext:themes/sitecore104/glyphs/speak_restore_h.svg") ;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-dialogWindow.modal a.sc-dialogWindow-maximize {
+  background: url("sct-ext:themes/sitecore104/glyphs/speak_maximize.svg")  no-repeat 0 0;
+  right: 44px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-dialogWindow.modal a.sc-dialogWindow-maximize:hover {
+  background: url("sct-ext:themes/sitecore104/glyphs/speak_maximize.svg")  no-repeat 0 0;
+  background-image: url("sct-ext:themes/sitecore104/glyphs/speak_maximize_h.svg") ;
+}
+html[data-sct-theme="sitecore104"] .sc-dialogWindow .modal-body .sc-dialogWindow-body-container {
+  padding: 15px;
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol.sc-detaillist .sc-listcontrol-body-wrapper table > tbody > tr.selected {
+  background-color: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol.sc-detaillist .sc-listcontrol-body-wrapper table > tbody > tr.checked td {
+  background-color: hsl(197, 67%, 89%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol.sc-detaillist .sc-listcontrol-body-wrapper table > tbody > tr.checked td:first-child {
+  background-color: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol.sc-tilelist .sc-listcontrol-tiles .sc-listcontrol-tile.selected .sc-listcontrol-tile-content {
+  background-color: hsl(197, 67%, 80%);
+  border-color: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol.sc-tilelist .sc-listcontrol-tiles .sc-listcontrol-tile.checked .sc-listcontrol-tile-content {
+  background-color: hsl(197, 67%, 89%);
+  border-color: hsl(197, 67%, 89%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol.sc-iconlist .sc-listcontrol-icon.selected .sc-listcontrol-icon-content {
+  background-color: hsl(197, 67%, 80%);
+  border-color: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol.sc-iconlist .sc-listcontrol-icon.checked .sc-listcontrol-icon-content {
+  background-color: hsl(197, 67%, 89%);
+  border-color: hsl(197, 67%, 89%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-breadcrumb > ul > li.selected > a {
+  text-decoration: underline;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-applicationHeader-breadCrumb .sc-breadcrumb > ul > li a {
+  color: hsl(3, 76%, 91%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-applicationHeader-breadCrumb .sc-breadcrumb > ul > li:after {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/white/separator.png");
+  background-repeat: no-repeat;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-applicationHeader-breadCrumb .sc-breadcrumb > ul > li:last-child:after {
+  background: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot {
+  background: hsl(0, 0%, 28%);
+  border: solid hsl(0, 0%, 28%);
+  border-width: 0 1px 0 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Menu/menu_toplevel.png");
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.highlighted {
+  background: url("/sitecore/shell/client/Business Component Library/version 2/Assets/img/Menu/menu_highlighted.png");
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.rootItem.selected {
+  background: url("/sitecore/shell/client/Business Component Library/version 2/Assets/img/Menu/menu_highlighted.png");
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.rootItem a {
+  border-bottom: unset;
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.menuItem a {
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .menuicon {
+  display: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .toplevelcontainer {
+  border-bottom: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .itemRow.selected {
+  background-color: hsl(3, 76%, 49%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .itemRow.highlighted {
+  background-color: hsl(3, 76%, 49%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .itemRow.menuItem a {
+  font-weight: unset;
+  color: hsl(0, 0%, 100%);
+  font-size: 1em;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .rcpad {
+  padding-left: 22px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .rcpad.noChildren {
+  padding-left: 15px;
+}
+
+/* ---- sitecore/shell/client/Speak/Assets/css/speak-default-theme.css ---- */
+html[data-sct-theme="sitecore104"] .form-control.sc-tageditor:focus-within {
+  outline: 0 !important;
+  border: 1px solid hsl(0, 0%, 80%) !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+}
+html[data-sct-theme="sitecore104"] select.form-control {
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] select.form-control.sc-combobox {
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .row.sc-globalHeader-content .col-md-6 {
+  padding-left: 15px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover:not(.disabled):not([disabled]) {
+  background-image: none;
+  background-position: -19px -144px;
+  border: 1px solid transparent;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover:not(.disabled):not([disabled]) .sc-backbutton-text {
+  text-decoration: unset;
+  text-underline-offset: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover:not(.disabled):not([disabled]):before {
+  background-position: -19px -144px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active:not(.disabled):not([disabled]) {
+  background-image: none;
+  background-position: -19px -216px;
+  border: 1px solid transparent;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active:not(.disabled):not([disabled]) .sc-backbutton-text {
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active:not(.disabled):not([disabled]):before {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/BackButton/back_button.png") no-repeat;
+  background-position: -19px -216px;
+}
+html[data-sct-theme="sitecore104"] .experience-explorer-iframe-editor .sc-advancedExpander .sc-advancedExpander-body {
+  padding: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li a:hover {
+  background-color: transparent;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li.active > a {
+  border: unset;
+  color: hsl(197, 67%, 45%);
+  background-color: transparent;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.highlighted.menuItem a {
+  color: hsl(197, 67%, 45%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.rootItem.selected.rootItem a {
+  color: hsl(197, 67%, 45%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.menuItem:not(.open) {
+  border-bottom: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .itemRow.selected.menuItem a {
+  color: hsl(197, 67%, 45%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .itemRow.highlighted.menuItem a {
+  color: hsl(197, 67%, 45%);
+}
+html[data-sct-theme="sitecore104"] input[type="radio"] {
+  accent-color: unset;
+}
+html[data-sct-theme="sitecore104"] input[type="checkbox"] {
+  accent-color: unset;
+}
+html[data-sct-theme="sitecore104"] .form-control {
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .form-control:focus {
+  border: 1px solid hsl(0, 0%, 80%) !important;
+  border-color: #66afe9;
+  outline: 0 !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+}
+html[data-sct-theme="sitecore104"] .form-control::-ms-expand {
+  border: 0;
+}
+html[data-sct-theme="sitecore104"] .btn-default.focus {
+  box-shadow: none;
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 84%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default:active:hover {
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.active:hover {
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default:active:focus {
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.active:focus {
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default:active.focus {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.active.focus {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 77%);
+  border-color: hsl(0, 0%, 49%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary.focus {
+  box-shadow: none;
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 37%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary:active:hover {
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary.active:hover {
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary:active:focus {
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary.active:focus {
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary:active.focus {
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary.active.focus {
+  color: #fff;
+  background-color: hsl(197, 67%, 30%);
+  border-color: hsl(197, 67%, 2%);
+}
+html[data-sct-theme="sitecore104"] .btn-default .badge {
+  background-image: unset;
+  color: hsl(0, 0%, 94%);
+  background-color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary .badge {
+  background-image: unset;
+  color: hsl(197, 67%, 47%);
+  background-color: #fff;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled] {
+  opacity: 0.65;
+  border-color: hsl(197, 67%, 33%);
+  border-color: hsl(197, 67%, 27%);
+  background-color: hsl(197, 67%, 35%);
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary {
+  opacity: 0.65;
+  border-color: hsl(197, 67%, 33%);
+  border-color: hsl(197, 67%, 27%);
+  background-color: hsl(197, 67%, 35%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled:hover {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled]:hover {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary:hover {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled:focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled]:focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary:focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled.focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled].focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary.focus {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled:active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled]:active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary:active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled.active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary[disabled].active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-primary.active {
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.disabled {
+  opacity: 0.65;
+  background-color: hsl(197, 67%, 35%);
+  background-image: none;
+  border-color: hsl(197, 67%, 27%);
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .btn-primary:hover {
+  box-shadow: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-position: 0 -15px;
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 47%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 47%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 47%) 100%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-primary:focus {
+  box-shadow: none;
+  background-image: none;
+  color: #fff;
+  background-color: hsl(197, 67%, 35%);
+  border-color: hsl(197, 67%, 27%);
+  background-position: 0 -15px;
+}
+html[data-sct-theme="sitecore104"] .btn-primary:active {
+  color: #fff;
+  background-color: hsl(197, 67%, 35%);
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: none;
+  border-color: hsl(197, 67%, 27%);
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.active {
+  color: #fff;
+  background-color: hsl(197, 67%, 35%);
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: none;
+  border-color: hsl(197, 67%, 27%);
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 22%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-primary.up {
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 38%) 0%, hsl(197, 67%, 38%) 100%);
+  background-repeat: repeat-x;
+  box-shadow: inset 0 3px 3px hsl(197, 67%, 32%);
+  border-color: hsl(197, 67%, 27%);
+}
+html[data-sct-theme="sitecore104"] .btn-primary {
+  border-radius: 6px;
+  color: #fff;
+  background-color: hsl(197, 67%, 47%);
+  border-color: hsl(197, 67%, 33%);
+  border-color: hsl(197, 67%, 27%);
+  box-shadow: inset 0 1px hsl(197, 67%, 62%);
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 35%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 35%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 35%) 100%);
+  background-image: -webkit-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: -o-linear-gradient(top, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 38%) 100%);
+  background-image: linear-gradient(to bottom, hsl(197, 67%, 47%) 0%, hsl(197, 67%, 38%) 100%);
+}
+html[data-sct-theme="sitecore104"] .btn-default {
+  border-radius: 6px;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 94%);
+  border-color: hsl(0, 0%, 80%);
+  border-color: hsl(0, 0%, 74%);
+  box-shadow: inset 0 1px hsl(0, 0%, 100%);
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 82%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 82%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 82%) 100%);
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 85%) 100%);
+}
+html[data-sct-theme="sitecore104"] .btn-default[disabled] {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 80%);
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-default {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 80%);
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled:hover {
+  opacity: 0.65;
+  background-color: hsl(0, 0%, 82%);
+  border-color: hsl(0, 0%, 74%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default[disabled]:hover {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-default:hover {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled:focus {
+  opacity: 0.65;
+  background-color: hsl(0, 0%, 82%);
+  border-color: hsl(0, 0%, 74%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default[disabled]:focus {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-default:focus {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled.focus {
+  opacity: 0.65;
+  background-color: hsl(0, 0%, 82%);
+  border-color: hsl(0, 0%, 74%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default[disabled].focus {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] fieldset[disabled] .btn-default.focus {
+  opacity: 0.65;
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled:active {
+  background-color: hsl(0, 0%, 82%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled.active {
+  background-color: hsl(0, 0%, 82%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default.disabled {
+  opacity: 0.65;
+  background-color: hsl(0, 0%, 82%);
+  background-image: none;
+  border-color: hsl(0, 0%, 74%);
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .btn-default:hover {
+  box-shadow: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 82%);
+  border-color: hsl(0, 0%, 74%);
+  background-position: 0 -15px;
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 94%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 94%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 94%) 0%, hsl(0, 0%, 94%) 100%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-default:focus {
+  box-shadow: none;
+  background-image: none;
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 82%);
+  border-color: hsl(0, 0%, 74%);
+  background-position: 0 -15px;
+}
+html[data-sct-theme="sitecore104"] .btn-default:active {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 82%);
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: none;
+  border-color: hsl(0, 0%, 74%);
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-default.active {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 82%);
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: none;
+  border-color: hsl(0, 0%, 74%);
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 69%);
+  background-repeat: repeat-x;
+}
+html[data-sct-theme="sitecore104"] .btn-default.up {
+  background-image: -webkit-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: -o-linear-gradient(top, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-image: linear-gradient(to bottom, hsl(0, 0%, 85%) 0%, hsl(0, 0%, 85%) 100%);
+  background-repeat: repeat-x;
+  box-shadow: inset 0 3px 3px hsl(0, 0%, 79%);
+  border-color: hsl(0, 0%, 74%);
+}
+html[data-sct-theme="sitecore104"] .sc-globalHeader {
+  border-bottom: unset;
+  box-shadow: unset;
+  color: hsl(0, 0%, 100%);
+  border-color: hsl(0, 0%, 17%);
+  background-color: hsl(0, 0%, 17%);
+}
+html[data-sct-theme="sitecore104"] .sc-globalheader-appName {
+  color: hsl(0, 0%, 80%);
+  font-weight: normal;
+  margin-left: 15px;
+}
+html[data-sct-theme="sitecore104"] .sc-applicationHeader {
+  background-color: hsl(3, 76%, 45%);
+}
+html[data-sct-theme="sitecore104"] .sc-applicationHeader .sc-applicationHeader-title {
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc-applicationHeader-row1 {
+  border-bottom: unset;
+  background-color: hsl(3, 76%, 45%);
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Layouts/breadcrumb_red_bg.png");
+  background-repeat: no-repeat;
+}
+html[data-sct-theme="sitecore104"] .sc-applicationHeader-row1:after {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Layouts/logo_spiral.png") center right;
+  background-repeat: no-repeat;
+}
+html[data-sct-theme="sitecore104"] .sc-applicationHeader-row2 {
+  background-color: hsl(0, 0%, 100%);
+  border-bottom: 1px solid hsl(0, 0%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-applicationContent-navigation {
+  background-color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc-dialogHeader {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 0%, 17%);
+}
+html[data-sct-theme="sitecore104"] .sc-dialogFooter {
+  background-color: hsl(0, 0%, 89%);
+  border: 1px solid hsl(0, 0%, 80%);
+  border-left: 0;
+  border-right: 0;
+}
+html[data-sct-theme="sitecore104"] .sc-dialogContent-title {
+  border-bottom: unset;
+  border-top: unset;
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(3, 76%, 49%);
+}
+html[data-sct-theme="sitecore104"] .sc-dialogContent-toolbar {
+  background-color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc-dialogContent-navigation {
+  border-top: unset;
+  border-color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc-navigation-menu {
+  border-right: unset;
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li {
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li a.logout {
+  color: hsl(0, 0%, 59%);
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li:after {
+  padding-left: 15px;
+  padding-right: 13px;
+}
+html[data-sct-theme="sitecore104"] ul.sc-accountInformation li:last-child:after {
+  padding-left: 15px;
+  padding-right: 0;
+}
+html[data-sct-theme="sitecore104"] .sc-actionpanel .sc-foldout {
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .sc-actionpanel .sc-foldout .sc-actionControl-foldout-grid {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-actionpanel .sc-foldout .sc-foldout-content {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-dropdownbutton .sc-dropdownbutton-contentpanel {
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:before {
+  width: 19px;
+  height: 36px;
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/BackButton/back_button.png") no-repeat;
+  background-position: 0 0;
+  top: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:after {
+  width: 7px;
+  height: 36px;
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/BackButton/back_button.png") no-repeat;
+  background-position: -19px 0;
+  display: block;
+  content: "";
+  position: absolute;
+  right: 5px;
+  top: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn .sc-backbutton-text {
+  color: unset;
+  font-size: unset;
+  font-weight: unset;
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/BackButton/back_button.png") repeat-x;
+  background-position: 0 -36px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.disabled {
+  color: hsl(0, 0%, 100%);
+  background-image: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn[disabled] {
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.disabled .sc-backbutton-text {
+  text-decoration: unset;
+  background-position: 0 -108px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn[disabled] .sc-backbutton-text {
+  text-decoration: unset;
+  background-position: 0 -108px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.disabled:before {
+  background-position: 0 -72px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn[disabled]:before {
+  background-position: 0 -72px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.disabled:after {
+  background-position: -19px -72px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn[disabled]:after {
+  background-position: -19px -72px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:focus {
+  background-image: none;
+  background-position: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:focus .sc-backbutton-text {
+  background-position: 0 -36px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:focus:before {
+  background-position: 0 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:focus:after {
+  background-position: -19px 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover {
+  background-image: none;
+  background-position: 0;
+  border-color: none;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover .sc-backbutton-text {
+  background-position: 0 -180px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover:before {
+  background-position: 0 -144px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:hover:after {
+  background-position: -19px -144px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active {
+  background-image: none;
+  background-position: 0;
+  border-color: none;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.active {
+  background-image: none;
+  background-position: 0;
+  border-color: none;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active .sc-backbutton-text {
+  background-position: 0 -252px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.active .sc-backbutton-text {
+  background-position: 0 -252px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active:before {
+  background-position: 0 -216px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.active:before {
+  background-position: 0 -216px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn:active:after {
+  background-position: -19px -216px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-backbutton.btn.active:after {
+  background-position: -19px -216px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-contextswitcher .sc-contextswitcher-panel {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-contextswitcher .sc-contextswitcher-panel button.selected {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .select2-container--open .select2-dropdown {
+  border: 1px solid #66afe9;
+  border-radius: 2px;
+}
+html[data-sct-theme="sitecore104"] .select2-container--open .select2-dropdown--above {
+  -webkit-box-shadow: 0 -4px 5px rgba(102, 175, 233, 0.15);
+  box-shadow: 0 -4px 5px rgba(102, 175, 233, 0.15);
+}
+html[data-sct-theme="sitecore104"] .select2-container--open .select2-dropdown--below {
+  -webkit-box-shadow: 0 4px 5px rgba(102, 175, 233, 0.15);
+  box-shadow: 0 4px 5px rgba(102, 175, 233, 0.15);
+}
+html[data-sct-theme="sitecore104"] .select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background: #1d7ecc;
+  color: #fff;
+}
+html[data-sct-theme="sitecore104"] .select2-container--default.select2-container--open .select2-selection {
+  border: 1px solid #66afe9;
+  -webkit-box-shadow: 0 0 5px rgba(102, 175, 233, 0.3);
+  box-shadow: 0 0 5px rgba(102, 175, 233, 0.3);
+}
+html[data-sct-theme="sitecore104"] .sc .ui-widget-content.sc-datepicker-dropdown .ui-datepicker-calendar td.ui-datepicker-current-day a.ui-state-active {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-global-logo {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo.png");
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-global-logo:hover {
+  background-position: left bottom;
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander.open .sc-advancedExpander-header {
+  border-left: 5px solid hsl(3, 76%, 49%);
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander.open .sc-advancedExpander-header > table {
+  color: unset;
+  background: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander {
+  box-shadow: unset;
+  border: none;
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander .sc-advancedExpander-header {
+  border-left: 5px solid hsl(0, 0%, 59%);
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander .sc-advancedExpander-header > table {
+  background: hsl(0, 0%, 59%);
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander .sc-advancedExpander-header > table .sc-advancedExpander-header-title {
+  padding-left: 10px;
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander .sc-advancedExpander-header > table .sc-advancedExpander-header-title-text {
+  padding: unset;
+  padding-right: 15px;
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander .sc-advancedExpander-header > table .sc-advancedExpander-header-cell {
+  padding-left: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander .sc-advancedExpander-header a span.sc-advancedExpander-header-chevron-glyph {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/white/navigate_down.png");
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander .sc-advancedExpander-header a span.sc-advancedExpander-header-chevron-glyph.sc-advancedExpander2-header-chevron-glyph-open {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/white/navigate_up.png");
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander .sc-advancedExpander-body {
+  border-top: unset;
+  border-left: 1px solid hsl(0, 0%, 80%);
+  border-right: 1px solid hsl(0, 0%, 80%);
+  border-bottom: 1px solid hsl(0, 0%, 80%);
+  padding: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs {
+  border-bottom: 2px solid hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li > a {
+  color: hsl(0, 0%, 28%);
+  background-color: hsl(0, 0%, 100%);
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li > a:hover {
+  background-color: hsl(0, 0%, 89%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li.active.first-visible-nav-tab a {
+  border-left: 1px solid hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li.active.last-visible-nav-tab a {
+  border-right: 1px solid hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li.active > a {
+  font-weight: unset;
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 0%, 28%);
+  border: 1px solid hsl(0, 0%, 28%);
+  border-left: 0;
+  border-right: 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol > .nav-tabs > li.active > a:hover {
+  background-color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li a {
+  border: unset;
+  background-color: transparent;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li.first-visible-nav-tab a {
+  border-left: 1px solid hsl(0, 0%, 80%) !important;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li.last-visible-nav-tab a {
+  border-right: 1px solid hsl(0, 0%, 80%) !important;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li > a {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-tabcontrol.progressive > .nav-tabs > li.active > a:before {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/TabControl/arrow_white_whitetoblack.png");
+}
+html[data-sct-theme="sitecore104"] .modal.fade.in {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-dialogWindow-body.modal-body .sc-dialogWindow-body-container {
+  padding: 15px;
+}
+html[data-sct-theme="sitecore104"] .sc-dialogWindow-header {
+  font-weight: unset;
+  padding: 15px;
+  color: hsl(0, 0%, 100%);
+  background: hsl(0, 0%, 17%);
+}
+html[data-sct-theme="sitecore104"] .sc-dialogWindow-buttons {
+  background-color: hsl(0, 0%, 94%);
+  border-top: 1px solid hsl(0, 0%, 89%);
+  padding: 10px 15px;
+  height: 56px;
+}
+html[data-sct-theme="sitecore104"] a.sc-dialogWindow-close {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/DialogWindow/close_button_sprite.png") no-repeat 0 0;
+  right: 15px;
+}
+html[data-sct-theme="sitecore104"] a.sc-dialogWindow-close:hover {
+  background-position: 0 -16px;
+}
+html[data-sct-theme="sitecore104"] a.sc-dialogWindow-close:before {
+  right: 31px;
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol .sc-table tbody tr td {
+  border-radius: 0;
+  padding: 14px 15px;
+  border: 1px solid hsl(0, 0%, 84%);
+  color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol .sc-table thead td {
+  border-radius: 0;
+  padding: 14px 15px;
+  border: 1px solid hsl(0, 0%, 84%);
+  color: hsl(0, 0%, 28%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol .sc-table tbody tr th {
+  border-radius: 0;
+  padding: 15px;
+  border: 0;
+  background: hsl(0, 0%, 59%);
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol .sc-table thead th {
+  border-radius: 0;
+  padding: 15px;
+  border: 0;
+  background: hsl(0, 0%, 59%);
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol .table > tbody > tr.active > td {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol .table > tbody > tr.checked > td {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol .sc-listcontrol-body .table tr:nth-child(even) {
+  background: hsl(0, 0%, 97%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol .sc-listcontrol-body .sc-table tr:nth-child(even) {
+  background: hsl(0, 0%, 97%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol .sc-listcontrol-body .table tr td {
+  color: hsl(0, 0%, 17%);
+}
+html[data-sct-theme="sitecore104"] .sc-listcontrol .sc-listcontrol-body .sc-table tr td {
+  color: hsl(0, 0%, 17%);
+}
+html[data-sct-theme="sitecore104"] .sc-iconList-wrap:active {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-iconList-wrap.active {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-iconList-wrap:active .sc-iconList-item {
+  border: 1px hsl(197, 67%, 80%) solid;
+}
+html[data-sct-theme="sitecore104"] .sc-iconList-wrap.active .sc-iconList-item {
+  border: 1px hsl(197, 67%, 80%) solid;
+}
+html[data-sct-theme="sitecore104"] .sc-tileList-item-container:active {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-tileList-item-container.active {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-advancedExpander-bodywrapper > .sc-listcontrol .sc-table:first-of-type {
+  border-style: hidden;
+}
+html[data-sct-theme="sitecore104"] .sc span.dynatree-active a {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc span.dynatree-active a:hover {
+  background: hsl(197, 67%, 80%);
+}
+html[data-sct-theme="sitecore104"] .sc-breadcrumb > ul > li {
+  color: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-breadcrumb > ul > li:after {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/white/separator.png");
+  background-repeat: no-repeat;
+}
+html[data-sct-theme="sitecore104"] .sc-breadcrumb > ul > li:last-child:after {
+  background: none;
+}
+html[data-sct-theme="sitecore104"] .sc-breadcrumb > ul > li a {
+  color: hsl(3, 76%, 91%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot {
+  background: hsl(0, 0%, 28%);
+  border: solid hsl(0, 0%, 28%);
+  border-width: 0 1px 0 0;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Menu/menu_toplevel.png");
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.highlighted {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Menu/menu_highlighted.png");
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.rootItem.selected {
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Menu/menu_highlighted.png");
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.rootItem a {
+  border-bottom: unset;
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .header.menuItem a {
+  color: hsl(0, 0%, 100%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .menuicon {
+  display: unset;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .arrowcontainer img {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .arrowcontainer.open img {
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .toplevelcontainer {
+  border-bottom: unset;
+  padding-top: 10px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .itemRow.selected {
+  background-color: hsl(3, 76%, 49%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .itemRow.highlighted {
+  background-color: hsl(3, 76%, 49%);
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .itemRow.menuItem a {
+  font-weight: unset;
+  color: hsl(0, 0%, 100%);
+  font-size: 1em;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .depth3 .leftcolumn {
+  width: 60px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .depth4 .leftcolumn {
+  width: 92px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .depth5 .leftcolumn {
+  width: 124px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .rcpad {
+  padding-left: 24px;
+}
+html[data-sct-theme="sitecore104"] .sc .sc-menu .menuroot .rcpad.noChildren {
+  padding-left: 15px;
+}
+
+/* ---- sitecore/shell/client/Sitecore/ExperienceEditor/Ribbon.css ---- */
+html[data-sct-theme="sitecore104"] .scChromeName {
+  border-radius: unset;
+  background-color: #474747;
+  background: #474747;
+}
+html[data-sct-theme="sitecore104"] span.scChromeText {
+  color: rgb(255, 255, 255) !important;
+}
+html[data-sct-theme="sitecore104"] .scChromeToolbar {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.175);
+}
+html[data-sct-theme="sitecore104"] .scChromeControls {
+  border-radius: unset;
+  border: solid 1px #ccc;
+}
+html[data-sct-theme="sitecore104"] .scChromeDropDown {
+  border-radius: unset;
+  border: solid 1px #ccc;
+}
+
+/* ---- sitecore/shell/client/Applications/FormsBuilder/Layouts/Renderings/FormDesignBoard/FormDesignBoard.css ---- */
+html[data-sct-theme="sitecore104"] .sc-formdesign-fieldcontainer.selected:focus {
+  border: 1px solid #3faed9;
+}
+html[data-sct-theme="sitecore104"] .sc-formdesign-fieldcontainer.selected {
+  background-color: #aadbee;
+}
+html[data-sct-theme="sitecore104"] .sc-formdesign-fieldcontainer.selected:hover {
+  background-color: #aadbee;
+}
+html[data-sct-theme="sitecore104"] .sc-formdesign-fieldcontainer.has-drop-area.selected:hover {
+  background-color: #aadbee;
+}
+
+/* ---- sitecore/shell/client/Sitecore/ExperienceEditor/PageEditbar/PageEditBar.css ---- */
+html[data-sct-theme="sitecore104"] .sprite-speak-ribbon-clean-ee.small.navigate_up {
+  background-position: unset !important;
+  background: unset;
+  background-image: unset;
+}
+html[data-sct-theme="sitecore104"] .sprite-speak-ribbon-clean-ee.small.navigate_down {
+  background-position: unset !important;
+  background: unset;
+  background-image: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-ribbon {
+  background-color: #fafafa;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+}
+html[data-sct-theme="sitecore104"] .sc-ribbon .sc-strip {
+  padding: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-ribbon .sc-chunk {
+  padding: 1em .5em .25em;
+}
+html[data-sct-theme="sitecore104"] .sc-ribbon .pressed {
+  background-color: rgb(208, 235, 246);
+}
+html[data-sct-theme="sitecore104"] .sc-ribbon .sc-chunk-panel {
+  border-radius: unset;
+}
+
+/* ---- sitecore/shell/client/Sitecore/Speak/Ribbon/Controls/QuickBar/QuickBar.css ---- */
+html[data-sct-theme="sitecore104"] .sc-quickbar {
+  background-color: #474747;
+  background: #474747;
+}
+html[data-sct-theme="sitecore104"] .sc-quickbar-item {
+  color: rgb(255, 255, 255);
+}
+html[data-sct-theme="sitecore104"] .sc-quickbar-tab.sc-quickbar-tab-selected {
+  border-radius: unset;
+  background-color: #fafafa;
+  color: #2B2B2B;
+}
+
+/* ---- sitecore/shell/client/Sitecore/Speak/Ribbon/Controls/SelectOptionItem/SelectOptionsItem.css ---- */
+html[data-sct-theme="sitecore104"] .sc-insertItem-container.selected {
+  background-color: #D5EFFC;
+  border-color: #99DEFD;
+}
+html[data-sct-theme="sitecore104"] .sc-insertItem-container.hover {
+  background-color: #E8F5FD;
+  border-color: #D8F0FA;
+}
+
+/* ---- sitecore/shell/Applications/Page Modes/Output/1729761776899644558.css ---- */
+html[data-sct-theme="sitecore104"] .sc-ribbon {
+  background-color: #fafafa;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+}
+html[data-sct-theme="sitecore104"] .sc-ribbon .sc-strip {
+  padding: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-ribbon .sc-chunk {
+  padding: 1em .5em .25em;
+}
+html[data-sct-theme="sitecore104"] .sc-ribbon .pressed {
+  background-color: rgb(208, 235, 246);
+}
+html[data-sct-theme="sitecore104"] .sc-ribbon .sc-chunk-panel {
+  border-radius: unset;
+}
+html[data-sct-theme="sitecore104"] .sc-quickbar {
+  background-color: #474747;
+  background: #474747;
+}
+html[data-sct-theme="sitecore104"] .sc-quickbar-item {
+  color: rgb(255, 255, 255);
+}
+html[data-sct-theme="sitecore104"] .sc-quickbar-tab.sc-quickbar-tab-selected {
+  border-radius: unset;
+  background-color: #fafafa;
+  color: #2B2B2B;
+}
+html[data-sct-theme="sitecore104"] .sprite-speak-ribbon-clean-ee.small.navigate_down {
+  background: url('/sitecore/shell/client/Sitecore/Speak/Ribbon/Assets/Sprites/Ribbon/sprite-speak-ribbon-clean-ee.png') no-repeat top left;
+  background-position: 0px -442px !important;
+}
+html[data-sct-theme="sitecore104"] .sprite-speak-ribbon-clean-ee.small.navigate_up {
+  background: url('/sitecore/shell/client/Sitecore/Speak/Ribbon/Assets/Sprites/Ribbon/sprite-speak-ribbon-clean-ee.png') no-repeat top left;
+  background-position: 0px -468px !important;
+}

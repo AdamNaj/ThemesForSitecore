@@ -1,0 +1,18 @@
+/* Hand-tuned area map for the login area. Loaded after login.gen.css, so these win. */
+
+html[data-sct-tokens][data-sct-surface="login"] {
+  scrollbar-color: var(--sct-scrollbar-thumb) var(--sct-scrollbar-track);
+}
+
+html[data-sct-tokens][data-sct-surface="login"] body {
+  background-color: var(--sct-app-bg);
+  color: var(--sct-app-fg);
+}
+
+html[data-sct-tokens][data-sct-surface="login"] input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+html[data-sct-tokens][data-sct-surface="login"] textarea,
+html[data-sct-tokens][data-sct-surface="login"] select {
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  border-color: var(--sct-input-border);
+}

@@ -1,0 +1,198 @@
+/* Dessau: SPEAK pages (Control Panel, the Experience Editor's ribbon and other SPEAK apps). The base
+   colour, black rules between regions, uppercase tracked headings; the Experience Editor's tabs are the
+   Content Editor's cells, the open one blue. */
+
+/* :not(#sct-ds) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="dessau"][data-sct-surface="speak"]:not(#sct-ds) {
+  /* ---- Global header: the base, ruled off in black ---- */
+  .sc-globalHeader {
+    border-bottom: 4px solid var(--ds-black);
+    box-shadow: none;
+    background: var(--ds-base) !important;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a),
+  .sc-globalHeader .sc-globalheader-appName {
+    color: var(--ds-black);
+  }
+  .sc-globalHeader .sc-globalheader-appName {
+    font-family: var(--ds-head);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ---- Application header: the title large, uppercase, after a red square. 10.4 paints a red banner
+     image here. ---- */
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1,
+  .sc-applicationHeader-row2 {
+    box-shadow: none;
+    background: var(--ds-base) !important;
+  }
+  .sc-applicationHeader-row1 {
+    border-bottom: 4px solid var(--ds-black);
+  }
+  .sc-applicationHeader-row1::after {
+    content: none;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--ds-black);
+    font-family: var(--ds-head);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .sc-backbutton,
+  .sc-backbutton-text {
+    color: var(--ds-black);
+    font-family: var(--ds-head);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .sc-applicationContent,
+  .sc-applicationContent-main {
+    background: transparent;
+  }
+
+  /* ---- Control Panel: each box framed in black, its heading on a colour block cycling red, yellow,
+     blue ---- */
+  .sc-controlpanel-box {
+    padding: 0 0 10px;
+    border: 4px solid var(--ds-black);
+    border-radius: 0;
+    background: var(--ds-base);
+    box-shadow: none;
+  }
+  .sc-controlpanel-box-header {
+    margin-bottom: 6px;
+    padding: 4px 12px;
+    border-bottom: 4px solid var(--ds-black);
+    background: var(--ds-red);
+  }
+  :nth-child(3n+2 of .sc-controlpanel-box) > .sc-controlpanel-box-header {
+    background: var(--ds-yellow);
+  }
+  :nth-child(3n+3 of .sc-controlpanel-box) > .sc-controlpanel-box-header {
+    background: var(--ds-blue);
+  }
+  .sc-controlpanel-box-header h4 {
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--ds-head);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  :nth-child(3n+2 of .sc-controlpanel-box) > .sc-controlpanel-box-header h4 {
+    color: var(--ds-black);
+  }
+  /* the heading's colour icon on a square of the base, clear of the colour band */
+  .sc-controlpanel-box-header h4 img {
+    padding: 2px;
+    border: 2px solid var(--ds-black);
+    background: var(--ds-base);
+  }
+  .sc-controlpanel-box-content {
+    padding: 0 12px;
+  }
+  .sc-controlpanel-box-content li {
+    border-color: var(--sct-border);
+  }
+  .sc-controlpanel-box-content a:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    text-decoration: none;
+  }
+
+  /* ---- Push buttons ---- */
+  .btn.sc-button {
+    border: 2px solid var(--ds-black);
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--ds-head);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+/* ---- Experience Editor ribbon ---- */
+html[data-sct-theme="dessau"][data-sct-surface="speak"]:not(#sct-ds) .sc-pageeditbar {
+  .sc-quickbar {
+    border: 0;
+    border-bottom: 4px solid var(--ds-black);
+    background: var(--ds-base);
+  }
+  /* the quick bar is 39px of floats: tabs are cells 26px tall, dropped to stand on its bottom */
+  .sc-quickbar-tab {
+    box-sizing: border-box;
+    height: 26px;
+    margin: 13px 0 0;
+    padding: 0 14px;
+    line-height: 26px;
+    border: 0;
+    border-right: 2px solid var(--ds-black);
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    color: var(--ds-black);
+    font-family: var(--ds-head);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:hover {
+    background: var(--sct-ribbon-button-hover-bg);
+    color: var(--ds-black);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected {
+    background: var(--ds-blue);
+    color: #ffffff;
+    font-weight: 700;
+  }
+  .sc-quickbar-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 2px solid var(--ds-red);
+    outline-offset: -2px;
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    border-color: transparent;
+    background: transparent;
+  }
+  .sc-quickbar-button:not(.disabled):hover {
+    background: var(--sct-ribbon-button-hover-bg);
+  }
+
+  .sc-ribbon {
+    border-top: 0;
+    border-bottom: 4px solid var(--ds-black);
+    background: var(--ds-base);
+  }
+  .sc-ribbon .sc-chunk::after {
+    width: 2px;
+    background: var(--ds-black);
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--ds-black);
+    font-family: var(--ds-head);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small) {
+    border-radius: 0;
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--sct-ribbon-button-hover-bg);
+  }
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: var(--ds-yellow);
+  }
+}

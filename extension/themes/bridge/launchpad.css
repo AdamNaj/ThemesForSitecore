@@ -1,0 +1,244 @@
+/* Bridge: Launchpad as a row of station panels. Each group is a black panel inside a coloured elbow (a bar
+   along the top that turns down the left side), its name cut into the bar; its applications are pill
+   buttons in the elbow's colour with black capitals. The colours cycle peach, lilac, periwinkle, sand. */
+
+html[data-sct-theme="bridge"][data-sct-surface="launchpad"] .sc-globalHeader ul.sc-accountInformation li a.logout {
+  color: color-mix(in srgb, var(--sct-titlebar-fg) 80%, var(--sct-titlebar-bg));
+}
+html[data-sct-theme="bridge"][data-sct-surface="launchpad"] .sc-globalHeader ul.sc-accountInformation li a.logout:hover {
+  color: var(--sct-titlebar-fg);
+}
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
+   text colour instead (as the shared shell map does on shell pages). */
+html[data-sct-theme="bridge"][data-sct-surface="launchpad"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: var(--sct-titlebar-fg);
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}
+
+html[data-sct-theme="bridge"][data-sct-surface="launchpad"]:not(#sct-br) {
+  /* the app's title row: condensed capitals in peach */
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--bridge-peach);
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* 10.5 sets the column out as a grid (groups beside Custom Analytics); the panels take the full width */
+  .sc-applicationContent-main .col-md-12 {
+    display: block;
+  }
+  .sc-launchpad {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 34px 28px;
+    float: none;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 26px 0 10px;
+  }
+  .sc-launchpad-group {
+    --bridge-c: var(--bridge-peach);
+    --bridge-c-hover: #ffb38c;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 6px;
+    box-sizing: border-box;
+    width: 560px;
+    max-width: 100%;
+    min-height: 120px;
+    margin: 0;
+    padding: 26px 14px 14px 16px;
+    border: 0;
+    border-top: 12px solid var(--bridge-c);
+    border-left: 30px solid var(--bridge-c);
+    border-radius: var(--bridge-elbow) 0 0 0;
+    background: #000;
+    float: none;
+  }
+  /* the elbow's inner curve */
+  .sc-launchpad-group::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background: radial-gradient(circle at 100% 100%, transparent 21.5px, var(--bridge-c) 22px);
+    pointer-events: none;
+  }
+  /* the bar ends in a rounded cap on the right */
+  .sc-launchpad-group::after {
+    content: "";
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 12px;
+    height: 12px;
+    border-radius: 0 6px 6px 0;
+    background: var(--bridge-c);
+  }
+  .sc-launchpad-group:nth-child(4n + 2) {
+    --bridge-c: var(--bridge-lilac);
+    --bridge-c-hover: #ddb8dd;
+  }
+  .sc-launchpad-group:nth-child(4n + 3) {
+    --bridge-c: var(--bridge-peri);
+    --bridge-c-hover: #b8b8ff;
+  }
+  .sc-launchpad-group:nth-child(4n + 4) {
+    --bridge-c: var(--bridge-sand);
+    --bridge-c-hover: #ffdcb8;
+  }
+  /* the group's name cut into the top bar, a black plate over it */
+  .sc-launchpad-group-title {
+    position: absolute;
+    top: -12px;
+    left: 18px;
+    width: auto;
+    height: 22px;
+    margin: -5px 0 0;
+    padding: 0 8px;
+    border: 0;
+    background: #000;
+    color: var(--bridge-c);
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* applications: pills in the panel's colour, the glyph black beside the name */
+  .sc-launchpad-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    width: auto;
+    min-width: 160px;
+    height: 34px;
+    margin: 0;
+    padding: 0 18px 0 8px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--bridge-c);
+    box-shadow: none;
+    color: #000;
+    text-decoration: none;
+  }
+  .sc-launchpad-item:is(:hover, :focus) {
+    background: var(--bridge-c-hover);
+    box-shadow: none;
+    text-decoration: none;
+  }
+  .sc-launchpad-item:active {
+    background: #fff;
+  }
+  .sc-launchpad-item:focus {
+    outline: none;
+  }
+  .sc-launchpad-item:focus-visible {
+    outline: 2px solid var(--bridge-sand);
+    outline-offset: 2px;
+  }
+  .sc-launchpad-item .icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .sc-launchpad-item .icon img {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    filter: brightness(0);
+  }
+  .sc-launchpad-item .sc-launchpad-text {
+    display: block;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: #000;
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 34px;
+    letter-spacing: 0.04em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ---- Custom Analytics: one more station panel, in periwinkle, its name cut into the bar */
+  .sc-applicationContent-main .row > div > .sc-text-title {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    float: none;
+    width: auto;
+    height: 22px;
+    margin: 30px 0 0 48px;
+    padding: 0 8px;
+    background: #000;
+    color: var(--bridge-peri);
+    font-family: var(--bridge-chrome-font);
+    font-stretch: condensed;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .sc-applicationContent-main .row > div > .sc-text-title ~ .sc-border {
+    box-sizing: border-box;
+    float: none;
+    width: 560px;
+    max-width: 100%;
+    height: auto;
+    margin-top: -17px;
+    padding: 16px 14px 14px 16px;
+    border: 0;
+    border-top: 12px solid var(--bridge-peri);
+    border-left: 30px solid var(--bridge-peri);
+    border-radius: var(--bridge-elbow) 0 0 0;
+    background: #000;
+  }
+  .sc-applicationContent-main .row > div > .sc-text-title ~ .sc-border :is(.row, .col-md-6, .sc-border) {
+    width: auto;
+    height: auto;
+    min-height: 0;
+    float: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sc-applicationContent-main .row > div > .sc-text-title ~ .sc-border .sc-text-title {
+    position: static;
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0;
+    color: var(--sct-panel-fg);
+  }
+}

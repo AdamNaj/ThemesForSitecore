@@ -1,0 +1,59 @@
+/* Graphite: login on the near-black layer with its dot grid and violet glow: a panel-layer card framed by
+   a hairline, 8px corners and no shadow, fields on the raised layer with the violet focus ring, and the
+   violet button. */
+html[data-sct-theme="graphite"][data-sct-surface="login"] body {
+  background:
+    radial-gradient(60% 45% at 50% 0%, rgba(124, 108, 255, 0.18), transparent 70%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1.5px) 0 0 / 24px 24px,
+    var(--sct-desktop-bg) fixed;
+  font-family: var(--sct-font-family);
+}
+html[data-sct-theme="graphite"][data-sct-surface="login"] .main-wrap {
+  background: transparent none;
+}
+html[data-sct-theme="graphite"][data-sct-surface="login"] .top,
+html[data-sct-theme="graphite"][data-sct-surface="login"] .top a,
+html[data-sct-theme="graphite"][data-sct-surface="login"] .top span {
+  background: transparent;
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="graphite"][data-sct-surface="login"] .main {
+  background: var(--sct-panel-bg);
+  border: 1px solid var(--gr-line-strong);
+  border-radius: 8px;
+  box-shadow: none;
+}
+html[data-sct-theme="graphite"][data-sct-surface="login"] .form-control {
+  border-radius: 6px;
+  border: 1px solid var(--sct-input-border);
+  background: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  box-shadow: none;
+}
+html[data-sct-theme="graphite"][data-sct-surface="login"] .form-control::placeholder {
+  color: var(--sct-muted-fg);
+}
+html[data-sct-theme="graphite"][data-sct-surface="login"] .form-control:focus {
+  outline: none;
+  border-color: var(--sct-input-focus-border);
+  box-shadow: var(--gr-ring);
+}
+html[data-sct-theme="graphite"][data-sct-surface="login"] .btn.btn-primary {
+  background: var(--sct-button-primary-bg);
+  border: 0;
+  border-radius: 6px;
+  box-shadow: none;
+  color: var(--sct-button-primary-fg);
+  font-weight: 500;
+  text-transform: none;
+}
+html[data-sct-theme="graphite"][data-sct-surface="login"] .btn.btn-primary:hover {
+  background: var(--sct-button-primary-hover-bg);
+}
+html[data-sct-theme="graphite"][data-sct-surface="login"] .btn.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1px var(--sct-focus-ring), var(--gr-ring);
+}
+html[data-sct-theme="graphite"][data-sct-surface="login"] input[type="checkbox"] {
+  accent-color: var(--sct-accent);
+}

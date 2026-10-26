@@ -1,0 +1,105 @@
+/* Bridge: a starship console. Black surfaces, coloured elbow frames and pills, condensed capitals on the
+   chrome. Its own visual language: no franchise names, logos, fonts or numbering.
+
+   Palette (all pairs below 4.5:1 were adjusted; ratios against black / on the colour with black text):
+     peach       #ff9966  10.0:1   window titles, start pill, ribbon elbow on the tree, primary buttons
+     lilac       #cc99cc   9.0:1   ribbon elbow, section headers, table headers, clock pill
+     periwinkle  #9999ff   8.4:1   window buttons, ribbon tabs, field frames, links
+     sand        #ffcc99  14.3:1   text on black, the open tab, the selected tree row
+     red         #cc6666   5.7:1   close and destructive
+   Type: Bahnschrift (Windows' variable DIN), condensed and uppercase on chrome; mixed case in fields
+   and the tree. Fallback "Arial Narrow", sans-serif. */
+html[data-sct-theme="bridge"] {
+  --sct-font-family: Bahnschrift, "Segoe UI", sans-serif;
+  --sct-font-size: 12px;
+  --sct-radius: 10px;
+
+  --sct-app-bg: #000000;
+  --sct-app-fg: #ffdcb8;
+  --sct-panel-bg: #000000;
+  --sct-panel-fg: #ffdcb8;
+  --sct-muted-fg: #c9a88a;
+  --sct-border: #3a3330;
+  --sct-border-strong: #6b5d55;
+  --sct-accent: #ff9966;
+  --sct-accent-fg: #000000;
+  --sct-link: #9999ff;
+  --sct-focus-ring: #9999ff;
+  --sct-raised-bg: #17130f;
+  --sct-chrome-bg: #000000;
+  --sct-chrome-fg: #ffcc99;
+  --sct-selected-bg: #45305a;
+
+  --sct-titlebar-bg: #000000;
+  --sct-titlebar-fg: #ff9966;
+  --sct-titlebar-inactive-bg: #000000;
+  --sct-titlebar-inactive-fg: #b08a70;
+  --sct-window-border: #000000;
+
+  --sct-ribbon-bg: #000000;
+  --sct-ribbon-fg: #ffcc99;
+  --sct-ribbon-tab-bg: #000000;
+  --sct-ribbon-tab-fg: #ffcc99;
+  --sct-ribbon-tab-active-bg: #ff9966;
+  --sct-ribbon-tab-active-fg: #000000;
+  --sct-ribbon-chunk-bg: #000000;
+  --sct-ribbon-chunk-caption-bg: #000000;
+  --sct-ribbon-chunk-caption-fg: #9999ff;
+  --sct-ribbon-button-hover-bg: #2e2620;
+  --sct-ribbon-button-pressed-bg: #45382e;
+
+  --sct-tree-bg: #000000;
+  --sct-tree-fg: #ffdcb8;
+  --sct-tree-hover-bg: #2a221c;
+  --sct-tree-selected-bg: #45305a;
+  --sct-tree-selected-fg: #ffeedd;
+  --sct-tree-selected-border: #cc99cc;
+
+  --sct-section-header-bg: #cc99cc;
+  --sct-section-header-fg: #000000;
+  --sct-section-body-bg: #000000;
+  --sct-field-label-fg: #ffcc99;
+
+  --sct-input-bg: #000000;
+  --sct-input-fg: #ffeedd;
+  --sct-input-border: #9999ff;
+  --sct-input-focus-border: #ff9966;
+
+  --sct-button-bg: #9999ff;
+  --sct-button-fg: #000000;
+  --sct-button-border: #9999ff;
+  --sct-button-hover-bg: #b8b8ff;
+  --sct-button-primary-bg: #ff9966;
+  --sct-button-primary-fg: #000000;
+  --sct-button-primary-hover-bg: #ffb38c;
+
+  --sct-table-header-bg: #cc99cc;
+  --sct-table-header-fg: #000000;
+  --sct-table-row-hover-bg: #2a221c;
+
+  --sct-scrollbar-thumb: #cc99cc;
+  --sct-scrollbar-track: #000000;
+
+  --sct-desktop-bg: #000000;
+  --sct-taskbar-bg: #000000;
+  --sct-taskbar-fg: #ffcc99;
+
+  --sct-glyph-filter: invert(1) hue-rotate(180deg);
+  --sct-editor-filter: invert(0.9) hue-rotate(180deg);
+  --sct-content-filter: brightness(0.8);
+
+  /* the theme's own: the condensed chrome face and the pill palette */
+  --bridge-chrome-font: Bahnschrift, "Arial Narrow", sans-serif;
+  --bridge-peach: #ff9966;
+  --bridge-lilac: #cc99cc;
+  --bridge-peri: #9999ff;
+  --bridge-sand: #ffcc99;
+  --bridge-red: #cc6666;
+  --bridge-elbow: 26px;
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience
+   Editor the document is the website, so it stays out of the ee area. */
+html[data-sct-theme="bridge"]:not([data-sct-surface="ee"]) {
+  color-scheme: dark;
+}

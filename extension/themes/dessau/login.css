@@ -1,0 +1,70 @@
+/* Dessau: the sign-in page as a poster. A blue disc and a red square behind a block framed in black;
+   labels uppercase and tracked, the button a red block. */
+html[data-sct-theme="dessau"][data-sct-surface="login"]:not(#sct-ds) {
+  & body {
+    background:
+      linear-gradient(var(--ds-black), var(--ds-black)) 0 0 / 56px 100% no-repeat,
+      linear-gradient(var(--ds-red), var(--ds-red)) 78% 18% / 140px 140px no-repeat,
+      linear-gradient(var(--ds-yellow), var(--ds-yellow)) 56px 88% / 30% 40px no-repeat,
+      radial-gradient(circle at 70% 70%, var(--ds-blue) 0 220px, transparent 221px),
+      var(--ds-base);
+    background-attachment: fixed;
+  }
+  .main-wrap {
+    background: transparent none;
+  }
+  .top,
+  .top :is(a, span) {
+    background: transparent;
+    color: var(--ds-black);
+  }
+  .main {
+    border: 4px solid var(--ds-black);
+    border-radius: 0;
+    background: var(--ds-base);
+    box-shadow: 12px 12px 0 var(--ds-black);
+    color: var(--ds-black);
+  }
+  :is(label, .login-label, h1, h2, h3, legend) {
+    color: var(--ds-black);
+    font-family: var(--ds-head);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .form-control {
+    border: 2px solid var(--ds-black);
+    border-radius: 0;
+    box-shadow: none;
+    background: #ffffff;
+    color: var(--ds-black);
+  }
+  .form-control:focus {
+    border-color: var(--ds-blue);
+    box-shadow: none;
+    outline: none;
+  }
+  .form-control::placeholder {
+    color: var(--sct-muted-fg);
+  }
+  .btn.btn-primary {
+    border: 2px solid var(--ds-black);
+    border-radius: 0;
+    background: var(--ds-red);
+    box-shadow: none;
+    color: #ffffff;
+    font-family: var(--ds-head);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .btn.btn-primary:is(:hover, :focus) {
+    background: var(--sct-button-primary-hover-bg);
+    color: #ffffff;
+  }
+  .logo-wrap img {
+    filter: brightness(0);
+  }
+  input[type="checkbox"] {
+    accent-color: var(--ds-blue);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Phosphor",
+  "description": "A green-screen terminal",
+  "category": "creative",
+  "order": 210,
+  "versions": ["10.4", "10.5"],
+  "preview": ["#031207", "#39ff6a", "#1f9a42"],
+  "swatch": { "desk": "#020a04", "deco": "scan", "barPos": "tmux", "bar": "#39ff6a", "start": "#1f9a42", "app": "#031207", "win": "#031207", "border": "#39ff6a", "cap": "#39ff6a", "btns": "right", "btn": "#031207", "ribbon": "#031207", "tab": "#39ff6a", "tree": "#031207", "ed": "#031207", "sec": "#0b3a17", "field": "#031207", "line": "#39ff6a", "sel": "#39ff6a", "fg": "#39ff6a", "double": 1 }
+}

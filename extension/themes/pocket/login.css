@@ -1,0 +1,72 @@
+/* Pocket: the sign-in page as the handheld's start screen. The light green screen, a framed panel with
+   stepped corners, labels in the dark shade, fields with a thick bottom edge, the button a dark block. */
+html[data-sct-theme="pocket"][data-sct-surface="login"]:not(#sct-pk) {
+  & body {
+    background: var(--pk-1);
+  }
+  .main-wrap {
+    background: transparent none;
+  }
+  .top,
+  .top :is(a, span) {
+    background: transparent;
+    color: var(--pk-3);
+  }
+  .main {
+    border: 4px solid var(--pk-3);
+    border-radius: 0;
+    background: var(--pk-0);
+    box-shadow: none;
+    color: var(--pk-3);
+    clip-path: var(--pk-step);
+  }
+  :is(h1, h2, h3, legend) {
+    color: var(--pk-3);
+    font-family: var(--pk-pixel);
+    text-transform: uppercase;
+  }
+  :is(label, .login-label) {
+    color: var(--pk-2);
+    text-transform: uppercase;
+  }
+  .form-control {
+    border: 2px solid var(--pk-3);
+    border-bottom-width: 4px;
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--pk-0);
+    color: var(--pk-3);
+  }
+  .form-control:focus {
+    border-color: var(--pk-3);
+    box-shadow: none;
+    outline: 2px dashed var(--pk-2);
+    outline-offset: 2px;
+  }
+  .form-control::placeholder {
+    color: var(--pk-2);
+  }
+  .btn.btn-primary {
+    border: 0;
+    border-radius: 0;
+    background: var(--pk-3);
+    box-shadow: none;
+    color: var(--pk-0);
+    font-family: var(--pk-pixel);
+    text-transform: uppercase;
+    clip-path: var(--pk-step2);
+  }
+  .btn.btn-primary::before {
+    content: "\25B6\00A0";
+  }
+  .btn.btn-primary:is(:hover, :focus) {
+    background: var(--pk-2);
+    color: var(--pk-0);
+  }
+  .logo-wrap img {
+    filter: brightness(0) invert(8%) sepia(30%) saturate(900%) hue-rotate(150deg);
+  }
+  input[type="checkbox"] {
+    accent-color: var(--pk-2);
+  }
+}

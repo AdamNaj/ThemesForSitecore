@@ -1,0 +1,199 @@
+/* Pocket: SPEAK pages (Control Panel, the Experience Editor's ribbon and other SPEAK apps). The header
+   is the darkest shade; pages the lightest; boxes framed with stepped corners; the Experience Editor's
+   tabs are the Content Editor's outlined tabs, the open one dark with the ▶ cursor. */
+
+/* :not(#sct-pk) matches every page; its id weight lets these rules beat Sitecore's own. */
+html[data-sct-theme="pocket"][data-sct-surface="speak"]:not(#sct-pk) {
+  /* ---- Colour icons as the screen shows them ---- */
+  img:is([src*="/iconcache/" i], [src*="/~/icon/" i], [src*="/-/icon/" i]) {
+    filter: var(--pk-icon);
+  }
+
+  /* ---- Global header: the darkest shade ---- */
+  .sc-globalHeader {
+    border-bottom: 4px solid var(--pk-2);
+    box-shadow: none;
+    background: var(--pk-3) !important;
+  }
+  .sc-globalHeader .sc-accountInformation :is(li, span, a),
+  .sc-globalHeader .sc-globalheader-appName {
+    color: var(--pk-0);
+  }
+  .sc-globalHeader .sc-globalheader-appName {
+    font-family: var(--pk-pixel);
+    text-transform: uppercase;
+  }
+
+  /* ---- Application header: the title in the pixel face. 10.4 paints a red banner image here. ---- */
+  .sc-applicationHeader,
+  .sc-applicationHeader-row1,
+  .sc-applicationHeader-row2 {
+    box-shadow: none;
+    background: var(--pk-0) !important;
+  }
+  .sc-applicationHeader-row1 {
+    border-bottom: 4px solid var(--pk-3);
+  }
+  .sc-applicationHeader-row1::after {
+    content: none;
+  }
+  .sc-applicationHeader-title,
+  .sc-applicationHeader-title .sc-text {
+    color: var(--pk-3);
+    font-family: var(--pk-pixel);
+    text-transform: uppercase;
+  }
+  .sc-backbutton,
+  .sc-backbutton-text {
+    color: var(--pk-3);
+    font-family: var(--pk-pixel);
+    text-transform: uppercase;
+  }
+  & body {
+    background: var(--pk-1);
+  }
+  .sc-applicationContent,
+  .sc-applicationContent-main {
+    background: transparent;
+  }
+
+  /* ---- Control Panel: each box framed with stepped corners, its heading a dark band ---- */
+  .sc-controlpanel-box {
+    padding: 0 0 10px;
+    border: 4px solid var(--pk-3);
+    border-radius: 0;
+    background: var(--pk-0);
+    box-shadow: none;
+    clip-path: var(--pk-step);
+  }
+  .sc-controlpanel-box-header {
+    margin-bottom: 6px;
+    padding: 6px 10px;
+    background: var(--pk-3);
+  }
+  .sc-controlpanel-box-header h4 {
+    margin: 0;
+    color: var(--pk-0);
+    font-family: var(--pk-pixel);
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+  .sc-controlpanel-box-content {
+    padding: 0 10px;
+  }
+  .sc-controlpanel-box-content li {
+    border-color: var(--pk-1);
+  }
+  .sc-controlpanel-box-content a {
+    color: var(--pk-3);
+  }
+  .sc-controlpanel-box-content a:hover {
+    background: var(--pk-3);
+    color: var(--pk-0);
+    text-decoration: none;
+  }
+
+  /* ---- Push buttons ---- */
+  .btn.sc-button {
+    border: 3px solid var(--pk-3);
+    border-radius: 0;
+    box-shadow: none;
+    font-family: var(--pk-pixel);
+    font-size: 10px;
+    text-transform: uppercase;
+    clip-path: var(--pk-step2);
+  }
+}
+
+/* ---- Experience Editor ribbon ---- */
+html[data-sct-theme="pocket"][data-sct-surface="speak"]:not(#sct-pk) .sc-pageeditbar {
+  .sc-quickbar {
+    border: 0;
+    background: var(--pk-0);
+  }
+  /* the quick bar is 39px of floats: tabs are 22px, dropped to stand on its bottom */
+  .sc-quickbar-tab {
+    box-sizing: border-box;
+    height: 22px;
+    margin: 17px 6px 0 0;
+    padding: 0 9px;
+    line-height: 20px;
+    border: 2px solid var(--pk-2);
+    border-bottom: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    color: var(--pk-3);
+    font-family: var(--pk-pixel);
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .sc-quickbar-tab:hover {
+    background: var(--pk-1);
+    color: var(--pk-3);
+    text-decoration: none;
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected {
+    background: var(--pk-2);
+    color: var(--pk-0);
+  }
+  .sc-quickbar-tab.sc-quickbar-tab-selected::before {
+    content: "\25B6\00A0";
+  }
+  .sc-quickbar-item:focus:not(:focus-visible) {
+    outline: none;
+  }
+  .sc-quickbar-item:focus-visible {
+    outline: 2px dashed var(--pk-3);
+    outline-offset: -4px;
+  }
+  .sc-quickbar-button,
+  [data-sc-id="QuickRibbon"].sc-quickbar-button {
+    border-color: transparent;
+    background: transparent;
+  }
+  .sc-quickbar-button:not(.disabled):hover {
+    background: var(--pk-1);
+  }
+
+  .sc-ribbon {
+    border-top: 4px solid var(--pk-2);
+    border-bottom: 4px solid var(--pk-3);
+    background: var(--pk-0);
+  }
+  .sc-ribbon .sc-chunk::after {
+    width: 2px;
+    background: var(--pk-1);
+  }
+  .sc-ribbon .sc-chunk-label {
+    color: var(--pk-2);
+    font-family: var(--pk-pixel);
+    font-size: 9px;
+    text-transform: uppercase;
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small) {
+    border-radius: 0;
+  }
+  .sc-ribbon :is(.sc-chunk-button, .sc-chunk-button-dropdown, .sc-chunk-gallerybutton, .sc-chunk-button-small, .sc-chunk-check-small):not(.disabled):hover {
+    background-color: var(--pk-1);
+  }
+  .sc-ribbon .pressed,
+  .sc-ribbon .pressed:hover {
+    background-color: var(--pk-1);
+    box-shadow: inset 0 0 0 2px var(--pk-3);
+  }
+}
+
+/* 10.5's Launchpad glyph in the global header is drawn dark for a white header; on this dark header it
+   takes the header's text colour (as the shared shell map does on shell pages). */
+html[data-sct-theme="pocket"][data-sct-surface="speak"][data-sct-version="10.5"] .sc-globalHeader .sc-global-logo {
+  color: #e0f8d0;
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/GlobalLogo/global_logo_v2.svg") center / cover no-repeat;
+}
+
+/* 10.4's logo in the global header is a red and grey tile image: tinted to the screen like the icons */
+html[data-sct-theme="pocket"][data-sct-surface="speak"][data-sct-version="10.4"] .sc-globalHeader .sc-global-logo {
+  filter: var(--pk-icon) brightness(1.8);
+}

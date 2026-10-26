@@ -1,0 +1,61 @@
+/* Copenhagen: login. Grey page, red menu band, square box, Tahoma. */
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] body {
+  background: #ececec none;
+  color: #333;
+  font: 8pt Tahoma, Verdana, sans-serif;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] .main-wrap {
+  background: transparent none;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] .top {
+  background: linear-gradient(#e33327, #b82b11);
+  border-bottom: 1px solid #a11f03;
+  color: #fff;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] .top a,
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] .top span {
+  color: #fff;
+  font-weight: bold;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] .main {
+  background: #ededed;
+  border: 1px solid #ccc;
+  border-bottom: 4px solid #bfbfbf;
+  border-radius: 0;
+  box-shadow: none;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] .login-page::before {
+  content: "Welcome to Sitecore";
+  display: block;
+  margin: 0 0 12px;
+  font: bold 24pt Tahoma, Verdana, sans-serif;
+  color: #333;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] label {
+  font: bold 8pt Tahoma, Verdana, sans-serif;
+  color: #333;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] .form-control {
+  background: #fff;
+  color: #000;
+  border: 1px solid #a5acb5;
+  border-radius: 0;
+  box-shadow: none;
+  font: bold 9pt Verdana, Tahoma, sans-serif;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] .btn.btn-primary {
+  background: linear-gradient(#f6f6f6, #dcdcdc);
+  border: 1px solid #707070;
+  border-radius: 3px;
+  color: #000;
+  font: 8pt Tahoma, Verdana, sans-serif;
+  text-transform: none;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] .btn.btn-primary:hover {
+  background: linear-gradient(#fffcd9, #ffd445 60%, #ffe695);
+  border-color: #c1a877;
+}
+html[data-sct-theme="sitecore6"][data-sct-surface="login"] .forgot-password {
+  color: #c73318;
+  font: bold 8pt Arial, sans-serif;
+}

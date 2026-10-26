@@ -1,0 +1,16 @@
+/* Los Gatos: Workbench's orange highlight. The Desktop lays its taskbar over the header's middle, so the
+   taskbar goes see-through (the header behind it is the same white) to let the postfix show. */
+html[data-sct-theme="losgatos"] sct-bar-postfix {
+  border-color: #ff8800;
+  border-radius: 0;
+  background: #ff8800;
+  color: #000;
+  font: bold 12px/16px "Cascadia Mono", Consolas, monospace;
+  letter-spacing: 0;
+}
+html[data-sct-theme="losgatos"][data-sct-surface="shell"] .sc-globalHeader sct-bar-postfix {
+  padding: 1px 8px;
+}
+html[data-sct-theme="losgatos"][data-sct-surface="shell"]:not(#sct-bar) body:has(sct-bar-postfix) :is(.scStartbar, #Startbar, #Startbar > table) {
+  background: transparent !important;
+}

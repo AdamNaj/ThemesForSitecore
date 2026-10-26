@@ -1,0 +1,8 @@
+{
+  "name": "Hometown",
+  "description": "A late-nineties personal homepage, stars, bevels and all",
+  "category": "creative",
+  "versions": ["10.4", "10.5"],
+  "preview": ["#c0c0c0", "#ffff00", "#000033"],
+  "swatch": { "desk": "#000033", "bar": "#c0c0c0", "barLine": "#ffffff", "start": "#c0c0c0", "app": "#dfdfdf", "win": "#c0c0c0", "border": "#ffffff", "cap": "#000080", "btns": "right", "btn": "#c0c0c0", "ribbon": "#c0c0c0", "tab": "#ffff00", "tree": "#c0c0c0", "ed": "#ffffff", "sec": "#ffff00", "field": "#ffffff", "line": "#808080", "sel": "#ffff99", "fg": "#000000" }
+}
