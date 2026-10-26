@@ -5,6 +5,8 @@
 //     the Content Editor and to the Media Library again (the pager at the foot of its tree);
 //   - after each switch, fails if a window has more than one entry, or an entry's window is gone;
 //   - closes the window and fails if its entry stays.
+//   - gives the first entry a title too long for any button and fails if the title runs past the button or is
+//     clipped without an ellipsis (bar.css; a button that grows to fit passes, a dock that hides titles is skipped).
 // engine.js (syncTaskbar) keeps the taskbar right under every theme; Native keeps Sitecore's behaviour, so
 // its counts are printed but not judged (they show the bug the check guards against).
 // usage: node .claude/skills/sct-verify/taskbar.cjs --themes debrightify,cupertino|all [--versions 10.5,10.4]
@@ -32,6 +34,33 @@ const entries = () => [...document.querySelectorAll('#StartbarApplications td[id
   const id = c.id.slice("startbar_application_".length);
   return { id, title: c.textContent.trim(), live: !!document.getElementById(id) };
 });
+
+// Runs in the Desktop: a long title on an entry, then what is wrong with how it ends (null when nothing is).
+const longTitle = (id) => {
+  const cell = document.getElementById("startbar_application_" + id);
+  const walk = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT);
+  let text;
+  while ((text = walk.nextNode()) && !text.nodeValue.trim());
+  if (!text) return null;
+  const old = text.nodeValue;
+  text.nodeValue = "A window title far too long for any taskbar button to show in full";
+  // the ellipsis belongs to the title's block container
+  let box = text.parentElement;
+  while (getComputedStyle(box).display.startsWith("inline") && box !== cell) box = box.parentElement;
+  const cs = getComputedStyle(box);
+  const hidden = cs.visibility === "hidden" || parseFloat(cs.fontSize) === 0 || /rgba\(.*, 0\)$|transparent/.test(cs.color);
+  const range = document.createRange();
+  range.selectNodeContents(text);
+  const textRight = range.getBoundingClientRect().right;
+  const visibleRight = Math.min(box.getBoundingClientRect().right, cell.getBoundingClientRect().right);
+  let problem = null;
+  if (!hidden && textRight > visibleRight + 1) {
+    if (box.scrollWidth <= box.clientWidth + 1 || cs.overflow === "visible") problem = "a long title runs past its button";
+    else if (cs.textOverflow !== "ellipsis") problem = "a long title is cut off without an ellipsis";
+  }
+  text.nodeValue = old;
+  return problem;
+};
 
 (async () => {
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), "sct-taskbar-profile-"));
@@ -85,6 +114,8 @@ const entries = () => [...document.querySelectorAll('#StartbarApplications td[id
         problems.push(`${label}: the Content Editor did not open as a Desktop window`);
         continue;
       }
+      const ending = judge && (await page.evaluate(longTitle, first[0].id));
+      if (ending) problems.push(`${label}: ${ending}`);
       for (const to of ["Media Library", "Workbox", "Content Editor", "Media Library"]) {
         let clicked = false;
         for (const f of page.frames()) {

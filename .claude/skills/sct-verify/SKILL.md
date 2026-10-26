@@ -81,7 +81,9 @@ a Desktop Content Editor to the Media Library, the Workbox and back, then closes
 orphaned entry. Current Chrome and Edge never fire `unload`, which Sitecore removes entries from, so the
 script blocks `unload` listeners; without that Playwright never shows the bug. Run it for every theme you
 touch, and with `--themes all` after any change to `engine.js` or a theme's `dom.js`. This bug has come back
-twice; the fix lives in `engine.js` (`syncTaskbar`), never in a theme.
+twice; the fix lives in `engine.js` (`syncTaskbar`), never in a theme. The same run gives the first entry a title
+too long for any button and fails when it runs past the button or is cut off without an ellipsis: text that
+cannot fit a control that cannot grow ends in "...", never mid-letter (`bar.css` does it for every theme).
 Menus only exist while open: `node .claude/skills/sct-verify/menus.cjs --themes <ids>` opens each kind
 (context menus, ribbon drop-downs, start menu and fly-outs, taskbar menus, galleries) and scans each. It prints `SCAN`
 lines and writes `scan-<themes>.json`. Fix each finding or say why it is fine (a disabled control, a colour icon on

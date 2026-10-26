@@ -20,7 +20,7 @@ clicking: drive them in Playwright or the user's Chrome.
 
 ## Desktop
 
-- [ ] Taskbar: start button, app buttons (active, inactive), tray search field, database label; no growth on CE mode switches
+- [ ] Taskbar: start button, app buttons (active, inactive), tray search field, database label; no growth on CE mode switches; a long title ends in an ellipsis on a button that cannot grow (`taskbar.cjs`)
 - [ ] Content Editor header with the Sitecore Extensions add-on: its "Search for fields" box shows the vector clear X (bar.css) centred at the field's right end, no bitmap or white frame
 - [ ] Taskbar or dock above every non-modal window, maximized or dragged over it; a dock narrower than the screen floats over the windows, which run on beneath it (`dock.cjs`)
 - [ ] Start menu: both columns, header with portrait, All Applications (in the right column's material), Log Off, open folder row, fly-outs; no jitter on hover; icons from the platform's era

@@ -122,3 +122,10 @@ html[data-sct-theme]:not(#sct-bar) .sc-ext-fieldSearchClear::after {
 :where(html[data-sct-version="10.5"][data-sct-surface="shell"]:not([data-sct-theme="sitecore105"])) .scEditorGrid .scEditorPanel {
   padding-left: 0;
 }
+
+/* A taskbar button that cannot grow to fit its window's title ends the title in an ellipsis. Sitecore lays the
+   title out as a table, which grows past the button and is cut off mid-letter; a flex row keeps the full-height
+   click area and the centring, and its title shrinks to the button. Just above Sitecore's own rules (injected CSS
+   comes before the page's, so a tie loses), below a theme's taskbar rules. */
+html[data-sct-theme] .scStartBarApplication { display: flex; align-items: center; }
+html[data-sct-theme] .scStartBarApplication span { display: block; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }

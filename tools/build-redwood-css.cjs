@@ -1094,26 +1094,25 @@ const shellHand = `${W("shell")} {
     border: 0;
     background: none;
   }
+  /* a block, not a flex column, so a long title ends in an ellipsis; the icon over it, both centred as before */
   .scStartBarApplication > span {
-    display: flex;
-    flex-direction: column;
-    align-items: safe center;
-    justify-content: center;
-    gap: 3px;
+    display: block;
     box-sizing: border-box;
     width: 63px;
     height: 63px;
-    padding: 4px 4px 2px;
+    padding: 9px 4px 0;
     overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
     color: #000;
     font: 9px / 11px ${FONT};
     white-space: nowrap;
   }
   .scStartBarApplication > span > img {
-    flex: none;
+    display: block;
     width: 32px;
     height: 32px;
-    margin: 0 !important;
+    margin: 0 auto 3px !important;
   }
 ${dockIcons}
 

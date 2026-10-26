@@ -177,6 +177,11 @@ Details, numbers and selectors are in [pitfalls.md](pitfalls.md).
 - **Bars fit their content.** A bar is as tall as what it holds plus equal padding above and below: the
   Content Editor's status bar and its pager pills, the bar over the fields (`#EditorTabs`, 56px stock) at the
   height of the tree's search row beside it, the fields starting at its foot.
+- **Text that cannot fit ends in an ellipsis.** A control of fixed or capped width that cannot grow (a taskbar
+  button, a tab, a caption) ends a long label in "...", never cut mid-letter. Sitecore lays a taskbar button's
+  title out as a table, which grows past the button; `bar.css` turns it into a flex row with an ellipsis under
+  every theme, so a theme that restyles `.scStartBarApplication` keeps its title a block with `min-width: 0;
+  overflow: hidden; text-overflow: ellipsis`. `sct-verify`'s `taskbar.cjs` checks it.
 - **A Recreation follows its source over the shared layer.** Where the platform did it differently, the
   source wins: Sitecore 6 and Aqua run section headers edge to edge (the token layer's 15px inset does not
   apply), Copenhagen's orb sits where 6.6 put it. Check against the source, not against the other themes.
