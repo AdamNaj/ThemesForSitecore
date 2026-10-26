@@ -608,9 +608,10 @@ ${P} .scTabstrip :is(.scTab, .scTab_Hover), ${P} .scTabstrip [class*="scTabActiv
 }
 ${P} .scTabstrip .scTab_Hover { box-shadow: inset 0 0 0 1px #6b6b6b; }
 ${P} .scTabstrip [class*="scTabActive"] { ${segOpen} position: relative; z-index: 1; }
-${P} .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):first-child { border-radius: 10px 0 0 10px; }
-${P} .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):last-child { border-radius: 0 10px 10px 0; }
-${P} .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):only-child { border-radius: 10px; }
+/* the segments' rounded ends: Sitecore wraps each tab in its own <nobr>, so the ends are the first and last <nobr>'s tabs */
+${P} .scTabstrip > nobr:first-of-type > :is(.scTab, .scTab_Hover, [class*="scTabActive"]) { border-radius: 10px 0 0 10px; }
+${P} .scTabstrip > nobr:last-of-type > :is(.scTab, .scTab_Hover, [class*="scTabActive"]) { border-radius: 0 10px 10px 0; }
+${P} .scTabstrip > nobr:only-of-type > :is(.scTab, .scTab_Hover, [class*="scTabActive"]) { border-radius: 10px; }
 /* focus: Aqua's blue glow, never Sitecore's black frame */
 ${X} .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus { outline: none; }
 ${X} .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus-visible { outline: 2px solid rgba(91, 153, 232, 0.8); outline-offset: 0; }
@@ -653,12 +654,12 @@ ${P} .standartWindowButtons { top: 0; height: 22px; left: 8px; right: auto; }
 /* An inactive window (dom.js marks its document from the taskbar): flat, pale metal, grey lights, grey title. */
 ${PI} .standardWindowCaption { background: ${CAP_IN}; }
 /* A standard window with a ribbon (the ISE, the Package Designer...): the bar runs on into the ribbon's metal
-   without a line, as on the Content Editor */
-${P} .standardWindowCaption:has(+ .windowPlaceholderContainer .scRibbon) { background: ${METAL("#e4e4e4", "#d4d4d4")}; border-bottom: 0; }
-${P} .standardWindowCaption:has(+ .windowPlaceholderContainer .scRibbon) + .windowPlaceholderContainer { top: 22px; }
-${PI} .standardWindowCaption:has(+ .windowPlaceholderContainer .scRibbon) { background: ${CAP_IN}; }
+   without a line, as on the Content Editor. The ribbon is in the window's iframe; dom.js marks that iframe. */
+${P} .standardWindowCaption:has(+ .windowPlaceholderContainer iframe[data-sct-ch-ribbon]) { background: ${METAL("#e4e4e4", "#d4d4d4")}; border-bottom: 0; }
+${P} .standardWindowCaption:has(+ .windowPlaceholderContainer iframe[data-sct-ch-ribbon]) + .windowPlaceholderContainer { top: 22px; }
+${PI} .standardWindowCaption:has(+ .windowPlaceholderContainer iframe[data-sct-ch-ribbon]) { background: ${CAP_IN}; }
 ${PI} .standardWindowCaption .scWindowCaption { color: #4d4d4d; }
-${PI} :is(.standartWindowButtons, .scSystemButtons) img:is([src*="_close"], [src*="minimize"], [src*="maximize"], [src*="restore"]) { background: ${GREY_LIGHT}; }
+${PI} :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img:is([src*="_close"], [src*="minimize"], [src*="maximize"], [src*="restore"]) { background: ${GREY_LIGHT}; }
 /* The Content Editor, Media Library and Workbox: Sitecore draws no caption over their windows. Aqua's metal title
    bar is drawn on the caption's empty top line from the window's title (engine.js --sct-window-title), centred,
    the lights moved onto it at the left, the ribbon's menu button below it. The bar runs on into the ribbon's
@@ -674,9 +675,11 @@ ${P}[data-sct-window-title] .scWorkboxWindowButtons { position: absolute; float:
    24px. */
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; height: 24px; margin-top: 22px; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
-/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
+/* 4px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 4px; }
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 4px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+${P}[data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
 ${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: ${CAP_IN}; }
 ${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { color: #4d4d4d; }
 

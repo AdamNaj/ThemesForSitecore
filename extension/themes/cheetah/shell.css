@@ -336,9 +336,10 @@ html[data-sct-theme="cheetah"][data-sct-surface="shell"] .scTabstrip :is(.scTab,
 }
 html[data-sct-theme="cheetah"][data-sct-surface="shell"] .scTabstrip .scTab_Hover { box-shadow: inset 0 0 0 1px #6b6b6b; }
 html[data-sct-theme="cheetah"][data-sct-surface="shell"] .scTabstrip [class*="scTabActive"] { background: linear-gradient(#d6ebff, #74b6ff 50%, #3d8fe8 50%, #a6d2ff); box-shadow: inset 0 0 0 1px #2a5fa8; position: relative; z-index: 1; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"] .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):first-child { border-radius: 10px 0 0 10px; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"] .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):last-child { border-radius: 0 10px 10px 0; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"] .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):only-child { border-radius: 10px; }
+/* the segments' rounded ends: Sitecore wraps each tab in its own <nobr>, so the ends are the first and last <nobr>'s tabs */
+html[data-sct-theme="cheetah"][data-sct-surface="shell"] .scTabstrip > nobr:first-of-type > :is(.scTab, .scTab_Hover, [class*="scTabActive"]) { border-radius: 10px 0 0 10px; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"] .scTabstrip > nobr:last-of-type > :is(.scTab, .scTab_Hover, [class*="scTabActive"]) { border-radius: 0 10px 10px 0; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"] .scTabstrip > nobr:only-of-type > :is(.scTab, .scTab_Hover, [class*="scTabActive"]) { border-radius: 10px; }
 /* focus: Aqua's blue glow, never Sitecore's black frame */
 html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus { outline: none; }
 html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .scTabstrip :is(.scTab, .scTab_Hover, [class*="scTabActive"]):focus-visible { outline: 2px solid rgba(91, 153, 232, 0.8); outline-offset: 0; }
@@ -389,12 +390,12 @@ html[data-sct-theme="cheetah"][data-sct-surface="shell"] .standartWindowButtons 
 /* An inactive window (dom.js marks its document from the taskbar): flat, pale metal, grey lights, grey title. */
 html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window="inactive"] .standardWindowCaption { background: linear-gradient(#f0f0f0, #dedede); }
 /* A standard window with a ribbon (the ISE, the Package Designer...): the bar runs on into the ribbon's metal
-   without a line, as on the Content Editor */
-html[data-sct-theme="cheetah"][data-sct-surface="shell"] .standardWindowCaption:has(+ .windowPlaceholderContainer .scRibbon) { background: url("sct-ext:themes/cheetah/glyphs/brushed-metal.png") 0 0 / 384px 128px repeat, linear-gradient(#e4e4e4, #d4d4d4); border-bottom: 0; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"] .standardWindowCaption:has(+ .windowPlaceholderContainer .scRibbon) + .windowPlaceholderContainer { top: 22px; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window="inactive"] .standardWindowCaption:has(+ .windowPlaceholderContainer .scRibbon) { background: linear-gradient(#f0f0f0, #dedede); }
+   without a line, as on the Content Editor. The ribbon is in the window's iframe; dom.js marks that iframe. */
+html[data-sct-theme="cheetah"][data-sct-surface="shell"] .standardWindowCaption:has(+ .windowPlaceholderContainer iframe[data-sct-ch-ribbon]) { background: url("sct-ext:themes/cheetah/glyphs/brushed-metal.png") 0 0 / 384px 128px repeat, linear-gradient(#e4e4e4, #d4d4d4); border-bottom: 0; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"] .standardWindowCaption:has(+ .windowPlaceholderContainer iframe[data-sct-ch-ribbon]) + .windowPlaceholderContainer { top: 22px; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window="inactive"] .standardWindowCaption:has(+ .windowPlaceholderContainer iframe[data-sct-ch-ribbon]) { background: linear-gradient(#f0f0f0, #dedede); }
 html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window="inactive"] .standardWindowCaption .scWindowCaption { color: #4d4d4d; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window="inactive"] :is(.standartWindowButtons, .scSystemButtons) img:is([src*="_close"], [src*="minimize"], [src*="maximize"], [src*="restore"]) { background: radial-gradient(ellipse 58% 36% at 50% 26%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 100%), radial-gradient(circle at 50% 70%, #f4f4f4, #b9b9b9 55%, #8c8c8c); }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window="inactive"] :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img:is([src*="_close"], [src*="minimize"], [src*="maximize"], [src*="restore"]) { background: radial-gradient(ellipse 58% 36% at 50% 26%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 100%), radial-gradient(circle at 50% 70%, #f4f4f4, #b9b9b9 55%, #8c8c8c); }
 /* The Content Editor, Media Library and Workbox: Sitecore draws no caption over their windows. Aqua's metal title
    bar is drawn on the caption's empty top line from the window's title (engine.js --sct-window-title), centred,
    the lights moved onto it at the left, the ribbon's menu button below it. The bar runs on into the ribbon's
@@ -410,9 +411,11 @@ html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window-title] 
    24px. */
 html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; height: 24px; margin-top: 22px; }
 html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
-/* 2px between the title bar and the tabs: they never touch it; the menu button moves down with them */
-html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 2px; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 2px; }
+/* 4px between the title bar and the tabs: they never touch it; the menu button moves down with them */
+html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 4px; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 4px; }
+/* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
+html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
 html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: linear-gradient(#f0f0f0, #dedede); }
 html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window="inactive"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { color: #4d4d4d; }
 
@@ -904,7 +907,7 @@ html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) #Desktop >
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons):hover img[src*="minimize"] { image-rendering: pixelated; }
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons):hover img:is([src*="maximize"], [src*="restore"]) { image-rendering: pixelated; }
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] .standardWindowCaption { image-rendering: pixelated; }
-  html[data-sct-theme="cheetah"][data-sct-surface="shell"] .standardWindowCaption:has(+ .windowPlaceholderContainer .scRibbon) { image-rendering: pixelated; }
+  html[data-sct-theme="cheetah"][data-sct-surface="shell"] .standardWindowCaption:has(+ .windowPlaceholderContainer iframe[data-sct-ch-ribbon]) { image-rendering: pixelated; }
   html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, html[data-sct-theme="cheetah"][data-sct-surface="shell"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { image-rendering: pixelated; }
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] img.scRibbonPanelUp { image-rendering: pixelated; }
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] img.scRibbonPanelDown { image-rendering: pixelated; }

@@ -6,6 +6,9 @@
 //   same URL serves), and data-sct-window="active"/"inactive" on each window's iframe and document, mirrored
 //   from its taskbar entry, for Aqua's inactive title bar. Sitecore keeps a hidden copy of #StartMenu next
 //   to the live one, so every copy is decorated.
+// - A standard window whose page starts with a ribbon (the ISE, the Security Editor...): the page marks its own
+//   iframe in the window's chrome data-sct-ch-ribbon, so the title bar there runs on into the ribbon's metal,
+//   as the Content Editor's does. The caption and the ribbon are in different documents, which CSS can't see across.
 // - Launchpad: a group or the analytics collapses and expands from its header, as the Finder's
 //   disclosure triangles do.
 // Every change goes through the dom-kit, so a theme switch reverts it.
@@ -134,6 +137,18 @@
     syncWindows();
   }
 
+  function markRibbonWindow(ctx) {
+    let frame = null;
+    try {
+      frame = ctx.doc.defaultView.frameElement;
+    } catch {
+      return; // a window from another origin
+    }
+    if (!frame || frame.hasAttribute("data-sct-ch-ribbon") || !frame.closest(".windowPlaceholderContainer")) return;
+    const ribbon = ctx.doc.querySelector(".scRibbon");
+    if (ribbon && ribbon.getBoundingClientRect().top < 2) ctx.setAttr(frame, "data-sct-ch-ribbon", "");
+  }
+
   function applyLaunchpad(ctx) {
     const doc = ctx.doc;
     if (pad && pad.doc === doc) return;
@@ -151,6 +166,7 @@
     apply(ctx) {
       if (ctx.doc.getElementById("Desktop")) applyDesktop(ctx);
       if (ctx.doc.querySelector(".sc-launchpad")) applyLaunchpad(ctx);
+      markRibbonWindow(ctx);
     },
     // The dom-kit undoes every element and attribute; this drops the listeners.
     revert() {
