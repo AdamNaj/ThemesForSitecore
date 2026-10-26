@@ -15,15 +15,7 @@
     "*://*/*"
   ],
   "background": {
-    "service_worker": "background.js",
-    "scripts": [
-      "lib/dev.js",
-      "lib/detect.js",
-      "lib/settings.js",
-      "themes/themes.js",
-      "lib/files.js",
-      "background.js"
-    ]
+    "service_worker": "background.js"
   },
   "web_accessible_resources": [
     {

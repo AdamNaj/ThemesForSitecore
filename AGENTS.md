@@ -35,7 +35,8 @@ frame. A new surface therefore needs both `surfaces/<area>.gen.css` and `surface
 
 - `npm test` - unit tests. Run after every change. Fails while `themes.js` or the README's theme table is stale.
 - `npm run themes` - regenerate `extension/themes/themes.js` and the README's theme table from the theme folders.
-- `npm run lint` - `web-ext lint`; the manifest warnings it shows today are known.
+- `npm run lint` - builds the packages, then `web-ext lint` (Firefox's rules) on the Firefox one, the only package
+  whose manifest carries `background.scripts`; the warnings it shows today are known.
 - `npx playwright test` - e2e. The Sitecore suite needs the `.auth/profile` sign-in (`node test/e2e/login.mjs`, the user signs in; agents never type Sitecore credentials).
 - `node tools/gen-area-map.mjs` - regenerate every `.gen.css` from the local installs. Check `git diff --stat` afterwards: changes outside the area you meant come from the installs, and need a sentence in the commit.
 - `npm run build` - release zips in `dist/`; the packaged copies switch the dev hooks off.

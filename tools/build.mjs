@@ -38,6 +38,12 @@ function main() {
 
   const packaged = stage(path.join(dist, "staging"));
   zip(packaged, `themes-for-sitecore-${version}-chrome.zip`);
+
+  // Firefox runs no extension service workers: its packages load the background as scripts, the libraries
+  // background.js imports with importScripts first. Chrome warns about background.scripts in Manifest V3, so only
+  // the Firefox copies carry it.
+  const firefox = { ...manifest, background: { ...manifest.background, scripts: ["lib/dev.js", "lib/detect.js", "lib/settings.js", "themes/themes.js", "lib/files.js", "background.js"] } };
+  fs.writeFileSync(path.join(packaged, "manifest.json"), JSON.stringify(firefox, null, 2) + "\n");
   zip(packaged, `themes-for-sitecore-${version}-firefox-listed.zip`);
 
   // Unlisted Firefox build: same files plus an update_url so signed sideloads update themselves.
@@ -45,7 +51,7 @@ function main() {
   fs.cpSync(packaged, unlisted, { recursive: true });
   const base = pkg.config && pkg.config.updateBase;
   if (base) {
-    const m = JSON.parse(JSON.stringify(manifest));
+    const m = JSON.parse(JSON.stringify(firefox));
     m.browser_specific_settings.gecko.update_url = `${base}/updates.json`;
     fs.writeFileSync(path.join(unlisted, "manifest.json"), JSON.stringify(m, null, 2) + "\n");
     const updates = {

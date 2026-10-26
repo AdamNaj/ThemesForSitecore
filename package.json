@@ -18,7 +18,7 @@
     "test": "node --test \"test/unit/*.test.js\"",
     "themes": "node tools/themes.mjs",
     "test:e2e": "playwright test",
-    "lint": "web-ext lint -s extension",
+    "lint": "node tools/build.mjs && web-ext lint -s dist/firefox-unlisted",
     "build": "node tools/themes.mjs && node tools/build.mjs",
     "build:sitecore": "node tools/themes.mjs && node tools/build-sitecore.mjs",
     "package:sitecore": "node tools/themes.mjs && node tools/build-sitecore.mjs && node tools/package-sitecore.mjs",
