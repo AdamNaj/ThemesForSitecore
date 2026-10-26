@@ -341,14 +341,14 @@ svg.shape path{fill:var(--bg);stroke:var(--line);stroke-width:1}
       // the Light or Dark pill shows while the theme has both looks
       onTheme: (t) => (root.querySelector("#mode").hidden = t.appearance !== "auto"),
     });
-    // the gear swaps the themes for the user's own settings, the back arrow returns
+    // the gear swaps the themes for the user's own settings and back again, as does the back arrow
     const views = (on) => {
       root.querySelector("#picker").hidden = on;
       root.querySelector("#settings").hidden = !on;
       root.querySelector("#open-settings").setAttribute("aria-expanded", String(on));
       root.querySelector(on ? "#close-settings" : "#open-settings").focus({ preventScroll: true });
     };
-    root.querySelector("#open-settings").onclick = () => views(true);
+    root.querySelector("#open-settings").onclick = () => views(root.querySelector("#settings").hidden);
     root.querySelector("#close-settings").onclick = () => views(false);
     const mountSettings = () => SS.mount(root, siteStore);
     mountSettings();
