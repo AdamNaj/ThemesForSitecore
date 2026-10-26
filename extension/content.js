@@ -44,8 +44,8 @@
       });
     },
     async site() {
-      const { titles = {}, tints = {}, envs = {}, phases = {}, hues = {}, accessibility = {} } = await api.storage.sync.get(["titles", "tints", "envs", "phases", "hues", "accessibility"]);
-      return { title: titles[origin], tint: tints[origin], env: envs[origin], phase: phases[origin], hue: hues[origin], accessibility: accessibility[origin] };
+      const { titles = {}, tints = {}, envs = {}, phases = {}, schemes = {}, hues = {}, accessibility = {} } = await api.storage.sync.get(["titles", "tints", "envs", "phases", "schemes", "hues", "accessibility"]);
+      return { title: titles[origin], tint: tints[origin], env: envs[origin], phase: phases[origin], scheme: schemes[origin], hue: hues[origin], accessibility: accessibility[origin] };
     },
     url: (path) => api.runtime.getURL(path),
     async theme(version) {
@@ -70,6 +70,7 @@
           if (changes.tints) fn("tint");
           if (changes.envs) fn("env");
           if (changes.phases) fn("phase");
+          if (changes.schemes) fn("scheme");
           if (changes.hues) fn("hue");
           if (changes.accessibility) fn("accessibility");
           if (changes.modes) fn("mode");

@@ -22,7 +22,7 @@
   let footers = null; // watches for start menu footers to add the picker's entry to
   let panel = null; // the open picker: { host, render }
   // the settings a user changes in the picker, which open frames and tabs follow at once
-  const KINDS = ["theme", "hue", "env", "phase", "title", "tint", "mode", "accessibility"];
+  const KINDS = ["theme", "hue", "env", "phase", "scheme", "title", "tint", "mode", "accessibility"];
 
   function adopt(next) {
     const rest = document.adoptedStyleSheets.filter((s) => s !== sheet);
@@ -34,7 +34,7 @@
     alive: () => true,
     version: async () => cfg.version,
     saveVersion() {}, // the server knows its own version
-    site: async () => ({ title: cfg.title, tint: cfg.tint, env: cfg.env, phase: cfg.phase, hue: cfg.hue, accessibility: cfg.accessibility }),
+    site: async () => ({ title: cfg.title, tint: cfg.tint, env: cfg.env, phase: cfg.phase, scheme: cfg.scheme, hue: cfg.hue, accessibility: cfg.accessibility }),
     url: (file) => `${cfg.base}${file}`, // the reading fonts, in the module's folder
     theme: async (version) => entry(resolve(version)),
     async apply({ surface, version, previous, previousMode }) {
@@ -333,11 +333,12 @@ svg.shape path{fill:var(--bg);stroke:var(--line);stroke-width:1}
     const { render } = SCT.picker.mount(root.querySelector("#picker"), {
       label: "Your theme",
       themes: `${cfg.base}themes/`,
-      load: async () => ({ version: cfg.version, catalog, theme: cfg.theme, hue: cfg.hue, env: cfg.env, phase: cfg.phase }),
+      load: async () => ({ version: cfg.version, catalog, theme: cfg.theme, hue: cfg.hue, env: cfg.env, phase: cfg.phase, scheme: cfg.scheme }),
       setTheme: (id) => save({ theme: id }, "theme"),
       setHue: (hue, theme) => save({ hue: String(hue), hueTheme: theme }, "hue"),
       setEnv: (env) => save({ env }, "env"),
       setPhase: (phase) => save({ phase }, "phase"),
+      setScheme: (scheme) => save({ scheme }, "scheme"),
       // the Light or Dark pill shows while the theme has both looks
       onTheme: (t) => (root.querySelector("#mode").hidden = t.appearance !== "auto"),
     });

@@ -56,6 +56,10 @@
   // A site's time of day for Meridian, per site in storage.sync `phases`; none follows the clock.
   const PHASES = ["dawn", "day", "dusk", "night"];
 
+  // A site's colour scheme for Whistler (XP's Blue, Olive Green or Silver), per site in storage.sync `schemes`; none
+  // is the theme's own (Luna, the Luna Element skin's deeper blue).
+  const SCHEMES = ["blue", "olive", "silver"];
+
   // A site's hue, per site and theme in storage.sync `hues` ({ fjord: 40 }), for themes that offer one (themes.js
   // `hue`): degrees round the colour wheel, 1 to 359. Anything else, 0 included, keeps the theme's own colours.
   // A bare number (saved before hues were per theme, or the Sitecore module's) applies to every theme.
@@ -151,7 +155,7 @@
   }
 
   SCT.settings = {
-    DEFAULTS, ENVS, PHASES, FONTS, VISIONS, catalog, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight,
+    DEFAULTS, ENVS, PHASES, SCHEMES, FONTS, VISIONS, catalog, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight,
     accessibility, accessibilityCss, visionMatrix, visionValues,
   };
   if (typeof module !== "undefined") module.exports = SCT.settings;

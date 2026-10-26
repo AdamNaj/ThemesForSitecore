@@ -1,10 +1,11 @@
-/* Whistler: a Luna title, white bold on the blue with its shadow */
+/* Whistler: a Luna title in the caption's text colour and shadow (white on Blue's, the scheme's on Olive's and
+   Silver's: --sct-xpc-* from the area's CSS) */
 html[data-sct-theme="whistler"] sct-bar-postfix {
   border-color: transparent;
   border-radius: 0;
   background: transparent;
-  color: #fff;
+  color: var(--sct-xpc-cap-fg, #fff);
   font: bold 13px/17px "Trebuchet MS", Tahoma, Verdana, sans-serif;
   letter-spacing: 0;
-  text-shadow: 1px 1px #0f1089;
+  text-shadow: var(--sct-xpc-cap-shadow, 1px 1px #0f1089);
 }

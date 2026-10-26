@@ -43,11 +43,12 @@ Building the second needs Web Deploy (`msdeploy.exe`, 3.6 or later) on the machi
   profile property, `SitecoreThemes.Theme`), the Sitecore version and the site settings.
 - It also answers `POST /sitecore/shell/sitecore-themes/save` (any of `theme=<id>`, `hue=<0-359>` with
   `hueTheme=<id>`, `env=<prod|staging|qa|dev|sandbox|local|beta>` (empty for the config's),
-  `phase=<dawn|day|dusk|night>` (empty for Auto), `title=<up to 40 characters>`, `tint=<|theme|#rrggbb>`,
+  `phase=<dawn|day|dusk|night>` (empty for Auto), `scheme=<blue|olive|silver>` (empty for the theme's own),
+  `title=<up to 40 characters>`, `tint=<|theme|#rrggbb>`,
   `mode=<|light|dark>`, `accessibility=<JSON or empty>`, `reset=1` (back to the config's title, tint, mode and
   environment), header `X-SCT: 1`), which the picker uses to save the user's choices to their profile
   (`SitecoreThemes.Theme`, `SitecoreThemes.Hue` as one hue per theme in JSON, `SitecoreThemes.Environment`,
-  `SitecoreThemes.Phase`, and `SitecoreThemes.Title`, `.Tint` and `.Mode` stored as `v:<value>` so an empty
+  `SitecoreThemes.Phase`, `SitecoreThemes.Scheme`, and `SitecoreThemes.Title`, `.Tint` and `.Mode` stored as `v:<value>` so an empty
   choice of the user's own differs from none, `SitecoreThemes.Accessibility` as JSON).
 - `sct.js` is built from the extension's shared files (`extension/lib/engine.js`, `detect.js`, `settings.js`,
   `files.js`, the colour maps, `themes/themes.js` and the themes' DOM modules), the popup's picker

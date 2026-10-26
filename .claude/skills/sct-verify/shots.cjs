@@ -1,7 +1,7 @@
 // Screenshots the pages people actually open, per theme and Sitecore version, and checks every frame.
 // usage: node .claude/skills/sct-verify/shots.cjs --themes metalsteel,debrightify [--versions 10.5,10.4]
 //          [--paths "/sitecore/shell,/?sc_mode=edit"] [--out test-results/verify] [--scale 1.25] [--scan] [--scheme dark]
-//          [--width 1920] [--env beta] [--white-icons] [--font opendyslexic] [--spacing wide]
+//          [--width 1920] [--env beta] [--colours olive] [--white-icons] [--font opendyslexic] [--spacing wide]
 //          [--vision protanopia] [--strength 60]
 // Uses a copy of .auth/profile (the shared sign-in), never the profile itself.
 const fs = require("node:fs");
@@ -24,6 +24,7 @@ const scheme = arg("scheme", "light"); // the OS appearance, for themes that fol
 const width = Number(arg("width", "1300")); // Launchpad moves Analytics to a right-hand column above 1570px
 const scan = process.argv.includes("--scan");
 const env = arg("env", null); // the sites' environment, for themes that draw it (Guardrail)
+const colours = arg("colours", null); // the sites' colour scheme, for themes that offer one (Whistler's olive, silver)
 // the sites' accessibility aids (lib/settings.js accessibility): every frame but the Experience Editor's website shows the
 // font and spacing, only the top document the colour filter
 const access = { font: arg("font", null), spacing: arg("spacing", null), vision: arg("vision", null), strength: Number(arg("strength", "100")) };
@@ -76,10 +77,11 @@ function copyProfile() {
         continue;
       }
       const origins = [...Object.values(HOSTS), ...IDENTITY];
-      await worker.evaluate(([t, o, e, r]) => chrome.storage.sync.set({
+      await worker.evaluate(([t, o, e, r, c]) => chrome.storage.sync.set({
         overrides: Object.fromEntries(o.map((x) => [x, t])), envs: e ? Object.fromEntries(o.map((x) => [x, e])) : {},
+        schemes: c ? Object.fromEntries(o.map((x) => [x, c])) : {},
         accessibility: r.font || r.spacing || r.vision ? Object.fromEntries(o.map((x) => [x, r])) : {},
-      }), [theme, origins, env, access]);
+      }), [theme, origins, env, access, colours]);
       for (const p of PATHS) {
         const label = `${version} ${theme} ${p}`;
         errors = [];
@@ -100,7 +102,7 @@ function copyProfile() {
           const x = document.documentElement.dataset;
           // a reading font blocked by the page (its CSP) shows as a face in error
           const faces = [...document.fonts].filter((f) => f.family.includes("SCT ")).map((f) => f.status);
-          return { url: location.pathname, surface: x.sctSurface || null, theme: x.sctTheme || null, engine: !!x.sctEngine, env: x.sctEnv || null,
+          return { url: location.pathname, surface: x.sctSurface || null, theme: x.sctTheme || null, engine: !!x.sctEngine, env: x.sctEnv || null, colours: x.sctScheme || null,
             font: x.sctFont || null, spacing: x.sctSpacing || null, vision: x.sctVision || null, top: window === top, faces };
         }).catch(() => null)))).filter(Boolean);
         for (const f of frames) {
@@ -108,6 +110,7 @@ function copyProfile() {
           if (f.engine && f.surface && theme !== "native" && !f.theme) problems.push(`${label}: frame ${f.url} has surface ${f.surface} but no theme`);
           if (f.theme && f.theme !== theme) problems.push(`${label}: frame ${f.url} shows ${f.theme}, expected ${theme}`);
           if (env && f.theme && f.env !== env) problems.push(`${label}: frame ${f.url} has environment ${f.env}, expected ${env}`);
+          if (colours && f.theme && f.colours !== colours) problems.push(`${label}: frame ${f.url} has colour scheme ${f.colours}, expected ${colours}`);
           const reads = f.engine && f.surface && f.surface !== "ee";
           if (reads && (f.font !== access.font || f.spacing !== access.spacing)) problems.push(`${label}: frame ${f.url} has font ${f.font} and spacing ${f.spacing}, expected ${access.font} and ${access.spacing}`);
           // only the top document filters: a frame filtering again under it would be corrected twice
@@ -128,7 +131,7 @@ function copyProfile() {
           }
           await page.waitForTimeout(1500);
         }
-        const file = path.join(out, `${version}-${theme}${env ? `-${env}` : ""}${whiteIcons ? "-white" : ""}${access.font ? `-${access.font}` : ""}${access.spacing ? `-${access.spacing}` : ""}${access.vision ? `-${access.vision}${access.strength}` : ""}-${p.replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "root"}.png`);
+        const file = path.join(out, `${version}-${theme}${env ? `-${env}` : ""}${colours ? `-${colours}` : ""}${whiteIcons ? "-white" : ""}${access.font ? `-${access.font}` : ""}${access.spacing ? `-${access.spacing}` : ""}${access.vision ? `-${access.vision}${access.strength}` : ""}-${p.replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "root"}.png`);
         await page.screenshot({ path: file });
         console.log(`${label}\n  ${frames.map((f) => `${f.url} surface=${f.surface || "-"} theme=${f.theme || "-"}${f.font || f.spacing || f.vision ? ` font=${f.font} spacing=${f.spacing} vision=${f.vision} faces=${f.faces.join("/")}` : ""}`).join("\n  ")}\n  -> ${path.relative(ROOT, file)}`);
         if (scan) {

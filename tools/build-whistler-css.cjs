@@ -1,5 +1,6 @@
 // Dev tool: writes extension/themes/whistler/{shell,speak,launchpad,login}.css and the glyphs they use.
-// Whistler recreates Windows XP's Luna Blue. Its caption buttons, scroll arrows, check marks and chevrons are
+// Whistler recreates Windows XP's Luna, by default in the deeper blue of the Luna Element WindowBlinds skin, or in XP's
+// own Blue, Olive Green or Silver (SCHEMES below). Its caption buttons, scroll arrows, check marks and chevrons are
 // glyphs (PNG plus vector SVG pairs, see art()), so the theme is generated here rather than written by hand.
 //
 // Measured Luna Blue (XP SP2 at 96 dpi):
@@ -19,6 +20,28 @@
 //     #18b9f4 to #0b72cc behind the white text: XP's fails AA at 2.9:1)
 //   start menu: blue header with the portrait, white left list, #d3e5fa right list, blue footer with Log Off
 //   task pane: #7ba2e7 > #6375d6; pane header white > #c6d3f7, bold #215dc6 text; pane body #d6dff7
+//
+// The schemes recolour the window captions and their buttons, the frames, the taskbar and tray, the start button and
+// menu, the selection, scroll bars, combo buttons and task panes (the picker's colour scheme control sets
+// data-sct-scheme; Luna has none). Blue's values above are the base the others start from. Measured the same way:
+//   Olive Green: caption #a7b580 > #c2cd95 under a #e9f2c7 highlight, inactive #d3d6ba > #e0e1c3; frame #abbd85,
+//     #758d5e outside; caption buttons olive (#c7c7b4 > #768753), close red-orange as Blue's; taskbar #a8b680 >
+//     #c2cd95 under light buttons with #41400a text; tray cream #eae2b2; start menu light olive over the orange rule,
+//     right column #f3f1e4; selection #93a070; scroll bars sage #c6dcc1 with #456b3c arrows; task panes #ccd9ad >
+//     #a7be86, headers cream > #e1e7b9 with #56662d text, bodies #f6f6ec. XP's white caption text fails AA on the light olive (2.2:1): Whistler
+//     writes it in the taskbar's #41400a (5.1:1), the inactive one #4f5a2e (5:1); the selection darkens to #6b7a45
+//     under white text (4.7:1), the pressed task button to #67734f (5.1:1).
+//   Silver: caption #a4a3be > white, black text with a white shadow; frame light, #66667e outside; caption buttons
+//     white > #9c9ebe framed in #6b758f with dark glyphs, close pink-red framed in #a63944; taskbar #a8a9bf >
+//     #ecebec, buttons #404040 text; tray #cbccda; selection #b2b4bf under black text; scroll bars grey #dedede
+//     with #696969 arrows; task panes #c3c7d3 > #b1b3c8, headers white > #d6d7e0, bodies #f0f1f5. XP's inactive caption text
+//     (#a2a2a2, 2:1) darkens to #545462 (5.2:1), the pressed task button to #5d6874 under white (5.7:1).
+//   Luna: the palette of the Luna Element WindowBlinds skin, measured from its bitmaps: a deeper caption
+//     (#1d55b7 > #2c6fd1, a #63aae7 highlight), inactive #6f97dc > #77a7eb with navy text (#0a2257; white is 2.5:1),
+//     frame #1d4bb0 with #0d308c outside; caption buttons framed in #254394 (close #801313); taskbar navy #1e429c,
+//     its buttons darkened from #4085f5 to #2b67dd under white (4.9:1); tray #4570c4 > #3d5db7; start menu header
+//     #114183 > #1e5fba, program list navy #0e2e66 with white text, places #bcd9f6; start button lit from below.
+//   The start button stays green and the Welcome screen blue in all four, as in XP.
 const fs = require("fs");
 const zlib = require("zlib");
 const crypto = require("crypto");
@@ -34,8 +57,8 @@ const PI = `${P}[data-sct-window="inactive"]`;
 const FONT = 'Tahoma, Verdana, "Segoe UI", sans-serif';
 const CAPFONT = '"Trebuchet MS", Tahoma, sans-serif';
 // Colours of the pixel art: W white, K black, B the scroll and combo arrow blue-grey, G the check mark green,
-// N the task pane's chevron blue.
-const COLORS = { W: "#fff", K: "#000", B: "#4d6185", G: "#21a121", N: "#215dc6" };
+// N the task pane's chevron blue, D Silver's caption button glyphs; O and S Olive's and Silver's B, P and Q their N.
+const COLORS = { W: "#fff", K: "#000", B: "#4d6185", G: "#21a121", N: "#215dc6", D: "#252536", O: "#456b3c", S: "#696969", P: "#56662d", Q: "#33334a" };
 
 // ---- Pixel art (as in tools/build-metal-css.cjs): one character per pixel, '.' transparent. Each glyph is
 // written to themes/whistler/glyphs twice, as a PNG (1x) and as a vector SVG (every other scale), and named
@@ -46,9 +69,16 @@ fs.rmSync(GLYPHS, { recursive: true, force: true });
 fs.mkdirSync(GLYPHS, { recursive: true });
 const VECTORS = new Map();
 const vector = (rows, body) => VECTORS.set(rows.join("|"), body);
+// a glyph's pixels in another colour (from and to are COLORS keys), its vector, if it has one, with them
+function recolour(rows, from, to) {
+  const out = rows.map((r) => r.replaceAll(from, to));
+  const v = VECTORS.get(rows.join("|"));
+  if (v && from !== to) vector(out, v.replaceAll(COLORS[from], COLORS[to]));
+  return out;
+}
 function art(rows, at) {
   const h = rows.length, w = rows[0].length;
-  if (rows.some((r) => r.length !== w || /[^.WKBGN]/.test(r))) throw new Error(`bad pixel art: ${rows.join("|")}`);
+  if (rows.some((r) => r.length !== w || /[^.WKBGNDOSPQ]/.test(r))) throw new Error(`bad pixel art: ${rows.join("|")}`);
   // a transparent 1px margin keeps Chrome's softening of an image placed between device pixels off the art
   const pad = ".".repeat(w + 2);
   const name = crypto.createHash("sha1").update(rows.join("|")).digest("hex").slice(0, 10);
@@ -149,13 +179,164 @@ vector(DDOWN, `<path d="M0.6 0.4L3.5 3.3L6.4 0.4M0.6 4.4L3.5 7.3L6.4 4.4" fill="
 
 // ---- Luna recipes ----
 // Drop-down selects include size="1" ones (SPE's Read-Variable writes it); list boxes are multiple or size > 1.
-const CAP = "linear-gradient(#0997ff, #0053ee 8%, #0050ee 40%, #0066ff 88%, #0066ff 93%, #005bff 95%, #003dd7 96%, #003dd7)";
-const CAP_IN = "linear-gradient(#9db3e8, #6d89d4 6%, #5470c0 18%, #5470c0 88%, #4a64ad)";
-const capText = `color: #fff; font: bold 13px/1 ${CAPFONT}; text-shadow: 1px 1px #0f1089;`;
-const BTN_FACE = "linear-gradient(135deg, #79a6fc, #2d68e8 45%, #1d55da 80%, #3f78ef)";
+// The scheme's colours are custom properties, --sct-xpc-<name> (V below), and its glyphs (a caption button's
+// with its face) --sct-xp-<name>: SCHEMES sets them, the default scheme's on the surface, the others' under
+// [data-sct-scheme].
+const V = (name) => `var(--sct-xpc-${name})`;
+const capText = `color: ${V("cap-fg")}; font: bold 13px/1 ${CAPFONT}; text-shadow: ${V("cap-shadow")};`;
 const BTN_CLOSE = "linear-gradient(135deg, #f4a487, #e1552d 45%, #c93a17 80%, #e3643c)";
-// a caption button: g is one of the --sct-xp-* glyph-and-face backgrounds
-const capBtn = (g) => `box-sizing: border-box; width: 21px; height: 21px; margin: 0; padding: 0; border: 1px solid #fff; border-radius: 3px; ${paint(g)}`;
+const COLLAPSE = ["WWWWWWW", ".WWWWW.", "..WWW..", "...W..."];
+const MORE = ["BB.BB.BB", "BB.BB.BB"];
+// A scheme's glyphs: the caption buttons' in ink (a pixel art colour) on face, the close button's white on close;
+// the scroll, combo and back arrows in arrow (Blue's B); the task pane's chevrons in chevron (Blue's N).
+function schemeGlyphs(ink, face, close, arrow, chevron) {
+  const g = (rows, at) => art(rows.map((r) => r.replace(/W/g, ink)), at);
+  const a = (rows, at) => art(recolour(rows, "B", arrow), at);
+  const c = (rows) => art(recolour(rows, "N", chevron));
+  // ponytail: the Launchpad group chevrons keep the pixel squares at 2x (no vector), as Blue's always had
+  const lp = (rows) => art(rows.map((r) => r.replace(/B/g, chevron)), [1, 1]);
+  return {
+    min: `${g(MIN, [6, 12])}, ${face}`, max: `${g(MAX)}, ${face}`, restore: `${g(RESTORE)}, ${face}`, close: `${art(CLOSE)}, ${close}`, collapse: `${g(COLLAPSE)}, ${face}`,
+    up: a(UP), down: a(DOWN), left: a(LEFT), right: a(RIGHT), more: a(MORE), combo: a(DOWN, 6), back: a(LEFT, [0, 0]),
+    dup: c(DUP), ddown: c(DDOWN), "group-up": lp(UP), "group-down": lp(DOWN),
+  };
+}
+const SCHEMES = {
+  blue: {
+    glyphs: schemeGlyphs("W", "linear-gradient(135deg, #79a6fc, #2d68e8 45%, #1d55da 80%, #3f78ef)", BTN_CLOSE, "B", "N"),
+    cap: "linear-gradient(#0997ff, #0053ee 8%, #0050ee 40%, #0066ff 88%, #0066ff 93%, #005bff 95%, #003dd7 96%, #003dd7)",
+    "cap-in": "linear-gradient(#9db3e8, #6d89d4 6%, #5470c0 18%, #5470c0 88%, #4a64ad)",
+    "cap-fg": "#fff", "cap-in-fg": "#fff", "cap-shadow": "1px 1px #0f1089", "cap-line": "#003dd7",
+    // the ISE's script path in the caption; Sitecore's logo and icons, dark art, recoloured for the caption
+    "cap-dim": "#c9dcff", "cap-logo": "brightness(0) invert(1)",
+    frame: "#0d55e2", "frame-line": "#0831d9", "frame-in": "#7a96df", "frame-in-line": "#5470c0",
+    "btn-border": "#fff", "close-border": "#fff",
+    bar: "linear-gradient(#3168d5, #4993e6 3%, #2157d7 10%, #2663e0 50%, #245edb 92%, #1941a5)",
+    task: "linear-gradient(#5d9bf8, #3c81f3 15%, #3a7ef0 85%, #2f6fdf)",
+    "task-hot": "linear-gradient(#6faaff, #53a3ff 15%, #4f99fb 85%, #4085f0)",
+    "task-on": "#1e52b7", "task-border": "#1c50c0", "task-on-border": "#10347f", "task-fg": "#fff", "task-on-fg": "#fff",
+    tray: "linear-gradient(#0c59b9, #1185de 4%, #0b72cc 20%, #0b72cc 85%, #1a64c0)", "tray-edge": "#092e7b", "tray-light": "#1ba1ec", "tray-fg": "#fff",
+    sm: "#1c64de", "sm-top": "linear-gradient(#1868ce, #0e60cb 15%, #2b7be6 30%, #1b6ed9 70%, #0f5ac4 90%, #1857c2)",
+    "sm-rule": "#e18d39", "sm-rule-light": "#f8c26d", "sm-fg": "#fff", "sm-shadow": "1px 1px 1px #0f1089",
+    "sm-right": "#d3e5fa", "sm-edge": "#95bdee", "sm-right-fg": "#00136b",
+    "sm-foot": "linear-gradient(#4282d6, #3b85e0 10%, #418ae3 30%, #3881dc 70%, #1c64de)", "sm-foot-fg": "#fff", "sm-foot-hot": "rgba(255, 255, 255, 0.2)",
+    // the start button; the start menu's program list, its text and the descriptions under the names
+    start: "linear-gradient(#5eac56, #3c9c3c 10%, #41a541 18%, #349734 60%, #2f8a2f 88%, #2d7f2d)",
+    "sm-left": "#fff", "sm-left-fg": "#000", "sm-left-dim": "#555",
+    // the selection, and the black menu triangles turned white on it
+    sel: "#316ac5", "sel-fg": "#fff", "sel-glyph": "invert(1)",
+    // scroll bars (thumb and buttons, vertical and horizontal faces) and combo buttons
+    "scroll-v": "linear-gradient(90deg, #cad9fd, #b8cdf9 45%, #a9c0f4)", "scroll-h": "linear-gradient(180deg, #cad9fd, #b8cdf9 45%, #a9c0f4)",
+    "scroll-edge": "#8eaae6", combo: "linear-gradient(135deg, #e3ebfd, #c1d3fb 60%, #b0c6f7)",
+    // task panes (the Content Editor's sections, the Control Panel, Launchpad): header, its text, body, the pane
+    "pane-head": "linear-gradient(90deg, #fff, #c6d3f7)", "pane-ring": "#c6d3f7", "pane-fg": "#215dc6", "pane-hot": "#428eff",
+    "pane-body": "#d6dff7", "pane-bg": "linear-gradient(#7ba2e7, #6375d6)",
+    "group-line": "linear-gradient(90deg, #6c95e8, #c5d6f7 55%, transparent)", "group-fg": "#0e3c9c",
+  },
+  olive: {
+    glyphs: schemeGlyphs("W", "linear-gradient(135deg, #c7c7b4, #a5b48b 45%, #8e9d69 80%, #768753)", BTN_CLOSE, "O", "P"),
+    cap: "linear-gradient(#e9f2c7, #e0e7b8 7%, #bfcb92 11%, #afbc84 18%, #a7b580 25%, #aab883 36%, #adbd85 50%, #b5c68d 64%, #bbc98f 71%, #c2cd95 79% 86%, #bac88e 93%, #96a867)",
+    "cap-in": "linear-gradient(#f1f1da, #edebd3 7%, #dfe0c2 11%, #d6d8bb 18%, #d3d6ba 25% 32%, #d4d7bb 46%, #d7dbbd 57%, #dcdec0 68%, #e0e1c3 79% 86%, #dcdec0 93%, #cbceb6)",
+    "cap-fg": "#41400a", "cap-in-fg": "#4f5a2e", "cap-shadow": "1px 1px rgba(255, 255, 255, 0.45)", "cap-line": "#96a867",
+    "cap-dim": "#41400a", "cap-logo": "brightness(0)",
+    frame: "#abbd85", "frame-line": "#758d5e", "frame-in": "#d8dcbe", "frame-in-line": "#aab48c",
+    "btn-border": "#fff", "close-border": "#fff",
+    bar: "linear-gradient(#eaf5c9, #e0e7b8 5%, #a8b680 18%, #c2cd95 90%, #96a867)",
+    task: "linear-gradient(#ffffe7 5%, #e7eccd 5%, #c2cba3 80%, #c8d39c)",
+    "task-hot": "linear-gradient(#fbffe8 5%, #f2f7d5 5%, #d6e3b0)",
+    "task-on": "linear-gradient(#4f573b, #67734f 15%, #67734f)", "task-border": "#94a26b", "task-on-border": "#424931", "task-fg": "#41400a", "task-on-fg": "#fff",
+    tray: "linear-gradient(#fffde9, #fcf7d9 5%, #f2e5b1 15%, #eae2b2 15% 90%, #d0bc89)", "tray-edge": "#968b4b", "tray-light": "#fffde9", "tray-fg": "#41400a",
+    sm: "#8ba169", "sm-top": "linear-gradient(#deebc4, #afc18d 10%, #adbf8b 25%, #b9ca95 50%, #cddcab 75%, #ddedc0)",
+    "sm-rule": "#e18d39", "sm-rule-light": "#f8c26d", "sm-fg": "#41400a", "sm-shadow": "1px 1px 1px rgba(255, 255, 255, 0.45)",
+    "sm-right": "#f3f1e4", "sm-edge": "#d6cea6", "sm-right-fg": "#41400a",
+    "sm-foot": "linear-gradient(#d9e2b4, #d3dbab 20%, #c4d098 60%, #b3c087)", "sm-foot-fg": "#41400a", "sm-foot-hot": "rgba(255, 255, 255, 0.35)",
+    sel: "#6b7a45", "sel-fg": "#fff", "sel-glyph": "invert(1)",
+    "scroll-v": "linear-gradient(90deg, #d6e6d3, #c6dcc1 45%, #b7d3b0)", "scroll-h": "linear-gradient(180deg, #d6e6d3, #c6dcc1 45%, #b7d3b0)",
+    "scroll-edge": "#99c190", combo: "linear-gradient(135deg, #e3eee1, #c7ddc2 60%, #bcd6b6)",
+    "pane-head": "linear-gradient(90deg, #fefbea, #e1e7b9)", "pane-ring": "#e1e7b9", "pane-fg": "#56662d", "pane-hot": "#7d8f3e",
+    "pane-body": "#f6f6ec", "pane-bg": "linear-gradient(#ccd9ad, #a7be86)",
+    "group-line": "linear-gradient(90deg, #a5b986, #e1e7b9 55%, transparent)", "group-fg": "#56662d",
+  },
+  silver: {
+    glyphs: schemeGlyphs("D", "linear-gradient(#fff, #f2f1f7 10%, #dcdbe7 25%, #d3d3e1 40%, #c8cad9 55%, #b8b9ce 70%, #a7a8c2 85%, #9c9ebe)",
+      "linear-gradient(#fae9b6, #f2b89e 10%, #ef817a 22%, #e4716d 35%, #e06a68 50%, #d96162 65%, #d05a5f 80%, #c6555c)", "S", "Q"),
+    cap: "linear-gradient(#fff, #d7d8e2 4%, #bcbccf 8%, #a8a7bf 13%, #a4a3be 17%, #b1b3c8 30%, #c2c4d1 48%, #dcdee5 66%, #f1f1f4 78%, #fff 89%, #e4e3e3 93%, #bcbdcd 96%, #777792)",
+    "cap-in": "linear-gradient(#fff, #eceef5 4%, #e4e5ed 8%, #d7d7e3 13% 18%, #dbdde6 25%, #dedfea 36%, #e6e8ed 50%, #f4f3f5 64%, #fbfbfc 79%, #fff 89%, #eaedf5 96%, #cccbd9)",
+    "cap-fg": "#000", "cap-in-fg": "#545462", "cap-shadow": "1px 1px #fff", "cap-line": "#777792",
+    "cap-dim": "#33334a", "cap-logo": "brightness(0)",
+    frame: "#d0d1de", "frame-line": "#66667e", "frame-in": "#e6e7ee", "frame-in-line": "#a9a9bd",
+    "btn-border": "#6b758f", "close-border": "#a63944",
+    bar: "linear-gradient(#dadce8, #fff 5%, #dadce8 10%, #b3b6c5 12%, #9a99b1 13%, #a8a9bf 35%, #b1b7bb 40%, #bbbdcd 50%, #d7d7d7 62%, #ecebec 90%, #83829d)",
+    task: "linear-gradient(#fff, #f8f9fa 20%, #cfd0df 50%, #cbccda)",
+    "task-hot": "linear-gradient(#d9dae8, #dddeed 40%, #efeff8 50%, #fcfcff 65%, #fff 85%)",
+    "task-on": "linear-gradient(#3d4851, #56616d 10%, #5d6874 50%, #626d79)", "task-border": "#9495a2", "task-on-border": "#43515b", "task-fg": "#404040", "task-on-fg": "#fff",
+    tray: "linear-gradient(#fff, #fefefe 12%, #e8e8ee 25%, #cfd0df 40%, #cbccda 50%, #c8cad8 78%, #aaadc2 97%, #888ba3 98%, #61637c)", "tray-edge": "#58596d", "tray-light": "#d7d8da", "tray-fg": "#000",
+    sm: "#a8a9bf", "sm-top": "linear-gradient(#ebecf1, #b2b2c7 6%, #aaa9c2 12%, #bebfd1 40%, #d8d9e3 60%, #f4f3f6 85%, #fff)",
+    "sm-rule": "#b5b7b9", "sm-rule-light": "#fff", "sm-fg": "#000", "sm-shadow": "1px 1px 1px #fff",
+    "sm-right": "#e3e6ec", "sm-edge": "#cbd2d9", "sm-right-fg": "#000",
+    "sm-foot": "linear-gradient(#e6e7ec, #d7d8e2 20%, #c6c8d7 50%, #b9bbce 75%, #b1b3c8)", "sm-foot-fg": "#000", "sm-foot-hot": "rgba(255, 255, 255, 0.45)",
+    sel: "#b2b4bf", "sel-fg": "#000", "sel-glyph": "none",
+    "scroll-v": "linear-gradient(90deg, #ececec, #dedede 45%, #d1d1d1)", "scroll-h": "linear-gradient(180deg, #ececec, #dedede 45%, #d1d1d1)",
+    "scroll-edge": "#b8b8b8", combo: "linear-gradient(135deg, #f4f4f4, #dedede 60%, #d2d2d2)",
+    "pane-head": "linear-gradient(90deg, #fff, #d6d7e0)", "pane-ring": "#d6d7e0", "pane-fg": "#33334a", "pane-hot": "#56607a",
+    "pane-body": "#f0f1f5", "pane-bg": "linear-gradient(#c3c7d3, #b1b3c8)",
+    "group-line": "linear-gradient(90deg, #9ea2b8, #d6d7e0 55%, transparent)", "group-fg": "#33334a",
+  },
+  luna: {
+    glyphs: schemeGlyphs("W", "linear-gradient(#7abbed, #528cdf 10%, #4278d6 30%, #3262cc 50%, #234fc4 72%, #275dd3)",
+      "linear-gradient(#ed7a7a, #d95151 10%, #c64040 30%, #b32e2e 50%, #a21f1f 72%, #b92020)", "B", "N"),
+    cap: "linear-gradient(#63aae7, #2a66bf 8%, #1d55b7 12% 29%, #1e56bc 36%, #215dc2 50%, #2766ca 64%, #2c6fd1 79% 86%, #2a68cb 89%, #245dc2 93%, #1f52b9 96%, #143898)",
+    "cap-in": "linear-gradient(#9bccf8, #83b2e7 4%, #77a1e0 8%, #6f97dc 12% 32%, #7097df 39%, #729ce2 54%, #76a3e8 71%, #77a7eb 79% 86%, #76a1e8 89%, #749ce2 93%, #7194dd 96%, #6b85c8)",
+    "cap-in-fg": "#0a2257", "cap-line": "#143898", "cap-dim": "#fff",
+    frame: "#1d4bb0", "frame-line": "#0d308c", "frame-in": "#6886d2", "frame-in-line": "#5e79bc",
+    "btn-border": "#254394", "close-border": "#801313",
+    bar: "linear-gradient(#3a58aa, #67a7df 3%, #4478c0 7%, #2c57ac 23%, #2147a1 35%, #1e429c 45%, #1e3e96 70%, #1e3c94 90%, #19368d 96%, #142d7a)",
+    task: "linear-gradient(#4a8ef2, #2b67dd 15%, #2963d8 85%, #235bcf)",
+    "task-hot": "linear-gradient(#5a9cf6, #3370e6 15%, #316de2 85%, #2a64d8)",
+    "task-on": "linear-gradient(#123c93, #174cba 15%, #1a52b8 85%, #2258b8)", "task-border": "#1a47b0", "task-on-border": "#0d2c70",
+    tray: "linear-gradient(#7bb8ed, #4570c4 6%, #4369c1 25%, #3d5db7 80%, #37509d)", "tray-edge": "#142d7a", "tray-light": "#4570c4",
+    sm: "#1653a8", "sm-top": "linear-gradient(#3d7ed9, #185ab6 5%, #124286 10%, #114183 15%, #13468d 30%, #154e9d 50%, #1755ab 70%, #1858b2 80%, #1e5fba 95%, #1653a8)",
+    "sm-left": "#0e2e66", "sm-left-fg": "#fff", "sm-left-dim": "#b5d4f5",
+    "sm-right": "#bcd9f6", "sm-edge": "#4585df",
+    "sm-foot": "linear-gradient(#488ae6, #1b5bb5 5%, #1756af 25%, #154f9f 50%, #144994 75%, #12448a 97%, #0c2e5e)",
+    start: "linear-gradient(#88c67e, #399937 6%, #158715 14%, #107810 24%, #128612 40%, #149414 52%, #2c9f15 62%, #43a917 75%, #5cb418 85%, #6bc21a 90%, #7ecf33 93%, #33710f)",
+  },
+};
+// The default, a site without a scheme of its own. Olive Green, Silver and Luna take Blue's value for anything they
+// leave out.
+const DEFAULT = "luna";
+for (const s of Object.values(SCHEMES)) for (const [k, v] of Object.entries(SCHEMES.blue)) if (!(k in s)) s[k] = v;
+// Text on the other schemes' chrome passes WCAG AA on every inner stop of its background (the outer ones are
+// edges and highlights). Blue keeps XP's colours as measured, its taskbar buttons' white on #3c81f3 included, and
+// so do the pairs a scheme takes from it unchanged.
+{
+  const hex = (v) => (v.match(/#[0-9a-f]{3}(?:[0-9a-f]{3})?\b/gi) || []).map((h) => h.replace(/^#(.)(.)(.)$/, "#$1$1$2$2$3$3"));
+  const lum = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)).reduce((t, c, i) => t + c * [0.2126, 0.7152, 0.0722][i], 0);
+  const ratio = (a, b) => (Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05);
+  const TEXT = [["cap-fg", "cap"], ["cap-dim", "cap"], ["cap-in-fg", "cap-in"], ["task-fg", "task"], ["task-fg", "task-hot"], ["task-on-fg", "task-on"],
+    ["tray-fg", "tray"], ["sm-fg", "sm-top"], ["sm-right-fg", "sm-right"], ["sm-foot-fg", "sm-foot"], ["sel-fg", "sel"],
+    ["pane-fg", "pane-head"], ["sm-left-fg", "sm-left"], ["sm-left-dim", "sm-left"]];
+  for (const [id, s] of Object.entries(SCHEMES)) {
+    if (id === "blue") continue;
+    for (const [fg, bg] of TEXT) {
+      if (s[fg] === SCHEMES.blue[fg] && s[bg] === SCHEMES.blue[bg]) continue;
+      const stops = hex(s[bg]);
+      for (const c of stops.length > 2 ? stops.slice(1, -1) : stops) {
+        if (ratio(hex(s[fg])[0], c) < 4.5) throw new Error(`${id}: ${fg} on ${bg} at ${c} is ${ratio(hex(s[fg])[0], c).toFixed(2)}:1`);
+      }
+    }
+  }
+}
+// Each scheme's properties on surface S: the default's all, the others' where they differ from it.
+const schemeVars = (S) => Object.entries(SCHEMES).sort(([a], [b]) => (b === DEFAULT) - (a === DEFAULT)).map(([id, s]) => {
+  const base = SCHEMES[DEFAULT];
+  const own = (k, v, from) => id === DEFAULT || v !== from[k];
+  const props = [...Object.entries(s.glyphs).filter(([k, v]) => own(k, v, base.glyphs)).map(([k, v]) => `--sct-xp-${k}: ${v};`),
+    ...Object.entries(s).filter(([k, v]) => k !== "glyphs" && own(k, v, base)).map(([k, v]) => `--sct-xpc-${k}: ${v};`)];
+  return `${id === DEFAULT ? S : `${S}[data-sct-scheme="${id}"]`} {\n${props.map((p) => `  ${p}`).join("\n")}\n}`;
+}).join("\n");
+// a caption button: g is one of the --sct-xp-* glyph-and-face backgrounds, edge its frame's scheme colour
+const capBtn = (g, edge = "btn-border") => `box-sizing: border-box; width: 21px; height: 21px; margin: 0; padding: 0; border: 1px solid ${V(edge)}; border-radius: 3px; ${paint(g)}`;
 // the window frame drawn outside an element (a desktop window's iframe): blue rings, dark outside
 
 // tabs
@@ -173,15 +354,16 @@ const toolHot = "border-color: #cecec3; background: linear-gradient(#fff, #f7f6f
 const toolDown = "border-color: #9d9d92; background: #e3e3db; box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.18);";
 // fields
 const field = "border: 1px solid #7f9db9; border-radius: 0; background-color: #fff; color: #000; box-shadow: none;";
-const comboBtn = `${art(DOWN, 6)}, linear-gradient(135deg, #e3ebfd, #c1d3fb 60%, #b0c6f7) right 1px top 1px / 16px calc(100% - 2px) no-repeat`;
+const comboBtn = `var(--sct-xp-combo), ${V("combo")} right 1px top 1px / 16px calc(100% - 2px) no-repeat`;
 // the scroll bar's thumb and buttons
-const scrollFace = (deg) => `linear-gradient(${deg}, #cad9fd, #b8cdf9 45%, #a9c0f4)`;
+const scrollFace = (deg) => V(deg === "90deg" ? "scroll-v" : "scroll-h");
 // task pane
-const PANE_BG = "linear-gradient(#7ba2e7, #6375d6)";
-const paneHead = `background: linear-gradient(90deg, #fff, #c6d3f7); border-radius: 3px 3px 0 0; color: #215dc6; font: bold 11px/25px ${FONT};`;
-const roundChevron = (g) => `${art(g)}, radial-gradient(circle at 50% 50%, #fff 0 8px, #c6d3f7 8.5px 9px, transparent 9.5px)`;
+const PANE_BG = V("pane-bg");
+const paneHead = `background: ${V("pane-head")}; border-radius: 3px 3px 0 0; color: ${V("pane-fg")}; font: bold 11px/25px ${FONT};`;
+// g: the chevron's glyph property, dup or ddown
+const roundChevron = (g) => `var(--sct-xp-${g}), radial-gradient(circle at 50% 50%, #fff 0 8px, ${V("pane-ring")} 8.5px 9px, transparent 9.5px)`;
 // the Luna selection
-const SEL = "background: #316ac5; color: #fff;";
+const SEL = `background: ${V("sel")}; color: ${V("sel-fg")};`;
 
 const TABS = (state) => [".scRibbon a.scRibbonNavigatorButtons", ".scRibbon a.scRibbonNavigatorButtonsContextual"].map((s) => `${P} ${s}${state}`).join(",\n");
 const RB = 'a[class*="scRibbonToolbar"][class*="Button"]:not(.scRibbonToolbarLargeComboButton > a)';
@@ -189,15 +371,15 @@ const LC = ":is(.scRibbonToolbarLargeComboButtonTop, .scRibbonToolbarLargeComboB
 
 // The global header (standalone Content Editor, SPEAK pages): a Luna caption.
 const header = (S) => `/* ---- Global header: a Luna caption ---- */
-${S} :is(.sc-globalHeader, .sc-flx-global-header) { background: ${CAP}; border-bottom: 1px solid #003dd7; box-shadow: none; color: #fff; }
+${S} :is(.sc-globalHeader, .sc-flx-global-header) { background: ${V("cap")}; border-bottom: 1px solid ${V("cap-line")}; box-shadow: none; color: ${V("cap-fg")}; }
 ${S} :is(.sc-globalHeader, .sc-flx-global-header) .sc-accountInformation li,
 ${S} :is(.sc-globalHeader, .sc-flx-global-header) .sc-accountInformation span,
 ${S} :is(.sc-globalHeader, .sc-flx-global-header) .sc-accountInformation a,
-${S} :is(.sc-globalHeader, .sc-flx-global-header) a { color: #fff; font-family: ${FONT}; text-shadow: 1px 1px #0f1089; }
-${S} :is(.sc-globalHeader, .sc-flx-global-header) .sc-accountInformation li::before, ${S} :is(.sc-globalHeader, .sc-flx-global-header) .sc-accountInformation li::after { color: #fff; }
+${S} :is(.sc-globalHeader, .sc-flx-global-header) a { color: ${V("cap-fg")}; font-family: ${FONT}; text-shadow: ${V("cap-shadow")}; }
+${S} :is(.sc-globalHeader, .sc-flx-global-header) .sc-accountInformation li::before, ${S} :is(.sc-globalHeader, .sc-flx-global-header) .sc-accountInformation li::after { color: ${V("cap-fg")}; }
 ${S} :is(.sc-globalHeader, .sc-flx-global-header) .sc-accountInformation img { border: 1px solid #fff; border-radius: 3px; }
-/* Sitecore's logo is dark art: white on the caption */
-${S} :is(.sc-globalHeader, .sc-flx-global-header) .sc-global-logo { filter: brightness(0) invert(1); }
+/* Sitecore's logo is dark art: white on the caption (black on Olive's and Silver's) */
+${S} :is(.sc-globalHeader, .sc-flx-global-header) .sc-global-logo { filter: ${V("cap-logo")}; }
 `;
 
 // The application header of a SPEAK page (title, Back): XP's toolbar under the caption.
@@ -210,17 +392,13 @@ ${SX} .sc-applicationHeader-row2 { display: flow-root; height: auto; min-height:
 ${SX} .btn.sc-backbutton { display: inline-flex; align-items: center; gap: 6px; height: 23px; min-width: 0; padding: 0 12px 0 8px; }
 ${SX} .btn.sc-backbutton .sc-backbutton-text { position: static; min-width: 0; height: auto; margin: 0; padding: 0; color: #000; font: 11px/21px ${FONT}; text-decoration: none; }
 ${SX} .btn.sc-backbutton:hover .sc-backbutton-text { text-decoration: none; }
-${SX} .btn.sc-backbutton::before, ${SX} .btn.sc-backbutton:is(:hover, :active)::before { position: static; flex: none; width: 4px; height: 7px; background: ${art(LEFT, [0, 0])}; mask: none; transform: none; }`;
+${SX} .btn.sc-backbutton::before, ${SX} .btn.sc-backbutton:is(:hover, :active)::before { position: static; flex: none; width: 4px; height: 7px; background: var(--sct-xp-back); mask: none; transform: none; }`;
 
 const css = `/* Whistler: classic shell. Generated by tools/build-whistler-css.cjs; never hand-edit.
-   Windows XP's Luna Blue: rounded blue captions, the #ece9d8 window face, orange-topped tabs, Tahoma. */
+   Windows XP's Luna: rounded captions (Luna Element's blue, XP's Blue, Olive Green or Silver), the #ece9d8 window
+   face, orange-topped tabs, Tahoma. */
 
-${P} {
-  --sct-xp-min: ${art(MIN, [6, 12])}, ${BTN_FACE};
-  --sct-xp-max: ${art(MAX)}, ${BTN_FACE};
-  --sct-xp-restore: ${art(RESTORE)}, ${BTN_FACE};
-  --sct-xp-close: ${art(CLOSE)}, ${BTN_CLOSE};
-}
+${schemeVars(P)}
 
 /* The SPE ISE's Ace editor measures its own monospace font; keep the theme font out of it. */
 ${P} body, ${P} input, ${P} select, ${P} textarea, ${P} button,
@@ -234,20 +412,20 @@ ${P} ::-webkit-scrollbar { width: 17px; height: 17px; background: #f4f4f0; }
 ${P} ::-webkit-scrollbar-track { border-radius: 0; }
 ${P} ::-webkit-scrollbar-track:vertical { background: linear-gradient(90deg, #f3f1ec, #fefefe); }
 ${P} ::-webkit-scrollbar-track:horizontal { background: linear-gradient(#f3f1ec, #fefefe); }
-${P} ::-webkit-scrollbar-thumb, ${P} :is(select, textarea)::-webkit-scrollbar-thumb { border: 0; border-radius: 3px; box-shadow: inset 1px 1px #fff, inset -1px -1px #8eaae6; }
+${P} ::-webkit-scrollbar-thumb, ${P} :is(select, textarea)::-webkit-scrollbar-thumb { border: 0; border-radius: 3px; box-shadow: inset 1px 1px #fff, inset -1px -1px ${V("scroll-edge")}; }
 ${P} ::-webkit-scrollbar-thumb:vertical, ${P} :is(select, textarea)::-webkit-scrollbar-thumb:vertical { background: ${scrollFace("90deg")}; }
 ${P} ::-webkit-scrollbar-thumb:horizontal, ${P} :is(select, textarea)::-webkit-scrollbar-thumb:horizontal { background: ${scrollFace("180deg")}; }
 ${P} ::-webkit-scrollbar-corner { background: #f4f4f0; }
-${P} ::-webkit-scrollbar-button:single-button { display: block; border-radius: 3px; box-shadow: inset 1px 1px #fff, inset -1px -1px #8eaae6; }
+${P} ::-webkit-scrollbar-button:single-button { display: block; border-radius: 3px; box-shadow: inset 1px 1px #fff, inset -1px -1px ${V("scroll-edge")}; }
 ${P} ::-webkit-scrollbar-button:vertical:single-button { width: 17px; height: 17px; }
 ${P} ::-webkit-scrollbar-button:horizontal:single-button { width: 17px; height: 17px; }
-${P} ::-webkit-scrollbar-button:vertical:decrement { background: ${art(UP)}, ${scrollFace("90deg")}; }
-${P} ::-webkit-scrollbar-button:vertical:increment { background: ${art(DOWN)}, ${scrollFace("90deg")}; }
-${P} ::-webkit-scrollbar-button:horizontal:decrement { background: ${art(LEFT)}, ${scrollFace("180deg")}; }
-${P} ::-webkit-scrollbar-button:horizontal:increment { background: ${art(RIGHT)}, ${scrollFace("180deg")}; }
+${P} ::-webkit-scrollbar-button:vertical:decrement { background: var(--sct-xp-up), ${scrollFace("90deg")}; }
+${P} ::-webkit-scrollbar-button:vertical:increment { background: var(--sct-xp-down), ${scrollFace("90deg")}; }
+${P} ::-webkit-scrollbar-button:horizontal:decrement { background: var(--sct-xp-left), ${scrollFace("180deg")}; }
+${P} ::-webkit-scrollbar-button:horizontal:increment { background: var(--sct-xp-right), ${scrollFace("180deg")}; }
 /* The rule editor's two lists (10.5) carry Sitecore's own ID-weighted scrollbar: Luna's again, at their weight. */
 ${P} :is(#Conditions, #Description)::-webkit-scrollbar { width: 17px; height: 17px; background: #f4f4f0; }
-${P} :is(#Conditions, #Description)::-webkit-scrollbar-thumb { border: 0; border-radius: 3px; background: ${scrollFace("90deg")}; box-shadow: inset 1px 1px #fff, inset -1px -1px #8eaae6; }
+${P} :is(#Conditions, #Description)::-webkit-scrollbar-thumb { border: 0; border-radius: 3px; background: ${scrollFace("90deg")}; box-shadow: inset 1px 1px #fff, inset -1px -1px ${V("scroll-edge")}; }
 
 ${header(P)}
 /* ---- Ribbon: XP tabs over a tab page ---- */
@@ -307,7 +485,7 @@ ${X} .scRibbonToolbar [class*="scRibbonToolbarLargeComboButtonBottom"] { padding
 ${P} .scContentTree { background: #fff; }
 ${P} .scContentTree :is(a, span) { font-size: 11px; }
 ${P} .scContentTree a.scContentTreeNodeActive { ${SEL} outline: 0; border-radius: 0; }
-${P} .scContentTree a.scContentTreeNodeActive span { color: #fff !important; }
+${P} .scContentTree a.scContentTreeNodeActive span { color: ${V("sel-fg")} !important; }
 ${P} .scContentTree a.scContentTreeNodeNormal:hover { background: transparent; text-decoration: underline; }
 ${P} img[src*="/treemenu_"] {
   box-sizing: border-box;
@@ -354,10 +532,10 @@ ${P} .scEditorSectionCaptionExpanded, ${P} .scEditorSectionCaptionCollapsed {
   margin: 0 0 2px;
   border: 0;
 }
-${P} :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed):hover { color: #428eff; }
+${P} :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed):hover { color: ${V("pane-hot")}; }
 ${P} img.scEditorSectionCaptionGlyph { width: 19px; height: 19px; margin: 3px 4px 0 0; }
-${P} img.scEditorSectionCaptionGlyph[src*="accordion_up"] { ${paint(roundChevron(DUP))} }
-${P} img.scEditorSectionCaptionGlyph[src*="accordion_down"] { ${paint(roundChevron(DDOWN))} }
+${P} img.scEditorSectionCaptionGlyph[src*="accordion_up"] { ${paint(roundChevron("dup"))} }
+${P} img.scEditorSectionCaptionGlyph[src*="accordion_down"] { ${paint(roundChevron("ddown"))} }
 ${P} .scEditorFieldLabel { color: #000; font: 11px ${FONT}; }
 
 /* ---- Fields: white, a 1px #7f9db9 border ---- */
@@ -413,16 +591,16 @@ ${P} .scPagerButtonActive { background: #fcfcfe; border-bottom-color: #e68b2c; b
    empty jQuery title bar is laid over it, keeping the drag and carrying the caption buttons. ---- */
 ${P} .ui-dialog {
   background: #ece9d8;
-  border: 3px solid #0d55e2;
+  border: 3px solid ${V("frame")};
   border-top: 0;
   border-radius: 8px 8px 0 0;
   padding: 0;
   overflow: hidden;
-  box-shadow: 0 0 0 1px #0831d9, 2px 3px 8px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 1px ${V("frame-line")}, 2px 3px 8px rgba(0, 0, 0, 0.35);
 }
 /* The token layer's .ui-widget-content border (#aca899) outranks P: a greige band between the caption and the
-   blue edge. Behind the caption's rounded corners the face is frame blue, so the clip blends blue into blue. */
-${X} .ui-dialog { border-color: #0d55e2; background: linear-gradient(#0d55e2 0 28px, #ece9d8 0); }
+   frame. Behind the caption's rounded corners the face is the frame's colour, so the clip blends frame into frame. */
+${X} .ui-dialog { border-color: ${V("frame")}; background: linear-gradient(${V("frame")} 0 28px, #ece9d8 0); }
 ${P} .ui-dialog .ui-dialog-titlebar {
   position: absolute;
   top: 0;
@@ -450,7 +628,7 @@ ${P} .ui-dialog .ui-dialog-titlebar-buttonpane > * {
   height: 21px;
   margin: 0;
   padding: 0;
-  border: 1px solid #fff;
+  border: 1px solid ${V("btn-border")};
   border-radius: 3px;
   box-shadow: none;
   overflow: hidden;
@@ -462,12 +640,13 @@ ${P} .ui-dialog .ui-dialog-titlebar-buttonpane > button.ui-button {
   float: none !important;
   order: 9;
   margin: 0 !important;
+  border-color: ${V("close-border")};
   background: var(--sct-xp-close);
 }
 ${P} .ui-dialog .ui-dialog-titlebar-maximize { background: var(--sct-xp-max); }
 ${P} .ui-dialog .ui-dialog-titlebar-restore { background: var(--sct-xp-restore); }
 ${P} .ui-dialog .ui-dialog-titlebar-minimize { background: var(--sct-xp-min); }
-${P} .ui-dialog .ui-dialog-titlebar-collapse { background: ${art(["WWWWWWW", ".WWWWW.", "..WWW..", "...W..."])}, ${BTN_FACE}; }
+${P} .ui-dialog .ui-dialog-titlebar-collapse { background: var(--sct-xp-collapse); }
 ${P} .ui-dialog .ui-dialog-titlebar-buttonpane > :hover { filter: brightness(1.15); }
 ${P} .ui-dialog .ui-dialog-titlebar-buttonpane > :active { filter: brightness(0.85); }
 /* a faint shade marks the dialog as modal */
@@ -484,7 +663,7 @@ ${P} :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .
   height: 28px;
   margin: 0;
   padding: 0 80px 0 7px;
-  background: ${CAP};
+  background: ${V("cap")};
   border: 0;
   border-radius: 0;
   ${capText}
@@ -533,23 +712,23 @@ ${P} :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img 
 ${P} :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"] { ${capBtn("var(--sct-xp-min)")} }
 ${P} :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"] { ${capBtn("var(--sct-xp-max)")} }
 ${P} :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"] { ${capBtn("var(--sct-xp-restore)")} }
-${P} :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"] { ${capBtn("var(--sct-xp-close)")} }
+${P} :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"] { ${capBtn("var(--sct-xp-close)", "close-border")} }
 ${P} :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:is([src*="minimize"], [src*="maximize"], [src*="restore"], [src*="_close"]):hover { filter: brightness(1.15); }
 ${P} :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:is([src*="minimize"], [src*="maximize"], [src*="restore"], [src*="_close"]):active { filter: brightness(0.85); }
 /* Standard windows (ISE, Console, Package Designer...): a Luna caption with rounded top corners. */
 ${P} .standardWindowCaption {
   height: 28px;
-  background: ${CAP};
+  background: ${V("cap")};
   border: 0;
   border-radius: 7px 7px 0 0;
 }
 /* Around the caption: the window's 1px #7f9db9 frame and the #d6dff7 body behind the rounded corners showed as
-   a pale line between the caption and XP's blue frame. Both frame blue; the caption's 7px corners sit 1px inside
+   a pale line between the caption and XP's frame. Both the frame's colour; the caption's 7px corners sit 1px inside
    the Desktop window's 8px clip. Workbox draws its own 1px sides (scWindowBorder2). */
-${X} .scWindowFrame, ${X} .scWindowBorder2 { border-color: #0d55e2; }
-${X} .scWindowFrame > .scStretch { background-color: #0d55e2; }
-${PI}:not(#sct-xp) .scWindowFrame, ${PI}:not(#sct-xp) .scWindowBorder2 { border-color: #7a96df; }
-${PI}:not(#sct-xp) .scWindowFrame > .scStretch { background-color: #7a96df; }
+${X} .scWindowFrame, ${X} .scWindowBorder2 { border-color: ${V("frame")}; }
+${X} .scWindowFrame > .scStretch { background-color: ${V("frame")}; }
+${PI}:not(#sct-xp) .scWindowFrame, ${PI}:not(#sct-xp) .scWindowBorder2 { border-color: ${V("frame-in")}; }
+${PI}:not(#sct-xp) .scWindowFrame > .scStretch { background-color: ${V("frame-in")}; }
 ${P} .standardWindowCaption + .windowPlaceholderContainer { top: 28px; }
 ${P} .standardWindowCaption .windowCaptionIcon { display: inline-block; vertical-align: top; margin: 6px 0 0 6px; }
 ${P} .standardWindowCaption .scWindowCaption {
@@ -560,18 +739,18 @@ ${P} .standardWindowCaption .scWindowCaption {
   vertical-align: top;
 }
 ${P} .standardWindowCaption .scWindowCaption * { font: inherit; }
-/* The ISE writes its script's path into the caption in an inline #bbb: a light blue that reads on the caption. */
-${P} .standardWindowCaption .scWindowCaption i { color: #c9dcff !important; }
+/* The ISE writes its script's path into the caption in an inline #bbb: a tint that reads on the caption. */
+${P} .standardWindowCaption .scWindowCaption i { color: ${V("cap-dim")} !important; }
 ${P} .standartWindowButtons { top: 4px; right: 5px; }
 /* An inactive window (dom.js marks its document from the taskbar): the inactive caption, darkened to pass AA. */
-${PI} .standardWindowCaption { background: ${CAP_IN}; }
-${PI} .standardWindowCaption .scWindowCaption { text-shadow: none; }
+${PI} .standardWindowCaption { background: ${V("cap-in")}; }
+${PI} .standardWindowCaption .scWindowCaption { color: ${V("cap-in-fg")}; text-shadow: none; }
 /* an inactive window's buttons fade, on every kind of window */
 ${PI} :is(.standartWindowButtons, .scSystemButtons, .scWorkboxWindowButtons) img { filter: saturate(0.5) brightness(1.1); }
 /* The Content Editor, Media Library and Workbox: Sitecore draws no caption over their windows. A Luna caption, as on every other window, is
    drawn on the caption's empty top line from the window's title (engine.js --sct-window-title), the window's
    buttons on it and the ribbon's menu button moved below it. */
-${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, ${P}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { box-sizing: border-box; height: 28px; background: ${CAP}; border-radius: 7px 7px 0 0; }
+${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, ${P}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { box-sizing: border-box; height: 28px; background: ${V("cap")}; border-radius: 7px 7px 0 0; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, ${P}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { content: var(--sct-window-title, ""); display: block; box-sizing: border-box; height: 28px; padding: 0 96px 0 28px; background: var(--sct-window-icon, none) 6px center / 16px 16px no-repeat; ${capText} line-height: 28px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > .scSystemButtons, ${P}[data-sct-window-title] .scWorkboxWindowButtons { top: 4px; right: 5px; margin-right: 0; height: 20px; z-index: 2; }
 /* the Workbox's buttons float in its caption strip: placed on the bar like the Content Editor's */
@@ -587,16 +766,16 @@ ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { p
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { translate: 0 4px; }
 /* the same 4px on a standard window (the ISE...), whose ribbon is in the page inside the window's chrome */
 ${P}[data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
-${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: ${CAP_IN}; }
-${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { text-shadow: none; }
+${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { background: ${V("cap-in")}; }
+${PI}[data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, ${PI}[data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { color: ${V("cap-in-fg")}; text-shadow: none; }
 
 
 /* ---- Insert gallery scroller ---- */
 ${P} .scRibbonPanelButtons { background: transparent; }
-${P} :is(img.scRibbonPanelUp, img.scRibbonPanelDown, img.scRibbonPanelOpen) { width: 17px; height: 15px; filter: none; border-radius: 2px; box-shadow: inset 1px 1px #fff, inset -1px -1px #8eaae6; }
-${P} img.scRibbonPanelUp { ${paint(`${art(UP)}, ${scrollFace("90deg")}`)} }
-${P} img.scRibbonPanelDown { ${paint(`${art(DOWN)}, ${scrollFace("90deg")}`)} }
-${P} img.scRibbonPanelOpen { ${paint(`${art(["BB.BB.BB", "BB.BB.BB"])}, ${scrollFace("90deg")}`)} }
+${P} :is(img.scRibbonPanelUp, img.scRibbonPanelDown, img.scRibbonPanelOpen) { width: 17px; height: 15px; filter: none; border-radius: 2px; box-shadow: inset 1px 1px #fff, inset -1px -1px ${V("scroll-edge")}; }
+${P} img.scRibbonPanelUp { ${paint(`var(--sct-xp-up), ${scrollFace("90deg")}`)} }
+${P} img.scRibbonPanelDown { ${paint(`var(--sct-xp-down), ${scrollFace("90deg")}`)} }
+${P} img.scRibbonPanelOpen { ${paint(`var(--sct-xp-more), ${scrollFace("90deg")}`)} }
 
 /* ==== Desktop: Bliss under the taskbar ==== */
 /* XP had no header above the desktop: the start menu takes over the user name and Log Off (dom.js). */
@@ -620,11 +799,11 @@ ${X} .DesktopArea {
 }
 ${X} .DesktopArea > :is(iframe, div[id^="FRAME"]) { top: 0; }
 
-/* ---- Taskbar: Luna blue, 34px (XP's 30px read as cramped next to Sitecore's larger windows) ---- */
+/* ---- Taskbar: the scheme's, 34px (XP's 30px read as cramped next to Sitecore's larger windows) ---- */
 ${X} .scStartbar { height: 34px; }
 ${X} #Startbar, ${X} #Startbar > table {
   height: 34px;
-  background: linear-gradient(#3168d5, #4993e6 3%, #2157d7 10%, #2663e0 50%, #245edb 92%, #1941a5);
+  background: ${V("bar")};
   border: 0;
   box-shadow: none;
 }
@@ -642,7 +821,7 @@ ${X} .scStartButton, ${X} .scStartButton.scPopupOpener, ${X} .scStartButton:hove
   padding: 0 12px 2px 6px;
   border: 0;
   border-radius: 0 12px 12px 0;
-  background: linear-gradient(#5eac56, #3c9c3c 10%, #41a541 18%, #349734 60%, #2f8a2f 88%, #2d7f2d);
+  background: ${V("start")};
   box-shadow: inset -1px 0 #7cc174, inset 0 1px #79c071, 1px 0 2px rgba(0, 0, 0, 0.4);
 }
 ${X} .scStartButton::after {
@@ -661,35 +840,38 @@ ${X} :is(.scActiveApplication, .scInactiveApplication) {
   height: 26px;
   max-width: 160px;
   padding: 0 8px;
-  border: 1px solid #1c50c0;
+  border: 1px solid ${V("task-border")};
   border-radius: 3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-${X} .scInactiveApplication { background: linear-gradient(#5d9bf8, #3c81f3 15%, #3a7ef0 85%, #2f6fdf); box-shadow: inset 1px 1px rgba(255, 255, 255, 0.35); }
-${X} .scInactiveApplication:hover { background: linear-gradient(#6faaff, #53a3ff 15%, #4f99fb 85%, #4085f0); }
-${X} .scActiveApplication { background: #1e52b7; box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5); border-color: #10347f; }
+${X} .scInactiveApplication { background: ${V("task")}; box-shadow: inset 1px 1px rgba(255, 255, 255, 0.35); }
+${X} .scInactiveApplication:hover { background: ${V("task-hot")}; }
+${X} .scActiveApplication { background: ${V("task-on")}; box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5); border-color: ${V("task-on-border")}; }
 ${X} .scInactiveApplication::before, ${X} .scInactiveApplication::after { display: none; }
-${X} :is(.scActiveApplication, .scInactiveApplication) * { color: #fff; font: 11px/24px ${FONT}; text-shadow: none; }
+${X} :is(.scActiveApplication, .scInactiveApplication) * { color: ${V("task-fg")}; font: 11px/24px ${FONT}; text-shadow: none; }
+${X} .scActiveApplication * { color: ${V("task-on-fg")}; }
 ${X} .scStartBarApplication span img { margin: 0 4px 0 0 !important; vertical-align: middle; }
-/* the tray: light blue, darkened under the white text (XP's #18b9f4 fails AA) */
+/* the tray: Blue's light blue, darkened under the white text (XP's #18b9f4 fails AA); Olive's cream, Silver's grey */
 ${X} .scStartbarTray {
   height: 34px;
   border: 0;
-  border-left: 1px solid #092e7b;
-  background: linear-gradient(#0c59b9, #1185de 4%, #0b72cc 20%, #0b72cc 85%, #1a64c0);
-  box-shadow: inset 1px 0 #1ba1ec;
+  border-left: 1px solid ${V("tray-edge")};
+  background: ${V("tray")};
+  box-shadow: inset 1px 0 ${V("tray-light")};
 }
 ${X} .scStartbarTray > tbody > tr > td { height: 34px; padding: 0 0 0 6px; line-height: 34px !important; vertical-align: middle; }
-${X} .scStartbarTray, ${X} .scStartbarTray * { color: #fff; font: 11px ${FONT}; }
+${X} .scStartbarTray, ${X} .scStartbarTray * { color: ${V("tray-fg")}; font: 11px ${FONT}; }
 ${X} #SearchBox { box-sizing: border-box; width: 150px; height: 20px; min-height: 0; margin: 0; padding: 0 4px; ${field} font: 11px ${FONT}; }
 ${X} #SearchBox::placeholder { color: #6d6d6d; }
 ${X} #DatabaseSelector { display: inline-flex; vertical-align: top; align-items: center; height: 34px; padding: 0 4px; border-radius: 0; background: transparent; }
 ${X} #DatabaseSelector img { width: 16px; height: 16px; margin: 0 4px 0 0 !important; }
-${X} .sct-xp-clock { padding: 0 10px 0 6px !important; white-space: nowrap; color: #fff; font: 11px ${FONT}; }
+/* the database icon is white, for a dark tray: dark on Olive's and Silver's light ones */
+${P}:is([data-sct-scheme="olive"], [data-sct-scheme="silver"]):not(#sct-xp) #DatabaseSelector img { filter: brightness(0) opacity(0.7); }
+${X} .sct-xp-clock { padding: 0 10px 0 6px !important; white-space: nowrap; color: ${V("tray-fg")}; font: 11px ${FONT}; }
 
-/* ---- Start menu: XP's two columns between the blue header and footer (dom.js adds both) ---- */
+/* ---- Start menu: XP's two columns between the scheme's header and footer (dom.js adds both) ---- */
 ${X} .scPopup:has(> .scStartMenu) { padding: 0; border: 0; border-radius: 8px 8px 0 0; box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.45); background: transparent; overflow: hidden; }
 ${X} .scStartMenu {
   box-sizing: border-box;
@@ -697,7 +879,7 @@ ${X} .scStartMenu {
   padding: 0;
   border: 0;
   border-radius: 8px 8px 0 0;
-  background: #1c64de;
+  background: ${V("sm")};
   box-shadow: none;
   overflow: hidden;
   font-family: ${FONT};
@@ -708,19 +890,19 @@ ${X} .sct-xp-smtop {
   gap: 8px;
   height: 56px;
   padding: 0 10px;
-  background: linear-gradient(#1868ce, #0e60cb 15%, #2b7be6 30%, #1b6ed9 70%, #0f5ac4 90%, #1857c2);
-  border-bottom: 2px solid #e18d39;
-  box-shadow: 0 1px #f8c26d;
+  background: ${V("sm-top")};
+  border-bottom: 2px solid ${V("sm-rule")};
+  box-shadow: 0 1px ${V("sm-rule-light")};
 }
 ${X} .sct-xp-smtop img { box-sizing: border-box; width: 44px; height: 44px; border: 2px solid #fff; border-radius: 3px; background: #d6dff7; object-fit: cover; }
-${X} .sct-xp-smtop span { overflow: hidden; color: #fff; font: bold 14px/1.2 ${CAPFONT}; text-shadow: 1px 1px 1px #0f1089; text-overflow: ellipsis; white-space: nowrap; }
+${X} .sct-xp-smtop span { overflow: hidden; color: ${V("sm-fg")}; font: bold 14px/1.2 ${CAPFONT}; text-shadow: ${V("sm-shadow")}; text-overflow: ellipsis; white-space: nowrap; }
 ${X} .scStartMenuContent { margin: 0 2px; border: 0; background: #fff; }
 ${X} .scStartMenuContentColumns { width: 100%; border: 0; border-collapse: collapse; table-layout: fixed; }
 ${X} .scStartMenuLeft, ${X} .scStartMenuRight { padding: 4px 0; vertical-align: top; }
-${X} .scStartMenuLeft { width: 50%; background: #fff; }
-${X} .scStartMenuRight { background: #d3e5fa; border-left: 1px solid #95bdee; }
-${X} :is(.scStartMenuLeft, .scStartMenuRight) * { color: #000; font-family: ${FONT}; }
-${X} .scStartMenuRight * { color: #00136b; }
+${X} .scStartMenuLeft { width: 50%; background: ${V("sm-left")}; }
+${X} .scStartMenuRight { background: ${V("sm-right")}; border-left: 1px solid ${V("sm-edge")}; }
+${X} :is(.scStartMenuLeft, .scStartMenuRight) * { color: ${V("sm-left-fg")}; font-family: ${FONT}; }
+${X} .scStartMenuRight * { color: ${V("sm-right-fg")}; }
 ${X} :is(.scStartMenuLeftOption, .scStartMenuRightFolder) {
   box-sizing: border-box;
   display: flex;
@@ -742,17 +924,17 @@ ${X} .scStartMenuRight :is(.scStartMenuLeftOptionIcon, .scStartMenuRightFolderIc
 ${X} .scStartMenuLeftOptionDescription { min-width: 0; overflow: hidden; }
 ${X} :is(.scStartMenuLeftOptionDisplayName, .scStartMenuRightFolderDisplayName) { padding: 0; font: bold 11px/14px ${FONT}; overflow: hidden; text-overflow: ellipsis; }
 ${X} .scStartMenuRight :is(.scStartMenuLeftOptionDisplayName, .scStartMenuRightFolderDisplayName) { font-weight: normal; }
-${X} .scStartMenuLeftOptionTooltip { color: #555 !important; font: 11px/14px ${FONT}; overflow: hidden; text-overflow: ellipsis; }
+${X} .scStartMenuLeftOptionTooltip { color: ${V("sm-left-dim")} !important; font: 11px/14px ${FONT}; overflow: hidden; text-overflow: ellipsis; }
 ${X} .scStartMenuRight .scStartMenuLeftOptionTooltip { display: none; }
 ${X} :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):is(:hover, .scPopupOpener) { ${SEL} border: 0; padding: 3px 6px; }
-${X} :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):is(:hover, .scPopupOpener) > :not(table) { color: #fff !important; }
+${X} :is(.scStartMenuLeftOption, .scStartMenuRightFolder, .scStartMenuProgramsMenu):is(:hover, .scPopupOpener) > :not(table) { color: ${V("sel-fg")} !important; }
 ${X} .scStartMenuRightFolderDisplayName { flex: 1; }
 ${X} .scStartMenuDivider { height: 1px; margin: 3px 8px; border: 0; background: linear-gradient(90deg, transparent, #c5c2b2 20% 80%, transparent); }
-${X} .scStartMenuRight .scStartMenuDivider { background: linear-gradient(90deg, transparent, #95bdee 20% 80%, transparent); }
+${X} .scStartMenuRight .scStartMenuDivider { background: linear-gradient(90deg, transparent, ${V("sm-edge")} 20% 80%, transparent); }
 ${X} img.scStartMenuRightFolderGlyph { ${paint(art(TRI_RIGHT))} order: 2; width: 8px; height: 9px; margin: 0 0 0 6px; float: none; }
-${X} .scStartMenuRightFolder:is(:hover, .scPopupOpener) img.scStartMenuRightFolderGlyph { filter: invert(1); }
+${X} .scStartMenuRightFolder:is(:hover, .scPopupOpener) img.scStartMenuRightFolderGlyph { filter: ${V("sel-glyph")}; }
 /* All Applications: XP's All Programs, bold, with the green arrow after it */
-${X} .scStartMenuPrograms { padding: 0 0 4px; background: #d3e5fa; border-left: 1px solid #95bdee; vertical-align: bottom; }
+${X} .scStartMenuPrograms { padding: 0 0 4px; background: ${V("sm-right")}; border-left: 1px solid ${V("sm-edge")}; vertical-align: bottom; }
 ${X} .scStartMenuPrograms .scStartMenuDivider { margin: 0 8px 4px; }
 ${X} .scStartMenuProgramsMenu { display: flex; align-items: center; justify-content: center; gap: 8px; height: 28px; padding: 3px 6px; color: #000; text-decoration: none; }
 ${X} .scStartMenuProgramsMenuText { color: #000; font: bold 11px/16px ${FONT}; }
@@ -764,10 +946,10 @@ ${X} .sct-xp-smbottom {
   gap: 4px;
   height: 36px;
   padding: 0 8px;
-  background: linear-gradient(#4282d6, #3b85e0 10%, #418ae3 30%, #3881dc 70%, #1c64de);
+  background: ${V("sm-foot")};
 }
-${X} .sct-xp-smbottom a { display: flex; align-items: center; gap: 5px; padding: 3px 6px; border-radius: 3px; color: #fff; font: 11px ${FONT}; text-decoration: none; }
-${X} .sct-xp-smbottom a:hover { background: rgba(255, 255, 255, 0.2); }
+${X} .sct-xp-smbottom a { display: flex; align-items: center; gap: 5px; padding: 3px 6px; border-radius: 3px; color: ${V("sm-foot-fg")}; font: 11px ${FONT}; text-decoration: none; }
+${X} .sct-xp-smbottom a:hover { background: ${V("sm-foot-hot")}; }
 ${X} .sct-xp-smbottom a img { width: 24px; height: 24px; }
 
 /* ==== Where 10.x's own metrics (34-36px controls, 6px corners, soft shadows) outrank the rules above. ==== */
@@ -826,7 +1008,7 @@ ${X} table.scCombobox img.scComboboxDropDown {
   border: 1px solid #fff;
   border-radius: 2px;
   box-shadow: none;
-  ${paint(`${art(DOWN)}, linear-gradient(135deg, #e3ebfd, #c1d3fb 60%, #b0c6f7)`)}
+  ${paint(`var(--sct-xp-down), ${V("combo")}`)}
 }
 ${X} table.scCombobox img.scComboboxDropDown:hover { filter: brightness(1.06); }
 
@@ -923,7 +1105,7 @@ ${X} iframe.scGalleryFrame { border: 1px solid #aca899; border-radius: 0; box-sh
 ${X} .scMenu :is(.scMenuItemIcon_Disabled, .scMenuItemCaption_Disabled, .scMenuItemHotkey_Disabled) { color: #aca899; }
 ${X} .scMenu .scMenuItemIcon_Disabled > img { opacity: 0.5; }
 ${X} .scMenu img[src*="submenu16x16" i] { ${paint(art(TRI_RIGHT))} }
-${X} .scMenu :is(.scMenuItemHotkey_Hover, .scMenuItemCaption_Hover) img[src*="submenu16x16" i] { filter: invert(1); }
+${X} .scMenu :is(.scMenuItemHotkey_Hover, .scMenuItemCaption_Hover) img[src*="submenu16x16" i] { filter: ${V("sel-glyph")}; }
 ${X} .scMenu :is(.scMenuDividerIcon, .scMenuDividerCaption, .scMenuDividerHotkey) {
   height: 7px;
   padding: 0;
@@ -943,18 +1125,18 @@ ${X} .scTabs > .scTabPage { border-color: transparent; }
 
 /* ---- Ribbon galleries (Home > Insert, Security > Presets): rows of a list, the Luna selection ---- */
 ${X} .scRibbonGalleryList > a:is(:hover, :active) { ${SEL} border-color: transparent; box-shadow: none; }
-${X} .scRibbonGalleryList > a:is(:hover, :active) * { color: #fff; }
+${X} .scRibbonGalleryList > a:is(:hover, :active) * { color: ${V("sel-fg")}; }
 
 /* The ribbon's fold button: the task pane's round chevron */
-${X} a.scRibbonClose { background: ${roundChevron(DUP)}; }
-${X} a.scRibbonOpen { background: ${roundChevron(DDOWN)}; }
+${X} a.scRibbonClose { background: ${roundChevron("dup")}; }
+${X} a.scRibbonOpen { background: ${roundChevron("ddown")}; }
 ${X} :is(a.scRibbonClose, a.scRibbonOpen)::before { content: none; }
 
 /* ---- Bucket search: one white field holding the filter tokens and the Clear and Search buttons ---- */
 ${X} .search-box { border-radius: 0; ${field} }
 ${X} .search-box :is(.sb_down, .sb_up) { border: 0; border-right: 1px solid #7f9db9; border-radius: 0; }
-${X} .search-box .sb_down { background: ${art(DOWN)}, ${scrollFace("90deg")}; }
-${X} .search-box .sb_up { background: ${art(UP)}, ${scrollFace("90deg")}; }
+${X} .search-box .sb_down { background: var(--sct-xp-down), ${scrollFace("90deg")}; }
+${X} .search-box .sb_up { background: var(--sct-xp-up), ${scrollFace("90deg")}; }
 ${X} .search-box #raw-user-input { border: 0; box-shadow: none; background: transparent; }
 ${X} .filters .filter { border: 1px solid #7f9db9; border-radius: 3px; background: #d6dff7; color: #000; }
 ${X} .clear-search-box :is(.btn-clear, .btn-search) { ${push} }
@@ -972,14 +1154,18 @@ ${X} .ui-state-highlight { border: 1px solid #000; border-radius: 3px; backgroun
 ${X} .ui-state-highlight :is(p, b, span, a, div) { color: #000; }
 ${X} .ui-state-highlight a { color: #0033cc; }
 
-/* ---- Desktop windows: each is an iframe, so XP's blue frame is drawn outside it as rings ---- */
+/* ---- Desktop windows: each is an iframe, so XP's frame is drawn outside it as rings ---- */
 /* XP's frame is the iframe's own 4px border on the sides and bottom, see-through to the iframe's background:
    the caption's gradient, laid from the border's outer edge so it runs across the frame unbroken, down to the caption's height, the frame's blue below. So the frame beside the caption
    is caption, and the window has one rounded corner, the iframe's own; a 1px dark line runs round it all. */
-${X} #Desktop > iframe:not([style*="width: 100%"]) { border: 4px solid transparent; border-top: 0; border-radius: 8px 8px 0 0; background: ${CAP} top / 100% 28px no-repeat border-box, #0d55e2; box-shadow: 0 0 0 1px #0831d9, 2px 3px 8px 4px rgba(0, 0, 0, 0.3); }
-${X} #Desktop > iframe[data-sct-window="inactive"]:not([style*="width: 100%"]) { background: ${CAP_IN} top / 100% 28px no-repeat border-box, #7a96df; box-shadow: 0 0 0 1px #5470c0, 2px 3px 8px 4px rgba(0, 0, 0, 0.2); }
+${X} #Desktop > iframe:not([style*="width: 100%"]) { border: 4px solid transparent; border-top: 0; border-radius: 8px 8px 0 0; background: ${V("cap")} top / 100% 28px no-repeat border-box, ${V("frame")}; box-shadow: 0 0 0 1px ${V("frame-line")}, 2px 3px 8px 4px rgba(0, 0, 0, 0.3); }
+${X} #Desktop > iframe[data-sct-window="inactive"]:not([style*="width: 100%"]) { background: ${V("cap-in")} top / 100% 28px no-repeat border-box, ${V("frame-in")}; box-shadow: 0 0 0 1px ${V("frame-in-line")}, 2px 3px 8px 4px rgba(0, 0, 0, 0.2); }
 /* inside a Desktop window the caption runs to the frame: no 1px window border, no inner rounding */
-${X}[data-sct-window-title] :is(.scWindowFrame, .scWindowBorder2) { border-width: 0; }
+${X}[data-sct-window-title] :is(.scWindowFrame, .scWindowBorder1, .scWindowBorder2) { border-width: 0; }
+/* At 125% the window's edge falls mid-pixel and that pixel mixes in the page's canvas, white from the body: a pale
+   line between the caption and the frame. The canvas is painted like the iframe behind it, caption over frame. */
+${X}[data-sct-window-title] { background: ${V("cap")} top / 100% 28px no-repeat, ${V("frame")}; }
+${PI}:not(#sct-xp)[data-sct-window-title] { background: ${V("cap-in")} top / 100% 28px no-repeat, ${V("frame-in")}; }
 ${X}[data-sct-window-title] :is(.standardWindowCaption, .scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption) { border-radius: 0; }
 
 `;
@@ -988,7 +1174,8 @@ ${X}[data-sct-window-title] :is(.standardWindowCaption, .scWindowBorder2 > .scCa
 // band: the header's height inside its bottom border (SPEAK pages 49px, Launchpad 47px).
 const speakCommon = (S, band = 49) => {
   const SX = `${S}:not(#sct-xp)`;
-  return `${SX} :is(body, input, button, select, textarea, h1, h2, h3, h4, h5, h6, p, a, span, div, li, label, td, th, nav, header, section):not([class*="glyphicon"], .fa, [class*="fa-"]) {
+  return `${schemeVars(S)}
+${SX} :is(body, input, button, select, textarea, h1, h2, h3, h4, h5, h6, p, a, span, div, li, label, td, th, nav, header, section):not([class*="glyphicon"], .fa, [class*="fa-"]) {
   font-family: ${FONT};
 }
 ${header(SX)}
@@ -1058,7 +1245,7 @@ ${title} {
   text-transform: none;
   white-space: nowrap;
 }
-${body} { box-sizing: border-box; margin: 0; padding: 8px 12px; border: 1px solid #fff; border-top: 0; border-radius: 0; background: #d6dff7; box-shadow: none; }`;
+${body} { box-sizing: border-box; margin: 0; padding: 8px 12px; border: 1px solid #fff; border-top: 0; border-radius: 0; background: ${V("pane-body")}; box-shadow: none; }`;
 
 const SP = SURFACE("speak"), SPX = `${SP}:not(#sct-xp)`;
 const EE = `${SPX} .sc-pageeditbar`;
@@ -1098,8 +1285,8 @@ ${EE} .sc-quickbar-button.disabled { opacity: 0.45; }
 ${EE} .sc-quickbar-button[data-sc-id="QuickRibbon"] { order: 1; margin-left: auto; }
 ${EE} .sc-quickbar-button :is(.navigate_up, .navigate_down) { float: none; margin: 0; background: none; mask: none; }
 ${EE} .sc-quickbar-button :is(.navigate_up, .navigate_down)::before { content: ""; display: block; width: 19px; height: 19px; }
-${EE} .sc-quickbar-button .navigate_up::before { background: ${roundChevron(DUP)}; }
-${EE} .sc-quickbar-button .navigate_down::before { background: ${roundChevron(DDOWN)}; }
+${EE} .sc-quickbar-button .navigate_up::before { background: ${roundChevron("dup")}; }
+${EE} .sc-quickbar-button .navigate_down::before { background: ${roundChevron("ddown")}; }
 ${EE} .sc-quickbar-button[data-sc-id="QuickInsert-Component"] { margin-right: 8px; }
 ${EE} .sc-quickbar-tab, ${EE} .sc-quickbar-tab:hover {
   ${tab}
@@ -1237,7 +1424,7 @@ ${SPX} .sc-applicationHeader-row1 { background-image: none; }
 ${SPX} .sc-applicationContent-main { background: none; }
 ${SPX} .sc-controlpanel-box { margin-top: 16px; }
 ${taskPane(`${SPX} .sc-controlpanel-box`, `${SPX} .sc-controlpanel-box-header h4`, `${SPX} .sc-controlpanel-box-content`)}
-${SPX} .sc-controlpanel-box-header { margin: 0; padding: 0; color: #215dc6; text-transform: none; }
+${SPX} .sc-controlpanel-box-header { margin: 0; padding: 0; color: ${V("pane-fg")}; text-transform: none; }
 ${SPX} .sc-controlpanel-box-header h4 img { flex: none; width: 16px; height: 16px; margin: 0 6px 0 0; }
 ${SPX} .sc-controlpanel-box-content li { height: auto; padding: 0; border: 0; }
 ${SPX} .sc-controlpanel-box-content li a { display: block; padding: 2px 0; color: #0c32a4; font: 11px/16px ${FONT}; text-decoration: none; }
@@ -1245,8 +1432,8 @@ ${SPX} .sc-controlpanel-box-content li a:is(:hover, :focus) { color: #2d6ff7; te
 ${SPX} .sc-controlpanel-no-items { color: #555; }
 
 /* ==== Forms: the selected navigation entry and tab sit on the Luna selection ==== */
-${SPX} .header.menuItem :is(a, span) { color: #fff; }
-${SPX} .sc-tab-control-tab-item.selected :is(a, span) { color: #fff; }
+${SPX} .header.menuItem :is(a, span) { color: ${V("sel-fg")}; }
+${SPX} .sc-tab-control-tab-item.selected :is(a, span) { color: ${V("sel-fg")}; }
 `;
 
 // ==== Launchpad: an Explorer window. The header is the caption; the left column is the blue task pane
@@ -1266,8 +1453,8 @@ ${LPX} .sc-applicationHeader { border: 0; background: none; box-shadow: none; }
 ${LPX} .sc-applicationHeader-row1 { border: 0; }
 ${LPX} .sc-applicationHeader-row1.no-breadcrumb .sc-applicationHeader-title { display: flex; align-items: center; top: 0; left: 44px; box-sizing: border-box; height: 47px; padding: 0 8px; background: transparent; }
 ${LPX} .sc-applicationHeader-title, ${LPX} .sc-applicationHeader-title .sc-text { ${capText} line-height: 24px; }
-/* the title's dark icon, white on the caption */
-${LPX} .sc-applicationHeader-title::before { flex: none; filter: brightness(0) invert(1); }
+/* the title's dark icon, white on Blue's caption */
+${LPX} .sc-applicationHeader-title::before { flex: none; filter: ${V("cap-logo")}; }
 ${LPX} [data-sc-id="ColumnPanel1"] {
   display: grid;
   grid-template-columns: ${TP}px minmax(0, 1fr);
@@ -1290,9 +1477,9 @@ ${LPX} [data-sc-id="RowPanelTilesWrapper"] { grid-row: 3; }
 ${taskPane(`${LPX} .sc-border[data-sc-id="FallBackMessageBorder"]`, `${LPX} .sc-text[data-sc-id="CustomAnalyticsLabel"]`, `${LPX} .sc-border[data-sc-id="FallBackMessageBorder"]`)}
 ${LPX} .sc-text[data-sc-id="CustomAnalyticsLabel"] { position: static; margin: 12px 12px 0; cursor: pointer; }
 ${LPX} .sc-border[data-sc-id="FallBackMessageBorder"] { margin: 0 12px 12px; }
-${LPX} .sc-text[data-sc-id="CustomAnalyticsLabel"]::after { content: ""; flex: none; width: 19px; height: 19px; margin-left: auto; background: ${roundChevron(DUP)}; }
-${LPX} .sc-text[data-sc-id="CustomAnalyticsLabel"]:hover { color: #428eff; }
-${LPX} .sc-text[data-sc-id="CustomAnalyticsLabel"][data-sct-collapsed="1"]::after { background: ${roundChevron(DDOWN)}; }
+${LPX} .sc-text[data-sc-id="CustomAnalyticsLabel"]::after { content: ""; flex: none; width: 19px; height: 19px; margin-left: auto; background: ${roundChevron("dup")}; }
+${LPX} .sc-text[data-sc-id="CustomAnalyticsLabel"]:hover { color: ${V("pane-hot")}; }
+${LPX} .sc-text[data-sc-id="CustomAnalyticsLabel"][data-sct-collapsed="1"]::after { background: ${roundChevron("ddown")}; }
 ${LPX} .sc-text[data-sc-id="CustomAnalyticsLabel"][data-sct-collapsed="1"] + .sc-border { display: none; }
 ${LPX} .sc-border[data-sc-id="FallBackMessageBorder"] :is(.row, [class*="col-"]) { float: none; width: auto; margin: 0; padding: 0; }
 ${LPX} .sc-border[data-sc-id="FallBackMessageBorder"] .sc-border { min-height: 0; border: 0; background: none; box-shadow: none; }
@@ -1330,16 +1517,16 @@ ${LPX} .sc-launchpad-group-title {
   margin: 0 0 4px;
   padding: 0 0 0 2px;
   border: 0;
-  background: linear-gradient(90deg, #6c95e8, #c5d6f7 55%, transparent) left bottom / 100% 1px no-repeat;
-  color: #0e3c9c;
+  background: ${V("group-line")} left bottom / 100% 1px no-repeat;
+  color: ${V("group-fg")};
   font: bold 11px/20px ${FONT};
   text-transform: none;
   cursor: pointer;
 }
-${LPX} .sc-launchpad-group-title::after { content: ""; display: inline-block; width: 9px; height: 6px; margin: 0 0 1px 6px; background: ${art(UP.map((r) => r.replace(/B/g, "N")), [1, 1])}; vertical-align: middle; }
-${LPX} .sc-launchpad-group[data-sct-collapsed="1"] > .sc-launchpad-group-title::after { background: ${art(DOWN.map((r) => r.replace(/B/g, "N")), [1, 1])}; }
+${LPX} .sc-launchpad-group-title::after { content: ""; display: inline-block; width: 9px; height: 6px; margin: 0 0 1px 6px; background: var(--sct-xp-group-up); vertical-align: middle; }
+${LPX} .sc-launchpad-group[data-sct-collapsed="1"] > .sc-launchpad-group-title::after { background: var(--sct-xp-group-down); }
 ${LPX} .sc-launchpad-group[data-sct-collapsed="1"] > .sc-launchpad-item { display: none; }
-${LPX} .sc-launchpad-group-title:hover { color: #428eff; }
+${LPX} .sc-launchpad-group-title:hover { color: ${V("pane-hot")}; }
 /* a tile: the 48px icon, the name and, below it in grey, where it opens */
 ${LPX} .sc-launchpad-item {
   display: flex;
@@ -1366,7 +1553,7 @@ ${LPX} .sc-launchpad-item:hover { background: none; box-shadow: none; text-decor
 ${LPX} .sc-launchpad-item:hover .sc-launchpad-text { color: #0033cc; text-decoration: underline; }
 ${LPX} .sc-launchpad-item:is(:focus, :active) { outline: none; }
 ${LPX} .sc-launchpad-item:is(:focus-visible, :active) .sc-launchpad-text { ${SEL} text-decoration: none; }
-${LPX} .sc-launchpad-item:is(:focus-visible, :active) .sc-launchpad-text::after { color: #fff; }
+${LPX} .sc-launchpad-item:is(:focus-visible, :active) .sc-launchpad-text::after { color: ${V("sel-fg")}; }
 ${LPX} .sc-launchpad-item:is(:focus-visible, :active) .icon img { filter: sepia(1) hue-rotate(180deg) saturate(3) brightness(0.8); }
 `;
 

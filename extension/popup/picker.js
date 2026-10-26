@@ -1,15 +1,16 @@
 // The theme picker, shared by the extension's popup and the Sitecore module's panel (sitecore/host.js): the
-// preview, a theme's own settings (an environment, a time of day, a hue: theme.json `controls` and `hue`) and the
-// themes, a group at a time under tabs drawn as decks of miniatures. Needs themes.js, lib/settings.js and swatch.js.
-// The caller says where to draw and how to read and save:
+// preview, a theme's own settings (an environment, a time of day, a colour scheme, a hue: theme.json `controls` and
+// `hue`) and the themes, a group at a time under tabs drawn as decks of miniatures. Needs themes.js, lib/settings.js
+// and swatch.js. The caller says where to draw and how to read and save:
 //   SCT.picker.mount(container, {
 //     label,          the grid's accessible name
 //     themes,         the URL of the themes folder, ending in /: a theme's screenshots are <id>/preview*.jpg
-//     load(),         Promise of { version, catalog, theme (saved id), hue, env, phase }
+//     load(),         Promise of { version, catalog, theme (saved id), hue, env, phase, scheme }
 //     setTheme(id),   Promise
 //     setHue(hue, theme), Promise; called while the slider moves (at most once a second) and on release
 //     setEnv(env),    Promise; leave it out for no environment control
 //     setPhase(phase), Promise, "" for Auto; leave it out for no time-of-day control
+//     setScheme(scheme), Promise, "" for the theme's own; leave it out for no colour scheme control
 //     onTheme(theme), optional: called with the site's theme on every draw
 //   }) returns { render } to draw again after a change elsewhere
 (function (root) {
@@ -39,6 +40,12 @@
   <label><input type="radio" name="phase" value="day"> Day</label>
   <label><input type="radio" name="phase" value="dusk"> Dusk</label>
   <label><input type="radio" name="phase" value="night"> Night</label>
+</div>
+<div id="scheme" role="radiogroup" aria-label="This site's colour scheme" hidden>
+  <label><input type="radio" name="scheme" value=""> Luna</label>
+  <label><input type="radio" name="scheme" value="blue"> Blue</label>
+  <label><input type="radio" name="scheme" value="olive"> Olive Green</label>
+  <label><input type="radio" name="scheme" value="silver"> Silver</label>
 </div>
 <div id="hue" hidden>
   <label for="hue-range">Hue</label>
@@ -214,7 +221,7 @@
     }
 
     async function render() {
-      const { version: release = null, catalog, theme, hue, env, phase } = await opts.load();
+      const { version: release = null, catalog, theme, hue, env, phase, scheme } = await opts.load();
       const version = SCT.settings.uiVersion(release); // 10.0 to 10.3 serve 10.4's UI
       if (siteVersion !== version) (siteVersion = version), (heroId = null);
       const byId = (id) => catalog.find((t) => t.id === id);
@@ -308,6 +315,10 @@
       $("#phase").hidden = !opts.setPhase || !current.controls?.includes("phase");
       $(`#phase input[value="${SCT.settings.PHASES.includes(phase) ? phase : ""}"]`).checked = true;
 
+      // a theme with colour schemes (Whistler: Luna, and XP's Blue, Olive Green and Silver); its own until the site picks one
+      $("#scheme").hidden = !opts.setScheme || !current.controls?.includes("scheme");
+      $(`#scheme input[value="${SCT.settings.SCHEMES.includes(scheme) ? scheme : ""}"]`).checked = true;
+
       // a theme with a hue (Fjord) turns round the colour wheel: the track starts at the theme's own accent
       $("#hue").hidden = !current.hue;
       if (current.hue) {
@@ -321,6 +332,7 @@
     $("#themes").onchange = (e) => opts.setTheme(e.target.value).then(render).then(() => applied(e.target.value));
     if (opts.setEnv) $("#env").onchange = (e) => opts.setEnv(e.target.value);
     if (opts.setPhase) $("#phase").onchange = (e) => opts.setPhase(e.target.value);
+    if (opts.setScheme) $("#scheme").onchange = (e) => opts.setScheme(e.target.value);
     const range = $("#hue-range");
     const writeHue = () => opts.setHue(siteHue, siteTheme.id);
     const saveHue = throttled(writeHue);

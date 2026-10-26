@@ -3,7 +3,7 @@
 // grow (a `scroll` finding, see scan.cjs; popups are also checked for a sub-pixel overflow, which shows a
 // scrollbar at some zoom levels and click positions), or if a menu could not be opened twice running.
 // usage: node .claude/skills/sct-verify/menus.cjs --themes notebook,cupertino [--versions 10.5,10.4]
-//          [--scale 1.25] [--out test-results/verify] [--only tree,start]
+//          [--scale 1.25] [--out test-results/verify] [--only tree,start] [--colours olive]
 // Menus: the Content Editor tree's context menu and its Insert fly-out, ribbon drop-downs (Edit's gallery,
 // Duplicate's menu), the Insert gallery's "more" pop-up, the language and version galleries; the Desktop's
 // start menu and a fly-out, and the taskbar's context menu on a running app (the Workbox).
@@ -27,6 +27,7 @@ const versions = arg("versions", "10.5,10.4").split(",");
 const out = path.resolve(ROOT, arg("out", "test-results/verify"));
 const scale = Number(arg("scale", "1"));
 const only = arg("only", "").split(",").filter(Boolean);
+const colours = arg("colours", null); // the sites' colour scheme, for themes that offer one (Whistler's olive, silver)
 if (!themes.length) {
   console.error("pass --themes id[,id...] (ids from extension/themes/themes.js)");
   process.exit(2);
@@ -127,7 +128,7 @@ function copyProfile() {
         console.log(`${version} ${theme}: not supported on this version, skipped`);
         continue;
       }
-      await worker.evaluate(([t, o]) => chrome.storage.sync.set({ overrides: Object.fromEntries(o.map((x) => [x, t])) }), [theme, origins]);
+      await worker.evaluate(([t, o, c]) => chrome.storage.sync.set({ overrides: Object.fromEntries(o.map((x) => [x, t])), schemes: c ? Object.fromEntries(o.map((x) => [x, c])) : {} }), [theme, origins, colours]);
       let loaded = null, before = new Set();
       for (let i = 0, retried = false; i < MENUS.length; i++) {
         const menu = MENUS[i];
@@ -155,7 +156,7 @@ function copyProfile() {
           const row = page.locator(".scPopup:visible").last().locator("tr.scGalleryMenuItem, .scStartMenuRightFolder").first();
           if (await row.count()) await row.hover({ timeout: 2000 }).catch(() => {});
           await page.waitForTimeout(200);
-          const file = path.join(out, `${version}-${theme}-${scale}x-menu-${menu.name}.png`);
+          const file = path.join(out, `${version}-${theme}${colours ? `-${colours}` : ""}-${scale}x-menu-${menu.name}.png`);
           await page.screenshot({ path: file });
           const found = (await scanPage(page, scratch, scale)).filter((f) => !before.has(key(f)));
           // scan.cjs skips a 1px overflow, but a popup that overflows by 1px still shows a whole scrollbar

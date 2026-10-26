@@ -30,7 +30,7 @@ A browser extension that re-themes the Sitecore 10.0 to 10.5 Content Management 
 | **Retro** | |
 | Redmond 3.11 | Inspired by Windows 3.11 |
 | Chicago | Inspired by Windows 95 |
-| Whistler | Inspired by Windows XP |
+| Whistler | Inspired by Windows XP, in Luna, Blue, Olive Green or Silver |
 | Sonata | Inspired by Mac OS 9 |
 | Menlo | Inspired by BeOS |
 | Redwood | Inspired by NeXTSTEP |

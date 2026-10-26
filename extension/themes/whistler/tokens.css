@@ -1,6 +1,6 @@
-/* Whistler: inspired by Windows XP's Luna Blue. Window face #ece9d8, Luna blue captions (#0054e3 at the
-   text), selection #316ac5, field border #7f9db9, Tahoma 11px. XP's inactive caption (#7a96df with
-   #d8e4f8 text, 3.1:1) fails AA: Whistler darkens it to #5470c0 under white text (4.7:1). */
+/* Whistler: inspired by Windows XP's Luna, by default in the deeper blue of the Luna Element skin. Window face
+   #ece9d8, captions #1d55b7, inactive #6f97dc with navy text (white on it is 2.5:1), a navy taskbar, selection
+   #316ac5, field border #7f9db9, Tahoma 11px. */
 html[data-sct-theme="whistler"] {
   --sct-font-family: Tahoma, Verdana, "Segoe UI", sans-serif;
   --sct-font-size: 11px;
@@ -22,11 +22,11 @@ html[data-sct-theme="whistler"] {
   --sct-chrome-fg: #000000;
   --sct-selected-bg: #316ac5;
 
-  --sct-titlebar-bg: #0054e3;
+  --sct-titlebar-bg: #1d55b7;
   --sct-titlebar-fg: #ffffff;
-  --sct-titlebar-inactive-bg: #5470c0;
-  --sct-titlebar-inactive-fg: #ffffff;
-  --sct-window-border: #0831d9;
+  --sct-titlebar-inactive-bg: #6f97dc;
+  --sct-titlebar-inactive-fg: #0a2257;
+  --sct-window-border: #0d308c;
 
   --sct-ribbon-bg: #f6f5f0;
   --sct-ribbon-fg: #000000;
@@ -73,8 +73,61 @@ html[data-sct-theme="whistler"] {
   --sct-scrollbar-track: #f4f4f0;
 
   --sct-desktop-bg: #3a6ea5;
-  --sct-taskbar-bg: #245edb;
+  --sct-taskbar-bg: #1e429c;
   --sct-taskbar-fg: #ffffff;
+}
+
+/* XP's own colour schemes (data-sct-scheme, the picker's colour scheme): Blue's captions #0054e3, its inactive
+   #7a96df with #d8e4f8 text (3.1:1) darkened to #5470c0 under white (4.7:1); Olive Green's light olive captions
+   and taskbar with #41400a text (XP's white on them is 2.2:1), the selection #93a070 darkened to #6b7a45 under white;
+   Silver's silver captions with black text, the selection #b2b4bf under black. Section headers and scroll bars
+   follow each scheme's task panes and scroll bars. */
+html[data-sct-theme="whistler"][data-sct-scheme="blue"] {
+  --sct-titlebar-bg: #0054e3;
+  --sct-titlebar-inactive-bg: #5470c0;
+  --sct-titlebar-inactive-fg: #ffffff;
+  --sct-window-border: #0831d9;
+  --sct-taskbar-bg: #245edb;
+}
+html[data-sct-theme="whistler"][data-sct-scheme="olive"] {
+  --sct-accent: #6b7a45;
+  --sct-focus-ring: #6b7a45;
+  --sct-selected-bg: #6b7a45;
+  --sct-tree-selected-bg: #6b7a45;
+  --sct-tree-selected-border: #6b7a45;
+  --sct-input-focus-border: #6b7a45;
+  --sct-titlebar-bg: #a7b580;
+  --sct-titlebar-fg: #41400a;
+  --sct-titlebar-inactive-bg: #d3d6ba;
+  --sct-titlebar-inactive-fg: #4f5a2e;
+  --sct-window-border: #758d5e;
+  --sct-taskbar-bg: #a8b680;
+  --sct-taskbar-fg: #41400a;
+  --sct-chrome-bg: #f6f6ec;
+  --sct-section-header-bg: #e1e7b9;
+  --sct-section-header-fg: #56662d;
+  --sct-scrollbar-thumb: #c6dcc1;
+}
+html[data-sct-theme="whistler"][data-sct-scheme="silver"] {
+  --sct-accent: #b2b4bf;
+  --sct-accent-fg: #000000;
+  --sct-focus-ring: #6b758f;
+  --sct-selected-bg: #b2b4bf;
+  --sct-tree-selected-bg: #b2b4bf;
+  --sct-tree-selected-fg: #000000;
+  --sct-tree-selected-border: #b2b4bf;
+  --sct-input-focus-border: #6b758f;
+  --sct-titlebar-bg: #c2c4d1;
+  --sct-titlebar-fg: #000000;
+  --sct-titlebar-inactive-bg: #dedfea;
+  --sct-titlebar-inactive-fg: #545462;
+  --sct-window-border: #66667e;
+  --sct-taskbar-bg: #a8a9bf;
+  --sct-taskbar-fg: #000000;
+  --sct-chrome-bg: #f0f1f5;
+  --sct-section-header-bg: #d6d7e0;
+  --sct-section-header-fg: #33334a;
+  --sct-scrollbar-thumb: #dedede;
 }
 
 /* color-scheme changes the canvas and default colours of the whole document. In the Experience

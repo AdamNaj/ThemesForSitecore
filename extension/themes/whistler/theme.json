@@ -1,9 +1,10 @@
 {
   "name": "Whistler",
-  "description": "Inspired by Windows XP",
+  "description": "Inspired by Windows XP, in Luna, Blue, Olive Green or Silver",
   "category": "retro",
   "order": 120,
   "versions": ["10.4", "10.5"],
-  "preview": ["#ece9d8", "#0054e3", "#3c9c3c"],
-  "swatch": { "desk": "#245ccf", "desk2": "#c7e0fa", "deco": "hills", "bar": "#245edb", "start": "#3c9c3c", "app": "#3c81f3", "app2": "#1e52b7", "win": "#ece9d8", "border": "#0831d9", "bw": 2, "r": 4, "cap": "#0997ff", "cap2": "#0053ee", "btns": "right", "btn": "#5ea0ff", "close": "#d24a24", "ribbon": "#ecebe6", "tab": "#ffc83c", "tree": "#ffffff", "ed": "#ece9d8", "sec": "#c6d3f7", "field": "#ffffff", "line": "#7f9db9", "sel": "#316ac5", "fg": "#000000" }
+  "controls": ["scheme"],
+  "preview": ["#ece9d8", "#1d55b7", "#3c9c3c"],
+  "swatch": { "desk": "#245ccf", "desk2": "#c7e0fa", "deco": "hills", "bar": "#1e429c", "start": "#128612", "app": "#2b67dd", "app2": "#174cba", "win": "#ece9d8", "border": "#0d308c", "bw": 2, "r": 4, "cap": "#2a66bf", "cap2": "#1d55b7", "btns": "right", "btn": "#4278d6", "close": "#c64040", "ribbon": "#ecebe6", "tab": "#ffc83c", "tree": "#ffffff", "ed": "#ece9d8", "sec": "#c6d3f7", "field": "#ffffff", "line": "#7f9db9", "sel": "#316ac5", "fg": "#000000" }
 }

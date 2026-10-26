@@ -49,7 +49,7 @@ Everything the CSS selects is scoped by `<html>`'s attributes: `data-sct-theme="
 | `order` | no | Position within the group, lowest first; themes without one follow, by name. |
 | `appearance` | no | `"auto"` for a theme with light and dark looks under `prefers-color-scheme`. A site can pin it to Light or Dark. |
 | `hue` | no | `true` lets a site turn the palette round the colour wheel: `tokens.css` redefines its colours under `[data-sct-hue]` from `--sct-hue`. |
-| `controls` | no | Extra per-site settings the popup shows for this theme: `"env"` (the site's environment, as `data-sct-env`), `"phase"` (a pinned time of day, as `data-sct-phase-pin`). |
+| `controls` | no | Extra per-site settings the popup shows for this theme: `"env"` (the site's environment, as `data-sct-env`), `"phase"` (a pinned time of day, as `data-sct-phase-pin`), `"scheme"` (Whistler's colour scheme, as `data-sct-scheme`: `blue`, `olive` or `silver`, none for the theme's own (Luna)). |
 | `shared` | no | The other CSS files' order, when alphabetical is wrong. |
 
 `npm run themes` checks the required fields and says which file is wrong.

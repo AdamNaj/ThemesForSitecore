@@ -9,6 +9,7 @@
 //     1.5px of the first tab's, and the first tab starts right of both (SPE's 52px reserve).
 // It crops each title bar and toggle strip into --out for reading. Exits non-zero on any failure.
 // usage: node .claude/skills/sct-verify/windows.cjs --themes redwood,sonata|all [--versions 10.5,10.4] [--scale 1.25] [--out test-results/windows]
+//          [--colours olive]
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
@@ -24,6 +25,7 @@ const arg = (name, def) => {
 const themes = arg("themes", "") === "all" ? CATALOG.map((t) => t.id) : arg("themes", "").split(",").filter(Boolean);
 const versions = arg("versions", "10.5,10.4").split(",");
 const scale = Number(arg("scale", "1.25"));
+const colours = arg("colours", null); // the sites' colour scheme, for themes that offer one (Whistler's olive, silver)
 const out = path.resolve(ROOT, arg("out", "test-results/windows"));
 if (!themes.length) {
   console.error("pass --themes id[,id...] (ids from extension/themes/themes.js)");
@@ -79,7 +81,7 @@ const checkToggles = () => {
     for (const theme of themes) {
       if (!(CATALOG.find((t) => t.id === theme)?.versions || [version]).includes(version)) continue;
       const label = `${version} ${theme}`;
-      await worker.evaluate(([t, o]) => chrome.storage.sync.set({ overrides: Object.fromEntries(o.map((x) => [x, t])) }), [theme, origins]);
+      await worker.evaluate(([t, o, c]) => chrome.storage.sync.set({ overrides: Object.fromEntries(o.map((x) => [x, t])), schemes: c ? Object.fromEntries(o.map((x) => [x, c])) : {} }), [theme, origins, colours]);
       // the toggles left of the script tabs, in an ISE frame; `where` names it in the report and the crop
       const toggles = async (frame, where) => {
         const r = await frame.evaluate(checkToggles).catch((e) => ({ problems: [String(e).split("\n")[0]] }));
@@ -88,7 +90,7 @@ const checkToggles = () => {
         if (!r.box) return;
         const fe = await frame.frameElement().catch(() => null);
         const fb = fe ? await fe.boundingBox() : { x: 0, y: 0 };
-        await page.screenshot({ path: path.join(out, `${version}-${theme}-toggles-${where}.png`), clip: { x: fb.x + r.box.x, y: Math.max(0, fb.y + r.box.y), width: 260, height: Math.max(20, r.box.h) } }).catch(() => {});
+        await page.screenshot({ path: path.join(out, `${version}-${theme}${colours ? `-${colours}` : ""}-toggles-${where}.png`), clip: { x: fb.x + r.box.x, y: Math.max(0, fb.y + r.box.y), width: 260, height: Math.max(20, r.box.h) } }).catch(() => {});
       };
       await page.goto(HOSTS[version] + "/sitecore/shell/Applications/PowerShell/PowerShellIse?sc_bw=1", { waitUntil: "domcontentloaded", timeout: 90000 }).catch(() => {});
       await page.waitForTimeout(6000);
@@ -137,7 +139,7 @@ const checkToggles = () => {
       const id = await win.evaluate(() => window.frameElement.id);
       const crop = async (name) => {
         const fb = await (await win.frameElement()).boundingBox();
-        await page.screenshot({ path: path.join(out, `${version}-${theme}-${name}.png`), clip: { x: fb.x, y: fb.y, width: Math.min(900, fb.width), height: 44 } });
+        await page.screenshot({ path: path.join(out, `${version}-${theme}${colours ? `-${colours}` : ""}-${name}.png`), clip: { x: fb.x, y: fb.y, width: Math.min(900, fb.width), height: 44 } });
       };
       await crop("title");
       // maximize toggles; the restore image appears while the window fills the Desktop

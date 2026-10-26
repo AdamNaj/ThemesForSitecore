@@ -4,14 +4,15 @@
 //   alive()           false once the host is gone (an extension reload)
 //   version()         Promise of the Sitecore version stored for this origin, or null
 //   saveVersion(v)    remembers the version this origin runs
-//   site()            Promise of this origin's { title, tint, env, phase, hue, accessibility }
+//   site()            Promise of this origin's { title, tint, env, phase, scheme, hue, accessibility }
 //   url(path)         the address of a packaged file (fonts/...), asked for only while the site has a reading font
 //   theme(version)    Promise of the catalog entry ({ id, name, usesTokens }) this frame should show now
 //   apply(msg)        swaps the frame's theme CSS; msg { surface, version, previous, previousEntry, previousMode, off }
 //                     (off: to Native whatever the site's setting);
 //                     Promise of { theme, name, usesTokens, dev, mode } (mode: the site's light or dark, "" for System)
 //   tokens(id)        Promise of a theme's token CSS, "" for none
-//   listen(fn)        calls fn(kind, detail) when a setting changes: theme, title, tint, env, phase, hue, accessibility, mode,
+//   listen(fn)        calls fn(kind, detail) when a setting changes: theme, title, tint, env, phase, scheme, hue,
+//                     accessibility, mode,
 //                     version (detail: the version), imported (detail: the imported themes before the change)
 //   stop()            the engine has stopped: drop the listener and anything the host added
 (function (root) {
@@ -582,6 +583,15 @@
       else delete html.dataset.sctPhasePin;
     }
 
+    // The site's colour scheme (Whistler's Blue, Olive Green or Silver): data-sct-scheme, nothing for the theme's own.
+    async function syncScheme() {
+      const site = await host.site();
+      if (!alive()) return;
+      const scheme = SCT.settings.SCHEMES.includes(site.scheme) ? site.scheme : null;
+      if (scheme) html.dataset.sctScheme = scheme;
+      else delete html.dataset.sctScheme;
+    }
+
     // The site's hue (themes.js `hue`): --sct-hue (degrees) and data-sct-hue on every frame, for themes that
     // offer one; their tokens.css turns its colours by it. Nothing when unset, under other themes, or stopped.
     let hues = null; // the site's saved hues, resolved for the theme in use
@@ -688,6 +698,7 @@
       if (kind === "title" && domReady) syncBar();
       if (kind === "env") syncEnv();
       if (kind === "phase") syncPhase();
+      if (kind === "scheme") syncScheme();
       if (kind === "hue") syncHue();
       if (kind === "accessibility") syncAccess();
       if (kind === "mode") requestTheme();
@@ -917,6 +928,7 @@
       host.listen(onChange);
       syncEnv();
       syncPhase();
+      syncScheme();
       syncHue();
       syncAccess();
 

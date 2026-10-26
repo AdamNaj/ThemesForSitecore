@@ -183,7 +183,7 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     isDevInstall().then((dev) => dev && api.runtime.reload());
   }
   if (msg && msg.type === "dev-set") {
-    const allowed = ["overrides", "titles", "tints", "envs", "phases", "hues", "modes", "accessibility"];
+    const allowed = ["overrides", "titles", "tints", "envs", "phases", "schemes", "hues", "modes", "accessibility"];
     const values = Object.fromEntries(Object.entries(msg.values || {}).filter(([k]) => allowed.includes(k)));
     isDevInstall().then((dev) => dev && api.storage.sync.set(values));
   }

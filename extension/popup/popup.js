@@ -84,6 +84,14 @@ async function setPhase(phase) {
   await api.storage.sync.set({ phases });
 }
 
+// The theme's own scheme (empty): the site's entry goes
+async function setScheme(scheme) {
+  const { schemes = {} } = await api.storage.sync.get("schemes");
+  if (scheme) schemes[origin] = scheme;
+  else delete schemes[origin];
+  await api.storage.sync.set({ schemes });
+}
+
 async function setHue(hue, theme) {
   const { hues = {} } = await api.storage.sync.get("hues");
   const site = SCT.settings.withHue(hues[origin], theme, hue);
@@ -95,7 +103,7 @@ async function setHue(hue, theme) {
 // What the picker draws for this site, and the host line under the popup's title.
 async function load() {
   const [sync, local] = await Promise.all([
-    api.storage.sync.get(["overrides", "hues", "envs", "phases"]),
+    api.storage.sync.get(["overrides", "hues", "envs", "phases", "schemes"]),
     api.storage.local.get(["imported", "sitecoreVersions"]),
   ]);
   const version = (local.sitecoreVersions || {})[origin] || null;
@@ -107,6 +115,7 @@ async function load() {
     hue: (sync.hues || {})[origin],
     env: (sync.envs || {})[origin],
     phase: (sync.phases || {})[origin],
+    scheme: (sync.schemes || {})[origin],
   };
 }
 
@@ -157,7 +166,7 @@ async function main() {
 
   show("#enabled");
   const { render } = SCT.picker.mount($("#picker"), {
-    label: "Theme for this site", themes: "../themes/", load, setTheme: setOverride, setHue, setEnv, setPhase,
+    label: "Theme for this site", themes: "../themes/", load, setTheme: setOverride, setHue, setEnv, setPhase, setScheme,
     onTheme: (t) => ((bothLooks = t.appearance === "auto"), syncMode()),
   });
   SCT.siteSettings.mount(document, siteStore);

@@ -22,6 +22,7 @@ namespace SitecoreThemes
         const string HueKey = "SitecoreThemes.Hue";
         const string EnvKey = "SitecoreThemes.Environment";
         const string PhaseKey = "SitecoreThemes.Phase";
+        const string SchemeKey = "SitecoreThemes.Scheme";
         const string TitleKey = "SitecoreThemes.Title";
         const string TintKey = "SitecoreThemes.Tint";
         const string ModeKey = "SitecoreThemes.Mode";
@@ -33,6 +34,7 @@ namespace SitecoreThemes
         static readonly string[] Visions = { "protanopia", "deuteranopia", "tritanopia" };
         static readonly Regex EnvId = new Regex("^(prod|staging|qa|dev|sandbox|local|beta)?$"); // empty: back to the config's
         static readonly Regex PhaseId = new Regex("^(dawn|day|dusk|night)?$"); // empty: Auto, the clock's
+        static readonly Regex SchemeId = new Regex("^(blue|olive|silver)?$"); // empty: the theme's own
         static readonly Regex ThemeId = new Regex("^[a-z0-9]{1,40}$");
         // The loader's cache stamp: sct.js's time on disk, read again every 10 seconds, so files deployed over a running
         // site reach browsers without a restart (the build changes sct.js whenever any file the module serves changes).
@@ -99,6 +101,7 @@ namespace SitecoreThemes
                 env = string.IsNullOrEmpty(env) ? Settings.GetSetting("SitecoreThemes.Environment", "") : env,
                 hue = Hues(hues),
                 phase = signedIn ? user.Profile.GetCustomProperty(PhaseKey) : "",
+                scheme = signedIn ? user.Profile.GetCustomProperty(SchemeKey) : "",
                 accessibility = signedIn ? ReadAccess(user.Profile.GetCustomProperty(AccessKey)) : null,
                 // the config's values, which "Use the site's settings" in the picker goes back to
                 defaults = new
@@ -187,7 +190,7 @@ namespace SitecoreThemes
         }
 
         // POST any of theme=<id>, hue=<0-359> with hueTheme=<id>, env=<prod|staging|qa|dev|sandbox|local|beta>,
-        // phase=<dawn|day|dusk|night> with an X-SCT header, which a cross-site form cannot send.
+        // phase=<dawn|day|dusk|night>, scheme=<blue|olive|silver> with an X-SCT header, which a cross-site form cannot send.
         static void Save(HttpContextBase context)
         {
             var user = Sitecore.Context.User;
@@ -196,6 +199,7 @@ namespace SitecoreThemes
             var hueTheme = context.Request.Form["hueTheme"];
             var env = context.Request.Form["env"];
             var phase = context.Request.Form["phase"];
+            var scheme = context.Request.Form["scheme"];
             var title = context.Request.Form["title"];
             var tint = context.Request.Form["tint"];
             var mode = context.Request.Form["mode"];
@@ -204,11 +208,12 @@ namespace SitecoreThemes
             int degrees = 0;
             if (context.Request.HttpMethod != "POST" || context.Request.Headers["X-SCT"] != "1"
                 || user == null || !user.IsAuthenticated
-                || (theme == null && hue == null && env == null && phase == null && title == null && tint == null && mode == null && access == null && !reset)
+                || (theme == null && hue == null && env == null && phase == null && scheme == null && title == null && tint == null && mode == null && access == null && !reset)
                 || (theme != null && !ThemeId.IsMatch(theme))
                 || (hue != null && !(int.TryParse(hue, out degrees) && degrees >= 0 && degrees < 360 && hueTheme != null && ThemeId.IsMatch(hueTheme)))
                 || (env != null && !EnvId.IsMatch(env))
                 || (phase != null && !PhaseId.IsMatch(phase))
+                || (scheme != null && !SchemeId.IsMatch(scheme))
                 || (title != null && (title.Length > 40 || Control.IsMatch(title)))
                 || (tint != null && !TintId.IsMatch(tint))
                 || (mode != null && !ModeId.IsMatch(mode))
@@ -238,6 +243,7 @@ namespace SitecoreThemes
                 }
                 if (env != null) user.Profile.SetCustomProperty(EnvKey, env);
                 if (phase != null) user.Profile.SetCustomProperty(PhaseKey, phase);
+                if (scheme != null) user.Profile.SetCustomProperty(SchemeKey, scheme);
                 user.Profile.Save();
                 context.Response.StatusCode = 204;
             }
