@@ -82,7 +82,27 @@ Open `themes-for-sitecore-<version>-firefox.xpi` in Firefox and confirm the inst
 
 ## Make your own theme
 
-A theme is one CSS file that starts with a metadata comment:
+There are two kinds: a **built-in theme**, a folder in this repository that ships with the extension and the
+Sitecore module, and an **imported theme**, one CSS file you load into your own browser.
+
+### A built-in theme
+
+Each theme is one folder, `extension/themes/<id>/`; adding one touches nothing outside it.
+[extension/themes/README.md](extension/themes/README.md) describes its files and [CONTRIBUTING.md](CONTRIBUTING.md)
+the checks before a pull request.
+
+With [Claude Code](https://claude.com/claude-code), use the skills in `.claude/skills/`:
+
+- **`sct-new-theme`** builds or reworks a theme, from the design to every surface on Sitecore 10.4 and 10.5. Ask
+  for a theme (for example "add a theme inspired by ...") and it takes over; its `pitfalls.md` holds every
+  correction earlier themes needed.
+- **`sct-verify`** checks a change on the live installs, frame by frame, before it's called done.
+
+Both need local Sitecore installs named in `sitecore.local.json` (see CONTRIBUTING.md).
+
+### An imported theme
+
+An imported theme is one CSS file that starts with a metadata comment:
 
 ```css
 /* @sct-theme
