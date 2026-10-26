@@ -235,11 +235,16 @@ async function main() {
   $("#host").textContent = new URL(origin).host;
 
   const pattern = { origins: [origin + "/*"] };
-  if (!(await api.permissions.contains(pattern))) {
+  // the background's list of disabled sites wins over the permission, which Chrome can keep after Disable
+  const disabled = async () => (await api.storage.local.get("disabledOrigins")).disabledOrigins || [];
+  if (!(await api.permissions.contains(pattern)) || (await disabled()).includes(origin)) {
     show("#disabled");
     $("#enable").onclick = async () => {
       // The browser may close the popup while it asks; the background script picks up the grant either way.
-      if (await api.permissions.request(pattern)) main();
+      if (!(await api.permissions.request(pattern))) return;
+      await api.storage.local.set({ disabledOrigins: (await disabled()).filter((o) => o !== origin) });
+      await api.runtime.sendMessage({ type: "sync" }).catch(() => {});
+      main();
     };
     return;
   }
@@ -268,11 +273,17 @@ async function main() {
     const tabs = await api.tabs.query({ url: origin + "/*" });
     const unload = tabs.map((t) => api.scripting.executeScript({
       target: { tabId: t.id, allFrames: true },
-      func: () => globalThis.SCT && SCT.engine && SCT.engine.unload && SCT.engine.unload(),
+      // hands the page to the Sitecore module where the site has it (older content scripts only unload)
+      func: () => globalThis.SCT && (SCT.handOver ? SCT.handOver() : SCT.engine && SCT.engine.unload && SCT.engine.unload()),
     }).catch(() => {}));
     await Promise.race([Promise.all(unload), new Promise((r) => setTimeout(r, 3000))]);
-    await api.permissions.remove(pattern);
-    show("#disabled");
+    // off in the list first, then the permission, then the registration rebuilt before the popup says so: a reload
+    // straight after never meets the old registration
+    const off = (await api.storage.local.get("disabledOrigins")).disabledOrigins || [];
+    if (!off.includes(origin)) await api.storage.local.set({ disabledOrigins: [...off, origin] });
+    await api.permissions.remove(pattern).catch(() => {});
+    await api.runtime.sendMessage({ type: "sync" }).catch(() => {});
+    main();
   };
   if (globalThis.SCTImportUI) {
     SCTImportUI.mount($("#import-body"), render, (n) => {

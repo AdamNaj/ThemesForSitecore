@@ -14,6 +14,18 @@
   }
 
   let onStorage = null;
+  let leaving = false;
+
+  // The extension leaves the frame (Disable, or a site found off): the engine unloads, then the Sitecore module, where
+  // the site has it, takes over. Its loader is in the page already but stood back for the extension, so the background
+  // runs the same script tag again in the page's own world (from here, the extension's CSP would block it).
+  async function handOver() {
+    leaving = true;
+    if (SCT.engine && !SCT.engine.stopped) await SCT.engine.unload();
+    if (document.querySelector("script[data-sct]")) await send({ type: "module-takeover" });
+  }
+  SCT.handOver = handOver;
+
   const engine = SCT.startEngine({
     alive() {
       try {
@@ -42,7 +54,13 @@
       const id = SCT.settings.resolve({ ...SCT.settings.DEFAULTS, ...sync }, origin, version, catalog);
       return catalog.find((t) => t.id === id) || { id, name: "" };
     },
-    apply: (msg) => send({ type: "frame-ready", ...msg }),
+    async apply(msg) {
+      const r = await send({ type: "frame-ready", ...msg });
+      if (!r || !r.standDown) return r;
+      // the site is off: Sitecore's own look here, and the page to the module
+      if (!leaving) setTimeout(handOver);
+      return { theme: "native", name: "", usesTokens: false, dev: false, mode: "" };
+    },
     tokens: (id) => send({ type: "theme-tokens", theme: id }),
     listen(fn) {
       onStorage = (changes, area) => {

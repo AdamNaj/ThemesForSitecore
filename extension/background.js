@@ -9,12 +9,30 @@ function contentFiles() {
   return ["lib/dev.js", "lib/detect.js", "lib/settings.js", "themes/themes.js", "lib/dom-kit.js", "lib/color-map.js", "lib/live-map.js", ...domModules, "lib/engine.js", "content.js"];
 }
 
-async function grantedOrigins() {
-  const { origins = [] } = await api.permissions.getAll();
-  return origins.filter((o) => /^https?:\/\//.test(o));
+// Sites the user disabled from the popup. Chrome can keep a host it granted at runtime after the extension gives the
+// permission back, so this list, not the permission alone, says a site is off.
+async function disabledOrigins() {
+  return (await api.storage.local.get("disabledOrigins")).disabledOrigins || [];
 }
 
-async function syncRegistration() {
+async function enabledOn(origin) {
+  return (await api.permissions.contains({ origins: [origin + "/*"] })) && !(await disabledOrigins()).includes(origin);
+}
+
+async function grantedOrigins() {
+  const { origins = [] } = await api.permissions.getAll();
+  const off = (await disabledOrigins()).map((o) => o + "/*");
+  return origins.filter((o) => /^https?:\/\//.test(o) && !off.includes(o));
+}
+
+// One registration change at a time: a Disable and an Enable in quick succession, or the permission events and the
+// popup's own request, would otherwise interleave and leave a stale registration behind.
+let syncing = Promise.resolve();
+function syncRegistration() {
+  return (syncing = syncing.then(register, register));
+}
+
+async function register() {
   const matches = await grantedOrigins();
   const existing = await api.scripting.getRegisteredContentScripts({ ids: [SCRIPT_ID] }).catch(() => []);
   if (existing.length) await api.scripting.unregisterContentScripts({ ids: [SCRIPT_ID] });
@@ -62,6 +80,9 @@ async function isDevInstall() {
 
 async function onFrameReady(msg, sender) {
   const origin = new URL(sender.url).origin;
+  // a frame on a site that is off (a stale registration, a tab injected before Disable): no CSS, and the frame stands
+  // down so the Sitecore module, where the site has it, can take the page
+  if (!(await enabledOn(origin))) return { standDown: true };
   const [sync, local] = await Promise.all([
     api.storage.sync.get(["overrides", "modes"]),
     api.storage.local.get(["imported"]),
@@ -106,6 +127,25 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     onFrameReady(msg, sender).then(sendResponse, (e) => sendResponse({ error: String(e) }));
     return true;
   }
+  if (msg && msg.type === "module-takeover") {
+    // in the page's world, where the page's CSP lets its own loader run again (content.js handOver)
+    api.scripting.executeScript({
+      target: { tabId: sender.tab.id, frameIds: [sender.frameId] },
+      world: "MAIN",
+      func: () => {
+        const tag = document.querySelector("script[data-sct]");
+        if (!tag || !tag.src || document.documentElement.dataset.sctEngine) return;
+        const again = document.createElement("script");
+        for (const a of tag.attributes) again.setAttribute(a.name, a.value);
+        tag.after(again);
+      },
+    }).then(() => sendResponse(true), () => sendResponse(false));
+    return true;
+  }
+  if (msg && msg.type === "sync") {
+    syncRegistration().then(() => sendResponse(true), () => sendResponse(false));
+    return true;
+  }
   if (msg && msg.type === "theme-tokens") {
     tokensCss(String(msg.theme), new URL(sender.url).origin).then(sendResponse, () => sendResponse(""));
     return true;
@@ -141,5 +181,11 @@ async function migrateSoftlight() {
 
 api.runtime.onInstalled.addListener(() => migrateDefaultTheme().catch(() => {}).then(migrateSoftlight).catch(() => {}).then(resync));
 api.runtime.onStartup.addListener(syncRegistration);
-api.permissions.onAdded.addListener(resync);
+api.permissions.onAdded.addListener(async ({ origins = [] }) => {
+  // a site granted again is on again
+  const back = origins.map((o) => o.replace(/\/\*$/, ""));
+  const off = await disabledOrigins();
+  if (off.some((o) => back.includes(o))) await api.storage.local.set({ disabledOrigins: off.filter((o) => !back.includes(o)) });
+  await resync();
+});
 api.permissions.onRemoved.addListener(syncRegistration);
