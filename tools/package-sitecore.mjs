@@ -161,14 +161,15 @@ function webDeployPackage(dest) {
   // msdeploy rejects an argument that is quoted as a whole, which is how an argument with a space reaches it, so
   // none has one: the parameter comes from a file, and everything is staged in the temp folder (a short path on
   // Windows). The source must be an absolute path (a relative one names an IIS site); the replace rule turns it
-  // into Website.
+  // into Website in archive.xml, but the package's provider options keep the full path, and that is what the
+  // Application Path entry matches, so its match is anchored at the end only (Sitecore's own WDPs: "WebSite").
   const stage = fs.mkdtempSync(path.join(os.tmpdir(), "sct-scwdp-"));
   if (/\s/.test(stage)) throw new Error(`the temp folder has a space in it (${stage}); set TEMP to one without`);
   const web = path.join(stage, "Website");
   fs.cpSync(files, web, { recursive: true });
   fs.writeFileSync(path.join(stage, "parameters.xml"), `<parameters>
   <parameter name="Application Path" tags="iisapp">
-    <parameterEntry kind="ProviderPath" scope="iisApp" match="^Website$" />
+    <parameterEntry kind="ProviderPath" scope="iisApp" match="Website$" />
   </parameter>
 </parameters>
 `);
