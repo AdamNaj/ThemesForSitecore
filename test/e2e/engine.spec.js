@@ -159,6 +159,18 @@ test("the site's postfix shows centred in Sitecore's top bar, and the add-on's d
   await page.close();
 });
 
+// The popup shows one group of themes at a time: opens the tab of the group holding a theme, and waits for its
+// cards to be dealt into place (a forced check clicks wherever a card is mid-flight).
+const openGroup = async (popup, id) => {
+  await popup.locator("#groups [data-group]").first().waitFor();
+  await popup.evaluate((id) => {
+    const t = SCT.themes.find((t) => t.id === id);
+    const group = t.category ? SCT.categories.find((c) => c.id === t.category).name : "Sitecore";
+    document.querySelector(`#groups [data-group="${group}"]`).click();
+    return Promise.all(document.getAnimations().map((a) => a.finished));
+  }, id);
+};
+
 test("the popup's hue slider turns the page, and the theme keeps it", async () => {
   const url = `${BASE}/sitecore/shell/default.aspx`;
   await setTheme("debrightify");
@@ -171,6 +183,7 @@ test("the popup's hue slider turns the page, and the theme keeps it", async () =
   await popup.goto(`chrome-extension://${new URL(worker.url()).host}/popup/popup.html`);
   const hue = () => site.evaluate(() => [document.documentElement.dataset.sctTheme, document.documentElement.dataset.sctHue]);
   const pick = async (id) => {
+    await openGroup(popup, id);
     await popup.locator(`#themes input[value="${id}"]`).check({ force: true });
     await expect.poll(async () => (await hue())[0]).toBe(id);
   };
@@ -222,6 +235,7 @@ test("the popup's time of day pins Meridian's phase, and Auto gives it back to t
   await expect.poll(async () => (await phase())[1]).toBeUndefined();
   expect(["dawn", "day", "dusk", "night"]).toContain((await phase())[0]);
   expect(await worker.evaluate((o) => chrome.storage.sync.get("phases").then((s) => s.phases[o]), BASE)).toBeUndefined();
+  await openGroup(popup, "debrightify");
   await popup.locator('#themes input[value="debrightify"]').check({ force: true });
   await expect(popup.locator("#phase")).toBeHidden();
   expect(errors).toEqual([]);

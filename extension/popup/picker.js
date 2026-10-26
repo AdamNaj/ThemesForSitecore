@@ -1,8 +1,9 @@
 // The theme picker, shared by the extension's popup and the Sitecore module's panel (sitecore/host.js): the
-// preview, a theme's own settings (an environment, a time of day, a hue: theme.json `controls` and `hue`) and the strip of
-// miniatures. Needs themes.js, lib/settings.js and swatch.js. The caller says where to draw and how to read and save:
+// preview, a theme's own settings (an environment, a time of day, a hue: theme.json `controls` and `hue`) and the
+// themes, a group at a time under tabs drawn as decks of miniatures. Needs themes.js, lib/settings.js and swatch.js.
+// The caller says where to draw and how to read and save:
 //   SCT.picker.mount(container, {
-//     label,          the strip's accessible name
+//     label,          the grid's accessible name
 //     themes,         the URL of the themes folder, ending in /: a theme's screenshots are <id>/preview*.jpg
 //     load(),         Promise of { version, catalog, theme (saved id), hue, env, phase }
 //     setTheme(id),   Promise
@@ -14,11 +15,13 @@
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
   const KNOWN_VERSIONS = ["10.4", "10.5"];
+  const TICK = '<svg class="tick" viewBox="0 0 18 18" aria-hidden="true"><path d="M5 9.3l2.6 2.6L13 6.4"/></svg>';
+  const EASE = "cubic-bezier(0.16, 1, 0.3, 1)"; // ease-out-expo
 
   const MARKUP = `<p id="version-notice" class="notice" hidden></p>
 <figure id="hero">
   <div id="hero-art"></div>
-  <figcaption><b id="hero-name"></b><span id="hero-desc"></span><em id="hero-tag" hidden>Preview</em></figcaption>
+  <figcaption><b id="hero-name"></b><span id="hero-desc"></span><em id="hero-tag" hidden>Preview</em><em id="hero-applied" hidden>${TICK}Applied</em></figcaption>
 </figure>
 <div id="params">
 <div id="env" role="radiogroup" aria-label="This site's environment" hidden>
@@ -43,7 +46,7 @@
   <button id="hue-reset" type="button" title="Back to the theme's own colours">Reset</button>
 </div>
 </div>
-<div id="groups" role="tablist" aria-label="Theme groups"></div>
+<div id="well"><span id="spotlight" aria-hidden="true"></span><div id="groups" role="tablist" aria-label="Theme groups"></div></div>
 <div id="themes" role="radiogroup"></div>`;
 
   function paintTrack(range, colour) {
@@ -75,7 +78,10 @@
     let siteHue = 0; // its hue, 0 for the theme's own colours
     let openGroup = null; // the group whose tab is open
 
-    // One theme in the strip: its miniature around a radio button (hidden, still keyboard and screen-reader driven).
+    const still = () => doc.defaultView.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // One theme in the grid: its miniature and name around a radio button (hidden, still keyboard and
+    // screen-reader driven), and a tick that shows on the chosen one.
     function frame(t, checked) {
       const label = doc.createElement("label");
       label.className = "frame";
@@ -86,8 +92,77 @@
       input.value = t.id;
       input.checked = checked;
       label.append(input);
-      label.insertAdjacentHTML("beforeend", SCT.swatch(SCT.swatchSpec(t, siteVersion), t.name));
+      label.insertAdjacentHTML("beforeend", SCT.swatch(SCT.swatchSpec(t, siteVersion), t.name) + TICK);
+      const name = doc.createElement("span");
+      name.className = "name";
+      name.textContent = t.name; // imported themes name themselves
+      label.append(name);
       return label;
+    }
+
+    // A group's tab: a fanned hand of its first three miniatures, the first in front, over its name and size.
+    function tab(name, themes) {
+      const tab = doc.createElement("button");
+      tab.type = "button";
+      tab.setAttribute("role", "tab");
+      tab.setAttribute("aria-controls", "themes");
+      tab.dataset.group = name;
+      const deck = doc.createElement("span");
+      deck.className = "deck";
+      deck.setAttribute("aria-hidden", "true");
+      deck.insertAdjacentHTML("beforeend", themes.slice(0, 3).reverse().map((t) => SCT.swatch(SCT.swatchSpec(t, siteVersion))).join(""));
+      const label = doc.createElement("span");
+      label.className = "label";
+      const count = doc.createElement("span");
+      count.className = "size";
+      count.textContent = themes.length;
+      label.append(name + " ", count);
+      tab.append(deck, label);
+      return tab;
+    }
+
+    // The spotlight under the open group's tab glides to the tab picked; drawn at once when the popup opens
+    // or the row changes size.
+    function spotlight(instant) {
+      const light = $("#spotlight"), on = $('#groups [aria-selected="true"]');
+      if (!on) return;
+      if (instant) light.style.transition = "none";
+      light.style.width = `${on.offsetWidth}px`;
+      light.style.transform = `translateX(${on.offsetLeft}px)`;
+      if (instant) light.getBoundingClientRect(), (light.style.transition = "");
+    }
+    new doc.defaultView.ResizeObserver(() => spotlight(true)).observe($("#well"));
+
+    // Opening a group deals its cards out of the tab's deck into their places.
+    function deal(tab) {
+      if (still()) return;
+      const d = tab.querySelector(".deck").getBoundingClientRect();
+      const cx = d.left + d.width / 2, cy = d.top + d.height / 2;
+      [...$("#themes").children].forEach((f, i) => {
+        const r = f.getBoundingClientRect();
+        const turn = (i % 2 ? 1 : -1) * (8 + ((i * 7) % 10));
+        f.animate([
+          { transform: `translate(${cx - r.left - r.width / 2}px, ${cy - r.top - r.height / 2}px) scale(.4) rotate(${turn}deg)`, opacity: 0 },
+          { opacity: 1, offset: 0.3 },
+          { transform: "none", opacity: 1 },
+        ], { duration: 560, delay: Math.min(i, 11) * 30, easing: EASE, fill: "backwards" });
+      });
+    }
+
+    // Picking a theme: its card pops and ticks, a sheen sweeps the preview and the caption says Applied.
+    let appliedTimer = 0;
+    function applied(id) {
+      for (const f of container.querySelectorAll("#themes .frame.just")) f.classList.remove("just");
+      const f = $(`#themes input[value="${CSS.escape(id)}"]`)?.closest(".frame");
+      const hero = $("#hero"), chip = $("#hero-applied");
+      hero.classList.remove("sheen");
+      chip.hidden = true;
+      hero.getBoundingClientRect(); // restarts the animations
+      f?.classList.add("just");
+      hero.classList.add("sheen");
+      chip.hidden = false;
+      clearTimeout(appliedTimer);
+      appliedTimer = setTimeout(() => (chip.hidden = true), 1600);
     }
 
     // The preview: the theme's screenshot (light and dark halves for a theme that follows the OS), or its
@@ -98,6 +173,16 @@
       if (heroId !== t.id) {
         heroId = t.id;
         const art = $("#hero-art");
+        // the outgoing picture stays underneath while the new one fades in
+        container.querySelectorAll("#hero .ghost").forEach((g) => g.remove());
+        if (art.firstChild) {
+          const ghost = doc.createElement("div");
+          ghost.className = "ghost";
+          ghost.style.background = art.style.background;
+          ghost.append(...art.childNodes);
+          art.before(ghost);
+          art.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 160, easing: "ease-out" }).finished.then(() => ghost.remove(), () => {});
+        }
         const spec = SCT.swatchSpec(t, siteVersion);
         art.style.background = spec.desk;
         const have = t.previews || [];
@@ -117,6 +202,7 @@
       $("#hero-name").textContent = t.name;
       $("#hero-desc").textContent = $("#hero-desc").title = t.description || "";
       $("#hero-tag").hidden = !previewing;
+      if (previewing) $("#hero-applied").hidden = true;
     }
 
     // The preview and this site's miniature turned by the site's hue, roughly: the theme turns in OKLCH.
@@ -157,31 +243,38 @@
       const tabs = $("#groups");
       const list = $("#themes");
       if (!groups.some(([name]) => name === openGroup)) openGroup = (groups.find(([, ts]) => ts.includes(current)) || groups[0])[0];
-      const showGroup = (name) => {
+      // A pick redraws only what changed, so the chosen card stays in place for its tick, and the tabs keep theirs.
+      const ids = (themes) => themes.map((t) => t.id).join();
+      const showGroup = (name, dealt) => {
         openGroup = name;
         for (const tab of tabs.children) {
           const on = tab.dataset.group === name;
           tab.setAttribute("aria-selected", String(on));
           tab.tabIndex = on ? 0 : -1;
         }
-        list.replaceChildren(...groups.find(([n]) => n === name)[1].map((t) => frame(t, t.id === current.id)));
-      };
-      tabs.replaceChildren(...groups.map(([name, themes]) => {
-        const tab = doc.createElement("button");
-        tab.type = "button";
-        tab.setAttribute("role", "tab");
-        tab.setAttribute("aria-controls", "themes");
-        tab.dataset.group = name;
-        tab.textContent = name;
-        if (themes.includes(current)) {
-          tab.classList.add("current");
-          tab.title = `This site's theme, ${current.name}, is here`;
+        spotlight(!dealt);
+        const themes = groups.find(([n]) => n === name)[1];
+        if (list.dataset.shows === `${siteVersion}:${ids(themes)}`) {
+          for (const input of list.querySelectorAll("input")) input.checked = input.value === current.id;
+          return;
         }
-        return tab;
-      }));
+        list.dataset.shows = `${siteVersion}:${ids(themes)}`;
+        list.replaceChildren(...themes.map((t) => frame(t, t.id === current.id)));
+        if (dealt) deal(tabs.querySelector(`[data-group="${name}"]`));
+      };
+      const row = `${siteVersion}:${groups.map(([name, themes]) => name + ids(themes)).join(";")}`;
+      if (tabs.dataset.shows !== row) {
+        tabs.dataset.shows = row;
+        tabs.replaceChildren(...groups.map(([name, themes]) => tab(name, themes)));
+      }
+      for (const tab of tabs.children) {
+        const here = groups.find(([n]) => n === tab.dataset.group)[1].includes(current);
+        tab.classList.toggle("current", here);
+        tab.title = here ? `This site's theme, ${current.name}, is here` : "";
+      }
       tabs.onclick = (e) => {
         const tab = e.target.closest("[data-group]");
-        if (tab) showGroup(tab.dataset.group);
+        if (tab && tab.dataset.group !== openGroup) showGroup(tab.dataset.group, true);
       };
       // arrow keys, Home and End move between tabs and open the one they reach
       tabs.onkeydown = (e) => {
@@ -190,12 +283,12 @@
         if (i < 0 || to === undefined) return;
         e.preventDefault();
         const tab = all[(to + all.length) % all.length];
-        showGroup(tab.dataset.group);
+        showGroup(tab.dataset.group, true);
         tab.focus();
       };
       showGroup(openGroup);
 
-      // the preview follows the pointer and the keyboard over the strip, and returns to this site's theme
+      // the preview follows the pointer and the keyboard over the grid, and returns to this site's theme
       hero(current, false);
       const previewAt = (el) => {
         const t = el && byId(el.closest(".frame")?.querySelector("input").value);
@@ -225,7 +318,7 @@
       paintHue();
     }
 
-    $("#themes").onchange = (e) => opts.setTheme(e.target.value).then(render);
+    $("#themes").onchange = (e) => opts.setTheme(e.target.value).then(render).then(() => applied(e.target.value));
     if (opts.setEnv) $("#env").onchange = (e) => opts.setEnv(e.target.value);
     if (opts.setPhase) $("#phase").onchange = (e) => opts.setPhase(e.target.value);
     const range = $("#hue-range");

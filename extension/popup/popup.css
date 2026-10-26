@@ -121,25 +121,99 @@ input.hue:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px;
 #hue-reset:hover:not(:disabled) { background: var(--hover); }
 #hue-reset:disabled { color: var(--muted); cursor: default; }
 
-/* A centred row of tabs over a line: the theme groups, and the settings' pages. */
-#groups, #settings-tabs { display: flex; justify-content: center; margin-top: 8px; border-bottom: 1px solid var(--line); }
-#groups button, #settings-tabs button { position: relative; padding: 6px 9px; border: 0; background: none; font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; }
-:is(#groups, #settings-tabs) button:hover { color: var(--fg); }
-:is(#groups, #settings-tabs) button[aria-selected="true"] { color: var(--fg); box-shadow: inset 0 -2px 0 var(--accent); }
-:is(#groups, #settings-tabs) button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 4px; }
-/* The themes as miniatures, one group at a time; a dot marks the tab holding the site's theme */
-#groups button.current::after { content: ""; display: inline-block; width: 5px; height: 5px; margin-left: 5px; border-radius: 50%; background: var(--accent); vertical-align: 2px; }
-/* the settings' pages, one at a time under their tabs */
+/* The settings' pages: a centred row of tabs over a line, one page at a time. */
+#settings-tabs { display: flex; justify-content: center; margin-top: 8px; border-bottom: 1px solid var(--line); }
+#settings-tabs button { position: relative; padding: 6px 9px; border: 0; background: none; font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; }
+#settings-tabs button:hover { color: var(--fg); }
+#settings-tabs button[aria-selected="true"] { color: var(--fg); box-shadow: inset 0 -2px 0 var(--accent); }
+#settings-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 4px; }
 #settings-tabs .count { display: inline-grid; margin-left: 6px; vertical-align: 1px; }
 #settings-tabs .count[hidden] { display: none; }
 .pane { padding-top: 10px; }
-#themes { display: flex; flex-wrap: wrap; gap: 6px; min-height: 92px; align-content: flex-start; padding-top: 10px; } /* two rows and the chosen ring: tabs switch without the popup changing height */
-.frame { position: relative; display: block; width: 54px; height: 36px; border-radius: 4px; overflow: hidden; cursor: pointer; box-shadow: 0 0 0 1px var(--line); }
-.frame svg { display: block; }
+
+/* The theme groups: one recessed well of decks, each a fanned hand of the group's miniatures over its name and
+   size. A spotlight lights the open group's deck from above, with a glowing bar under it, and glides to the
+   group picked (picker.js spotlight); the other decks step back a little. A dot marks the group holding the
+   site's theme. */
+#well { position: relative; margin-top: 14px; padding: 4px; background: var(--well); border-radius: 14px; }
+#groups { display: flex; }
+#groups button { position: relative; z-index: 1; flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 0;
+  padding: 9px 2px 7px; border: 0; border-radius: 10px; background: none; color: var(--muted); font-size: 12px; font-weight: 600; cursor: pointer; }
+#groups button:hover, #groups button[aria-selected="true"] { color: var(--fg); }
+#groups button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+#groups button.current::after { content: ""; position: absolute; top: 7px; right: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+#groups .label { max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#groups .size { font-size: 10.5px; color: var(--muted); }
+#groups [aria-selected="true"] .size { color: var(--accent); }
+.deck { position: relative; display: block; width: 56px; height: 34px; }
+.deck svg { position: absolute; left: 10px; top: 6px; width: 36px; height: 24px; border-radius: 3px; transform-origin: 50% 150%;
+  box-shadow: 0 0 0 .5px rgba(0, 0, 0, .3), 0 2px 5px rgba(0, 0, 0, .28); }
+.deck svg:nth-child(1) { transform: rotate(-13deg); }
+.deck svg:nth-child(2) { transform: rotate(13deg); }
+#groups button:is(:hover, [aria-selected="true"]) .deck svg:nth-child(1) { transform: rotate(-26deg) translateY(-1px); }
+#groups button:is(:hover, [aria-selected="true"]) .deck svg:nth-child(2) { transform: rotate(26deg) translateY(-1px); }
+#groups button:is(:hover, [aria-selected="true"]) .deck svg:nth-child(3) { transform: translateY(-3px); }
+#groups [aria-selected="true"] .deck { transform: translateY(-2px); }
+#groups [aria-selected="true"] .deck svg { box-shadow: 0 0 0 .5px rgba(0, 0, 0, .3), 0 3px 10px -1px color-mix(in srgb, var(--accent) 70%, transparent); }
+#groups button:not([aria-selected="true"]):not(:hover) .deck { opacity: .78; }
+#spotlight { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 10px; pointer-events: none;
+  background: radial-gradient(ellipse 55% 90% at 50% -10%, color-mix(in srgb, var(--accent) 38%, transparent), transparent 75%); }
+#spotlight::after { content: ""; position: absolute; left: 50%; bottom: 1px; width: 26px; height: 3px; margin-left: -13px; border-radius: 2px;
+  background: var(--accent); box-shadow: 0 0 10px 1px var(--accent); }
+
+/* The open group's themes: a grid of named miniatures, two rows tall even for a smaller group, so switching
+   groups never changes the popup's height (six across: 63x42 cards, 63px rows). The chosen one wears an accent
+   ring and a tick; the pointer lifts a card. */
+#themes { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px 8px; min-height: 156px; align-content: start; padding-top: 16px; }
+.frame { position: relative; display: block; min-width: 0; cursor: pointer; }
+.frame > svg:not(.tick) { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; border-radius: 6px; box-shadow: 0 0 0 1px var(--line), 0 1px 3px rgba(0, 0, 0, .08); }
+.frame:hover > svg:not(.tick) { transform: translateY(-4px); box-shadow: 0 0 0 1px var(--muted), 0 12px 20px -8px rgba(0, 0, 0, .4); }
+.frame:has(input:checked) > svg:not(.tick) { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent), 0 12px 22px -8px color-mix(in srgb, var(--accent) 75%, transparent); }
+.frame:has(input:focus-visible) > svg:not(.tick) { outline: 2px solid var(--accent); outline-offset: 3px; }
 .frame input { position: absolute; opacity: 0; pointer-events: none; }
-.frame:hover { box-shadow: 0 0 0 2px var(--muted); }
-.frame:has(input:checked) { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
-.frame:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+.frame .name { display: block; margin-top: 6px; font-size: 11px; font-weight: 500; text-align: center; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.frame:is(:hover, :has(input:checked)) .name { color: var(--fg); }
+.frame:has(input:checked) .name { font-weight: 650; }
+.frame .tick { position: absolute; z-index: 2; top: -7px; right: -7px; display: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 2px var(--bg), 0 2px 6px rgba(0, 0, 0, .3); fill: none; stroke: var(--accent-fg); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.frame:has(input:checked) .tick { display: block; }
+/* a ring bursts out of a card as it is picked (picker.js applied) */
+.frame::before { content: ""; position: absolute; z-index: 1; left: 0; top: 0; width: 100%; aspect-ratio: 3 / 2; border-radius: 6px; pointer-events: none; opacity: 0; box-shadow: 0 0 0 3px var(--accent); }
+
+/* Picking a theme: the card pops, its tick draws, a sheen sweeps the preview and the caption says Applied. The
+   preview crossfades as the pointer moves (picker.js hero): the outgoing picture is a ghost under the new one. */
+#hero-art { z-index: 1; }
+#hero figcaption { z-index: 3; }
+#hero .ghost { position: absolute; left: 0; right: 0; top: 0; height: 176px; overflow: hidden; }
+#hero .ghost img, #hero .ghost svg { display: block; width: 100%; height: 100%; }
+#hero .ghost img { object-fit: cover; object-position: left top; }
+#hero .ghost svg { padding: 10px 0 46px; }
+#hero .ghost img.dark { position: absolute; inset: 0; clip-path: polygon(62% 0, 100% 0, 100% 100%, 38% 100%); }
+#hero::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; transform: translateX(-110%);
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, .5) 48%, rgba(255, 255, 255, .15) 54%, transparent 70%); }
+#hero-applied { display: inline-flex; align-items: center; gap: 2px; padding: 1px 8px 1px 4px; border-radius: 99px; font-style: normal; font-size: 10.5px; font-weight: 700;
+  background: var(--accent); color: var(--accent-fg); text-shadow: none; }
+#hero-applied[hidden] { display: none; }
+#hero-applied svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+@media (prefers-reduced-motion: no-preference) {
+  #spotlight { transition: transform 380ms cubic-bezier(.16, 1, .3, 1), width 380ms cubic-bezier(.16, 1, .3, 1); }
+  .deck { transition: opacity 240ms, transform 380ms cubic-bezier(.16, 1, .3, 1); }
+  .deck svg { transition: transform 380ms cubic-bezier(.16, 1, .3, 1); }
+  .frame > svg:not(.tick) { transition: transform 240ms cubic-bezier(.25, 1, .5, 1), box-shadow 240ms cubic-bezier(.25, 1, .5, 1); }
+  .frame.just > svg:not(.tick) { animation: sct-press 460ms cubic-bezier(.16, 1, .3, 1); }
+  .frame.just::before { animation: sct-ring 650ms cubic-bezier(.25, 1, .5, 1); }
+  .frame.just .tick { animation: sct-pop 420ms cubic-bezier(.16, 1, .3, 1); }
+  :is(.frame.just .tick, #hero-applied) path { stroke-dasharray: 12; animation: sct-draw 380ms 150ms cubic-bezier(.16, 1, .3, 1) backwards; }
+  #hero.sheen::after { animation: sct-sheen 750ms cubic-bezier(.25, 1, .5, 1); }
+  #hero-applied { animation: sct-chip 420ms cubic-bezier(.16, 1, .3, 1); }
+}
+@keyframes sct-press { from { transform: scale(.9); } }
+@keyframes sct-ring { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.35); } }
+@keyframes sct-pop { from { transform: scale(0) rotate(-30deg); } }
+@keyframes sct-draw { from { stroke-dashoffset: 12; } }
+@keyframes sct-sheen { to { transform: translateX(110%); } }
+@keyframes sct-chip { from { transform: scale(.5); opacity: 0; } }
 
 input, button { font: inherit; color: inherit; }
 input[type="text"] { height: 28px; padding: 0 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; }
