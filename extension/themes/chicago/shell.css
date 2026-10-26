@@ -769,6 +769,9 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"]:not(#sct-chi) {
   /* the ISE's script tabs have no page under them: the strip draws the line the open tab stands on, from the
      first tab on (SPE's 52px reserve holds the script tree and variables toggles, with no line under them) */
   #TabsPanel .scTabstrip { background-image: linear-gradient(#fff 0 0); background-position: 52px 100%; background-size: 100% 1px; background-repeat: no-repeat; }
+  /* the strip stands on 95's grey face, as a property sheet's tabs do, not on the white the colour map gives the
+     script pane (the editor below keeps its own white) */
+  :is(#ScriptPane, table.scScrollbox:has(#ScriptPane)) { background-color: #c0c0c0; }
   /* SPE pulls a script tab's close X 10px into the tab's 20px right padding; with these 10px it touched the edge */
   .scTabstrip .closeTab { margin: 0 -3px 0 6px; }
   :is(.scTab, .scTab_Hover, .scTabActive, .scTabActive_Hover):focus { outline: none; }
