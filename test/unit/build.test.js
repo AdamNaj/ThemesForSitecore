@@ -48,3 +48,8 @@ test("Light and Dark leave no colour-scheme query in a theme that follows the OS
     }
   }
 });
+
+test("the manifest's description fits the Chrome Web Store's 132 characters", () => {
+  const { description } = require("../../extension/manifest.json");
+  assert.ok(description.length <= 132, `${description.length} characters`);
+});

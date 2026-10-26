@@ -3,7 +3,7 @@
   "name": "Themes for Sitecore",
   "short_name": "Themes for Sitecore",
   "version": "0.5.0",
-  "description": "Themes for the Sitecore 10.0-10.5 Desktop and CM UIs: dark, high contrast, classic Sitecore looks, retro and modern desktops, and creative ones.",
+  "description": "Themes for the Sitecore 10.0-10.5 Desktop and CM UIs: dark, high contrast, classic Sitecore, retro and modern desktops, and more.",
   "homepage_url": "https://github.com/AdamNaj/ThemesForSitecore",
   "minimum_chrome_version": "121",
   "permissions": [
