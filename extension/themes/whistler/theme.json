@@ -1,6 +1,6 @@
 {
   "name": "Whistler",
-  "description": "Inspired by Windows XP, in Luna, Blue, Olive Green or Silver",
+  "description": "Glossy rounded title bars, a beige window face and orange-topped tabs, in four colour schemes",
   "category": "retro",
   "order": 120,
   "versions": ["10.4", "10.5"],

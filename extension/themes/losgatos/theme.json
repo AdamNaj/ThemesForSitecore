@@ -1,6 +1,6 @@
 {
   "name": "Los Gatos",
-  "description": "Inspired by the Amiga Workbench",
+  "description": "Four colours, blue, white, black and orange: striped title bars and two-pixel white frames",
   "category": "retro",
   "order": 160,
   "versions": ["10.4", "10.5"],

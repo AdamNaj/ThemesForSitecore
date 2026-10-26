@@ -1,6 +1,6 @@
 {
   "name": "Redwood",
-  "description": "Inspired by NeXTSTEP",
+  "description": "Black title bars, sharp grey bevels inside black outlines and a Dock down the right-hand side",
   "category": "retro",
   "order": 150,
   "versions": ["10.4", "10.5"],

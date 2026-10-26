@@ -1,6 +1,6 @@
 {
   "name": "Cupertino",
-  "description": "Inspired by macOS, follows your light or dark setting",
+  "description": "Frosted sidebars, soft shadows, rounded controls and a blue pill selection, follows your light or dark setting",
   "category": "modern",
   "order": 70,
   "versions": ["10.4", "10.5"],

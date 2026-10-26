@@ -1,6 +1,6 @@
 {
   "name": "Sonata",
-  "description": "Inspired by Mac OS 9",
+  "description": "Platinum greys with pinstriped title bars, bevelled window boxes and lavender highlights",
   "category": "retro",
   "order": 130,
   "versions": ["10.4", "10.5"],

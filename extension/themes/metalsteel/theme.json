@@ -1,6 +1,6 @@
 {
   "name": "Metal Steel",
-  "description": "Inspired by Java Swing's Metal look in its Steel theme",
+  "description": "Cool steel greys, periwinkle title bars textured with bumps, flush 3D borders and slanted tabs",
   "category": "retro",
   "order": 170,
   "versions": ["10.4", "10.5"],

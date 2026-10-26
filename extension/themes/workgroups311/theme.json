@@ -1,6 +1,6 @@
 {
   "name": "Redmond 3.11",
-  "description": "Inspired by Windows 3.11",
+  "description": "An early-90s desktop of black-outlined grey bevels, navy title bars and small bitmap-style text",
   "category": "retro",
   "order": 100,
   "versions": ["10.4", "10.5"],

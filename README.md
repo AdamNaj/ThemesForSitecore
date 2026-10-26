@@ -21,21 +21,21 @@ A browser extension that re-themes the Sitecore 10.0 to 10.5 Content Management 
 | Solar | Warm cream by day and deep teal by night, with the same eight accents in both; follows your light or dark setting |
 | Spectrum | Colour-blind safe: states carry a shape as well as a colour; follows your light or dark setting |
 | **Modern** | |
-| Cupertino | Inspired by macOS, follows your light or dark setting |
-| Sun Valley | Inspired by Windows 11, follows your light or dark setting |
+| Cupertino | Frosted sidebars, soft shadows, rounded controls and a blue pill selection, follows your light or dark setting |
+| Sun Valley | Translucent panels, rounded corners, accent underlines and a centred taskbar, follows your light or dark setting |
 | Graphite | A near-black workspace of hairline layers with one violet accent |
 | Mountain View | Tonal surfaces, pill indicators and rounded cards, follows your light or dark setting |
 | Plasma | Flat grey windows, centred titles and a sky-blue accent, follows your light or dark setting |
 | Tahoe | Frosted glass panels over a wallpaper, pill tabs and buttons, follows your light or dark setting |
 | **Retro** | |
-| Redmond 3.11 | Inspired by Windows 3.11 |
-| Chicago | Inspired by Windows 95 |
-| Whistler | Inspired by Windows XP, in Luna, Blue, Olive Green or Silver |
-| Sonata | Inspired by Mac OS 9 |
-| Menlo | Inspired by BeOS |
-| Redwood | Inspired by NeXTSTEP |
-| Los Gatos | Inspired by the Amiga Workbench |
-| Metal Steel | Inspired by Java Swing's Metal look in its Steel theme |
+| Redmond 3.11 | An early-90s desktop of black-outlined grey bevels, navy title bars and small bitmap-style text |
+| Chicago | Mid-90s grey windows with two-pixel bevels and gradient title bars over a teal desktop |
+| Whistler | Glossy rounded title bars, a beige window face and orange-topped tabs, in four colour schemes |
+| Sonata | Platinum greys with pinstriped title bars, bevelled window boxes and lavender highlights |
+| Menlo | Light grey panels, a yellow tab for each window's title and a task menu in the top-right corner |
+| Redwood | Black title bars, sharp grey bevels inside black outlines and a Dock down the right-hand side |
+| Los Gatos | Four colours, blue, white, black and orange: striped title bars and two-pixel white frames |
+| Metal Steel | Cool steel greys, periwinkle title bars textured with bumps, flush 3D borders and slanted tabs |
 | Cheetah | Pinstripes, brushed metal, blue gel buttons and traffic-light window controls, with a Dock |
 | Longhorn | Tinted glass captions with a sheen, glossy buttons and a black taskbar with a round orb |
 | Santa Clara | Chunky sand bevels, maroon window frames and a front panel of workspace buttons |

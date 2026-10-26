@@ -1,6 +1,6 @@
 {
   "name": "Chicago",
-  "description": "Inspired by Windows 95",
+  "description": "Mid-90s grey windows with two-pixel bevels and gradient title bars over a teal desktop",
   "category": "retro",
   "order": 110,
   "versions": ["10.4", "10.5"],
