@@ -892,7 +892,7 @@ ${NB} .scTabstripContainer > .scTabstrip {
   position: absolute;
   top: 10px;
   right: 0;
-  z-index: 2;
+  z-index: 10; /* over Sitecore's tab panel (9), so the open tab covers the page's edge */
   box-sizing: border-box;
   width: 118px;
   height: auto;
