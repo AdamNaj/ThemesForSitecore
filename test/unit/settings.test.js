@@ -142,7 +142,7 @@ test("a site's accessibility aids: unknown values are off, every font is package
   const ext = (f) => require("node:path").join(__dirname, "..", "..", "extension", f);
   assert.equal(settings.accessibility(undefined), null);
   assert.equal(settings.accessibility({ font: "comic", spacing: "huge", vision: "x-ray" }), null);
-  assert.deepEqual(settings.accessibility({ font: "opendyslexic" }), { font: "opendyslexic", spacing: null, vision: null, strength: null });
+  assert.deepEqual(settings.accessibility({ font: "opendyslexic" }), { font: "opendyslexic", spacing: null, vision: null, strength: null, needs: [], aids: {} });
   // a filter without a valid strength runs at full strength
   assert.equal(settings.accessibility({ vision: "tritanopia", strength: 0 }).strength, 100);
   assert.equal(settings.accessibility({ vision: "tritanopia", strength: 40 }).strength, 40);
@@ -168,6 +168,41 @@ test("a site's accessibility aids: unknown values are off, every font is package
     assert.ok(popup.includes(`name="font" value="${id}"`), id);
   }
   for (const id of Object.keys(settings.VISIONS)) assert.ok(popup.includes(`name="vision" value="${id}"`), id);
+});
+
+test("a site's needs and aids: unknown ones are dropped, old saved values still load", () => {
+  // saved before needs existed: same values, empty needs and aids
+  assert.deepEqual(settings.accessibility({ font: "opendyslexic", spacing: "wide" }),
+    { font: "opendyslexic", spacing: "wide", vision: null, strength: null, needs: [], aids: {} });
+  assert.equal(settings.accessibility({ needs: ["telepathy"], aids: { "x-ray": true } }), null);
+  // needs come back once each, in NEEDS order; aids keep only known ids with boolean values
+  assert.deepEqual(settings.accessibility({ needs: ["reading", "keyboard", "reading"] }).needs, ["keyboard", "reading"]);
+  assert.deepEqual(settings.accessibility({ aids: { "frame-titles": false, "x-ray": true } }).aids, { "frame-titles": false });
+  assert.equal(settings.accessibility({ aids: { "frame-titles": "yes" } }), null);
+});
+
+test("which aids run: always-on aids on themed sites, needs anywhere, your choice over both", () => {
+  const on = (a, themed) => settings.enabledAids(settings.accessibility(a), { themed, surface: "shell" });
+  assert.deepEqual(settings.enabledAids(null, { themed: true, surface: "shell" }), ["frame-titles"]);
+  assert.deepEqual(settings.enabledAids(null, { themed: false, surface: "shell" }), []); // Native does nothing
+  assert.deepEqual(on({ needs: ["motion"] }, false), ["frame-titles"]); // any need wakes the always-on aids
+  assert.deepEqual(on({ needs: ["screen-reader"] }, false), ["frame-titles"]);
+  assert.deepEqual(on({ aids: { "frame-titles": false } }, true), []);
+  assert.deepEqual(on({ aids: { "frame-titles": true } }, false), ["frame-titles"]);
+  assert.equal(settings.aidReason(settings.accessibility({ aids: { "frame-titles": false } }), "frame-titles"), "own");
+  assert.equal(settings.aidReason(settings.accessibility({ needs: ["screen-reader"] }), "frame-titles"), "screen-reader");
+  assert.equal(settings.aidReason(null, "frame-titles"), "always");
+});
+
+test("every aid's needs exist, every aid is named, every preset is a real value", () => {
+  for (const [id, aid] of Object.entries(settings.AIDS)) {
+    for (const n of aid.needs) assert.ok(Object.hasOwn(settings.NEEDS, n), `${id}: ${n}`);
+    assert.ok(aid.name && aid.hint, id);
+  }
+  for (const [n, p] of Object.entries(settings.NEED_PRESETS)) {
+    assert.ok(Object.hasOwn(settings.NEEDS, n), n);
+    if (p.font) assert.ok(Object.hasOwn(settings.FONTS, p.font), n);
+  }
 });
 
 test("the colour filter pulls apart the colours each vision confuses, and does nothing at strength 0", () => {

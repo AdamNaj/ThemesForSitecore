@@ -111,6 +111,17 @@
   // where the lost difference goes: red-green losses into green and blue, blue-yellow losses into red and green
   const SHIFTS = { redgreen: [[0, 0, 0], [0.7, 1, 0], [0.7, 0, 1]], blue: [[1, 0, 0.7], [0, 1, 0.7], [0, 0, 0]] };
 
+  // The needs a site's user picked (`needs`), in the popup's order: each wakes the aids that serve it.
+  const NEEDS = { "screen-reader": "Screen reader", keyboard: "Keyboard", "low-vision": "Low vision", "colour-vision": "Colour vision", reading: "Reading and focus", motion: "Motion" };
+  // what ticking a need picks in the font and spacing rows, while they are on their plain choice
+  const NEED_PRESETS = { "low-vision": { font: "hyperlegible" }, reading: { font: "opendyslexic", spacing: "wide" } };
+  // The aids that switch on and off (`aids`: { id: true|false }, the user's own choice over the needs'), each one
+  // extension/lib/aids/<id>.js. always: on for every site with a theme, and under Native once any need is picked,
+  // since it changes nothing anyone sees. surfaces: detect.js's names it runs on, null for all.
+  const AIDS = {
+    "frame-titles": { needs: ["screen-reader"], always: true, surfaces: null, name: "Frame names", hint: "Names each frame, so a screen reader says what it holds" },
+  };
+
   // null when everything is off
   function accessibility(value) {
     const v = value && typeof value === "object" ? value : {};
@@ -118,7 +129,30 @@
     const spacing = v.spacing === "wide" ? "wide" : null;
     const vision = Object.hasOwn(VISIONS, v.vision) ? v.vision : null;
     const strength = vision ? (Number.isInteger(v.strength) && v.strength > 0 && v.strength <= 100 ? v.strength : 100) : null;
-    return font || spacing || vision ? { font, spacing, vision, strength } : null;
+    const needs = Array.isArray(v.needs) ? Object.keys(NEEDS).filter((n) => v.needs.includes(n)) : [];
+    const aids = {};
+    if (v.aids && typeof v.aids === "object") for (const id of Object.keys(AIDS)) if (typeof v.aids[id] === "boolean") aids[id] = v.aids[id];
+    return font || spacing || vision || needs.length || Object.keys(aids).length ? { font, spacing, vision, strength, needs, aids } : null;
+  }
+
+  // Why an aid is on or off for accessibility() a: "own" (the user's choice), the need that wakes it, "always", or null.
+  function aidReason(a, id) {
+    const aid = AIDS[id];
+    if (a && Object.hasOwn(a.aids, id)) return "own";
+    const need = a && aid.needs.find((n) => a.needs.includes(n));
+    return need || (aid.always ? "always" : null);
+  }
+
+  // The aids that run in a frame, in AIDS order; themed: the site shows a theme, not Native; surface null: any.
+  function enabledAids(a, { themed, surface }) {
+    return Object.keys(AIDS).filter((id) => {
+      const aid = AIDS[id];
+      if (surface && aid.surfaces && !aid.surfaces.includes(surface)) return false;
+      const reason = aidReason(a, id);
+      if (reason === "own") return a.aids[id];
+      if (reason === "always") return !!(themed || (a && a.needs.length));
+      return !!reason;
+    });
   }
 
   // The 3x3 correction for a vision at a strength (1 to 100): I + s * shift * (I - sim).
@@ -156,7 +190,7 @@
 
   SCT.settings = {
     DEFAULTS, ENVS, PHASES, SCHEMES, FONTS, VISIONS, catalog, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight,
-    accessibility, accessibilityCss, visionMatrix, visionValues,
+    accessibility, accessibilityCss, visionMatrix, visionValues, NEEDS, NEED_PRESETS, AIDS, aidReason, enabledAids,
   };
   if (typeof module !== "undefined") module.exports = SCT.settings;
 })(globalThis);
