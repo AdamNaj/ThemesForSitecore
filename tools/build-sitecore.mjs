@@ -21,9 +21,11 @@ const webroot = () => process.argv[2] || createRequire(import.meta.url)("./local
 // shares and its CSS, with sitecore/host.js last.
 export function bundle() {
   const themes = createRequire(import.meta.url)(path.join(ext, "themes", "themes.js"));
+  const { AIDS } = createRequire(import.meta.url)(path.join(ext, "lib", "settings.js"));
   const files = [
     "lib/detect.js", "lib/settings.js", "themes/themes.js", "lib/files.js", "lib/dom-kit.js", "lib/color-map.js", "lib/live-map.js",
     ...themes.filter((t) => t.hasDom).map((t) => `themes/${t.id}/dom.js`),
+    ...Object.keys(AIDS).map((id) => `lib/aids/${id}.js`),
     "lib/engine.js",
     "popup/swatch.js", "popup/picker.js", "popup/site-settings.js",
   ].map((f) => path.join(ext, f));

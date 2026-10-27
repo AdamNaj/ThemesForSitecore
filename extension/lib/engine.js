@@ -104,6 +104,7 @@
       else html.dataset.sctTheme = reply.theme;
       html.toggleAttribute("data-sct-tokens", reply.usesTokens);
       applyHue();
+      syncAids(); // the always-on aids run on themed sites only
       if (domReady) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows();
       syncLive();
       if (tabWatch) syncTint(); // a tint from the theme follows it
@@ -412,6 +413,7 @@
       syncLaunchpadRows();
       stampBar(); // takes the bar's postfix out
       if (html.dataset.sctEngine === engine.id) applyHue(); // a newer engine keeps the page's hue
+      syncAids(); // takes every aid out, even when a newer engine has the page
       applyAccess();
 
       handover.disconnect();
@@ -628,6 +630,7 @@
     }
     function applyAccess() {
       if (html.dataset.sctEngine !== engine.id) return; // a newer engine keeps the page's
+      syncAids();
       const a = alive() && access ? { ...access } : null;
       if (a && surfaceName === "ee") a.font = a.spacing = null;
       if (a && !TOP) a.vision = null;
@@ -668,6 +671,75 @@
         (doc.head || html).append(style);
       }
       if (style.textContent !== css) style.textContent = css;
+    }
+
+    // The aids that switch on and off (lib/aids/<id>.js, settings.js AIDS), once the DOM is ready, each with a DOM
+    // kit of its own so one that throws is undone alone. One observer runs them again after Sitecore changes the
+    // page. They are apart from the theme's DOM module: a theme switch never undoes an aid, nor an aid the theme.
+    const aids = new Map(); // id -> its kit
+    const brokenAids = new Set();
+    const ownedKit = SCT.createDomKit(doc); // only its isOwned, for the observer
+    let aidObserver = null;
+    let aidFrame = 0;
+
+    function aidContext(kit) {
+      return {
+        surface: surfaceName, version: version || "10.5", doc, top: TOP,
+        own: kit.own, addClass: kit.addClass, setAttr: kit.setAttr, move: kit.move, listen: kit.listen,
+      };
+    }
+
+    function dropAid(id) {
+      const kit = aids.get(id);
+      aids.delete(id);
+      kit.revertAll();
+      try {
+        const mod = SCT.aidModules[id];
+        if (mod && mod.revert) mod.revert(aidContext(kit));
+      } catch (err) {
+        console.warn("[Themes for Sitecore] aid", id, err);
+      }
+    }
+
+    function runAid(id) {
+      try {
+        SCT.aidModules[id].apply(aidContext(aids.get(id)));
+      } catch (err) {
+        console.warn("[Themes for Sitecore] aid", id, err);
+        brokenAids.add(id);
+        dropAid(id);
+      }
+    }
+
+    function runAids(ids = [...aids.keys()]) {
+      const t0 = performance.now();
+      for (const id of ids) runAid(id);
+      if (aidObserver) aidObserver.takeRecords(); // drop the mutations the aids just caused
+      noteMs(performance.now() - t0, "sctAidsMs");
+    }
+
+    function syncAids() {
+      const themed = !!engine.theme && engine.theme !== "native";
+      const want = domReady && alive() && html.dataset.sctEngine === engine.id
+        ? SCT.settings.enabledAids(access, { themed, surface: surfaceName }).filter((id) => SCT.aidModules[id] && !brokenAids.has(id))
+        : [];
+      for (const id of [...aids.keys()]) if (!want.includes(id)) dropAid(id);
+      const added = want.filter((id) => !aids.has(id));
+      for (const id of added) aids.set(id, SCT.createDomKit(doc));
+      if (added.length) runAids(added);
+      if (aids.size && !aidObserver) {
+        aidObserver = new MutationObserver((records) => {
+          if (!alive()) return stop();
+          if (records.every((r) => ownedKit.isOwned(r.target) || [...r.addedNodes, ...r.removedNodes].every((n) => ownedKit.isOwned(n) || n.nodeType !== 1))) return;
+          if (!aidFrame) aidFrame = requestAnimationFrame(() => ((aidFrame = 0), runAids()));
+        });
+        aidObserver.observe(html, { childList: true, subtree: true });
+      } else if (!aids.size && aidObserver) {
+        aidObserver.disconnect();
+        aidObserver = null;
+        if (aidFrame) cancelAnimationFrame(aidFrame);
+        aidFrame = 0;
+      }
     }
 
     function saveVersion(v) {
@@ -949,6 +1021,7 @@
         if (surfaceName === "ee") trackRibbonToggle();
         if (surfaceName === "shell") frameResize(true);
         if (alive()) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows();
+        syncAids();
       });
       window.addEventListener("load", () => {
         if (!versionKnown) saveVersion(SCT.detect.versionFromDocument(doc));

@@ -32,22 +32,25 @@ async function launchWithExtension(extDir, userDataDir = fs.mkdtempSync(path.joi
   return { context, worker };
 }
 
-// Serves test/e2e/fixtures/<site>/<path> for any request path, e.g. /sitecore/shell/default.aspx.
+// Serves test/e2e/fixtures/<site>/<path> for any request path, e.g. /sitecore/shell/default.aspx, and the
+// extension's own files at /ext/<path>, for fixture pages that run the engine without the extension.
 // /slow.png answers after a delay, so tests can catch work done before the window's load event.
 function fixtureServer(port, site = "site") {
-  const root = path.join(__dirname, "fixtures", site);
+  const sites = path.join(__dirname, "fixtures", site);
   const server = http.createServer((req, res) => {
     const urlPath = decodeURIComponent(new URL(req.url, "http://x").pathname);
     if (urlPath === "/slow.png") {
       setTimeout(() => res.writeHead(404).end(), 1500);
       return;
     }
-    const file = path.join(root, urlPath);
+    const ext = urlPath.startsWith("/ext/");
+    const root = ext ? EXTENSION_DIR : sites;
+    const file = path.join(root, ext ? urlPath.slice(4) : urlPath);
     if (!file.startsWith(root) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
       res.writeHead(404).end("not found");
       return;
     }
-    const type = file.endsWith(".css") ? "text/css" : file.endsWith(".xml") ? "text/xml" : "text/html";
+    const type = file.endsWith(".css") ? "text/css" : file.endsWith(".xml") ? "text/xml" : file.endsWith(".js") ? "text/javascript" : "text/html";
     res.writeHead(200, { "content-type": type }).end(fs.readFileSync(file));
   });
   return new Promise((resolve) => server.listen(port, () => resolve(server)));

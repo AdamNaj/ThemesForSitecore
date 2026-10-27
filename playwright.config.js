@@ -8,7 +8,7 @@ module.exports = defineConfig({
   workers: 1,
   reporter: [["list"]],
   projects: [
-    { name: "fixtures", testMatch: /(domkit|import|engine)\.spec\.js/ },
+    { name: "fixtures", testMatch: /(domkit|import|engine|aids)\.spec\.js/ },
     { name: "sitecore", testMatch: /sitecore\.spec\.js/, timeout: 600_000 },
   ],
 });

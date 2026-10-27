@@ -6,7 +6,8 @@ const SCRIPT_ID = "sct";
 
 function contentFiles() {
   const domModules = SCT.themes.filter((t) => t.hasDom).map((t) => `themes/${t.id}/dom.js`);
-  return ["lib/dev.js", "lib/detect.js", "lib/settings.js", "themes/themes.js", "lib/dom-kit.js", "lib/color-map.js", "lib/live-map.js", ...domModules, "lib/engine.js", "content.js"];
+  const aids = Object.keys(SCT.settings.AIDS).map((id) => `lib/aids/${id}.js`);
+  return ["lib/dev.js", "lib/detect.js", "lib/settings.js", "themes/themes.js", "lib/dom-kit.js", "lib/color-map.js", "lib/live-map.js", ...domModules, ...aids, "lib/engine.js", "content.js"];
 }
 
 // Sites the user disabled from the popup. Chrome can keep a host it granted at runtime after the extension gives the
