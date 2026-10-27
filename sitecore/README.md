@@ -51,7 +51,8 @@ Building the second needs Web Deploy (`msdeploy.exe`, 3.6 or later) on the machi
   `SitecoreThemes.Phase`, `SitecoreThemes.Scheme`, and `SitecoreThemes.Title`, `.Tint` and `.Mode` stored as `v:<value>` so an empty
   choice of the user's own differs from none, `SitecoreThemes.Accessibility` as JSON).
 - `sct.js` is built from the extension's shared files (`extension/lib/engine.js`, `detect.js`, `settings.js`,
-  `files.js`, the colour maps, `themes/themes.js` and the themes' DOM modules), the popup's picker
+  `files.js`, the colour maps, `themes/themes.js`, the themes' DOM modules and the accessibility aids in
+  `lib/aids/`), the popup's picker
   (`popup/picker.js`, `swatch.js`, `popup.css`), the settings shared with the popup (`popup/site-settings.js`)
   plus `host.js`. The engine
   decides which pages are Sitecore surfaces, exactly as it does in the extension.

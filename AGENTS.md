@@ -11,6 +11,7 @@ Experience Editor's chrome, the login pages and `/sitecore/admin`. Product notes
 |---|---|
 | `extension/background.js` | Registers the content scripts for granted origins, resolves each frame's theme, injects and removes the theme CSS with `scripting.insertCSS`/`removeCSS`. |
 | `extension/lib/engine.js` | The page engine, shared with the Sitecore module: runs in every frame, tags `<html>` with `data-sct-surface`, `-theme`, `-version`, `-tokens`, asks its host for the theme, runs the theme's DOM module, holds the first paint until the CSS lands. Everything platform-specific goes through the host (its header lists the interface). |
+| `extension/lib/aids/<id>.js` | One accessibility aid each (`SCT.registerAid`): what it serves and where it runs is in `settings.js` `AIDS`, beside the needs that switch it on; `engine.js` runs the enabled ones under every theme, each with its own DOM kit. Adding an aid touches `AIDS`, its file, and the module's `Aids` list in `ThemesProcessor.cs`. |
 | `extension/content.js` | The extension's host for the engine: extension storage, the background's CSS swap, the dev hooks. |
 | `extension/popup/picker.js` | The popup's preview, hue, group decks and grid of miniatures, shared with the Sitecore module's panel; `popup.js` keeps the extension's storage, tab title, tint, import and permissions. |
 | `extension/lib/files.js` | A theme's CSS files per surface, in cascade order; shared by `background.js` and the Sitecore module. |

@@ -33,13 +33,14 @@ axe-core in every frame, a markup survey, and 45 presses of Tab through the Cont
   `tablist`/`tab` and `menu` roles (321 elements with `aria-*`). axe flags attributes not allowed on their role
   (8), a tree missing its required children (2), and `presentation` roles that conflict with focusable elements
   (19). The job is partly repair, not only addition.
-- **The Tab order is the main problem for keyboard users.** It goes: logo, Log out, our own picker button (with no
-  accessible name, a bug of ours), then about 20 ribbon buttons one after another, before the tree's search box.
+- **The Tab order is the main problem for keyboard users.** It goes: logo, Log out, our own picker button, then about 20 ribbon buttons one after another, before the tree's search box.
   After the tree come the editor's links, the section-collapse glyphs as bare `<img>` tab stops with no names, then
   the fields. There's no skip link, no landmark to jump to, and no way from the tree to the fields without passing
   through everything else.
 - **About 66 clickable elements have no role** (the ribbon panel, the section captions, the window buttons), 95
   images have no `alt`, and no frame has a `title`. A screen reader announces "frame, frame, frame".
+- (Corrected in phase 0: the audit read our picker button's host element from outside its closed shadow root and
+  found no name; Chromium's accessibility tree names it "Themes for Sitecore", from the `aria-label` inside.)
 - **No live regions anywhere**, so "Item saved", validation errors and publish progress are silent. No page sets
   `lang` except Launchpad and the Experience Editor's site. No `prefers-reduced-motion` rules.
 - **Launchpad, `/sitecore/admin` and the Experience Editor ribbon** are mostly missing `alt` text and link names,
@@ -120,26 +121,26 @@ match accessible names (WCAG 2.5.3), and keyboard access, targets and the palett
 **Hearing** is out of scope: these screens have no audio or video of their own.
 
 **Defaults.** `aria-repair`, `names`, `frame-titles`, `landmarks`, `lang` and `forced-colors` change nothing you
-can see, so they run on every site with a theme. Everything else waits for a need or a toggle. The missing name on
-our own picker button gets fixed regardless.
+can see, so they run on every site with a theme. Everything else waits for a need or a toggle.
 
 ## Section 2: architecture
 
 **Files**
-- `extension/lib/aids/registry.js`: `SCT.registerAid(id, { needs, surfaces, css?, apply(ctx), revert?(ctx) })`,
-  like `SCT.registerTheme`.
-- `extension/lib/aids/<id>.js`: one per aid. CSS-only aids (`focus-ring`, `targets`, `reduced-motion`,
-  `forced-colors`) only set `css`.
-- The font, spacing and colour filter move from `settings.js` into `aids/font.js`, `aids/spacing.js` and
-  `aids/vision.js`. `settings.accessibility()` keeps reading what's already saved.
+- `extension/lib/settings.js` `AIDS`: the catalogue, each aid's `needs`, `always`, `surfaces`, `name` and `hint`,
+  beside `NEEDS` and `NEED_PRESETS`. The background, the popup and the engine all load it.
+- `extension/lib/aids/<id>.js`: one per aid, `SCT.registerAid(id, { apply(ctx), revert?(ctx) })` (in `dom-kit.js`,
+  like `SCT.registerTheme`). CSS-only aids (`focus-ring`, `targets`, `reduced-motion`, `forced-colors`) will add a
+  `css` member, and the runner support for it, when the first of them lands.
+- The font, spacing and colour filter stay in `settings.js` and `applyAccess`: they are valued settings, not
+  on/off aids. `settings.accessibility()` keeps reading what's already saved.
 - Every list of engine scripts takes the new files: the background's registration, the Sitecore module's loader,
   the build.
 
 **Engine**
 - `syncAccess` becomes the aids runner. The enabled set is the always-on aids (themed sites), plus the needs' aids,
   plus aids switched on, minus aids switched off, filtered by surface.
-- One DOM kit and one mutation observer for all aids, separate from the theme's, so theme switches and aids never
-  undo each other.
+- One DOM kit per running aid, so one that throws is undone alone, and one mutation observer for all of them,
+  separate from the theme's, so theme switches and aids never undo each other.
 - Every `apply` is idempotent and cheap. Budget: under 4 ms a pass on the Content Editor, recorded with the
   existing `noteMs` dev hook (`data-sct-aids-ms`).
 - The aids' CSS goes into the existing `style[data-sct-access]` in `@layer sct-accessibility`. The focus ring uses
@@ -194,12 +195,11 @@ section 5 on 10.4 and 10.5. Inside a phase, surfaces go in order of use: Content
 dialogs, Launchpad, Experience Editor ribbon, `/sitecore/admin`, login. Sitecore 10.0 to 10.3 get the aids through
 10.4's mapping, as they get its themes, but are not verified one by one.
 
-0. **Foundation.** The registry, the aids runner in the engine, `listen` in the DOM kit, font, spacing and colour
-   filter moved into aids, the new settings shape (old saved values still read), the popup's needs chips and
-   fine-tune list, the axe harness and its baseline (section 5), and the name on our own
-   picker button. Nothing new to see beyond the settings tab.
-1. **Invisible defaults** (screen reader basics, on for every themed site): `aria-repair`, `names`, `frame-titles`,
-   `landmarks`, `lang`, `forced-colors`. Measured by axe's counts dropping.
+0. **Foundation** (done 2026-10-27). `registerAid`, the aids runner in the engine, `listen` in the DOM kit, the
+   new settings shape (old saved values still read), the popup's needs chips and fine-tune list, the Sitecore
+   module keeping needs and aids, the axe harness and its baseline (section 5), and `frame-titles` as the pilot aid.
+1. **Invisible defaults** (screen reader basics, on for every themed site): `aria-repair`, `names`, `landmarks`,
+   `lang`, `forced-colors`. Measured by axe's counts dropping.
 2. **Keyboard:** `focus-ring`, `ribbon-toolbar`, `regions` (skip links and F6), `tree-keys`, `menus`, `dialogs`,
    `targets`.
 3. **Telling people what happened:** `announcer`, `fields`, `where-am-i`, `not-just-colour`.
