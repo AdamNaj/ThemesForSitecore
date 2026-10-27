@@ -1,6 +1,7 @@
 // Builds the release packages from extension/:
 //   dist/themes-for-sitecore-<v>-chrome.zip          Chrome Web Store, Edge Add-ons, and testers (Load unpacked)
 //   dist/themes-for-sitecore-<v>-firefox-listed.zip  AMO listing
+//   dist/themes-for-sitecore-<v>-source.zip          the sources AMO's review asks for (git archive of HEAD)
 //   dist/firefox-unlisted/                           signed with `npm run sign:firefox` for self-hosted testers
 // Every package is staged from a copy whose lib/dev.js switches the development hooks off.
 import fs from "node:fs";
@@ -66,6 +67,11 @@ function main() {
     console.warn("package.json config.updateBase is empty: the unlisted Firefox build has no update_url.");
   }
   fs.rmSync(packaged, { recursive: true, force: true });
+
+  // AMO asks for the sources of the generated files with every version: the committed tree, as the tag builds it
+  execFileSync("git", ["archive", "-o", path.join(dist, `themes-for-sitecore-${version}-source.zip`), "HEAD"], { cwd: root, stdio: "inherit" });
+  if (execFileSync("git", ["status", "--porcelain", "--", "extension", "tools"], { cwd: root, encoding: "utf8" }).trim())
+    console.warn("Uncommitted changes under extension/ or tools/: the source zip holds HEAD, not what was packaged.");
   console.log(`Built ${version} into ${path.relative(root, dist)}`);
 }
 
