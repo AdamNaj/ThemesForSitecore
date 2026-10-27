@@ -157,6 +157,10 @@ test("a site's accessibility aids: unknown values are off, every font is package
   const list = (name) => JSON.parse(`[${server.match(new RegExp(`string\\[\\] ${name} = \\{([^}]*)\\}`))[1]}]`);
   assert.deepEqual(list("Fonts"), Object.keys(settings.FONTS));
   assert.deepEqual(list("Visions"), Object.keys(settings.VISIONS));
+  assert.deepEqual(list("Needs"), Object.keys(settings.NEEDS));
+  assert.deepEqual(list("Aids"), Object.keys(settings.AIDS));
+  // room for every need and aid, which the old 200 had not
+  assert.ok(server.includes("access.Length > 1000"));
   for (const [id, font] of Object.entries(settings.FONTS)) {
     const css = settings.accessibilityCss({ font: id }, (p) => `x:/${p}`);
     // icons keep their icon font

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -32,6 +33,8 @@ namespace SitecoreThemes
         static readonly Regex Control = new Regex("[\\x00-\\x1f\\x7f]");
         static readonly string[] Fonts = { "hyperlegible", "opendyslexic" };
         static readonly string[] Visions = { "protanopia", "deuteranopia", "tritanopia" };
+        static readonly string[] Needs = { "screen-reader", "keyboard", "low-vision", "colour-vision", "reading", "motion" };
+        static readonly string[] Aids = { "frame-titles" };
         static readonly Regex EnvId = new Regex("^(prod|staging|qa|dev|sandbox|local|beta)?$"); // empty: back to the config's
         static readonly Regex PhaseId = new Regex("^(dawn|day|dusk|night)?$"); // empty: Auto, the clock's
         static readonly Regex SchemeId = new Regex("^(blue|olive|silver)?$"); // empty: the theme's own
@@ -124,8 +127,8 @@ namespace SitecoreThemes
             return saved != null && saved.StartsWith("v:", StringComparison.Ordinal) ? saved.Substring(2) : Settings.GetSetting(setting, "");
         }
 
-        // A user's accessibility aids ({font, spacing, vision, strength}) from JSON, keeping only known values; null
-        // when nothing is on. The engine checks them again (settings.js accessibility).
+        // A user's accessibility aids ({font, spacing, vision, strength, needs, aids}) from JSON, keeping only known
+        // values; null when nothing is on. The engine checks them again (settings.js accessibility).
         static Dictionary<string, object> ReadAccess(string json)
         {
             if (string.IsNullOrEmpty(json)) return null;
@@ -148,8 +151,25 @@ namespace SitecoreThemes
             var spacing = v.TryGetValue("spacing", out o) && "wide".Equals(o) ? "wide" : null;
             var vision = v.TryGetValue("vision", out o) && o is string && Array.IndexOf(Visions, o) >= 0 ? (string)o : null;
             var strength = vision != null && v.TryGetValue("strength", out o) && o is int && (int)o > 0 && (int)o <= 100 ? (int)o : 100;
-            if (font == null && spacing == null && vision == null) return null;
-            return new Dictionary<string, object> { { "font", font }, { "spacing", spacing }, { "vision", vision }, { "strength", vision != null ? (object)strength : null } };
+            // needs once each, in Needs order; aids that are known and true or false
+            // JavaScriptSerializer gives a JSON array as an ArrayList
+            var picked = v.TryGetValue("needs", out o) && o is System.Collections.IList ? ((System.Collections.IList)o).Cast<object>().ToArray() : new object[0];
+            var needs = Needs.Where(n => Array.IndexOf(picked, n) >= 0).ToArray();
+            var aids = new Dictionary<string, bool>();
+            var own = v.TryGetValue("aids", out o) ? o as Dictionary<string, object> : null;
+            if (own != null)
+            {
+                foreach (var id in Aids)
+                {
+                    if (own.TryGetValue(id, out o) && o is bool) aids[id] = (bool)o;
+                }
+            }
+            if (font == null && spacing == null && vision == null && needs.Length == 0 && aids.Count == 0) return null;
+            return new Dictionary<string, object>
+            {
+                { "font", font }, { "spacing", spacing }, { "vision", vision }, { "strength", vision != null ? (object)strength : null },
+                { "needs", needs }, { "aids", aids },
+            };
         }
 
         // The user's hues, one per theme ({"fjord":40}); a bare number (saved before hues were per theme, or the
@@ -217,7 +237,7 @@ namespace SitecoreThemes
                 || (title != null && (title.Length > 40 || Control.IsMatch(title)))
                 || (tint != null && !TintId.IsMatch(tint))
                 || (mode != null && !ModeId.IsMatch(mode))
-                || (access != null && access.Length > 200))
+                || (access != null && access.Length > 1000))
                 context.Response.StatusCode = 400;
             else
             {
