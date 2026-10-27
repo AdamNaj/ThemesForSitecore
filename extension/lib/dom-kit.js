@@ -48,6 +48,11 @@
       parent.insertBefore(node, before || null);
     }
 
+    function listen(target, type, fn, options) {
+      target.addEventListener(type, fn, options);
+      undo.push(() => target.removeEventListener(type, fn, options));
+    }
+
     function revertAll() {
       while (undo.length) {
         try {
@@ -67,7 +72,7 @@
       return false;
     }
 
-    return { own, addClass, setAttr, move, revertAll, isOwned };
+    return { own, addClass, setAttr, move, listen, revertAll, isOwned };
   }
 
   SCT.createDomKit = createDomKit;
@@ -76,6 +81,11 @@
   SCT.domModules = SCT.domModules || {};
   SCT.registerTheme = (id, mod) => {
     SCT.domModules[id] = mod;
+  };
+  // and lib/aids/<id>.js this, for the accessibility aids the engine runs under every theme
+  SCT.aidModules = SCT.aidModules || {};
+  SCT.registerAid = (id, mod) => {
+    SCT.aidModules[id] = mod;
   };
   if (typeof module !== "undefined") module.exports = createDomKit;
 })(globalThis);

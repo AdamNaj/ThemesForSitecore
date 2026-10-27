@@ -58,3 +58,27 @@ test("revertAll keeps a class the element already had", async ({ page }) => {
   });
   expect(kept).toBe(true);
 });
+
+test("listen's handler is gone after revertAll", async ({ page }) => {
+  await page.goto(fixture);
+  const count = await page.evaluate(() => {
+    const kit = SCT.createDomKit(document);
+    const close = document.getElementById("close");
+    let n = 0;
+    kit.listen(close, "click", (e) => (e.preventDefault(), n++));
+    close.click();
+    kit.revertAll();
+    close.click();
+    return n;
+  });
+  expect(count).toBe(1);
+});
+
+test("registerAid stores a module by id", async ({ page }) => {
+  await page.goto(fixture);
+  expect(await page.evaluate(() => {
+    const m = { apply() {} };
+    SCT.registerAid("t", m);
+    return SCT.aidModules.t === m;
+  })).toBe(true);
+});
