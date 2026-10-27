@@ -19,65 +19,25 @@ Paste-ready text for the Chrome Web Store and addons.mozilla.org (AMO). Build th
 
 **Description:**
 
-No OS or product names in the theme list: Chrome rejected a version for keyword stuffing (Yellow Argon) over eight "X: inspired by <product>" lines. Describe each look instead.
+Families, not a theme-by-theme list. Chrome rejected two versions for keyword stuffing (Yellow Argon): one over eight "X: inspired by <product>" lines, the next over Guardrail's line listing seven environment names. Name no OS or product, and list no run of options.
 
 ```text
-Sitecore 10.5's white and purple Content Management UIs are bright for a full day of editing, and every environment looks the same. Themes for Sitecore re-skins the Sitecore Desktop and the CM UIs with a theme you pick for each Sitecore host, so your local install, staging and production never look alike.
+Sitecore's back office is bright, and every environment looks the same. Themes for Sitecore gives the Sitecore 10.0 to 10.5 Desktop and Content Management UIs a look you choose for each Sitecore host, so a long day of editing is easier on the eyes and you always know where you are.
 
-39 themes, with a live preview of each in the popup:
+39 themes in five families, each with a live preview in the popup:
+• Sitecore's own: today's layout in a dark, low-glare palette, or the look of an earlier version
+• Everyday: calm, legible looks for long days, including high contrast and colour-blind safe ones
+• Modern: rounded, current desktop styles that follow your light or dark setting
+• Retro: faithful recreations of classic desktops from the 90s and 2000s
+• Creative: a blueprint, a notebook, a green-screen terminal and more
 
-Sitecore
-• Debrightify: Sitecore's layout in a dark, low-glare palette
-• Sitecore 10.4: the 10.4 look on 10.5
-• Sitecore 10.5: the 10.5 look on 10.0 to 10.4
-• Copenhagen: the Sitecore 6 and 7 look, with Tahoma, a blue-grey ribbon and the red orb
+Know where you are. The Guardrail theme marks every screen with the environment you set for the site, so production never looks like your dev box. Give a site a postfix such as [Prod] and it shows in the browser tab and in Sitecore's top bar: no more five identical "Desktop" tabs.
 
-Everyday
-• Beacon: high contrast for low vision and bright rooms, black and yellow or cream and rust to follow your light or dark setting
-• Fjord: a calm Nordic palette that follows your light or dark setting
-• Guardrail: shows which environment you're on, production, staging, QA, dev, sandbox, local or beta
-• Compact: Sitecore's own colours at laptop density, shorter rows, a slimmer ribbon and labels beside fields
-• Focus: quiet warm greys for long editing sessions, the field you edit stands out
-• Solar: warm cream by day and deep teal by night, with the same eight accents in both
-• Spectrum: colour-blind safe, every state carries a shape as well as a colour
+Accessibility built in: reading fonts for low vision and dyslexia, wider letter and word spacing, and colour filters for colour vision deficiencies. They work under every theme, and every theme keeps its text at WCAG AA contrast.
 
-Modern
-• Cupertino: frosted sidebars, soft shadows and rounded controls, light or dark
-• Sun Valley: translucent panels and rounded corners in a crisp current-desktop style, light or dark
-• Tahoe: frosted glass windows over a wallpaper, pill tabs and buttons, light or dark
-• Graphite: a near-black workspace of hairline layers with one violet accent
-• Mountain View: tonal surfaces, pill indicators and rounded cards, light or dark
-• Plasma: flat grey windows, centred titles and a sky-blue accent, light or dark
+Themes cover the Content Editor, the Desktop and its dialogs, Launchpad, the Experience Editor's ribbon, the admin pages and the login screen. Your website content and Sitecore's behaviour are never changed.
 
-Retro
-• Redmond 3.11: an early-90s desktop of grey bevels and navy title bars
-• Chicago: mid-90s grey windows over a teal desktop
-• Whistler: glossy blue title bars from the early 2000s
-• Longhorn: tinted glass captions with a sheen, glossy buttons and a black taskbar with a round orb
-• Sonata: platinum greys with lavender highlights
-• Cheetah: pinstripes, brushed metal, blue gel buttons and traffic-light window controls, with a dock
-• Menlo: yellow window tabs on light grey
-• Redwood: black title bars and sharp grey bevels
-• Santa Clara: chunky sand bevels, maroon window frames and a front panel of workspace buttons
-• Warp: grey bevelled windows, blue title bars, a control bar along the top and notebook tabs
-• Los Gatos: four colours, blue, white, black and orange
-• Metal Steel: cool steel greys and periwinkle, a classic cross-platform toolkit look
-
-Creative
-• Blueprint: a technical drawing in white on cyanotype blue
-• Notebook: graph paper, pen and sticky notes
-• Meridian: dawn, day, dusk and night palettes that follow your clock
-• Phosphor: a green-screen terminal
-• Miami: synthwave neon over a sunset grid
-• Bridge: a starship console of elbows and pills
-• Dessau: primary colours, black rules and simple shapes
-• Hometown: a late-nineties personal homepage, stars, bevels and all
-• Pocket: a four-shade handheld screen with chunky pixels
-• Riso: a two-ink risograph print in fluorescent pink and teal
-
-Know where you are: give each site a postfix such as [DEV 10.5], shown in the browser tab and in Sitecore's top bar, and tint its tab icon. Themes with light and dark looks follow your system, or stay light or dark per site.
-
-Themes cover the Content Editor, Desktop, Sheer UI dialogs, Sitecore PowerShell Extensions (ISE, dialogs, Show-ListView), Launchpad, SPEAK applications, the Experience Editor's ribbon and toolbars, the /sitecore/admin pages and the login screen. Website content in the Experience Editor is never touched, and Sitecore's behaviour doesn't change.
+Works in Chrome, Edge and Firefox. Rolling it out to a whole team? The same themes also come as a Sitecore module you install on your server.
 
 The extension has no access to any site until you enable it on a Sitecore host from the toolbar popup. You can also import your own theme as a CSS file.
 
