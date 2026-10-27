@@ -8,6 +8,8 @@ Paste-ready text for the Chrome Web Store and addons.mozilla.org (AMO). Build th
 | Edge Add-ons (optional) | the same Chrome zip | https://partner.microsoft.com/dashboard/microsoftedge |
 | AMO | `dist/themes-for-sitecore-<v>-firefox-listed.zip` | https://addons.mozilla.org/developers/addon/submit/ |
 
+AMO asks for four things with every version: the package, the source zip (`dist/themes-for-sitecore-<v>-source.zip`), the release notes and the notes to reviewer (both below). Rewrite the release notes for each release, before tagging it.
+
 ## Shared listing
 
 **Name:** Themes for Sitecore
@@ -64,6 +66,24 @@ Sitecore is a trademark of Sitecore Corporation A/S. This extension is not affil
 **Data usage:** tick none of the data types. Tick all three certifications (no selling, no unrelated use, no creditworthiness use).
 
 **Privacy policy URL:** https://codality.net/themes-for-sitecore/privacy/ (use it on AMO too).
+
+## AMO: Release notes
+
+For the version being released, written for the people who install it, from the tag's changelog
+(`git tag -l --format='%(contents)' v<v>`). Plain text; like the description, name no OS or product.
+
+```text
+0.5.0
+
+- A new popup: themes come in groups shown as decks, the chosen theme in a large preview above a grid of named miniatures, and a short confirmation when a theme is applied.
+- Whistler now offers three more colour schemes beside its default blue, chosen per site.
+- Turning the extension off for a site takes effect at once, without a reload.
+- The script editor gets a matching dark colour scheme in dark mode.
+- The retro themes have reworked dialog tabs, ribbon tabs and inactive window buttons.
+- Tahoe and Cupertino highlight only the ribbon button under the pointer, and Tahoe's tab control is centred.
+- Insert buttons for folders and media folders keep their icon and label under every theme, and long taskbar titles end in an ellipsis.
+- The Sitecore module, which deploys the themes inside Sitecore for every user of an instance, now has the popup's settings in its theme picker.
+```
 
 ## AMO: Notes to reviewer
 
