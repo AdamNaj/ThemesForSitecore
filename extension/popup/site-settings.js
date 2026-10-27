@@ -38,6 +38,17 @@
 </div>`;
 
   const ACCESS_HTML = `<div class="panel">
+  <fieldset id="needs" class="row needs">
+    <legend><span class="label">Needs<small>Each one switches on the aids that help with it</small></span></legend>
+    <div class="chips">
+      <label><input type="checkbox" name="need" value="screen-reader">Screen reader</label>
+      <label><input type="checkbox" name="need" value="keyboard">Keyboard</label>
+      <label><input type="checkbox" name="need" value="low-vision">Low vision</label>
+      <label><input type="checkbox" name="need" value="colour-vision">Colour vision</label>
+      <label><input type="checkbox" name="need" value="reading">Reading and focus</label>
+      <label><input type="checkbox" name="need" value="motion">Motion</label>
+    </div>
+  </fieldset>
   <div class="row">
     <div class="label"><span id="font-label">Font</span><small>Letters that are easier to tell apart</small></div>
     <div id="font" class="seg" role="radiogroup" aria-labelledby="font-label">
@@ -69,6 +80,11 @@
     <input type="range" id="strength" class="hue" min="1" max="100" step="1" value="100">
     <output id="strength-value" for="strength">100%</output>
   </div>
+  <details id="aids" class="row aids">
+    <summary><span class="label">Fine-tune<small>Each aid on its own</small></span></summary>
+    <div id="aid-list"></div>
+    <button type="button" id="aids-reset">Reset to needs</button>
+  </details>
 </div>`;
 
   // The tab icon keeps its own light and shade and takes only the tint's hue and saturation (lib/engine.js
@@ -150,26 +166,79 @@
     box.onchange = () => store.set("mode", box.querySelector("input:checked").value);
   }
 
-  // reading font, spacing, and a colour filter with its strength, which shows while a filter is on; all off is null
+  // The needs, reading font, spacing, a colour filter with its strength (shown while a filter is on), and each aid's
+  // switch with why it is on or off; all off is null. Ticking a need presets the font and spacing it suggests while
+  // those rows are on their plain choice. A switch keeps the user's own choice only where it differs from the needs'.
   async function mountAccessibility(r, store) {
-    const saved = SCT.settings.accessibility(await store.get("accessibility")) || {};
+    const S = SCT.settings;
+    const saved = S.accessibility(await store.get("accessibility")) || {};
+    let needs = saved.needs || [];
+    let aids = { ...(saved.aids || {}) };
     const range = r.querySelector("#strength");
     range.value = saved.strength || 100;
     const pick = (n) => r.querySelector(`#${n} input:checked`).value || null;
+    const current = (own = aids) => S.accessibility({ font: pick("font"), spacing: pick("spacing"), vision: pick("vision"), strength: +range.value, needs, aids: own });
+    // the popup shows what a themed site gets, on every surface
+    const isOn = (a, id) => S.enabledAids(a, { themed: true, surface: null }).includes(id);
     const show = () => {
       r.querySelector("#strength-row").hidden = !pick("vision");
       r.querySelector("#strength-value").textContent = `${range.value}%`;
     };
-    const write = () => store.set("accessibility", SCT.settings.accessibility({ font: pick("font"), spacing: pick("spacing"), vision: pick("vision"), strength: +range.value }));
+    const write = () => store.set("accessibility", current());
+
+    const list = r.querySelector("#aid-list");
+    list.innerHTML = Object.entries(S.AIDS).map(([id, aid]) => `<div class="aid">
+  <input type="checkbox" role="switch" id="aid-${id}" data-aid="${id}" aria-describedby="aid-${id}-hint aid-${id}-why">
+  <div class="label"><label for="aid-${id}">${aid.name}</label><small id="aid-${id}-hint">${aid.hint}</small><small id="aid-${id}-why" data-aid-reason="${id}"></small></div>
+</div>`).join("");
+    const drawAids = () => {
+      const a = current();
+      for (const input of list.querySelectorAll("[data-aid]")) {
+        const id = input.dataset.aid;
+        const why = S.aidReason(a, id);
+        input.checked = isOn(a, id);
+        list.querySelector(`[data-aid-reason="${id}"]`).textContent =
+          why === "own" ? "Your choice" : why === "always" ? "On whenever a theme is" : why ? `From ${S.NEEDS[why]}` : "Off";
+      }
+    };
+    list.onchange = (e) => {
+      const id = e.target.dataset.aid;
+      const others = { ...aids };
+      delete others[id];
+      if (isOn(current(others), id) === e.target.checked) aids = others;
+      else aids = { ...others, [id]: e.target.checked };
+      drawAids();
+      write();
+    };
+    r.querySelector("#aids-reset").onclick = () => {
+      aids = {};
+      drawAids();
+      write();
+    };
+
+    const needBox = r.querySelector("#needs");
+    for (const input of needBox.querySelectorAll("input")) input.checked = needs.includes(input.value);
+    needBox.onchange = (e) => {
+      needs = [...needBox.querySelectorAll("input:checked")].map((i) => i.value);
+      const preset = e.target.checked && S.NEED_PRESETS[e.target.value];
+      for (const name of ["font", "spacing"]) {
+        if (preset && preset[name] && !pick(name)) r.querySelector(`#${name} input[value="${preset[name]}"]`).checked = true;
+      }
+      show();
+      drawAids();
+      write();
+    };
+
     for (const name of ["font", "spacing", "vision"]) {
       const box = r.querySelector(`#${name}`);
       box.querySelector(`input[value="${saved[name] || ""}"]`).checked = true;
-      box.onchange = () => (show(), write());
+      box.onchange = () => (show(), drawAids(), write());
     }
     const save = SCT.picker.throttled(write);
     range.oninput = () => (show(), save());
     range.onchange = write; // the slider's release: the popup can close before the throttled save
     show();
+    drawAids();
   }
 
   // every control r holds, wired to the store

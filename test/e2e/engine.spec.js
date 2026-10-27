@@ -212,6 +212,37 @@ test("the popup's hue slider turns the page, and the theme keeps it", async () =
   await popup.close();
 });
 
+test("the Accessibility tab's needs preset the font and the fine-tune switches save your choice", async () => {
+  const url = `${BASE}/sitecore/shell/default.aspx`;
+  const popup = await context.newPage();
+  await popup.addInitScript((u) => (chrome.tabs.query = async () => [{ url: u, id: 1 }]), url); // the popup's site
+  const errors = [];
+  popup.on("pageerror", (e) => errors.push(String(e)));
+  await popup.goto(`chrome-extension://${new URL(worker.url()).host}/popup/popup.html`);
+  await popup.locator("#open-settings").click();
+  await popup.locator("#tab-access").click();
+  const saved = () => worker.evaluate((o) => chrome.storage.sync.get("accessibility").then((s) => (s.accessibility || {})[o]), BASE);
+
+  await popup.locator("#needs label", { hasText: "Reading and focus" }).click();
+  await expect.poll(saved).toMatchObject({ needs: ["reading"], font: "opendyslexic", spacing: "wide" });
+  await expect(popup.locator('#font input[value="opendyslexic"]')).toBeChecked();
+  await popup.locator("#aids summary").click();
+  const frames = popup.getByRole("switch", { name: /Frame names/ });
+  const reason = popup.locator('[data-aid-reason="frame-titles"]');
+  await expect(frames).toBeChecked();
+  await expect(reason).toHaveText("On whenever a theme is");
+  await frames.uncheck();
+  await expect.poll(saved).toMatchObject({ aids: { "frame-titles": false } });
+  await expect(reason).toHaveText("Your choice");
+  await popup.locator("#aids-reset").click();
+  await expect.poll(async () => (await saved()).aids).toEqual({});
+  await expect(frames).toBeChecked();
+  expect(errors).toEqual([]);
+
+  await worker.evaluate(() => chrome.storage.sync.remove("accessibility"));
+  await popup.close();
+});
+
 test("the popup's time of day pins Meridian's phase, and Auto gives it back to the clock", async () => {
   const url = `${BASE}/sitecore/shell/default.aspx`;
   await setTheme("meridian");

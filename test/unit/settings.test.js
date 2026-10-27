@@ -168,6 +168,7 @@ test("a site's accessibility aids: unknown values are off, every font is package
     assert.ok(popup.includes(`name="font" value="${id}"`), id);
   }
   for (const id of Object.keys(settings.VISIONS)) assert.ok(popup.includes(`name="vision" value="${id}"`), id);
+  for (const [id, name] of Object.entries(settings.NEEDS)) assert.ok(popup.includes(`name="need" value="${id}">${name}<`), id);
 });
 
 test("a site's needs and aids: unknown ones are dropped, old saved values still load", () => {
