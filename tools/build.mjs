@@ -42,8 +42,8 @@ function main() {
 
   // Firefox runs no extension service workers: its packages load the background as scripts, the libraries
   // background.js imports with importScripts first. Chrome warns about background.scripts in Manifest V3, so only
-  // the Firefox copies carry it.
-  const firefox = { ...manifest, background: { ...manifest.background, scripts: ["lib/dev.js", "lib/detect.js", "lib/settings.js", "themes/themes.js", "lib/files.js", "background.js"] } };
+  // the Firefox copies carry it, and only Chrome's keeps service_worker, which AMO warns Firefox ignores.
+  const firefox = { ...manifest, background: { scripts:["lib/dev.js", "lib/detect.js", "lib/settings.js", "themes/themes.js", "lib/files.js", "background.js"] } };
   fs.writeFileSync(path.join(packaged, "manifest.json"), JSON.stringify(firefox, null, 2) + "\n");
   zip(packaged, `themes-for-sitecore-${version}-firefox-listed.zip`);
 
