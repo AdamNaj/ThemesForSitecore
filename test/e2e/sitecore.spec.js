@@ -115,3 +115,53 @@ for (const [version, host] of Object.entries(HOSTS)) {
     });
   });
 }
+
+// The axe baseline (test/e2e/a11y-baseline.json): violations per Sitecore version, page, scenario and rule. A count
+// may only go down; SCT_A11Y_UPDATE=1 writes what the installs show now, after a phase lowers it.
+const A11Y_PAGES = {
+  desktop: "/sitecore/shell",
+  contentEditor: "/sitecore/shell/Applications/Content%20Editor.aspx?sc_bw=1",
+  launchpad: "/sitecore/shell/sitecore/client/Applications/Launchpad",
+  ee: "/?sc_mode=edit",
+  admin: "/sitecore/admin",
+};
+// Native and Native with every need: the aids alone; Fjord: a token theme; Chicago: a theme with a DOM module
+const A11Y_SCENARIOS = { native: ["native", false], needs: ["native", true], fjord: ["fjord", false], chicago: ["chicago", false] };
+
+test("accessibility problems never grow", async () => {
+  test.setTimeout(900_000);
+  const { axeCounts } = require("./a11y");
+  const file = require("node:path").join(__dirname, "a11y-baseline.json");
+  const fs = require("node:fs");
+  const update = process.env.SCT_A11Y_UPDATE === "1";
+  const baseline = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : {};
+  const { NEEDS } = require("../../extension/lib/settings.js");
+  const { overrides, accessibility } = await worker.evaluate(() => chrome.storage.sync.get(["overrides", "accessibility"]));
+  const counts = {};
+  const page = await context.newPage();
+  try {
+    for (const [version, host] of Object.entries(HOSTS)) {
+      await signedIn(page, host);
+      for (const [scenario, [theme, needs]] of Object.entries(A11Y_SCENARIOS)) {
+        await setTheme(theme);
+        await worker.evaluate(([o, a]) => chrome.storage.sync.set({ accessibility: Object.fromEntries(o.map((x) => [x, a])) }), [ORIGINS, needs ? { needs: Object.keys(NEEDS) } : null]);
+        for (const [name, path] of Object.entries(A11Y_PAGES)) {
+          await page.goto(host + path, { waitUntil: "load" });
+          await page.waitForTimeout(4000);
+          const found = await axeCounts(page);
+          ((counts[version] ||= {})[name] ||= {})[scenario] = found;
+          if (update) continue;
+          const known = baseline[version]?.[name]?.[scenario];
+          expect(known, `${version} ${name} ${scenario}: no baseline, run with SCT_A11Y_UPDATE=1`).toBeTruthy();
+          for (const [rule, n] of Object.entries(found)) {
+            expect(n, `${version} ${name} ${scenario}: ${rule}`).toBeLessThanOrEqual(known[rule] ?? 0);
+          }
+        }
+      }
+    }
+  } finally {
+    await worker.evaluate(([o, a]) => chrome.storage.sync.set({ overrides: o || {}, accessibility: a || {} }), [overrides, accessibility]);
+    await page.close();
+  }
+  if (update) fs.writeFileSync(file, JSON.stringify(counts, null, 2) + "\n");
+});
