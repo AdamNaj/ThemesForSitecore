@@ -553,3 +553,34 @@ test("reading-guide: a band on the pointer's line or the focused one, never in t
   await expect.poll(centre).toBe(field);
   expect(await page.evaluate(() => getComputedStyle(document.querySelector("sct-guide")).pointerEvents)).toBe("none");
 });
+
+test("quiet-ribbon: hide a group you never use, and bring it back", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await ready(page);
+  await page.evaluate(() => localStorage.removeItem("sct-quiet-ribbon"));
+  const hide = page.getByRole("button", { name: "Hide the Write group" });
+  await expect(hide).toHaveCount(1);
+  const shown = () => page.evaluate(() => getComputedStyle(document.getElementById("ChunkWrite")).display !== "none");
+  await hide.focus();
+  await page.keyboard.press("Enter");
+  await expect.poll(shown).toBe(false);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("sct-quiet-ribbon")))).toEqual(["ChunkWrite"]);
+  // Sitecore renders the ribbon again: still quiet
+  await page.evaluate(() => { const s = document.getElementById("RibbonX_Strip_Home"); s.innerHTML = s.innerHTML.replace(/ data-sct-quiet=""/g, ""); });
+  await expect.poll(shown).toBe(false);
+  await page.getByRole("button", { name: "Show 1 hidden group" }).click();
+  await expect.poll(shown).toBe(true);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("sct-quiet-ribbon")))).toEqual([]);
+  await expect(page.getByRole("button", { name: /Show \d hidden/ })).toHaveCount(0);
+});
+
+test("quiet-ribbon: without storage every group shows", async ({ page }) => {
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(String(e)));
+  await page.addInitScript(() => { Storage.prototype.getItem = () => { throw new Error("blocked"); }; });
+  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await ready(page);
+  await expect(page.getByRole("button", { name: "Hide the Write group" })).toHaveCount(1);
+  expect(await page.evaluate(() => getComputedStyle(document.getElementById("ChunkWrite")).display)).not.toBe("none");
+  expect(errors).toEqual([]);
+});
