@@ -71,3 +71,17 @@ test("the manifest's description fits the Chrome Web Store's 132 characters", ()
   const { description } = require("../../extension/manifest.json");
   assert.ok(description.length <= 132, `${description.length} characters`);
 });
+
+test("every aid is described, and its module registers apply or css", () => {
+  const { AIDS, NEEDS } = require("../../extension/lib/settings.js");
+  const SURFACES = ["shell", "speak", "launchpad", "login", "ee", "admin"];
+  require("../../extension/lib/dom-kit.js");
+  for (const [id, aid] of Object.entries(AIDS)) {
+    assert.ok(aid.needs.length && aid.needs.every((n) => Object.hasOwn(NEEDS, n)), id);
+    assert.ok(aid.surfaces === null || aid.surfaces.every((s) => SURFACES.includes(s)), id);
+    assert.ok(aid.name && aid.hint && typeof aid.always === "boolean", id);
+    require(`../../extension/lib/aids/${id}.js`);
+    const mod = globalThis.SCT.aidModules[id];
+    assert.ok(mod && (typeof mod.apply === "function" || typeof mod.css === "string"), id);
+  }
+});

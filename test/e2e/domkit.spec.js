@@ -82,3 +82,17 @@ test("registerAid stores a module by id", async ({ page }) => {
     return SCT.aidModules.t === m;
   })).toBe(true);
 });
+
+test("setAttr with null removes the attribute, and revert puts it back", async ({ page }) => {
+  await page.goto(fixture);
+  const r = await page.evaluate(() => {
+    const kit = SCT.createDomKit(document);
+    const glyph = document.getElementById("glyph");
+    const before = glyph.getAttribute("src");
+    kit.setAttr(glyph, "src", null);
+    const gone = !glyph.hasAttribute("src");
+    kit.revertAll();
+    return { gone, back: glyph.getAttribute("src") === before };
+  });
+  expect(r).toEqual({ gone: true, back: true });
+});

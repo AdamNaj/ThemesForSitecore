@@ -13,7 +13,7 @@ const NAMED = ["Content Editor", "Mine", null, "Sitecore: Bar"];
 const UNNAMED = [null, "Mine", null, null];
 // a setting change, as the host reports it
 const change = (page, kind, set) => page.evaluate(([k, s]) => (Object.assign(fake, s), fake.fire(k)), [kind, set]);
-const ready = (page) => page.waitForFunction(() => SCT.engine && document.documentElement.dataset.sctSurface === "shell" && document.readyState === "complete");
+const ready = (page, surface = "shell") => page.waitForFunction((s) => window.SCT?.engine && document.documentElement.dataset.sctSurface === s && document.readyState === "complete", surface);
 
 test("an always-on aid names frames on a themed site, not under Native", async ({ page }) => {
   await page.goto(`${URL}?theme=fjord`);
@@ -128,3 +128,35 @@ test("frames come back named after Sitecore replaces the markup", async ({ page 
   await page.evaluate(() => (document.getElementById("box").innerHTML = '<iframe src="/sitecore/shell/Controls/JqueryModalDialogs.html"></iframe>'));
   await expect.poll(() => page.evaluate(() => document.querySelector("#box iframe").title)).toBe("Dialog");
 });
+
+test("a CSS-only aid's rules are in the page while it runs, and gone after", async ({ page }) => {
+  await page.goto(`${URL}?css&theme=fjord`);
+  await ready(page);
+  const css = () => page.evaluate(() => document.querySelector("style[data-sct-aids]")?.textContent || null);
+  await expect.poll(css).toContain("body{outline:3px solid red}");
+  expect(await css()).toMatch(/^@layer sct-accessibility\{/);
+  await change(page, "theme", { theme: "native" });
+  await expect.poll(css).toBe(null);
+});
+
+// One aid fixture, the way every aid is held to the spec's section 5: themed, check() holds; another pass changes
+// nothing; after rerender() (Sitecore replacing the markup) check() holds again; unloading the engine leaves the
+// body exactly as it was.
+async function aidCase(page, url, { surface = "shell", check, rerender }) {
+  await page.goto(`${url}${url.includes("?") ? "&" : "?"}theme=fjord`);
+  await ready(page, surface);
+  const before = await page.evaluate(() => window.pristine);
+  await expect.poll(check).toBe(true);
+  const once = await page.evaluate(() => document.body.innerHTML);
+  await change(page, "accessibility", {});
+  await page.waitForTimeout(100);
+  expect(await page.evaluate(() => document.body.innerHTML)).toBe(once);
+  if (rerender) {
+    await page.evaluate(rerender);
+    await expect.poll(check).toBe(true);
+    await page.evaluate(() => SCT.engine.unload());
+    return;
+  }
+  await page.evaluate(() => SCT.engine.unload());
+  expect(await page.evaluate(() => document.body.innerHTML)).toBe(before);
+}

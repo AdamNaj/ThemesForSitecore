@@ -703,7 +703,8 @@
 
     function runAid(id) {
       try {
-        SCT.aidModules[id].apply(aidContext(aids.get(id)));
+        const mod = SCT.aidModules[id];
+        if (mod.apply) mod.apply(aidContext(aids.get(id)));
       } catch (err) {
         console.warn("[Themes for Sitecore] aid", id, err);
         brokenAids.add(id);
@@ -727,6 +728,7 @@
       const added = want.filter((id) => !aids.has(id));
       for (const id of added) aids.set(id, SCT.createDomKit(doc));
       if (added.length) runAids(added);
+      aidsCss(want);
       if (aids.size && !aidObserver) {
         // new markup, and a frame sent to another page (its src); the aids' own title writes are not watched
         aidObserver = new MutationObserver((records) => {
@@ -743,6 +745,21 @@
         if (aidFrame) cancelAnimationFrame(aidFrame);
         aidFrame = 0;
       }
+    }
+
+    // CSS-only aids (an aid's `css`), all of them in one owned <style>, in the layer the font and spacing use
+    function aidsCss(ids) {
+      const css = ids.map((id) => SCT.aidModules[id].css).filter(Boolean).join("\n");
+      let style = doc.querySelector("style[data-sct-aids]");
+      if (!css) return style?.remove();
+      if (!style) {
+        style = doc.createElement("style");
+        style.setAttribute("data-sct-owned", "");
+        style.setAttribute("data-sct-aids", "");
+        (doc.head || html).append(style);
+      }
+      const text = `@layer sct-accessibility{${css}}`;
+      if (style.textContent !== text) style.textContent = text;
     }
 
     function saveVersion(v) {

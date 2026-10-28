@@ -32,7 +32,8 @@
         const old = el.getAttribute(name);
         undo.push(() => (had ? el.setAttribute(name, old) : el.removeAttribute(name)));
       }
-      el.setAttribute(name, value);
+      if (value === null) el.removeAttribute(name); // null takes the attribute out
+      else el.setAttribute(name, value);
     }
 
     function move(node, parent, before) {

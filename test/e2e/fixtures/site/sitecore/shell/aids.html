@@ -8,40 +8,6 @@
   <iframe src="/sitecore/shell/Applications/Content%20Editor.aspx" title="Mine"></iframe>
   <iframe src="about:blank"></iframe>
   <iframe src="/sitecore/shell/-/xaml/Sitecore.Shell.Applications.Foo.Bar.aspx"></iframe>
-  <script src="/ext/lib/detect.js"></script>
-  <script src="/ext/lib/settings.js"></script>
-  <script src="/ext/themes/themes.js"></script>
-  <script src="/ext/lib/dom-kit.js"></script>
-  <script src="/ext/lib/color-map.js"></script>
-  <script src="/ext/lib/live-map.js"></script>
-  <script src="/ext/themes/chicago/dom.js"></script>
-  <script src="/ext/lib/aids/frame-titles.js"></script>
-  <script src="/ext/lib/engine.js"></script>
-  <script>
-    // ?boom adds an always-on aid that changes the page and then throws
-    if (location.search.includes("boom")) {
-      SCT.settings.AIDS.boom = { needs: [], always: true, surfaces: null, name: "b", hint: "b" };
-      SCT.registerAid("boom", { apply(ctx) { ctx.setAttr(document.body, "data-boom", "1"); throw new Error("boom"); } });
-    }
-    // A host the test drives: fake.theme is the theme apply() answers with, fake.site what site() returns,
-    // fake.fire(kind) a setting change.
-    const fake = (window.fake = { site: {}, theme: new URLSearchParams(location.search).get("theme") || "native", listener: null, fire: (kind) => fake.listener && fake.listener(kind) });
-    const entry = (id) => ({ id, name: id, usesTokens: id === "fjord" });
-    SCT.startEngine({
-      alive: () => true,
-      version: async () => "10.4",
-      saveVersion() {},
-      site: async () => fake.site,
-      url: (p) => `/ext/${p}`,
-      theme: async () => entry(fake.theme),
-      apply: async ({ off }) => {
-        const id = off ? "native" : fake.theme;
-        return { theme: id, name: id, usesTokens: id === "fjord", dev: true, mode: "" };
-      },
-      tokens: async () => "",
-      listen: (fn) => (fake.listener = fn),
-      stop() {},
-    });
-  </script>
+  <script src="/aid-host.js"></script>
 </body>
 </html>
