@@ -202,7 +202,7 @@ dialogs, Launchpad, Experience Editor ribbon, `/sitecore/admin`, login. Sitecore
    `lang`, `forced-colors`. Measured by axe's counts dropping.
 2. **Keyboard** (done 2026-10-28): `focus-ring`, `ribbon-toolbar`, `regions` (skip links and F6), `tree-keys`, `menus`, `dialogs`,
    `targets`.
-3. **Telling people what happened:** `announcer`, `fields`, `where-am-i`, `not-just-colour`.
+3. **Telling people what happened** (done 2026-10-28): `announcer`, `fields`, `where-am-i`, `not-just-colour`.
 4. **Motion and reading:** `reduced-motion`, `focus-mode`, `reading-guide`, `quiet-ribbon`.
 5. **New tools:** `command-palette`, `shortcuts-help`, `session-warning`.
 
