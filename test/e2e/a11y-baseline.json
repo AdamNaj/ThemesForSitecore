@@ -52,7 +52,7 @@
         "aria-required-children": 1,
         "color-contrast": 6,
         "region": 3,
-        "target-size": 13,
+        "target-size": 14,
         "landmark-one-main": 3,
         "page-has-heading-one": 3,
         "html-has-lang": 1,
@@ -90,16 +90,12 @@
         "region": 4
       },
       "needs": {
-        "landmark-no-duplicate-banner": 1,
-        "landmark-unique": 1,
         "page-has-heading-one": 1,
-        "region": 2
+        "region": 3
       },
       "fjord": {
-        "landmark-no-duplicate-banner": 1,
-        "landmark-unique": 1,
         "page-has-heading-one": 1,
-        "region": 2
+        "region": 3
       },
       "chicago": {
         "page-has-heading-one": 1,
@@ -238,16 +234,12 @@
         "region": 4
       },
       "needs": {
-        "landmark-no-duplicate-banner": 1,
-        "landmark-unique": 1,
         "page-has-heading-one": 1,
-        "region": 2
+        "region": 3
       },
       "fjord": {
-        "landmark-no-duplicate-banner": 1,
-        "landmark-unique": 1,
         "page-has-heading-one": 1,
-        "region": 2
+        "region": 3
       },
       "chicago": {
         "page-has-heading-one": 1,
