@@ -20,10 +20,12 @@
         setAttr(tabs, "role", "tablist");
         setAttr(tabs, "aria-label", "Ribbon tabs");
       }
-      // alt="" says "decorative", which a button or a tab stop is not: its name comes from its label or its title
+      // alt="" says "decorative", which a button or a tab stop is not: it takes the text of its label or its title
+      // (rewritten in place, not removed, so a revert gives back the markup exactly)
       for (const img of doc.querySelectorAll('img[alt=""][role]:not([role="none"]):not([role="presentation"]), img[alt=""][tabindex]')) {
-        if (img.hasAttribute("aria-labelledby") || img.hasAttribute("aria-label")) setAttr(img, "alt", null);
-        else if (img.title) setAttr(img, "alt", img.title);
+        const ids = (img.getAttribute("aria-labelledby") || "").split(/\s+/).filter(Boolean);
+        const label = img.getAttribute("aria-label") || ids.map((id) => doc.getElementById(id)?.textContent || "").join(" ") || img.title;
+        if (label.trim()) setAttr(img, "alt", label.replace(/\s+/g, " ").trim());
       }
     },
   });
