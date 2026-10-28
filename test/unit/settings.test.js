@@ -188,12 +188,16 @@ test("a site's needs and aids: unknown ones are dropped, old saved values still 
 
 test("which aids run: always-on aids on themed sites, needs anywhere, your choice over both", () => {
   const on = (a, themed) => settings.enabledAids(settings.accessibility(a), { themed, surface: "shell" });
-  assert.deepEqual(settings.enabledAids(null, { themed: true, surface: "shell" }), ["frame-titles"]);
+  // the always-on aids that run on the Content Editor's surface
+  const always = Object.keys(settings.AIDS).filter((id) => settings.AIDS[id].always && (!settings.AIDS[id].surfaces || settings.AIDS[id].surfaces.includes("shell")));
+  assert.ok(always.includes("frame-titles"));
+  assert.deepEqual(settings.enabledAids(null, { themed: true, surface: "shell" }), always);
   assert.deepEqual(settings.enabledAids(null, { themed: false, surface: "shell" }), []); // Native does nothing
-  assert.deepEqual(on({ needs: ["motion"] }, false), ["frame-titles"]); // any need wakes the always-on aids
-  assert.deepEqual(on({ needs: ["screen-reader"] }, false), ["frame-titles"]);
-  assert.deepEqual(on({ aids: { "frame-titles": false } }, true), []);
+  assert.ok(always.every((id) => on({ needs: ["colour-vision"] }, false).includes(id))); // any need wakes the always-on aids
+  assert.ok(on({ needs: ["screen-reader"] }, false).includes("frame-titles"));
+  assert.ok(!on({ aids: { "frame-titles": false } }, true).includes("frame-titles"));
   assert.deepEqual(on({ aids: { "frame-titles": true } }, false), ["frame-titles"]);
+  assert.ok(!settings.enabledAids(null, { themed: true, surface: "ee" }).includes("aria-repair")); // by surface
   assert.equal(settings.aidReason(settings.accessibility({ aids: { "frame-titles": false } }), "frame-titles"), "own");
   assert.equal(settings.aidReason(settings.accessibility({ needs: ["screen-reader"] }), "frame-titles"), "screen-reader");
   assert.equal(settings.aidReason(null, "frame-titles"), "always");
@@ -211,7 +215,10 @@ test("every aid's needs exist, every aid is named, every preset is a real value"
 });
 
 test("each need says what ticking it changes, before you tick it", () => {
-  assert.equal(settings.needEffects("screen-reader"), "Switches on Frame names: names each frame, so a screen reader says what it holds.");
+  // the aids by name, in AIDS order, as a list ("A, B and C")
+  const reader = Object.values(settings.AIDS).filter((a) => a.needs.includes("screen-reader")).map((a) => a.name);
+  assert.equal(settings.needEffects("screen-reader"), `Switches on ${reader.length > 1 ? reader.slice(0, -1).join(", ") + " and " + reader.at(-1) : reader[0]}.`);
+  assert.ok(reader.includes("Frame names") && reader.includes("Role repair"));
   assert.equal(settings.needEffects("low-vision"), "Picks the Atkinson Hyperlegible font, unless you chose your own.");
   assert.equal(settings.needEffects("reading"), "Picks the OpenDyslexic font and wide spacing, unless you chose your own.");
   assert.equal(settings.needEffects("motion"), "Nothing yet: the aids for it are still to come.");

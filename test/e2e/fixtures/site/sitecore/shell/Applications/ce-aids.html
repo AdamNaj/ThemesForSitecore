@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Content Editor aids fixture</title></head>
+<body>
+<!-- the Content Editor's shape as a 10.4 and 10.5 survey found it, written by hand -->
+<form id="ContentEditorForm" class="lang_en">
+  <header class="sc-globalHeader"><a href="/sitecore/client/Applications/Launchpad" class="sc-global-logo" role="button" aria-label="Desktop"></a></header>
+  <div id="RibbonPanel" class="RibbonPanel" onclick="void 0">
+    <div id="RibbonX" class="scRibbon" role="tablist" aria-label="The content editor ribbon">
+      <div class="scRibbonNavigator"><div class="scRibbonNavigatorButtons"><div class="scRibbonNavigatorButtonsGroup">
+        <div class="scRibbonNavigatorButtonsGroupHeader">&nbsp;</div>
+        <div class="scRibbonNavigatorButtonsGroupButtons">
+          <a id="RibbonX_Nav_Home" href="#" role="tab" aria-selected="true" class="scRibbonNavigatorButtonsActive">Home</a>
+          <a id="RibbonX_Nav_Review" href="#" role="tab" aria-selected="false" tabindex="-1" class="scRibbonNavigatorButtonsNormal">Review</a>
+        </div>
+      </div></div></div>
+      <div id="RibbonX_Toolbar" class="scRibbonToolbar">
+        <div class="scRibbonToolbarStrip"><a href="#" class="scRibbonToolbarLargeButton" title="Save (Ctrl+S)"><span>Save</span></a>
+          <img src="/sitecore/images/blank.gif" class="scRibbonPanelOpen" alt="" onclick="window.opened = (window.opened || 0) + 1" tabindex="0">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="MainPanel" class="scFlexContent">
+    <div id="ContentTreePanel" class="splitter-pane">
+      <div id="SearchPanel" role="group" aria-label="Search Panel"><input id="TreeSearch" type="text" aria-label="Search"></div>
+      <div class="scContentTreeContainer">
+        <div id="ContentTreeInnerPanel" class="scContentTree" role="tree" tabindex="0" aria-label="Content tree">
+          <div class="scContentTreeNode"><img src="/sitecore/images/blank.gif" id="Tree_Glyph_1" class="scContentTreeNodeGlyph" alt=""><div id="Gutter1" class="scContentTreeNodeGutter"></div><a id="Tree_Node_1" href="#" class="scContentTreeNodeNormal" tabindex="-1" aria-selected="false" role="group" aria-expanded="true"><span><img src="/sitecore/images/blank.gif" width="16" height="16" class="scContentTreeNodeIcon" alt="">sitecore</span></a><div><div class="scContentTreeNode"><img src="/sitecore/images/blank.gif" id="Tree_Glyph_2" class="scContentTreeNodeGlyph" alt=""><div id="Gutter2" class="scContentTreeNodeGutter"></div><a id="Tree_Node_2" href="#" class="scContentTreeNodeActive" aria-selected="true" role="group" aria-expanded="false"><span><img src="/sitecore/images/blank.gif" width="16" height="16" class="scContentTreeNodeIcon" alt="">Content</span></a></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div id="ContentEditor" class="scEditor splitter-pane">
+      <div id="EditorTabs" role="tablist" aria-label="Editor tabs"><a role="tab" aria-selected="true" id="BContent" href="#" class="scRibbonEditorTabActive"><span>Content</span></a></div>
+      <div id="EditorPanel1" class="scEditorPanel">
+        <div id="Section_Data" class="scEditorSectionCaptionExpanded" onclick="void 0"><img src="/sitecore/images/blank.gif" id="Section_Data_Glyph" class="scEditorSectionCaptionGlyph" alt="" tabindex="0" role="button" aria-expanded="true" aria-controls="Section_Data_controls" aria-labelledby="Section_Data">Data</div>
+        <table id="Section_Data_controls" class="scEditorSectionPanel"><tr><td>
+          <div id="FieldMarker1"><img src="/sitecore/images/blank.gif" width="4px" height="1px"></div>
+          <input id="FIELD1" type="text">
+        </td></tr></table>
+      </div>
+    </div>
+  </div>
+</form>
+<script src="/aid-host.js"></script>
+</body>
+</html>

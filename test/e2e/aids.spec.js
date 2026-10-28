@@ -160,3 +160,27 @@ async function aidCase(page, url, { surface = "shell", check, rerender }) {
   await page.evaluate(() => SCT.engine.unload());
   expect(await page.evaluate(() => document.body.innerHTML)).toBe(before);
 }
+
+const CE = `http://localhost:${PORT}/sitecore/shell/Applications/ce-aids.html`;
+// a tree of nodes as Sitecore renders them after an expand: the same shape, new elements
+const EXPANDED = () => {
+  const tree = document.querySelector(".scContentTree");
+  tree.innerHTML = tree.innerHTML.replace('aria-expanded="false"', 'aria-expanded="true"').replace(/role="treeitem"/g, 'role="group"').replace(/ role="group"(?=>)/g, "");
+};
+
+test("aria-repair: tree items, the ribbon's tablist and labelled images", async ({ page }) => {
+  await aidCase(page, CE, {
+    check: () => page.evaluate(() => {
+      const $ = (s) => document.querySelector(s);
+      const items = [...document.querySelectorAll(".scContentTree a")];
+      return items.length === 2 && items.every((a) => a.getAttribute("role") === "treeitem")
+        && $("#Tree_Node_1 + div").getAttribute("role") === "group"
+        && $("#Gutter1").getAttribute("role") === null
+        && $(".scRibbon").getAttribute("role") === "region" && $(".scRibbon").getAttribute("aria-label") === "The content editor ribbon"
+        && $(".scRibbonNavigatorButtonsGroupButtons").getAttribute("role") === "tablist"
+        && $(".scRibbonNavigatorButtonsGroupButtons").getAttribute("aria-label") === "Ribbon tabs"
+        && !$("#Section_Data_Glyph").hasAttribute("alt");
+    }),
+    rerender: EXPANDED,
+  });
+});

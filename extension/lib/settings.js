@@ -120,12 +120,13 @@
   // since it changes nothing anyone sees. surfaces: detect.js's names it runs on, null for all.
   const AIDS = {
     "frame-titles": { needs: ["screen-reader"], always: true, surfaces: null, name: "Frame names", hint: "Names each frame, so a screen reader says what it holds" },
+    "aria-repair": { needs: ["screen-reader"], always: true, surfaces: ["shell"], name: "Role repair", hint: "Fixes the roles Sitecore gets wrong, so a screen reader reads the tree and the ribbon right" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip
   function needEffects(need) {
-    const lower = (s) => s[0].toLowerCase() + s.slice(1);
-    const out = Object.values(AIDS).filter((a) => a.needs.includes(need)).map((a) => `Switches on ${a.name}: ${lower(a.hint)}.`);
+    const names = Object.values(AIDS).filter((a) => a.needs.includes(need)).map((a) => a.name);
+    const out = names.length ? [`Switches on ${names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}` : names[0]}.`] : [];
     const p = NEED_PRESETS[need] || {};
     const picks = [p.font && `the ${FONTS[p.font].name} font`, p.spacing && `${p.spacing} spacing`].filter(Boolean);
     if (picks.length) out.push(`Picks ${picks.join(" and ")}, unless you chose your own.`);
