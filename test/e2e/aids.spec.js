@@ -293,3 +293,21 @@ test("forced-colors: selections and the themes' glyphs stay visible with High Co
   await page.emulateMedia({ forcedColors: "none" });
   expect(await look()).toMatchObject({ tree: false, tab: false, editorTab: false });
 });
+
+test("focus-ring: a visible ring, thicker for low vision", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  const ring = async () => {
+    await page.focus(".scRibbonToolbarLargeButton");
+    return page.evaluate(() => { const s = getComputedStyle(document.activeElement); return `${s.outlineStyle} ${s.outlineWidth}`; });
+  };
+  const before = await ring();
+  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
+  await expect.poll(ring).toBe("solid 2px");
+  expect(await page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe("keyboard");
+  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard", "low-vision"] } } });
+  await expect.poll(ring).toBe("solid 3px");
+  await change(page, "accessibility", { site: {} });
+  await expect.poll(ring).toBe(before);
+  expect(await page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe(undefined);
+});

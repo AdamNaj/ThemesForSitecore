@@ -640,7 +640,8 @@
         a.vision = null;
         window.addEventListener("load", () => setTimeout(applyAccess), { once: true });
       }
-      for (const [key, value] of [["sctFont", a?.font], ["sctSpacing", a?.spacing], ["sctVision", a?.vision]]) {
+      // the needs too, for aids' CSS that differs by need
+      for (const [key, value] of [["sctFont", a?.font], ["sctSpacing", a?.spacing], ["sctVision", a?.vision], ["sctNeeds", a?.needs.join(" ")]]) {
         if (value) html.dataset[key] = value;
         else delete html.dataset[key];
       }
