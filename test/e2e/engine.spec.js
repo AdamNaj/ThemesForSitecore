@@ -241,6 +241,10 @@ test("the Accessibility tab's needs preset the font and the fine-tune switches s
   await expect.poll(saved).toMatchObject({ needs: ["reading"], font: "opendyslexic", spacing: "wide" });
   await expect(popup.locator('#font input[value="opendyslexic"]')).toBeChecked();
   await popup.locator("#aids summary").click();
+  // the fine-tune list by need, each aid under the first need it serves
+  await expect(popup.getByRole("group", { name: "Screen reader" }).getByRole("switch", { name: /Frame names/ })).toHaveCount(1);
+  await expect(popup.getByRole("group", { name: "Motion" }).getByRole("switch", { name: /Reduced motion/ })).toHaveCount(1);
+  await expect(popup.locator("#aid-keys")).toContainText("Ctrl+Shift+Space");
   const frames = popup.getByRole("switch", { name: /Frame names/ });
   const reason = popup.locator('[data-aid-reason="frame-titles"]');
   await expect(frames).toBeChecked();

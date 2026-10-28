@@ -81,8 +81,9 @@
     <output id="strength-value" for="strength">100%</output>
   </div>
   <details id="aids" class="row aids">
-    <summary><span class="label">Fine-tune<small>Each aid on its own</small></span></summary>
+    <summary><span class="label">Fine-tune<small>Each aid on its own, under the need it serves first</small></span></summary>
     <div id="aid-list"></div>
+    <p id="aid-keys" class="keys">Keys: F6 moves between the parts of a page, Ctrl+Shift+Space opens the command palette, and Ctrl+/ lists every shortcut.</p>
     <button type="button" id="aids-reset">Reset to needs</button>
   </details>
 </div>`;
@@ -187,10 +188,15 @@
     const write = () => store.set("accessibility", current());
 
     const list = r.querySelector("#aid-list");
-    list.innerHTML = Object.entries(S.AIDS).map(([id, aid]) => `<div class="aid">
+    const row = (id, aid) => `<div class="aid">
   <input type="checkbox" role="switch" id="aid-${id}" data-aid="${id}" aria-describedby="aid-${id}-hint aid-${id}-why">
   <div class="label"><label for="aid-${id}">${aid.name}</label><small id="aid-${id}-hint">${aid.hint}</small><small id="aid-${id}-why" data-aid-reason="${id}"></small></div>
-</div>`).join("");
+</div>`;
+    // by need, each aid under the first need it serves
+    list.innerHTML = Object.entries(S.NEEDS).map(([need, name]) => {
+      const rows = Object.entries(S.AIDS).filter(([, aid]) => aid.needs[0] === need).map(([id, aid]) => row(id, aid));
+      return rows.length ? `<fieldset class="aid-group"><legend>${name}</legend>${rows.join("")}</fieldset>` : "";
+    }).join("");
     const drawAids = () => {
       const a = current();
       for (const input of list.querySelectorAll("[data-aid]")) {
