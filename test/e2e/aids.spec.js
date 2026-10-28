@@ -358,3 +358,17 @@ test("tree-keys: typing letters finds the next visible item", async ({ page }) =
   await page.keyboard.press("Control+l"); // a shortcut is not a letter
   expect(await at()).toBe("Layout");
 });
+
+test("menus: focus moves into a menu that opens, and back to its opener when it closes", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe("keyboard");
+  const at = () => page.evaluate(() => document.activeElement.id || document.activeElement.tagName);
+  await page.focus("#OpenMenu");
+  await page.keyboard.press("Enter");
+  await expect.poll(at).toBe("MenuInsert");
+  await page.keyboard.press("Escape");
+  await expect.poll(() => page.evaluate(() => !!document.querySelector(".scPopup"))).toBe(false);
+  await expect.poll(at).toBe("OpenMenu");
+});

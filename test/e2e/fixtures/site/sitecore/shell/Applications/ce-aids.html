@@ -44,11 +44,22 @@
           <img src="/sitecore/images/blank.gif" class="scComboboxDropDown" alt="" onclick="void 0">
           <span id="CopyId" onclick="window.clicks = (window.clicks || 0) + 1">{110D559F}</span>
           <img src="/sitecore/images/blank.gif" id="Titled" title="Lock state">
+          <button type="button" id="OpenMenu" onclick="openMenu()">Insert</button>
         </td></tr></table>
       </div>
     </div>
   </div>
 </form>
+<script>
+  // a context menu as Sitecore's showPopup builds it; Escape on keyup removes it without giving focus back
+  function openMenu() {
+    const popup = document.createElement("div");
+    popup.className = "scPopup";
+    popup.innerHTML = '<table class="scMenu" role="menu"><tbody><tr role="menuitem" id="MenuInsert"><td>Insert<table class="scMenu" role="menu" style="display:none"><tbody><tr role="menuitem"><td>Hidden</td></tr></tbody></table></td></tr><tr role="menuitem"><td>Delete</td></tr></tbody></table>';
+    popup.addEventListener("keyup", (e) => e.key === "Escape" && popup.remove());
+    document.forms[0].append(popup);
+  }
+</script>
 <script src="/aid-host.js"></script>
 </body>
 </html>
