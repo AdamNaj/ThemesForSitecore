@@ -55,8 +55,18 @@
   function openMenu() {
     const popup = document.createElement("div");
     popup.className = "scPopup";
-    popup.innerHTML = '<table class="scMenu" role="menu"><tbody><tr role="menuitem" id="MenuInsert"><td>Insert<table class="scMenu" role="menu" style="display:none"><tbody><tr role="menuitem"><td>Hidden</td></tr></tbody></table></td></tr><tr role="menuitem"><td>Delete</td></tr></tbody></table>';
+    popup.innerHTML = '<table class="scMenu" role="menu"><tbody><tr role="menuitem" id="MenuInsert"><td>Insert<table class="scMenu" role="menu" style="display:none"><tbody><tr role="menuitem"><td>Hidden</td></tr></tbody></table></td></tr><tr role="menuitem" id="MenuDelete"><td>Delete</td></tr></tbody></table>';
     popup.addEventListener("keyup", (e) => e.key === "Escape" && popup.remove());
+    // Sitecore's onMenuKeyDown counts a hidden submenu's items too, so Down can land on one that cannot take focus
+    const table = popup.querySelector("table");
+    table.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      e.preventDefault();
+      e.stopPropagation(); // scForm.browser.clearEvent(evt, true, false)
+      const all = [...table.querySelectorAll('[role="menuitem"]')];
+      const to = all[all.indexOf(e.target) + (e.key === "ArrowDown" ? 1 : -1)];
+      if (to) to.focus();
+    });
     document.forms[0].append(popup);
   }
 </script>

@@ -368,6 +368,10 @@ test("menus: focus moves into a menu that opens, and back to its opener when it 
   await page.focus("#OpenMenu");
   await page.keyboard.press("Enter");
   await expect.poll(at).toBe("MenuInsert");
+  await page.keyboard.press("ArrowDown"); // past the hidden submenu Sitecore's handler stalls on
+  expect(await at()).toBe("MenuDelete");
+  await page.keyboard.press("ArrowUp");
+  expect(await at()).toBe("MenuInsert");
   await page.keyboard.press("Escape");
   await expect.poll(() => page.evaluate(() => !!document.querySelector(".scPopup"))).toBe(false);
   await expect.poll(at).toBe("OpenMenu");
