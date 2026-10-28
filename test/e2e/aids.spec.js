@@ -428,8 +428,34 @@ test("targets: small icons hit at 24px and nothing moves", async ({ page }) => {
   await page.evaluate(() => document.querySelectorAll("img").forEach((i) => { i.style.width = "16px"; i.style.height = "16px"; }));
   const before = await boxes();
   await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
-  await expect.poll(async () => (await boxes())[0][0]).toBe(24);
+  await expect.poll(async () => (await boxes())[0][0]).toBe(26);
   const after = await boxes();
-  for (const i of [0, 2, 4]) expect(after[i].slice(0, 2)).toEqual([24, 24]); // the icons hit at 24px
+  for (const i of [0, 2, 4]) expect(after[i].slice(0, 2)).toEqual([26, 26]); // 16px icons hit at 26px, 14px ones at 24
   for (const i of [1, 3]) expect(after[i]).toEqual(before[i]); // their neighbours did not move
+});
+
+test("announcer: says the item, its warnings and validation, and that it saved, once each", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=screen-reader`);
+  await ready(page);
+  const said = () => page.evaluate(() => document.querySelector("sct-announce")?.textContent);
+  await expect.poll(() => page.evaluate(() => document.querySelectorAll("sct-announce[role=status][aria-live=polite]").length)).toBe(1);
+  expect(await said()).toBe(""); // nothing on load
+  // another item opens: Sitecore replaces the header
+  await page.evaluate(() => (document.querySelector(".scEditorHeaderTitlePanel").innerHTML = '<a role="button" href="#" class="scEditorHeaderTitle">About</a>'));
+  await expect.poll(said).toBe("About, English, version 1");
+  await page.evaluate(() => (document.querySelector(".scEditorHeaderTitlePanel").innerHTML = '<a role="button" href="#" class="scEditorHeaderTitle">About</a>'));
+  await page.waitForTimeout(150);
+  expect(await said()).toBe("About, English, version 1"); // the same item again says nothing new
+  // a warning, then validation
+  await page.evaluate(() => document.getElementById("EditorPanel1").insertAdjacentHTML("afterbegin", '<div class="scEditorWarning"><div class="scEditorWarningTitle">The item is locked.</div><div class="scEditorWarningText">Ada has locked it.</div></div>'));
+  await expect.poll(said).toBe("The item is locked. Ada has locked it.");
+  await page.evaluate(() => (document.querySelector(".scValidationResult").innerHTML = '<img class="scValidationResultIcon" alt="The field Title must have a value.">'));
+  await expect.poll(said).toBe("The field Title must have a value.");
+  // Ctrl+S, then Sitecore renders the validator panel again
+  await page.focus("#FIELD1");
+  await page.keyboard.press("Control+s");
+  await page.evaluate(() => (document.getElementById("ValidatorPanel1").outerHTML = '<div id="ValidatorPanel1" class="scValidatorPanel"><div class="scValidationResult"><img class="scValidationResultIcon" alt="Validation completed: No errors or warnings."></div></div>'));
+  await expect.poll(said).toBe("Saved About");
+  // a frame whose top has no region: nothing, no error
+  expect(await page.evaluate(() => { const d = document.implementation.createHTMLDocument(""); SCT.announce(d, "x"); return "ok"; })).toBe("ok");
 });

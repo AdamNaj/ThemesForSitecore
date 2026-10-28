@@ -88,5 +88,21 @@
   SCT.registerAid = (id, mod) => {
     SCT.aidModules[id] = mod;
   };
+  // An aid's words for a screen reader, from any frame: into the top document's live region (lib/aids/announcer.js)
+  // when it is there. The same words again are cleared first, so they are said again.
+  SCT.announce = (doc, text) => {
+    let region = null;
+    try {
+      region = doc.defaultView && doc.defaultView.top.document.querySelector("sct-announce");
+    } catch {
+      return; // a cross-origin top
+    }
+    if (!region || !text) return;
+    if (region.textContent !== text) region.textContent = text;
+    else {
+      region.textContent = "";
+      setTimeout(() => (region.textContent = text), 100);
+    }
+  };
   if (typeof module !== "undefined") module.exports = createDomKit;
 })(globalThis);

@@ -35,10 +35,13 @@
     <div id="ContentEditor" class="scEditor splitter-pane">
       <div id="EditorTabs" role="tablist" aria-label="Editor tabs"><a role="tab" aria-selected="true" id="BContent" href="#" class="scRibbonEditorTabActive"><span>Content</span></a><a role="tab" aria-selected="false" id="BTAddNewSearch" href="#" tabindex="-1" title=""><span><span></span></span></a></div>
       <div id="EditorPanel1" class="scEditorPanel">
+        <div class="scEditorHeader"><div class="scEditorHeaderTitlePanel"><a role="button" href="#" class="scEditorHeaderTitle" title="Rename this item">Home</a><div class="scEditorHeaderTitleHelp">Welcome.</div></div>
+          <div class="scEditorHeaderVersions"><a href="#" class="scEditorHeaderVersionsLanguage scEditorHeaderButton">English</a><a href="#" class="scEditorHeaderVersionsVersion scEditorHeaderButton">1</a></div></div>
+        <div id="ValidatorPanel1" class="scValidatorPanel"><div class="scValidationResult"><img src="/sitecore/images/blank.gif" width="16" height="16" class="scValidationResultIcon" alt="Validation completed: No errors or warnings."></div></div>
         <div id="Section_Data" class="scEditorSectionCaptionExpanded" onclick="void 0"><img src="/sitecore/images/blank.gif" id="Section_Data_Glyph" class="scEditorSectionCaptionGlyph" alt="" tabindex="0" role="button" aria-expanded="true" aria-controls="Section_Data_controls" aria-labelledby="Section_Data">Data</div>
         <table id="Section_Data_controls" class="scEditorSectionPanel"><tr><td>
           <div id="FieldMarker1"><img src="/sitecore/images/blank.gif" width="4px" height="1px"></div>
-          <label for="FIELD1">Title</label><input id="FIELD1" type="text">
+          <table class="scEditorFieldMarker"><tr><td id="FieldMarkerFIELD1" class="scEditorFieldMarkerBarCell"></td><td class="scEditorFieldMarkerInputCell"><div class="scEditorFieldLabel" title="Shown at the top of the page.">Title - Please enter title of the item here:</div><div><input id="FIELD1" class="scContentControl" type="text" aria-label="Title field "></div></td></tr></table>
           <input type="text" class="scIgnoreModified bucketSearch inactive" value="Type here to search" id="filterBox2">
           <select id="FIELD2_unselected" multiple size="4"></select><select id="FIELD2_selected" multiple size="4"></select>
           <img src="/sitecore/images/blank.gif" class="scComboboxDropDown" alt="" onclick="void 0">
