@@ -40,6 +40,11 @@
           setAttr(el, el.tagName === "IMG" ? "alt" : "aria-label", label);
         }
       }
+      // Quick Info's read-only boxes (Item ID, Item path...) by the caption in the cell before theirs
+      for (const input of doc.querySelectorAll(".scEditorQuickInfo input:not([aria-label])")) {
+        const caption = clean(input.closest("td")?.previousElementSibling?.textContent || "").replace(/:$/, "");
+        if (caption && !named(input)) setAttr(input, "aria-label", caption);
+      }
       for (const img of doc.querySelectorAll("img:not([alt]):not([aria-label]):not([aria-labelledby])")) {
         const owner = img.closest("a, button, [role=button]");
         if (img.title.trim()) setAttr(img, "alt", clean(img.title));
