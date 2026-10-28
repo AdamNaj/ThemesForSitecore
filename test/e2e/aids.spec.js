@@ -249,7 +249,8 @@ test("landmarks: the tree, the editor, the Desktop and Launchpad", async ({ page
   });
   await aidCase(page, LAUNCHPAD, {
     surface: "launchpad",
-    check: () => page.evaluate((l) => (l = eval(l), l(".sc-applicationHeader") === "banner:" && l(".sc-launchpad") === "main:Launchpad"), `(${landmark})`),
+    // one banner: the page has one already
+    check: () => page.evaluate((l) => (l = eval(l), l(".sc-applicationHeader") === ":" && l(".sc-launchpad") === "main:Launchpad"), `(${landmark})`),
   });
   await aidCase(page, ADMIN, {
     surface: "admin",

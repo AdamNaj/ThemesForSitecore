@@ -19,11 +19,15 @@
     speak: [["nav.sc-quickbar", "", "Quick bar"]],
   };
 
+  // a page has one banner: an explicit one, or a <header> outside sectioning content
+  const otherBanner = (doc, el) => [...doc.querySelectorAll('[role="banner"], header')].some((b) =>
+    b !== el && (b.getAttribute("role") === "banner" || (!b.hasAttribute("role") && !b.parentElement.closest("article, aside, main, nav, section"))));
+
   SCT.registerAid("landmarks", {
     apply(ctx) {
       for (const [selector, role, name] of LANDMARKS[ctx.surface] || []) {
         const el = ctx.doc.querySelector(selector);
-        if (!el) continue;
+        if (!el || (role === "banner" && otherBanner(ctx.doc, el))) continue;
         if (role && !el.hasAttribute("role")) ctx.setAttr(el, "role", role);
         if (name && !el.hasAttribute("aria-label")) ctx.setAttr(el, "aria-label", name);
       }
