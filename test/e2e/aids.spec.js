@@ -273,3 +273,22 @@ test("lang: Sitecore's UI language, never over the page's own", async ({ page })
   await page.waitForTimeout(200);
   expect(await lang()).toBe("en");
 });
+
+test("forced-colors: selections and the themes' glyphs stay visible with High Contrast on", async ({ page }) => {
+  const look = () => page.evaluate(() => {
+    const probe = document.createElement("i");
+    probe.style.cssText = "background:Highlight;forced-color-adjust:none";
+    document.body.append(probe);
+    const highlight = getComputedStyle(probe).backgroundColor;
+    probe.remove();
+    const s = (q) => getComputedStyle(document.querySelector(q));
+    return { tree: s("#Tree_Node_2").backgroundColor === highlight, tab: s("#RibbonX_Nav_Home").backgroundColor === highlight,
+      editorTab: s("#BContent").backgroundColor === highlight, glyph: s(".sc-global-logo").forcedColorAdjust, text: s("#Section_Data").forcedColorAdjust };
+  });
+  await page.emulateMedia({ forcedColors: "active" });
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  await expect.poll(look).toEqual({ tree: true, tab: true, editorTab: true, glyph: "none", text: "auto" });
+  await page.emulateMedia({ forcedColors: "none" });
+  expect(await look()).toMatchObject({ tree: false, tab: false, editorTab: false });
+});

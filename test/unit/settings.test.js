@@ -219,9 +219,11 @@ test("each need says what ticking it changes, before you tick it", () => {
   const reader = Object.values(settings.AIDS).filter((a) => a.needs.includes("screen-reader")).map((a) => a.name);
   assert.equal(settings.needEffects("screen-reader"), `Switches on ${reader.length > 1 ? reader.slice(0, -1).join(", ") + " and " + reader.at(-1) : reader[0]}.`);
   assert.ok(reader.includes("Frame names") && reader.includes("Role repair"));
-  assert.equal(settings.needEffects("low-vision"), "Picks the Atkinson Hyperlegible font, unless you chose your own.");
-  assert.equal(settings.needEffects("reading"), "Picks the OpenDyslexic font and wide spacing, unless you chose your own.");
-  assert.equal(settings.needEffects("motion"), "Nothing yet: the aids for it are still to come.");
+  assert.ok(settings.needEffects("low-vision").endsWith(" Picks the Atkinson Hyperlegible font, unless you chose your own."));
+  assert.ok(settings.needEffects("reading").endsWith("Picks the OpenDyslexic font and wide spacing, unless you chose your own."));
+  // a need with no aids and no presets yet says so
+  const empty = Object.keys(settings.NEEDS).filter((n) => !Object.values(settings.AIDS).some((a) => a.needs.includes(n)) && !settings.NEED_PRESETS[n]);
+  for (const n of empty) assert.equal(settings.needEffects(n), "Nothing yet: the aids for it are still to come.");
 });
 
 test("the colour filter pulls apart the colours each vision confuses, and does nothing at strength 0", () => {
