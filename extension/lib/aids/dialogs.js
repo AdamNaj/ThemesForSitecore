@@ -16,18 +16,30 @@
     if (!el || el.nodeType !== 1) return;
     const prev = stamped.get(el.ownerDocument);
     if (prev && prev !== el) prev.removeAttribute(STAMP);
-    el.setAttribute(STAMP, String(Date.now()));
+    const now = String(Date.now());
+    el.setAttribute(STAMP, now);
     stamped.set(el.ownerDocument, el);
+    // and the frame elements above, so the walk below enters only frames this aid ran in, which have loaded: a
+    // parent must not touch a frame's document before its load
+    try {
+      for (let win = el.ownerDocument.defaultView; win.frameElement; win = win.parent) {
+        win.frameElement.setAttribute(STAMP, now);
+      }
+    } catch {
+      // a cross-origin parent
+    }
   }
 
-  // every same-origin document from the top down
-  function documents(win, out = []) {
-    try {
-      out.push(win.document);
-    } catch {
-      return out;
+  // every document from the top down that holds a stamp
+  function documents(doc, out = []) {
+    out.push(doc);
+    for (const frame of doc.querySelectorAll(`iframe[${STAMP}], frame[${STAMP}]`)) {
+      try {
+        if (frame.contentDocument) documents(frame.contentDocument, out);
+      } catch {
+        // cross-origin
+      }
     }
-    for (let i = 0; i < win.frames.length; i++) documents(win.frames[i], out);
     return out;
   }
 
@@ -50,9 +62,9 @@
   function giveFocusBack(doc) {
     const top = doc.defaultView.top;
     if (!focusLost(top)) return; // Sitecore put it somewhere
-    const places = documents(top)
+    const places = documents(top.document)
       .filter((d) => !d.documentElement.hasAttribute("data-sct-modal-host"))
-      .flatMap((d) => [...d.querySelectorAll(`[${STAMP}]`)])
+      .flatMap((d) => [...d.querySelectorAll(`[${STAMP}]:not(iframe):not(frame)`)])
       .filter((el) => el.isConnected);
     const newest = places.sort((a, b) => b.getAttribute(STAMP) - a.getAttribute(STAMP))[0];
     if (!newest) return;
@@ -83,6 +95,11 @@
       listening.delete(ctx.doc);
       const el = stamped.get(ctx.doc);
       if (el) el.removeAttribute(STAMP);
+      try {
+        ctx.doc.defaultView.frameElement?.removeAttribute(STAMP);
+      } catch {
+        // a cross-origin parent
+      }
       stamped.delete(ctx.doc);
     },
   });
