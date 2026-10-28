@@ -12,8 +12,9 @@
   const tabbable = (el) => el.matches(TABBABLE) && el.tabIndex >= 0 && !el.disabled && visible(el);
   const roleOf = (el) => el.getAttribute("role") || { HEADER: "banner", NAV: "navigation", MAIN: "main" }[el.tagName];
 
-  function regions(doc) {
-    return [...doc.querySelectorAll(REGION)].filter((el) => !el.closest("sct-skip") && visible(el) && !el.parentElement.closest(REGION)
+  // measure: only the ones on screen, which forces a layout; a pass over the page leaves that to the keys
+  function regions(doc, measure) {
+    return [...doc.querySelectorAll(REGION)].filter((el) => !el.closest("sct-skip") && (!measure || visible(el)) && !el.parentElement.closest(REGION)
       && (el.tagName !== "HEADER" || el.hasAttribute("role") || !el.parentElement.closest("article, aside, section")));
   }
   function nameOf(el) {
@@ -45,7 +46,7 @@
   function onKey(e) {
     if (e.key !== "F6" || e.defaultPrevented || e.ctrlKey || e.altKey || e.metaKey) return;
     const doc = e.target.ownerDocument || e.target;
-    const list = regions(doc);
+    const list = regions(doc, true);
     if (list.length < 2) return;
     const i = list.findIndex((r) => r.contains(doc.activeElement));
     const next = list[(i + (e.shiftKey ? -1 : 1) + list.length) % list.length];
