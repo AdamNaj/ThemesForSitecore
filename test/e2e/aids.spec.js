@@ -584,3 +584,41 @@ test("quiet-ribbon: without storage every group shows", async ({ page }) => {
   expect(await page.evaluate(() => getComputedStyle(document.getElementById("ChunkWrite")).display)).not.toBe("none");
   expect(errors).toEqual([]);
 });
+
+test("command-palette: type a command or a path, Enter runs it", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-skip"))).toBe(true);
+  await page.focus("#FIELD1");
+  const palette = page.getByRole("dialog", { name: "Commands" });
+  const open = async () => {
+    await page.keyboard.press("Control+Shift+Space");
+    await expect(palette).toBeVisible();
+  };
+  await open();
+  await page.keyboard.press("Control+Shift+Space"); // once more: still one
+  await expect(palette).toHaveCount(1);
+  const input = page.getByRole("combobox", { name: "Command or item path" });
+  await expect(input).toBeFocused();
+  await page.keyboard.type("cop");
+  await expect(page.getByRole("option").first()).toHaveText("Copy to · Operations");
+  await expect(input).toHaveAttribute("aria-activedescendant", await page.getByRole("option").first().getAttribute("id"));
+  await page.keyboard.press("Enter");
+  await expect(palette).toHaveCount(0);
+  expect(await page.evaluate(() => window.copied)).toBe(1);
+  await expect(page.locator("#FIELD1")).toBeFocused(); // back where it was
+  await open();
+  await page.keyboard.type("/sitecore/content");
+  await expect(page.getByRole("option").first()).toHaveText("Go to /sitecore/content");
+  await page.keyboard.press("Enter");
+  expect(await page.evaluate(() => window.searched)).toBe("/sitecore/content");
+  await open();
+  await page.keyboard.press("Escape");
+  await expect(palette).toHaveCount(0);
+  // a page with no ribbon
+  await page.goto(`${LAUNCHPAD}?theme=fjord&needs=keyboard`);
+  await ready(page, "launchpad");
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-skip"))).toBe(true);
+  await open();
+  await expect(palette).toContainText("No commands on this page");
+});

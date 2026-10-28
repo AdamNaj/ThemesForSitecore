@@ -104,5 +104,46 @@
       setTimeout(() => (region.textContent = text), 100);
     }
   };
+  // An aid's dialog (the command palette, the shortcuts): owned, modal and named; build(dialog, close) fills it. Focus
+  // goes in, stays in on Tab, and goes back where it was when Escape or a click outside closes it. Asked again while
+  // one is open, the open one takes focus. Its look is SCT.aidDialogCss, in the CSS of each aid that uses it.
+  SCT.aidDialog = (ctx, { label, build }) => {
+    const { doc } = ctx;
+    const FOCUSABLE = 'input, button, [tabindex]:not([tabindex="-1"])';
+    const open = doc.querySelector("sct-dialog");
+    if (open) return (open.querySelector(FOCUSABLE) || open).focus();
+    const back = doc.activeElement;
+    const dialog = ctx.own(doc.createElement("sct-dialog"));
+    dialog.setAttribute("role", "dialog");
+    dialog.setAttribute("aria-modal", "true");
+    dialog.setAttribute("aria-label", label);
+    dialog.tabIndex = -1;
+    const outside = (e) => !dialog.contains(e.target) && close();
+    function close() {
+      if (!dialog.isConnected) return;
+      dialog.remove();
+      doc.removeEventListener("mousedown", outside, true);
+      if (back && back.isConnected && back !== doc.body) back.focus();
+    }
+    dialog.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        close();
+      } else if (e.key === "Tab") {
+        const all = [...dialog.querySelectorAll(FOCUSABLE)];
+        const i = all.indexOf(doc.activeElement);
+        e.preventDefault();
+        if (all.length) all[(i + (e.shiftKey ? -1 : 1) + all.length) % all.length].focus();
+      }
+    });
+    doc.addEventListener("mousedown", outside, true);
+    build(dialog, close);
+    doc.body.append(dialog);
+    (dialog.querySelector(FOCUSABLE) || dialog).focus();
+  };
+  SCT.aidDialogCss = `sct-dialog{position:fixed;z-index:2147483647;top:12vh;left:50%;transform:translateX(-50%);width:min(560px,92vw);max-height:70vh;overflow:auto;box-sizing:border-box;padding:12px;border:1px solid var(--sct-border,CanvasText);border-radius:8px;background:var(--sct-panel-bg,Canvas);color:var(--sct-panel-fg,CanvasText);font:14px/1.45 system-ui,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,.35);text-align:start}
+sct-dialog h2{margin:0 0 8px;font-size:15px}
+sct-dialog input{box-sizing:border-box;width:100%;padding:8px 10px;border:1px solid var(--sct-input-border,CanvasText);border-radius:6px;background:var(--sct-input-bg,Field);color:var(--sct-input-fg,FieldText);font:inherit}`;
   if (typeof module !== "undefined") module.exports = createDomKit;
 })(globalThis);
