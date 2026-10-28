@@ -459,3 +459,28 @@ test("announcer: says the item, its warnings and validation, and that it saved, 
   // a frame whose top has no region: nothing, no error
   expect(await page.evaluate(() => { const d = document.implementation.createHTMLDocument(""); SCT.announce(d, "x"); return "ok"; })).toBe("ok");
 });
+
+test("fields: described by their label, invalid while Sitecore marks them red", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=screen-reader`);
+  await ready(page);
+  const field = () => page.evaluate(() => {
+    const input = document.getElementById("FIELD1");
+    const ids = (input.getAttribute("aria-describedby") || "").split(" ").filter(Boolean);
+    return { invalid: input.getAttribute("aria-invalid"), described: ids.map((id) => { const el = document.getElementById(id); return el.getAttribute("aria-label") || el.textContent.trim(); }) };
+  });
+  await expect.poll(field).toEqual({ invalid: null, described: ["Title - Please enter title of the item here:"] });
+  // Sitecore's updateFieldMarkers: the marker's class and title, after its validator panel is rendered again
+  const mark = (cls, title) => page.evaluate(([c, t]) => {
+    const m = document.getElementById("FieldMarkerFIELD1");
+    m.className = c;
+    m.title = t;
+    const p = document.getElementById("ValidatorPanel1");
+    p.replaceWith(p.cloneNode(true));
+  }, [cls, title]);
+  await mark("scEditorFieldMarkerBarCellRed", "Title must have a value.");
+  await expect.poll(field).toEqual({ invalid: "true", described: ["Title - Please enter title of the item here:", "Title must have a value."] });
+  await mark("scEditorFieldMarkerBarCellYellow", "Title is long.");
+  await expect.poll(field).toEqual({ invalid: null, described: ["Title - Please enter title of the item here:", "Title is long."] });
+  await mark("scEditorFieldMarkerBarCell", "");
+  await expect.poll(field).toEqual({ invalid: null, described: ["Title - Please enter title of the item here:"] });
+});

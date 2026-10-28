@@ -133,6 +133,7 @@
     regions: { needs: ["keyboard"], always: false, surfaces: ["shell", "speak", "launchpad", "admin"], name: "Skip links and F6", hint: "Skip links at the top of each page, and F6 to move between the top bar, ribbon, tree and editor" },
     targets: { needs: ["keyboard", "low-vision"], always: false, surfaces: ["shell"], name: "Bigger targets", hint: "Makes Sitecore's small icons easier to hit, without moving anything" },
     announcer: { needs: ["screen-reader"], always: false, surfaces: ["shell"], name: "Announcements", hint: "Says which item opened, its warnings and validation, and that it saved" },
+    fields: { needs: ["screen-reader"], always: false, surfaces: ["shell"], name: "Field help and errors", hint: "Reads each field's help, and its validation message while Sitecore shows one" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip
