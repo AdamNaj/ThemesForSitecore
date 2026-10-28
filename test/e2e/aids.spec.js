@@ -173,7 +173,7 @@ test("aria-repair: tree items, the ribbon's tablist and labelled images", async 
     check: () => page.evaluate(() => {
       const $ = (s) => document.querySelector(s);
       const items = [...document.querySelectorAll(".scContentTree a")];
-      return items.length === 2 && items.every((a) => a.getAttribute("role") === "treeitem")
+      return items.length === 5 && items.every((a) => a.getAttribute("role") === "treeitem")
         && $("#Tree_Node_1 + div").getAttribute("role") === "group"
         && $("#Gutter1").getAttribute("role") === null
         && $(".scRibbon").getAttribute("role") === "region" && $(".scRibbon").getAttribute("aria-label") === "The content editor ribbon"
@@ -338,4 +338,23 @@ test("ribbon-toolbar: one Tab stop, arrows inside, back where you left it", asyn
   expect(await at()).toBe("scRibbonPanelOpen");
   await page.keyboard.press("Shift+Tab");
   expect(await at()).toBe("RibbonX_Nav_Home");
+});
+
+test("tree-keys: typing letters finds the next visible item", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe("keyboard");
+  const at = () => page.evaluate(() => document.activeElement.textContent.trim());
+  await page.focus("#Tree_Node_1");
+  await page.keyboard.type("m");
+  expect(await at()).toBe("Media Library");
+  await page.waitForTimeout(800); // a pause starts a new search
+  await page.keyboard.type("co"); // two letters typed together search for "co"
+  expect(await at()).toBe("Content"); // wraps past the end; the hidden "Cobalt" never matches
+  await page.waitForTimeout(800);
+  await page.keyboard.type("l");
+  expect(await at()).toBe("Layout");
+  await page.keyboard.press("Control+l"); // a shortcut is not a letter
+  expect(await at()).toBe("Layout");
 });

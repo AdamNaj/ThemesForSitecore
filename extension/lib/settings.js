@@ -127,6 +127,7 @@
     "forced-colors": { needs: ["low-vision"], always: true, surfaces: null, name: "High Contrast", hint: "Keeps selections, active tabs and icons visible with Windows High Contrast on" },
     "focus-ring": { needs: ["keyboard", "low-vision"], always: false, surfaces: null, name: "Focus ring", hint: "Draws a clear outline round whatever has keyboard focus" },
     "ribbon-toolbar": { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Ribbon toolbar", hint: "Makes the ribbon's buttons one Tab stop, with the arrow keys inside" },
+    "tree-keys": { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Tree type-ahead", hint: "Typing letters in the content tree jumps to the item that starts with them" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip
