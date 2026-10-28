@@ -523,3 +523,20 @@ test("reduced-motion: animations and transitions end at once", async ({ page }) 
   await expect.poll(() => page.evaluate(() => document.getElementById("Spinner").getAnimations().filter((a) => a.playState === "running").length)).toBe(0);
   expect(await page.evaluate(() => parseFloat(getComputedStyle(document.getElementById("Spinner")).transitionDuration))).toBeLessThan(0.001);
 });
+
+test("focus-mode: the field being edited stays bright, the rest fade", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("style[data-sct-aids]"))).toBe(true);
+  // a second field, to fade
+  await page.evaluate(() => document.querySelector(".scEditorFieldMarker").insertAdjacentHTML("afterend", '<table class="scEditorFieldMarker" id="Other"><tr><td class="scEditorFieldMarkerBarCell"></td><td class="scEditorFieldMarkerInputCell"><div class="scEditorFieldLabel">Text</div><iframe id="FIELD2"></iframe></td></tr></table>'));
+  const opacity = () => page.evaluate(() => [document.querySelector(".scEditorFieldMarker"), document.getElementById("Other"), document.getElementById("Section_Data")].map((e) => getComputedStyle(e).opacity));
+  expect(await opacity()).toEqual(["1", "1", "1"]);
+  await page.focus("#FIELD1");
+  expect(await opacity()).toEqual(["1", "0.35", "0.35"]);
+  await page.evaluate(() => document.getElementById("FIELD2").contentDocument.body.focus()); // a rich text field is a frame
+  await page.evaluate(() => document.getElementById("FIELD2").focus());
+  expect(await opacity()).toEqual(["0.35", "1", "0.35"]);
+  await page.evaluate(() => document.activeElement.blur());
+  expect(await opacity()).toEqual(["1", "1", "1"]);
+});

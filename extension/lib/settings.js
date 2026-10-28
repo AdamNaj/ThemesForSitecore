@@ -137,6 +137,7 @@
     "where-am-i": { needs: ["low-vision", "reading"], always: false, surfaces: ["shell"], name: "Where am I", hint: "Shows the item's path, language and version under its name" },
     "not-just-colour": { needs: ["colour-vision"], always: false, surfaces: ["shell"], name: "Errors in words", hint: "Says Error or Warning beside a field Sitecore marks only in red or yellow" },
     "reduced-motion": { needs: ["motion"], always: false, surfaces: null, name: "Reduced motion", hint: "Stops Sitecore's and the theme's animations and transitions" },
+    "focus-mode": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Focus mode", hint: "Fades the other fields while you edit one" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip
