@@ -34,7 +34,7 @@ namespace SitecoreThemes
         static readonly string[] Fonts = { "hyperlegible", "opendyslexic" };
         static readonly string[] Visions = { "protanopia", "deuteranopia", "tritanopia" };
         static readonly string[] Needs = { "screen-reader", "keyboard", "low-vision", "colour-vision", "reading", "motion" };
-        static readonly string[] Aids = { "frame-titles", "aria-repair", "names", "landmarks", "lang", "forced-colors", "focus-ring", "ribbon-toolbar", "tree-keys", "menus", "dialogs", "regions", "targets", "announcer", "fields", "where-am-i", "not-just-colour", "reduced-motion", "focus-mode", "reading-guide", "quiet-ribbon", "command-palette" };
+        static readonly string[] Aids = { "frame-titles", "aria-repair", "names", "landmarks", "lang", "forced-colors", "focus-ring", "ribbon-toolbar", "tree-keys", "menus", "dialogs", "regions", "targets", "announcer", "fields", "where-am-i", "not-just-colour", "reduced-motion", "focus-mode", "reading-guide", "quiet-ribbon", "command-palette", "shortcuts-help" };
         static readonly Regex EnvId = new Regex("^(prod|staging|qa|dev|sandbox|local|beta)?$"); // empty: back to the config's
         static readonly Regex PhaseId = new Regex("^(dawn|day|dusk|night)?$"); // empty: Auto, the clock's
         static readonly Regex SchemeId = new Regex("^(blue|olive|silver)?$"); // empty: the theme's own

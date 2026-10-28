@@ -622,3 +622,19 @@ test("command-palette: type a command or a path, Enter runs it", async ({ page }
   await open();
   await expect(palette).toContainText("No commands on this page");
 });
+
+test("shortcuts-help: Ctrl+/ lists Sitecore's shortcuts and ours", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-skip"))).toBe(true);
+  await page.focus("#FIELD1");
+  await page.keyboard.press("Control+/");
+  const help = page.getByRole("dialog", { name: "Keyboard shortcuts" });
+  await expect(help).toBeVisible();
+  const rows = await help.locator("tr").allInnerTexts();
+  for (const row of ["Ctrl+S\tSave", "Alt+H\tHome tab", "Alt+F1\tShow the ribbon's key hints", "Ctrl+Shift+Space\tCommand palette", "F6\tNext part of the page"]) expect(rows).toContain(row);
+  expect(rows.join("\n")).not.toContain("???");
+  await page.keyboard.press("Escape");
+  await expect(help).toHaveCount(0);
+  await expect(page.locator("#FIELD1")).toBeFocused();
+});

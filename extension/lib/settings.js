@@ -141,6 +141,7 @@
     "reading-guide": { needs: ["reading"], always: false, surfaces: ["shell", "speak", "launchpad", "admin", "login"], name: "Reading guide", hint: "A soft band across the line you are reading" },
     "quiet-ribbon": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Quiet ribbon", hint: "Lets you hide the ribbon groups you never use" },
     "command-palette": { needs: ["keyboard"], always: false, surfaces: ["shell", "speak", "launchpad"], name: "Command palette", hint: "Ctrl+Shift+Space: type a ribbon command, or an item path or ID, and press Enter" },
+    "shortcuts-help": { needs: ["keyboard"], always: false, surfaces: ["shell", "speak", "launchpad", "admin"], name: "Shortcuts help", hint: "Ctrl+/ lists Sitecore's keyboard shortcuts and these aids'" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip
