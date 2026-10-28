@@ -81,14 +81,18 @@ toggle; one aid can serve several needs. (exists) marks what is already built.
 - `focus-ring`: a clear focus outline on every surface, coloured by the theme, never hidden (WCAG 2.4.7, 2.4.13).
   Focused elements scroll out from under the ribbon (2.4.11).
 - `regions`: skip links that appear on focus, and F6 / Shift+F6 to cycle the top bar, ribbon, tree and editor.
-- `ribbon-toolbar`: the ribbon becomes one Tab stop with arrow keys inside it (roving tabindex), and its tabs a real
-  tablist. That takes out the ~20 Tab stops before the tree.
-- `tree-keys`: the ARIA tree pattern. Up/Down, Right expands, Left collapses, Enter opens, Home/End, typing letters
-  finds an item, Shift+F10 or the Menu key opens Sitecore's own context menu.
-- `menus`: arrow keys and Escape in Sitecore's context and drop-down menus.
-- `command-palette`: Ctrl+Shift+Space (proposed; phase 5 confirms it, see Section 3 on shortcuts) searches every ribbon command
-  on screen, plus "go to item by path or ID". A command runs by clicking Sitecore's own button.
-- `shortcuts-help`: Alt+F1 lists Sitecore's shortcuts (read from the ribbon's own `(Alt+H)` hints) and ours.
+- `ribbon-toolbar`: the ribbon's buttons become one Tab stop with arrow keys inside (Tab leaves from the strip's edge,
+  so no tabindex is written); `aria-repair` makes its tabs a real tablist. That takes out the ~20 Tab stops before the
+  tree. Sitecore already moves between the ribbon's tabs with arrows.
+- `tree-keys`: typing letters finds an item. Sitecore 10.4 already has the rest of the tree pattern (the arrows,
+  Home/End, Space, Delete); Enter opens a node because it is a link, and Shift+F10 or the Menu key opens its menu.
+- `menus`: Sitecore's menus answer the arrows, Enter and Escape once focus is inside; focus moves in when one opens
+  and back when it closes, and Up and Down step over the hidden submenus Sitecore's own handler stalls on.
+- `command-palette`: Ctrl+Shift+Space (free in Sitecore and the browsers) searches every ribbon command of the
+  page, plus "go to item by path or ID" through the tree's own search box. A command runs by clicking Sitecore's own
+  button.
+- `shortcuts-help`: Ctrl+/ lists Sitecore's shortcuts (the ribbon's `aria-keyshortcuts` and access keys) and ours.
+  Alt+F1 is Sitecore's: it shows and hides the ribbon's key hints.
 
 **Low vision**
 - Beacon theme (exists), Atkinson Hyperlegible (exists), `focus-ring` (thicker under this profile).
@@ -108,8 +112,8 @@ toggle; one aid can serve several needs. (exists) marks what is already built.
 - `reading-guide`: a ruler band that follows the focused line or the pointer.
 - `quiet-ribbon`: hide ribbon groups you never use (your choice, saved per site). Hidden, never removed.
 - `where-am-i` (shared with Low vision).
-- `session-warning`: a warning two minutes before the session times out, with "keep me signed in" pinging
-  Sitecore's own keep-alive (WCAG 2.2.1).
+- `session-warning`: dropped in phase 5. Sitecore's own keep-alive (`scKeepAlive`) pings 30 seconds before the
+  session would time out, for as long as a Sitecore page is open, so WCAG 2.2.1's timeout does not happen.
 
 **Motion** (vestibular disorders, migraine, seizure risk)
 - `reduced-motion`: switch off Sitecore's and the themes' animations and transitions. Follows the OS by default
@@ -151,11 +155,11 @@ only when the event isn't `defaultPrevented` and the key means nothing to Siteco
 a key it didn't handle. The DOM kit gains `listen(target, type, fn)` with an undo entry. Nothing Sitecore ships is
 removed: a tab stop is taken out with `tabindex=-1`, a group hidden with a class.
 
-**Frames.** Each frame runs its own engine and aids. Aids that span frames (F6 regions, palette, announcer,
-`where-am-i`, `session-warning`) talk over `postMessage` in an `sct-aid` envelope. The top frame owns the live
-region and the palette. Child frames report regions, commands and messages up, and act when asked (focus this
-region, click this command). No aid touches another frame's `contentDocument`. The Experience Editor's website gets
-no aids; its ribbon frame does.
+**Frames.** Each frame runs its own engine and aids. F6, the skip links, the palette and the shortcuts work in the
+frame where the key is pressed. What spans frames goes through the shared DOM, since content scripts in different
+frames share it and nothing else: the top frame owns the live region, which any frame's `SCT.announce` writes into,
+and `dialogs` finds the last focused element of every frame by a `data-sct-focus` stamp. Only loaded same-origin
+frames are read. The Experience Editor's website gets no aids; its ribbon frame does.
 
 **Failure.** An aid that throws is reverted and switched off for that frame alone, with a `console.warn`; the other
 aids carry on.
@@ -172,7 +176,7 @@ aids: { id: true|false } }`. The host interface is unchanged; `sitecore/host.js`
    set them yourself.
 3. **Aids**: a collapsed "Fine-tune" list grouped by need. Each aid has a switch showing one of three states (on
    because of a need, on by you, off by you) and a one-line description. "Reset to needs" clears your choices.
-4. A line naming the keys: F6 regions, Ctrl+Shift+Space palette, Alt+F1 help.
+4. A line naming the keys: F6 regions, Ctrl+Shift+Space palette, Ctrl+/ help.
 
 The tab passes the same bar itself: `<fieldset>`/`<legend>` groups, `role=switch` with labels, keyboard order
 matching the visual order.
@@ -204,7 +208,7 @@ dialogs, Launchpad, Experience Editor ribbon, `/sitecore/admin`, login. Sitecore
    `targets`.
 3. **Telling people what happened** (done 2026-10-28): `announcer`, `fields`, `where-am-i`, `not-just-colour`.
 4. **Motion and reading** (done 2026-10-28): `reduced-motion`, `focus-mode`, `reading-guide`, `quiet-ribbon`.
-5. **New tools:** `command-palette`, `shortcuts-help`, `session-warning`.
+5. **New tools** (done 2026-10-28): `command-palette`, `shortcuts-help`; `session-warning` dropped (Section 1).
 
 Phases 1 and 2 give most of the value: after them a screen reader user hears names, and a keyboard user reaches
 the tree in a few presses. Phases 3 to 5 can be reordered if users ask for one sooner.
@@ -233,7 +237,7 @@ licence gotcha):
   its own commits.
 - **Tab order:** in the Content Editor, the tree is reached within 5 presses of Tab, and F6 moves top bar, ribbon,
   tree, editor and back.
-- **Journeys, keyboard only:** find an item with `tree-keys`, edit its Title, save with Ctrl+S, and see "Item
+- **Journeys, keyboard only:** find an item with `tree-keys`, edit its Title, save with Ctrl+S (on fixtures: the live suite never saves), and see "Item
   saved" in the live region; open and close a dialog and find focus back where it was; run Save from the palette.
 - **Sitecore still works:** with every aid on, Sitecore's own keys (Ctrl+S, Alt+H and the ribbon's other access
   keys, the tree's existing keys, SPE's ISE editor keys) do what they did without the aids.
