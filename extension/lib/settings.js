@@ -138,6 +138,7 @@
     "not-just-colour": { needs: ["colour-vision"], always: false, surfaces: ["shell"], name: "Errors in words", hint: "Says Error or Warning beside a field Sitecore marks only in red or yellow" },
     "reduced-motion": { needs: ["motion"], always: false, surfaces: null, name: "Reduced motion", hint: "Stops Sitecore's and the theme's animations and transitions" },
     "focus-mode": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Focus mode", hint: "Fades the other fields while you edit one" },
+    "reading-guide": { needs: ["reading"], always: false, surfaces: ["shell", "speak", "launchpad", "admin", "login"], name: "Reading guide", hint: "A soft band across the line you are reading" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip

@@ -540,3 +540,16 @@ test("focus-mode: the field being edited stays bright, the rest fade", async ({ 
   await page.evaluate(() => document.activeElement.blur());
   expect(await opacity()).toEqual(["1", "1", "1"]);
 });
+
+test("reading-guide: a band on the pointer's line or the focused one, never in the way", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-guide"))).toBe(true);
+  const centre = () => page.evaluate(() => { const r = document.querySelector("sct-guide").getBoundingClientRect(); return Math.round(r.top + r.height / 2); });
+  await page.mouse.move(400, 300);
+  await expect.poll(centre).toBe(300);
+  await page.focus("#FIELD1");
+  const field = await page.evaluate(() => { const r = document.getElementById("FIELD1").getBoundingClientRect(); return Math.round(r.top + r.height / 2); });
+  await expect.poll(centre).toBe(field);
+  expect(await page.evaluate(() => getComputedStyle(document.querySelector("sct-guide")).pointerEvents)).toBe("none");
+});
