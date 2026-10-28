@@ -36,3 +36,5 @@ The README lists every theme. Each picker group has its own register:
 ## Accessibility
 
 WCAG AA (4.5:1) for text on every token pair, which the unit tests check. No motion beyond what Sitecore already does.
+
+Beyond the themes, accessibility aids (`extension/lib/aids/`, designed in `docs/superpowers/specs/2026-10-27-accessibility-aids-design.md`) repair Sitecore's markup for screen readers, add the keys a keyboard user expects, and help with low vision, colour vision, reading and motion. They add roles, names, keys and UI of their own, and never remove or override Sitecore's handlers: nothing Sitecore does breaks. axe-core's counts per page (`test/e2e/a11y-baseline.json`) may only go down.
