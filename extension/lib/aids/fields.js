@@ -6,6 +6,7 @@
   const SCT = (root.SCT = root.SCT || {});
 
   const CONTROL = 'input:not([type="hidden"]), select, textarea, iframe, [contenteditable="true"]';
+  const own = new WeakMap(); // control -> the description it had before this aid, which stays first
 
   SCT.registerAid("fields", {
     apply(ctx) {
@@ -19,7 +20,8 @@
         const state = marker && (/BarCell(Red|Yellow)$/.exec(marker.className) || [])[1];
         const message = state && marker.title.trim();
         if (marker && (marker.getAttribute("aria-label") || null) !== (message || null)) setAttr(marker, "aria-label", message || null);
-        const describedby = [label.id, message && marker.id].filter(Boolean).join(" ");
+        if (!own.has(control)) own.set(control, control.getAttribute("aria-describedby") || "");
+        const describedby = [own.get(control), label.id, message && marker.id].filter(Boolean).join(" ");
         if (control.getAttribute("aria-describedby") !== describedby) setAttr(control, "aria-describedby", describedby);
         const invalid = state === "Red" ? "true" : null;
         if (control.getAttribute("aria-invalid") !== invalid) setAttr(control, "aria-invalid", invalid);
