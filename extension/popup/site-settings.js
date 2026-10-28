@@ -227,7 +227,11 @@
       input.checked = needs.includes(input.value);
       // what it changes, shown on hover and keyboard focus and read out with the chip
       input.setAttribute("aria-describedby", `need-${input.value}-tip`);
-      input.parentNode.insertAdjacentHTML("afterend", `<span role="tooltip" id="need-${input.value}-tip">${S.needEffects(input.value)}</span>`);
+      const tip = input.ownerDocument.createElement("span");
+      tip.setAttribute("role", "tooltip");
+      tip.id = `need-${input.value}-tip`;
+      tip.textContent = S.needEffects(input.value);
+      input.parentNode.after(tip);
     }
     needBox.onchange = (e) => {
       needs = [...needBox.querySelectorAll("input:checked")].map((i) => i.value);
