@@ -200,7 +200,7 @@ dialogs, Launchpad, Experience Editor ribbon, `/sitecore/admin`, login. Sitecore
    module keeping needs and aids, the axe harness and its baseline (section 5), and `frame-titles` as the pilot aid.
 1. **Invisible defaults** (done 2026-10-28; screen reader basics, on for every themed site): `aria-repair`, `names`, `landmarks`,
    `lang`, `forced-colors`. Measured by axe's counts dropping.
-2. **Keyboard:** `focus-ring`, `ribbon-toolbar`, `regions` (skip links and F6), `tree-keys`, `menus`, `dialogs`,
+2. **Keyboard** (done 2026-10-28): `focus-ring`, `ribbon-toolbar`, `regions` (skip links and F6), `tree-keys`, `menus`, `dialogs`,
    `targets`.
 3. **Telling people what happened:** `announcer`, `fields`, `where-am-i`, `not-just-colour`.
 4. **Motion and reading:** `reduced-motion`, `focus-mode`, `reading-guide`, `quiet-ribbon`.
