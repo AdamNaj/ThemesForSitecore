@@ -515,3 +515,11 @@ test("not-just-colour: a red or yellow field says Error or Warning in words", as
   await mark("scEditorFieldMarkerBarCellYellow");
   expect(await before()).toBe('"Warning: "');
 });
+
+test("reduced-motion: animations and transitions end at once", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=motion`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => getComputedStyle(document.getElementById("Spinner")).animationIterationCount)).toBe("1");
+  await expect.poll(() => page.evaluate(() => document.getElementById("Spinner").getAnimations().filter((a) => a.playState === "running").length)).toBe(0);
+  expect(await page.evaluate(() => parseFloat(getComputedStyle(document.getElementById("Spinner")).transitionDuration))).toBeLessThan(0.001);
+});

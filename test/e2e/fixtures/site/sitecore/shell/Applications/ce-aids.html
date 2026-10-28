@@ -1,9 +1,11 @@
 <!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Content Editor aids fixture</title></head>
+<head><meta charset="utf-8"><title>Content Editor aids fixture</title>
+<style>@keyframes spin { to { transform: rotate(360deg) } } #Spinner { width: 8px; height: 8px; animation: spin 10s linear infinite; transition: opacity 5s }</style></head>
 <body>
 <!-- the Content Editor's shape as a 10.4 and 10.5 survey found it, written by hand -->
 <form id="ContentEditorForm" class="lang_en">
+  <div id="Spinner"></div>
   <header class="sc-globalHeader"><a href="/sitecore/client/Applications/Launchpad" class="sc-global-logo" role="button" aria-label="Desktop"></a></header>
   <div id="RibbonPanel" class="RibbonPanel" onclick="void 0">
     <div id="RibbonX" class="scRibbon" role="tablist" aria-label="The content editor ribbon">
