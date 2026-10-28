@@ -20,7 +20,8 @@
   }
 
   SCT.registerAid("where-am-i", {
-    css: "sct-where{display:block;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:12px;line-height:1.5;color:var(--sct-text-muted,GrayText)}",
+    // Sitecore's help-text class lines it up under the name and lets the theme style it like the help
+    css: "sct-where{display:block;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}",
     apply(ctx) {
       const { doc } = ctx;
       const panel = doc.querySelector(".scEditorHeaderTitlePanel");
@@ -31,6 +32,7 @@
       let where = panel.querySelector("sct-where");
       if (!where) {
         where = ctx.own(doc.createElement("sct-where"));
+        where.className = "scEditorHeaderTitleHelp";
         panel.append(where);
       }
       if (where.textContent !== line) where.textContent = line;
