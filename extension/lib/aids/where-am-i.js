@@ -20,8 +20,10 @@
   }
 
   SCT.registerAid("where-am-i", {
-    // Sitecore's help-text class lines it up under the name and lets the theme style it like the help
-    css: "sct-where{display:block;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}",
+    // Sitecore's help-text class lines it up under the name and lets the theme style it like the help. The title panel
+    // floats, so the header grows to hold it: otherwise the next section's caption flows round it
+    css: `sct-where{display:block;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.scEditorHeader:has(sct-where){display:flow-root;height:auto!important}`,
     apply(ctx) {
       const { doc } = ctx;
       const panel = doc.querySelector(".scEditorHeaderTitlePanel");
