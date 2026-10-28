@@ -210,6 +210,13 @@ test("every aid's needs exist, every aid is named, every preset is a real value"
   }
 });
 
+test("each need says what ticking it changes, before you tick it", () => {
+  assert.equal(settings.needEffects("screen-reader"), "Switches on Frame names: names each frame, so a screen reader says what it holds.");
+  assert.equal(settings.needEffects("low-vision"), "Picks the Atkinson Hyperlegible font, unless you chose your own.");
+  assert.equal(settings.needEffects("reading"), "Picks the OpenDyslexic font and wide spacing, unless you chose your own.");
+  assert.equal(settings.needEffects("motion"), "Nothing yet: the aids for it are still to come.");
+});
+
 test("the colour filter pulls apart the colours each vision confuses, and does nothing at strength 0", () => {
   const mul = (m, v) => m.map((r) => r.reduce((a, x, i) => a + x * v[i], 0));
   const clamp = (v) => v.map((x) => Math.min(1, Math.max(0, x)));

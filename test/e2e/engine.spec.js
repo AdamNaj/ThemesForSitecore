@@ -223,6 +223,20 @@ test("the Accessibility tab's needs preset the font and the fine-tune switches s
   await popup.locator("#tab-access").click();
   const saved = () => worker.evaluate((o) => chrome.storage.sync.get("accessibility").then((s) => (s.accessibility || {})[o]), BASE);
 
+  // each need says what it changes before it is ticked: on hover, on keyboard focus, and to a screen reader
+  const reading = popup.getByRole("checkbox", { name: "Reading and focus" });
+  const tip = /OpenDyslexic font and wide spacing/;
+  await expect(reading).toHaveAccessibleDescription(tip);
+  await expect(popup.getByRole("tooltip")).toBeHidden();
+  await popup.locator("#needs label", { hasText: "Reading and focus" }).hover();
+  await expect(popup.getByRole("tooltip")).toHaveText(tip);
+  await popup.mouse.move(0, 0);
+  await reading.focus();
+  await popup.keyboard.press("Shift+Tab");
+  await popup.keyboard.press("Tab");
+  await expect(popup.getByRole("tooltip")).toHaveText(tip);
+  await expect(popup.getByRole("tooltip")).toBeInViewport({ ratio: 1 });
+
   await popup.locator("#needs label", { hasText: "Reading and focus" }).click();
   await expect.poll(saved).toMatchObject({ needs: ["reading"], font: "opendyslexic", spacing: "wide" });
   await expect(popup.locator('#font input[value="opendyslexic"]')).toBeChecked();

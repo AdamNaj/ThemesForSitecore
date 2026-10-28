@@ -122,6 +122,16 @@
     "frame-titles": { needs: ["screen-reader"], always: true, surfaces: null, name: "Frame names", hint: "Names each frame, so a screen reader says what it holds" },
   };
 
+  // what ticking a need changes, in a sentence or two for its chip's tooltip
+  function needEffects(need) {
+    const lower = (s) => s[0].toLowerCase() + s.slice(1);
+    const out = Object.values(AIDS).filter((a) => a.needs.includes(need)).map((a) => `Switches on ${a.name}: ${lower(a.hint)}.`);
+    const p = NEED_PRESETS[need] || {};
+    const picks = [p.font && `the ${FONTS[p.font].name} font`, p.spacing && `${p.spacing} spacing`].filter(Boolean);
+    if (picks.length) out.push(`Picks ${picks.join(" and ")}, unless you chose your own.`);
+    return out.join(" ") || "Nothing yet: the aids for it are still to come.";
+  }
+
   // null when everything is off
   function accessibility(value) {
     const v = value && typeof value === "object" ? value : {};
@@ -190,7 +200,7 @@
 
   SCT.settings = {
     DEFAULTS, ENVS, PHASES, SCHEMES, FONTS, VISIONS, catalog, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight,
-    accessibility, accessibilityCss, visionMatrix, visionValues, NEEDS, NEED_PRESETS, AIDS, aidReason, enabledAids,
+    accessibility, accessibilityCss, visionMatrix, visionValues, NEEDS, NEED_PRESETS, needEffects, AIDS, aidReason, enabledAids,
   };
   if (typeof module !== "undefined") module.exports = SCT.settings;
 })(globalThis);

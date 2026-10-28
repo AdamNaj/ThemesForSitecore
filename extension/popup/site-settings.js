@@ -217,7 +217,12 @@
     };
 
     const needBox = r.querySelector("#needs");
-    for (const input of needBox.querySelectorAll("input")) input.checked = needs.includes(input.value);
+    for (const input of needBox.querySelectorAll("input")) {
+      input.checked = needs.includes(input.value);
+      // what it changes, shown on hover and keyboard focus and read out with the chip
+      input.setAttribute("aria-describedby", `need-${input.value}-tip`);
+      input.parentNode.insertAdjacentHTML("afterend", `<span role="tooltip" id="need-${input.value}-tip">${S.needEffects(input.value)}</span>`);
+    }
     needBox.onchange = (e) => {
       needs = [...needBox.querySelectorAll("input:checked")].map((i) => i.value);
       const preset = e.target.checked && S.NEED_PRESETS[e.target.value];
