@@ -389,3 +389,27 @@ test("dialogs: named from their frame, and focus comes back to the opener when o
   await host().evaluate(() => document.querySelector(".ui-dialog").remove()); // and the dialog closes
   await expect.poll(() => page.evaluate(() => document.activeElement.id)).toBe("OpenMenu");
 });
+
+test("regions: skip links first, and F6 moves between the page's parts", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => document.querySelectorAll("sct-skip button").length)).toBe(3);
+  const at = () => page.evaluate(() => { const a = document.activeElement; return a.textContent.trim().slice(0, 40) || a.id || a.className; });
+  const shown = () => page.evaluate(() => document.activeElement.getBoundingClientRect().width > 20);
+  await page.keyboard.press("Tab");
+  expect(await at()).toBe("Skip to the content editor ribbon");
+  expect(await shown()).toBe(true); // hidden until focused
+  await page.keyboard.press("Tab");
+  expect(await at()).toBe("Skip to Content tree");
+  await page.keyboard.press("Enter");
+  expect(await page.evaluate(() => document.activeElement.getAttribute("role"))).toBe("tree");
+  await page.keyboard.press("F6");
+  expect(await page.evaluate(() => document.activeElement.id)).toBe("BContent"); // the editor's selected tab
+  await page.keyboard.press("F6"); // round to the top bar
+  expect(await page.evaluate(() => document.activeElement.className)).toBe("sc-global-logo");
+  await page.keyboard.press("Shift+F6");
+  expect(await page.evaluate(() => document.activeElement.id)).toBe("BContent");
+  await page.keyboard.press("Shift+F6");
+  await page.keyboard.press("Shift+F6");
+  expect(await page.evaluate(() => document.activeElement.id)).toBe("RibbonX_Nav_Home"); // the ribbon, at its selected tab
+});
