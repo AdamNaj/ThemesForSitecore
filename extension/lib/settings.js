@@ -121,6 +121,7 @@
   const AIDS = {
     "frame-titles": { needs: ["screen-reader"], always: true, surfaces: null, name: "Frame names", hint: "Names each frame, so a screen reader says what it holds" },
     "aria-repair": { needs: ["screen-reader"], always: true, surfaces: ["shell"], name: "Role repair", hint: "Fixes the roles Sitecore gets wrong, so a screen reader reads the tree and the ribbon right" },
+    names: { needs: ["screen-reader", "keyboard"], always: true, surfaces: ["shell", "speak", "launchpad", "admin", "login"], name: "Names", hint: "Gives images, icon buttons and clickable parts a name, and lets you press them from the keyboard" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip

@@ -3,7 +3,6 @@
 // ?theme=<id> is the theme apply() answers with; ?boom adds an always-on aid that changes the page and throws;
 // ?css an always-on CSS-only aid.
 (function () {
-  window.pristine = document.body.innerHTML; // the page before any aid, for the exact-revert checks
   const load = (src) => new Promise((resolve, reject) => {
     const s = document.createElement("script");
     s.src = `/ext/${src}`;
@@ -14,6 +13,8 @@
   const before = ["lib/detect.js", "lib/settings.js", "themes/themes.js", "lib/dom-kit.js", "lib/color-map.js", "lib/live-map.js", "themes/chicago/dom.js"];
 
   (async () => {
+    if (document.readyState === "loading") await new Promise((r) => document.addEventListener("DOMContentLoaded", r, { once: true }));
+    window.pristine = document.body.innerHTML; // the whole page before any aid, for the exact-revert checks
     for (const f of before) await load(f);
     for (const id of Object.keys(SCT.settings.AIDS)) await load(`lib/aids/${id}.js`);
     await load("lib/engine.js");

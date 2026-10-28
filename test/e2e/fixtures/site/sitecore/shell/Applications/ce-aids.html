@@ -16,6 +16,7 @@
       </div></div></div>
       <div id="RibbonX_Toolbar" class="scRibbonToolbar">
         <div class="scRibbonToolbarStrip"><a href="#" class="scRibbonToolbarLargeButton" title="Save (Ctrl+S)"><span>Save</span></a>
+          <img src="/sitecore/images/blank.gif" class="scRibbonPanelUp" alt="" onclick="void 0">
           <img src="/sitecore/images/blank.gif" class="scRibbonPanelOpen" alt="" onclick="window.opened = (window.opened || 0) + 1" tabindex="0">
         </div>
       </div>
@@ -31,12 +32,17 @@
       </div>
     </div>
     <div id="ContentEditor" class="scEditor splitter-pane">
-      <div id="EditorTabs" role="tablist" aria-label="Editor tabs"><a role="tab" aria-selected="true" id="BContent" href="#" class="scRibbonEditorTabActive"><span>Content</span></a></div>
+      <div id="EditorTabs" role="tablist" aria-label="Editor tabs"><a role="tab" aria-selected="true" id="BContent" href="#" class="scRibbonEditorTabActive"><span>Content</span></a><a role="tab" aria-selected="false" id="BTAddNewSearch" href="#" tabindex="-1" title=""><span><span></span></span></a></div>
       <div id="EditorPanel1" class="scEditorPanel">
         <div id="Section_Data" class="scEditorSectionCaptionExpanded" onclick="void 0"><img src="/sitecore/images/blank.gif" id="Section_Data_Glyph" class="scEditorSectionCaptionGlyph" alt="" tabindex="0" role="button" aria-expanded="true" aria-controls="Section_Data_controls" aria-labelledby="Section_Data">Data</div>
         <table id="Section_Data_controls" class="scEditorSectionPanel"><tr><td>
           <div id="FieldMarker1"><img src="/sitecore/images/blank.gif" width="4px" height="1px"></div>
-          <input id="FIELD1" type="text">
+          <label for="FIELD1">Title</label><input id="FIELD1" type="text">
+          <input type="text" class="scIgnoreModified bucketSearch inactive" value="Type here to search" id="filterBox2">
+          <select id="FIELD2_unselected" multiple size="4"></select><select id="FIELD2_selected" multiple size="4"></select>
+          <img src="/sitecore/images/blank.gif" class="scComboboxDropDown" alt="" onclick="void 0">
+          <span id="CopyId" onclick="window.clicks = (window.clicks || 0) + 1">{110D559F}</span>
+          <img src="/sitecore/images/blank.gif" id="Titled" title="Lock state">
         </td></tr></table>
       </div>
     </div>

@@ -184,3 +184,55 @@ test("aria-repair: tree items, the ribbon's tablist and labelled images", async 
     rerender: EXPANDED,
   });
 });
+
+const LAUNCHPAD = `http://localhost:${PORT}/sitecore/client/Applications/Launchpad-aids.html`;
+const ADMIN = `http://localhost:${PORT}/sitecore/admin/aids.html`;
+// every image has an alt (a name or "" for decoration), and every control a name
+const allNamed = () => [...document.querySelectorAll("img")].every((i) => i.hasAttribute("alt") || i.hasAttribute("aria-labelledby"))
+  && [...document.querySelectorAll("a, button, [role=button], [role=tab], select, input:not([type=hidden])")].every((el) =>
+    (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.labels?.length || (el.tagName === "IMG" && el.alt) || el.textContent.trim() || el.title || [...el.querySelectorAll("img")].some((i) => i.alt)));
+
+test("names: images, icon buttons and clickable parts in the Content Editor", async ({ page }) => {
+  await aidCase(page, CE, {
+    check: () => page.evaluate((all) => {
+      const $ = (s) => document.querySelector(s);
+      return eval(all)() && $("#FieldMarker1 img").alt === "" && $("#Titled").alt === "Lock state"
+        && $(".scRibbonPanelUp").alt === "Scroll up" && $(".scRibbonPanelOpen").alt === "More options"
+        && $(".scComboboxDropDown").alt === "Show options" && $("#BTAddNewSearch").getAttribute("aria-label") === "New search"
+        && $(".bucketSearch").getAttribute("aria-label") === "Search"
+        && $("#FIELD2_unselected").getAttribute("aria-label") === "Available items" && $("#FIELD2_selected").getAttribute("aria-label") === "Selected items"
+        && $("#CopyId").getAttribute("role") === "button" && $("#CopyId").tabIndex === 0
+        && $(".scRibbonPanelUp").getAttribute("role") === "button"
+        && $("#Section_Data").getAttribute("role") === null && $("#RibbonPanel").getAttribute("role") === null; // they hold a control already
+    }, `(${allNamed})`),
+    rerender: () => (document.querySelector("#Section_Data_controls td").innerHTML += ""),
+  });
+});
+
+test("names: a made button answers Enter and Space once, and never a key Sitecore handled", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => document.getElementById("CopyId").getAttribute("role"))).toBe("button");
+  await page.focus("#CopyId");
+  await page.keyboard.press("Enter");
+  await page.keyboard.press(" ");
+  expect(await page.evaluate(() => window.clicks)).toBe(2);
+  await page.evaluate(() => document.getElementById("CopyId").addEventListener("keydown", (e) => e.preventDefault()));
+  await page.keyboard.press("Enter");
+  expect(await page.evaluate(() => window.clicks)).toBe(2);
+});
+
+test("names: Launchpad's logo, tiles and portrait", async ({ page }) => {
+  await aidCase(page, LAUNCHPAD, {
+    surface: "launchpad",
+    check: () => page.evaluate((all) => eval(all)() && document.querySelector(".sc-global-logo").getAttribute("aria-label") === "Launchpad"
+      && [...document.querySelectorAll(".sc-launchpad img")].every((i) => i.alt === "") && document.getElementById("globalHeaderUserPortrait").alt === "", `(${allNamed})`),
+  });
+});
+
+test("names: the admin pages' icons beside their text", async ({ page }) => {
+  await aidCase(page, ADMIN, {
+    surface: "admin",
+    check: () => page.evaluate((all) => eval(all)() && [...document.querySelectorAll(".tools img")].every((i) => i.alt === ""), `(${allNamed})`),
+  });
+});
