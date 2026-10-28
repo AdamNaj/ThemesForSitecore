@@ -372,3 +372,20 @@ test("menus: focus moves into a menu that opens, and back to its opener when it 
   await expect.poll(() => page.evaluate(() => !!document.querySelector(".scPopup"))).toBe(false);
   await expect.poll(at).toBe("OpenMenu");
 });
+
+test("dialogs: named from their frame, and focus comes back to the opener when one closes", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await page.focus("#OpenMenu"); // the opener, in the page under the dialog
+  await page.evaluate(() => {
+    const f = document.createElement("iframe");
+    f.id = "jqueryModalDialogsFrame";
+    f.src = "/sitecore/shell/aidhost/Controls/JqueryModalDialogs.html?theme=fjord&needs=keyboard";
+    document.body.append(f);
+  });
+  const host = () => page.frames().find((f) => f.url().includes("/aidhost/"));
+  await expect.poll(() => host()?.evaluate(() => document.getElementById("ui-id-1").getAttribute("aria-label")).catch(() => null)).toBe("Copy to");
+  await host().focus("#DialogOk"); // focus moves into the dialog
+  await host().evaluate(() => document.querySelector(".ui-dialog").remove()); // and the dialog closes
+  await expect.poll(() => page.evaluate(() => document.activeElement.id)).toBe("OpenMenu");
+});

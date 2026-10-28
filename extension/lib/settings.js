@@ -129,6 +129,7 @@
     "ribbon-toolbar": { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Ribbon toolbar", hint: "Makes the ribbon's buttons one Tab stop, with the arrow keys inside" },
     "tree-keys": { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Tree type-ahead", hint: "Typing letters in the content tree jumps to the item that starts with them" },
     menus: { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Menu focus", hint: "Puts focus in a menu when it opens, and back where it was when it closes" },
+    dialogs: { needs: ["keyboard", "screen-reader"], always: false, surfaces: ["shell"], name: "Dialogs", hint: "Names each dialog, and gives focus back to where it was when one closes" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip

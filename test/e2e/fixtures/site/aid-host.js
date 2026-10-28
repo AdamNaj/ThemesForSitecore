@@ -1,7 +1,7 @@
 // The fixture pages' engine with a fake host: loads the engine's scripts and every aid in settings.js AIDS, in the
 // content scripts' order, then starts the engine. A fixture page is its markup plus <script src="/aid-host.js">.
 // ?theme=<id> is the theme apply() answers with; ?boom adds an always-on aid that changes the page and throws;
-// ?css an always-on CSS-only aid.
+// ?css an always-on CSS-only aid; ?needs=a,b the site's needs from the start.
 (function () {
   const load = (src) => new Promise((resolve, reject) => {
     const s = document.createElement("script");
@@ -27,7 +27,8 @@
       SCT.registerAid("paint", { css: "body{outline:3px solid red}" });
     }
     // fake.theme is the theme apply() answers with, fake.site what site() returns, fake.fire(kind) a setting change
-    const fake = (window.fake = { site: {}, theme: new URLSearchParams(location.search).get("theme") || "native", listener: null, fire: (kind) => fake.listener && fake.listener(kind) });
+    const needs = new URLSearchParams(location.search).get("needs");
+    const fake = (window.fake = { site: needs ? { accessibility: { needs: needs.split(",") } } : {}, theme: new URLSearchParams(location.search).get("theme") || "native", listener: null, fire: (kind) => fake.listener && fake.listener(kind) });
     const entry = (id) => ({ id, name: id, usesTokens: id === "fjord" });
     SCT.startEngine({
       alive: () => true,
