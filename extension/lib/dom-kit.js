@@ -142,8 +142,11 @@
     doc.body.append(dialog);
     (dialog.querySelector(FOCUSABLE) || dialog).focus();
   };
-  SCT.aidDialogCss = `sct-dialog{position:fixed;z-index:2147483647;top:12vh;left:50%;transform:translateX(-50%);width:min(560px,92vw);max-height:70vh;overflow:auto;box-sizing:border-box;padding:12px;border:1px solid var(--sct-border,CanvasText);border-radius:8px;background:var(--sct-panel-bg,Canvas);color:var(--sct-panel-fg,CanvasText);font:14px/1.45 system-ui,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,.35);text-align:start}
-sct-dialog h2{margin:0 0 8px;font-size:15px}
-sct-dialog input{box-sizing:border-box;width:100%;padding:8px 10px;border:1px solid var(--sct-input-border,CanvasText);border-radius:6px;background:var(--sct-input-bg,Field);color:var(--sct-input-fg,FieldText);font:inherit}`;
+  // Aids' CSS sits in a cascade layer, where only !important outruns the page's own rules: every declaration of rules
+  // that must look the same on any page (an aid's own elements) takes it
+  SCT.important = (css) => css.replace(/([^{};]+:[^{};!]+)(?=[;}])/g, "$1!important");
+  SCT.aidDialogCss = SCT.important(`sct-dialog{position:fixed;z-index:2147483647;top:12vh;left:50%;transform:translateX(-50%);width:min(560px,92vw);max-height:70vh;overflow:auto;box-sizing:border-box;padding:12px;border:1px solid var(--sct-border,CanvasText);border-radius:8px;background:var(--sct-panel-bg,Canvas);color:var(--sct-panel-fg,CanvasText);font:14px/1.45 system-ui,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,.35);text-align:start}
+sct-dialog h2{margin:0 0 8px;font-size:15px;font-weight:600}
+sct-dialog input{box-sizing:border-box;width:100%;padding:8px 10px;border:1px solid var(--sct-input-border,CanvasText);border-radius:6px;background:var(--sct-input-bg,Field);color:var(--sct-input-fg,FieldText);font:inherit}`);
   if (typeof module !== "undefined") module.exports = createDomKit;
 })(globalThis);

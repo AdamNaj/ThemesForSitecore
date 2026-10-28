@@ -48,6 +48,7 @@
       build(dialog, close) {
         const id = `sct-palette-${++serial}`;
         const input = doc.createElement("input");
+        input.className = "scIgnoreModified"; // Sitecore's own: typing here does not mark the item changed
         input.setAttribute("role", "combobox");
         input.setAttribute("aria-label", "Command or item path");
         input.setAttribute("aria-expanded", "true");
@@ -79,14 +80,17 @@
           if (shown.length) input.setAttribute("aria-activedescendant", `${id}-${at}`);
           else input.removeAttribute("aria-activedescendant");
         }
+        // after the key that chose it has finished: Sitecore's own Enter handler must not see it and post again
         function choose(i) {
           const c = shown[i];
           if (!c) return;
           close();
-          run(doc, c);
+          setTimeout(() => run(doc, c));
         }
         input.addEventListener("input", () => ((at = 0), draw()));
+        // the palette's own keys stay in the palette
         input.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowDown" || e.key === "ArrowUp" || e.key === "Enter") e.stopPropagation();
           if (e.key === "ArrowDown" || e.key === "ArrowUp") {
             e.preventDefault();
             if (shown.length) at = (at + (e.key === "ArrowDown" ? 1 : -1) + shown.length) % shown.length;
@@ -112,9 +116,9 @@
 
   SCT.registerAid("command-palette", {
     css: `${SCT.aidDialogCss}
-sct-dialog [role="listbox"]{margin-top:8px}
+${SCT.important(`sct-dialog [role="listbox"]{margin-top:8px}
 sct-dialog [role="option"]{padding:6px 10px;border-radius:4px;cursor:pointer}
-sct-dialog [role="option"][aria-selected="true"]{background:var(--sct-selected-bg,Highlight);color:var(--sct-selected-fg,HighlightText)}`,
+sct-dialog [role="option"][aria-selected="true"]{background:var(--sct-accent,Highlight);color:var(--sct-accent-fg,HighlightText)}`)}`,
     apply(ctx) {
       if (!contexts.has(ctx.doc)) ctx.listen(ctx.doc, "keydown", onKey);
       contexts.set(ctx.doc, ctx);

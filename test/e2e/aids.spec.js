@@ -600,18 +600,20 @@ test("command-palette: type a command or a path, Enter runs it", async ({ page }
   await expect(palette).toHaveCount(1);
   const input = page.getByRole("combobox", { name: "Command or item path" });
   await expect(input).toBeFocused();
+  // Sitecore marks the item changed when anything is typed in an input without this class, and then asks to save
+  await expect(input).toHaveClass("scIgnoreModified");
   await page.keyboard.type("cop");
   await expect(page.getByRole("option").first()).toHaveText("Copy to · Operations");
   await expect(input).toHaveAttribute("aria-activedescendant", await page.getByRole("option").first().getAttribute("id"));
   await page.keyboard.press("Enter");
   await expect(palette).toHaveCount(0);
-  expect(await page.evaluate(() => window.copied)).toBe(1);
+  await expect.poll(() => page.evaluate(() => window.copied)).toBe(1);
   await expect(page.locator("#FIELD1")).toBeFocused(); // back where it was
   await open();
   await page.keyboard.type("/sitecore/content");
   await expect(page.getByRole("option").first()).toHaveText("Go to /sitecore/content");
   await page.keyboard.press("Enter");
-  expect(await page.evaluate(() => window.searched)).toBe("/sitecore/content");
+  await expect.poll(() => page.evaluate(() => window.searched)).toBe("/sitecore/content");
   await open();
   await page.keyboard.press("Escape");
   await expect(palette).toHaveCount(0);

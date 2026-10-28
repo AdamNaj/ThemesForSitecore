@@ -66,18 +66,19 @@
         done.type = "button";
         done.textContent = "Close";
         done.addEventListener("click", close);
-        dialog.append(h, ...(rows.length ? [table(doc, "Sitecore", rows)] : []), table(doc, "Themes for Sitecore", OURS), done);
+        // Close first: focus goes to it, and the list opens at its top
+        dialog.append(h, done, ...(rows.length ? [table(doc, "Sitecore", rows)] : []), table(doc, "Themes for Sitecore", OURS));
       },
     });
   }
 
   SCT.registerAid("shortcuts-help", {
     css: `${SCT.aidDialogCss}
-sct-dialog table{width:100%;border-collapse:collapse;margin:4px 0 12px}
+${SCT.important(`sct-dialog table{width:100%;border-collapse:collapse;margin:4px 0 12px}
 sct-dialog caption{text-align:start;font-weight:600;padding:4px 0}
 sct-dialog th{text-align:start;font-weight:600;white-space:nowrap;padding:3px 16px 3px 0;width:1%}
 sct-dialog td{padding:3px 0}
-sct-dialog button{font:inherit;padding:4px 14px;border:1px solid var(--sct-button-border,ButtonText);border-radius:6px;background:var(--sct-button-bg,ButtonFace);color:var(--sct-button-fg,ButtonText);cursor:pointer}`,
+sct-dialog button{position:absolute;top:10px;right:12px;font:inherit;padding:4px 14px;border:1px solid var(--sct-button-border,ButtonText);border-radius:6px;background:var(--sct-button-bg,ButtonFace);color:var(--sct-button-fg,ButtonText);cursor:pointer}`)}`,
     apply(ctx) {
       if (!contexts.has(ctx.doc)) ctx.listen(ctx.doc, "keydown", onKey);
       contexts.set(ctx.doc, ctx);
