@@ -134,6 +134,8 @@
     targets: { needs: ["keyboard", "low-vision"], always: false, surfaces: ["shell"], name: "Bigger targets", hint: "Makes Sitecore's small icons easier to hit, without moving anything" },
     announcer: { needs: ["screen-reader"], always: false, surfaces: ["shell"], name: "Announcements", hint: "Says which item opened, its warnings and validation, and that it saved" },
     fields: { needs: ["screen-reader"], always: false, surfaces: ["shell"], name: "Field help and errors", hint: "Reads each field's help, and its validation message while Sitecore shows one" },
+    "where-am-i": { needs: ["low-vision", "reading"], always: false, surfaces: ["shell"], name: "Where am I", hint: "Shows the item's path, language and version under its name" },
+    "not-just-colour": { needs: ["colour-vision"], always: false, surfaces: ["shell"], name: "Errors in words", hint: "Says Error or Warning beside a field Sitecore marks only in red or yellow" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip
