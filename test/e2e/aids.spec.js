@@ -311,3 +311,31 @@ test("focus-ring: a visible ring, thicker for low vision", async ({ page }) => {
   await expect.poll(ring).toBe(before);
   expect(await page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe(undefined);
 });
+
+test("ribbon-toolbar: one Tab stop, arrows inside, back where you left it", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
+  const at = () => page.evaluate(() => { const a = document.activeElement; return a.id || a.className || a.textContent.trim(); });
+  await expect.poll(() => page.evaluate(() => document.getElementById("RibbonX_Strip_Home").getAttribute("role"))).toBe("toolbar");
+  expect(await page.evaluate(() => document.getElementById("RibbonX_Strip_Home").getAttribute("aria-labelledby"))).toBe("RibbonX_Nav_Home");
+  await page.focus("#RibbonX_Nav_Home");
+  await page.keyboard.press("Tab");
+  expect(await at()).toBe("scRibbonToolbarLargeButton");
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowRight");
+  expect(await at()).toBe("scRibbonPanelOpen");
+  await page.keyboard.press("End");
+  expect(await at()).toBe("scRibbonToolbarSmallButton");
+  await page.keyboard.press("ArrowRight"); // wraps
+  expect(await at()).toBe("scRibbonToolbarLargeButton");
+  await page.keyboard.press("ArrowLeft");
+  await page.keyboard.press("ArrowLeft");
+  expect(await at()).toBe("scRibbonPanelOpen");
+  await page.keyboard.press("Tab"); // out in one press
+  expect(await at()).toBe("TreeSearch");
+  await page.keyboard.press("Shift+Tab"); // back in, where it was
+  expect(await at()).toBe("scRibbonPanelOpen");
+  await page.keyboard.press("Shift+Tab");
+  expect(await at()).toBe("RibbonX_Nav_Home");
+});

@@ -126,6 +126,7 @@
     lang: { needs: ["screen-reader"], always: true, surfaces: ["shell", "speak", "launchpad", "admin", "login"], name: "Page language", hint: "Tells a screen reader which language to speak, from Sitecore's own" },
     "forced-colors": { needs: ["low-vision"], always: true, surfaces: null, name: "High Contrast", hint: "Keeps selections, active tabs and icons visible with Windows High Contrast on" },
     "focus-ring": { needs: ["keyboard", "low-vision"], always: false, surfaces: null, name: "Focus ring", hint: "Draws a clear outline round whatever has keyboard focus" },
+    "ribbon-toolbar": { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Ribbon toolbar", hint: "Makes the ribbon's buttons one Tab stop, with the arrow keys inside" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip
