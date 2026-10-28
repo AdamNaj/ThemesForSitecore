@@ -179,7 +179,7 @@ test("aria-repair: tree items, the ribbon's tablist and labelled images", async 
         && $(".scRibbon").getAttribute("role") === "region" && $(".scRibbon").getAttribute("aria-label") === "The content editor ribbon"
         && $(".scRibbonNavigatorButtonsGroupButtons").getAttribute("role") === "tablist"
         && $(".scRibbonNavigatorButtonsGroupButtons").getAttribute("aria-label") === "Ribbon tabs"
-        && !$("#Section_Data_Glyph").hasAttribute("alt");
+        && $("#Section_Data_Glyph").alt === "Data";
     }),
     rerender: EXPANDED,
   });
@@ -235,4 +235,41 @@ test("names: the admin pages' icons beside their text", async ({ page }) => {
     surface: "admin",
     check: () => page.evaluate((all) => eval(all)() && [...document.querySelectorAll(".tools img")].every((i) => i.alt === ""), `(${allNamed})`),
   });
+});
+
+const DESKTOP = `http://localhost:${PORT}/sitecore/shell/desktop-aids.html`;
+const landmark = (s) => { const el = document.querySelector(s); return el && [el.getAttribute("role"), el.getAttribute("aria-label")].join(":"); };
+
+test("landmarks: the tree, the editor, the Desktop and Launchpad", async ({ page }) => {
+  await aidCase(page, CE, {
+    check: () => page.evaluate((l) => (l = eval(l), l("#ContentTreePanel") === "navigation:Content tree" && l("#ContentEditor") === "main:Item editor"), `(${landmark})`),
+  });
+  await aidCase(page, DESKTOP, {
+    check: () => page.evaluate((l) => (l = eval(l), l("#Desktop") === "main:Desktop" && l("#Startbar") === "region:Taskbar"), `(${landmark})`),
+  });
+  await aidCase(page, LAUNCHPAD, {
+    surface: "launchpad",
+    check: () => page.evaluate((l) => (l = eval(l), l(".sc-applicationHeader") === "banner:" && l(".sc-launchpad") === "main:Launchpad"), `(${landmark})`),
+  });
+  await aidCase(page, ADMIN, {
+    surface: "admin",
+    check: () => page.evaluate((l) => (l = eval(l), l("mat-toolbar") === "banner:"), `(${landmark})`),
+  });
+});
+
+test("lang: Sitecore's UI language, never over the page's own", async ({ page }) => {
+  const lang = () => page.evaluate(() => document.documentElement.getAttribute("lang"));
+  await page.goto(`${DESKTOP}?theme=fjord`); // no cookie: the form's lang_da class
+  await ready(page);
+  await expect.poll(lang).toBe("da");
+  await page.evaluate(() => (document.cookie = "shell#lang=de; path=/"));
+  await page.goto(`${CE}?theme=fjord&sc_lang=fr`); // the cookie wins over the address and the form
+  await ready(page);
+  await expect.poll(lang).toBe("de");
+  await page.evaluate(() => SCT.engine.unload());
+  expect(await lang()).toBe(null);
+  await page.goto(`${ADMIN}?theme=fjord`); // the page says en itself
+  await ready(page, "admin");
+  await page.waitForTimeout(200);
+  expect(await lang()).toBe("en");
 });

@@ -122,6 +122,8 @@
     "frame-titles": { needs: ["screen-reader"], always: true, surfaces: null, name: "Frame names", hint: "Names each frame, so a screen reader says what it holds" },
     "aria-repair": { needs: ["screen-reader"], always: true, surfaces: ["shell"], name: "Role repair", hint: "Fixes the roles Sitecore gets wrong, so a screen reader reads the tree and the ribbon right" },
     names: { needs: ["screen-reader", "keyboard"], always: true, surfaces: ["shell", "speak", "launchpad", "admin", "login"], name: "Names", hint: "Gives images, icon buttons and clickable parts a name, and lets you press them from the keyboard" },
+    landmarks: { needs: ["screen-reader"], always: true, surfaces: ["shell", "speak", "launchpad", "admin"], name: "Landmarks", hint: "Marks the main parts of each page, so a screen reader can jump between them" },
+    lang: { needs: ["screen-reader"], always: true, surfaces: ["shell", "speak", "launchpad", "admin", "login"], name: "Page language", hint: "Tells a screen reader which language to speak, from Sitecore's own" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip
