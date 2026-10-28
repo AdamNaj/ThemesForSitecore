@@ -484,3 +484,31 @@ test("fields: described by their label, invalid while Sitecore marks them red", 
   await mark("scEditorFieldMarkerBarCell", "");
   await expect.poll(field).toEqual({ invalid: null, described: ["Title - Please enter title of the item here:"] });
 });
+
+test("where-am-i: the item's path, language and version on one line", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=low-vision`);
+  await ready(page);
+  const where = () => page.evaluate(() => document.querySelector(".scEditorHeaderTitlePanel sct-where")?.textContent);
+  await expect.poll(where).toBe("/sitecore/Content · English · version 1");
+  // Sitecore renders the header again for another item
+  await page.evaluate(() => (document.querySelector(".scEditorHeaderTitlePanel").innerHTML = '<a role="button" href="#" class="scEditorHeaderTitle">Home</a>'));
+  await expect.poll(where).toBe("/sitecore/Content · English · version 1");
+  // no active node (search results): the item's name
+  await page.evaluate(() => document.querySelector(".scContentTreeNodeActive").classList.replace("scContentTreeNodeActive", "scContentTreeNodeNormal"));
+  await page.evaluate(() => document.querySelector(".scEditorHeaderTitlePanel").append(document.createElement("i")));
+  await expect.poll(where).toBe("Home · English · version 1");
+  expect(await page.evaluate(() => getComputedStyle(document.querySelector("sct-where")).whiteSpace)).toBe("nowrap");
+});
+
+test("not-just-colour: a red or yellow field says Error or Warning in words", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=colour-vision`);
+  await ready(page);
+  const before = () => page.evaluate(() => getComputedStyle(document.querySelector(".scEditorFieldLabel"), "::before").content);
+  const mark = (cls) => page.evaluate((c) => (document.getElementById("FieldMarkerFIELD1").className = c), cls);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("style[data-sct-aids]"))).toBe(true);
+  expect(await before()).toBe("none");
+  await mark("scEditorFieldMarkerBarCellRed");
+  expect(await before()).toBe('"Error: "');
+  await mark("scEditorFieldMarkerBarCellYellow");
+  expect(await before()).toBe('"Warning: "');
+});
