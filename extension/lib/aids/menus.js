@@ -8,7 +8,8 @@
 
   const open = new WeakMap(); // document -> { popup, opener }
   const contexts = new WeakMap(); // document -> the aid's context there, for the key handler
-  const heard = new WeakSet(); // menus with the key handler
+  let heard = new WeakSet(); // menus with the key handler
+  let entered = new WeakSet(); // popups focus was moved into once: a submenu's parent is not entered again
   const visible = (el) => el.getClientRects().length > 0;
 
   // on the menu's table, after Sitecore's handler there (which stops the key going further): only when focus did not move
@@ -41,9 +42,10 @@
         if (lost && was.opener.isConnected) was.opener.focus();
       }
       for (const popup of doc.querySelectorAll(".scPopup")) {
-        if (open.get(doc)?.popup === popup || popup.contains(doc.activeElement)) continue;
+        if (entered.has(popup) || popup.contains(doc.activeElement)) continue;
         const item = [...popup.querySelectorAll('[role="menu"] [role="menuitem"]')].find(visible);
         if (!item) continue;
+        entered.add(popup);
         open.set(doc, { popup, opener: doc.activeElement && doc.activeElement !== doc.body ? doc.activeElement : doc.body });
         if (!item.hasAttribute("tabindex")) ctx.setAttr(item, "tabindex", "0");
         item.focus();
@@ -51,6 +53,8 @@
     },
     revert(ctx) {
       contexts.delete(ctx.doc);
+      heard = new WeakSet();
+      entered = new WeakSet();
     },
   });
 })(globalThis);

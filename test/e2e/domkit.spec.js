@@ -96,3 +96,24 @@ test("setAttr with null removes the attribute, and revert puts it back", async (
   });
   expect(r).toEqual({ gone: true, back: true });
 });
+
+test("the undo log lets go of what the page threw away, and still reverts the rest", async ({ page }) => {
+  await page.goto(fixture);
+  const r = await page.evaluate(() => {
+    const kit = SCT.createDomKit(document);
+    const glyph = document.getElementById("glyph");
+    kit.setAttr(glyph, "data-kept", "1"); // stays in the page
+    // Sitecore rendering the editor again and again: each panel's elements changed, then thrown away
+    for (let i = 0; i < 2000; i++) {
+      const el = document.createElement("div");
+      document.body.append(el);
+      kit.setAttr(el, "role", "group");
+      el.remove();
+    }
+    const size = kit.size();
+    kit.revertAll();
+    return { size, kept: glyph.hasAttribute("data-kept") };
+  });
+  expect(r.size).toBeLessThan(600);
+  expect(r.kept).toBe(false);
+});

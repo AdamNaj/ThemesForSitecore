@@ -10,6 +10,7 @@
   const stamped = new WeakMap(); // document -> that element
   const open = new WeakMap(); // dialog host document -> how many dialogs it had
   const listening = new WeakSet();
+  const unstamping = new WeakSet(); // frame elements that lose their stamp on their next load
 
   function onFocus(e) {
     const el = e.target;
@@ -23,7 +24,12 @@
     // parent must not touch a frame's document before its load
     try {
       for (let win = el.ownerDocument.defaultView; win.frameElement; win = win.parent) {
-        win.frameElement.setAttribute(STAMP, now);
+        const frame = win.frameElement;
+        frame.setAttribute(STAMP, now);
+        if (!unstamping.has(frame)) {
+          unstamping.add(frame);
+          frame.addEventListener("load", () => frame.removeAttribute(STAMP)); // its next page is a new document
+        }
       }
     } catch {
       // a cross-origin parent

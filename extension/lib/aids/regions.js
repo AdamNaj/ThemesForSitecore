@@ -55,9 +55,9 @@
   }
 
   SCT.registerAid("regions", {
-    css: `sct-skip{position:fixed;left:8px;top:8px;z-index:2147483647;display:flex;flex-direction:column;gap:4px}
+    css: SCT.important(`sct-skip{position:fixed;left:8px;top:8px;z-index:2147483647;display:flex;flex-direction:column;gap:4px}
 sct-skip button{font:600 13px/1.4 system-ui,sans-serif;padding:6px 12px;border:2px solid var(--sct-accent-fg,HighlightText);border-radius:4px;background:var(--sct-accent,Highlight);color:var(--sct-accent-fg,HighlightText);cursor:pointer}
-sct-skip button:not(:focus){position:absolute;width:1px;height:1px;padding:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}`,
+sct-skip button:not(:focus){position:absolute;width:1px;height:1px;padding:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}`),
     apply(ctx) {
       const { doc } = ctx;
       contexts.set(doc, ctx);

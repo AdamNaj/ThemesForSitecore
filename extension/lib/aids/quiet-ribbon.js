@@ -74,11 +74,11 @@
   }
 
   SCT.registerAid("quiet-ribbon", {
-    css: `.scRibbonToolbarStrip .chunk{position:relative}
+    css: SCT.important(`.scRibbonToolbarStrip .chunk{position:relative}
 [data-sct-quiet]{display:none!important}
 [data-sct-quiet-hide]{all:unset;position:absolute;top:0;right:0;width:16px;height:16px;font:13px/16px system-ui,sans-serif;text-align:center;border-radius:3px;cursor:pointer;opacity:0}
 .chunk:hover>[data-sct-quiet-hide],[data-sct-quiet-hide]:focus-visible{opacity:.85}
-[data-sct-quiet-show]{all:unset;align-self:center;margin:0 8px;padding:2px 8px;font:12px/1.4 system-ui,sans-serif;border:1px solid currentColor;border-radius:4px;cursor:pointer;white-space:nowrap}`,
+[data-sct-quiet-show]{all:unset;align-self:center;margin:0 8px;padding:2px 8px;font:12px/1.4 system-ui,sans-serif;border:1px solid currentColor;border-radius:4px;cursor:pointer;white-space:nowrap}`),
     apply(ctx) {
       if (!contexts.has(ctx.doc)) ctx.listen(ctx.doc, "click", onClick);
       contexts.set(ctx.doc, ctx);

@@ -51,8 +51,8 @@
         else if (!owner || clean(owner.textContent) || named(owner)) setAttr(img, "alt", ""); // decoration, or beside its text
         else if (owner.title.trim()) setAttr(img, "alt", clean(owner.title));
       }
-      // an alt that repeats the text beside it is said twice
-      for (const img of doc.querySelectorAll('img[alt]:not([alt=""])')) {
+      // an alt that repeats the text beside it is said twice; a button or a tab stop keeps its alt (aria-repair's)
+      for (const img of doc.querySelectorAll('img[alt]:not([alt=""]):not([role]):not([tabindex])')) {
         const owner = img.closest("a, button, [role=button]");
         if (owner && clean(owner.textContent) === clean(img.alt)) setAttr(img, "alt", "");
       }

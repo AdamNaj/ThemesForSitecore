@@ -4,15 +4,33 @@
   const OWNED = "data-sct-owned";
 
   function createDomKit(doc) {
-    // ponytail: the undo log only grows; nodes Sheer UI throws away leave stale no-op entries.
-    // Prune disconnected entries here if a long session ever shows it in a heap profile.
+    // Each change and the element it touched. Sheer UI throws markup away all day (each item opened renders the editor
+    // again), so once the log doubles, entries for elements no longer in the page go, before a new one is added.
     const undo = [];
     const attrsSeen = new Map();
     const moved = new Set();
+    let pruneAt = 256;
+
+    function record(el, fn) {
+      if (undo.length >= pruneAt) {
+        let kept = 0;
+        for (const entry of undo) {
+          // a window has no isConnected; our own elements are few and may be waiting to be added: both kept
+          if (entry.el.isConnected !== false || (entry.el.hasAttribute && entry.el.hasAttribute(OWNED))) undo[kept++] = entry;
+          else {
+            attrsSeen.delete(entry.el);
+            moved.delete(entry.el);
+          }
+        }
+        undo.length = kept;
+        pruneAt = Math.max(256, kept * 2);
+      }
+      undo.push({ el, fn });
+    }
 
     function own(el) {
       el.setAttribute(OWNED, "");
-      undo.push(() => el.remove());
+      record(el, () => el.remove());
       return el;
     }
 
@@ -20,7 +38,7 @@
       if (!/^sct-/.test(cls)) throw new Error(`Theme classes must start with "sct-": ${cls}`);
       if (el.classList.contains(cls)) return;
       el.classList.add(cls);
-      undo.push(() => el.classList.remove(cls));
+      record(el, () => el.classList.remove(cls));
     }
 
     function setAttr(el, name, value) {
@@ -30,7 +48,7 @@
         seen.add(name);
         const had = el.hasAttribute(name);
         const old = el.getAttribute(name);
-        undo.push(() => (had ? el.setAttribute(name, old) : el.removeAttribute(name)));
+        record(el, () => (had ? el.setAttribute(name, old) : el.removeAttribute(name)));
       }
       if (value === null) el.removeAttribute(name); // null takes the attribute out
       else el.setAttribute(name, value);
@@ -41,7 +59,7 @@
         moved.add(node);
         const home = node.parentNode;
         const next = node.nextSibling;
-        undo.push(() => {
+        record(node, () => {
           if (!home || !home.isConnected) return;
           home.insertBefore(node, next && next.parentNode === home ? next : null);
         });
@@ -51,13 +69,13 @@
 
     function listen(target, type, fn, options) {
       target.addEventListener(type, fn, options);
-      undo.push(() => target.removeEventListener(type, fn, options));
+      record(target, () => target.removeEventListener(type, fn, options));
     }
 
     function revertAll() {
       while (undo.length) {
         try {
-          undo.pop()();
+          undo.pop().fn();
         } catch {
           // a node Sitecore already replaced; nothing left to undo
         }
@@ -73,7 +91,8 @@
       return false;
     }
 
-    return { own, addClass, setAttr, move, listen, revertAll, isOwned };
+    // size: the changes it holds, for the tests
+    return { own, addClass, setAttr, move, listen, revertAll, isOwned, size: () => undo.length };
   }
 
   SCT.createDomKit = createDomKit;
@@ -120,9 +139,9 @@
     dialog.tabIndex = -1;
     const outside = (e) => !dialog.contains(e.target) && close();
     function close() {
-      if (!dialog.isConnected) return;
-      dialog.remove();
       doc.removeEventListener("mousedown", outside, true);
+      if (!dialog.isConnected) return; // a revert took it out
+      dialog.remove();
       if (back && back.isConnected && back !== doc.body) back.focus();
     }
     dialog.addEventListener("keydown", (e) => {

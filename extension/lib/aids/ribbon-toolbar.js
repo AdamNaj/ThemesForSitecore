@@ -12,6 +12,7 @@
   const controls = (strip) => [...strip.querySelectorAll(CONTROLS)].filter((el) => el.getAttribute("tabindex") !== "-1" && visible(el));
   const last = new WeakMap(); // strip -> the control last focused in it
   const listening = new WeakSet();
+  let pointing = false; // a pointer press is under way: focus lands where it clicked
 
   function onKey(e) {
     const strip = e.target.closest && e.target.closest(STRIP);
@@ -37,7 +38,7 @@
     if (!strip) return;
     const came = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(STRIP) === strip;
     const back = last.get(strip);
-    if (!came && back && back !== e.target && back.isConnected && controls(strip).includes(back)) back.focus();
+    if (!came && !pointing && back && back !== e.target && back.isConnected && controls(strip).includes(back)) back.focus();
     else last.set(strip, e.target);
   }
 
@@ -54,6 +55,8 @@
         listening.add(doc);
         ctx.listen(doc, "keydown", onKey);
         ctx.listen(doc, "focusin", onFocus);
+        ctx.listen(doc, "pointerdown", () => (pointing = true), true);
+        ctx.listen(doc, "pointerup", () => setTimeout(() => (pointing = false)), true);
       }
     },
     revert(ctx) {

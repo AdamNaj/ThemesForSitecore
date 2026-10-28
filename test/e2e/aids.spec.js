@@ -640,3 +640,58 @@ test("shortcuts-help: Ctrl+/ lists Sitecore's shortcuts and ours", async ({ page
   await expect(help).toHaveCount(0);
   await expect(page.locator("#FIELD1")).toBeFocused();
 });
+
+test("shortcuts-help: Ctrl+Minus on a layout where it sits at the US slash key still zooms", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-skip"))).toBe(true);
+  // a German keyboard: the key in the US slash position types "-"
+  const prevented = await page.evaluate(() => {
+    const e = new KeyboardEvent("keydown", { key: "-", code: "Slash", ctrlKey: true, bubbles: true, cancelable: true });
+    document.body.dispatchEvent(e);
+    return e.defaultPrevented;
+  });
+  expect(prevented).toBe(false);
+  await expect(page.getByRole("dialog", { name: "Keyboard shortcuts" })).toHaveCount(0);
+});
+
+test("menus: focus inside an open submenu stays there", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await page.focus("#OpenMenu");
+  await page.keyboard.press("Enter");
+  await expect.poll(() => page.evaluate(() => document.activeElement.id)).toBe("MenuInsert");
+  // Sitecore opens a submenu as a popup of its own beside the first, focus still on its parent item; the aid moves in
+  await page.evaluate(() => {
+    const sub = document.createElement("div");
+    sub.className = "scPopup";
+    sub.innerHTML = '<table class="scMenu" role="menu"><tbody><tr role="menuitem" id="SubItem"><td>Sample Item</td></tr></tbody></table>';
+    document.forms[0].append(sub);
+  });
+  await expect.poll(() => page.evaluate(() => document.activeElement.id)).toBe("SubItem");
+  // any later change to the page: focus does not move, not even to the parent menu and back (a screen reader says each)
+  await page.evaluate(() => { window.moves = 0; document.addEventListener("focusin", () => window.moves++); document.body.append(document.createElement("i")); });
+  await page.waitForTimeout(150);
+  expect(await page.evaluate(() => [document.activeElement.id, window.moves])).toEqual(["SubItem", 0]);
+});
+
+test("names and aria-repair never take turns on one image's alt", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  // a tab stop marked decorative inside a link that says the same: aria-repair names it, names must leave it
+  await expect.poll(() => page.evaluate(() => document.getElementById("LockIcon").alt)).toBe("Lock");
+  await page.evaluate(() => document.body.append(document.createElement("i")));
+  await page.waitForTimeout(150);
+  expect(await page.evaluate(() => document.getElementById("LockIcon").alt)).toBe("Lock");
+});
+
+test("ribbon-toolbar: a click in the strip leaves focus where it clicked", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => document.getElementById("RibbonX_Strip_Home").getAttribute("role"))).toBe("toolbar");
+  await page.focus("#RibbonX_Nav_Home");
+  await page.keyboard.press("Tab"); // Save
+  await page.keyboard.press("Tab"); // out
+  await page.click(".scRibbonToolbarSmallButton");
+  expect(await page.evaluate(() => document.activeElement.textContent.trim())).toBe("Copy to");
+});

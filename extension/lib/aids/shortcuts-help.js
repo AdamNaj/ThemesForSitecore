@@ -51,7 +51,7 @@
   }
 
   function onKey(e) {
-    if (e.defaultPrevented || !e.ctrlKey || e.altKey || e.metaKey || (e.key !== "/" && e.code !== "Slash")) return;
+    if (e.defaultPrevented || !e.ctrlKey || e.altKey || e.metaKey || e.key !== "/") return; // the typed character: elsewhere the US slash key types "-", and Ctrl+- zooms out
     const ctx = contexts.get(e.target.ownerDocument || e.target);
     if (!ctx) return;
     e.preventDefault();
