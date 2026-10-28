@@ -198,7 +198,7 @@ dialogs, Launchpad, Experience Editor ribbon, `/sitecore/admin`, login. Sitecore
 0. **Foundation** (done 2026-10-27). `registerAid`, the aids runner in the engine, `listen` in the DOM kit, the
    new settings shape (old saved values still read), the popup's needs chips and fine-tune list, the Sitecore
    module keeping needs and aids, the axe harness and its baseline (section 5), and `frame-titles` as the pilot aid.
-1. **Invisible defaults** (screen reader basics, on for every themed site): `aria-repair`, `names`, `landmarks`,
+1. **Invisible defaults** (done 2026-10-28; screen reader basics, on for every themed site): `aria-repair`, `names`, `landmarks`,
    `lang`, `forced-colors`. Measured by axe's counts dropping.
 2. **Keyboard:** `focus-ring`, `ribbon-toolbar`, `regions` (skip links and F6), `tree-keys`, `menus`, `dialogs`,
    `targets`.
