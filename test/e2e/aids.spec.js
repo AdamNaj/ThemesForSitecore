@@ -489,9 +489,12 @@ test("where-am-i: the item's path, language and version on one line", async ({ p
   await page.goto(`${CE}?theme=fjord&needs=low-vision`);
   await ready(page);
   const where = () => page.evaluate(() => document.querySelector(".scEditorHeaderTitlePanel sct-where")?.textContent);
-  await expect.poll(where).toBe("/sitecore/Content · English · version 1");
+  await expect.poll(where).toBe("/sitecore/content/Home · English · version 1"); // Quick Info's path: names, not display names
   // Sitecore renders the header again for another item
   await page.evaluate(() => (document.querySelector(".scEditorHeaderTitlePanel").innerHTML = '<a role="button" href="#" class="scEditorHeaderTitle">Home</a>'));
+  await expect.poll(where).toBe("/sitecore/content/Home · English · version 1");
+  // without Quick Info, the tree's path
+  await page.evaluate(() => document.querySelector(".scEditorQuickInfo").remove());
   await expect.poll(where).toBe("/sitecore/Content · English · version 1");
   // no active node (search results): the item's name
   await page.evaluate(() => document.querySelector(".scContentTreeNodeActive").classList.replace("scContentTreeNodeActive", "scContentTreeNodeNormal"));

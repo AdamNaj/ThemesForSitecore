@@ -1,12 +1,15 @@
-// Where am I: the item being edited, as one line under its name in the Content Editor: its path in the content tree,
-// its language and its version ("/sitecore/content/Home · English · version 1"). Without an active tree node (search
-// results), its name.
+// Where am I: the item being edited, as one line under its name in the Content Editor: its path (Quick Info's, else
+// the content tree's), its language and its version ("/sitecore/content/Home · English · version 1"). Without either
+// path (search results), its name.
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
 
   const text = (el) => (el ? el.textContent.replace(/\s+/g, " ").trim() : "");
 
+  // Quick Info's item path (names, as Sitecore stores them), else the tree's (display names)
   function path(doc) {
+    const info = [...doc.querySelectorAll(".scEditorQuickInfo input")].find((i) => i.value.startsWith("/sitecore/"));
+    if (info) return info.value;
     const active = doc.querySelector(".scContentTree .scContentTreeNodeActive");
     if (!active) return "";
     const names = [];
