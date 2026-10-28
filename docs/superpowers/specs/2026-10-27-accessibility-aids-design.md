@@ -203,7 +203,7 @@ dialogs, Launchpad, Experience Editor ribbon, `/sitecore/admin`, login. Sitecore
 2. **Keyboard** (done 2026-10-28): `focus-ring`, `ribbon-toolbar`, `regions` (skip links and F6), `tree-keys`, `menus`, `dialogs`,
    `targets`.
 3. **Telling people what happened** (done 2026-10-28): `announcer`, `fields`, `where-am-i`, `not-just-colour`.
-4. **Motion and reading:** `reduced-motion`, `focus-mode`, `reading-guide`, `quiet-ribbon`.
+4. **Motion and reading** (done 2026-10-28): `reduced-motion`, `focus-mode`, `reading-guide`, `quiet-ribbon`.
 5. **New tools:** `command-palette`, `shortcuts-help`, `session-warning`.
 
 Phases 1 and 2 give most of the value: after them a screen reader user hears names, and a keyboard user reaches
