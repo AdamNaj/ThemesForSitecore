@@ -79,3 +79,52 @@ test("an aid that throws is switched off alone", async ({ page }) => {
   expect(await page.evaluate(() => document.body.hasAttribute("data-boom"))).toBe(false);
   expect(warnings.filter((w) => w.includes("boom"))).toHaveLength(1);
 });
+
+// adds an iframe with this src and returns its title once the aids have had a pass
+const addFrame = async (page, src) => {
+  const id = await page.evaluate((s) => {
+    const f = document.createElement("iframe");
+    f.id = `f${Math.random().toString(36).slice(2)}`;
+    f.setAttribute("src", s);
+    document.body.append(f);
+    return f.id;
+  }, src);
+  await page.waitForTimeout(150);
+  return page.evaluate((i) => document.getElementById(i).getAttribute("title"), id);
+};
+
+test("a frame whose src changes is renamed", async ({ page }) => {
+  await page.goto(`${URL}?theme=fjord`);
+  await ready(page);
+  await expect.poll(() => titles(page)).toEqual(NAMED);
+  await page.evaluate(() => document.querySelector("iframe").setAttribute("src", "/sitecore/shell/Controls/Rich%20Text%20Editor/Preview.aspx"));
+  await expect.poll(async () => (await titles(page))[0]).toBe("Rich text preview");
+});
+
+test("frames outside Sitecore's own pages are left alone", async ({ page }) => {
+  await page.goto(`${URL}?theme=fjord`);
+  await ready(page);
+  expect(await addFrame(page, "https://www.youtube.com/embed/abc123")).toBe(null);
+  expect(await addFrame(page, "/en/products/page")).toBe(null);
+  expect(await addFrame(page, "javascript:0")).toBe(null);
+});
+
+test("a Sheer UI dialog is named after its control", async ({ page }) => {
+  await page.goto(`${URL}?theme=fjord`);
+  await ready(page);
+  expect(await addFrame(page, "/sitecore/shell/default.aspx?xmlcontrol=RichText.InsertLink&la=en")).toBe("Sitecore: Insert Link");
+});
+
+test("frames come back named after Sitecore replaces the markup", async ({ page }) => {
+  await page.goto(`${URL}?theme=fjord`);
+  await ready(page);
+  await page.evaluate(() => {
+    const box = document.createElement("div");
+    box.id = "box";
+    document.body.append(box);
+    box.innerHTML = '<iframe src="/sitecore/shell/Applications/Content%20Editor.aspx"></iframe>';
+  });
+  await expect.poll(() => page.evaluate(() => document.querySelector("#box iframe").title)).toBe("Content Editor");
+  await page.evaluate(() => (document.getElementById("box").innerHTML = '<iframe src="/sitecore/shell/Controls/JqueryModalDialogs.html"></iframe>'));
+  await expect.poll(() => page.evaluate(() => document.querySelector("#box iframe").title)).toBe("Dialog");
+});

@@ -14,20 +14,29 @@
     [/\.securitydetails\.aspx$/i, "Security details"],
   ];
 
-  // null for a frame that shows nothing yet
+  // Sitecore's own pages only: the same origin, under /sitecore/ or /sitecore modules/. A website's frames (the
+  // Experience Editor shows the site), other origins and javascript: or about: frames keep what they have.
+  const OWN = /^\/sitecore( modules)?\//i;
+  const words = (s) => s.replace(/([a-z])([A-Z])/g, "$1 $2");
+
+  // null for a frame this aid leaves alone
   function nameFor(src, base) {
-    if (!src || /^about:/i.test(src)) return null;
-    let path;
+    if (!src) return null;
+    let url, path;
     try {
-      path = decodeURIComponent(new URL(src, base).pathname);
+      url = new URL(src, base);
+      path = decodeURIComponent(url.pathname);
     } catch {
       return null;
     }
+    if (url.origin !== new URL(base).origin || !OWN.test(path)) return null;
     const known = NAMES.find(([re]) => re.test(path));
     if (known) return known[1];
-    // the last segment, without its extension; a dotted xaml name keeps its last part
-    const last = path.split("/").pop().replace(/\.[^.]*$/, "").split(".").pop();
-    return last ? `Sitecore: ${last}` : null;
+    // a Sheer UI dialog (default.aspx?xmlcontrol=RichText.InsertLink) by its control, anything else by the last
+    // segment without its extension; a dotted name keeps its last part
+    const control = url.searchParams.get("xmlcontrol");
+    const last = (control || path.split("/").pop().replace(/\.[^.]*$/, "")).split(".").pop();
+    return last ? `Sitecore: ${words(last)}` : null;
   }
 
   const ours = new WeakMap(); // frame -> the title this aid set, so a src change renames only what is ours

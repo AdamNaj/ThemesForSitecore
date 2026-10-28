@@ -728,12 +728,15 @@
       for (const id of added) aids.set(id, SCT.createDomKit(doc));
       if (added.length) runAids(added);
       if (aids.size && !aidObserver) {
+        // new markup, and a frame sent to another page (its src); the aids' own title writes are not watched
         aidObserver = new MutationObserver((records) => {
           if (!alive()) return stop();
-          if (records.every((r) => ownedKit.isOwned(r.target) || [...r.addedNodes, ...r.removedNodes].every((n) => ownedKit.isOwned(n) || n.nodeType !== 1))) return;
+          const ignored = (r) => ownedKit.isOwned(r.target)
+            || (r.type === "childList" && [...r.addedNodes, ...r.removedNodes].every((n) => ownedKit.isOwned(n) || n.nodeType !== 1));
+          if (records.every(ignored)) return;
           if (!aidFrame) aidFrame = requestAnimationFrame(() => ((aidFrame = 0), runAids()));
         });
-        aidObserver.observe(html, { childList: true, subtree: true });
+        aidObserver.observe(html, { childList: true, subtree: true, attributes: true, attributeFilter: ["src"] });
       } else if (!aids.size && aidObserver) {
         aidObserver.disconnect();
         aidObserver = null;
