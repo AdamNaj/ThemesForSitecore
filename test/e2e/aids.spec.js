@@ -413,3 +413,19 @@ test("regions: skip links first, and F6 moves between the page's parts", async (
   await page.keyboard.press("Shift+F6");
   expect(await page.evaluate(() => document.activeElement.id)).toBe("RibbonX_Nav_Home"); // the ribbon, at its selected tab
 });
+
+test("targets: small icons hit at 24px and nothing moves", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  const boxes = () => page.evaluate(() => ["#Tree_Glyph_1", "#Tree_Node_1", ".scComboboxDropDown", "#CopyId", "#Section_Data_Glyph"].map((q) => {
+    const r = document.querySelector(q).getBoundingClientRect();
+    return [Math.round(r.width), Math.round(r.height), Math.round(r.left), Math.round(r.top)];
+  }));
+  await page.evaluate(() => document.querySelectorAll("img").forEach((i) => { i.style.width = "16px"; i.style.height = "16px"; }));
+  const before = await boxes();
+  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
+  await expect.poll(async () => (await boxes())[0][0]).toBe(24);
+  const after = await boxes();
+  for (const i of [0, 2, 4]) expect(after[i].slice(0, 2)).toEqual([24, 24]); // the icons hit at 24px
+  for (const i of [1, 3]) expect(after[i]).toEqual(before[i]); // their neighbours did not move
+});
