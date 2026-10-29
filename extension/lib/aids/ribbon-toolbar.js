@@ -1,6 +1,7 @@
 // Ribbon toolbar: the Content Editor ribbon's buttons are one Tab stop instead of twenty, with the arrow keys inside
 // (the toolbar pattern). Sitecore already moves between the ribbon's tabs with arrows; its buttons were each a Tab
-// stop. No tabindex is written: Tab from inside focuses the strip's last button and lets the browser's own Tab go on
+// stop. Sitecore makes each strip a tabpanel, so the toolbar is an element of ours inside it, round the strip's groups.
+// No tabindex is written: Tab from inside focuses the strip's last button and lets the browser's own Tab go on
 // from there (so it leaves the strip in one press, into the next frame too), and focus coming back from outside
 // returns to the button last used.
 (function (root) {
@@ -44,12 +45,20 @@
 
   SCT.registerAid("ribbon-toolbar", {
     apply(ctx) {
-      const { doc, setAttr } = ctx;
-      for (const strip of doc.querySelectorAll(`${STRIP}:not([role])`)) {
-        if (!strip.querySelector(CONTROLS)) continue;
-        setAttr(strip, "role", "toolbar");
-        const tab = strip.id && doc.querySelector(`[role="tab"][aria-controls="${strip.id}"]`);
-        if (tab && tab.id) setAttr(strip, "aria-labelledby", tab.id);
+      const { doc } = ctx;
+      for (const strip of doc.querySelectorAll(STRIP)) {
+        const groups = strip.querySelectorAll(":scope > .chunk");
+        if (!groups.length || !strip.querySelector(CONTROLS)) continue;
+        let bar = strip.querySelector(":scope > sct-toolbar");
+        if (!bar) {
+          bar = ctx.own(doc.createElement("sct-toolbar"));
+          bar.setAttribute("role", "toolbar");
+          bar.style.display = "contents"; // the groups lay out in the strip as before
+          const tab = strip.id && doc.querySelector(`[role="tab"][aria-controls="${strip.id}"]`);
+          if (tab && tab.id) bar.setAttribute("aria-labelledby", tab.id);
+          strip.insertBefore(bar, groups[0]);
+        }
+        for (const group of groups) ctx.move(group, bar);
       }
       if (!listening.has(doc)) {
         listening.add(doc);

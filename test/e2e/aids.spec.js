@@ -312,13 +312,28 @@ test("focus-ring: a visible ring, thicker for low vision", async ({ page }) => {
   expect(await page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe(undefined);
 });
 
+// Sitecore 10.4 and 10.5 make each strip a tabpanel: the toolbar goes inside it, round the strip's groups
+const toolbar = () => {
+  const strip = document.getElementById("RibbonX_Strip_Home");
+  const bar = strip.querySelector(':scope > [role="toolbar"]');
+  return bar && [strip.getAttribute("role"), bar.getAttribute("aria-labelledby"), bar.querySelectorAll(":scope > .chunk").length].join();
+};
+
+test("ribbon-toolbar: a toolbar inside Sitecore's tabpanel, made again after a re-render, undone exactly", async ({ page }) => {
+  const check = () => page.evaluate(toolbar).then((t) => t === "tabpanel,RibbonX_Nav_Home,2");
+  await aidCase(page, `${CE}?needs=keyboard`, { check });
+  await aidCase(page, `${CE}?needs=keyboard`, {
+    check,
+    rerender: () => { const s = document.getElementById("RibbonX_Strip_Home"); s.innerHTML = new DOMParser().parseFromString(window.pristine, "text/html").getElementById("RibbonX_Strip_Home").innerHTML; },
+  });
+});
+
 test("ribbon-toolbar: one Tab stop, arrows inside, back where you left it", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord`);
   await ready(page);
   await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
   const at = () => page.evaluate(() => { const a = document.activeElement; return a.id || a.className || a.textContent.trim(); });
-  await expect.poll(() => page.evaluate(() => document.getElementById("RibbonX_Strip_Home").getAttribute("role"))).toBe("toolbar");
-  expect(await page.evaluate(() => document.getElementById("RibbonX_Strip_Home").getAttribute("aria-labelledby"))).toBe("RibbonX_Nav_Home");
+  await expect.poll(() => page.evaluate(toolbar)).toBe("tabpanel,RibbonX_Nav_Home,2");
   await page.focus("#RibbonX_Nav_Home");
   await page.keyboard.press("Tab");
   expect(await at()).toBe("scRibbonToolbarLargeButton");
@@ -688,7 +703,7 @@ test("names and aria-repair never take turns on one image's alt", async ({ page 
 test("ribbon-toolbar: a click in the strip leaves focus where it clicked", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord&needs=keyboard`);
   await ready(page);
-  await expect.poll(() => page.evaluate(() => document.getElementById("RibbonX_Strip_Home").getAttribute("role"))).toBe("toolbar");
+  await expect.poll(() => page.evaluate(toolbar)).toBe("tabpanel,RibbonX_Nav_Home,2");
   await page.focus("#RibbonX_Nav_Home");
   await page.keyboard.press("Tab"); // Save
   await page.keyboard.press("Tab"); // out
