@@ -527,7 +527,7 @@ html[data-sct-theme="whistler"][data-sct-surface="shell"] .ui-widget-overlay { b
 /* Inside a dialog page: the header is the caption, the window's icon, then the title. */
 html[data-sct-theme="whistler"][data-sct-surface="shell"] :is(.scFormDialogHeader, .scDialogHeader) { background: #ece9d8; padding: 0; border: 0; min-height: 0 !important; }
 /* the dialog page's header, and the ListView's, which SPE puts straight in the jQuery dialog */
-html[data-sct-theme="whistler"][data-sct-surface="shell"] :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
+html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp) :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
   display: flex;
   align-items: center;
   gap: 5px;

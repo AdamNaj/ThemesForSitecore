@@ -62,6 +62,75 @@ html[data-sct-tokens][data-sct-surface="speak"] .sc-applicationHeader-row1::afte
   background-image: none;
 }
 
+/* SPEAK's monochrome glyphs, drawn for its light panels: the tree's expanders (sc-dyna-tree.gif), the sprite
+   glyphs on buttons (the pickers' list and tree view toggles, sc-sprite.png) and Speak/Common's dark_gray images
+   (the search magnifier, the menu chevrons). Dark themes turn them with their glyph filter, as the shell's are; at
+   zero specificity beyond the surface, so a theme that draws its own wins. */
+html[data-sct-tokens][data-sct-surface="speak"] :where(.dynatree-expander, .btn .sc-icon, img[src*="/dark_gray/" i]) {
+  filter: var(--sct-glyph-filter, none);
+}
+
+/* The navigation menu's headers (the pickers' "Media") are a dark grey image under white text. The map gave the
+   text the chrome's ink and the header the panel's colour without taking the image off, so light themes showed
+   white on white and dark ones Sitecore's grey bitmap: the header is the chrome, both colours from its token pair
+   (in the dialogs; Forms' navigation pane has its own look).
+   Its chevron (10.4's light_gray PNG, 10.5's dark_gray SVG, always pointing down and turned when open) is cut out
+   of that ink. */
+html[data-sct-tokens][data-sct-surface="speak"] .sc-dialogContent-navigation .sc-menu .menuroot .header:not(.highlighted, .selected) {
+  background: var(--sct-chrome-bg);
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc-dialogContent-navigation .sc-menu .menuroot .header:not(.highlighted, .selected),
+html[data-sct-tokens][data-sct-surface="speak"] .sc-dialogContent-navigation .sc-menu .menuroot .header:not(.highlighted, .selected).menuItem a {
+  color: var(--sct-chrome-fg);
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-menu .menuroot .header img.menuchevron {
+  object-position: -999px -999px;
+  background: currentColor;
+  filter: none;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/dark_gray/navigate_down.png") center / 16px 16px no-repeat;
+}
+
+/* Message bars (the media picker's "No items found."): the map gave the info bar the accent under the link colour,
+   an unchecked pair (white on Beacon's yellow, 1.4:1). They take the shell's status tints under the panel's ink,
+   which tokens.test.js checks. The icon square keeps Sitecore's status colour: its sprite draws white circles for it. */
+html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-messageBar .alert,
+html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-messageBar .alert :is(a, .sc-messageBar-messageText) {
+  color: var(--sct-panel-fg);
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-messageBar .alert.alert-warning {
+  background-color: var(--sct-warning-bg, color-mix(in srgb, #fce99c 28%, var(--sct-panel-bg)));
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-messageBar .alert.alert-error {
+  background-color: var(--sct-error-bg, color-mix(in srgb, #f8c9c4 28%, var(--sct-panel-bg)));
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-messageBar .alert.alert-info {
+  background-color: var(--sct-information-bg, color-mix(in srgb, #cfe3f7 28%, var(--sct-panel-bg)));
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-messageBar .alert .alert-ico-background {
+  background-color: hsl(48, 95%, 45%);
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-messageBar .alert-error .alert-ico-background {
+  background-color: hsl(3, 76%, 36%);
+}
+html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-messageBar .alert-info .alert-ico-background {
+  background-color: hsl(197, 67%, 45%);
+}
+
+/* The dialogs' content title band ("Sitecore Items", Sitecore's red band): the map gave it the panel's colour from
+   one stylesheet and the chrome's text from another, white on white on the classic themes; it is the panel, both
+   colours from that pair. */
+html[data-sct-tokens][data-sct-surface="speak"] .sc-dialogContent-title {
+  color: var(--sct-panel-fg);
+}
+
+/* The tree's selected row (the link and item pickers): the map gave it the accent or the selection colour under
+   the app's text colour, an unchecked pair; it takes the content tree's selection, a pair npm test checks. */
+html[data-sct-tokens][data-sct-surface="speak"] .sc span.dynatree-active a,
+html[data-sct-tokens][data-sct-surface="speak"] .sc span.dynatree-active a:hover {
+  background-color: var(--sct-tree-selected-bg);
+  color: var(--sct-tree-selected-fg);
+}
+
 /* Component roles */
 html[data-sct-tokens][data-sct-surface="speak"] .sc-globalHeader,
 html[data-sct-tokens][data-sct-surface="speak"] .sc-flx-global-header {
@@ -76,6 +145,8 @@ html[data-sct-tokens][data-sct-surface="speak"] .sc-globalHeader .sc-accountInfo
 }
 html[data-sct-tokens][data-sct-surface="speak"] .btn-primary,
 html[data-sct-tokens][data-sct-surface="speak"] .btn.btn-primary {
+  /* 10.4 draws its primary buttons as a blue gradient image, which stayed under the theme's colour */
+  background-image: none;
   background-color: var(--sct-button-primary-bg);
   border-color: var(--sct-button-primary-bg);
 }

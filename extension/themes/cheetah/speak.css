@@ -261,7 +261,7 @@ html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) .sc-contro
 html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) .sc-controlpanel-no-items { color: #555; }
 
 /* ==== Forms: the selected navigation entry and tab sit on the selection blue ==== */
-html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) .header.menuItem :is(a, span) { color: #fff; }
+html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) .sc-flx-navigation-pane .header.menuItem :is(a, span) { color: #fff; }
 html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) .sc-tab-control-tab-item.selected :is(a, span) { color: #fff; }
 
 /* glyphs at exactly 100%: their PNGs, nearest-neighbour (see pixelate()) */

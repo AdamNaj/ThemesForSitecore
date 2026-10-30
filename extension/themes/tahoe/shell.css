@@ -161,6 +161,10 @@ html[data-sct-theme="tahoe"][data-sct-surface="shell"] .ui-dialog {
   overflow: hidden;
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.35), 0 0 0 0.5px rgba(0, 0, 0, 0.2);
 }
+/* macOS draws no resize grip, and the rounded corner would clip it: the corner still resizes */
+html[data-sct-theme="tahoe"][data-sct-surface="shell"] .ui-dialog > .ui-resizable-se {
+  opacity: 0;
+}
 html[data-sct-theme="tahoe"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar {
   background: transparent;
   border: 0;

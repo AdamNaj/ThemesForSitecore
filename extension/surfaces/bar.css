@@ -94,6 +94,103 @@ html[data-sct-theme]:not(#sct-bar) .sc-ext-fieldSearchClear::after {
   filter: drop-shadow(0 0 1px rgb(255 255 255 / 0.7));
 }
 
+/* A SPEAK page in a jQuery dialog (the media, link and item pickers fields open) drew its own title row under the
+   dialog's title strip, a band of another colour. engine.js gives the dialog the header Sitecore's host gives Sheer
+   pages, which every theme draws as its dialogs' caption, with the page's title in it; the page's own title row
+   (data-sct-dialog-title) goes. */
+html[data-sct-theme][data-sct-surface="speak"][data-sct-in-dialog][data-sct-dialog-title] .sc-dialogHeader {
+  display: none !important;
+}
+/* The pickers' big navigation buttons (Upload media; Anchor, Email link) keep Sitecore's 15px around them: themes'
+   push-button rules set every .btn's margin to 0 (Sonata's, Los Gatos's), and the buttons ran into each other and
+   the caption. */
+html[data-sct-theme][data-sct-surface="speak"] .sc .sc-navigation-menu .btn.sc-button.lg {
+  margin: 0 15px 15px !important;
+}
+html[data-sct-theme][data-sct-surface="speak"] .sc .sc-navigation-menu .btn.sc-button.lg:first-of-type {
+  margin-top: 15px !important;
+}
+
+/* what Sitecore pins under that row moves up: the navigation menu (top: 60px in its stylesheet) and the smart
+   panel, the link pickers' Link Details (top: 60px inline, from its script) */
+html[data-sct-theme][data-sct-surface="speak"][data-sct-in-dialog][data-sct-dialog-title] :is(.sc-dialogContent .sc-navigation-menu, .sc .sc-smartpanel) {
+  top: 0 !important;
+}
+
+/* A SPEAK dialog page (the Mail and Anchor link pickers) is 15px wider than its frame: Bootstrap rows reach past
+   their container, and the dialog showed a horizontal scrollbar for it, under Native too. engine.js marks pages
+   shown in a dialog. */
+html[data-sct-theme][data-sct-surface="speak"][data-sct-in-dialog] {
+  overflow-x: hidden;
+}
+/* Those pages fix their title row and their buttons to the frame's top and bottom (60px each, on 10.4 and 10.5) and
+   let the whole document scroll between them, so a long tree put a scrollbar down the frame's side, past the title
+   row. The content between them scrolls instead (engine.js marks the layout data-sct-speak-dialog), from the frame's top
+   once the title has moved to the dialog's header. */
+html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog] {
+  overflow: hidden;
+}
+html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog] .sc-dialogHeader ~ .sc-dialogContent {
+  position: fixed;
+  top: 60px;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog][data-sct-dialog-title] .sc-dialogHeader ~ .sc-dialogContent {
+  top: 0;
+}
+html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog] .sc-dialogHeader ~ .sc-dialogContent.noFooter {
+  bottom: 0;
+}
+/* Where the content has a toolbar (filters, search, the view toggles) over a main area, the toolbar stays under the
+   caption and the main area scrolls: that part of the page (.sc-navigation-content, in .sc-dialogContent in the link
+   pickers and beside it in the media picker) is fixed between the caption and the buttons, right of the navigation. */
+html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog] .sc-navigation-content:has(> .sc-dialogContent-main) {
+  position: fixed;
+  top: 60px;
+  bottom: 60px;
+  left: 250px;
+  right: 0;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 0;
+  padding-left: 0;
+}
+html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog][data-sct-dialog-title] .sc-navigation-content:has(> .sc-dialogContent-main) {
+  top: 0;
+}
+html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog] .sc-navigation-content > :is(.sc-dialogContent-title, .sc-dialogContent-toolbar) {
+  flex: none;
+}
+html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog] .sc-navigation-content > .sc-dialogContent-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+/* the content's title band ("Sitecore Items", or the media picker's empty red band) only repeats the caption, so it
+   goes, and the toolbar sits under the caption */
+html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog][data-sct-dialog-title] .sc-dialogContent-title {
+  display: none;
+}
+
+/* SPEAK's smart panel close X (the link pickers' Link Details) is a light grey sprite, faint on any light panel:
+   it is cut out of the panel's own ink instead, dimmed until hovered. */
+html[data-sct-theme][data-sct-surface="speak"] .sc a.sc-smartpanel-close {
+  background: currentColor;
+  mask: url("/sitecore/shell/client/Speak/Assets/img/Speak/SmartPanel/close_button_sprite.png") 0 0 / auto no-repeat;
+  color: var(--sct-app-fg, inherit);
+  opacity: 0.6;
+}
+html[data-sct-theme][data-sct-surface="speak"] .sc a.sc-smartpanel-close:hover {
+  opacity: 1;
+}
+
 /* The Content Editor the same on Sitecore 10.4 and 10.5. 10.5 spaces it out where 10.4 does not: 16px under
    the ribbon (set inline on the caption), 12px beside the tree, 16px before the editor, the editor 16px
    narrower, its sections 30px in, and the pager a padded, rounded box with 12px round it where 10.4 has a

@@ -11,6 +11,12 @@ const urls = [
   ["https://cm/sitecore/shell/client/Applications/FormsBuilder", "speak"],
   // the desktop opens Control Panel through a shell URL that serves the SPEAK page
   ["https://cm/sitecore/shell/Applications/Control%20panel.aspx?sc_bw=1", "speak"],
+  // so do the media, link and item pickers that fields open
+  ["https://cm/sitecore/shell/default.aspx?xmlcontrol=Sitecore.Shell.Applications.Media.MediaBrowser&ro=x", "speak"],
+  ["https://cm/sitecore/shell/Applications/Dialogs/Internal%20link.aspx?ro=x", "speak"],
+  ["https://cm/sitecore/shell/Applications/Dialogs/Mail%20link.aspx", "speak"],
+  ["https://cm/sitecore/shell/Applications/Dialogs/Anchor%20link.aspx", "speak"],
+  ["https://cm/sitecore/shell/Applications/Item%20browser.aspx", "speak"],
   ["https://cm/sitecore/client/Applications/Launchpad", "launchpad"],
   ["https://cm/sitecore/client/Applications/Launchpad?sc_lang=en", "launchpad"],
   // Sitecore's own Launchpad links (header button, start menu) go through the shell path

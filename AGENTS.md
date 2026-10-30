@@ -68,7 +68,11 @@ Use the `sct-verify` skill (`.claude/skills/sct-verify/SKILL.md`) before saying 
   extensions (the Sitecore Extensions add-on, Dark Reader) and different timing. Two regressions on 2026-10-21 passed Playwright and broke
   in the user's Chrome.
 - **Open the URLs people actually use**, not tidied ones: `/sitecore/shell` (no trailing slash), Launchpad
-  through `/sitecore/shell/sitecore/client/...`, the Experience Editor via `?sc_mode=edit`.
+  through `/sitecore/shell/sitecore/client/...`, the Experience Editor via `?sc_mode=edit`. Open dialogs the
+  same way: click the field's or the ribbon's button, not a direct `showModalDialog` call (Home on specm
+  has Image and General Link fields for the pickers).
+- **Run with the user's settings**: their accessibility needs (`AGENTS.local.md`) and their display scale. The pickers
+  passed every run without the aids and collapsed to 35px in the user's Chrome, where the Reduced motion aid was on.
 - **Check every frame**, not just the top document: the Experience Editor ribbon, Content Editor frames and
   dialogs are separate documents with their own `data-sct-*` attributes.
 - **Read the screenshots** you take. Say what you verified, where, and what you could not.

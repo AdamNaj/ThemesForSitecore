@@ -444,6 +444,10 @@ html[data-sct-theme="plasma"][data-sct-surface="shell"]:not(#sct-pl) {
     overflow: hidden;
     box-shadow: var(--pl-shadow-window);
   }
+  /* Breeze draws no resize grip on a dialog: the corner still resizes */
+  .ui-dialog > .ui-resizable-se {
+    opacity: 0;
+  }
   .ui-dialog .ui-dialog-titlebar {
     border: 0;
   }

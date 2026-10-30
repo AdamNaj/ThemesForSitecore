@@ -203,7 +203,9 @@ html[data-sct-theme="workgroups311"][data-sct-surface="shell"] .ui-dialog .ui-di
 /* Inside a dialog page: its header is the navy title bar. */
 html[data-sct-theme="workgroups311"][data-sct-surface="shell"] :is(.scFormDialogHeader, .scDialogHeader) { background: #c0c0c0; padding: 0; border: 0; }
 /* the dialog page's header, and the ListView's, which SPE puts straight in the jQuery dialog */
-html[data-sct-theme="workgroups311"][data-sct-surface="shell"] :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
+/* :not(#sct-dh): over the generated map's .ui-dialog .ui-dialog-titlebar + .DialogHeader colours, which took this caption's
+   own in modal ListViews and the SPEAK pickers (engine.js gives them this header) */
+html[data-sct-theme="workgroups311"][data-sct-surface="shell"]:not(#sct-dh) :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
   background: #000080;
   color: #fff;
   font-weight: bold;

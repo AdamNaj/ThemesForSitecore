@@ -6,6 +6,14 @@
   // /account/ also exists on ordinary websites; only Sitecore Identity Server's page counts as login.
   const LOGIN_MARKERS = "#AccountPrefix, .login-page, form[action*='/Account/Login' i]";
 
+  const SPEAK_AT_SHELL_URLS = [
+    "/sitecore/shell/applications/control panel.aspx",
+    "/sitecore/shell/applications/dialogs/internal link.aspx",
+    "/sitecore/shell/applications/dialogs/mail link.aspx",
+    "/sitecore/shell/applications/dialogs/anchor link.aspx",
+    "/sitecore/shell/applications/item browser.aspx",
+  ];
+
   function parse(href) {
     let url;
     try {
@@ -20,7 +28,7 @@
     } catch {
       // keep the raw path
     }
-    return { path: path.toLowerCase(), editMode: url.searchParams.get("sc_mode") === "edit" };
+    return { path: path.toLowerCase(), editMode: url.searchParams.get("sc_mode") === "edit", control: (url.searchParams.get("xmlcontrol") || "").toLowerCase() };
   }
 
   function surfaceFromUrl(href) {
@@ -35,8 +43,9 @@
     if (p.startsWith("/sitecore/shell/controls/rich text editor/preview.aspx")) return null;
     if (p.startsWith("/sitecore/client/applications/launchpad")) return "launchpad";
     if (p.startsWith("/sitecore/client/") || p.startsWith("/sitecore/shell/client/")) return "speak";
-    // the desktop opens Control Panel through a shell URL that serves the SPEAK page
-    if (p.startsWith("/sitecore/shell/applications/control panel.aspx")) return "speak";
+    // Sitecore serves some SPEAK pages at the shell URLs they replace (Sitecore.Speak.Applications.config's
+    // overrideDialogs and overrideXmlControls): Control Panel, and the media, link and item pickers fields open
+    if (SPEAK_AT_SHELL_URLS.some((s) => p.startsWith(s)) || u.control === "sitecore.shell.applications.media.mediabrowser") return "speak";
     if (p.startsWith("/sitecore/shell/") || p.startsWith("/sitecore modules/shell/")) return "shell";
     if (p.startsWith("/sitecore/login") || p.startsWith("/account/")) return "login";
     if (u.editMode) return "ee";

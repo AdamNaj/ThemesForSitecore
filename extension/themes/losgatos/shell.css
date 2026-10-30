@@ -188,6 +188,8 @@ html[data-sct-theme="losgatos"][data-sct-surface="shell"] .ui-dialog .ui-resizab
   border-right: 0;
   border-bottom: 0;
   background: image-set(url("sct-ext:themes/losgatos/glyphs/a14879d932.png") 1x, url("sct-ext:themes/losgatos/glyphs/a14879d932.svg") 2x) center / 16px 15px no-repeat, #ffffff;
+  mask: none;
+  opacity: 1;
   z-index: 3;
 }
 /* Workbench never dimmed the screen behind a requester; a faint shade still marks it modal */

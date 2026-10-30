@@ -421,6 +421,10 @@ html[data-sct-theme="graphite"][data-sct-surface="shell"]:not(#sct-gr) {
     overflow: hidden;
     box-shadow: var(--gr-shadow-window);
   }
+  /* Windows 11 draws no resize grip, and the rounded corner would clip it: the corner still resizes */
+  .ui-dialog > .ui-resizable-se {
+    opacity: 0;
+  }
   .ui-dialog .ui-dialog-titlebar {
     border: 0;
   }

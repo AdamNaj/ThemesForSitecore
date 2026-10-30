@@ -295,7 +295,9 @@ html[data-sct-theme="cheetah"][data-sct-surface="shell"] .ui-widget-overlay { ba
 /* Inside a dialog page: the header is the title bar, the title centred clear of the lights. */
 html[data-sct-theme="cheetah"][data-sct-surface="shell"] :is(.scFormDialogHeader, .scDialogHeader) { background: #f4f4f4; padding: 0; border: 0; min-height: 0 !important; }
 /* the dialog page's header, and the ListView's, which SPE puts straight in the jQuery dialog */
-html[data-sct-theme="cheetah"][data-sct-surface="shell"] :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
+/* :not(#sct-dh): over the generated map's .ui-dialog .ui-dialog-titlebar + .DialogHeader colours, which took this caption's
+   own in modal ListViews and the SPEAK pickers (engine.js gives them this header) */
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-dh) :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -901,7 +903,7 @@ html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) #Desktop >
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane:hover > button.ui-button { image-rendering: pixelated; }
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane:hover > .ui-dialog-titlebar-minimize { image-rendering: pixelated; }
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane:hover > :is(.ui-dialog-titlebar-maximize, .ui-dialog-titlebar-restore) { image-rendering: pixelated; }
-  html[data-sct-theme="cheetah"][data-sct-surface="shell"] :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) { image-rendering: pixelated; }
+  html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-dh) :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) { image-rendering: pixelated; }
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="page_switcher"] { image-rendering: pixelated; }
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons):hover img[src*="_close"] { image-rendering: pixelated; }
   html[data-sct-theme="cheetah"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons):hover img[src*="minimize"] { image-rendering: pixelated; }

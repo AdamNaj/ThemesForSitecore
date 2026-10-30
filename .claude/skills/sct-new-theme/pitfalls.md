@@ -277,6 +277,32 @@ Manager (child windows tiled, navy active caption, 32px icons), a WfW logon dial
 Program Manager window. Metal: a Swing desktop pane of internal frames sized to content. A Recolour theme
 keeps Sitecore's layout on purpose. Fake controls (dead caption buttons, menu bars) are worse than none.
 
+The pickers fields open ("Image selection image picker and General Link Item picker launch SPEAK dialogs that
+are not properly styled on many themes") are SPEAK pages at shell URLs (`detect.js` `SPEAK_AT_SHELL_URLS`), so the
+strip above them belongs to the shell page and their 60px title row to the SPEAK page: no theme's CSS sees both, and
+they met as "the different color band on top of their titlebar". Copying the strip's look into the title row took
+four rounds (a flat colour, then gradients, then Guardrail's fixed stripes, then "On Retro theme ... the band should
+become a proper titlebar with the titlebar text"). What holds: `engine.js` (`syncDialogTitle`) gives the dialog the
+`.DialogHeader` Sitecore's host gives Sheer pages, with the page's title, straight under the strip
+(`.ui-dialog > .ui-dialog-titlebar + .DialogHeader`, the modal ListView's place), puts it back when the host's load
+handler removes it, hides the page's own row and its title band (`data-sct-dialog-title`, `bar.css`), and shortens
+the frame by the caption's measured room; each theme's dialog caption does the rest.
+- **A theme's ListView header rule is also its pickers' caption,** and it must outrank the generated map's
+  `.ui-dialog .ui-dialog-titlebar + .DialogHeader` colours (0,5,1): a rule written as `:is(..., .ui-dialog >
+  .DialogHeader)` weighs less, and lost its background or ink (Longhorn's glass went opaque, Whistler's title black,
+  ten themes in all). Those rules carry `:not(#sct-dh)`; a new theme's does too.
+- **Theme push-button rules reset every `.btn`'s margin;** the pickers' navigation buttons keep Sitecore's 15px from
+  `bar.css` ("the two buttons on the left has no spacing around them").
+- **The layout:** those pages fix their header and buttons and scroll the whole document ("some weird additional
+  scrollbar on the right of the dialog"); "The top panel ... should stay sticky attached to the titlebar". `bar.css`
+  fixes `.sc-navigation-content` between caption and buttons as a column, the toolbar on top and only the main area
+  scrolling. It sits in `.sc-dialogContent` in the link pickers and beside it in the media picker, and Sitecore gives it
+  `width: 100%`: check both pickers.
+- Their glyphs (tree expanders, view toggles, `dark_gray` images) take the glyph filter in `surfaces/speak.css`.
+- **"Even metal is collapsing for me":** the Reduced motion aid gave every element a .01ms transition, and the default
+  transition-property is `all`, so jQuery UI read the frame's old height right after setting it to 0 and sized it
+  to 35px. An aid's CSS on `*` changes how every script on the page measures: transitions take `0s`. Verify with the
+  aids on.
 **A redrawn Launchpad loses tiles and breaks at other widths.** "Chicago launchpad is Missing Forms Also it
 adds scrollbars unnecessarily": one padding rule pushed the Marketing Applications group under the header
 and made the page 8px taller than the window. Count the groups and tiles against Native's. "On Blueprint the

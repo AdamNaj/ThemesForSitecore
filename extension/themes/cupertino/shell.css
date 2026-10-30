@@ -162,6 +162,10 @@ html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog
   background: transparent;
   border: 0;
 }
+/* macOS draws no resize grip, and the rounded corner would clip it: the corner still resizes */
+html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog > .ui-resizable-se {
+  opacity: 0;
+}
 html[data-sct-theme="cupertino"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane {
   left: 14px;
   right: auto;

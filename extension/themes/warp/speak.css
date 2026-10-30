@@ -276,7 +276,7 @@ html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) .sc-controlpa
 html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) .sc-controlpanel-no-items { color: #404040; }
 
 /* ==== Forms: the selected navigation entry and tab sit on the blue ==== */
-html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) .header.menuItem :is(a, span) { color: #fff; }
+html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) .sc-flx-navigation-pane .header.menuItem :is(a, span) { color: #fff; }
 html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) .sc-tab-control-tab-item.selected :is(a, span) { color: #fff; }
 
 /* glyphs at exactly 100%: their PNGs, nearest-neighbour (see pixelate()) */

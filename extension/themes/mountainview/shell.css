@@ -431,6 +431,10 @@ html[data-sct-theme="mountainview"][data-sct-surface="shell"]:not(#sct-mv) {
     overflow: hidden;
     box-shadow: var(--mv-shadow-window);
   }
+  /* Material draws no resize grip, and the rounded corner would clip it: the corner still resizes */
+  .ui-dialog > .ui-resizable-se {
+    opacity: 0;
+  }
   .ui-dialog .ui-dialog-titlebar {
     border: 0;
   }

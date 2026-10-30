@@ -81,6 +81,13 @@ html[data-sct-tokens][data-sct-surface="shell"] img[src*="_grey" i],
 html[data-sct-tokens][data-sct-surface="shell"] img[src*="treemenu_" i] {
   filter: var(--sct-glyph-filter, none);
 }
+/* jQuery UI's resize gripper on a dialog's corner is a mid-grey sprite, as faint on a dark dialog as on a light one
+   (no filter turns mid-grey): three lines in the panel's ink. A theme that draws its own resets mask and opacity. */
+html[data-sct-tokens][data-sct-surface="shell"] .ui-dialog > .ui-resizable-se {
+  background: repeating-linear-gradient(135deg, transparent 0 2px, var(--sct-panel-fg) 2px 3px);
+  mask: linear-gradient(135deg, transparent 50%, #000 50%);
+  opacity: 0.7;
+}
 
 /* The ribbon's collapse/expand toggle: Sitecore's bold chevron (the same file on 10.4 and 10.5) cut out of
    the ribbon's text colour, so it reads on any ribbon. Drawn in ::before because a mask on the link would

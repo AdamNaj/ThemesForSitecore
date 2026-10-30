@@ -91,6 +91,21 @@ a selection). It can't judge text over images, gradients, filters or translucent
 the screenshots.
 
 - A non-zero exit lists frame problems. Fix them before going on.
+The pickers fields open (media, internal link, item, mail and anchor link) are SPEAK pages Sitecore serves at
+the shell URLs they replace, inside the Content Editor's jQuery dialog: `node .claude/skills/sct-verify/dialogs.cjs
+--themes <ids>` opens each **by clicking the field's own button** on Home (an Image field's Browse, a General Link
+field's Insert link, Insert email, Insert anchor; it falls back to a direct call where Home has none) **with all six
+accessibility needs on**, as on the user's sites (`--needs none` to compare). It fails if the frame is not `speak`
+under the theme, if the frame is under 300px tall (collapsed), if the whole page scrolls once the trees are expanded,
+or on a `band` between the dialog's top and its caption; and it scans the dialog's frames (glyphs such as the tree's
+expanders and the view toggles). Then **read every theme's dialogs in the screenshots** against the theme's rules:
+the caption is the theme's own dialog caption (glass, gradient, stripes, title and buttons in it), the content's title
+band is gone, the toolbar sits under the caption and stays there while the main area scrolls, the navigation buttons
+keep their spacing. Run it with `--themes all` after any change to `speak.css`, `bar.css`, the engine, the aids or
+detection, and for every theme you touch; `--scale 1.25` for the user's display.
+Why each part: opened on their own at `/sitecore/client/...` the dialogs looked fine while the real ones were
+unthemed; opened by a direct `scForm.showModalDialog` call with a size and without the aids they passed while the
+user's (clicked, aids on) collapsed to 35px; a single sampled column passed Guardrail's seam (2026-10-30).
 - **Read every screenshot** of a page your change touches. Look for light patches in dark themes,
   dark-on-dark text, misaligned controls, and anything that looks like a different theme.
 - If pages land on the login screen, re-copy the profile (the script does this each run); if it

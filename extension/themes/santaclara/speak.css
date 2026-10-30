@@ -276,7 +276,7 @@ html[data-sct-theme="santaclara"][data-sct-surface="speak"]:not(#sct-sc) .sc-con
 html[data-sct-theme="santaclara"][data-sct-surface="speak"]:not(#sct-sc) .sc-controlpanel-no-items { color: #3a3128; }
 
 /* ==== Forms: the selected navigation entry and tab sit on the maroon ==== */
-html[data-sct-theme="santaclara"][data-sct-surface="speak"]:not(#sct-sc) .header.menuItem :is(a, span) { color: #fff; }
+html[data-sct-theme="santaclara"][data-sct-surface="speak"]:not(#sct-sc) .sc-flx-navigation-pane .header.menuItem :is(a, span) { color: #fff; }
 html[data-sct-theme="santaclara"][data-sct-surface="speak"]:not(#sct-sc) .sc-tab-control-tab-item.selected :is(a, span) { color: #fff; }
 
 /* glyphs at exactly 100%: their PNGs, nearest-neighbour (see pixelate()) */

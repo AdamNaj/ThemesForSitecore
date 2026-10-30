@@ -69,8 +69,10 @@ function inFrame() {
   const found = [], glyphs = [];
   // the page itself: a document a few pixels taller or wider than its window
   const page = document.scrollingElement;
-  if (page && getComputedStyle(page).overflow !== "hidden" && getComputedStyle(document.body || page).overflow !== "hidden") {
-    const y = page.scrollHeight - innerHeight, x = page.scrollWidth - innerWidth;
+  // each axis on its own: a page can clip one (overflow-x: hidden) and scroll the other
+  const clips = (axis) => [page, document.body || page].some((el) => getComputedStyle(el)[axis] === "hidden");
+  if (page) {
+    const y = clips("overflowY") ? 0 : page.scrollHeight - innerHeight, x = clips("overflowX") ? 0 : page.scrollWidth - innerWidth;
     if ((y > 1 && y <= SLACK) || (x > 1 && x <= SLACK)) found.push({ kind: "scroll", what: "the page", detail: `${Math.max(y, 0)}px taller, ${Math.max(x, 0)}px wider than the window` });
   }
   for (const el of document.body ? document.body.querySelectorAll("*") : []) {
@@ -79,7 +81,8 @@ function inFrame() {
     if (!r || skip(el)) continue;
     const cs = getComputedStyle(el);
     const bg = behind(el);
-    const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+    // a label pushed out of its box (jQuery UI's icon buttons: text-indent -9999px) is not drawn
+    const ownText = parseFloat(cs.textIndent) > -999 && [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
     if (ownText && bg) {
       const fg = rgba(cs.color);
       const large = parseFloat(cs.fontSize) >= 24 || (parseFloat(cs.fontSize) >= 18.66 && +cs.fontWeight >= 700);

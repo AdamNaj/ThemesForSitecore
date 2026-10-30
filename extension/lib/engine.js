@@ -105,7 +105,7 @@
       html.toggleAttribute("data-sct-tokens", reply.usesTokens);
       applyHue();
       syncAids(); // the always-on aids run on themed sites only
-      if (domReady) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows();
+      if (domReady) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows(), syncDialogTitle();
       syncLive();
       if (tabWatch) syncTint(); // a tint from the theme follows it
       if (doc.readyState === "complete") rememberPaint();
@@ -225,6 +225,94 @@
         html.style.removeProperty("--sct-window-title");
         html.style.removeProperty("--sct-window-icon");
       }
+    }
+
+    // A SPEAK page in one of the dialog host's jQuery dialogs (the media, link and item pickers fields open) draws
+    // its own 60px title row under the dialog's 15px title strip, and the two met as a band. Sitecore's host gives a
+    // Sheer page without a header one of its own, a .DialogHeader straight in the dialog under the strip, and every
+    // theme draws that as its dialogs' caption (Chicago's navy bar, Cupertino's title row). A SPEAK page gets one
+    // too, carrying its title, and its own title row goes (data-sct-dialog-title, surfaces/bar.css).
+    // The host takes a .DialogHeader before the frame out once the frame loads, so it goes back in. jQuery UI sizes the
+    // frame and leaves the dialog's height auto, so the dialog would grow by the caption: the frame is kept at the
+    // host's height less the caption's room (measured with the caption out, as themes reshape the strip around it),
+    // unless the host sized it with the caption in, when jQuery already left the room.
+    let dialogWatch = null, titleHead = null, headIn = false, headRoom = 0, frameBase = null, frameOurs = null;
+    function syncDialogTitle() {
+      let frame = null, dialog = null, bar = null;
+      try {
+        frame = window.frameElement;
+        dialog = frame?.closest(".ui-dialog");
+        bar = dialog?.querySelector(":scope > .ui-dialog-titlebar");
+      } catch {
+        return; // a dialog host from another origin
+      }
+      if (!bar || surfaceName !== "speak") return;
+      const title = doc.querySelector(".sc-dialogHeader .sc-dialogHeader-title");
+      const on = !engine.stopped && alive() && engine.theme && engine.theme !== "native" && !!title;
+      if (!on) {
+        if (dialogWatch) dialogWatch.disconnect(), (dialogWatch = null);
+        if (titleHead) titleHead.remove(), (titleHead = null);
+        delete html.dataset.sctDialogTitle;
+        delete html.dataset.sctSpeakDialog;
+        headIn = false;
+        headRoom = 0;
+        fitDialogFrame(frame);
+        return;
+      }
+      if (!titleHead) {
+        titleHead = bar.ownerDocument.createElement("div");
+        titleHead.className = "DialogHeader";
+        titleHead.setAttribute("data-sct-speak-title", "");
+      }
+      titleHead.textContent = title.textContent.trim().replace(/\s+/g, " ");
+      measureHead(frame, bar);
+      html.dataset.sctDialogTitle = "";
+      // a title row over the content, the buttons beside or under them: surfaces/bar.css lays the content out
+      if (doc.querySelector(".sc-dialogHeader ~ .sc-dialogContent")) html.dataset.sctSpeakDialog = "";
+      if (!dialogWatch) {
+        dialogWatch = new MutationObserver((records) => {
+          if (!alive() || engine.stopped) return;
+          // whether the caption was in when the host last set the frame's height
+          let host = null;
+          for (const r of records) {
+            if (r.type === "childList") {
+              if ([...r.removedNodes].includes(titleHead)) headIn = false;
+              if ([...r.addedNodes].includes(titleHead)) headIn = true;
+            } else host = headIn;
+          }
+          if (!titleHead.isConnected) syncDialogTitle();
+          else if (host !== null) fitDialogFrame(frame, host);
+        });
+        dialogWatch.observe(dialog, { childList: true });
+        dialogWatch.observe(frame, { attributes: true, attributeFilter: ["style"] });
+      }
+      fitDialogFrame(frame);
+      // a theme switch reaches the host page's CSS and this page's at about the same time: measure again after both
+      setTimeout(() => {
+        if (!alive() || engine.stopped || !titleHead?.isConnected) return;
+        measureHead(frame, bar);
+        fitDialogFrame(frame);
+      }, 400);
+    }
+    // the room the caption takes: where the frame starts with it, less where it starts without it (in again after)
+    function measureHead(frame, bar) {
+      if (titleHead.isConnected) titleHead.remove();
+      const without = frame.getBoundingClientRect().top;
+      bar.after(titleHead);
+      headRoom = Math.max(0, frame.getBoundingClientRect().top - without);
+      headIn = true;
+      dialogWatch?.takeRecords();
+    }
+    // the frame's height: the host's, less the caption's room; hostWithHead when the host has just set it with the
+    // caption in, so that jQuery already took the room
+    function fitDialogFrame(frame, hostWithHead) {
+      if (!frame) return;
+      const h = parseFloat(frame.style.height);
+      if (h && h !== frameOurs) frameBase = hostWithHead ? h + headRoom : h;
+      if (frameBase === null) return;
+      frameOurs = Math.max(120, Math.round(frameBase - (headIn ? headRoom : 0)));
+      if (frame.style.height !== `${frameOurs}px`) frame.style.height = `${frameOurs}px`;
+      dialogWatch?.takeRecords();
     }
 
     // Sitecore resizes a Desktop window only from the 4px rim of the window's own document (scWin.hitTest), and
@@ -409,6 +497,7 @@
       frameResize(false);
       engine.stopped = true;
       syncWindowTitle(); // takes the title off
+      syncDialogTitle(); // takes the dialog's title header out
       syncLive();
       syncLaunchpadRows();
       stampBar(); // takes the bar's postfix out
@@ -1041,12 +1130,14 @@
         syncBar();
         if (surfaceName === "ee") trackRibbonToggle();
         if (surfaceName === "shell") frameResize(true);
-        if (alive()) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows();
+        if (alive()) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows(), syncDialogTitle();
         syncAids();
       });
       window.addEventListener("load", () => {
         if (!versionKnown) saveVersion(SCT.detect.versionFromDocument(doc));
         rememberPaint();
+        // SPEAK builds its layout in scripts after DOMContentLoaded
+        if (alive()) syncDialogTitle();
       }, { once: true });
     }
 

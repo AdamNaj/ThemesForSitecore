@@ -521,7 +521,7 @@ html[data-sct-theme="whistler"][data-sct-surface="speak"]:not(#sct-xp) .sc-contr
 html[data-sct-theme="whistler"][data-sct-surface="speak"]:not(#sct-xp) .sc-controlpanel-no-items { color: #555; }
 
 /* ==== Forms: the selected navigation entry and tab sit on the Luna selection ==== */
-html[data-sct-theme="whistler"][data-sct-surface="speak"]:not(#sct-xp) .header.menuItem :is(a, span) { color: var(--sct-xpc-sel-fg); }
+html[data-sct-theme="whistler"][data-sct-surface="speak"]:not(#sct-xp) .sc-flx-navigation-pane .header.menuItem :is(a, span) { color: var(--sct-xpc-sel-fg); }
 html[data-sct-theme="whistler"][data-sct-surface="speak"]:not(#sct-xp) .sc-tab-control-tab-item.selected :is(a, span) { color: var(--sct-xpc-sel-fg); }
 
 /* glyphs at exactly 100%: their PNGs, nearest-neighbour (see pixelate()) */

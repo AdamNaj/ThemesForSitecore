@@ -300,7 +300,9 @@ html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-
 /* and the dialog's iframe, which the jQuery UI widget paints white */
 html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh) .ui-dialog > iframe.ui-dialog-content { background: transparent; }
 /* the dialog page's header, and the ListView's, which SPE puts straight in the jQuery dialog */
-html[data-sct-theme="longhorn"][data-sct-surface="shell"] :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
+/* :not(#sct-dh): over the generated map's .ui-dialog .ui-dialog-titlebar + .DialogHeader colours, which took this caption's
+   own in modal ListViews and the SPEAK pickers (engine.js gives them this header) */
+html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-dh) :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
   display: flex;
   align-items: center;
   gap: 6px;

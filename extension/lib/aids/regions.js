@@ -1,4 +1,5 @@
-// Regions: skip links at the top of each page, hidden until focused, and F6 / Shift+F6 to move between the page's
+// Regions: skip links at the top of each page, hidden until reached from the keyboard (a script's focus, as a dialog
+// opening, leaves them hidden), and F6 / Shift+F6 to move between the page's
 // parts (the top bar, the ribbon, the tree, the editor), as in desktop applications. A part takes focus at its main
 // control: its tree, its selected tab, its toolbar, else its first control. Within one document; each frame has its own.
 (function (root) {
@@ -57,7 +58,7 @@
   SCT.registerAid("regions", {
     css: SCT.important(`sct-skip{position:fixed;left:8px;top:8px;z-index:2147483647;display:flex;flex-direction:column;gap:4px}
 sct-skip button{font:600 13px/1.4 system-ui,sans-serif;padding:6px 12px;border:2px solid var(--sct-accent-fg,HighlightText);border-radius:4px;background:var(--sct-accent,Highlight);color:var(--sct-accent-fg,HighlightText);cursor:pointer}
-sct-skip button:not(:focus){position:absolute;width:1px;height:1px;padding:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}`),
+sct-skip button:not(:focus-visible){position:absolute;width:1px;height:1px;padding:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}`),
     apply(ctx) {
       const { doc } = ctx;
       contexts.set(doc, ctx);

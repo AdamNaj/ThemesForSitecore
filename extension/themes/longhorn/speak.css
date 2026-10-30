@@ -269,7 +269,7 @@ html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) .sc-contr
 html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) .sc-controlpanel-no-items { color: #5a5a5a; }
 
 /* ==== Forms: the selected navigation entry and tab sit on the accent ==== */
-html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) .header.menuItem :is(a, span) { color: #fff; }
+html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) .sc-flx-navigation-pane .header.menuItem :is(a, span) { color: #fff; }
 html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) .sc-tab-control-tab-item.selected :is(a, span) { color: #fff; }
 
 /* glyphs at exactly 100%: their PNGs, nearest-neighbour (see pixelate()) */
