@@ -4,9 +4,10 @@
 // open or close every section of the item's fields, each by clicking the captions Sitecore's own toggle sits on, so
 // Sitecore remembers the sections open or closed as it does when you click them one by one. They take Sitecore's
 // header button classes, so every theme sizes them as it sizes the navigator beside them; the aid draws them, and the
-// navigator, flat: no frame or fill until hovered.
-// ponytail: Back and Forward are never greyed out; Sitecore keeps the history on the server, and a press with nothing
-// to go back to does nothing, as on the ribbon
+// navigator, flat: no frame or fill until hovered. Each is greyed out when it has nothing to do: Back and Forward when
+// the ribbon's are (Sitecore keeps the history on the server and draws a disabled ribbon button with no command, so
+// an enabled one's command is the only sign; with no Navigate strip they stay on), Expand all when no section is closed and
+// Collapse all when none is open.
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
 
@@ -36,11 +37,23 @@
   }
   let sizes = null;
 
+  function sync(doc) {
+    const strip = doc.querySelector('[id$="_Strip_NavigateStrip"]');
+    for (const a of doc.querySelectorAll(".scEditorTabControls a[data-sct-sections]")) {
+      const v = a.getAttribute("data-sct-sections");
+      // a strip that is not showing keeps its markup in a comment, so its text, not its elements
+      const on = v.includes(":") ? !strip || strip.innerHTML.includes(`'${v}'`) : !!doc.querySelector(`.scEditorSectionCaption${v}`);
+      a.setAttribute("aria-disabled", String(!on));
+    }
+  }
+  const watched = new WeakSet(); // documents with the click listener
+
   SCT.registerAid("section-toggle", {
     // Sitecore's mouse handlers read the target's className as a string, which an SVG's is not
     css: `a[data-sct-sections] svg{display:inline-block;vertical-align:middle;pointer-events:none}
 ${FLAT}{border-color:transparent!important;background:transparent!important;box-shadow:none!important}
-${FLAT}:hover{background:color-mix(in srgb,currentColor 14%,transparent)!important}`,
+${FLAT}:hover{background:color-mix(in srgb,currentColor 14%,transparent)!important}
+a[data-sct-sections][aria-disabled="true"]{opacity:.4;pointer-events:none}`,
     apply(ctx) {
       const { doc } = ctx;
       for (const nav of doc.querySelectorAll(".scEditorTabControls #ContentEditorNavigator")) {
@@ -48,7 +61,7 @@ ${FLAT}:hover{background:color-mix(in srgb,currentColor 14%,transparent)!importa
         // plain siblings of the navigator, no wrapper: the gap between header buttons comes from a sibling rule
         for (const { label, icon, message, from } of BUTTONS) {
           const a = ctx.own(doc.createElement("a"));
-          a.setAttribute("data-sct-sections", "");
+          a.setAttribute("data-sct-sections", message || from);
           a.href = "#";
           a.className = "scEditorHeaderButton scButton";
           a.setAttribute("role", "button");
@@ -57,6 +70,7 @@ ${FLAT}:hover{background:color-mix(in srgb,currentColor 14%,transparent)!importa
           a.innerHTML = icon;
           a.addEventListener("click", (e) => {
             e.preventDefault();
+            if (a.getAttribute("aria-disabled") === "true") return;
             if (message) return SCT.sheer(doc, message);
             for (const caption of doc.querySelectorAll(`.scEditorSectionCaption${from}`)) caption.click();
           });
@@ -65,6 +79,9 @@ ${FLAT}:hover{background:color-mix(in srgb,currentColor 14%,transparent)!importa
         sizes ||= new ResizeObserver((entries) => entries.forEach((e) => square(e.target)));
         sizes.observe(nav);
       }
+      // a caption opens or closes by a class change, which the engine does not watch: every click, once it has run
+      if (!watched.has(doc)) (watched.add(doc), ctx.listen(doc, "click", () => setTimeout(() => sync(doc))));
+      sync(doc);
     },
     revert() {
       sizes?.disconnect();

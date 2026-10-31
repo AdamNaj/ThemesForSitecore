@@ -832,7 +832,7 @@ _Remember Experience Editor state changes which page the Experience Editor opens
 <!-- /shots:ee-state -->
 
 ### Back, forward, expand and collapse
-<!-- aid:section-toggle 2bfcb87187 -->
+<!-- aid:section-toggle 21f322d6ed -->
 
 **What it is for.** Going back to the item you had open before takes the ribbon's Navigate tab, then Back. An item's
 fields come in sections, and Sitecore opens or closes them one caption at a time, so reaching a field in a closed
@@ -842,8 +842,10 @@ section, or getting a long item down to its captions, takes a click per section.
 and Forward (pointing right) do what Navigate > Back and Forward do on the ribbon, through Sitecore's own history of
 the items you opened. Expand all sections (two chevrons pointing apart) opens every section, Collapse all sections
 (two chevrons pointing together) closes them; they click Sitecore's own captions, so Sitecore remembers each section
-open or closed as it does for a single click. The four buttons and the navigator beside them are drawn flat, with no
-frame, and shaded while the pointer is on one. A screen reader hears each button's name.
+open or closed as it does for a single click. A button with nothing to do is greyed out: Back and Forward whenever the
+ribbon's are, Expand all when every section is open and Collapse all when every one is closed. The four buttons and
+the navigator beside them are drawn flat, with no frame, and shaded while the pointer is on one. A screen reader hears
+each button's name, and that a greyed-out one is unavailable.
 
 <!-- shots:section-toggle -->
 **Need:** Reading and focus · **On:** whenever the site shows a theme, and under Native once any need is ticked · **Where:** the Desktop and Content Editor
