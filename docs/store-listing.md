@@ -73,16 +73,17 @@ For the version being released, written for the people who install it, from the 
 (`git tag -l --format='%(contents)' v<v>`). Plain text; like the description, name no OS or product.
 
 ```text
-0.5.0
+0.6.0
 
-- A new popup: themes come in groups shown as decks, the chosen theme in a large preview above a grid of named miniatures, and a short confirmation when a theme is applied.
-- Whistler now offers three more colour schemes beside its default blue, chosen per site.
-- Turning the extension off for a site takes effect at once, without a reload.
-- The script editor gets a matching dark colour scheme in dark mode.
-- The retro themes have reworked dialog tabs, ribbon tabs and inactive window buttons.
-- Tahoe and Cupertino highlight only the ribbon button under the pointer, and Tahoe's tab control is centred.
-- Insert buttons for folders and media folders keep their icon and label under every theme, and long taskbar titles end in an ellipsis.
-- The Sitecore module, which deploys the themes inside Sitecore for every user of an instance, now has the popup's settings in its theme picker.
+- A new Accessibility tab in Settings: pick the needs that apply to you (screen reader, keyboard, low vision, colour vision, reading and focus, motion) and the matching aids switch on. Each aid can also be switched on or off by itself.
+- The aids include clear focus outlines, keyboard access to the ribbon, menus and dialogs, skip links, bigger click targets, spoken announcements and field help for screen readers, errors shown in words, reduced motion, a focus mode and a reading guide.
+- A new UI improvements tab, on by default for everyone: a command palette (Ctrl+Shift+Space), a list of the page's shortcuts (F1), type to search in the content tree and in an item's fields, item details and a copy menu in the editor header, the item's path under its name, a header that stays in view, Back, Forward, Expand all and Collapse all buttons, an image preview you can size, and the editors reopening where you left off.
+- The accessibility aids and UI improvements work with no theme at all, too.
+- The image and link pickers are themed, with a toolbar and caption in the theme's colours.
+- The Content Hub DAM pickers can follow the Sitecore site's theme.
+- The script editor's variable preview is themed.
+- Warning bars, tree highlights and Experience Editor labels are easier to read under every theme.
+- The popup's animations follow the Reduced motion aid.
 ```
 
 ## AMO: Notes to reviewer
