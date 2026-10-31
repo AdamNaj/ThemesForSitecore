@@ -1,7 +1,8 @@
 // Quiet ribbon: hide the ribbon groups you never use, to cut what is on screen. Each group gets a small × of its own
-// (shown on hover or focus); a strip with hidden groups ends with "Show N hidden groups". Hidden is never removed: the
-// group stays in the page, display:none. The choice lives in the site's own localStorage, which both the extension
-// and the Sitecore module reach; without storage every group shows.
+// (shown on hover or focus); a strip with hidden groups ends with a slim button, "»" over the count, as tall as a
+// group and named "Show N hidden groups", that brings them back. Hidden is never removed: the group stays in the
+// page, display:none. The choice lives in the site's own localStorage, which both the extension and the Sitecore
+// module reach; without storage every group shows.
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
 
@@ -48,12 +49,23 @@
         show = ctx.own(doc.createElement("button"));
         show.type = "button";
         show.dataset.sctQuietShow = "";
+        const more = doc.createElement("span");
+        more.textContent = "»";
+        show.append(more, doc.createElement("span"));
         strip.append(show);
       }
       if (show && !count) show.remove();
       else if (show) {
         const label = `Show ${count} hidden group${count > 1 ? "s" : ""}`;
-        if (show.textContent !== label) show.textContent = label;
+        if (show.getAttribute("aria-label") !== label) {
+          show.setAttribute("aria-label", label);
+          show.title = label;
+          show.lastChild.textContent = String(count);
+        }
+        // as tall as the groups beside it, whatever the theme makes them
+        const group = [...strip.querySelectorAll(".chunk[id]:not([data-sct-quiet])")].find((c) => c.offsetHeight);
+        const height = group ? `${group.offsetHeight}px` : "";
+        if (show.style.getPropertyValue("--sct-quiet-h") !== height) show.style.setProperty("--sct-quiet-h", height);
       }
     }
   }
@@ -78,7 +90,9 @@
 [data-sct-quiet]{display:none!important}
 [data-sct-quiet-hide]{all:unset;position:absolute;top:0;right:0;width:16px;height:16px;font:13px/16px system-ui,sans-serif;text-align:center;border-radius:3px;cursor:pointer;opacity:0}
 .chunk:hover>[data-sct-quiet-hide],[data-sct-quiet-hide]:focus-visible{opacity:.85}
-[data-sct-quiet-show]{all:unset;align-self:center;margin:0 8px;padding:2px 8px;font:12px/1.4 system-ui,sans-serif;border:1px solid currentColor;border-radius:4px;cursor:pointer;white-space:nowrap}`),
+[data-sct-quiet-show]{all:unset;float:left;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;width:24px;height:calc(var(--sct-quiet-h,64px) - 8px);margin:4px 0 0 1px;border-radius:3px;background:color-mix(in srgb,currentColor 7%,transparent);font:600 14px/1.15 system-ui,sans-serif;text-align:center;cursor:pointer}
+[data-sct-quiet-show]:hover{background:color-mix(in srgb,currentColor 14%,transparent)}
+[data-sct-quiet-show]:focus-visible{outline:2px solid var(--sct-focus-ring,Highlight);outline-offset:1px}`),
     apply(ctx) {
       if (!contexts.has(ctx.doc)) ctx.listen(ctx.doc, "click", onClick);
       contexts.set(ctx.doc, ctx);

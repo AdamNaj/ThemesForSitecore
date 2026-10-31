@@ -883,7 +883,13 @@ test("quiet-ribbon: hide a group you never use, and bring it back", async ({ pag
   // Sitecore renders the ribbon again: still quiet
   await page.evaluate(() => { const s = document.getElementById("RibbonX_Strip_Home"); s.innerHTML = s.innerHTML.replace(/ data-sct-quiet=""/g, ""); });
   await expect.poll(shown).toBe(false);
-  await page.getByRole("button", { name: "Show 1 hidden group" }).click();
+  // slim, as tall as the groups beside it, the count on it
+  const more = page.getByRole("button", { name: "Show 1 hidden group" });
+  const [box, group] = await page.evaluate(() => [document.querySelector("[data-sct-quiet-show]"), document.getElementById("ChunkOps")].map((e) => e.getBoundingClientRect()).map((r) => ({ w: r.width, h: r.height })));
+  expect(box.w).toBeLessThanOrEqual(24);
+  expect(Math.abs(box.h - (group.h - 8))).toBeLessThanOrEqual(1);
+  await expect(more).toHaveText("»1");
+  await more.click();
   await expect.poll(shown).toBe(true);
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem("sct-quiet-ribbon")))).toEqual([]);
   await expect(page.getByRole("button", { name: /Show \d hidden/ })).toHaveCount(0);
