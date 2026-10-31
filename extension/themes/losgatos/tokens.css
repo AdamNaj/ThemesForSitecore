@@ -12,6 +12,12 @@ html[data-sct-theme="losgatos"] {
   --sct-app-bg: #0055aa;
   --sct-app-fg: #ffffff;
   --sct-panel-bg: #0055aa;
+  /* the shared status tints over blue go grey and drop white text to 4.2:1: dark status colours instead */
+  --sct-warning-bg: #7a5c00;
+  --sct-error-bg: #8b2a2a;
+  --sct-information-bg: #2170a8;
+  /* the tree's green, pale enough for the blue (the shared mix is under 4.5:1 on it) */
+  --sct-green-fg: #addaae;
   --sct-panel-fg: #ffffff;
   --sct-muted-fg: #ffffff;
   --sct-border: #ffffff;

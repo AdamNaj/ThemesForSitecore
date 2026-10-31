@@ -94,6 +94,12 @@ html[data-sct-theme="fjord"] {
     --sct-app-bg: #2e3440;
     --sct-app-fg: #d8dee9;
     --sct-panel-bg: #3b4252;
+    /* the shared status tints lift this panel to 3.6:1 under its text */
+    --sct-warning-bg: #605838;
+    --sct-error-bg: #6c3035;
+    --sct-information-bg: #326682;
+    /* the tree's green: Nord's aurora green; the shared mix is 4.4:1 here */
+    --sct-green-fg: #a3be8c;
     --sct-panel-fg: #e5e9f0;
     --sct-muted-fg: #aeb7c7;
     --sct-border: #434c5e;
@@ -243,6 +249,10 @@ html[data-sct-theme="fjord"][data-sct-hue] {
     --sct-app-bg: oklch(from #2e3440 l c calc(h + var(--sct-hue)));
     --sct-app-fg: oklch(from #d8dee9 l c calc(h + var(--sct-hue)));
     --sct-panel-bg: oklch(from #3b4252 l c calc(h + var(--sct-hue)));
+    --sct-warning-bg: oklch(from #605838 l c calc(h + var(--sct-hue)));
+    --sct-error-bg: oklch(from #6c3035 l c calc(h + var(--sct-hue)));
+    --sct-information-bg: oklch(from #326682 l c calc(h + var(--sct-hue)));
+    --sct-green-fg: oklch(from #a3be8c l c calc(h + var(--sct-hue)));
     --sct-panel-fg: oklch(from #e5e9f0 l c calc(h + var(--sct-hue)));
     --sct-muted-fg: oklch(from #aeb7c7 l c calc(h + var(--sct-hue)));
     --sct-border: oklch(from #434c5e l c calc(h + var(--sct-hue)));

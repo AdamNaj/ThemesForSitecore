@@ -7,6 +7,7 @@ in every frame. For each: resting, hover, pressed, selected, focus and disabled 
 
 - Desktop: `/sitecore/shell` (no trailing slash)
 - Content Editor: `/sitecore/shell/Applications/Content%20Editor.aspx?sc_bw=1`, and as a Desktop window
+- Content Editor with a warning bar: the same with `&fo=%7B110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9%7D&la=da` (Home has no Danish version)
 - Launchpad: `/sitecore/shell/sitecore/client/Applications/Launchpad`
 - Control Panel: from the Desktop (`/sitecore/shell/Applications/Control panel.aspx`) and from Launchpad
 - Experience Editor: `/?sc_mode=edit`
@@ -79,6 +80,7 @@ clicking: drive them in Playwright or the user's Chrome.
 - [ ] Control Panel (SPEAK) and its back button on both versions
 - [ ] Login page and its placeholders
 - [ ] EE ribbon (a `speak` frame): tabs, chunks sized like the CE ribbon, quickbar toggle, date chunk, breadcrumb with Go/Edit; the website untouched
+- [ ] EE page chrome: the "Add here" handles (`shots.cjs` shows them), a rendering's floating toolbar, notification bars, every label readable on what it sits on
 - [ ] Forms list
 - [ ] Admin pages: no swoosh, no white second row, SPE console in chrome colours
 

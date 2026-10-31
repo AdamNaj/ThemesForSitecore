@@ -6,6 +6,24 @@ html[data-sct-tokens][data-sct-surface="ee"] .scChromeOverlay {
   background-color: #dfdfdf;
 }
 
+/* The "Add here" and "Move to here" handles stay Sitecore's light bitmaps on every theme, so their label keeps
+   Sitecore's dark ink; the generated map's text colour vanished on them under dark themes. */
+html[data-sct-tokens][data-sct-surface="ee"] .scInsertionHandleCenter span {
+  color: #181818 !important;
+}
+
+/* Notification bars over the page: the Content Editor's message bar tints, which tokens.test.js checks, in place
+   of the generated map's near-white ones. */
+html[data-sct-tokens][data-sct-surface="ee"] .scNotification.scWarning {
+  background-color: var(--sct-warning-bg, color-mix(in srgb, #fce99c 28%, var(--sct-panel-bg)));
+}
+html[data-sct-tokens][data-sct-surface="ee"] .scNotification.scError {
+  background-color: var(--sct-error-bg, color-mix(in srgb, #f8c9c4 28%, var(--sct-panel-bg)));
+}
+html[data-sct-tokens][data-sct-surface="ee"] .scNotification.scInfo {
+  background-color: var(--sct-information-bg, color-mix(in srgb, #cfe3f7 28%, var(--sct-panel-bg)));
+}
+
 /* The floating toolbars of renderings and fields: their dropdown arrows are black images, and the section
    bars a hairline rather than the bright text colour the generated map gives them. */
 html[data-sct-tokens][data-sct-surface="ee"] .scChromeControls img[src*="menudropdown_black" i] {

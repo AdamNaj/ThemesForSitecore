@@ -158,6 +158,10 @@ Details, numbers and selectors are in [pitfalls.md](pitfalls.md).
   Item and script icons can be white (`OfficeWhite`) or black: the shared halo in `surfaces/bar.css` keeps
   them visible on any panel unless the theme's own `filter` on that icon replaces it. Run the shots with
   `--white-icons` to put a white icon in every icon slot.
+- **Text readable on what it actually sits on.** Status bars (warning, error, information) tinted over a dark or
+  saturated panel, and labels over Sitecore's bitmaps (the Experience Editor's "Add here" handles) were the
+  users' October 2026 reports: `npm test` checks the bar tints from the tokens, the scan checks the rest
+  (pitfalls.md section 1).
 - **Every state themed.** Hover (`scTab_Hover` turns tabs blank and uppercase), pressed, selected, focus
   (`:focus-visible` only), disabled. On dark themes a hover lifts above its panel.
 - **Spacing: Copenhagen-tight, 10.5 pulled back.** 10.5 pads everything more than 10.4 (34px inputs, 28px

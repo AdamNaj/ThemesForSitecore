@@ -103,6 +103,12 @@ html[data-sct-theme="solar"] {
     --sct-app-bg: #00212b;
     --sct-app-fg: #93a1a1;
     --sct-panel-bg: #002b36;
+    /* the shared status tints lift this panel to 2.6:1 under its text */
+    --sct-warning-bg: #36321a;
+    --sct-error-bg: #4e2427;
+    --sct-information-bg: #053847;
+    /* the tree's green: Solarized's own; the shared mix is 3.8:1 here */
+    --sct-green-fg: #859900;
     --sct-panel-fg: #93a1a1;
     --sct-muted-fg: #839496;
     --sct-border: #073642;

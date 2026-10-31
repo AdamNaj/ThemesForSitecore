@@ -45,6 +45,18 @@ inline `color:#bbb` inside the window caption; `surfaces/shell.css` now draws it
 for every token theme, so a theme overrides it (with `!important`) only to pick its own; month captions dark on a navy
 calendar bar; login labels unreadable on a red background.
 - Check every label against the band it actually sits on, on both versions.
+- **Recoloured text on a background the map left alone.** Users reported two in October 2026: the Content Editor's
+  warning bars (light text on the shared yellow tint, which turned Solar dark's panel into a mid grey-olive at
+  2.6:1 and Blueprint's and Los Gatos's blue into grey-green) and the Experience Editor's "Add here" handles
+  (the generated map gave their label the theme's light text, while the handle stays Sitecore's light bitmap).
+  A status tint mixed into a dark or saturated panel moves it towards the text: a theme whose panel fails sets
+  `--sct-warning-bg`, `--sct-error-bg` and `--sct-information-bg` (`npm test` names them); the content tree's
+  green (standard roots) mixes into the text colour the same way and has `--sct-green-fg`. A Recreation's own
+  gradient counts too: Windows 98's caption ends at `#1084d0`, 4.0:1 under white, so Chicago draws it to `#0e78c4`. Wherever Sitecore draws
+  a background as an image (handles, gradients, sprites) and the map recolours the text over it, the text keeps
+  Sitecore's ink or the theme replaces the image too, never one without the other. `shots.cjs --scan` opens the
+  warning page and shows the handles, and measures text on images from the screenshot; a theme that restyles
+  `.scMessageBar` or `.scNotification` checks every state's bar itself.
 - 10.4 leftovers: its red `#DC291E` on section stripes, active tabs, the Administration band and the
   Control Panel title band. Map the version's accent explicitly (`[data-sct-version="10.4"]` token block).
 

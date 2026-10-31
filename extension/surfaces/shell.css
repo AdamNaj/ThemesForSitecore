@@ -200,10 +200,11 @@ html[data-sct-tokens][data-sct-surface="shell"] [style*="background-color: three
   background-color: var(--sct-app-bg) !important;
 }
 
-/* The content tree marks standard roots with an inline color:green. */
+/* The content tree marks standard roots with an inline color:green. A dark or saturated tree takes the mix under
+   4.5:1 and sets --sct-green-fg (tokens.test.js checks it). */
 html[data-sct-tokens][data-sct-surface="shell"] [style^="color:green" i],
 html[data-sct-tokens][data-sct-surface="shell"] [style^="color: green" i] {
-  color: color-mix(in srgb, #008000 55%, var(--sct-app-fg)) !important;
+  color: var(--sct-green-fg, color-mix(in srgb, #008000 55%, var(--sct-app-fg))) !important;
 }
 
 /* Content tree: the gutter is a white background image. */
@@ -213,18 +214,20 @@ html[data-sct-tokens][data-sct-surface="shell"] .scContentTree {
   color: var(--sct-tree-fg);
 }
 
-/* Message bars keep their status colour as a tint of the panel. */
+/* Message bars keep their status colour as a tint of the panel. A light tint lifts a dark or saturated panel
+   towards its light text, so a theme whose panel fails one sets --sct-warning-bg, --sct-error-bg or
+   --sct-information-bg (tokens.test.js checks them). */
 html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar {
   color: var(--sct-panel-fg);
 }
 html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar.scWarning {
-  background-color: color-mix(in srgb, #fce99c 28%, var(--sct-panel-bg));
+  background-color: var(--sct-warning-bg, color-mix(in srgb, #fce99c 28%, var(--sct-panel-bg)));
 }
 html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar.scError {
-  background-color: color-mix(in srgb, #f8c9c4 28%, var(--sct-panel-bg));
+  background-color: var(--sct-error-bg, color-mix(in srgb, #f8c9c4 28%, var(--sct-panel-bg)));
 }
 html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar.scInformation {
-  background-color: color-mix(in srgb, #cfe3f7 28%, var(--sct-panel-bg));
+  background-color: var(--sct-information-bg, color-mix(in srgb, #cfe3f7 28%, var(--sct-panel-bg)));
 }
 html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar .scMessageBarTitle,
 html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar .scMessageBarText,

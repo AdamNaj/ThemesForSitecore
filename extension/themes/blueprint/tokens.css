@@ -21,6 +21,12 @@ html[data-sct-theme="blueprint"] {
   --sct-app-bg: #1d4f91;
   --sct-app-fg: #eaf2ff;
   --sct-panel-bg: #1d4f91;
+  /* the shared status tints over blue go grey and drop white text to 4.0:1: dark status colours instead */
+  --sct-warning-bg: #7a5c00;
+  --sct-error-bg: #8b2a2a;
+  --sct-information-bg: #2170a8;
+  /* the tree's green, pale enough for the blue (the shared mix is under 4.5:1 on it) */
+  --sct-green-fg: #9bd1a7;
   --sct-panel-fg: #eaf2ff;
   --sct-muted-fg: #b9cdea;
   --sct-border: #4f7ab5;

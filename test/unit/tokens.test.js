@@ -29,6 +29,15 @@ function contrast(a, b) {
   return (hi + 0.05) / (lo + 0.05);
 }
 
+// color-mix(in srgb, a p, b)
+function mix(a, b, p) {
+  const ch = (hex, i) => parseInt(hex.slice(i, i + 2), 16);
+  return "#" + [1, 3, 5].map((i) => Math.round(ch(a, i) * p + ch(b, i) * (1 - p)).toString(16).padStart(2, "0")).join("");
+}
+
+// the status colours surfaces/shell.css mixes into .scMessageBar
+const messageTints = { warning: "#fce99c", error: "#f8c9c4", information: "#cfe3f7" };
+
 const tokenThemes = themes.filter((t) => t.usesTokens);
 
 test("at least one theme uses tokens", () => {
@@ -51,6 +60,28 @@ for (const theme of tokenThemes) {
       for (const [fg, bg] of contrastPairs) {
         const ratio = contrast(tokens.get(fg), tokens.get(bg));
         assert.ok(ratio >= 4.5, `${fg} on ${bg}: ${ratio.toFixed(2)}`);
+      }
+    });
+
+    // surfaces/shell.css and ee.css tint the message and notification bars with their status colour over the
+    // panel, under the panel's (Content Editor) or app's (Experience Editor) text: a dark or saturated panel
+    // passes on its own and fails once tinted, and then sets --sct-<state>-bg
+    test(`${theme.id} (${appearance}) keeps message bar text at WCAG AA`, () => {
+      for (const [state, tint] of Object.entries(messageTints)) {
+        const bg = tokens.get(`--sct-${state}-bg`) || mix(tint, tokens.get("--sct-panel-bg"), 0.28);
+        for (const fg of ["--sct-panel-fg", "--sct-app-fg"]) {
+          const ratio = contrast(tokens.get(fg), bg);
+          assert.ok(ratio >= 4.5, `${fg} on the ${state} bar (${bg}): ${ratio.toFixed(2)}; set --sct-${state}-bg`);
+        }
+      }
+    });
+
+    // surfaces/shell.css redraws the content tree's inline green as a mix of green and the app's text
+    test(`${theme.id} (${appearance}) keeps the tree's green at WCAG AA`, () => {
+      const green = tokens.get("--sct-green-fg") || mix("#008000", tokens.get("--sct-app-fg"), 0.55);
+      for (const bg of ["--sct-tree-bg", "--sct-app-bg"]) {
+        const ratio = contrast(green, tokens.get(bg));
+        assert.ok(ratio >= 4.5, `${green} on ${bg}: ${ratio.toFixed(2)}; set --sct-green-fg`);
       }
     });
   }
