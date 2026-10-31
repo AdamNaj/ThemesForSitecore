@@ -161,6 +161,25 @@
     doc.body.append(dialog);
     (dialog.querySelector(FOCUSABLE) || dialog).focus();
   };
+  // Sends a Sheer UI message (contenteditor:back, item:load(id=...)) as Sitecore's own links do. A content script
+  // cannot reach the page's scForm, so it goes through an inline click handler, which runs in the page.
+  SCT.sheer = (doc, message) => {
+    const a = doc.createElement("a");
+    a.setAttribute("onclick", `return scForm.postEvent(this,event,${JSON.stringify(message)})`);
+    a.hidden = true;
+    doc.body.append(a);
+    a.click();
+    a.remove();
+  };
+  // Opens an item in the Content Editor by its path, its ID or its URI (sitecore://master/{ID}?lang=en&ver=1, in that
+  // language and version), with Sitecore's own item:load message, which also selects it in the tree. Characters the
+  // message's syntax uses are refused.
+  SCT.gotoItem = (doc, target) => {
+    const uri = /^sitecore:\/\/\w+\/(\{[^}]+\})\?lang=([^&]+)&ver=(\d+)/.exec(target);
+    const args = uri ? [`id=${uri[1]}`, `language=${uri[2]}`, `version=${uri[3]}`] : [`id=${target}`];
+    if (!doc.getElementById("__CurrentItem") || args.some((x) => /[(),"'\\]/.test(x) || x.indexOf("=") !== x.lastIndexOf("="))) return;
+    SCT.sheer(doc, `item:load(${args.join(",")})`);
+  };
   // Aids' CSS sits in a cascade layer, where only !important outruns the page's own rules: every declaration of rules
   // that must look the same on any page (an aid's own elements) takes it
   SCT.important = (css) => css.replace(/([^{};]+:[^{};!]+)(?=[;}])/g, "$1!important");

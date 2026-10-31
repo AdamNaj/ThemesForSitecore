@@ -728,11 +728,18 @@ test("command-palette: type a command or a path, Enter runs it", async ({ page }
   await page.keyboard.press("Enter");
   await expect.poll(() => page.evaluate(() => window.published)).toBe(1);
   await expect(page.locator("#RibbonX_Strip_Review")).toBeVisible();
+  // the item goes through Sitecore's item:load message, not the tree's search box
+  await page.evaluate(() => {
+    window.posted = [];
+    window.scForm = { postEvent: (el, e, message) => (posted.push(message), false) };
+    document.body.insertAdjacentHTML("beforeend", '<input type="hidden" id="__CurrentItem" value="sitecore://master/{110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9}?lang=en&ver=1">');
+  });
   await open();
   await page.keyboard.type("/sitecore/content");
   await expect(page.getByRole("option").first()).toHaveText("Go to /sitecore/content");
   await page.keyboard.press("Enter");
-  await expect.poll(() => page.evaluate(() => window.searched)).toBe("/sitecore/content");
+  await expect.poll(() => page.evaluate(() => window.posted)).toEqual(["item:load(id=/sitecore/content)"]);
+  expect(await page.evaluate(() => window.searched)).toBeUndefined();
   await open();
   await page.keyboard.press("Escape");
   await expect(palette).toHaveCount(0);

@@ -1,6 +1,6 @@
 // Command palette: Ctrl+Shift+Space, type, Enter. It lists every ribbon command of the page, the ones on other tabs
-// too, by name and group ("Copy to · Operations"), and goes to an item by its path or ID through the tree's own search
-// box. A command runs by clicking Sitecore's own button, found again by its name when it runs.
+// too, by name and group ("Copy to · Operations"), and goes to an item by its path or ID with Sitecore's item:load
+// message. A command runs by clicking Sitecore's own button, found again by its name when it runs.
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
 
@@ -52,14 +52,7 @@
   }
 
   function run(doc, choice) {
-    if (choice.goto) {
-      const box = doc.getElementById("TreeSearch");
-      if (!box) return;
-      box.value = choice.goto;
-      box.dispatchEvent(new Event("input", { bubbles: true }));
-      (doc.querySelector(".scSearchButton") || box).click();
-      return;
-    }
+    if (choice.goto) return SCT.gotoItem(doc, choice.goto);
     const find = () => buttons(doc).find(({ el }) => nameOf(el) === choice.name && groupOf(el) === choice.group);
     let found = find();
     if (found?.tab) {
