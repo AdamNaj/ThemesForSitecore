@@ -653,6 +653,68 @@ test("sticky-header: the header's fill follows the panel from dark to light and 
   await expect.poll(contrast).toBeGreaterThanOrEqual(4.5);
 });
 
+test("item-info: the chips fill in after the item, the menus copy and open templates, Navigate asks only when pressed", async ({ page }) => {
+  const asked = [];
+  // Sitecore's version list (one version in master, none in web) and a template's Inheritance tab
+  await page.route(/xmlcontrol=Gallery\.Versions/, (route) => {
+    const db = /[?&]db=(\w+)/.exec(route.request().url())[1];
+    asked.push(`versions ${db}`);
+    const rows = db === "web" ? "" : '<tr><td><div class="versionNumSelected">1.</div></td><td><div>Modified <b>4/19/2026 6:21 PM</b> by <b>sitecore\\jsmith</b>.</div></td></tr>';
+    route.fulfill({ contentType: "text/html", body: `<form action="/sitecore/shell/default.aspx?xmlcontrol=Gallery.Versions"><table>${rows}</table></form>` });
+  });
+  await page.route(/xmlcontrol=TemplateInheritance/, (route) => {
+    asked.push("inheritance");
+    const t = (id, name, path, bases = "") => `<a href="#" class="scTemplate" onclick='javascript:scForm.invoke("Load(\\"${id}\\")"); return false;'><img src="x.png">${name}<span class="scTemplatePath"> - ${path}</span></a><div class="scFields"></div><div class="scBaseTemplates">${bases}</div>`;
+    const std = t("{1930BBEB-7805-471A-A3BE-4858AC7CF696}", "Standard template", "/sitecore/Templates/System/Templates/Standard template");
+    route.fulfill({ contentType: "text/html", body: `<div id="TemplateList">${t("{11111111-1111-1111-1111-111111111111}", "_Page Base", "/sitecore/Templates/Project/Base/_Page Base", t("{22222222-2222-2222-2222-222222222222}", "_SEO", "/sitecore/Templates/Feature/SEO/_SEO", std))}${std}</div>` });
+  });
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  // the item as Sitecore keeps it, Quick Info's template row, and the Sheer messages the page posts
+  await page.evaluate(() => {
+    window.posted = [];
+    window.scForm = { postEvent: (el, e, message) => (posted.push(message), false) };
+    document.body.insertAdjacentHTML("beforeend", '<input type="hidden" id="__CurrentItem" value="sitecore://master/{110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9}?lang=en&ver=1">');
+    document.querySelector(".scEditorQuickInfo tbody, .scEditorQuickInfo").insertAdjacentHTML("beforeend", '<tr><td>Template:</td><td><a href="#" onclick="javascript:scForm.postRequest(\'\',\'\',\'\',\'shell:edittemplate\');return false">/sitecore/templates/Project/Page</a> - <input class="scEditorHeaderQuickInfoInputID" readonly value="{76036F5E-CBCE-46D1-AF0A-4143F9B557AA}"></td></tr>');
+  });
+  await change(page, "accessibility", { site: { accessibility: { aids: { "item-info": true } } } });
+  const chips = () => page.evaluate(() => [...document.querySelectorAll("sct-item-chip")].map((c) => c.textContent.trim()));
+  await expect.poll(chips).toEqual([expect.stringMatching(/^\d+ \w+ ago · jsmith$/), "Not published"]);
+  expect(await page.evaluate(() => document.querySelector("sct-item-chip").title)).toBe("Modified 4/19/2026 6:21 PM by sitecore\\jsmith");
+  expect(asked.sort()).toEqual(["versions master", "versions web"]);
+
+  // Copy, from the keyboard: the item's and the template's names, paths and IDs; Enter copies and closes
+  const copy = page.getByRole("button", { name: "Copy" });
+  await copy.focus();
+  await page.keyboard.press("ArrowDown");
+  const menu = page.getByRole("menu", { name: "Copy" });
+  await expect(menu.getByRole("menuitem")).toHaveText(["NameHome", "Path/sitecore/content/Home", "ID{110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9}", "NamePage", "Path/sitecore/templates/Project/Page", "ID{76036F5E-CBCE-46D1-AF0A-4143F9B557AA}"]);
+  await expect(menu.getByRole("menuitem").first()).toBeFocused();
+  await page.keyboard.press("End");
+  await expect(menu.getByRole("menuitem").last()).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(menu).toHaveCount(0);
+  await expect(copy).toBeFocused();
+  expect(await copy.getAttribute("aria-expanded")).toBe("false");
+
+  // Navigate: its template, then the bases that are not Sitecore's own, nested; a pick loads it
+  expect(asked).not.toContain("inheritance");
+  await page.getByRole("button", { name: "Navigate" }).click();
+  const nav = page.getByRole("menu", { name: "Navigate" });
+  await expect(nav.getByRole("menuitem")).toHaveText(["PageProject", "_Page BaseProject/Base", "_SEOFeature/SEO"]);
+  expect(await nav.getByRole("menuitem").evaluateAll((b) => b.map((x) => x.querySelector("span").style.paddingInlineStart))).toEqual(["", "12px", "24px"]);
+  await nav.getByRole("menuitem").nth(2).click();
+  await expect(nav).toHaveCount(0);
+  await expect.poll(() => page.evaluate(() => posted)).toEqual(["item:load(id={22222222-2222-2222-2222-222222222222})"]);
+  // asked once per template
+  await page.getByRole("button", { name: "Navigate" }).click();
+  await expect(nav.getByRole("menuitem")).toHaveCount(3);
+  expect(asked.filter((a) => a === "inheritance")).toHaveLength(1);
+
+  await change(page, "accessibility", { site: {} });
+  await expect.poll(() => page.evaluate(() => document.querySelectorAll("sct-item-info, sct-item-menu").length)).toBe(0);
+});
+
 test("reading-guide: a band on the pointer's line or the focused one, never in the way", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord&needs=reading`);
   await ready(page);
