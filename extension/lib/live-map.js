@@ -74,9 +74,10 @@
     const { ruleDecls, BAD_SELECTOR, scoped, COLOR_RE, first, parseColor, hsl } = SCT.colorMap;
     const hint = new RegExp(COLOR_RE.source, "i");
     const html = doc.documentElement;
-    // ponytail: rules a script adds with insertRule() to a sheet already mapped are not seen; drop the
-    // cache entry on a CSSOM hook if a module turns out to build its styles that way.
-    const sheets = new WeakMap(); // CSSStyleSheet -> mapped CSS text
+    // CSSStyleSheet -> { text, count }: its mapped CSS, and how many rules it had then. Scripts that build their
+    // styles with insertRule() (emotion, as Content Hub's MUI pages run it) change no node, so a sheet whose count
+    // moved is mapped again on the next DOM change (onMutations), which follows as the new styles' elements render.
+    const sheets = new WeakMap();
     const inks = new Map(); // themed declarations -> rule for elements carrying that ink
     const style = doc.createElement("style");
     style.setAttribute(OWNED, "");
@@ -128,16 +129,33 @@
       return true;
     }
 
+    function ruleCount(sheet) {
+      try {
+        return sheet.cssRules.length;
+      } catch {
+        return -1; // cross-origin, or still loading
+      }
+    }
+
     function sheetText(sheet) {
-      let text = sheets.get(sheet);
-      if (text === undefined) {
+      let entry = sheets.get(sheet);
+      const count = ruleCount(sheet);
+      if (!entry || entry.count !== count) {
         const out = [];
         // A <link media="print"> keeps its media.
         const media = sheet.media && sheet.media.mediaText;
         if (!mapSheet(sheet, media ? [`@media ${media}`] : [], out)) return "";
-        sheets.set(sheet, (text = out.join("\n")));
+        sheets.set(sheet, (entry = { text: out.join("\n"), count }));
       }
-      return text;
+      return entry.text;
+    }
+
+    function grown() {
+      for (const sheet of doc.styleSheets) {
+        const entry = sheets.get(sheet);
+        if (entry && entry.count !== ruleCount(sheet)) return true;
+      }
+      return false;
     }
 
     // Inline colours only lose to !important, so every themed one carries it.
@@ -202,7 +220,7 @@
         }
       }
       // ink() only adds rules, so a render is needed whenever the rule list grew too.
-      if (sheetsChanged || inks.size !== rendered) render();
+      if (sheetsChanged || inks.size !== rendered || grown()) render();
     }
 
     function start() {

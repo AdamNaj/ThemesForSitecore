@@ -147,6 +147,27 @@ $("#mode").outerHTML = SCT.siteSettings.MODE_HTML;
 $("#pane-title").innerHTML = SCT.siteSettings.TITLE_HTML;
 $("#pane-access").innerHTML = SCT.siteSettings.ACCESS_HTML;
 
+// The DAM connector's pickers show Content Hub's own pages (detect.js), which take this site's theme once the browser
+// lets the extension into Content Hub. Offered on a site that has the connector (its Rich Text Editor script; 404
+// without it, a redirect to the login signed out), until allowed. The page asks, so the request carries its sign-in.
+const CONTENT_HUB = { origins: ["https://*.sitecorecontenthub.cloud/*"] };
+const DAM_SCRIPT = "/sitecore/shell/Controls/Rich Text Editor/Sitecore.Connector.ContentHub.DAM/Sitecore.Connector.ContentHub.DAM.Commands.js";
+async function offerContentHub() {
+  if (await api.permissions.contains(CONTENT_HUB)) return;
+  const [tab] = await api.tabs.query({ active: true, currentWindow: true });
+  const [{ result } = {}] = await api.scripting.executeScript({
+    target: { tabId: tab.id },
+    func: (path) => fetch(path, { method: "HEAD", redirect: "manual" }).then((r) => r.ok, () => false),
+    args: [encodeURI(DAM_SCRIPT)],
+  }).catch(() => []);
+  if (!result) return;
+  $("#contenthub").hidden = false;
+  // the background registers the content scripts there when the grant lands (permissions.onAdded)
+  $("#contenthub-allow").onclick = async () => {
+    if (await api.permissions.request(CONTENT_HUB)) $("#contenthub").hidden = true;
+  };
+}
+
 async function main() {
   origin = await currentOrigin();
   if (!origin) return show("#no-site");
@@ -174,6 +195,7 @@ async function main() {
     onTheme: (t) => ((bothLooks = t.appearance === "auto"), syncMode()),
   });
   SCT.siteSettings.mount(document, siteStore);
+  offerContentHub();
   // The background disables the site (background.js disableSite): the popup closes as soon as the page gets the focus,
   // F5 included, and would stop half-way.
   $("#disable").onclick = async () => {

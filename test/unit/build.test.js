@@ -18,7 +18,7 @@ test("every file a built-in theme lists exists, on every surface", () => {
   const themes = require("../../extension/themes/themes.js");
   const { sources } = require("../../extension/lib/files.js");
   for (const t of themes) {
-    for (const surface of ["shell", "speak", "launchpad", "login", "ee", "admin"]) {
+    for (const surface of ["shell", "speak", "launchpad", "login", "ee", "admin", "contenthub"]) {
       for (const f of sources(t.id, surface).files) assert.ok(fs.existsSync(path.join(__dirname, "..", "..", "extension", f)), `${t.id} ${surface}: ${f}`);
     }
   }
@@ -58,7 +58,7 @@ test("Light and Dark leave no colour-scheme query in a theme that follows the OS
   assert.equal(withMode(css, "light"), "@media not all { a { color: red } } @media all{b{}} html { color-scheme: light }");
   assert.equal(withMode(css, undefined), css);
   for (const t of themes.filter((t) => t.appearance === "auto")) {
-    for (const surface of ["shell", "speak", "launchpad", "login", "ee", "admin"]) {
+    for (const surface of ["shell", "speak", "launchpad", "login", "ee", "admin", "contenthub"]) {
       for (const f of sources(t.id, surface).files) {
         const text = fs.readFileSync(path.join(__dirname, "..", "..", "extension", f), "utf8");
         assert.doesNotMatch(withMode(text, "dark"), /prefers-color-scheme|color-scheme:\s*light\s+dark/, `${t.id} ${f}`);
@@ -74,7 +74,7 @@ test("the manifest's description fits the Chrome Web Store's 132 characters", ()
 
 test("every aid is described, and its module registers apply or css", () => {
   const { AIDS, NEEDS } = require("../../extension/lib/settings.js");
-  const SURFACES = ["shell", "speak", "launchpad", "login", "ee", "admin"];
+  const SURFACES = ["shell", "speak", "launchpad", "login", "ee", "admin", "contenthub"];
   require("../../extension/lib/dom-kit.js");
   for (const [id, aid] of Object.entries(AIDS)) {
     assert.ok(aid.needs.length && aid.needs.every((n) => Object.hasOwn(NEEDS, n)), id);

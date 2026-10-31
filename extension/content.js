@@ -2,7 +2,6 @@
 // extension storage, theme CSS swapped by the background.
 (function () {
   const api = globalThis.browser ?? globalThis.chrome;
-  const origin = location.origin;
   const VERSIONS = "sitecoreVersions";
 
   async function send(msg) {
@@ -12,6 +11,13 @@
       return null;
     }
   }
+
+  // The site whose settings this frame follows: its own, or for a Content Hub page in a DAM picker the Sitecore site
+  // in the tab, which only the background can see
+  let origin = location.origin;
+  const ready = SCT.detect.surfaceFromUrl(location.href) === "contenthub"
+    ? send({ type: "site-origin" }).then((o) => (origin = o || origin))
+    : Promise.resolve();
 
   let onStorage = null;
   let leaving = false;
@@ -35,6 +41,7 @@
       }
     },
     async version() {
+      await ready;
       return ((await api.storage.local.get(VERSIONS))[VERSIONS] || {})[origin] || null;
     },
     saveVersion(v) {
@@ -44,11 +51,13 @@
       });
     },
     async site() {
+      await ready;
       const { titles = {}, tints = {}, envs = {}, phases = {}, schemes = {}, hues = {}, accessibility = {} } = await api.storage.sync.get(["titles", "tints", "envs", "phases", "schemes", "hues", "accessibility"]);
       return { title: titles[origin], tint: tints[origin], env: envs[origin], phase: phases[origin], scheme: schemes[origin], hue: hues[origin], accessibility: accessibility[origin] };
     },
     url: (path) => api.runtime.getURL(path),
     async theme(version) {
+      await ready;
       const [sync, local] = await Promise.all([api.storage.sync.get("overrides"), api.storage.local.get("imported")]);
       const catalog = SCT.settings.catalog(local.imported || {});
       const id = SCT.settings.resolve({ ...SCT.settings.DEFAULTS, ...sync }, origin, version, catalog);

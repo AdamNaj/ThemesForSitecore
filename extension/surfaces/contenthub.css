@@ -1,0 +1,63 @@
+/* Hand-tuned area map for Content Hub's DAM Connect pages (detect.js), which the DAM connector's pickers show in a
+   frame. There is no generated map: Content Hub's styles are not on the local installs. live-map.js maps the
+   colours of its stylesheets (MUI's, in <style> tags) in the page; these rules give the roles a colour alone can't
+   tell, and the tenant's own colours (its portal variables and MUI palette), which differ per tenant. */
+
+/* The tenant's portal variables (Content Hub's theme settings, on :root). */
+html[data-sct-tokens][data-sct-surface="contenthub"] {
+  scrollbar-color: var(--sct-scrollbar-thumb) var(--sct-scrollbar-track);
+  --body-background-color: var(--sct-app-bg);
+  --page-title-background-color: var(--sct-titlebar-bg);
+  --page-title-color: var(--sct-titlebar-fg);
+  --font-color-h1: var(--sct-app-fg);
+  --font-color-h2: var(--sct-app-fg);
+  --font-color-h3: var(--sct-app-fg);
+  --font-color-h4: var(--sct-app-fg);
+  --font-color-h5: var(--sct-app-fg);
+  --font-color-h6: var(--sct-app-fg);
+}
+html[data-sct-tokens][data-sct-surface="contenthub"] body {
+  background-color: var(--sct-app-bg);
+  color: var(--sct-app-fg);
+}
+
+/* The page's tabs (Approved assets, Pending approval): the active one carries the tenant's tint, which the map
+   gave the page's own background; it takes the tree's selection, a pair npm test checks. Content Hub sets these
+   !important, and the class names carry emotion's labels. */
+html[data-sct-tokens][data-sct-surface="contenthub"] [class*="-activeMenuItemLink"] {
+  background-color: var(--sct-tree-selected-bg) !important;
+  color: var(--sct-tree-selected-fg) !important;
+}
+
+/* MUI in the tenant's primary colour (a saturated colour the map keeps, as it keeps status colours): the theme's
+   accent and links instead. */
+html[data-sct-tokens][data-sct-surface="contenthub"] :is(.MuiTab-root.Mui-selected, :is(.MuiButton-text, .MuiButton-outlined).MuiButton-colorPrimary, .MuiLink-root, .MuiCheckbox-root.Mui-checked, .MuiRadio-root.Mui-checked, .MuiCircularProgress-root) {
+  color: var(--sct-link);
+}
+html[data-sct-tokens][data-sct-surface="contenthub"] :is(.MuiTabs-indicator, .MuiSlider-track, .MuiLinearProgress-bar, .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track) {
+  background-color: var(--sct-accent);
+  border-color: var(--sct-accent);
+}
+html[data-sct-tokens][data-sct-surface="contenthub"] .MuiSlider-thumb {
+  background-color: var(--sct-accent);
+  color: var(--sct-accent);
+}
+/* Primary buttons (Choose file to insert): MUI 6 classes, with the variant and the colour apart. */
+html[data-sct-tokens][data-sct-surface="contenthub"] :is(.MuiButton-contained.MuiButton-colorPrimary, .MuiChip-colorPrimary, .MuiBadge-colorPrimary .MuiBadge-badge) {
+  background-color: var(--sct-button-primary-bg);
+  color: var(--sct-button-primary-fg);
+}
+html[data-sct-tokens][data-sct-surface="contenthub"] .MuiButton-contained.MuiButton-colorPrimary:hover {
+  background-color: var(--sct-button-primary-hover-bg);
+}
+html[data-sct-tokens][data-sct-surface="contenthub"] :is(.MuiMenuItem-root, .MuiListItemButton-root).Mui-selected {
+  background-color: var(--sct-tree-selected-bg);
+  color: var(--sct-tree-selected-fg);
+}
+
+/* Text areas and fields draw on their MUI container; under a dark theme the browser's own field grey showed
+   inside it (the search box). */
+html[data-sct-tokens][data-sct-surface="contenthub"] :is(textarea, input:not([type="checkbox"], [type="radio"], [type="range"])) {
+  background-color: transparent;
+  color: inherit;
+}

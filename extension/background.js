@@ -98,11 +98,23 @@ async function disableSite(origin) {
   await api.permissions.remove({ origins: [origin + "/*"] }).catch(() => {});
 }
 
+// The site whose settings a frame follows: its own, or for a Content Hub page (detect.js), shown in the DAM
+// connector's pickers, the Sitecore site in the tab. Null when the tab's address is not ours to read.
+function siteOrigin(sender) {
+  if (SCT.detect.surfaceFromUrl(sender.url) !== "contenthub") return new URL(sender.url).origin;
+  try {
+    return new URL(sender.tab.url).origin;
+  } catch {
+    return null;
+  }
+}
+
 async function onFrameReady(msg, sender) {
-  const origin = new URL(sender.url).origin;
+  const frameOrigin = new URL(sender.url).origin;
+  const origin = siteOrigin(sender);
   // a frame on a site that is off (Disable, a stale registration): Native, so the theme's CSS comes out, and the frame
   // stands down so the Sitecore module, where the site has it, can take the page
-  const standDown = !(await enabledOn(origin));
+  const standDown = !origin || !(await enabledOn(origin));
   if (standDown) msg = { ...msg, off: true };
   const [sync, local] = await Promise.all([
     api.storage.sync.get(["overrides", "modes"]),
@@ -120,11 +132,11 @@ async function onFrameReady(msg, sender) {
   if (msg.previous && changed) {
     // After an imported theme is updated or removed, its old entry says what has to come out.
     const before = msg.previousEntry ? { ...imported, [msg.previous]: msg.previousEntry } : imported;
-    const old = await cssFor(msg.previous, msg.surface, before, origin, dev, msg.previousMode);
+    const old = await cssFor(msg.previous, msg.surface, before, frameOrigin, dev, msg.previousMode);
     if (old) await api.scripting.removeCSS({ target, css: old }).catch(() => {});
   }
   if (changed) {
-    const css = await cssFor(theme, msg.surface, imported, origin, dev, mode);
+    const css = await cssFor(theme, msg.surface, imported, frameOrigin, dev, mode);
     if (css) await api.scripting.insertCSS({ target, css }).catch(() => {});
   }
   const entry = SCT.settings.catalog(imported).find((t) => t.id === theme);
@@ -177,8 +189,12 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   }
   if (msg && msg.type === "theme-tokens") {
-    tokensCss(String(msg.theme), new URL(sender.url).origin).then(sendResponse, () => sendResponse(""));
+    tokensCss(String(msg.theme), siteOrigin(sender)).then(sendResponse, () => sendResponse(""));
     return true;
+  }
+  if (msg && msg.type === "site-origin") {
+    sendResponse(siteOrigin(sender));
+    return false;
   }
   if (msg && msg.type === "dev-reload") {
     isDevInstall().then((dev) => dev && api.runtime.reload());

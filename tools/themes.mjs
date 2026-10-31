@@ -6,7 +6,7 @@
 // category, order, appearance, hue, controls, swatchFor, shared. Derived from the folder's files:
 //   usesTokens  tokens.css is there: the generated map of Sitecore's UI (surfaces/) applies, coloured by it
 //   hasDom      dom.js is there
-//   areas       the <area>.css files present (shell, login, speak, launchpad, ee, admin)
+//   areas       the <area>.css files present (shell, login, speak, launchpad, ee, admin, contenthub)
 //   shared      every other .css but bar.css, alphabetically, unless theme.json lists them in order
 //   bar         bar.css is there: the theme's look for the site's postfix in Sitecore's top bar
 //   previews    preview[-<version>][-dark].jpg suffixes, made by tools/previews.cjs
@@ -20,7 +20,7 @@ const DIR = path.join(root, "extension", "themes");
 const OUT = path.join(DIR, "themes.js");
 const README = path.join(root, "README.md");
 
-export const AREAS = ["shell", "login", "speak", "launchpad", "ee", "admin"];
+export const AREAS = ["shell", "login", "speak", "launchpad", "ee", "admin", "contenthub"];
 export const VERSIONS = ["10.4", "10.5"];
 // The picker's groups, in order. A theme without a category sits above them all; a category not listed here
 // is added after these, named after its id.

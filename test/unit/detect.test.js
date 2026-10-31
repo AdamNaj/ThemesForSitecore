@@ -38,6 +38,12 @@ const urls = [
   ["about:blank", null],
   ["https://cm/sitecore/shell/Controls/Rich%20Text%20Editor/EditorPage.aspx", "shell"],
   ["https://cm/sitecore/shell/Controls/Rich%20Text%20Editor/Preview.aspx?da=core", null],
+  // Content Hub's DAM Connect pages, in the DAM connector's pickers; the rest of Content Hub is not Sitecore's UI
+  ["https://tenant.sitecorecontenthub.cloud/en-us/sitecore-dam-connect/approved-assets?hasExternalRedirect=true", "contenthub"],
+  ["https://tenant.sitecorecontenthub.cloud/de-DE/sitecore-dam-connect/pending-approval", "contenthub"],
+  ["https://tenant.sitecorecontenthub.cloud/en-us/asset/1234", null],
+  ["https://tenant.sitecorecontenthub.cloud/account/login", null],
+  ["https://cm/en-us/sitecore-dam-connect/approved-assets", null],
 ];
 
 for (const [href, expected] of urls) {

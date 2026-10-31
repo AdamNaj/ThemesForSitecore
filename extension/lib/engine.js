@@ -925,7 +925,8 @@
     }
 
     async function probeVersion() {
-      if (surfaceName === "login") return;
+      // Content Hub serves no Sitecore: its page takes the version of the site that holds it (the host's version())
+      if (surfaceName === "login" || surfaceName === "contenthub") return;
       try {
         const r = await fetch(origin + "/sitecore/shell/sitecore.version.xml", { credentials: "include" });
         const v = r.ok ? SCT.detect.parseVersionXml(await r.text()) : null;

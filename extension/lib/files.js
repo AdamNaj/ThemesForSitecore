@@ -4,8 +4,9 @@
   const SCT = (root.SCT = root.SCT || {});
   const builtIns = () => SCT.themes || (typeof require === "function" ? require("../themes/themes.js") : []);
 
-  // The generated map from Sitecore's stylesheets, then the hand-tuned map that wins over it.
-  const areaMap = (surface) => [`surfaces/${surface}.gen.css`, `surfaces/${surface}.css`];
+  // The generated map from Sitecore's stylesheets, then the hand-tuned map that wins over it. Content Hub's
+  // stylesheets are not on the local installs, so it has no generated map: live-map.js maps them in the page.
+  const areaMap = (surface) => [...(surface === "contenthub" ? [] : [`surfaces/${surface}.gen.css`]), `surfaces/${surface}.css`];
 
   // Every theme's look for the site's postfix in Sitecore's top bar, and the Sitecore Extensions database name moved aside.
   const BAR = "surfaces/bar.css";

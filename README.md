@@ -53,7 +53,7 @@ A browser extension that re-themes the Sitecore 10.0 to 10.5 Content Management 
 | Riso | A two-ink risograph print in fluorescent pink and teal |
 <!-- /themes -->
 
-The themes cover the Content Editor, the Desktop, Sheer UI dialogs, SPE (ISE, Read-Variable dialogs, Show-ListView), Launchpad, SPEAK applications and the login screen. Website content in the Experience Editor is never touched.
+The themes cover the Content Editor, the Desktop, Sheer UI dialogs, SPE (ISE, Read-Variable dialogs, Show-ListView), Launchpad, SPEAK applications and the login screen, and the Content Hub DAM connector's pickers, whose Content Hub pages take the theme of the Sitecore site they open from (allow Content Hub once, from the popup on that site). Website content in the Experience Editor is never touched.
 
 ## Install for testing
 
@@ -127,7 +127,7 @@ html[data-sct-theme="import:my-theme"] {
 ```
 
 - With `usesTokens: true` the extension applies its map of Sitecore's UI first, so the file only needs to set the `--sct-*` colour roles from [extension/surfaces/tokens.json](extension/surfaces/tokens.json). Without it, the file styles Sitecore directly.
-- Every page the extension themes has `data-sct-theme`, `data-sct-surface` (`shell`, `launchpad`, `login`, `ee`, `speak`) and `data-sct-version` on `<html>`. Scope rules with them.
+- Every page the extension themes has `data-sct-theme`, `data-sct-surface` (`shell`, `launchpad`, `login`, `ee`, `speak`, `admin`, `contenthub`) and `data-sct-version` on `<html>`. Scope rules with them.
 - Import the file from the popup's settings (the gear): drop it on **Imported themes** or choose it there. Importing a file with the same id again replaces the theme.
 - Imported themes may not load anything from other servers. `@import`, remote `url()`s and `@font-face` sources, custom functions and backslash escapes in values are rejected. `data:` URLs and URLs on the Sitecore host are fine.
 

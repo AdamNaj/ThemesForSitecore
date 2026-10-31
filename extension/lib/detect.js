@@ -6,6 +6,9 @@
   // /account/ also exists on ordinary websites; only Sitecore Identity Server's page counts as login.
   const LOGIN_MARKERS = "#AccountPrefix, .login-page, form[action*='/Account/Login' i]";
 
+  // Content Hub tenants; the popup asks for this host pattern (popup.js CONTENT_HUB)
+  const CONTENT_HUB = /\.sitecorecontenthub\.cloud$/;
+
   const SPEAK_AT_SHELL_URLS = [
     "/sitecore/shell/applications/control panel.aspx",
     "/sitecore/shell/applications/dialogs/internal link.aspx",
@@ -28,7 +31,7 @@
     } catch {
       // keep the raw path
     }
-    return { path: path.toLowerCase(), editMode: url.searchParams.get("sc_mode") === "edit", control: (url.searchParams.get("xmlcontrol") || "").toLowerCase() };
+    return { host: url.hostname.toLowerCase(), path: path.toLowerCase(), editMode: url.searchParams.get("sc_mode") === "edit", control: (url.searchParams.get("xmlcontrol") || "").toLowerCase() };
   }
 
   function surfaceFromUrl(href) {
@@ -38,6 +41,9 @@
     // shell path, /sitecore/shell/sitecore/client/...; they are the same pages as /sitecore/client/...
     // The trailing slash lets the prefixes below match bare folder URLs: Sitecore serves the desktop at /sitecore/shell.
     const p = `${u.path}/`.replace(/^\/sitecore\/shell(?=\/sitecore\/client\/)/, "");
+    // Content Hub's DAM Connect pages (/en-us/sitecore-dam-connect/approved-assets), which the DAM connector's
+    // pickers show in a frame, served by the Content Hub tenant: they take the Sitecore site's theme (content.js)
+    if (CONTENT_HUB.test(u.host)) return /^\/[a-z]{2}(-[a-z0-9]+)*\/sitecore-dam-connect\//.test(p) ? "contenthub" : null;
     if (p.startsWith("/sitecore/admin")) return "admin";
     // The Rich Text Editor's preview renders item content with the site's own styles.
     if (p.startsWith("/sitecore/shell/controls/rich text editor/preview.aspx")) return null;

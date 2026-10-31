@@ -55,6 +55,31 @@ test("switches theme live when the site's theme changes, and back", async () => 
   await page.close();
 });
 
+// Content Hub's MUI pages (emotion) add their rules with insertRule(), which changes no node: the live map maps a
+// sheet again once the elements its new rules style render.
+test("maps rules a script inserts into a sheet after the page loaded", async () => {
+  await setTheme("debrightify");
+  const page = await context.newPage();
+  await page.goto(`${BASE}/sitecore/shell/default.aspx`);
+  await expect.poll(() => attrs(page)).toMatchObject({ sctTheme: "debrightify" });
+  await page.evaluate(() => {
+    const s = document.createElement("style");
+    document.head.append(s);
+    s.sheet.insertRule(".late-a { background-color: #fff }");
+  });
+  await page.waitForTimeout(300); // the live map has seen the <style> come in
+  const bg = await page.evaluate(() => {
+    [...document.styleSheets].find((s) => s.cssRules[0] && s.cssRules[0].selectorText === ".late-a").insertRule(".late-b { background-color: #fff }", 1);
+    const d = document.createElement("div");
+    d.className = "late-b";
+    document.body.append(d);
+    return getComputedStyle(d).backgroundColor;
+  });
+  expect(bg).toBe("rgb(255, 255, 255)");
+  await expect.poll(() => page.evaluate(() => getComputedStyle(document.querySelector(".late-b")).backgroundColor)).not.toBe("rgb(255, 255, 255)");
+  await page.close();
+});
+
 test("another site's theme leaves this one Native", async () => {
   const page = await context.newPage();
   await page.goto(`${BASE}/sitecore/shell/default.aspx`);
