@@ -1,5 +1,6 @@
 // Contrast scan for shots.cjs --scan: in every frame of the page, finds text below WCAG AA against the
-// colour behind it, placeholders below AA, light patches in a dark theme, small glyphs (icons, arrows,
+// colour behind it (measured from the screenshot where the colour behind is an image or gradient, such as the
+// Experience Editor's "Add here" handles), placeholders below AA, light patches in a dark theme, small glyphs (icons, arrows,
 // knobs) whose rendered pixels barely differ from their background, and needless scrollbars (a menu or page
 // that scrolls for a few pixels while it still has room to grow). Findings are leads, not verdicts:
 // disabled controls and colour item icons on a selection can show up and are fine.
@@ -42,15 +43,16 @@ function inFrame() {
     const cs = getComputedStyle(el);
     return cs.visibility === "hidden" || +cs.opacity === 0 ? null : r;
   };
-  // The colour painted behind el: the nearest opaque-enough background colour. null when an image,
-  // gradient or filter on the way makes the computed colours a guess.
+  // The colour painted behind el: the nearest opaque-enough background colour. "image" when an image or
+  // gradient comes first (the screenshot tells), null when a filter on the way makes the computed colours a guess.
   const behind = (el) => {
     for (let n = el; n && n.nodeType === 1; n = n.parentElement) {
       const cs = getComputedStyle(n);
       if (cs.filter !== "none" || cs.mixBlendMode !== "normal" || (cs.backdropFilter || "none") !== "none") return null;
+      // an image or gradient paints over the box's own colour (Copenhagen's ribbon bands carry both)
+      if (cs.backgroundImage !== "none") return "image";
       const c = rgba(cs.backgroundColor);
       if (c && c[3] >= 0.6) return c;
-      if (cs.backgroundImage !== "none") return null;
     }
     return document.documentElement.style.colorScheme === "dark" ? [18, 18, 18, 1] : [255, 255, 255, 1];
   };
@@ -66,7 +68,7 @@ function inFrame() {
     if (/auto|scroll/.test(cs.overflowX) && x > 1 && x <= SLACK && r.right + x < vw - 2) out.push(`${x}px too narrow`);
     return out.join(", ");
   };
-  const found = [], glyphs = [];
+  const found = [], glyphs = [], texts = [];
   // the page itself: a document a few pixels taller or wider than its window
   const page = document.scrollingElement;
   // each axis on its own: a page can clip one (overflow-x: hidden) and scroll the other
@@ -83,13 +85,17 @@ function inFrame() {
     const bg = behind(el);
     // a label pushed out of its box (jQuery UI's icon buttons: text-indent -9999px) is not drawn
     const ownText = parseFloat(cs.textIndent) > -999 && [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
-    if (ownText && bg) {
+    if (ownText && bg === "image") {
+      const fg = rgba(cs.color);
+      const large = parseFloat(cs.fontSize) >= 24 || (parseFloat(cs.fontSize) >= 18.66 && +cs.fontWeight >= 700);
+      if (fg && fg[3] > 0.5) texts.push({ what: name(el), x: r.left, y: r.top, w: r.width, h: r.height, fg: fg.slice(0, 3), color: cs.color, min: large ? 3 : 4.5, sample: el.textContent.trim().slice(0, 30) });
+    } else if (ownText && bg) {
       const fg = rgba(cs.color);
       const large = parseFloat(cs.fontSize) >= 24 || (parseFloat(cs.fontSize) >= 18.66 && +cs.fontWeight >= 700);
       const x = fg && fg[3] > 0.5 ? ratio(fg, bg) : 99;
       if (x < (large ? 3 : 4.5)) found.push({ kind: "text", what: name(el), detail: `${x.toFixed(2)}:1 ${cs.color} on rgb(${bg.slice(0, 3).join(", ")})`, sample: el.textContent.trim().slice(0, 30) });
     }
-    if (/^(INPUT|TEXTAREA)$/.test(el.tagName) && el.placeholder && bg) {
+    if (/^(INPUT|TEXTAREA)$/.test(el.tagName) && el.placeholder && Array.isArray(bg)) {
       const ph = rgba(getComputedStyle(el, "::placeholder").color);
       if (ph && ratio(ph, bg) < 4.5) found.push({ kind: "placeholder", what: name(el), detail: `${ratio(ph, bg).toFixed(2)}:1 ${getComputedStyle(el, "::placeholder").color}`, sample: el.placeholder.slice(0, 30) });
     }
@@ -109,14 +115,17 @@ function inFrame() {
       const back = behind(el.parentElement || el);
       // an item or command icon is drawn even when it matches its background (a white icon on a white header)
       const drawn = el.tagName === "IMG" && el.naturalWidth > 0 && /\/(temp\/iconcache|-\/icon)\//i.test(el.currentSrc || el.src);
-      if (back) glyphs.push({ what: name(el), x: r.left, y: r.top, w: r.width, h: r.height, bg: back.slice(0, 3), drawn });
+      if (Array.isArray(back)) glyphs.push({ what: name(el), x: r.left, y: r.top, w: r.width, h: r.height, bg: back.slice(0, 3), drawn });
     }
   }
-  return { url: location.pathname, dark, found, glyphs };
+  return { url: location.pathname, dark, found, glyphs, texts };
 }
 
 // Decodes the screenshot on a blank page (no Sitecore CSP there) and measures each glyph box: the most
-// any of its pixels stands out from the colour behind it.
+// any of its pixels stands out from the colour behind it. A text box (one with fg) instead takes as its background
+// the pixel of median lightness 1px inside its edges (leaving out a frame), among those that stand 2:1 or more
+// from the text colour (leaving out the glyphs and their anti-aliased edges, which can fill half of a small bold
+// label), and returns the text's ratio to it. On a smooth gradient no single colour is commonest.
 function measure({ png, boxes, scale }) {
   return new Promise((resolve) => {
     const img = new Image();
@@ -133,7 +142,19 @@ function measure({ png, boxes, scale }) {
         const x = Math.max(0, Math.round(b.x * scale)), y = Math.max(0, Math.round(b.y * scale));
         const w = Math.min(c.width - x, Math.round(b.w * scale)), h = Math.min(c.height - y, Math.round(b.h * scale));
         if (w < 2 || h < 2) return 99;
-        const d = g.getImageData(x, y, w, h).data, lb = lum(b.bg);
+        if (b.fg) {
+          const inset = w > 4 && h > 4 ? 1 : 0;
+          const d = g.getImageData(x + inset, y + inset, w - 2 * inset, h - 2 * inset).data;
+          const px = [];
+          for (let i = 0; i < d.length; i += 4) px.push([d[i], d[i + 1], d[i + 2]]);
+          const a = lum(b.fg);
+          const all = px.map((p) => [lum(p), p]).sort((p, q) => p[0] - q[0]);
+          const back = all.filter(([l]) => (Math.max(a, l) + 0.05) / (Math.min(a, l) + 0.05) >= 2);
+          const mid = (back.length ? back : all)[(back.length || all.length) >> 1];
+          return { ratio: (Math.max(a, mid[0]) + 0.05) / (Math.min(a, mid[0]) + 0.05), bg: mid[1] };
+        }
+        const d = g.getImageData(x, y, w, h).data;
+        const lb = lum(b.bg);
         let best = 1;
         for (let i = 0; i < d.length; i += 4) {
           const l = lum([d[i], d[i + 1], d[i + 2]]);
@@ -159,13 +180,18 @@ async function scanPage(page, scratch, scale = 1) {
     const res = await frame.evaluate(inFrame).catch(() => null);
     if (!res) continue;
     for (const f of res.found) all.push({ ...f, url: res.url });
-    for (const g of res.glyphs) boxes.push({ ...g, x: g.x + off.x, y: g.y + off.y, url: res.url });
+    for (const g of [...res.glyphs, ...res.texts]) boxes.push({ ...g, x: g.x + off.x, y: g.y + off.y, url: res.url });
   }
   if (boxes.length) {
     const png = (await page.screenshot()).toString("base64");
     await scratch.goto("about:blank");
     const contrast = await scratch.evaluate(measure, { png, boxes, scale });
     boxes.forEach((b, i) => {
+      if (b.fg) {
+        const { ratio, bg } = contrast[i];
+        if (ratio < b.min) all.push({ kind: "text", what: b.what, detail: `${ratio.toFixed(2)}:1 ${b.color} on an image, typically rgb(${bg.join(", ")})`, sample: b.sample, url: b.url });
+        return;
+      }
       // under 1.02 nothing is drawn at all (the blank spacers Sitecore puts beside leaf tree nodes), unless the box is an image
       if ((contrast[i] >= 1.02 || b.drawn) && contrast[i] < 1.6) all.push({ kind: "glyph", what: b.what, detail: `stands out ${contrast[i].toFixed(2)}:1 from rgb(${b.bg.join(", ")})`, url: b.url });
     });

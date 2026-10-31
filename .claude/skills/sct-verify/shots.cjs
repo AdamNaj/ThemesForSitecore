@@ -36,6 +36,8 @@ const { scanPage } = require("./scan.cjs");
 const PATHS = arg("paths", [
   "/sitecore/shell",
   "/sitecore/shell/Applications/Content%20Editor.aspx?sc_bw=1",
+  // Home in a language it has no version in: the Content Editor's warning bar
+  "/sitecore/shell/Applications/Content%20Editor.aspx?sc_bw=1&fo=%7B110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9%7D&la=da",
   "/sitecore/shell/sitecore/client/Applications/Launchpad",
   "/?sc_mode=edit",
   "/sitecore/admin/",
@@ -131,6 +133,8 @@ function copyProfile() {
           }
           await page.waitForTimeout(1500);
         }
+        // the Experience Editor's "Add here" handles, which Sitecore draws as light bitmaps on every theme
+        for (const f of page.frames()) await f.evaluate(() => window.Sitecore?.PageModes?.DesignManager?.insertionStart()).catch(() => {});
         const file = path.join(out, `${version}-${theme}${env ? `-${env}` : ""}${colours ? `-${colours}` : ""}${whiteIcons ? "-white" : ""}${access.font ? `-${access.font}` : ""}${access.spacing ? `-${access.spacing}` : ""}${access.vision ? `-${access.vision}${access.strength}` : ""}-${p.replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "root"}.png`);
         await page.screenshot({ path: file });
         console.log(`${label}\n  ${frames.map((f) => `${f.url} surface=${f.surface || "-"} theme=${f.theme || "-"}${f.font || f.spacing || f.vision ? ` font=${f.font} spacing=${f.spacing} vision=${f.vision} faces=${f.faces.join("/")}` : ""}`).join("\n  ")}\n  -> ${path.relative(ROOT, file)}`);

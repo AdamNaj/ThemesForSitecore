@@ -49,7 +49,8 @@ node .claude/skills/sct-verify/shots.cjs --themes <ids> --versions 10.5,10.4
 ```
 
 It copies `.auth/profile`, loads the real entry URLs (the desktop at bare `/sitecore/shell`, the
-Content Editor, Launchpad through the shell path, the Experience Editor, the admin pages, SPE Reports),
+Content Editor, the Content Editor with a warning bar, Launchpad through the shell path, the Experience Editor
+with its "Add here" handles showing, the admin pages, SPE Reports),
 checks every frame's `data-sct-*` attributes, lists uncaught page errors, and screenshots each page into
 `test-results/verify/`. Add `--paths` for pages the change touches that are not in the default list.
 The window is 1300px wide; `--width 1920` checks the Launchpad's wide layout (Analytics moves right above
@@ -57,7 +58,8 @@ The window is 1300px wide; `--width 1920` checks the Launchpad's wide layout (An
 
 For any visual change also pass `--scale 1.25 --scan`. `--scale 1.25` renders at the user's
 devicePixelRatio, where glyphs garble and 1px edges land on different device pixels. `--scan` checks
-every themed frame for text and placeholders below AA against the colour behind them, light patches in a
+every themed frame for text and placeholders below AA against the colour behind them (where that is an image or
+gradient, against its median-lightness pixel in the screenshot), light patches in a
 dark theme, small glyphs whose rendered pixels barely differ from their background, and needless
 scrollbars (`scroll`: a menu or page that scrolls for a few pixels while it could still grow).
 Icons can be white (Sitecore's `OfficeWhite` set, which scripts and items pick) or black, and vanish on a
