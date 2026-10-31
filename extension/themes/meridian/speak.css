@@ -7,11 +7,12 @@ html[data-sct-theme="meridian"][data-sct-surface="speak"] :is(.sc-globalHeader, 
 html[data-sct-theme="meridian"][data-sct-surface="speak"] .sc-globalHeader :is(a, span, li, h1, h2, div) {
   color: var(--sct-titlebar-fg);
 }
+/* Log out at the title's full strength: muted to 85% it fell to 4.0:1 on the dusk gradient's light end */
 html[data-sct-theme="meridian"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout {
-  color: color-mix(in srgb, var(--sct-titlebar-fg) 85%, var(--sct-titlebar-bg));
+  color: var(--sct-titlebar-fg);
 }
 html[data-sct-theme="meridian"][data-sct-surface="speak"] .sc-globalHeader ul.sc-accountInformation li a.logout:hover {
-  color: var(--sct-titlebar-fg);
+  text-decoration: underline;
 }
 /* 10.5's Launchpad glyph in the global header is drawn dark for a white header; it takes the header's
    text colour instead (as the shared shell map does on shell pages). */
