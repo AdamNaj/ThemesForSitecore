@@ -28,7 +28,10 @@
     }
     // fake.theme is the theme apply() answers with, fake.site what site() returns, fake.fire(kind) a setting change
     const needs = new URLSearchParams(location.search).get("needs");
-    const fake = (window.fake = { site: needs ? { accessibility: { needs: needs.split(",") } } : {}, theme: new URLSearchParams(location.search).get("theme") || "native", listener: null, fire: (kind) => fake.listener && fake.listener(kind) });
+    // aids=a,-b: a switched on, b switched off, as under Fine-tune or UI improvements
+    const own = new URLSearchParams(location.search).get("aids");
+    const access = { ...(needs && { needs: needs.split(",") }), ...(own && { aids: Object.fromEntries(own.split(",").map((id) => [id.replace(/^-/, ""), !id.startsWith("-")])) }) };
+    const fake = (window.fake = { site: needs || own ? { accessibility: access } : {}, theme: new URLSearchParams(location.search).get("theme") || "native", listener: null, fire: (kind) => fake.listener && fake.listener(kind) });
     const entry = (id) => ({ id, name: id, usesTokens: id === "fjord" });
     SCT.startEngine({
       alive: () => true,

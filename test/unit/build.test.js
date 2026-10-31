@@ -77,7 +77,7 @@ test("every aid is described, and its module registers apply or css", () => {
   const SURFACES = ["shell", "speak", "launchpad", "login", "ee", "admin", "contenthub"];
   require("../../extension/lib/dom-kit.js");
   for (const [id, aid] of Object.entries(AIDS)) {
-    assert.ok(aid.needs.length && aid.needs.every((n) => Object.hasOwn(NEEDS, n)), id);
+    assert.ok((aid.ui ? !aid.needs.length : aid.needs.length) && aid.needs.every((n) => Object.hasOwn(NEEDS, n)), id); // a UI improvement serves no need
     assert.ok(aid.surfaces === null || aid.surfaces.every((s) => SURFACES.includes(s)), id);
     assert.ok(aid.name && aid.hint && typeof aid.always === "boolean", id);
     require(`../../extension/lib/aids/${id}.js`);

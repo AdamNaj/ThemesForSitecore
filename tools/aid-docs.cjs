@@ -1,4 +1,5 @@
-// docs/accessibility.md's generated parts: for every accessibility aid (settings.js AIDS) and reading setting, what
+// docs/accessibility.md's and docs/ui-improvements.md's generated parts: for every accessibility aid and UI improvement
+// (settings.js AIDS; the improvements, ui: true, on the second page) and reading setting, what
 // changes when it is on, shot off and on in the live 10.4 Content Editor (or, for an aid with nothing to see, what a
 // screen reader is given), written between its <!-- shots:<id> --> markers, and its section stamped with a hash of
 // the aid's code (<!-- aid:<id> <hash> -->), which test/unit/docs.test.js checks. The prose around them is written
@@ -11,8 +12,11 @@ const os = require("node:os");
 const path = require("node:path");
 
 const ROOT = path.join(__dirname, "..");
-const DOC = path.join(ROOT, "docs", "accessibility.md");
-const IMAGES = path.join(ROOT, "docs", "accessibility");
+// the page a scene's section is on (by its id, or the aid it shows), and its pictures' folder beside it
+const PAGES = ["accessibility", "ui-improvements"];
+const pageOf = (id) => (AIDS[(SCENES[id] && SCENES[id].aid) || id]?.ui ? "ui-improvements" : "accessibility");
+const DOC = (page) => path.join(ROOT, "docs", `${page}.md`);
+const IMAGES = (page) => path.join(ROOT, "docs", page);
 const { AIDS, NEEDS } = require(path.join(ROOT, "extension/lib/settings.js"));
 
 // what an aid's section says about it: a change to either means the section needs a look
@@ -27,6 +31,26 @@ const SYSTEM = "{13D6D6C6-C50B-4BBD-B331-2B04F1A58F21}";
 const CE = (item) => `/sitecore/shell/Applications/Content%20Editor.aspx?sc_bw=1&fo=${encodeURIComponent(item)}`;
 // three groups of the Home strip, on 10.4
 const QUIET = ["C28353D7ACFCA49B5B344C3A97415C89B", "C373217F6FC5C4BEBB5D9435B8C37D539", "CB91973ACF8C344B7AB8ED6E3ADF4CF7A"];
+
+// stock 10.4's /sitecore/media library/Default Website/cover, put in Home's first Image field through its Browse button
+// and the media browser's result, as a pick does; never saved
+const COVER = "{04DAD0FD-DB66-4070-881F-17264CA257E1}";
+async function pickImage(page) {
+  await page.evaluate(() => [...document.querySelectorAll("a.scContentButton")].find((a) => (a.getAttribute("onclick") || "").includes("contentimage:open(")).click());
+  for (let i = 0; i < 30; i++) {
+    await page.waitForTimeout(1000);
+    const host = page.frames().find((f) => /JqueryModalDialogs/i.test(f.url()));
+    const picked = host && (await host.evaluate((id) => {
+      if (!document.querySelector(".ui-dialog iframe")) return false;
+      window.top.returnValue = id;
+      window.top.dialogClose();
+      return true;
+    }, COVER).catch(() => false));
+    if (picked) break;
+  }
+  await page.waitForTimeout(3000);
+  await page.locator(".scContentControlImagePane").first().scrollIntoViewIfNeeded();
+}
 
 const focusFirstField = (page) => page.locator(".scEditorFieldMarker input.scContentControl").first().focus();
 const focusTree = (page) => page.locator(".scContentTreeNodeActive").first().focus();
@@ -94,6 +118,13 @@ const SCENES = {
   "ce-state": { none: "Remember Content Editor state changes where the Content Editor opens, which a still picture cannot show: close it on an item, open it again from the Launchpad or the Desktop, and it is back on that item." },
   "ee-state": { none: "Remember Experience Editor state changes which page the Experience Editor opens on, which a still picture cannot show: leave it on a page, open it again from the Launchpad, and it is back on that page." },
   "section-toggle": { path: CE(HOME), shot: "#EditorTabs", padBelow: 220, max: [800, 300] },
+  "image-preview": {
+    path: CE(HOME),
+    setup: async (page) => { await page.evaluate(() => localStorage.setItem("sct-image-preview", JSON.stringify({ mode: "cover", height: 220 }))); await pickImage(page); },
+    caption: "On, the preview dragged to 220px and set to Fill.",
+    own: true, shot: ".scContentControlImagePane", pad: 6, max: [900, 360],
+    after: (page) => page.evaluate(() => localStorage.removeItem("sct-image-preview")),
+  },
   "reading-guide": { path: CE(HOME), setup: async (page) => { const r = await page.locator(".scEditorFieldLabel").first().boundingBox(); await page.mouse.move(r.x + 20, r.y + r.height / 2); await page.waitForTimeout(300); }, shot: ".scEditorFieldLabel", pad: 80, max: [700, 200] },
   "quiet-ribbon": { path: CE(HOME), setup: async (page) => { await page.evaluate((ids) => localStorage.setItem("sct-quiet-ribbon", JSON.stringify(ids)), QUIET); await page.reload({ waitUntil: "domcontentloaded" }); await settle(page); await page.locator(".scRibbonToolbarStrip .chunk >> visible=true").first().hover(); }, shot: "#RibbonPanel", max: [800, 160] },
   "command-palette": { path: CE(HOME), setup: async (page) => { await focusTree(page); await page.keyboard.press("Control+Shift+Space"); await page.waitForTimeout(500); await page.keyboard.type("publish"); }, shot: "sct-dialog", pad: 12, after: (page) => page.keyboard.press("Escape") },
@@ -167,8 +198,10 @@ function facts(id) {
   const aid = AIDS[id];
   if (!aid) return "";
   const needs = list(aid.needs.map((n) => NEEDS[n]));
+  const where = `**Where:** ${aid.surfaces ? list(aid.surfaces.map((x) => SURFACES[x])) : "every page"}`;
+  if (aid.ui) return `**On:** ${aid.always ? "by default on every site that shows a theme" : "once switched on under UI improvements"} · ${where}`;
   const runs = aid.always ? "whenever the site shows a theme, and under Native once any need is ticked" : `with the ${needs} need${aid.needs.length > 1 ? "s" : ""}, or on its own under Fine-tune`;
-  return `**Need:** ${needs} · **On:** ${runs} · **Where:** ${aid.surfaces ? list(aid.surfaces.map((x) => SURFACES[x])) : "every page"}`;
+  return `**Need:** ${needs} · **On:** ${runs} · ${where}`;
 }
 
 function block(id, s, off, on) {
@@ -176,7 +209,7 @@ function block(id, s, off, on) {
   if (s.none) out.push(`_${s.none}_`);
   else if (on.image) {
     const name = s.title || AIDS[id].name;
-    const img = (r, state) => `![${name}, ${state}](accessibility/${r.image})`;
+    const img = (r, state) => `![${name}, ${state}](${pageOf(id)}/${r.image})`;
     if (on.width <= 380) out.push(`| Off | On |\n|---|---|\n| ${img(off, "off")} | ${img(on, "on")} |`);
     else out.push(`**Off**\n\n${img(off, "off")}\n\n**On**\n\n${img(on, "on")}`);
   } else {
@@ -188,11 +221,11 @@ function block(id, s, off, on) {
 
 function write(doc, id, body) {
   const re = new RegExp(`<!-- shots:${id} -->[\\s\\S]*?<!-- /shots:${id} -->`);
-  if (!re.test(doc)) throw new Error(`docs/accessibility.md has no <!-- shots:${id} --> block`);
+  if (!re.test(doc)) throw new Error(`docs/${pageOf(id)}.md has no <!-- shots:${id} --> block`);
   doc = doc.replace(re, () => `<!-- shots:${id} -->\n${body}\n<!-- /shots:${id} -->`);
   if (AIDS[id]) {
     const mark = new RegExp(`<!-- aid:${id}( [0-9a-f]*)? -->`);
-    if (!mark.test(doc)) throw new Error(`docs/accessibility.md has no <!-- aid:${id} --> stamp`);
+    if (!mark.test(doc)) throw new Error(`docs/${pageOf(id)}.md has no <!-- aid:${id} --> stamp`);
     doc = doc.replace(mark, `<!-- aid:${id} ${stamp(id)} -->`);
   }
   return doc;
@@ -204,10 +237,15 @@ async function main() {
   const ids = args.filter((a) => !a.startsWith("--"));
   const todo = ids.length ? ids : Object.keys(SCENES);
   for (const id of todo) if (!SCENES[id]) throw new Error(`no scene for ${id}; add one to SCENES`);
-  let doc = fs.readFileSync(DOC, "utf8");
+  const docs = Object.fromEntries(PAGES.map((p) => [p, fs.readFileSync(DOC(p), "utf8")]));
   if (stampOnly) {
-    for (const id of todo.filter((i) => AIDS[i])) doc = doc.replace(new RegExp(`<!-- aid:${id}( [0-9a-f]*)? -->`), `<!-- aid:${id} ${stamp(id)} -->`);
-    fs.writeFileSync(DOC, doc);
+    // the stamp, and the facts line at the top of its pictures, which come from AIDS alone
+    for (const id of todo.filter((i) => AIDS[i])) {
+      const p = pageOf(id);
+      docs[p] = docs[p].replace(new RegExp(`<!-- aid:${id}( [0-9a-f]*)? -->`), `<!-- aid:${id} ${stamp(id)} -->`)
+        .replace(new RegExp(`(<!-- shots:${id} -->\n)(?:\\*\\*(?:Need|On):\\*\\*.*)`), (m, open) => open + facts(id));
+    }
+    for (const p of PAGES) fs.writeFileSync(DOC(p), docs[p]);
     return;
   }
   const { extensionCopy, launchWithExtension } = require(path.join(ROOT, "test/e2e/helpers.js"));
@@ -218,7 +256,7 @@ async function main() {
   const origins = [...Object.values(HOSTS), ...IDENTITY];
   const { context, worker } = await launchWithExtension(extensionCopy(origins.map((o) => `${o}/*`)), profile, { viewport: { width: 1100, height: 700 } });
   const page = await context.newPage();
-  fs.mkdirSync(IMAGES, { recursive: true });
+  for (const p of PAGES) fs.mkdirSync(IMAGES(p), { recursive: true });
   const failed = [];
   for (const id of todo) {
     const s = SCENES[id];
@@ -235,18 +273,18 @@ async function main() {
           if (/\/Account\/Login|\/sitecore\/login/i.test(page.url())) throw new Error("landed on the login page: ask the user to run node test/e2e/login.mjs");
           if (s.setup) await s.setup(page);
           await page.waitForTimeout(400);
-          shots[state] = await look(page, s, !s.own && shots.on && shots.on.clip, path.join(IMAGES, `${id}-${state}.png`));
+          shots[state] = await look(page, s, !s.own && shots.on && shots.on.clip, path.join(IMAGES(pageOf(id)), `${id}-${state}.png`));
           if (s.after) await s.after(page);
         }
       }
-      doc = write(doc, id, block(id, s, shots.off, shots.on));
+      docs[pageOf(id)] = write(docs[pageOf(id)], id, block(id, s, shots.off, shots.on));
       console.log(`${id}: done`);
     } catch (e) {
       failed.push(`${id}: ${e.message.split("\n")[0]}`);
     }
   }
   await context.close();
-  fs.writeFileSync(DOC, doc);
+  for (const p of PAGES) fs.writeFileSync(DOC(p), docs[p]);
   if (failed.length) {
     console.error(`not shot:\n  ${failed.join("\n  ")}`);
     process.exitCode = 1;
@@ -254,4 +292,4 @@ async function main() {
 }
 
 if (require.main === module) main();
-module.exports = { stamp, SCENES };
+module.exports = { stamp, SCENES, pageOf };

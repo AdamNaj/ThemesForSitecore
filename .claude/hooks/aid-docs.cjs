@@ -1,5 +1,6 @@
 // PostToolUse hook: after an edit to an accessibility aid (extension/lib/aids/<id>.js) or to settings.js, where the
-// AIDS table lives, remind the agent that docs/accessibility.md describes every aid and must follow.
+// AIDS table lives, remind the agent that docs/accessibility.md (the aids) or docs/ui-improvements.md (the UI
+// improvements, ui: true) describes it and must follow.
 let input = "";
 process.stdin.on("data", (c) => (input += c));
 process.stdin.on("end", () => {
@@ -18,7 +19,7 @@ process.stdin.on("end", () => {
   process.stdout.write(JSON.stringify({
     hookSpecificOutput: {
       hookEventName: "PostToolUse",
-      additionalContext: `You changed ${what}. docs/accessibility.md describes every aid: when the change is done, read its section and update what it says the aid does, shows and tells a screen reader, then run node tools/aid-docs.cjs ${id} to shoot it off and on in live 10.4 and stamp it (--stamp ${id} if nothing on screen changed). A new aid needs a section and a scene in tools/aid-docs.cjs. npm test fails until the stamp matches.`,
+      additionalContext: `You changed ${what}. docs/accessibility.md describes every aid and docs/ui-improvements.md every UI improvement (ui: true in AIDS): when the change is done, read its section and update what it says the aid does, shows and tells a screen reader, then run node tools/aid-docs.cjs ${id} to shoot it off and on in live 10.4 and stamp it (--stamp ${id} if nothing on screen changed). A new aid needs a section and a scene in tools/aid-docs.cjs. npm test fails until the stamp matches.`,
     },
   }));
 });

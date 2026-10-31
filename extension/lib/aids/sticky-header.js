@@ -18,7 +18,7 @@
   // the panel's left and right padding, then the header's own plus those
   const STRETCH = ["--sct-sticky-x", "--sct-sticky-xr", "--sct-sticky-pl", "--sct-sticky-pr"];
   let watched = new WeakSet(); // documents listening for scrolls and the OS appearance
-  const filled = new Set(); // headers given a colour or stretched, to take it back
+  const filled = new Map(); // headers given a colour or stretched, to take it back -> whether it had a style attribute
 
   // A computed colour's alpha: rgba(r, g, b, a), color(srgb r g b / a), transparent; anything else is opaque.
   const alpha = (c) => {
@@ -30,13 +30,13 @@
 
   function fill(h) {
     const win = h.ownerDocument.defaultView;
+    if (!filled.has(h)) filled.set(h, h.hasAttribute("style"));
     for (const p of [BG, ...STRETCH]) h.style.removeProperty(p); // the theme's own colours and padding, not ours
     const own = win.getComputedStyle(h), panel = win.getComputedStyle(h.parentElement);
     // out over the panel's padding, the header's content where it was
     const [l, r] = [panel.paddingLeft, panel.paddingRight];
     const vals = [l, r, `${parseFloat(own.paddingLeft) + parseFloat(l)}px`, `${parseFloat(own.paddingRight) + parseFloat(r)}px`];
     STRETCH.forEach((p, i) => h.style.setProperty(p, vals[i]));
-    filled.add(h);
     if (own.backgroundImage !== "none") return;
     // translucent colours from the header down, top first, then the first opaque one
     const layers = [];
@@ -61,7 +61,7 @@ ${HEADER}[style*="${BG}"]{background-color:color-mix(in srgb,var(${BG}) 80%,tran
 ${HEADER}[style*="${STRETCH[0]}"]{margin-left:calc(-1*var(${STRETCH[0]}));margin-right:calc(-1*var(${STRETCH[1]}));padding-left:var(${STRETCH[2]});padding-right:var(${STRETCH[3]})}`),
     apply(ctx) {
       const doc = ctx.doc;
-      for (const h of filled) if (!h.isConnected) filled.delete(h);
+      for (const h of filled.keys()) if (!h.isConnected) filled.delete(h);
       if (!watched.has(doc)) {
         watched.add(doc);
         let frame = 0;
@@ -74,7 +74,10 @@ ${HEADER}[style*="${STRETCH[0]}"]{margin-left:calc(-1*var(${STRETCH[0]}));margin
       doc.querySelectorAll(HEADER).forEach(fill);
     },
     revert() {
-      for (const h of filled) for (const p of [BG, ...STRETCH]) h.style.removeProperty(p);
+      for (const [h, had] of filled) {
+        for (const p of [BG, ...STRETCH]) h.style.removeProperty(p);
+        if (!had && !h.getAttribute("style")) h.removeAttribute("style");
+      }
       filled.clear();
       watched = new WeakSet();
     },

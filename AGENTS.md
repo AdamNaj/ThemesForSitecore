@@ -11,7 +11,7 @@ Experience Editor's chrome, the login pages and `/sitecore/admin`. Product notes
 |---|---|
 | `extension/background.js` | Registers the content scripts for granted origins, resolves each frame's theme, injects and removes the theme CSS with `scripting.insertCSS`/`removeCSS`. |
 | `extension/lib/engine.js` | The page engine, shared with the Sitecore module: runs in every frame, tags `<html>` with `data-sct-surface`, `-theme`, `-version`, `-tokens`, asks its host for the theme, runs the theme's DOM module, holds the first paint until the CSS lands. Everything platform-specific goes through the host (its header lists the interface). |
-| `extension/lib/aids/<id>.js` | One accessibility aid each (`SCT.registerAid`): what it serves and where it runs is in `settings.js` `AIDS`, beside the needs that switch it on; `engine.js` runs the enabled ones under every theme, each with its own DOM kit. Adding an aid touches `AIDS`, its file, the module's `Aids` list in `ThemesProcessor.cs`, and its section in `docs/accessibility.md` with a scene in `tools/aid-docs.cjs`; changing one means its section again (`npm test` checks the stamps; a hook reminds you). |
+| `extension/lib/aids/<id>.js` | One accessibility aid or UI improvement each (`SCT.registerAid`): what it serves and where it runs is in `settings.js` `AIDS`, beside the needs that switch it on (a UI improvement is `ui: true`, with no needs and a default, on the settings' UI improvements tab); `engine.js` runs the enabled ones under every theme, each with its own DOM kit. Adding one touches `AIDS`, its file, the module's `Aids` list in `ThemesProcessor.cs`, and its section in `docs/accessibility.md` (or `docs/ui-improvements.md`) with a scene in `tools/aid-docs.cjs`; changing one means its section again (`npm test` checks the stamps; a hook reminds you). |
 | `extension/content.js` | The extension's host for the engine: extension storage, the background's CSS swap, the dev hooks. |
 | `extension/popup/picker.js` | The popup's preview, hue, group decks and grid of miniatures, shared with the Sitecore module's panel; `popup.js` keeps the extension's storage, tab title, tint, import and permissions. |
 | `extension/lib/files.js` | A theme's CSS files per surface, in cascade order; shared by `background.js` and the Sitecore module. |
@@ -87,7 +87,7 @@ correction reviews have had to make across the existing themes; read it before w
 
 When the user reports something broken, rule these out first:
 
-1. **The browser's own theme setting** for that host. Chrome and Edge keep separate settings; Native means "do nothing".
+1. **The browser's own theme setting** for that host. Chrome and Edge keep separate settings; Native means no theme (the accessibility aids and UI improvements still run).
 2. **Other extensions that restyle pages** (Dark Reader, Stylus; `AGENTS.local.md` says which the user has). Dark Reader makes light themes look dark.
 3. **A stale dev install.** An unpacked extension re-reads CSS from disk on every injection but keeps running old content scripts until it is reloaded. Removing a theme needs the exact CSS text that was inserted, so after a CSS file changes on disk, a live theme switch in an already-open tab leaves the old theme's CSS behind. Reload the extension, then the tabs.
 4. **The Sitecore session.** A hung SPE script blocks every request from that sign-in (see below).

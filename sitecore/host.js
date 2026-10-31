@@ -313,6 +313,7 @@ svg.shape path{fill:var(--bg);stroke:var(--line);stroke-width:1}
     <div class="settings-head"><button id="close-settings" class="icon-button" type="button" title="Back to the themes" aria-label="Back to the themes">${SS.BACK_SVG}</button><h2>Your settings</h2></div>
     <h3>Tab and icon</h3>${SS.TITLE_HTML}
     <h3>Accessibility</h3>${SS.ACCESS_HTML}
+    <h3>UI improvements</h3>${SS.UI_HTML}
     <div class="reset"><button id="reset" type="button">Use the site's settings</button>
       <small>The title postfix, tint, light or dark and environment this Sitecore starts everyone with</small></div>
   </div>

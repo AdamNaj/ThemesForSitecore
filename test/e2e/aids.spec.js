@@ -11,34 +11,30 @@ test.afterAll(() => server.close());
 const titles = (page) => page.evaluate(() => [...document.querySelectorAll("iframe")].map((f) => f.getAttribute("title")));
 const NAMED = ["Content Editor", "Mine", null, "Sitecore: Bar"];
 const UNNAMED = [null, "Mine", null, null];
+const ALL_OFF = Object.keys(require("../../extension/lib/settings.js").AIDS).map((id) => `-${id}`).join(",");
 // a setting change, as the host reports it
 const change = (page, kind, set) => page.evaluate(([k, s]) => (Object.assign(fake, s), fake.fire(k)), [kind, set]);
 const ready = (page, surface = "shell") => page.waitForFunction((s) => window.SCT?.engine && document.documentElement.dataset.sctSurface === s && document.readyState === "complete", surface);
 
-test("an always-on aid names frames on a themed site, not under Native", async ({ page }) => {
-  await page.goto(`${URL}?theme=fjord`);
-  await ready(page);
-  await expect.poll(() => titles(page)).toEqual(NAMED);
-  await change(page, "theme", { theme: "native" });
-  await expect.poll(() => titles(page)).toEqual(UNNAMED);
-});
-
-test("a need turns it on under Native; switched off it stays off on a themed site", async ({ page }) => {
+test("an always-on aid names frames under Native and every theme; switched off it stays off", async ({ page }) => {
   await page.goto(URL);
   await ready(page);
-  await change(page, "accessibility", { site: { accessibility: { needs: ["screen-reader"] } } });
   await expect.poll(() => titles(page)).toEqual(NAMED);
-  await change(page, "accessibility", { site: { accessibility: { aids: { "frame-titles": false } } } });
   await change(page, "theme", { theme: "fjord" });
   await expect.poll(() => page.evaluate(() => document.documentElement.dataset.sctTheme)).toBe("fjord");
+  expect(await titles(page)).toEqual(NAMED);
+  await change(page, "accessibility", { site: { accessibility: { aids: { "frame-titles": false } } } });
+  await expect.poll(() => titles(page)).toEqual(UNNAMED);
+  await change(page, "theme", { theme: "native" });
+  await page.waitForTimeout(100);
   expect(await titles(page)).toEqual(UNNAMED);
 });
 
 test("running again changes nothing; stopping restores the page exactly", async ({ page }) => {
-  await page.goto(URL);
+  await page.goto(`${URL}?aids=${ALL_OFF}`);
   await ready(page);
   const before = await page.evaluate(() => document.body.innerHTML);
-  await change(page, "theme", { theme: "fjord" });
+  await change(page, "accessibility", { site: {} });
   await expect.poll(() => titles(page)).toEqual(NAMED);
   await change(page, "accessibility", {});
   const once = await page.evaluate(() => document.body.innerHTML);
@@ -135,8 +131,8 @@ test("a CSS-only aid's rules are in the page while it runs, and gone after", asy
   const css = () => page.evaluate(() => document.querySelector("style[data-sct-aids]")?.textContent || null);
   await expect.poll(css).toContain("body{outline:3px solid red}");
   expect(await css()).toMatch(/^@layer sct-accessibility\{/);
-  await change(page, "theme", { theme: "native" });
-  await expect.poll(css).toBe(null);
+  await change(page, "accessibility", { site: { accessibility: { aids: { paint: false } } } });
+  await expect.poll(css).not.toContain("body{outline:3px solid red}");
 });
 
 // One aid fixture, the way every aid is held to the spec's section 5: themed, check() holds; another pass changes
@@ -331,7 +327,8 @@ test("ribbon-toolbar: a toolbar inside Sitecore's tabpanel, made again after a r
 test("ribbon-toolbar: one Tab stop, arrows inside, back where you left it", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord`);
   await ready(page);
-  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
+  // Quiet ribbon off: its × on each group is a stop of its own
+  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"], aids: { "quiet-ribbon": false } } } });
   const at = () => page.evaluate(() => { const a = document.activeElement; return a.id || a.className || a.textContent.trim(); });
   await expect.poll(() => page.evaluate(toolbar)).toBe("tabpanel,RibbonX_Nav_Home,2");
   await page.focus("#RibbonX_Nav_Home");
@@ -358,7 +355,7 @@ test("ribbon-toolbar: one Tab stop, arrows inside, back where you left it", asyn
 test("tree-keys: typing narrows the tree to the matches and their path; Tab moves, Backspace and Delete shorten", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord`);
   await ready(page);
-  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
+  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"], aids: { "tree-keys": true } } } });
   await expect.poll(() => page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe("keyboard");
   const at = () => page.evaluate(() => document.activeElement.textContent.trim());
   const panel = () => page.evaluate(() => { const p = document.querySelector("sct-tree-find"); return p.hidden ? null : p.textContent; });
@@ -413,7 +410,7 @@ test("tree-keys: typing narrows the tree to the matches and their path; Tab move
 });
 
 test("tree-keys: Enter on a tree match puts everything back and opens it in the middle of the tree", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await page.goto(`${CE}?theme=fjord&needs=keyboard&aids=tree-keys`);
   await ready(page);
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
   await page.evaluate(() => document.getElementById("Tree_Node_4").addEventListener("click", () => (window.opened = "Media Library")));
@@ -425,7 +422,7 @@ test("tree-keys: Enter on a tree match puts everything back and opens it in the 
 });
 
 test("tree-keys: a click on a tree match opens that item, the tree back around it", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await page.goto(`${CE}?theme=fjord&needs=keyboard&aids=tree-keys`);
   await ready(page);
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
   await page.evaluate(() => document.getElementById("ContentTreeInnerPanel").addEventListener("click", (e) => (window.clicked = e.target.closest("a")?.textContent.trim())));
@@ -441,7 +438,7 @@ test("tree-keys: a click on a tree match opens that item, the tree back around i
 test("tree-keys: the match comes into view, even one that already had focus", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord`);
   await ready(page);
-  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
+  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"], aids: { "tree-keys": true } } } });
   await expect.poll(() => page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe("keyboard");
   // a tree too short for its items, scrolled away from the focused one
   const inView = () => page.evaluate(() => {
@@ -459,7 +456,7 @@ test("tree-keys: the match comes into view, even one that already had focus", as
 });
 
 test("tree-keys: after a click on the tree's empty space, typing searches the tree", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await page.goto(`${CE}?theme=fjord&needs=keyboard&aids=tree-keys`);
   await ready(page);
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
   const box = await page.locator("#ContentTreeInnerPanel").boundingBox();
@@ -472,7 +469,7 @@ test("tree-keys: after a click on the tree's empty space, typing searches the tr
 });
 
 test("tree-keys: after a click in the editor, typing narrows it to the matching fields; Enter goes into one", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await page.goto(`${CE}?theme=fjord&needs=keyboard&aids=tree-keys`);
   await ready(page);
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
   // a second field, and a closed section with two more, which opens on a click as Sitecore's does
@@ -524,7 +521,7 @@ test("tree-keys: the tree also matches each item's template name", async ({ page
     "ChangeTemplate 3": changeTemplate("System/Main section", "{00000000-0000-0000-0000-000000000002}"),
     "ChangeTemplate 4": changeTemplate("System/Media/Media folder", "{00000000-0000-0000-0000-000000000004}"),
   });
-  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await page.goto(`${CE}?theme=fjord&needs=keyboard&aids=tree-keys`);
   await ready(page);
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
   const panel = () => page.evaluate(() => { const p = document.querySelector("sct-tree-find"); return p.hidden ? null : p.textContent; });
@@ -546,7 +543,7 @@ test("tree-keys: the editor also matches each field's type, by the field's ID or
     // a base's: __Body, a Rich Text
     [`TemplateInheritance ${F(8)}`]: `<html><body><div id="TemplateList"><a class="scTemplate">Base</a><div class="scFields"><a href="#" class="scField" onclick='javascript:scForm.invoke("Load(\\"${F(2)}\\")"); return false;'>__Body - Rich Text</a></div></div></body></html>`,
   });
-  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await page.goto(`${CE}?theme=fjord&needs=keyboard&aids=tree-keys`);
   await ready(page);
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
   await page.evaluate((F) => {
@@ -565,7 +562,7 @@ test("tree-keys: the editor also matches each field's type, by the field's ID or
 });
 
 test("tree-keys: Escape puts the editor back, closed sections closed", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await page.goto(`${CE}?theme=fjord&needs=keyboard&aids=tree-keys`);
   await ready(page);
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
   await page.evaluate(() => document.getElementById("EditorPanel1").insertAdjacentHTML("beforeend", '<div id="Section_Closed" class="scEditorSectionCaptionCollapsed">Closed</div><table class="scEditorSectionPanel" style="display:none"><tr><td><table class="scEditorFieldMarker" id="Texture"><tr><td><div class="scEditorFieldLabel">Texture</div><input type="text"></td></tr></table></td></tr></table>'));
@@ -716,7 +713,7 @@ test("fields: described by their label, invalid while Sitecore marks them red", 
 });
 
 test("where-am-i: the item's path, language and version on one line", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=low-vision`);
+  await page.goto(`${CE}?theme=fjord&needs=low-vision&aids=where-am-i`);
   await ready(page);
   const where = () => page.evaluate(() => document.querySelector(".scEditorHeaderTitlePanel sct-where")?.textContent);
   await expect.poll(where).toBe("/sitecore/content/Home · English · version 1"); // Quick Info's path: names, not display names
@@ -778,7 +775,7 @@ test("focus-mode: the field being edited stays bright, the rest fade", async ({ 
 });
 
 test("sticky-header: the item's header stays in view while the fields scroll, fading at its foot", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await page.goto(`${CE}?theme=fjord&needs=reading&aids=sticky-header`);
   await ready(page);
   await page.evaluate(() => {
     const panel = document.querySelector(".scEditorPanel");
@@ -804,7 +801,7 @@ test("sticky-header: the item's header stays in view while the fields scroll, fa
     for (let i = 0; i < 4; i++) { panel.scrollBy(0, 10); await new Promise((r) => setTimeout(r, 50)); }
   });
   await expect.poll(span).toEqual({ left: 0, width: 0, title: 22 });
-  await change(page, "accessibility", { site: {} });
+  await change(page, "accessibility", { site: { accessibility: { aids: { "sticky-header": false } } } });
   await expect.poll(top).toBeLessThan(-400); // off: it scrolls away with the fields
 });
 
@@ -857,7 +854,7 @@ test("sticky-header: the header's fill follows the panel from dark to light and 
 });
 
 test("content-tab: an item opens on Content, and a tab picked afterwards stays", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await page.goto(`${CE}?theme=fjord&needs=reading&aids=content-tab`);
   await ready(page);
   const active = () => page.evaluate(() => document.querySelector("#EditorTabs > .scRibbonEditorTabActive")?.id);
   // a folder loads, on its Folder tab, as Sitecore renders it; clicking a tab makes it the active one
@@ -931,7 +928,7 @@ test("item-info: the chips fill in after the item, the menus copy and open templ
   await expect(nav.getByRole("menuitem")).toHaveCount(3);
   expect(asked.filter((a) => a === "inheritance")).toHaveLength(1);
 
-  await change(page, "accessibility", { site: {} });
+  await change(page, "accessibility", { site: { accessibility: { aids: { "item-info": false } } } });
   await expect.poll(() => page.evaluate(() => document.querySelectorAll("sct-item-info, sct-item-menu").length)).toBe(0);
 });
 
@@ -949,7 +946,7 @@ test("reading-guide: a band on the pointer's line or the focused one, never in t
 });
 
 test("quiet-ribbon: hide a group you never use, and bring it back", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await page.goto(`${CE}?theme=fjord&needs=reading&aids=quiet-ribbon`);
   await ready(page);
   await page.evaluate(() => localStorage.removeItem("sct-quiet-ribbon"));
   const hide = page.getByRole("button", { name: "Hide the Write group" });
@@ -978,15 +975,58 @@ test("quiet-ribbon: without storage every group shows", async ({ page }) => {
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e)));
   await page.addInitScript(() => { Storage.prototype.getItem = () => { throw new Error("blocked"); }; });
-  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await page.goto(`${CE}?theme=fjord&needs=reading&aids=quiet-ribbon`);
   await ready(page);
   await expect(page.getByRole("button", { name: "Hide the Write group" })).toHaveCount(1);
   expect(await page.evaluate(() => getComputedStyle(document.getElementById("ChunkWrite")).display)).not.toBe("none");
   expect(errors).toEqual([]);
 });
 
+test("image-preview: drag the preview taller, pick Fill or Fit; letting go of the handle opens nothing", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  await page.evaluate(() => localStorage.removeItem("sct-image-preview"));
+  // an Image field as Sitecore renders it, with a picture in it
+  await page.evaluate(() => document.getElementById("Section_Data_controls").insertAdjacentHTML("afterend", `<div><input id="FIELD9" class="scContentControlImage"><div id="FIELD9_pane" class="scContentControlImagePane"><div class="scContentControlImageImage" onclick="window.browsed = (window.browsed || 0) + 1"><iframe tabindex="-1" id="FIELD9_image" src="/sitecore/images/blank.gif?h=128&mw=640&thn=1" frameborder="0" width="100%" height="128"></iframe></div><div id="FIELD9_details" class="scContentControlImageDetails">Dimensions: 1 x 1</div></div></div>`));
+  const box = page.locator("#FIELD9_pane .scContentControlImageImage");
+  const fill = page.getByRole("button", { name: "Fill" });
+  await expect(fill).toHaveAttribute("aria-pressed", "false");
+  await expect(page.getByRole("button", { name: "Normal" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("#FIELD9_image")).toBeHidden();
+  expect(await box.evaluate((b) => b.clientHeight - parseFloat(getComputedStyle(b).paddingTop) - parseFloat(getComputedStyle(b).paddingBottom))).toBe(128);
+  await fill.click();
+  await expect(fill).toHaveAttribute("aria-pressed", "true");
+  await expect.poll(() => page.evaluate(() => getComputedStyle(document.querySelector("img[data-sct-preview]")).objectFit)).toBe("cover");
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("sct-image-preview")).mode)).toBe("cover");
+  // Fit centres the image in the preview
+  await page.getByRole("button", { name: "Fit" }).click();
+  await expect.poll(() => page.evaluate(() => { const s = getComputedStyle(document.querySelector("img[data-sct-preview]")); return `${s.objectFit} ${s.objectPosition}`; })).toBe("contain 50% 50%");
+  await fill.click();
+  // the handle, bottom right: 100px taller, kept, and no media browser
+  await box.scrollIntoViewIfNeeded();
+  const r = await box.boundingBox();
+  await page.mouse.move(r.x + r.width - 3, r.y + r.height - 3);
+  await page.mouse.down();
+  await page.mouse.move(r.x + r.width - 3, r.y + r.height + 97, { steps: 5 });
+  await page.mouse.up();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("sct-image-preview")).height)).toBeGreaterThan(200);
+  expect(await page.evaluate(() => window.browsed || 0)).toBe(0);
+  // a press on the handle that ends in a click, as a real one in Chrome sometimes does (Playwright's never do)
+  await box.evaluate((b) => {
+    const r = b.getBoundingClientRect();
+    const at = { bubbles: true, cancelable: true, clientX: r.right - 4, clientY: r.bottom - 4 };
+    b.dispatchEvent(new PointerEvent("pointerdown", at));
+    b.dispatchEvent(new MouseEvent("click", at));
+  });
+  expect(await page.evaluate(() => window.browsed || 0)).toBe(0);
+  // the image itself still opens it, as Sitecore's own click round it does
+  await page.locator("img[data-sct-preview]").click({ position: { x: 20, y: 20 } });
+  expect(await page.evaluate(() => window.browsed || 0)).toBe(1);
+  await page.evaluate(() => localStorage.removeItem("sct-image-preview"));
+});
+
 test("command-palette: type a command or a path, Enter runs it", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await page.goto(`${CE}?theme=fjord&needs=keyboard&aids=command-palette`);
   await ready(page);
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-skip"))).toBe(true);
   await page.focus("#FIELD1");
@@ -1032,7 +1072,7 @@ test("command-palette: type a command or a path, Enter runs it", async ({ page }
   await page.keyboard.press("Escape");
   await expect(palette).toHaveCount(0);
   // a page with no ribbon
-  await page.goto(`${LAUNCHPAD}?theme=fjord&needs=keyboard`);
+  await page.goto(`${LAUNCHPAD}?theme=fjord&needs=keyboard&aids=command-palette`);
   await ready(page, "launchpad");
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-skip"))).toBe(true);
   await open();
@@ -1040,7 +1080,7 @@ test("command-palette: type a command or a path, Enter runs it", async ({ page }
 });
 
 test("shortcuts-help: F1 and Ctrl+/ list Sitecore's shortcuts, ours and the aids that are on", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await page.goto(`${CE}?theme=fjord&needs=keyboard&aids=command-palette,tree-keys`);
   await ready(page);
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-skip"))).toBe(true);
   const help = page.getByRole("dialog", { name: "Shortcuts and aids" });
@@ -1058,7 +1098,7 @@ test("shortcuts-help: F1 and Ctrl+/ list Sitecore's shortcuts, ours and the aids
 });
 
 test("shortcuts-help: on under a theme with no need ticked, listing only what runs", async ({ page }) => {
-  await page.goto(`${CE}?theme=fjord`);
+  await page.goto(`${CE}?theme=fjord&aids=-command-palette`);
   await ready(page);
   await page.focus("#FIELD1");
   // F1 is not the browser's help

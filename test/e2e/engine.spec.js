@@ -269,14 +269,28 @@ test("the Accessibility tab's needs preset the font and the fine-tune switches s
   // the fine-tune list by need, each aid under the first need it serves
   await expect(popup.getByRole("group", { name: "Screen reader" }).getByRole("switch", { name: /Frame names/ })).toHaveCount(1);
   await expect(popup.getByRole("group", { name: "Motion" }).getByRole("switch", { name: /Reduced motion/ })).toHaveCount(1);
-  await expect(popup.locator("#aid-keys")).toContainText("Ctrl+Shift+Space");
+  await expect(popup.locator("#aid-keys")).toContainText("F6");
+  // the UI improvements are on their own tab, not under a need
+  await expect(popup.locator("#aid-list").getByRole("switch", { name: /Image preview/ })).toHaveCount(0);
   const frames = popup.getByRole("switch", { name: /Frame names/ });
   const reason = popup.locator('[data-aid-reason="frame-titles"]');
   await expect(frames).toBeChecked();
-  await expect(reason).toHaveText("On whenever a theme is");
+  await expect(reason).toHaveText("On by default");
   await frames.uncheck();
   await expect.poll(saved).toMatchObject({ aids: { "frame-titles": false } });
   await expect(reason).toHaveText("Your choice");
+  // a UI improvement's switch: its default, your choice, and a reset that leaves the aids' choices alone
+  await popup.locator("#tab-ui").click();
+  const palette = popup.getByRole("switch", { name: /Command palette/ });
+  await expect(palette).toBeChecked();
+  await expect(popup.locator('[data-aid-reason="command-palette"]')).toHaveText("On by default");
+  await palette.uncheck();
+  await expect.poll(saved).toMatchObject({ aids: { "frame-titles": false, "command-palette": false } });
+  await expect(popup.locator('[data-aid-reason="command-palette"]')).toHaveText("Your choice");
+  await popup.locator("#ui-reset").click();
+  await expect.poll(async () => (await saved()).aids).toEqual({ "frame-titles": false });
+  await expect(palette).toBeChecked();
+  await popup.locator("#tab-access").click();
   await popup.locator("#aids-reset").click();
   await expect.poll(async () => (await saved()).aids).toEqual({});
   await expect(frames).toBeChecked();
@@ -494,8 +508,8 @@ test("token themes map a module's stylesheet and inline styles at run time, and 
   await setTheme("native");
   await expect.poll(() => look("ink")).toEqual({ bg: "rgb(255, 255, 255)", fg: "rgb(51, 51, 51)" });
   expect(await look("panel")).toEqual({ bg: "rgb(255, 255, 255)", fg: "rgb(51, 51, 51)" });
-  // the switch's blur and Applying window leave a fade after the CSS lands
-  await expect.poll(() => page.evaluate(() => document.querySelectorAll("[data-sct-owned], [data-sct-ink]").length)).toBe(0);
+  // the switch's blur and Applying window leave a fade after the CSS lands; the aids (their style, Type to search's status) stay
+  await expect.poll(() => page.evaluate(() => document.querySelectorAll("[data-sct-owned]:not([data-sct-aids], sct-tree-find), [data-sct-ink]").length)).toBe(0);
   await setTheme("debrightify");
   await page.close();
 });

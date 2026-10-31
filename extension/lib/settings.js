@@ -116,8 +116,11 @@
   // what ticking a need picks in the font and spacing rows, while they are on their plain choice
   const NEED_PRESETS = { "low-vision": { font: "hyperlegible" }, reading: { font: "opendyslexic", spacing: "wide" } };
   // The aids that switch on and off (`aids`: { id: true|false }, the user's own choice over the needs'), each one
-  // extension/lib/aids/<id>.js. always: on for every site with a theme, and under Native once any need is picked,
-  // since it changes nothing anyone sees. surfaces: detect.js's names it runs on, null for all.
+  // extension/lib/aids/<id>.js. always: on by default, under every theme and Native, like the font and spacing.
+  // surfaces: detect.js's names it runs on, null for all.
+  // ui: a UI improvement, for everyone rather than for a need, and its group in UI_GROUPS: no needs, its own tab in
+  // the settings.
+  const UI_GROUPS = { editor: "In the Content Editor", return: "Back where you left off", keys: "Keys" };
   const AIDS = {
     "frame-titles": { needs: ["screen-reader"], always: true, surfaces: null, name: "Frame names", hint: "Names each frame, so a screen reader says what it holds" },
     "aria-repair": { needs: ["screen-reader"], always: true, surfaces: ["shell"], name: "Role repair", hint: "Fixes the roles Sitecore gets wrong, so a screen reader reads the tree and the ribbon right" },
@@ -127,7 +130,7 @@
     "forced-colors": { needs: ["low-vision"], always: true, surfaces: null, name: "High Contrast", hint: "Keeps selections, active tabs and icons visible with Windows High Contrast on" },
     "focus-ring": { needs: ["keyboard", "low-vision"], always: false, surfaces: null, name: "Focus ring", hint: "Draws a clear outline round whatever has keyboard focus" },
     "ribbon-toolbar": { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Ribbon toolbar", hint: "Makes the ribbon's buttons one Tab stop, with the arrow keys inside" },
-    "tree-keys": { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Type to search", hint: "Type in the content tree to search its items by name or template, or in the editor to search its fields by name or type; Tab or the arrows move between the matches" },
+    "tree-keys": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Type to search", hint: "Type in the content tree to search its items by name or template, or in the editor to search its fields by name or type; Tab or the arrows move between the matches" },
     menus: { needs: ["keyboard", "screen-reader"], always: false, surfaces: ["shell"], name: "Menu focus", hint: "Puts focus in a menu when it opens, Start's too, and back where it was when it closes; the arrows move in it, Escape closes it" },
     dialogs: { needs: ["keyboard", "screen-reader"], always: false, surfaces: ["shell"], name: "Dialogs", hint: "Names each dialog, and gives focus back to where it was when one closes" },
     "tab-stops": { needs: ["keyboard", "screen-reader"], always: false, surfaces: ["shell"], name: "Tab stops", hint: "Tab stops only on what you act on: one stop per checkbox and drop-down, none on field labels, the tree's gutter or hidden frames; Enter on the Content tab goes to the first field" },
@@ -135,20 +138,21 @@
     targets: { needs: ["keyboard", "low-vision"], always: false, surfaces: ["shell"], name: "Bigger targets", hint: "Makes Sitecore's small icons easier to hit, without moving anything" },
     announcer: { needs: ["screen-reader"], always: false, surfaces: ["shell"], name: "Announcements", hint: "Says which item opened, its warnings and validation, and that it saved" },
     fields: { needs: ["screen-reader"], always: false, surfaces: ["shell"], name: "Field help and errors", hint: "Reads each field's help, and its validation message while Sitecore shows one" },
-    "where-am-i": { needs: ["low-vision", "reading"], always: false, surfaces: ["shell"], name: "Where am I", hint: "Shows the item's path, language and version under its name" },
+    "where-am-i": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Where am I", hint: "Shows the item's path, language and version under its name" },
     "not-just-colour": { needs: ["colour-vision"], always: false, surfaces: ["shell"], name: "Errors in words", hint: "Says Error or Warning beside a field Sitecore marks only in red or yellow" },
     "reduced-motion": { needs: ["motion"], always: false, surfaces: null, name: "Reduced motion", hint: "Stops Sitecore's and the theme's animations and transitions" },
     "focus-mode": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Focus mode", hint: "Fades the other fields, the tree and the ribbon while you edit a field" },
-    "sticky-header": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Sticky item header", hint: "Keeps the item's name and icon in view while its fields scroll under them" },
-    "item-info": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Item info", hint: "Shows when the item was modified and by whom and whether it is published, with menus to copy its name, path or ID and to open its templates" },
-    "content-tab": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Content tab first", hint: "Opens every item on its Content tab, not on a Folder or other editor tab" },
-    "ce-state": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Remember Content Editor state", hint: "Opens the Content Editor on the item you last had open, with Quick Info open or closed as you left it" },
-    "ee-state": { needs: ["reading"], always: false, surfaces: ["ee"], name: "Remember Experience Editor state", hint: "Opens the Experience Editor on the page you last had open, unless you open it on a page of your choosing" },
-    "section-toggle": { needs: ["reading"], always: true, surfaces: ["shell"], name: "Back, forward, expand and collapse", hint: "Buttons beside the editor tabs: Back and Forward through the items you opened, and open or close every section of the item's fields" },
+    "sticky-header": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Sticky item header", hint: "Keeps the item's name and icon in view while its fields scroll under them" },
+    "item-info": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Item info", hint: "Shows when the item was modified and by whom and whether it is published, with menus to copy its name, path or ID and to open its templates" },
+    "content-tab": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Content tab first", hint: "Opens every item on its Content tab, not on a Folder or other editor tab" },
+    "ce-state": { ui: "return", needs: [], always: true, surfaces: ["shell"], name: "Remember Content Editor state", hint: "Opens the Content Editor on the item you last had open, with Quick Info open or closed as you left it" },
+    "ee-state": { ui: "return", needs: [], always: true, surfaces: ["ee"], name: "Remember Experience Editor state", hint: "Opens the Experience Editor on the page you last had open, unless you open it on a page of your choosing" },
+    "section-toggle": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Back, forward, expand and collapse", hint: "Buttons beside the editor tabs: Back and Forward through the items you opened, and open or close every section of the item's fields" },
+    "image-preview": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Image preview", hint: "Drag an Image field's preview taller or shorter, and show the image at its own size, filling the preview or fitted in it" },
     "reading-guide": { needs: ["reading"], always: false, surfaces: ["shell", "speak", "launchpad", "admin", "login"], name: "Reading guide", hint: "A soft band across the line you are reading" },
-    "quiet-ribbon": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Quiet ribbon", hint: "Lets you hide the ribbon groups you never use" },
-    "command-palette": { needs: ["keyboard"], always: false, surfaces: ["shell", "speak", "launchpad"], name: "Command palette", hint: "Ctrl+Shift+Space: type a ribbon command, or an item path or ID, and press Enter" },
-    "shortcuts-help": { needs: ["keyboard"], always: true, surfaces: ["shell", "speak", "launchpad", "admin"], name: "Shortcuts help", hint: "F1 lists the page's keyboard shortcuts, Sitecore's and the aids', and what each aid that is on does" },
+    "quiet-ribbon": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Quiet ribbon", hint: "Lets you hide the ribbon groups you never use" },
+    "command-palette": { ui: "keys", needs: [], always: true, surfaces: ["shell", "speak", "launchpad"], name: "Command palette", hint: "Ctrl+Shift+Space: type a ribbon command, or an item path or ID, and press Enter" },
+    "shortcuts-help": { ui: "keys", needs: [], always: true, surfaces: ["shell", "speak", "launchpad", "admin"], name: "Shortcuts help", hint: "F1 lists the page's keyboard shortcuts, Sitecore's and ours, and what each aid and improvement that is on does" },
   };
 
   // what ticking a need changes, in a sentence or two for its chip's tooltip
@@ -182,14 +186,13 @@
     return need || (aid.always ? "always" : null);
   }
 
-  // The aids that run in a frame, in AIDS order; themed: the site shows a theme, not Native; surface null: any.
-  function enabledAids(a, { themed, surface }) {
+  // The aids that run in a frame, in AIDS order, under every theme and Native; surface null: any.
+  function enabledAids(a, { surface }) {
     return Object.keys(AIDS).filter((id) => {
       const aid = AIDS[id];
       if (surface && aid.surfaces && !aid.surfaces.includes(surface)) return false;
       const reason = aidReason(a, id);
       if (reason === "own") return a.aids[id];
-      if (reason === "always") return !!(themed || (a && a.needs.length));
       return !!reason;
     });
   }
@@ -229,7 +232,7 @@
 
   SCT.settings = {
     DEFAULTS, ENVS, PHASES, SCHEMES, FONTS, VISIONS, catalog, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight,
-    accessibility, accessibilityCss, visionMatrix, visionValues, NEEDS, NEED_PRESETS, needEffects, AIDS, aidReason, enabledAids,
+    accessibility, accessibilityCss, visionMatrix, visionValues, NEEDS, NEED_PRESETS, needEffects, AIDS, UI_GROUPS, aidReason, enabledAids,
   };
   if (typeof module !== "undefined") module.exports = SCT.settings;
 })(globalThis);

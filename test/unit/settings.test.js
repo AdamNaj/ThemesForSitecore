@@ -186,26 +186,36 @@ test("a site's needs and aids: unknown ones are dropped, old saved values still 
   assert.equal(settings.accessibility({ aids: { "frame-titles": "yes" } }), null);
 });
 
-test("which aids run: always-on aids on themed sites, needs anywhere, your choice over both", () => {
-  const on = (a, themed) => settings.enabledAids(settings.accessibility(a), { themed, surface: "shell" });
+test("which aids run, under every theme and Native: always-on aids by default, needs, your choice over both", () => {
+  const on = (a) => settings.enabledAids(settings.accessibility(a), { surface: "shell" });
   // the always-on aids that run on the Content Editor's surface
   const always = Object.keys(settings.AIDS).filter((id) => settings.AIDS[id].always && (!settings.AIDS[id].surfaces || settings.AIDS[id].surfaces.includes("shell")));
   assert.ok(always.includes("frame-titles"));
-  assert.deepEqual(settings.enabledAids(null, { themed: true, surface: "shell" }), always);
-  assert.deepEqual(settings.enabledAids(null, { themed: false, surface: "shell" }), []); // Native does nothing
-  assert.ok(always.every((id) => on({ needs: ["colour-vision"] }, false).includes(id))); // any need wakes the always-on aids
-  assert.ok(on({ needs: ["screen-reader"] }, false).includes("frame-titles"));
-  assert.ok(!on({ aids: { "frame-titles": false } }, true).includes("frame-titles"));
-  assert.deepEqual(on({ aids: { "frame-titles": true } }, false), ["frame-titles"]);
-  assert.ok(!settings.enabledAids(null, { themed: true, surface: "ee" }).includes("aria-repair")); // by surface
+  assert.deepEqual(settings.enabledAids(null, { surface: "shell" }), always);
+  assert.ok(on({ needs: ["keyboard"] }).includes("focus-ring"));
+  assert.ok(!on(null).includes("focus-ring"));
+  assert.ok(!on({ aids: { "frame-titles": false } }).includes("frame-titles"));
+  assert.ok(on({ aids: { "focus-ring": true } }).includes("focus-ring"));
+  assert.ok(!settings.enabledAids(null, { surface: "ee" }).includes("aria-repair")); // by surface
   assert.equal(settings.aidReason(settings.accessibility({ aids: { "frame-titles": false } }), "frame-titles"), "own");
   assert.equal(settings.aidReason(settings.accessibility({ needs: ["screen-reader"] }), "frame-titles"), "screen-reader");
   assert.equal(settings.aidReason(null, "frame-titles"), "always");
 });
 
+test("UI improvements: on by default under every theme and Native, off only when switched off", () => {
+  const on = (a) => settings.enabledAids(settings.accessibility(a), { surface: "shell" });
+  const ui = Object.keys(settings.AIDS).filter((id) => settings.AIDS[id].ui);
+  assert.ok(ui.includes("image-preview") && ui.includes("content-tab"));
+  for (const id of ui) assert.deepEqual(settings.AIDS[id].needs, [], id);
+  for (const id of ui) assert.ok(Object.hasOwn(settings.UI_GROUPS, settings.AIDS[id].ui), `${id}: its group`);
+  for (const id of ui) assert.ok(settings.enabledAids(settings.accessibility(null), { surface: (settings.AIDS[id].surfaces || ["shell"])[0] }).includes(id), `${id}: on by default`);
+  assert.ok(!on({ aids: { "content-tab": false } }).includes("content-tab")); // switched off
+});
+
 test("every aid's needs exist, every aid is named, every preset is a real value", () => {
   for (const [id, aid] of Object.entries(settings.AIDS)) {
     for (const n of aid.needs) assert.ok(Object.hasOwn(settings.NEEDS, n), `${id}: ${n}`);
+    assert.ok(aid.ui || aid.needs.length, `${id} serves no need and is no UI improvement`);
     assert.ok(aid.name && aid.hint, id);
   }
   for (const [n, p] of Object.entries(settings.NEED_PRESETS)) {

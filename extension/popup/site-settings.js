@@ -1,5 +1,5 @@
 // A site's own settings, the same in the extension's popup and the Sitecore module's panel: the title postfix, the
-// icon tint, light or dark for themes with both looks, and the accessibility aids. The markup is here, so both draw
+// icon tint, light or dark for themes with both looks, the accessibility aids and the UI improvements. The markup is here, so both draw
 // the same controls; each host passes a store for where the values live:
 //   get(kind)         the saved value (or a Promise of it): title, tint, mode, accessibility
 //   set(kind, value)  saves it (a Promise); "" (or null for accessibility) is the plain choice: no postfix, no
@@ -83,9 +83,19 @@
   <details id="aids" class="row aids">
     <summary><span class="label">Fine-tune<small>Each aid on its own, under the need it serves first</small></span></summary>
     <div id="aid-list"></div>
-    <p id="aid-keys" class="keys">Keys: F6 moves between the parts of a page, Ctrl+Shift+Space opens the command palette, and F1 lists every shortcut and what each aid that is on does.</p>
+    <p id="aid-keys" class="keys">Keys: F6 moves between the parts of a page.</p>
     <button type="button" id="aids-reset">Reset to needs</button>
   </details>
+</div>`;
+
+  // the UI improvements: for everyone, each on or off on its own, kept in the same `aids` map as the aids
+  const UI_HTML = `<div class="panel">
+  <div class="row aids">
+    <div class="label"><small>Changes to Sitecore's screens that help anyone, whatever their needs, each on its own</small></div>
+    <div id="ui-list"></div>
+    <p class="keys">Keys: Ctrl+Shift+Space opens the command palette, and F1 lists every shortcut and what each improvement and aid that is on does.</p>
+    <button type="button" id="ui-reset">Reset to defaults</button>
+  </div>
 </div>`;
 
   // The tab icon keeps its own light and shade and takes only the tint's hue and saturation (lib/engine.js
@@ -168,7 +178,7 @@
   }
 
   // The needs, reading font, spacing, a colour filter with its strength (shown while a filter is on), and each aid's
-  // switch with why it is on or off; all off is null. Ticking a need presets the font and spacing it suggests while
+  // and UI improvement's switch with why it is on or off; all off is null. Ticking a need presets the font and spacing it suggests while
   // those rows are on their plain choice. A switch keeps the user's own choice only where it differs from the needs'.
   async function mountAccessibility(r, store) {
     const S = SCT.settings;
@@ -179,8 +189,8 @@
     range.value = saved.strength || 100;
     const pick = (n) => r.querySelector(`#${n} input:checked`).value || null;
     const current = (own = aids) => S.accessibility({ font: pick("font"), spacing: pick("spacing"), vision: pick("vision"), strength: +range.value, needs, aids: own });
-    // the popup shows what a themed site gets, on every surface
-    const isOn = (a, id) => S.enabledAids(a, { themed: true, surface: null }).includes(id);
+    // on every surface
+    const isOn = (a, id) => S.enabledAids(a, { surface: null }).includes(id);
     const show = () => {
       r.querySelector("#strength-row").hidden = !pick("vision");
       r.querySelector("#strength-value").textContent = `${range.value}%`;
@@ -188,6 +198,7 @@
     const write = () => store.set("accessibility", current());
 
     const list = r.querySelector("#aid-list");
+    const uiList = r.querySelector("#ui-list");
     const row = (id, aid) => `<div class="aid">
   <input type="checkbox" role="switch" id="aid-${id}" data-aid="${id}" aria-describedby="aid-${id}-hint aid-${id}-why">
   <div class="label"><label for="aid-${id}">${aid.name}</label><small id="aid-${id}-hint">${aid.hint}</small><small id="aid-${id}-why" data-aid-reason="${id}"></small></div>
@@ -197,15 +208,26 @@
       const rows = Object.entries(S.AIDS).filter(([, aid]) => aid.needs[0] === need).map(([id, aid]) => row(id, aid));
       return rows.length ? `<fieldset class="aid-group"><legend>${name}</legend>${rows.join("")}</fieldset>` : "";
     }).join("");
+    // by group, as docs/ui-improvements.md has them
+    if (uiList) uiList.innerHTML = Object.entries(S.UI_GROUPS).map(([group, name]) => {
+      const rows = Object.entries(S.AIDS).filter(([, aid]) => aid.ui === group).map(([id, aid]) => row(id, aid));
+      return `<fieldset class="aid-group"><legend>${name}</legend>${rows.join("")}</fieldset>`;
+    }).join("");
     const drawAids = () => {
       const a = current();
-      for (const input of list.querySelectorAll("[data-aid]")) {
+      for (const input of r.querySelectorAll("#aid-list [data-aid], #ui-list [data-aid]")) {
         const id = input.dataset.aid;
         const why = S.aidReason(a, id);
         input.checked = isOn(a, id);
-        list.querySelector(`[data-aid-reason="${id}"]`).textContent =
-          why === "own" ? "Your choice" : why === "always" ? "On whenever a theme is" : why ? `From ${S.NEEDS[why]}` : "Off";
+        r.querySelector(`[data-aid-reason="${id}"]`).textContent =
+          why === "own" ? "Your choice" : why === "always" ? "On by default" : why ? `From ${S.NEEDS[why]}` : S.AIDS[id].ui ? "Off by default" : "Off";
       }
+    };
+    // each list resets only its own switches
+    const reset = (keep) => {
+      aids = Object.fromEntries(Object.entries(aids).filter(([id]) => keep(id)));
+      drawAids();
+      write();
     };
     list.onchange = (e) => {
       const id = e.target.dataset.aid;
@@ -216,11 +238,9 @@
       drawAids();
       write();
     };
-    r.querySelector("#aids-reset").onclick = () => {
-      aids = {};
-      drawAids();
-      write();
-    };
+    if (uiList) uiList.onchange = list.onchange;
+    r.querySelector("#aids-reset").onclick = () => reset((id) => S.AIDS[id].ui);
+    if (uiList) r.querySelector("#ui-reset").onclick = () => reset((id) => !S.AIDS[id].ui);
 
     const needBox = r.querySelector("#needs");
     for (const input of needBox.querySelectorAll("input")) {
@@ -266,5 +286,5 @@
     ]);
   }
 
-  SCT.siteSettings = { MODE_HTML, GEAR_SVG, BACK_SVG, TITLE_HTML, ACCESS_HTML, mount };
+  SCT.siteSettings = { MODE_HTML, GEAR_SVG, BACK_SVG, TITLE_HTML, ACCESS_HTML, UI_HTML, mount };
 })(globalThis);

@@ -106,7 +106,7 @@
       else html.dataset.sctTheme = reply.theme;
       html.toggleAttribute("data-sct-tokens", reply.usesTokens);
       applyHue();
-      syncAids(true); // the always-on aids run on themed sites only
+      syncAids(true);
       if (domReady) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows(), syncDialogTitle();
       syncLive();
       if (tabWatch) syncTint(); // a tint from the theme follows it
@@ -874,9 +874,8 @@
 
     // restyled: the theme's CSS just changed, so the aids that read the page's colours (sticky-header) run again
     function syncAids(restyled) {
-      const themed = !!engine.theme && engine.theme !== "native";
       const want = domReady && alive() && html.dataset.sctEngine === engine.id
-        ? SCT.settings.enabledAids(access, { themed, surface: surfaceName }).filter((id) => SCT.aidModules[id] && !brokenAids.has(id))
+        ? SCT.settings.enabledAids(access, { surface: surfaceName }).filter((id) => SCT.aidModules[id] && !brokenAids.has(id))
         : [];
       for (const id of [...aids.keys()]) if (!want.includes(id)) dropAid(id);
       const added = want.filter((id) => !aids.has(id));

@@ -146,6 +146,7 @@ const siteStore = {
 $("#mode").outerHTML = SCT.siteSettings.MODE_HTML;
 $("#pane-title").innerHTML = SCT.siteSettings.TITLE_HTML;
 $("#pane-access").innerHTML = SCT.siteSettings.ACCESS_HTML;
+$("#pane-ui").innerHTML = SCT.siteSettings.UI_HTML;
 
 // The DAM connector's pickers show Content Hub's own pages (detect.js), which take this site's theme once the browser
 // lets the extension into Content Hub. Offered on a site that has the connector (its Rich Text Editor script; 404
