@@ -557,15 +557,21 @@ test("focus-mode: the field being edited stays bright, the rest fade", async ({ 
   await expect.poll(() => page.evaluate(() => !!document.querySelector("style[data-sct-aids]"))).toBe(true);
   // a second field, to fade
   await page.evaluate(() => document.querySelector(".scEditorFieldMarker").insertAdjacentHTML("afterend", '<table class="scEditorFieldMarker" id="Other"><tr><td class="scEditorFieldMarkerBarCell"></td><td class="scEditorFieldMarkerInputCell"><div class="scEditorFieldLabel">Text</div><iframe id="FIELD2"></iframe></td></tr></table>'));
-  const opacity = () => page.evaluate(() => [document.querySelector(".scEditorFieldMarker"), document.getElementById("Other"), document.getElementById("Section_Data")].map((e) => getComputedStyle(e).opacity));
-  expect(await opacity()).toEqual(["1", "1", "1"]);
+  // the field, the other field, a section caption, the ribbon, the search box, an item, the selected item
+  const opacity = () => page.evaluate(() => [".scEditorFieldMarker", "#Other", "#Section_Data", "#RibbonPanel", "#SearchPanel", "#Tree_Node_1", ".scContentTreeNodeActive"].map((q) => getComputedStyle(document.querySelector(q)).opacity).join(" "));
+  expect(await opacity()).toBe("1 1 1 1 1 1 1");
   await page.focus("#FIELD1");
-  expect(await opacity()).toEqual(["1", "0.35", "0.35"]);
+  await expect.poll(opacity).toBe("1 0.35 0.35 0.35 0.35 0.35 1"); // the tree and the ribbon fade too, but not where you are
   await page.evaluate(() => document.getElementById("FIELD2").contentDocument.body.focus()); // a rich text field is a frame
   await page.evaluate(() => document.getElementById("FIELD2").focus());
-  expect(await opacity()).toEqual(["0.35", "1", "0.35"]);
+  await expect.poll(opacity).toBe("0.35 1 0.35 0.35 0.35 0.35 1");
   await page.evaluate(() => document.activeElement.blur());
-  expect(await opacity()).toEqual(["1", "1", "1"]);
+  await expect.poll(opacity).toBe("1 1 1 1 1 1 1");
+  await page.focus("#TreeSearch"); // in the tree: nothing fades
+  await page.waitForTimeout(100);
+  expect(await opacity()).toBe("1 1 1 1 1 1 1");
+  // no :has(:focus-within) over the page: an element added anywhere would restyle all of it
+  expect(await page.evaluate(() => /:has\([^)]*:focus-within/.test(document.querySelector("style[data-sct-aids]").textContent))).toBe(false);
 });
 
 test("sticky-header: the item's header stays in view while the fields scroll, fading at its foot", async ({ page }) => {
