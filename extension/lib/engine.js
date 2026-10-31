@@ -291,8 +291,12 @@
         return; // a dialog host from another origin
       }
       if (!bar || surfaceName !== "speak") return;
-      const title = doc.querySelector(".sc-dialogHeader .sc-dialogHeader-title");
+      // SPEAK 2's title row, or SPEAK 3's page header (Angular apps, such as the Content Hub DAM connector's) once
+      // its title has rendered
+      const head3 = doc.querySelector("sc-page > .page-header");
+      const title = doc.querySelector(".sc-dialogHeader .sc-dialogHeader-title") || (head3?.textContent.trim() ? head3 : null);
       const on = !engine.stopped && alive() && engine.theme && engine.theme !== "native" && !!title;
+      if (!title && !engine.stopped && alive() && engine.theme && engine.theme !== "native") awaitDialogTitle();
       if (!on) {
         if (dialogWatch) dialogWatch.disconnect(), (dialogWatch = null);
         if (titleHead) titleHead.remove(), (titleHead = null);
@@ -337,6 +341,18 @@
         measureHead(frame, bar);
         fitDialogFrame(frame);
       }, 400);
+    }
+    // SPEAK 3 builds its page after load, and its title comes with its translations: a dialog page without a title
+    // yet is watched for one, for a while
+    let titleWait = null;
+    function awaitDialogTitle() {
+      if (titleWait || !doc.body || !("sctInDialog" in html.dataset)) return;
+      titleWait = new MutationObserver(() => {
+        if (alive() && !engine.stopped && !titleHead?.isConnected) syncDialogTitle();
+        if (titleHead?.isConnected || engine.stopped || !alive()) titleWait.disconnect();
+      });
+      titleWait.observe(doc.body, { childList: true, subtree: true, characterData: true });
+      setTimeout(() => titleWait.disconnect(), 15000);
     }
     // the room the caption takes: where the frame starts with it, less where it starts without it (in again after)
     function measureHead(frame, bar) {

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Picker</title>
+<style>
+  /* SPEAK 3's page layout (@speak/ng-bcl) in short, with its colours */
+  sc-page { display: flex; flex-direction: column; height: 100vh; }
+  .page .page-header { background-color: #2b2b2b; }
+  .page .page-main { background-color: #f7f7f7; flex: 1; }
+  .DialogHeader { color: #fff; font-size: 18px; line-height: 30px; padding: 0 15px 10px; }
+</style>
+</head>
+<body>
+<app-root></app-root>
+<script>
+  // An Angular app, written by hand: it builds the page after load, and the title arrives later with its translations
+  addEventListener("load", () => setTimeout(() => {
+    document.querySelector("app-root").innerHTML =
+      '<sc-page class="page"><div scpageheader class="page-header"><div class="DialogHeader"></div></div>' +
+      '<div class="page-app"><main class="page-main"><div class="page-content-section"><div class="page-content">' +
+      '<article scpagecontent class="page-article">Assets</article></div></div></main></div></sc-page>';
+    setTimeout(() => (document.querySelector(".DialogHeader").textContent = "Insert from DAM"), 300);
+  }, 200));
+</script>
+</body>
+</html>

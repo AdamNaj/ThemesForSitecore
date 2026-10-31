@@ -137,6 +137,27 @@ html[data-sct-tokens][data-sct-surface="speak"] .sc span.dynatree-active a:hover
   color: var(--sct-tree-selected-fg);
 }
 
+/* SPEAK 3's page (Angular apps, such as the Content Hub DAM connector's): its colours come from the app's own
+   bundle, which the generated map never read, so it kept Sitecore's dark header band, red app header and grey
+   panels. The header is the title bar, as SPEAK 2's global header; the app header and action bar the panel; the
+   rest the app. In a jQuery dialog the header goes instead (bar.css). */
+html[data-sct-tokens][data-sct-surface="speak"] sc-page > .page-header,
+html[data-sct-tokens][data-sct-surface="speak"] .global-header {
+  background-color: var(--sct-titlebar-bg);
+  color: var(--sct-titlebar-fg);
+}
+html[data-sct-tokens][data-sct-surface="speak"] sc-page > .page-header .DialogHeader {
+  color: inherit;
+}
+html[data-sct-tokens][data-sct-surface="speak"] sc-page :is(.page-app-header, .page-action-bar) {
+  background-color: var(--sct-panel-bg);
+  color: var(--sct-panel-fg);
+}
+html[data-sct-tokens][data-sct-surface="speak"] sc-page :is(.page-main, .page-context, .page-nav) {
+  background-color: var(--sct-app-bg);
+  color: var(--sct-app-fg);
+}
+
 /* Component roles */
 html[data-sct-tokens][data-sct-surface="speak"] .sc-globalHeader,
 html[data-sct-tokens][data-sct-surface="speak"] .sc-flx-global-header {

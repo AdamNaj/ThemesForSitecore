@@ -393,6 +393,20 @@ test("Sitecore's modal dialog frame stays see-through, so only its overlay tints
   await page.close();
 });
 
+test("a SPEAK 3 page in a dialog gives its late title to the dialog's caption, and its header goes", async () => {
+  await setTheme("debrightify");
+  const page = await context.newPage();
+  await page.goto(`${BASE}/sitecore/shell/Controls/JqueryModalDialogs-speak3.html`);
+  await expect.poll(() => page.locator(".ui-dialog > .DialogHeader[data-sct-speak-title]").textContent().catch(() => null)).toBe("Insert from DAM");
+  const inner = page.frames().find((f) => f.url().includes("/Speak3Picker/"));
+  expect(await inner.evaluate(() => ({
+    surface: document.documentElement.dataset.sctSurface,
+    titled: "sctDialogTitle" in document.documentElement.dataset,
+    header: getComputedStyle(document.querySelector(".page-header")).display,
+  }))).toEqual({ surface: "speak", titled: true, header: "none" });
+  await page.close();
+});
+
 test("the ISE console's clipboard textarea stays invisible", async () => {
   const page = await context.newPage();
   await page.goto(`${BASE}/sitecore/shell/ace.html`);
