@@ -22,6 +22,14 @@ Before reading any code, check (see "Before blaming the code" in `AGENTS.md`):
    settings folders under the profile for the host name.
 4. Whether the extension was reloaded since content scripts or CSS changed (stale dev install).
 5. Whether the Sitecore sign-in is hung (pages never reach DOMContentLoaded): a hung SPE script.
+6. The aids that browser runs (the user's Chrome has every need on). A theme's animation that is "gone" there is
+   the Reduced motion aid, not a theme bug: `getComputedStyle(el, "::before").animationIterationCount` of `"1"` on a
+   looping layer says the aid is on.
+7. If every install is slow at once, the machine before the code: memory (`Get-CimInstance Win32_OperatingSystem`,
+   the commit against its limit) and the IIS logs (`C:\inetpub\logs\LogFiles\W3SVC<site id>\`, after
+   `netsh http flush logbuffer`; read `time-taken`, and `cs(User-Agent)`, where HeadlessChrome is a Playwright run).
+   On 2026-10-29 open Claude sessions and their MCP servers had taken 103.5 of 124 GB, SQL Server had shrunk to
+   348 MB, and Content Editor loads took 12 to 97s on both installs; archiving idle sessions fixed it.
 
 Report what you found before changing code.
 
@@ -128,6 +136,17 @@ user's (clicked, aids on) collapsed to 35px; a single sampled column passed Guar
 - The scanner measures glyph boxes without overflow clipping, so a tree row scrolled under a pane's
   edge can show up as a false finding. Shots run with the OS's light or dark setting; for Cupertino,
   check both appearances (Playwright's `colorScheme` launch option).
+- **Refactors that must change nothing on screen** (a selector rewrite, an engine change): shoot before and after.
+  Copy HEAD's extension (`git archive HEAD extension | tar -x -C <scratch>/head`), run `shots.cjs` and `menus.cjs`
+  with `SCT_EXTENSION_DIR=<scratch>/head/extension` into a `before` folder, then without it into `after`, and
+  pixel-diff same-named files. Expected noise: the clock, the ISE's random tip and caret, and other sessions'
+  uncommitted work (the after run uses the working tree). Read every other difference.
+- **Keyboard and screen-reader changes:** walk the Tab order from the real entry point (bare `/sitecore/shell`,
+  Start, the Content Editor window), recording the focused element through every frame after each key. In
+  Playwright, Tab past the last stop lands on `<body>`; in Chrome it goes to the address bar, so it is not a stop.
+- **Ad-hoc Playwright scripts** on Content Editor pages: never wait for `networkidle`. The Desktop's Content Editor
+  URL, and now and then `Content Editor.aspx`, never go idle, and the `goto` times out after 30s. Wait for `load`
+  and a fixed settle (4 to 5s).
 
 For changes to detection, the engine or the CSS pipeline, also run the Sitecore e2e suite:
 
@@ -139,12 +158,20 @@ npx playwright test test/e2e/sitecore.spec.js
 
 Chrome (through Claude in Chrome):
 
-1. Open a Sitecore page in a new tab and post `{type: "sct-dev-reload"}` to reload the extension.
+1. Open a Sitecore page in a new tab and post `{type: "sct-dev-reload"}` to reload the extension. The post only
+   reaches the extension from a page its content script runs on: from an expired session's Sitecore Identity
+   sign-in page it does nothing, and the user then saw new CSS from disk with the old engine (2026-10-30). After
+   the reload, read a `data-sct-*` attribute only the new code sets; if the sign-in has expired, say the reload has
+   not happened.
 2. Reload the page (stale tabs keep old content scripts and stale CSS).
 3. For each page in scope: read `data-sct-surface`/`-theme` on the top document **and** on every
-   same-origin frame (`document.querySelectorAll("iframe")`), and take a screenshot.
+   same-origin frame (`document.querySelectorAll("iframe")`), and take a screenshot. `javascript_tool` hides
+   return values that look like query strings or cookies (`sitecore://master/{ID}?lang=en&ver=1`, URLs with
+   `?a=b`) behind `[BLOCKED: ...]`: return booleans or counts (`cur.includes("13D6D6C6")`) instead of the strings.
 4. Do not change the user's theme settings. If you must (`sct-dev-set` replaces the whole overrides
-   map), record the old values first and restore them.
+   map, and the whole `accessibility` map in the same way), record the old values first and restore them.
+   Claude in Chrome cannot open `chrome-extension://` pages; `AGENTS.local.md` says where to read the stored maps
+   without changing them.
 
 Edge: you cannot drive it. Tell the user to reload the extension at `edge://extensions` and reload
 the tab, and say which pages to look at.

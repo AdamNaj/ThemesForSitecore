@@ -96,15 +96,23 @@ When the user reports something broken, rule these out first:
 
 - **Never touch a child frame's `contentDocument` from a parent content script before that frame's `load` event.** It stopped Chrome from theming the Experience Editor ribbon.
 - **Sitecore serves pages at bare folder URLs** (`/sitecore/shell`). `detect.js` appends a slash before matching prefixes; keep it that way.
-- **SPE dialogs in tests:** always press Cancel before a script ends. A Read-Variable or Show-Result window left open, then aborted, hangs that sign-in's ASP.NET session until the request times out (up to 10 minutes).
+- **SPE dialogs in tests:** always press Cancel before a script ends. A Read-Variable or Show-Result window left open, then aborted, hangs that sign-in's ASP.NET session until the request times out (up to 10 minutes). The same goes for a ribbon command run in a live test (Publish, Delete): it opens Sitecore's Confirm in a frame (`xmlcontrol=Confirm`); press its Cancel.
 - **Every Playwright launch starts a new Sitecore session.** A few dozen launches against one install use up its
   license's concurrent users ("The maximum number of allowed users has been reached", `LicenseOptions/StartPage`)
-  until the sessions time out. Visit many pages and themes from one browser instead of one launch each.
+  until the sessions time out. Visit many pages and themes from one browser instead of one launch each: for many
+  short scripts, start Chromium with `--remote-debugging-port` and attach each with `chromium.connectOverCDP`. To
+  load changed extension code without a new seat, save `context.cookies()` (`ASP.NET_SessionId` among them), relaunch
+  on the same user-data dir and `addCookies`; `chrome.runtime.reload()` on a `--load-extension` install disables it
+  (the deployed Sitecore module then takes over). Log out when done; your own stale sessions end at
+  `/sitecore/client/Applications/LicenseOptions/KickUser.aspx`.
 - **`.auth/profile` is shared** by every session's Playwright runs. Never kill a Chrome running on it. For ad-hoc runs, copy it to your scratchpad (skip the caches and `Singleton*` files); copies' sign-ins expire after about an hour, so re-copy rather than asking the user to sign in.
 - **Driving the user's Chrome:** reload the extension by posting `{type: "sct-dev-reload"}` from a Sitecore page, then reload the page. `{type: "sct-dev-set", values: {...}}` replaces the whole overrides map, so restore the user's choices afterwards.
 - **Edge cannot be driven** by Claude in Chrome. Its state can be read from its profile folder (`Secure Preferences` and the extensions' settings folders); ask the user to reload it.
 - **Playwright's headless Chromium hides scrollbars** (`--hide-scrollbars`); launch with `ignoreDefaultArgs: ["--hide-scrollbars"]` to check themed scrollbars.
 - **Git Bash heredocs halve doubled backslashes.** Write scripts containing regexes with the file-writing tool, not `cat <<EOF`.
+- **Git Bash `sed -i` rewrites CRLF files with LF endings**, which turns a two-line edit into a whole-file diff: check `git diff --stat` after a sed edit, or edit with the file tools. Git Bash also rewrites arguments and environment values that start with `/` into Windows paths (`/sitecore/content/Home` becomes `C:/Program Files/Git/sitecore/...`): prefix the command with `MSYS_NO_PATHCONV=1` when passing Sitecore paths.
+- **The Content Editor keeps every ribbon tab but the open one as an HTML comment** (`<BLOCKQUOTE><!--...--></BLOCKQUOTE>` inside the `.scRibbonToolbarStrip`, swapped in by `setActiveStrip` in `Content Editor.js` when its tab is clicked). `querySelectorAll` and theme CSS see only the open tab's buttons: read a closed tab from the comment (as an inert `<template>`), or click its tab (`<ribbon>_Nav_<strip suffix>`) first.
+- **A content script cannot call the page's `scForm`.** To send a Sheer UI message (`item:load(id=...)`, `contenteditor:back`), use `SCT.sheer(doc, message)` in `dom-kit.js`, which clicks a temporary element with an inline `onclick`, as Sitecore's own links do.
 - **Code shared with the Sitecore module lives in `extension/`**, because an unpacked extension cannot load files from outside its folder. Shared files must not touch extension APIs, nor use `Array.from` (Sitecore's Prototype.js replaces it); those belong in `content.js`, `background.js` or `popup/`, and Sitecore-only code in `sitecore/`.
 - **An install with the Sitecore module deployed** (`npm run build:sitecore`, copied over the webroot) gets the module's loader and theme picker on its pages; with the extension enabled for the site, the module stays out of the way.
 - **Copenhagen's `shell.css` is mostly generated** by `node tools/build-sitecore6-css.mjs` between BEGIN/END markers; hand-written rules go after END and carry `:not(#sct-sc6)`.

@@ -372,14 +372,22 @@ nobr:first-of-type > .scTab` (and `:last-of-type`, `:only-of-type`); check a str
 - **Elements a `dom.js` adds must survive Sitecore's own scripts.** The Desktop's onload handler
   (`scWindowManagerInitialize`) calls `className.indexOf` on every element; an SVG's `className` is an
   `SVGAnimatedString`, so Phosphor's glitch filter made the Desktop throw "ctl.className.indexOf is not a
-  function" on both versions. Add SVG only after `load`, and only for as long as it is needed. `shots.cjs`
+  function" on both versions. Add SVG only after `load`, and only for as long as it is needed. Sitecore's mouse
+  handlers read `event.target.className` the same way on hover and click, after `load` too, so an SVG icon inside a
+  control you add takes `pointer-events: none` (the target is then the `<a>` or `<button>` around it). `shots.cjs`
   reports page errors; compare with Native before blaming the theme.
 - **`dom.js` also runs in the Sitecore module** (`sitecore/`, built by `npm run build:sitecore`): no extension
   APIs, no `Array.from` (Prototype.js replaces it). See AGENTS.md.
 - **Chromium reports `prefers-reduced-motion: reduce` inside Remote Desktop**, which is how many people work,
   so Phosphor's scan-line rolled in Firefox and stood still in Chrome and Edge. A theme's signature motion
   keeps a slow, faint version under reduced motion; flicker, flashes and bursts stop. Check both
-  (`page.emulateMedia({ reducedMotion })`).
+  (`page.emulateMedia({ reducedMotion })`). The Reduced motion **aid** is different: the person chose it (the Motion
+  need, or Fine-tune), and it stops a theme's signature motion too. Phosphor's retrace band vanishes under it, and the
+  user asked to keep it that way (2026-10-30): never exempt a theme's motion from the aid. The extension's own UI
+  motion follows the aid as well, not the media query (`popup.css` `.still`).
+- **A theme cannot out-`!important` an aid.** Aid CSS sits in `@layer sct-accessibility` (`engine.js` `aidsCss`,
+  `settings.js` `accessibilityCss`), and an important declaration in a layer beats every unlayered important one,
+  whatever the specificity. Read what you got with `getComputedStyle`, not the source.
 - **Sitecore 10.0 to 10.3 get 10.4's themes** (`data-sct-version="10.4"`, the real release in
   `data-sct-legacy`). Their markup lacks some 10.4 classes: gallery menu rows are a classless `tr`, time picker
   items any link in `ul.scTimePicker` (no `scGalleryMenuItem`, `timePickerItem`). A selector on those classes
@@ -396,6 +404,10 @@ nobr:first-of-type > .scTab` (and `:last-of-type`, `:only-of-type`); check a str
   (`extension/themes/README.md`), mark what a `dom.js` adds on `<html>` itself, and look at children only
   (`:has(> *)`) where that says the same. To keep a rule's specificity, `:has(#Desktop)` becomes
   `:is([data-sct-page~="desktop"], #sct-none)`.
+- **Never key a selector on the element type of a Sitecore control.** The same control is a different element on
+  different pages: the Desktop's `.sc-globalHeader` is `<div id="globalHeader">`, every other page's a `<header>`. A
+  rewrite to `[data-sct-page~="desktop"] header` silently dropped Cheetah's and Sonata's Desktop menu bar; use the
+  class, or `*` where the specificity allows.
 - The ISE clipboard `textarea` must stay hidden.
 - SPEAK `.sc-chunk` is `border-box`: use `content-box` or the caption loses 4px.
 - `#Startbar` has no `.scStartbar` class.
