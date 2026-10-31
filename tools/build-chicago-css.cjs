@@ -7,7 +7,7 @@
 //   push button: outer white top-left / dark shadow bottom-right, inner #dfdfdf / #808080 (2px per side)
 //   window frame: outer #dfdfdf / #0a0a0a, inner #fff / #808080, then 1px of face before the caption
 //   sunken field: outer #808080 / #fff, inner #0a0a0a / #dfdfdf; white inside
-//   caption: 18px, gradient #000080 to #1084d0 (inactive #808080 to #b5b5b5), bold white, text left
+//   caption: 18px, gradient #000080 to #1084d0, drawn to #0e78c4: white on 98's end stop is 4.0:1, under AA (inactive #808080 to #b5b5b5), bold white, text left
 //   caption buttons: 16x14, minimise and maximise touching, 2px gap, close; 2px from the frame's right
 //   menus: face grey in a window frame, rows 20px (text) or 26px+ (start menu), highlight #000080
 //   tabs: 18px, the open one 2px taller and 2px wider each side, joined to its page; corners 2px
@@ -222,7 +222,7 @@ const button = `background: #c0c0c0; color: #000; font: 11px ${FONT}; text-trans
 // a property-sheet tab: raised, white and #dfdfdf on the left and top, dark on the right, open at the bottom
 const tabFace = `background: #c0c0c0; color: #000; border: 1px solid; border-color: #fff #0a0a0a transparent #fff; border-bottom: 0; border-radius: 3px 3px 0 0; box-shadow: inset 1px 1px #dfdfdf, inset -1px 0 #808080; text-transform: none; text-shadow: none; font-family: ${FONT}; font-size: 11px;`;
 // the caption gradient
-const CAPTION = "linear-gradient(90deg, #000080, #1084d0)";
+const CAPTION = "linear-gradient(90deg, #000080, #0e78c4)";
 const CAPTION_OFF = "linear-gradient(90deg, #808080, #b5b5b5)";
 
 // ---- Shared by every area: the global header is the active window's caption, the 98 gradient with bold
@@ -2155,7 +2155,7 @@ ${W("launchpad")} {
     width: 21px;
     box-sizing: border-box;
     padding: 6px 0;
-    background: linear-gradient(0deg, #000080, #1084d0);
+    background: linear-gradient(0deg, #000080, #0e78c4);
     color: #fff;
     font: bold 18px / 21px Arial, sans-serif;
     letter-spacing: 0.5px;
@@ -2818,7 +2818,7 @@ ${P} #StartMenu::before {
   width: 21px;
   box-sizing: border-box;
   padding: 6px 0;
-  background: linear-gradient(0deg, #000080, #1084d0);
+  background: linear-gradient(0deg, #000080, #0e78c4);
   color: #fff;
   font: bold 18px / 21px Arial, sans-serif;
   letter-spacing: 0.5px;

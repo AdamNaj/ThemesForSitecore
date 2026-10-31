@@ -21,7 +21,7 @@ html[data-sct-theme="chicago"][data-sct-surface="speak"] ::-webkit-scrollbar-but
   html[data-sct-theme="chicago"][data-sct-surface="speak"] ::-webkit-scrollbar, html[data-sct-theme="chicago"][data-sct-surface="speak"] :is(select, textarea)::-webkit-scrollbar { background: repeating-conic-gradient(#fff 0 25%, #c0c0c0 0 50%) 0 0 / 2px 2px; }
 }
 html[data-sct-theme="chicago"][data-sct-surface="speak"]:not(#sct-chi) .sc-globalHeader {
-  background: linear-gradient(90deg, #000080, #1084d0) !important;
+  background: linear-gradient(90deg, #000080, #0e78c4) !important;
   border-bottom: 1px solid #0a0a0a;
   box-shadow: none;
   color: #fff;
@@ -482,7 +482,7 @@ html[data-sct-theme="chicago"][data-sct-surface="speak"]:not(#sct-chi) .sc-dialo
   margin: 0;
   padding: 0 40px 0 4px;
   border: 0;
-  background: linear-gradient(90deg, #000080, #1084d0);
+  background: linear-gradient(90deg, #000080, #0e78c4);
   text-align: left;
 }
 html[data-sct-theme="chicago"][data-sct-surface="speak"]:not(#sct-chi) .sc-dialogWindow-header .sc-dialogWindow-header-title .sc-text {
@@ -531,7 +531,7 @@ html[data-sct-theme="chicago"][data-sct-surface="speak"]:not(#sct-chi) .ui-datep
   padding: 0 2px;
   border: 0;
   border-radius: 0;
-  background: linear-gradient(90deg, #000080, #1084d0);
+  background: linear-gradient(90deg, #000080, #0e78c4);
 }
 html[data-sct-theme="chicago"][data-sct-surface="speak"]:not(#sct-chi) .ui-datepicker .ui-datepicker-title {
   order: 1;
@@ -627,7 +627,7 @@ html[data-sct-theme="chicago"][data-sct-surface="speak"]:not(#sct-chi) body:has(
     box-sizing: border-box;
     height: 18px;
     border: 0;
-    background: linear-gradient(90deg, #000080, #1084d0);
+    background: linear-gradient(90deg, #000080, #0e78c4);
   }
   .sc-applicationHeader-row1 .sc-applicationHeader-content {
     height: 18px;

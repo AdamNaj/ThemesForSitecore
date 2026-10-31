@@ -210,7 +210,7 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"] :is(.scFormDialogHeader
 /* :not(#sct-dh): over the generated map's .ui-dialog .ui-dialog-titlebar + .DialogHeader colours, which took this caption's
    own in modal ListViews and the SPEAK pickers (engine.js gives them this header) */
 html[data-sct-theme="chicago"][data-sct-surface="shell"]:not(#sct-dh) :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
-  background: linear-gradient(90deg, #000080, #1084d0);
+  background: linear-gradient(90deg, #000080, #0e78c4);
   color: #fff;
   font-weight: bold;
   font-size: 11px;
@@ -242,7 +242,7 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"] :is(.scSystemButtons, .
 html[data-sct-theme="chicago"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"]:active { background: image-set(url("sct-ext:themes/chicago/glyphs/9f811a8d5f.png") 1x, url("sct-ext:themes/chicago/glyphs/9f811a8d5f.svg") 2x) center / 18px 16px no-repeat, linear-gradient(270deg, #fff 1px, transparent 0), linear-gradient(0deg, #fff 1px, transparent 0), linear-gradient(#0a0a0a 1px, transparent 0), linear-gradient(90deg, #0a0a0a 1px, transparent 0), linear-gradient(270deg, transparent 1px, #dfdfdf 1px 2px, transparent 0), linear-gradient(0deg, transparent 1px, #dfdfdf 1px 2px, transparent 0), linear-gradient(transparent 1px, #808080 1px 2px, transparent 0), linear-gradient(90deg, transparent 1px, #808080 1px 2px, transparent 0), linear-gradient(#c0c0c0, #c0c0c0); }
 html[data-sct-theme="chicago"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"]:active { background: image-set(url("sct-ext:themes/chicago/glyphs/db86ff20f5.png") 1x, url("sct-ext:themes/chicago/glyphs/db86ff20f5.svg") 2x) center / 18px 16px no-repeat, linear-gradient(270deg, #fff 1px, transparent 0), linear-gradient(0deg, #fff 1px, transparent 0), linear-gradient(#0a0a0a 1px, transparent 0), linear-gradient(90deg, #0a0a0a 1px, transparent 0), linear-gradient(270deg, transparent 1px, #dfdfdf 1px 2px, transparent 0), linear-gradient(0deg, transparent 1px, #dfdfdf 1px 2px, transparent 0), linear-gradient(transparent 1px, #808080 1px 2px, transparent 0), linear-gradient(90deg, transparent 1px, #808080 1px 2px, transparent 0), linear-gradient(#c0c0c0, #c0c0c0); }
 /* Standard windows (ISE, Console, Package Designer...): the gradient caption, title left, buttons right. */
-html[data-sct-theme="chicago"][data-sct-surface="shell"] .standardWindowCaption { height: 18px; background: linear-gradient(90deg, #000080, #1084d0); border: 0; }
+html[data-sct-theme="chicago"][data-sct-surface="shell"] .standardWindowCaption { height: 18px; background: linear-gradient(90deg, #000080, #0e78c4); border: 0; }
 html[data-sct-theme="chicago"][data-sct-surface="shell"] .standardWindowCaption + .windowPlaceholderContainer { top: 18px; }
 /* the window's 16px icon at the caption's left, as Windows 95 drew it, the title beside it */
 html[data-sct-theme="chicago"][data-sct-surface="shell"] .standardWindowCaption .windowCaptionIcon { float: left; width: 16px; height: 16px; margin: 1px 0 0 2px; }
@@ -251,7 +251,7 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"] .standartWindowButtons 
 /* The Content Editor, Media Library and Workbox: Sitecore draws no caption over their windows. 95's title bar, as on every other window, is
    drawn on the caption's empty top line from the window's title (engine.js --sct-window-title), the window's
    buttons on it and the ribbon's menu button moved below it. */
-html[data-sct-theme="chicago"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, html[data-sct-theme="chicago"][data-sct-surface="shell"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { box-sizing: border-box; height: 18px; background: linear-gradient(90deg, #000080, #1084d0); }
+html[data-sct-theme="chicago"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, html[data-sct-theme="chicago"][data-sct-surface="shell"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { box-sizing: border-box; height: 18px; background: linear-gradient(90deg, #000080, #0e78c4); }
 html[data-sct-theme="chicago"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine::before, html[data-sct-theme="chicago"][data-sct-surface="shell"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle::before { content: var(--sct-window-title, ""); display: block; box-sizing: border-box; height: 18px; padding: 0 76px 0 22px; background: var(--sct-window-icon, none) 2px 1px / 16px 16px no-repeat; color: #fff; font: bold 11px/18px Tahoma, "Microsoft Sans Serif", Arial, sans-serif; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 html[data-sct-theme="chicago"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > .scSystemButtons, html[data-sct-theme="chicago"][data-sct-surface="shell"][data-sct-window-title] .scWorkboxWindowButtons { top: 2px; right: 2px; margin-right: 0; height: 14px; z-index: 2; }
 /* the Workbox's buttons float in its caption strip: placed on the bar like the Content Editor's */
@@ -346,7 +346,7 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"] #StartMenu::before {
   width: 21px;
   box-sizing: border-box;
   padding: 6px 0;
-  background: linear-gradient(0deg, #000080, #1084d0);
+  background: linear-gradient(0deg, #000080, #0e78c4);
   color: #fff;
   font: bold 18px / 21px Arial, sans-serif;
   letter-spacing: 0.5px;
@@ -357,7 +357,7 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"] #StartMenu::before {
 
 /* ==== Hand-written details ==== */
 html[data-sct-theme="chicago"][data-sct-surface="shell"]:not(#sct-chi) .sc-globalHeader {
-  background: linear-gradient(90deg, #000080, #1084d0) !important;
+  background: linear-gradient(90deg, #000080, #0e78c4) !important;
   border-bottom: 1px solid #0a0a0a;
   box-shadow: none;
   color: #fff;
@@ -1078,7 +1078,7 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"]:not(#sct-chi) {
   table.scCalendar .scCalendarYearRow td {
     height: 22px;
     padding: 0 2px;
-    background: linear-gradient(90deg, #000080, #1084d0);
+    background: linear-gradient(90deg, #000080, #0e78c4);
     color: #fff;
     font-weight: bold;
   }
@@ -1345,7 +1345,7 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"]:not(#sct-chi) {
     min-height: 0;
     margin: 0;
     padding: 0;
-    background: linear-gradient(90deg, #000080, #1084d0);
+    background: linear-gradient(90deg, #000080, #0e78c4);
   }
   .sc-applicationHeader-row1 .sc-applicationHeader-content { height: 18px; min-height: 0; padding: 0 4px; }
   .sc-applicationHeader-title,
@@ -1363,7 +1363,7 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"]:not(#sct-chi) {
   .scTabstrip .scriptModified { color: #a00000; }
   /* ---- Workbox (10.4): the workflow header a caption, each state's bar a raised grey band, the commands
      push buttons ---- */
-  :is(table.scWorkBoxMainHeader, td.scGrayGradient, .scGrayGradientLightShadow) { background: linear-gradient(90deg, #000080, #1084d0); }
+  :is(table.scWorkBoxMainHeader, td.scGrayGradient, .scGrayGradientLightShadow) { background: linear-gradient(90deg, #000080, #0e78c4); }
   td:is(.scSectionCenter, .scSectionRight) {
     border-top: 1px solid #fff;
     border-bottom: 1px solid #808080;

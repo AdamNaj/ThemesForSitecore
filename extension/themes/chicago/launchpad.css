@@ -21,7 +21,7 @@ html[data-sct-theme="chicago"][data-sct-surface="launchpad"] ::-webkit-scrollbar
   html[data-sct-theme="chicago"][data-sct-surface="launchpad"] ::-webkit-scrollbar, html[data-sct-theme="chicago"][data-sct-surface="launchpad"] :is(select, textarea)::-webkit-scrollbar { background: repeating-conic-gradient(#fff 0 25%, #c0c0c0 0 50%) 0 0 / 2px 2px; }
 }
 html[data-sct-theme="chicago"][data-sct-surface="launchpad"]:not(#sct-chi) .sc-globalHeader {
-  background: linear-gradient(90deg, #000080, #1084d0) !important;
+  background: linear-gradient(90deg, #000080, #0e78c4) !important;
   border-bottom: 1px solid #0a0a0a;
   box-shadow: none;
   color: #fff;
@@ -257,7 +257,7 @@ html[data-sct-theme="chicago"][data-sct-surface="launchpad"]:not(#sct-chi) {
     width: 21px;
     box-sizing: border-box;
     padding: 6px 0;
-    background: linear-gradient(0deg, #000080, #1084d0);
+    background: linear-gradient(0deg, #000080, #0e78c4);
     color: #fff;
     font: bold 18px / 21px Arial, sans-serif;
     letter-spacing: 0.5px;
@@ -464,7 +464,7 @@ html[data-sct-theme="chicago"][data-sct-surface="launchpad"]:not(#sct-chi) {
     height: 18px;
     margin: 0;
     padding: 0 4px;
-    background: linear-gradient(90deg, #000080, #1084d0);
+    background: linear-gradient(90deg, #000080, #0e78c4);
     color: #fff;
     font: bold 11px / 18px Tahoma, "Microsoft Sans Serif", Arial, sans-serif;
     text-align: left;

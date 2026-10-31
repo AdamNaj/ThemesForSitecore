@@ -20,7 +20,7 @@ html[data-sct-theme="chicago"][data-sct-surface="login"]:not(#sct-chi) .main::be
   display: block;
   height: 18px;
   padding: 0 4px;
-  background: linear-gradient(90deg, #000080, #1084d0);
+  background: linear-gradient(90deg, #000080, #0e78c4);
   color: #fff;
   font: bold 11px / 18px Tahoma, "Microsoft Sans Serif", Arial, sans-serif;
   text-align: left;
