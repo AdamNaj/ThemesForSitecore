@@ -73,6 +73,14 @@ if a window button has no size, or if maximizing doesn't swap in the restore ima
 standalone ISE it also checks the script tree and variables toggles left of the script tabs: each visible and
 on top, no tab over it, no strip or tab border through it, its centre within 1.5px of the first tab's, and the
 first tab right of both (SPE's 52px reserve). `--themes all` runs every theme.
+The ISE's variable preview only exists while the pointer rests on a variable, and the scan skips the editor:
+`node .claude/skills/sct-verify/varpreview.cjs --themes <ids>` runs a script in the standalone ISE (no dialogs),
+hovers a defined and an undefined variable, and fails when there is no preview, when a token theme leaves it Ace's
+light grey box, or when any text in it is below 4.5:1. Crops go to `test-results/varpreview/`; read them. Run it
+for every theme you touch and with `--themes all` after a change to the ISE rules in `surfaces/shell.css`.
+In the user's Chrome hover by hand in one ISE only: the preview fetches the value with a synchronous request that
+waits on the sign-in's session, so a second ISE running a script (an ISE loaded in a frame, say) froze the tab and
+queued every request to that install for minutes (2026-10-31).
 The taskbar or dock must stay above every non-modal window, as in stock Sitecore:
 `node .claude/skills/sct-verify/dock.cjs --themes <ids>` maximizes a Desktop window and fails when it covers the start
 button, a window button, the search box, the database selector or the top bar's Log out, or, for a dock narrower

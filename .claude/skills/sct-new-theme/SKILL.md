@@ -111,7 +111,8 @@ workaround from four to nine themes built in parallel.
 The shared layer (for every token theme; `surfaces/bar.css` and the engine for all) already does these; never
 write them again in a theme (override one only to give it the theme's own look): taskbar dedupe and the restore glyph (`engine.js`); the ribbon
 collapse toggle and EE quickbar glyphs as text-colour masks; pale ribbon launchers and Insert gallery arrows
-inked on light themes; the ISE's script path at 75% of the title colour; ISE toggles anchored to the first
+inked on light themes; the ISE's script path at 75% of the title colour; the ISE's variable preview (Ace's
+`.ace_tooltip`) as a popup in the page colours, VS Code's hover over a dark editor; ISE toggles anchored to the first
 tab; the tree's no-children spacer hidden; the Launchpad's `min-height: 100vh` zeroed; 10.5's extra Content
 Editor spacing taken out; the field-search clear X; the `OfficeWhite` and `_black` icon halos. The shared rules
 carry little or no specificity so a theme's own rule wins, which also means a theme's broad rule wins by
@@ -133,7 +134,8 @@ Steps:
 
 After each step: `node .claude/skills/sct-verify/shots.cjs --themes <id> --versions 10.5,10.4 --scale 1.25 --scan`,
 fix or explain every SCAN finding and page error, and read the screenshots. After steps 2, 6 and 7 also run
-`windows.cjs`, `menus.cjs`, `taskbar.cjs` and `dock.cjs` (see `sct-verify`), and after step 8 the shots with `--width 1920`.
+`windows.cjs`, `menus.cjs`, `taskbar.cjs` and `dock.cjs` (see `sct-verify`), after step 7 `varpreview.cjs`, and after
+step 8 the shots with `--width 1920`.
 Screenshots alone missed every problem the user found in the 2026-10-23 themes (pitfalls.md section 6).
 
 ## 6. The rules every past theme broke
@@ -162,6 +164,11 @@ Details, numbers and selectors are in [pitfalls.md](pitfalls.md).
   saturated panel, and labels over Sitecore's bitmaps (the Experience Editor's "Add here" handles) were the
   users' October 2026 reports: `npm test` checks the bar tints from the tokens, the scan checks the rest
   (pitfalls.md section 1).
+- **Popups that live only while hovered are themed too.** The ISE's variable preview stayed Ace's light grey
+  box under every theme until a user hovered a variable (2026-10-31): the shots never hover, and the scan skips
+  the editor. A theme that draws its own markup tooltip (`:is(.qtip, .ui-tooltip)`, Chicago's pale yellow)
+  adds `.ace_tooltip` to that rule, keeps the editor's font in it, and resets the type band
+  (`.variableType`, `.undefinedVariableType`), which the shared layer fills.
 - **Every state themed.** Hover (`scTab_Hover` turns tabs blank and uppercase), pressed, selected, focus
   (`:focus-visible` only), disabled. On dark themes a hover lifts above its panel.
 - **Spacing: Copenhagen-tight, 10.5 pulled back.** 10.5 pads everything more than 10.4 (34px inputs, 28px

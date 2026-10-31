@@ -754,7 +754,7 @@ html[data-sct-theme="redwood"][data-sct-surface="shell"]:not(#sct-rw) {
   .ui-tabs .ui-tabs-panel { background: #aaaaaa; }
 
   /* tooltips drawn as markup (SPE's qTip, jQuery UI): white in a black frame */
-  :is(.qtip, .ui-tooltip) {
+  :is(.qtip, .ui-tooltip, .ace_tooltip) {
     border: 1px solid #000;
     border-radius: 0;
     box-shadow: none;
@@ -762,7 +762,10 @@ html[data-sct-theme="redwood"][data-sct-surface="shell"]:not(#sct-rw) {
     color: #000;
     font: 12px Helvetica, Arial, sans-serif;
   }
-  :is(.qtip, .ui-tooltip) * { color: #000; }
+  :is(.qtip, .ui-tooltip, .ace_tooltip) * { color: #000; }
+  /* the ISE's variable preview is the same tip in the editor's font, a line under its type */
+  .ace_tooltip { font: inherit; font-size: smaller; }
+  .ace_tooltip :is(.variableType, .undefinedVariableType) { background: none; border: 0; border-bottom: 1px solid #000; }
 
   /* ---- Start menu: NeXT's main menu, a vertical panel next to the Dock's top tile. A black title row,
      then one column of 21px grey rows (Sitecore's two columns and All Applications in order), each

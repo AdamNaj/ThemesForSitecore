@@ -241,6 +241,29 @@ html[data-sct-tokens][data-sct-surface="shell"] .ace_editor {
   filter: var(--sct-editor-filter, none);
 }
 
+/* The ISE's variable preview: Ace's tooltip (inside the editor) holding SPE's markup, shown while the pointer
+   rests on a variable the session has defined. Ace draws it light grey whatever the theme; here it is a popup
+   in the theme's page colours, the type band as a table header. The box rule is light so a theme's own
+   tooltip (Chicago's pale yellow) wins; the parts outweigh the generated map, so a theme resets them. */
+:where(html[data-sct-tokens][data-sct-surface="shell"]) .ace_editor .ace_tooltip {
+  background: var(--sct-app-bg);
+  color: var(--sct-app-fg);
+  border: 1px solid var(--sct-border-strong);
+  border-radius: var(--sct-radius);
+  box-shadow: 0 2px 8px #00000040;
+}
+html[data-sct-tokens][data-sct-surface="shell"] .ace_tooltip :is(.variableType, .undefinedVariableType) {
+  background: var(--sct-table-header-bg);
+  color: var(--sct-table-header-fg);
+  border: 0;
+}
+html[data-sct-tokens][data-sct-surface="shell"] .ace_tooltip :is(.varName, .childName) {
+  color: var(--sct-link);
+}
+html[data-sct-tokens][data-sct-surface="shell"] .ace_tooltip .varName {
+  font-weight: bold;
+}
+
 /* Where the browser has style queries (Chrome 111, Firefox 151), a theme that flips the editor gets VS Code's
    Dark Modern instead: no filter, Dark Modern's editor and Dark+ syntax colours on SPE's PowerShell tokens.
    Older browsers keep the filter, which the themes' own Ace scrollbar colours are worked out for; the id
@@ -324,6 +347,23 @@ html[data-sct-tokens][data-sct-surface="shell"] .ace_editor {
   }
   html[data-sct-tokens][data-sct-surface="shell"] .ace_editor.ace_autocomplete .ace_completion-highlight {
     color: #2aaaff;
+  }
+  /* the variable preview, as VS Code's hover widget: the type in Dark+'s type colour, names as variables */
+  html[data-sct-tokens][data-sct-surface="shell"] .ace_editor .ace_tooltip {
+    background: #202020;
+    color: #cccccc;
+    border-color: #454545;
+  }
+  html[data-sct-tokens][data-sct-surface="shell"] .ace_editor .ace_tooltip :is(.variableType, .undefinedVariableType) {
+    background: transparent;
+    color: #4ec9b0;
+    border-bottom: 1px solid #454545;
+  }
+  html[data-sct-tokens][data-sct-surface="shell"] .ace_editor .ace_tooltip .undefinedVariableType {
+    color: #f48771;
+  }
+  html[data-sct-tokens][data-sct-surface="shell"] .ace_editor .ace_tooltip :is(.varName, .childName) {
+    color: #9cdcfe;
   }
 }
 

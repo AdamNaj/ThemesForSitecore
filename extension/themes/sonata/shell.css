@@ -791,7 +791,7 @@ html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) {
   .ui-tabs .ui-tabs-panel { background: #eeeeee; }
 
   /* tooltips drawn as markup (SPE's qTip, jQuery UI): a Balloon Help tip, pale yellow in a black frame */
-  :is(.qtip, .ui-tooltip) {
+  :is(.qtip, .ui-tooltip, .ace_tooltip) {
     border: 1px solid #000;
     border-radius: 4px;
     box-shadow: none;
@@ -799,7 +799,10 @@ html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) {
     color: #000;
     font: 11.5px Charcoal, "Charcoal CY", Verdana, Geneva, Tahoma, sans-serif;
   }
-  :is(.qtip, .ui-tooltip) * { color: #000; }
+  :is(.qtip, .ui-tooltip, .ace_tooltip) * { color: #000; }
+  /* the ISE's variable preview is the same tip in the editor's font, a line under its type */
+  .ace_tooltip { font: inherit; font-size: smaller; }
+  .ace_tooltip :is(.variableType, .undefinedVariableType) { background: none; border: 0; border-bottom: 1px solid #000; }
 
   /* ---- The start menu drops from the menu bar's note as Platinum's Apple menu: one #ddd menu, two columns
      of 18px rows (a 16px icon and the bold name; the descriptions stay in the tooltips), the highlighted row

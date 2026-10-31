@@ -474,6 +474,49 @@ test("the ISE's Write-Progress overlay is opaque and uses the theme's panel text
   await page.close();
 });
 
+// The live check is .claude/skills/sct-verify/varpreview.cjs; this one needs no Sitecore.
+test("every token theme themes the ISE's variable preview, readably", async () => {
+  test.setTimeout(240000);
+  const inspect = () => ["tip", "tip-undefined"].map((id) => {
+    const tip = document.getElementById(id);
+    const rgba = (s) => (/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?/.exec(s) || []).slice(1).map((v, i) => (v === undefined ? (i === 3 ? 1 : 0) : +v));
+    const lum = ([r, g, b]) => [r, g, b].map((v) => ((v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+    const ratio = (a, b) => (Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05);
+    const behind = (el) => {
+      for (let n = el; n; n = n.parentElement) {
+        const c = rgba(getComputedStyle(n).backgroundColor);
+        if (c[3] >= 0.6) return c;
+      }
+      return [255, 255, 255, 1];
+    };
+    const low = [];
+    const walk = document.createTreeWalker(tip, NodeFilter.SHOW_TEXT);
+    for (let t = walk.nextNode(); t; t = walk.nextNode()) {
+      if (!t.textContent.trim()) continue;
+      const r = ratio(rgba(getComputedStyle(t.parentElement).color), behind(t.parentElement));
+      if (r < 4.5) low.push(`${t.parentElement.className} ${r.toFixed(2)}:1`);
+    }
+    const s = getComputedStyle(tip);
+    return { id, aces: s.backgroundColor === "rgb(245, 245, 245)" && s.borderTopColor === "rgb(128, 128, 128)", low };
+  });
+  const page = await context.newPage();
+  const bad = [];
+  for (const { id } of require("../../extension/themes/themes.js").filter((t) => t.usesTokens && (!t.versions || t.versions.includes("10.5")))) {
+    await setTheme(id);
+    await page.goto(`${BASE}/sitecore/shell/ace.html`);
+    await expect.poll(() => attrs(page).then((a) => a.sctTheme)).toBe(id);
+    // the CSS lands after the theme attribute: wait for the tip to change, or a beat for a theme that never changes it
+    await expect.poll(() => page.evaluate(inspect).then((r) => r.every((x) => !x.aces)), { timeout: 3000 }).toBe(true).catch(() => {});
+    for (const r of await page.evaluate(inspect)) {
+      if (r.aces) bad.push(`${id} ${r.id}: Ace's own grey box`);
+      for (const l of r.low) bad.push(`${id} ${r.id}: ${l}`);
+    }
+  }
+  expect(bad).toEqual([]);
+  await setTheme("debrightify");
+  await page.close();
+});
+
 test("dev messages from another window are ignored", async () => {
   const page = await context.newPage();
   await page.goto(`${BASE}/sitecore/shell/default.aspx`);

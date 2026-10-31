@@ -879,12 +879,15 @@ html[data-sct-theme="losgatos"][data-sct-surface="shell"]:not(#sct-lg) {
   .ui-tabs .ui-tabs-panel { background: #0055aa; }
 
   /* tooltips drawn as markup (SPE's qTip, jQuery UI): a small white Workbench requester */
-  :is(.qtip, .ui-tooltip) {
+  :is(.qtip, .ui-tooltip, .ace_tooltip) {
     border: 2px solid #000000; border-radius: 0; box-shadow: none; background: #ffffff;
     color: #0055aa;
     font: 12px "Cascadia Mono", Consolas, monospace;
   }
-  :is(.qtip, .ui-tooltip) * { color: #0055aa; }
+  :is(.qtip, .ui-tooltip, .ace_tooltip) * { color: #0055aa; }
+  /* the ISE's variable preview is the same tip in the editor's font, a line under its type */
+  .ace_tooltip { font: inherit; font-size: smaller; }
+  .ace_tooltip :is(.variableType, .undefinedVariableType) { background: none; border: 0; border-bottom: 1px solid #000; }
 
   /* ---- Start menu: Workbench's menu. White, blue text, a black frame; the columns table laid out as a
      grid: the left list spans both rows but only as tall as its items, the right one with All

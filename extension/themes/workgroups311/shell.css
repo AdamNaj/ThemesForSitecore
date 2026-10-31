@@ -771,7 +771,7 @@ html[data-sct-theme="workgroups311"][data-sct-surface="shell"]:not(#sct-wg) {
   .ui-tabs .ui-tabs-panel { background: #c0c0c0; }
 
   /* tooltips drawn as markup (SPE's qTip, jQuery UI): Windows' pale yellow tip in a black frame */
-  :is(.qtip, .ui-tooltip) {
+  :is(.qtip, .ui-tooltip, .ace_tooltip) {
     border: 1px solid #000;
     border-radius: 0;
     box-shadow: none;
@@ -779,7 +779,10 @@ html[data-sct-theme="workgroups311"][data-sct-surface="shell"]:not(#sct-wg) {
     color: #000;
     font: 12px "MS Sans Serif", "Microsoft Sans Serif", Arial, sans-serif;
   }
-  :is(.qtip, .ui-tooltip) * { color: #000; }
+  :is(.qtip, .ui-tooltip, .ace_tooltip) * { color: #000; }
+  /* the ISE's variable preview is the same tip in the editor's font, a line under its type */
+  .ace_tooltip { font: inherit; font-size: smaller; }
+  .ace_tooltip :is(.variableType, .undefinedVariableType) { background: none; border: 0; border-bottom: 1px solid #000; }
 
   /* the columns table laid out as a grid: the left list box spans both rows but only as tall as its
      items; the right one, then All Applications under it */

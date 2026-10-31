@@ -864,7 +864,7 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"]:not(#sct-chi) {
   .ui-state-highlight { border: 1px solid #000; border-radius: 0; background: #ffffe1; color: #000; }
   .ui-state-highlight :is(p, b, span, strong) { color: #000; }
   /* tooltips drawn as markup (SPE's qTip, jQuery UI): Windows' pale yellow tip in a black frame */
-  :is(.qtip, .ui-tooltip) {
+  :is(.qtip, .ui-tooltip, .ace_tooltip) {
     border: 1px solid #000;
     border-radius: 0;
     box-shadow: none;
@@ -872,7 +872,10 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"]:not(#sct-chi) {
     color: #000;
     font: 11px Tahoma, "Microsoft Sans Serif", Arial, sans-serif;
   }
-  :is(.qtip, .ui-tooltip) * { color: #000; }
+  :is(.qtip, .ui-tooltip, .ace_tooltip) * { color: #000; }
+  /* the ISE's variable preview is the same tip in the editor's font, a line under its type */
+  .ace_tooltip { font: inherit; font-size: smaller; }
+  .ace_tooltip :is(.variableType, .undefinedVariableType) { background: none; border: 0; border-bottom: 1px solid #000; }
 
   /* ---- Start menu: 95's. One column of rows beside the side banner (drawn by #StartMenu::before), the
      left list, then the right, then All Applications as the Programs row; folders open fly-outs. ---- */

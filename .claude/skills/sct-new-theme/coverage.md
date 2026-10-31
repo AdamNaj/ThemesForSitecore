@@ -65,6 +65,7 @@ clicking: drive them in Playwright or the user's Chrome.
 ## SPE
 
 - [ ] ISE: window caption path, ribbon (Home and Context tabs), script tabs with icons and close X, toggles left of the tabs, Ace editor and its scrollbars, Write-Progress overlay, clipboard textarea hidden
+- [ ] ISE variable preview: run a script, rest the pointer on a defined and an undefined variable; the box, the type band, names and values in the theme's colours and readable (`varpreview.cjs`)
 - [ ] Console: window, text, scrollbar
 - [ ] Show-ListView, non-modal and `-Modal`: title bar (no band of another colour above it, no rounded notch), Filter box centred with its label, Page chunk, grid
 - [ ] Reports: c3 charts' axes, labels, legend, grid, tooltip
