@@ -84,7 +84,7 @@ Open `themes-for-sitecore-<version>-firefox.xpi` in Firefox and confirm the inst
 
 The popup's settings have an **Accessibility** tab. Pick the needs that fit you (Screen reader, Keyboard, Low vision, Colour vision, Reading and focus, Motion); each switches on the aids that help with it, under any theme, Native included. Point at a need to see what it changes. **Fine-tune** turns single aids on or off.
 
-The aids that change nothing you can see (frame names, role repair, names for icons and images, landmarks, page language, High Contrast support) run on every site with a theme. With the Keyboard need, **Ctrl+Shift+Space** opens a command palette for any ribbon command or item path, **Ctrl+/** lists every shortcut, and **F6** moves between the top bar, ribbon, tree and editor.
+The aids that change nothing you can see (frame names, role repair, names for icons and images, landmarks, page language, High Contrast support) run on every site with a theme. On those sites **F1** lists every shortcut on the page and what each aid that is on does. With the Keyboard need, **Ctrl+Shift+Space** opens a command palette for any ribbon command or item path, and **F6** moves between the top bar, ribbon, tree and editor.
 
 ## Make your own theme
 

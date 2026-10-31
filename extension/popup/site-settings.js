@@ -83,7 +83,7 @@
   <details id="aids" class="row aids">
     <summary><span class="label">Fine-tune<small>Each aid on its own, under the need it serves first</small></span></summary>
     <div id="aid-list"></div>
-    <p id="aid-keys" class="keys">Keys: F6 moves between the parts of a page, Ctrl+Shift+Space opens the command palette, and Ctrl+/ lists every shortcut.</p>
+    <p id="aid-keys" class="keys">Keys: F6 moves between the parts of a page, Ctrl+Shift+Space opens the command palette, and F1 lists every shortcut and what each aid that is on does.</p>
     <button type="button" id="aids-reset">Reset to needs</button>
   </details>
 </div>`;

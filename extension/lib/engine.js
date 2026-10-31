@@ -821,7 +821,7 @@
 
     function aidContext(kit) {
       return {
-        surface: surfaceName, version: version || "10.5", doc, top: TOP,
+        surface: surfaceName, version: version || "10.5", doc, top: TOP, running: () => [...aids.keys()],
         own: kit.own, addClass: kit.addClass, setAttr: kit.setAttr, move: kit.move, listen: kit.listen,
       };
     }

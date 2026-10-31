@@ -960,20 +960,41 @@ test("command-palette: type a command or a path, Enter runs it", async ({ page }
   await expect(palette).toContainText("No commands on this page");
 });
 
-test("shortcuts-help: Ctrl+/ lists Sitecore's shortcuts and ours", async ({ page }) => {
+test("shortcuts-help: F1 and Ctrl+/ list Sitecore's shortcuts, ours and the aids that are on", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord&needs=keyboard`);
   await ready(page);
   await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-skip"))).toBe(true);
+  const help = page.getByRole("dialog", { name: "Shortcuts and aids" });
+  for (const key of ["F1", "Control+/"]) {
+    await page.focus("#FIELD1");
+    await page.keyboard.press(key);
+    await expect(help).toBeVisible();
+    const rows = await help.locator("tr").allInnerTexts();
+    for (const row of ["Ctrl+S\tSave", "Alt+H\tHome tab", "Alt+F1\tShow the ribbon's key hints", "Ctrl+Shift+Space\tCommand palette", "F6\tNext part of the page", "Command palette\tCtrl+Shift+Space: type a ribbon command, or an item path or ID, and press Enter"]) expect(rows).toContain(row);
+    expect(rows.join("\n")).not.toContain("???");
+    await page.keyboard.press("Escape");
+    await expect(help).toHaveCount(0);
+    await expect(page.locator("#FIELD1")).toBeFocused();
+  }
+});
+
+test("shortcuts-help: on under a theme with no need ticked, listing only what runs", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
   await page.focus("#FIELD1");
-  await page.keyboard.press("Control+/");
-  const help = page.getByRole("dialog", { name: "Keyboard shortcuts" });
+  // F1 is not the browser's help
+  const prevented = await page.evaluate(() => {
+    const e = new KeyboardEvent("keydown", { key: "F1", bubbles: true, cancelable: true });
+    document.activeElement.dispatchEvent(e);
+    return e.defaultPrevented;
+  });
+  expect(prevented).toBe(true);
+  const help = page.getByRole("dialog", { name: "Shortcuts and aids" });
   await expect(help).toBeVisible();
-  const rows = await help.locator("tr").allInnerTexts();
-  for (const row of ["Ctrl+S\tSave", "Alt+H\tHome tab", "Alt+F1\tShow the ribbon's key hints", "Ctrl+Shift+Space\tCommand palette", "F6\tNext part of the page"]) expect(rows).toContain(row);
-  expect(rows.join("\n")).not.toContain("???");
-  await page.keyboard.press("Escape");
-  await expect(help).toHaveCount(0);
-  await expect(page.locator("#FIELD1")).toBeFocused();
+  const text = await help.innerText();
+  expect(text).toContain("Frame names");
+  expect(text).not.toContain("Command palette");
+  expect(text).not.toContain("Next part of the page");
 });
 
 test("shortcuts-help: Ctrl+Minus on a layout where it sits at the US slash key still zooms", async ({ page }) => {
@@ -987,7 +1008,7 @@ test("shortcuts-help: Ctrl+Minus on a layout where it sits at the US slash key s
     return e.defaultPrevented;
   });
   expect(prevented).toBe(false);
-  await expect(page.getByRole("dialog", { name: "Keyboard shortcuts" })).toHaveCount(0);
+  await expect(page.getByRole("dialog", { name: "Shortcuts and aids" })).toHaveCount(0);
 });
 
 test("menus: focus inside an open submenu stays there", async ({ page }) => {
