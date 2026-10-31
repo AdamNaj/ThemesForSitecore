@@ -142,6 +142,7 @@
     "sticky-header": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Sticky item header", hint: "Keeps the item's name and icon in view while its fields scroll under them" },
     "ce-state": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Remember Content Editor state", hint: "Opens the Content Editor on the item you last had open, with Quick Info open or closed as you left it" },
     "ee-state": { needs: ["reading"], always: false, surfaces: ["ee"], name: "Remember Experience Editor state", hint: "Opens the Experience Editor on the page you last had open, unless you open it on a page of your choosing" },
+    "section-toggle": { needs: ["reading"], always: true, surfaces: ["shell"], name: "Back, forward, expand and collapse", hint: "Buttons beside the editor tabs: Back and Forward through the items you opened, and open or close every section of the item's fields" },
     "reading-guide": { needs: ["reading"], always: false, surfaces: ["shell", "speak", "launchpad", "admin", "login"], name: "Reading guide", hint: "A soft band across the line you are reading" },
     "quiet-ribbon": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Quiet ribbon", hint: "Lets you hide the ribbon groups you never use" },
     "command-palette": { needs: ["keyboard"], always: false, surfaces: ["shell", "speak", "launchpad"], name: "Command palette", hint: "Ctrl+Shift+Space: type a ribbon command, or an item path or ID, and press Enter" },
