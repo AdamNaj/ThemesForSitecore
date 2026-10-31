@@ -4,20 +4,45 @@
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
 
-  const BUTTONS = '.scRibbonToolbarStrip a[href], .scRibbonToolbarStrip [role="button"]';
+  const STRIPS = ".scRibbonToolbarStrip, .scRibbonToolbarContextualStrip";
+  const BUTTONS = 'a[href], [role="button"]';
   const MAX = 12;
   const clean = (s) => (s || "").replace(/\s+/g, " ").trim();
   const nameOf = (el) => clean(el.getAttribute("aria-label") || el.textContent || el.title || el.getAttribute("alt"));
+  const groupOf = (el) => clean(el.closest(".chunk")?.querySelector(".caption")?.textContent);
   const contexts = new WeakMap();
   let serial = 0;
+
+  // The Content Editor keeps every tab but the open one as a comment in a BLOCKQUOTE, and puts the HTML back when
+  // its tab is clicked (setActiveStrip in Content Editor.js): the buttons of a closed tab are read from an inert
+  // copy of that comment, and run after a click on the tab. A strip in an editor tab's ribbon that is not showing
+  // belongs to another item, and is left out.
+  function buttons(doc) {
+    const out = [];
+    for (const strip of doc.querySelectorAll(STRIPS)) {
+      if (strip.closest(".scRibbon")?.style.display === "none") continue;
+      const quote = strip.firstElementChild?.tagName === "BLOCKQUOTE" ? strip.firstElementChild : null;
+      let scope = strip;
+      let tab = null;
+      if (quote) {
+        tab = doc.getElementById(`${strip.id.split("_")[0]}_Nav_${strip.id.slice(strip.id.lastIndexOf("_") + 1)}`);
+        if (!tab) continue;
+        const copy = doc.createElement("template");
+        copy.innerHTML = [...quote.childNodes].filter((n) => n.nodeType === 8).map((n) => n.data).join("");
+        scope = copy.content;
+      }
+      for (const el of scope.querySelectorAll(BUTTONS)) out.push({ el, tab });
+    }
+    return out;
+  }
 
   function commands(doc) {
     const seen = new Set();
     const out = [];
-    for (const el of doc.querySelectorAll(BUTTONS)) {
+    for (const { el } of buttons(doc)) {
       if (el.closest("sct-dialog, [data-sct-quiet-hide], [data-sct-quiet-show]")) continue;
       const name = nameOf(el);
-      const group = clean(el.closest(".chunk")?.querySelector(".caption")?.textContent);
+      const group = groupOf(el);
       const label = group && group !== name ? `${name} · ${group}` : name;
       if (!name || seen.has(label)) continue;
       seen.add(label);
@@ -35,9 +60,13 @@
       (doc.querySelector(".scSearchButton") || box).click();
       return;
     }
-    const button = [...doc.querySelectorAll(BUTTONS)].find((el) => nameOf(el) === choice.name
-      && clean(el.closest(".chunk")?.querySelector(".caption")?.textContent) === choice.group);
-    if (button) button.click();
+    const find = () => buttons(doc).find(({ el }) => nameOf(el) === choice.name && groupOf(el) === choice.group);
+    let found = find();
+    if (found?.tab) {
+      found.tab.click();
+      found = find();
+    }
+    if (found && !found.tab) found.el.click();
   }
 
   function open(ctx) {

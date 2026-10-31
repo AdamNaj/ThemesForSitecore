@@ -703,6 +703,13 @@ test("command-palette: type a command or a path, Enter runs it", async ({ page }
   await expect(palette).toHaveCount(0);
   await expect.poll(() => page.evaluate(() => window.copied)).toBe(1);
   await expect(page.locator("#FIELD1")).toBeFocused(); // back where it was
+  // a command on a closed tab, which Sitecore keeps as a comment: its tab opens, then it runs
+  await open();
+  await page.keyboard.type("publish");
+  await expect(page.getByRole("option").first()).toHaveText("Publish");
+  await page.keyboard.press("Enter");
+  await expect.poll(() => page.evaluate(() => window.published)).toBe(1);
+  await expect(page.locator("#RibbonX_Strip_Review")).toBeVisible();
   await open();
   await page.keyboard.type("/sitecore/content");
   await expect(page.getByRole("option").first()).toHaveText("Go to /sitecore/content");

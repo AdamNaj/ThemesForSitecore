@@ -13,13 +13,14 @@
         <div class="scRibbonNavigatorButtonsGroupHeader">&nbsp;</div>
         <div class="scRibbonNavigatorButtonsGroupButtons">
           <a id="RibbonX_Nav_Home" href="#" accesskey="H" role="tab" aria-controls="RibbonX_Strip_Home" aria-selected="true" class="scRibbonNavigatorButtonsActive">Home</a>
-          <a id="RibbonX_Nav_Review" href="#" role="tab" aria-selected="false" tabindex="-1" class="scRibbonNavigatorButtonsNormal">Review</a>
+          <a id="RibbonX_Nav_Review" href="#" role="tab" aria-selected="false" tabindex="-1" class="scRibbonNavigatorButtonsNormal" onclick="return openStrip('RibbonX_Strip_Review')">Review</a>
         </div>
       </div></div></div>
       <div id="RibbonX_Toolbar" class="scRibbonToolbar">
         <div role="tabpanel" aria-label="Home" id="RibbonX_Strip_Home" class="scRibbonToolbarStrip"><div class="chunk" id="ChunkWrite" role="group" aria-labelledby="ChunkWrite_caption"><div class="panel"><a href="#" class="scRibbonToolbarLargeButton" title="Save (Ctrl+S)" aria-keyshortcuts="Ctrl+S"><span>Save</span></a></div><div id="ChunkWrite_caption" class="caption">Write</div></div><div class="chunk" id="ChunkOps" role="group" aria-labelledby="ChunkOps_caption"><div class="panel"><img src="/sitecore/images/blank.gif" class="scRibbonPanelUp" alt="" onclick="void 0">
           <img src="/sitecore/images/blank.gif" class="scRibbonPanelOpen" alt="" onclick="window.opened = (window.opened || 0) + 1" tabindex="0">
           <a href="#" class="scRibbonToolbarSmallButton" title="Copy the item." aria-keyshortcuts="???" onclick="window.copied = (window.copied || 0) + 1; return false">Copy to</a></div><div id="ChunkOps_caption" class="caption">Operations</div></div></div>
+        <div role="tabpanel" aria-label="Review" id="RibbonX_Strip_Review" class="scRibbonToolbarStrip" style="display:none"><BLOCKQUOTE><!--<div class="chunk"><div class="panel"><a href="#" class="scRibbonToolbarLargeButton" onclick="window.published = (window.published || 0) + 1; return false"><span>Publish</span></a></div><div class="caption">Publish</div></div>--></BLOCKQUOTE></div>
       </div>
     </div>
   </div>
@@ -56,6 +57,14 @@
   </div>
 </form>
 <script>
+  // Sitecore's setActiveStrip: a closed tab's strip is a comment in a BLOCKQUOTE until its tab is clicked
+  function openStrip(id) {
+    const strip = document.getElementById(id);
+    const quote = strip.firstChild;
+    if (quote.tagName === "BLOCKQUOTE") strip.innerHTML = quote.innerHTML.slice(4, -3);
+    strip.style.display = "";
+    return false;
+  }
   // a context menu as Sitecore's showPopup builds it; Escape on keyup removes it without giving focus back
   function openMenu() {
     const popup = document.createElement("div");
