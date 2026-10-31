@@ -35,7 +35,9 @@ Sitecore's back office is bright, and every environment looks the same. Themes f
 
 Know where you are. The Guardrail theme marks every screen with the environment you set for the site, so production never looks like your dev box. Give a site a postfix such as [Prod] and it shows in the browser tab and in Sitecore's top bar: no more five identical "Desktop" tabs.
 
-Accessibility built in: reading fonts for low vision and dyslexia, wider letter and word spacing, and colour filters for colour vision deficiencies. They work under every theme, and every theme keeps its text at WCAG AA contrast.
+Accessibility built in: tell it what you need, such as a screen reader, the keyboard alone, low vision, colour vision, reading and focus, or less motion, and the matching aids switch on. Clear focus outlines, keyboard access to the ribbon, menus and dialogs, bigger click targets, spoken announcements, reading fonts and spacing, colour filters and a reading guide all work under every theme, and every theme keeps its text at WCAG AA contrast.
+
+Small improvements for everyone, on by default: a command palette, type to search in the content tree and an item's fields, item details at a glance, an image preview you can size, and the Content and Experience Editors reopening where you left off. Each one can be switched off, and they work with or without a theme.
 
 Themes cover the Content Editor, the Desktop and its dialogs, Launchpad, the Experience Editor's ribbon, the admin pages and the login screen. Your website content and Sitecore's behaviour are never changed.
 
@@ -52,12 +54,12 @@ Sitecore is a trademark of Sitecore Corporation A/S. This extension is not affil
 
 ## Chrome: Privacy practices tab
 
-**Single purpose:** Changes the visual theme of the Sitecore Desktop and the other Sitecore Content Management (CM) UIs.
+**Single purpose:** Changes the look and usability of the Sitecore Desktop and the other Sitecore Content Management (CM) UIs: visual themes, with accessibility aids and editing improvements for those same pages.
 
 **Permission justifications:**
 
-- `storage`: Saves the chosen theme per Sitecore host, the hosts' Sitecore versions, and any themes the user imports.
-- `scripting`: Injects the theme stylesheet and a content script into Sitecore Content Management pages on hosts the user has enabled.
+- `storage`: Saves the chosen theme per Sitecore host, the hosts' Sitecore versions, the user's accessibility needs and which aids and improvements are on, and any themes the user imports.
+- `scripting`: Injects the theme stylesheet and a content script, which runs the accessibility aids and editing improvements, into Sitecore Content Management pages on hosts the user has enabled.
 - `activeTab`: Lets the popup read the current tab's address so the user can enable the extension on that Sitecore host.
 - Host permissions (`*://*/*`, optional): Sitecore runs on any domain, so there's no fixed host list. Nothing is granted at install time. The user grants access to one host at a time from the popup and can revoke it there.
 
