@@ -386,6 +386,11 @@ test("tree-keys: typing narrows the tree to the matches and their path; Tab move
   expect(await at()).toBe("Content");
   await page.keyboard.press("Shift+Tab");
   expect(await at()).toBe("sitecore");
+  await page.keyboard.press("ArrowDown"); // the arrows move as Tab does
+  expect(await at()).toBe("Content");
+  await page.keyboard.press("ArrowUp");
+  expect(await at()).toBe("sitecore");
+  expect(await panel()).toContain("1 of 3");
   await page.keyboard.press("Tab");
   await page.keyboard.press("Tab");
   expect(await at()).toBe("Layout");
@@ -419,6 +424,20 @@ test("tree-keys: Enter on a tree match puts everything back and opens it in the 
   expect(await page.evaluate(() => document.querySelectorAll("[data-sct-find-hide], [data-sct-find-path]").length)).toBe(0);
 });
 
+test("tree-keys: a click on a tree match opens that item, the tree back around it", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
+  await page.evaluate(() => document.getElementById("ContentTreeInnerPanel").addEventListener("click", (e) => (window.clicked = e.target.closest("a")?.textContent.trim())));
+  await page.focus("#Tree_Node_1");
+  await page.keyboard.type("l"); // Content hides, so Layout sits where Content was
+  await page.click("text=Layout");
+  // the click lands on Layout, not on Content coming back under the pointer
+  expect(await page.evaluate(() => window.clicked)).toBe("Layout");
+  await expect.poll(() => page.evaluate(() => document.querySelector("sct-tree-find").hidden)).toBe(true);
+  expect(await page.evaluate(() => document.querySelectorAll("[data-sct-find-hide]").length)).toBe(0);
+});
+
 test("tree-keys: the match comes into view, even one that already had focus", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord`);
   await ready(page);
@@ -447,7 +466,9 @@ test("tree-keys: after a click on the tree's empty space, typing searches the tr
   await page.mouse.click(box.x + box.width - 4, box.y + box.height - 4);
   await page.keyboard.type("lay");
   expect(await page.evaluate(() => document.activeElement.textContent.trim())).toBe("Layout");
-  expect(await page.evaluate(() => document.querySelector("sct-tree-find").textContent)).toBe("lay1 of 1 · Tab for the next · Enter to go there");
+  expect(await page.evaluate(() => document.querySelector("sct-tree-find").textContent)).toBe("lay1 of 2 · Tab for the next · Enter to go there");
+  await page.keyboard.press("Tab"); // the letters in order, not together: Media LibrArY
+  expect(await page.evaluate(() => document.activeElement.textContent.trim())).toBe("Media Library");
 });
 
 test("tree-keys: after a click in the editor, typing narrows it to the matching fields; Enter goes into one", async ({ page }) => {
@@ -483,6 +504,64 @@ test("tree-keys: after a click in the editor, typing narrows it to the matching 
   await page.keyboard.type("xy"); // in a field, typing types
   expect(await page.inputValue("#Texture_input")).toBe("xy");
   expect(await panel()).toBe(null);
+});
+
+// Sitecore's dialogs the search asks: Change Template names an item's template, the Template Builder and the
+// Inheritance tab the template's field types
+async function dialogs(page, pages) {
+  await page.route("**/sitecore/shell/default.aspx?xmlcontrol=*", (route) => {
+    const q = new globalThis.URL(route.request().url()).searchParams;
+    const body = pages[`${q.get("xmlcontrol")} ${q.get("id")}`];
+    return body ? route.fulfill({ contentType: "text/html", body }) : route.fulfill({ status: 404, body: "" });
+  });
+}
+const changeTemplate = (path, id) => `<html><body><span id="OldTemplateName">${path} - ${id}</span></body></html>`;
+
+test("tree-keys: the tree also matches each item's template name", async ({ page }) => {
+  await dialogs(page, {
+    "ChangeTemplate 1": changeTemplate("System/Root", "{00000000-0000-0000-0000-000000000001}"),
+    "ChangeTemplate 2": changeTemplate("System/Main section", "{00000000-0000-0000-0000-000000000002}"),
+    "ChangeTemplate 3": changeTemplate("System/Main section", "{00000000-0000-0000-0000-000000000002}"),
+    "ChangeTemplate 4": changeTemplate("System/Media/Media folder", "{00000000-0000-0000-0000-000000000004}"),
+  });
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
+  const panel = () => page.evaluate(() => { const p = document.querySelector("sct-tree-find"); return p.hidden ? null : p.textContent; });
+  await page.focus("#Tree_Node_1");
+  await page.keyboard.type("folder"); // no item's name has it: Media Library's template does, once its answer lands
+  await expect.poll(panel).toBe("folderMedia folder · 1 of 1 · Tab for the next · Enter to go there");
+  expect(await page.evaluate(() => document.activeElement.textContent.trim())).toBe("Media Library");
+  await page.keyboard.press("Escape");
+  await page.keyboard.type("main"); // Content and Layout, by template
+  await expect.poll(panel).toContain("1 of 2");
+});
+
+test("tree-keys: the editor also matches each field's type, by the field's ID or else its name", async ({ page }) => {
+  const F = (n) => `{00000000-0000-0000-0000-00000000000${n}}`;
+  await dialogs(page, {
+    [`ChangeTemplate ${F(9)}`]: changeTemplate("Sample/Sample Item", F(8)),
+    // its own fields: Title, a Single-Line Text
+    [`TemplateBuilder ${F(8)}`]: `<html><body><input id="R1_field_name" value="Title"><input id="R1_field_id" type="hidden" value="${F(1)}"><select id="R1_field_type"><option value="Rich Text">Rich Text</option><option value="Single-Line Text" selected>Single-Line Text</option></select></body></html>`,
+    // a base's: __Body, a Rich Text
+    [`TemplateInheritance ${F(8)}`]: `<html><body><div id="TemplateList"><a class="scTemplate">Base</a><div class="scFields"><a href="#" class="scField" onclick='javascript:scForm.invoke("Load(\\"${F(2)}\\")"); return false;'>__Body - Rich Text</a></div></div></body></html>`,
+  });
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
+  await page.evaluate((F) => {
+    document.body.insertAdjacentHTML("beforeend", `<input type="hidden" id="__CurrentItem" value="sitecore://master/${F[9]}?lang=en&ver=1">`);
+    // Title's control names its field; Body's (a date or a tree list, say) does not, and goes by its name
+    document.getElementById("FIELD1").setAttribute("onfocus", `javascript:return scContent.activate(this,event,'sitecore://master/${F[9]}?lang=en&ver=1&fld=${F[1]}&ctl=FIELD1')`);
+    document.querySelector(".scEditorFieldMarker").insertAdjacentHTML("afterend", `<table class="scEditorFieldMarker" id="Body"><tr><td class="scEditorFieldMarkerInputCell"><div class="scEditorFieldLabel">Body<span class="scEditorFieldLabelAdministrator"> [shared]</span>:</div><input class="scContentControl" type="text"></td></tr></table>`);
+  }, Object.fromEntries([1, 2, 8, 9].map((n) => [n, F(n)])));
+  const panel = () => page.evaluate(() => { const p = document.querySelector("sct-tree-find"); return p.hidden ? null : p.textContent; });
+  await page.click(".scEditorHeaderTitleHelp");
+  await page.keyboard.type("rich");
+  await expect.poll(panel).toBe("richBody · Rich Text · 1 of 1 · Tab for the next · Enter to go there");
+  await page.keyboard.press("Escape");
+  await page.keyboard.type("single");
+  await expect.poll(panel).toBe("singleTitle · Single-Line Text · 1 of 1 · Tab for the next · Enter to go there");
 });
 
 test("tree-keys: Escape puts the editor back, closed sections closed", async ({ page }) => {

@@ -352,7 +352,7 @@ Focus: button "Save"
 <!-- /shots:ribbon-toolbar -->
 
 ### Type to search
-<!-- aid:tree-keys ada2074ea3 -->
+<!-- aid:tree-keys f4a28783f7 -->
 
 **What it is for.** Finding an item in a long tree with the arrows alone is slow, and Sitecore's search box leaves
 the tree. An item with dozens of fields has the same problem in the editor: finding one field means scrolling past
@@ -362,26 +362,35 @@ the rest.
 panel shows what you typed and how many match.
 
 - **In the content tree** (a tree item has focus, or you last clicked anywhere in the tree): it searches the items
-  the tree has loaded. Matching items stay, with the items above them faded as their path; the rest hide. Focus goes
-  to the nearest match.
-- **In the editor** (you last clicked in it, or its tabs have focus): it searches the fields by their labels. A
-  section with a match stays, opened if it was closed, showing only its matching fields; sections without one hide.
-  The match is outlined, and its name shows in the panel.
+  the tree has loaded, by name and by template name ("sample" finds every Sample Item). Matching items stay, with the
+  items above them faded as their path; the rest hide. Focus goes to the nearest match, and its template shows in
+  the panel.
+- **In the editor** (you last clicked in it, or its tabs have focus): it searches the fields by their labels and by
+  their types ("rich" finds every Rich Text field, "droplink" every Droplink). A section with a match stays, opened
+  if it was closed, showing only its matching fields; sections without one hide. The match is outlined, and its name
+  and type show in the panel.
+- Sitecore's own dialogs tell it the templates and the types (Change Template, the Template Builder and the
+  Inheritance tab), asked when a search starts; the matches by template or type join the others a moment later.
+  A user who cannot open those dialogs searches by name only.
+- The letters typed match in that order, not only side by side: "qagk" finds QA Automated GreeneKing, "vid" finds
+  VenueId.
 - Typing in a field, a box or a rich text editor types there, as always.
 
 **How to use it.** Click in the tree or in the editor (an empty spot will do), then type.
 
 - More letters narrow the search; Backspace or Delete take the last one off (Delete does not delete the tree item
   while you search).
-- Tab and Shift+Tab move to the next and previous match.
+- Tab or Down moves to the next match, Shift+Tab or Up to the previous one.
 - Enter picks the match: everything shows again, with the match in the middle of the view. A tree item opens, as
   Enter always does; in the editor the cursor goes into the field (in a rich text field, its editor box), and a
   section that was closed opens as it does when you click it, so it stays open for you next time.
-- Escape puts everything back as it was, closed sections closed; the arrows or a click do too.
+- Clicking an item in the narrowed tree opens it, as Enter does.
+- Escape puts everything back as it was, closed sections closed; Left, Right or a click elsewhere do too.
 - The tree search covers the items the tree has loaded: open a node to search inside it.
 
 **What a screen reader says.** Each tree match as focus lands on it; for fields, which focus does not move to, the
-panel says the field shown and the count ("Title · 1 of 3"). "No match" when nothing matches.
+panel says the field shown, its type and the count ("Title · Single-Line Text · 1 of 3"); for a tree match it says
+the item's template. "No match" when nothing matches.
 
 <!-- shots:tree-keys -->
 **Need:** Keyboard · **On:** with the Keyboard need, or on its own under Fine-tune · **Where:** the Desktop and Content Editor
