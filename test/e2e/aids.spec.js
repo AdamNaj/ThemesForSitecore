@@ -777,6 +777,23 @@ test("sticky-header: the header's fill follows the panel from dark to light and 
   await expect.poll(contrast).toBeGreaterThanOrEqual(4.5);
 });
 
+test("content-tab: an item opens on Content, and a tab picked afterwards stays", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await ready(page);
+  const active = () => page.evaluate(() => document.querySelector("#EditorTabs > .scRibbonEditorTabActive")?.id);
+  // a folder loads, on its Folder tab, as Sitecore renders it; clicking a tab makes it the active one
+  await page.evaluate(() => {
+    const pick = (e) => { for (const t of e.currentTarget.parentNode.children) t.className = t === e.currentTarget ? "scRibbonEditorTabActive" : "scRibbonEditorTabNormal"; };
+    const tabs = document.getElementById("EditorTabs");
+    tabs.innerHTML = '<a id="BT1_AB" class="scRibbonEditorTabActive">Folder</a><a id="BContentAB" class="scRibbonEditorTabNormal">Content</a><a id="BT2_CD" class="scRibbonEditorTabNormal">Other item</a>';
+    for (const t of tabs.children) t.onclick = pick;
+  });
+  await expect.poll(active).toBe("BContentAB");
+  await page.click("#BT1_AB");
+  await page.waitForTimeout(200);
+  expect(await active()).toBe("BT1_AB");
+});
+
 test("item-info: the chips fill in after the item, the menus copy and open templates, Navigate asks only when pressed", async ({ page }) => {
   const asked = [];
   // Sitecore's version list (one version in master, none in web) and a template's Inheritance tab

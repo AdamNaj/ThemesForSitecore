@@ -141,6 +141,7 @@
     "focus-mode": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Focus mode", hint: "Fades the other fields, the tree and the ribbon while you edit a field" },
     "sticky-header": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Sticky item header", hint: "Keeps the item's name and icon in view while its fields scroll under them" },
     "item-info": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Item info", hint: "Shows when the item was modified and by whom and whether it is published, with menus to copy its name, path or ID and to open its templates" },
+    "content-tab": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Content tab first", hint: "Opens every item on its Content tab, not on a Folder or other editor tab" },
     "ce-state": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Remember Content Editor state", hint: "Opens the Content Editor on the item you last had open, with Quick Info open or closed as you left it" },
     "ee-state": { needs: ["reading"], always: false, surfaces: ["ee"], name: "Remember Experience Editor state", hint: "Opens the Experience Editor on the page you last had open, unless you open it on a page of your choosing" },
     "section-toggle": { needs: ["reading"], always: true, surfaces: ["shell"], name: "Back, forward, expand and collapse", hint: "Buttons beside the editor tabs: Back and Forward through the items you opened, and open or close every section of the item's fields" },
