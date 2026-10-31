@@ -814,3 +814,56 @@ test("ribbon-toolbar: a click in the strip leaves focus where it clicked", async
   await page.click(".scRibbonToolbarSmallButton");
   expect(await page.evaluate(() => document.activeElement.textContent.trim())).toBe("Copy to");
 });
+
+test("menus: Enter on Start goes to its first entry; arrows, Right into a folder, Left and Escape back out", async ({ page }) => {
+  await page.goto(`${DESKTOP}?theme=fjord&needs=screen-reader`);
+  await ready(page);
+  const at = () => page.evaluate(() => document.activeElement.id);
+  await expect.poll(() => page.evaluate(() => document.querySelector(".sc-global-logo").getAttribute("aria-label"))).toBe("Launchpad");
+  await page.focus("#StartButton");
+  await page.keyboard.press("Enter"); // Sitecore's Start has no key handler of its own
+  await expect.poll(at).toBe("OptionCE");
+  expect(await page.evaluate(() => [document.querySelector(".scStartMenu").getAttribute("role"), document.getElementById("Folder").getAttribute("aria-haspopup")])).toEqual(["menu", "menu"]);
+  await page.keyboard.press("ArrowDown");
+  expect(await at()).toBe("OptionML");
+  await page.keyboard.press("End");
+  expect(await at()).toBe("Folder");
+  await page.keyboard.press("ArrowRight");
+  await expect.poll(at).toBe("SubItem");
+  await page.keyboard.press("ArrowLeft"); // the submenu closes, Start stays open
+  await expect.poll(at).toBe("Folder");
+  expect(await page.evaluate(() => document.querySelectorAll(".scPopup").length)).toBe(1);
+  await page.keyboard.press("Escape");
+  await expect.poll(at).toBe("StartButton");
+  expect(await page.evaluate(() => document.querySelectorAll(".scPopup").length)).toBe(0);
+});
+
+test("tab-stops: no stop on the idle dialog frame, the splitter, the gutter or a field's label; Enter on Content goes to the first field", async ({ page }) => {
+  await page.goto(`${DESKTOP}?theme=fjord&needs=screen-reader,keyboard`);
+  await ready(page);
+  const frame = () => page.evaluate(() => { const f = document.getElementById("jqueryModalDialogsFrame"); return [f.getAttribute("tabindex"), f.getAttribute("aria-hidden")]; });
+  await expect.poll(frame).toEqual(["-1", "true"]);
+  await page.evaluate(() => (document.getElementById("jqueryModalDialogsFrame").style.zIndex = "1000")); // a dialog comes up
+  await expect.poll(frame).toEqual([null, null]);
+  expect(await page.evaluate(() => [...document.querySelectorAll("sct-skip button")].map((b) => b.textContent))).toEqual(["Skip to Taskbar"]); // the Desktop is empty
+
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  await page.evaluate(() => {
+    document.getElementById("ContentTreePanel").insertAdjacentHTML("afterend", '<div class="splitter-bar"><a accesskey="" tabindex="0" id="Splitter"></a></div>');
+    document.getElementById("Gutter2").innerHTML = '<a href="#" id="GutterIcon" title="Workflow: Draft"><img src="/sitecore/images/blank.gif" alt="Workflow: Draft"></a>';
+    document.querySelector(".scEditorFieldMarker").insertAdjacentHTML("afterend", '<table class="scEditorFieldMarker"><tr><td class="scEditorFieldMarkerInputCell"><div class="scEditorFieldLabel"><a href="#" class="scEditorFieldLabelLink" id="CheckLabel">Hidden - Hide the item</a></div><div class="scCheckBox"><input id="Check" type="checkbox" class="scContentControlCheckbox"></div></td></tr></table>'
+      + '<table><tr><td><input role="combobox" id="Combo" class="scComboboxEdit" readonly></td><td><img src="/sitecore/images/blank.gif" id="ComboArrow" class="scComboboxDropDown" alt="Show options" role="button" tabindex="0" onclick="void 0"></td></tr></table>');
+  });
+  await change(page, "accessibility", { site: { accessibility: { needs: ["screen-reader"] } } });
+  const out = () => page.evaluate(() => ["Splitter", "GutterIcon", "CheckLabel", "ComboArrow"].map((id) => document.getElementById(id).tabIndex));
+  await expect.poll(out).toEqual([-1, -1, -1, -1]);
+  await page.focus("#BContent");
+  await page.keyboard.press("Enter");
+  expect(await page.evaluate(() => document.activeElement.id)).toBe("FIELD1");
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab"); // the checkbox, then the drop-down: one stop each
+  expect(await page.evaluate(() => document.activeElement.id)).toBe("Combo");
+  await change(page, "accessibility", { site: {} }); // the stops come back
+  await expect.poll(out).toEqual([0, 0, 0, 0]);
+});

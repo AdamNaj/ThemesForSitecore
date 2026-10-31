@@ -26,10 +26,70 @@
     to.focus();
   }
 
+  // The Start menu is links in two columns, with no menu roles and no keys: it becomes a menu of its entries, which
+  // the arrows, Home and End move through, Right (or Enter) opens a folder's submenu; Escape closes the newest popup,
+  // Left a submenu, and Sitecore gives focus back to its opener.
+  const ENTRY = "a.scStartMenuLeftOption, a.scStartMenuRightFolder, a.scStartMenuProgramsMenu";
+  const FOLDER = "a.scStartMenuRightFolder, a.scStartMenuProgramsMenu";
+  const entries = (popup) => [...popup.querySelectorAll(ENTRY)].filter(visible);
+  function startMenu(ctx, popup) {
+    const menu = popup.querySelector(".scStartMenu");
+    if (!menu.hasAttribute("role")) {
+      ctx.setAttr(menu, "role", "menu");
+      ctx.setAttr(menu, "aria-label", "Start menu");
+    }
+    for (const a of entries(popup)) {
+      if (a.getAttribute("role") === "menuitem") continue;
+      ctx.setAttr(a, "role", "menuitem");
+      if (a.matches(FOLDER)) ctx.setAttr(a, "aria-haspopup", "menu");
+    }
+  }
+  // Sitecore's closePopups, run in the page through an inline handler (a content script cannot reach scForm), on all
+  // but the popups opened before the newest; it puts focus back on the newest one's opener. Not as a Sheer message:
+  // every request closes all popups, and so does a click that reaches the document.
+  function closeNewest(doc) {
+    const a = doc.createElement("a");
+    a.setAttribute("onclick", 'event.stopPropagation(); scForm.browser.closePopups("Escape", top.popups.slice(0, -1)); return false');
+    a.hidden = true;
+    doc.body.append(a);
+    a.click();
+    a.remove();
+  }
+  function onPopupKey(e) {
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+    const doc = e.currentTarget.ownerDocument;
+    const popup = e.currentTarget;
+    if (!popup.isConnected) return; // Sitecore closed it already
+    const sub = [...doc.querySelectorAll(".scPopup")].indexOf(popup) > 0; // opened from another popup
+    if (e.key === "Escape" || (e.key === "ArrowLeft" && sub)) {
+      e.preventDefault();
+      closeNewest(doc);
+      return;
+    }
+    const item = e.target.closest && e.target.closest(ENTRY);
+    if (!item || !popup.querySelector(".scStartMenu")) return;
+    const list = entries(popup);
+    const i = list.indexOf(item);
+    const to = { ArrowDown: list[i + 1], ArrowUp: list[i - 1], Home: list[0], End: list.at(-1) }[e.key];
+    if (to) {
+      e.preventDefault();
+      to.focus();
+    } else if (e.key === "ArrowRight" && item.matches(FOLDER)) {
+      e.preventDefault();
+      item.click();
+    }
+  }
+
   SCT.registerAid("menus", {
     apply(ctx) {
       const { doc } = ctx;
       contexts.set(doc, ctx);
+      for (const popup of doc.querySelectorAll(".scPopup")) {
+        if (heard.has(popup)) continue;
+        heard.add(popup);
+        ctx.listen(popup, "keydown", onPopupKey);
+        if (popup.querySelector(".scStartMenu")) startMenu(ctx, popup);
+      }
       for (const table of doc.querySelectorAll('.scPopup [role="menu"]')) {
         if (heard.has(table)) continue;
         heard.add(table);
@@ -43,7 +103,7 @@
       }
       for (const popup of doc.querySelectorAll(".scPopup")) {
         if (entered.has(popup) || popup.contains(doc.activeElement)) continue;
-        const item = [...popup.querySelectorAll('[role="menu"] [role="menuitem"]')].find(visible);
+        const item = [...popup.querySelectorAll('[role="menu"] [role="menuitem"]')].find(visible) || entries(popup)[0];
         if (!item) continue;
         entered.add(popup);
         open.set(doc, { popup, opener: doc.activeElement && doc.activeElement !== doc.body ? doc.activeElement : doc.body });

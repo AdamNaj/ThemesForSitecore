@@ -4,10 +4,39 @@
 <body>
 <!-- the Desktop's shape as a 10.4 and 10.5 survey found it, written by hand -->
 <form id="ctl21" class="lang_da">
-  <header class="sc-globalHeader"><span class="logout" role="button" tabindex="0">Log out</span></header>
+  <header class="sc-globalHeader"><a href="/sitecore/shell/sitecore/client/Applications/Launchpad" id="globalLogo" role="button" aria-label="Desktop" class="sc-global-logo">&nbsp;</a><span class="logout" role="button" tabindex="0" onkeydown="if (event.key === 'Enter' || event.key === ' ') { this.click();}">Log out</span></header>
   <div id="Desktop" class="DesktopArea"><div id="Links"><div id="DesktopLinks" class="scListview"></div></div></div>
-  <div id="Startbar" class="scStartbar"><a id="StartButton" href="#">Sitecore</a><div id="StartbarApplications"></div><div id="StartbarTray" class="scStartbarTray"></div></div>
+  <div id="Startbar" class="scStartbar"><div id="StartButton" role="button" aria-label="Start" class="scStartButton" tabindex="0" onclick="showPopup('StartButton', startMenu)"></div><div id="StartbarApplications"></div><div id="StartbarTray" class="scStartbarTray"></div></div>
 </form>
+<iframe id="jqueryModalDialogsFrame" title="Dialog" src="about:blank" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -1; border-width: 0"></iframe>
+<script>
+  // Sitecore's showPopup and closePopups (Browser.js), cut down: a popup is a copy of its menu, top.popups their ids,
+  // closing one gives focus back to its opener; a click that reaches the document closes them all
+  window.popups = [];
+  let n = 0;
+  function showPopup(openerId, html) {
+    const popup = document.createElement("div");
+    popup.className = "scPopup";
+    popup.id = `Popup${++n}`;
+    popup.dataset.openerid = openerId;
+    popup.innerHTML = html;
+    document.body.append(popup);
+    window.popups.push(popup.id);
+  }
+  window.scForm = { browser: { closePopups(reason, exclusions) {
+    for (const id of [...window.popups]) {
+      if (exclusions && exclusions.includes(id)) continue;
+      const popup = document.getElementById(id);
+      popup.remove();
+      window.popups.splice(window.popups.indexOf(id), 1);
+      document.getElementById(popup.dataset.openerid).focus();
+    }
+  } } };
+  document.addEventListener("click", (e) => !e.target.closest(".scPopup, #StartButton") && window.scForm.browser.closePopups("click"));
+  const startMenu = '<div class="scStartMenu"><a href="#" class="scStartMenuLeftOption" id="OptionCE">Content Editor</a><a href="#" class="scStartMenuLeftOption" id="OptionML">Media Library</a>'
+    + '<a href="#" id="Folder" class="scStartMenuRightFolder" onclick="showPopup(\'Folder\', subMenu); return false">Security Tools</a></div>';
+  const subMenu = '<table class="scMenu" role="menu"><tbody><tr role="menuitem" id="SubItem" tabindex="0"><td>Role Manager</td></tr></tbody></table>';
+</script>
 <script src="/aid-host.js"></script>
 </body>
 </html>

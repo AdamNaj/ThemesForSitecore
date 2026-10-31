@@ -24,9 +24,11 @@
 
   const made = new WeakSet(); // the elements this aid made buttons
   const listening = new WeakSet(); // documents with the key handler
-  // Enter and Space press a made button, unless Sitecore's own handler took the key first
+  // Sitecore's own buttons that are not <button> or <a> and have no key handler: Start
+  const keyless = (el) => el.getAttribute("role") === "button" && /^(DIV|SPAN|IMG|TD)$/.test(el.tagName) && el.hasAttribute("onclick") && !el.hasAttribute("onkeydown");
+  // Enter and Space press a made button, or a key-less one of Sitecore's, unless Sitecore's own handler took the key first
   function onKey(e) {
-    if (e.defaultPrevented || (e.key !== "Enter" && e.key !== " ") || !made.has(e.target)) return;
+    if (e.defaultPrevented || (e.key !== "Enter" && e.key !== " ") || !(made.has(e.target) || (e.target.getAttribute && keyless(e.target)))) return;
     e.preventDefault();
     e.target.click();
   }
@@ -40,6 +42,8 @@
           setAttr(el, el.tagName === "IMG" ? "alt" : "aria-label", label);
         }
       }
+      // the Desktop's logo opens Launchpad, but Sitecore names it "Desktop"
+      for (const a of doc.querySelectorAll('a.sc-global-logo[href$="/Launchpad"][aria-label="Desktop"]')) setAttr(a, "aria-label", "Launchpad");
       // Quick Info's read-only boxes (Item ID, Item path...) by the caption in the cell before theirs
       for (const input of doc.querySelectorAll(".scEditorQuickInfo input:not([aria-label])")) {
         const caption = clean(input.closest("td")?.previousElementSibling?.textContent || "").replace(/:$/, "");
@@ -59,7 +63,8 @@
       // a small clickable part with no role: a button, in the Tab order (ponytail: "small" is 40 characters and three
       // elements at most, so containers that delegate clicks are left alone; measure boxes if one ever slips through)
       for (const el of doc.querySelectorAll("div[onclick]:not([role]), span[onclick]:not([role]), img[onclick]:not([role]), td[onclick]:not([role])")) {
-        if (el.querySelector(CONTROL) || el.getElementsByTagName("*").length > 3 || !named(el) || clean(el.textContent).length > 40) continue;
+        // and not the content tree's gutter icons, a stop beside every item on the way through the tree
+        if (el.querySelector(CONTROL) || el.getElementsByTagName("*").length > 3 || !named(el) || clean(el.textContent).length > 40 || el.closest(".scContentTreeNodeGutter")) continue;
         setAttr(el, "role", "button");
         if (!el.hasAttribute("tabindex")) setAttr(el, "tabindex", "0");
         made.add(el);

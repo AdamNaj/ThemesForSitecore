@@ -18,6 +18,8 @@
     return [...doc.querySelectorAll(REGION)].filter((el) => !el.closest("sct-skip") && (!measure || visible(el)) && !el.parentElement.closest(REGION)
       && (el.tagName !== "HEADER" || el.hasAttribute("role") || !el.parentElement.closest("article, aside, section")));
   }
+  // what the skip links lead to: not the top bar, nor an empty part, as the Desktop is until a window opens on it
+  const skippable = (doc) => regions(doc).filter((r) => roleOf(r) !== "banner" && (r.textContent.trim() || r.querySelector(`iframe, ${TABBABLE}`)));
   function nameOf(el) {
     const ids = (el.getAttribute("aria-labelledby") || "").split(/\s+/).filter(Boolean);
     const named = el.getAttribute("aria-label") || ids.map((id) => el.ownerDocument.getElementById(id)?.textContent || "").join(" ");
@@ -67,7 +69,7 @@ sct-skip button:not(:focus-visible){position:absolute;width:1px;height:1px;paddi
         ctx.listen(doc, "keydown", onKey);
       }
       if (!doc.body) return;
-      const targets = regions(doc).filter((r) => roleOf(r) !== "banner");
+      const targets = skippable(doc);
       const labels = targets.map((r) => `Skip to ${nameOf(r).replace(/^The /, "the ")}`);
       let skip = doc.querySelector("sct-skip");
       if (!targets.length) return;
@@ -76,7 +78,7 @@ sct-skip button:not(:focus-visible){position:absolute;width:1px;height:1px;paddi
         doc.body.prepend(skip);
         skip.addEventListener("click", (e) => {
           const b = e.target.closest("button");
-          const r = b && regions(doc).filter((x) => roleOf(x) !== "banner")[+b.dataset.i];
+          const r = b && skippable(doc)[+b.dataset.i];
           if (r) go(contexts.get(doc), r);
         });
       }
