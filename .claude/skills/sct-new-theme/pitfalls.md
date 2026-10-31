@@ -277,18 +277,6 @@ all four corners of the title bar (square the bottom two). 10.4 writes inline `m
 pins the button pane with `!important`; 10.5's `Dialogs.css` pins the title bar buttons' `top` and `right`
 with `!important` (Sun Valley's buttons stayed put until the override matched it). Focus frames: "should not be visible on dialog open" (`:focus-visible`).
 SPE's help (?) is placed for a 64px footer: "goes off the screen ... and too low"; centre it on the buttons.
-
-**Overlays.** "The overlay background ... should only form a faint tint"; "Some themes like Metal or
-Redmond do not have any background translucent tint". The modal host page body stays transparent; the
-overlay tints 12% (Metal, Redmond) to 30% (Sitecore's grey).
-
-**Platform soul.** "The launchpad is incredibly similar on all of the themes. Please give the feel and the
-soul of the targeted platform." Cupertino: macOS Launchpad (blurred wallpaper, frosted folders, 72px
-squircles, translucent menu bar), Dock, translucent menus, System Settings Control Panel. Redmond: Program
-Manager (child windows tiled, navy active caption, 32px icons), a WfW logon dialog, the start menu as a
-Program Manager window. Metal: a Swing desktop pane of internal frames sized to content. A Recolour theme
-keeps Sitecore's layout on purpose. Fake controls (dead caption buttons, menu bars) are worse than none.
-
 The pickers fields open ("Image selection image picker and General Link Item picker launch SPEAK dialogs that
 are not properly styled on many themes") are SPEAK pages at shell URLs (`detect.js` `SPEAK_AT_SHELL_URLS`), so the
 strip above them belongs to the shell page and their 60px title row to the SPEAK page: no theme's CSS sees both, and
@@ -324,6 +312,18 @@ the frame by the caption's measured room; each theme's dialog caption does the r
   transition-property is `all`, so jQuery UI read the frame's old height right after setting it to 0 and sized it
   to 35px. An aid's CSS on `*` changes how every script on the page measures: transitions take `0s`. Verify with the
   aids on.
+
+**Overlays.** "The overlay background ... should only form a faint tint"; "Some themes like Metal or
+Redmond do not have any background translucent tint". The modal host page body stays transparent; the
+overlay tints 12% (Metal, Redmond) to 30% (Sitecore's grey).
+
+**Platform soul.** "The launchpad is incredibly similar on all of the themes. Please give the feel and the
+soul of the targeted platform." Cupertino: macOS Launchpad (blurred wallpaper, frosted folders, 72px
+squircles, translucent menu bar), Dock, translucent menus, System Settings Control Panel. Redmond: Program
+Manager (child windows tiled, navy active caption, 32px icons), a WfW logon dialog, the start menu as a
+Program Manager window. Metal: a Swing desktop pane of internal frames sized to content. A Recolour theme
+keeps Sitecore's layout on purpose. Fake controls (dead caption buttons, menu bars) are worse than none.
+
 **A redrawn Launchpad loses tiles and breaks at other widths.** "Chicago launchpad is Missing Forms Also it
 adds scrollbars unnecessarily": one padding rule pushed the Marketing Applications group under the header
 and made the page 8px taller than the window. Count the groups and tiles against Native's. "On Blueprint the

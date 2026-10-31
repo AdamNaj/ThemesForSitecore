@@ -112,5 +112,7 @@ When the user reports something broken, rule these out first:
 ## Working in this repo
 
 - **Side sessions in worktrees** commit to their own branches. Their work is not in the main checkout, so it is not in the user's browsers, until it is merged. Merge only when the user says so. A worktree has no `node_modules`, `sitecore.local.json` or `.auth/profile`: run `npm ci`, copy `sitecore.local.json`, and set `SCT_PROFILE` to the main checkout's `.auth/profile`.
+- **Drafts and collateral that don't belong in the repo** (posts, announcements, promo copy) go in `collateral/`,
+  which is gitignored.
 - **No em-dashes or en-dashes** in any file you write; use a hyphen.
 - **Commits:** a descriptive subject plus a bullet body; one feature or theme per commit.

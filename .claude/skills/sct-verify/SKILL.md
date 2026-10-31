@@ -91,8 +91,6 @@ Menus only exist while open: `node .claude/skills/sct-verify/menus.cjs --themes 
 lines and writes `scan-<themes>.json`. Fix each finding or say why it is fine (a disabled control, a colour icon on
 a selection). It can't judge text over images, gradients, filters or translucent bars, so read those in
 the screenshots.
-
-- A non-zero exit lists frame problems. Fix them before going on.
 The pickers fields open (media, internal link, item, mail and anchor link) are SPEAK pages Sitecore serves at
 the shell URLs they replace, inside the Content Editor's jQuery dialog: `node .claude/skills/sct-verify/dialogs.cjs
 --themes <ids>` opens each **by clicking the field's own button** on Home (an Image field's Browse, a General Link
@@ -110,6 +108,8 @@ detection, and for every theme you touch; `--scale 1.25` for the user's display.
 Why each part: opened on their own at `/sitecore/client/...` the dialogs looked fine while the real ones were
 unthemed; opened by a direct `scForm.showModalDialog` call with a size and without the aids they passed while the
 user's (clicked, aids on) collapsed to 35px; a single sampled column passed Guardrail's seam (2026-10-30).
+
+- A non-zero exit lists frame problems. Fix them before going on.
 - **Read every screenshot** of a page your change touches. Look for light patches in dark themes,
   dark-on-dark text, misaligned controls, and anything that looks like a different theme.
 - If pages land on the login screen, re-copy the profile (the script does this each run); if it

@@ -12,3 +12,4 @@ test/e2e/*-snapshots/
 dist-sitecore/
 sitecore/bin/
 sitecore/obj/
+collateral/

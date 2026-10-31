@@ -59,8 +59,8 @@ clicking: drive them in Playwright or the user's Chrome.
 - [ ] Tab strips: open tab joined, first tab aligned, hover not blank or uppercase (Application Options); segmented strips round only their two ends (three or more tabs)
 - [ ] SPE Kitchen Sink (Read-Variable), every tab: textboxes, date and time with calendar and time list, checkboxes, radio groups, droplists, trees, multilists, item pickers, user/role picker, rule boxes, code fields. Press Cancel.
 - [ ] Rule editor (Create rule): search magnifier not tiled, lists' scrollbars, condition triangles
-- [ ] Scrollbars in list boxes and text areas
 - [ ] The SPEAK pickers fields open (Select Media, Insert Link, Insert Sitecore Item, mail and anchor link), clicked from the fields on Home with the accessibility aids on: the theme's own dialog caption with the title (no band above it, no title row under it), full height, the toolbar under the caption while the content scrolls, navigation buttons spaced, tree expanders and view toggles visible, selected row readable (`dialogs.cjs`)
+- [ ] Scrollbars in list boxes and text areas
 
 ## SPE
 
