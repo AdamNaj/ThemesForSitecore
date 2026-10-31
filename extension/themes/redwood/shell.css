@@ -419,12 +419,12 @@ html[data-sct-theme="redwood"][data-sct-surface="shell"]:not(#sct-rw) {
   .scMenu td[class^="scMenuItemHotkey"] { padding: 0 4px; }
   .scMenu tr > td[class^="scMenuItem"][class$="_Disabled"] { color: #555555; }
   .scMenu td[class$="_Disabled"] img { opacity: 0.5; }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td,
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td,
   .scMenu tr > td[class$="_Hover"] {
     background: #fff;
     color: #000;
   }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td * { color: #000; }
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td * { color: #000; }
   /* separators: a groove between two rows */
   .scMenu tr > td[class^="scMenuDivider"] {
     height: 4px;

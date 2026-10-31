@@ -499,12 +499,12 @@ html[data-sct-theme="chicago"][data-sct-surface="shell"]:not(#sct-chi) {
   .scMenu td[class^="scMenuItemHotkey"] { padding: 0 4px; }
   .scMenu tr > td[class^="scMenuItem"][class$="_Disabled"] { color: #808080; text-shadow: 1px 1px #fff; }
   .scMenu td[class$="_Disabled"] img { opacity: 0.5; }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td,
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td,
   .scMenu tr > td[class$="_Hover"] {
     background: #000080;
     color: #fff;
   }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td * { color: #fff; }
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td * { color: #fff; }
   /* separators: an etched line, grey over white */
   .scMenu tr > td[class^="scMenuDivider"] {
     height: 8px;

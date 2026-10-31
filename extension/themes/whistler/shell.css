@@ -651,9 +651,9 @@ html[data-sct-theme="whistler"][data-sct-surface="shell"] img.scRibbonPanelOpen 
 
 /* ==== Desktop: Bliss under the taskbar ==== */
 /* XP had no header above the desktop: the start menu takes over the user name and Log Off (dom.js). */
-html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp):has(#Desktop) .sc-globalHeader { display: none; }
-html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp):has(#Desktop) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
-html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp):has(#Desktop) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
+html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp):is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader { display: none; }
+html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp):is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
+html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp):is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
 html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp) .DesktopArea {
   top: 0;
   bottom: 34px;
@@ -1046,13 +1046,13 @@ html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-
 /* At 125% the window's right edge falls mid-pixel, and that pixel blends every layer under the caption: the body's
    white, the form's and the Content Editor's caption block's greige made a pale line between the caption and the
    frame. Every element the caption sits in carries the caption's strip too. */
-html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title], html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title] :has(:is(#CaptionTopLine, .standardWindowCaption, .scWorkboxWindowCaption)) { background-image: var(--sct-xpc-cap); background-size: 100% 28px; background-repeat: no-repeat; }
-html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-xp)[data-sct-window-title], html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-xp)[data-sct-window-title] :has(:is(#CaptionTopLine, .standardWindowCaption, .scWorkboxWindowCaption)) { background-image: var(--sct-xpc-cap-in); }
+html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title], html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title] :is([data-sct-holds~="topline"], [data-sct-holds~="caption-standard"], [data-sct-holds~="caption-workbox"], #sct-none) { background-image: var(--sct-xpc-cap); background-size: 100% 28px; background-repeat: no-repeat; }
+html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-xp)[data-sct-window-title], html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-xp)[data-sct-window-title] :is([data-sct-holds~="topline"], [data-sct-holds~="caption-standard"], [data-sct-holds~="caption-workbox"], #sct-none) { background-image: var(--sct-xpc-cap-in); }
 /* An element's own colour still bleeds under its strip. Around the Content Editor's caption (white, greige, and an
    inline #f7f7f7 the live map paints with !important) the colour is the window face, laid from the caption's foot
    down. */
-html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title] :has(#CaptionTopLine) { background-color: transparent !important; background-image: var(--sct-xpc-cap), linear-gradient(transparent 28px, #ece9d8 0); background-size: 100% 28px, auto; }
-html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-xp)[data-sct-window-title] :has(#CaptionTopLine) { background-image: var(--sct-xpc-cap-in), linear-gradient(transparent 28px, #ece9d8 0); }
+html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title] :is([data-sct-holds~="topline"], #sct-none) { background-color: transparent !important; background-image: var(--sct-xpc-cap), linear-gradient(transparent 28px, #ece9d8 0); background-size: 100% 28px, auto; }
+html[data-sct-theme="whistler"][data-sct-surface="shell"][data-sct-window="inactive"]:not(#sct-xp)[data-sct-window-title] :is([data-sct-holds~="topline"], #sct-none) { background-image: var(--sct-xpc-cap-in), linear-gradient(transparent 28px, #ece9d8 0); }
 html[data-sct-theme="whistler"][data-sct-surface="shell"]:not(#sct-xp)[data-sct-window-title] :is(.standardWindowCaption, .scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption) { border-radius: 0; }
 
 

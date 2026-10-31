@@ -626,7 +626,7 @@ html[data-sct-theme="redwood"][data-sct-surface="speak"]:not(#sct-rw) .ui-timepi
 /* ---- Control Panel: NeXT's Preferences, a grey window. The page title is its black title bar, Back a
    NeXT button on a grey strip, and each group a browser column: a raised title cell over a white list,
    the row under the pointer control grey. ---- */
-html[data-sct-theme="redwood"][data-sct-surface="speak"]:not(#sct-rw) body:has(.sc-controlpanel-box) {
+html[data-sct-theme="redwood"][data-sct-surface="speak"]:not(#sct-rw) body:is([data-sct-page~="control-panel"] > *) {
   background: #aaaaaa;
 
   .sc-applicationContent {

@@ -336,12 +336,12 @@ const shellHand = `${W("shell")} {
      strength (the item cannot be chosen, and it does not highlight) */
   .scMenu tr > td[class^="scMenuItem"][class$="_Disabled"] { color: ${B}; opacity: 0.55; }
   .scMenu td[class$="_Disabled"] img { opacity: 0.5; }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td,
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td,
   .scMenu tr > td[class$="_Hover"] {
     background: ${B};
     color: ${WH};
   }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td * { color: ${WH}; }
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td * { color: ${WH}; }
   /* separators: one blue line across the menu */
   .scMenu tr > td[class^="scMenuDivider"] {
     height: 6px;
@@ -944,15 +944,15 @@ const shellHand = `${W("shell")} {
   }
   :is(.checkListActions a, .varRule a, .varRule .scLine span[style*="color"], .varRule .scLine a) { color: ${WH} !important; text-decoration: underline; }
   .varRule .scLine span,
-  .varRule :is(div, span):not(:has(*)) { color: ${WH}; }
+  .varRule :is(div, span):not(:has(> *)) { color: ${WH}; }
   :is(.varTitle, .varHint) { color: ${WH}; }
 
   /* ---- Drop-down galleries (Edit's workflow box...) open in a frame: a menu's frame ---- */
   iframe.scGalleryFrame { ${menuFrame} }
   /* Sitecore sizes the frame for its own font: the wider monospace labels made the Insert gallery scroll
      both ways (10.4). The list takes the frame's width and a label too long for it ends in an ellipsis. */
-  body:has(.scGalleryGrip) .scGalleryMenu .scScrollbox { width: 0; min-width: 100%; }
-  body:has(.scGalleryGrip) .scGalleryMenu .scScrollbox > a.scRibbonToolbarSmallButton { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  body:is([data-sct-page~="gallery"] > *) .scGalleryMenu .scScrollbox { width: 0; min-width: 100%; }
+  body:is([data-sct-page~="gallery"] > *) .scGalleryMenu .scScrollbox > a.scRibbonToolbarSmallButton { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   /* ---- Desktop windows are bare frames in 10.x: one that isn't maximised gets Workbench's 2px white
      frame ---- */
@@ -1682,7 +1682,7 @@ ${W("speak")} .ui-timepicker-list li.ui-timepicker-selected { ${tabOpen} }
 
 /* ---- Control Panel: a Workbench window. The page title sits in the striped title bar, Back is a
    gadget-row button, and each group a drawer window with its tasks as a list. ---- */
-${W("speak")} body:has(.sc-controlpanel-box) {
+${W("speak")} body:is([data-sct-page~="control-panel"] > *) {
   background: ${B};
 
   .sc-applicationContent {
@@ -2400,7 +2400,7 @@ ${P} img.scRibbonPanelOpen { ${paint(art([bar(2, 4, 2, 2), bar(5, 4, 2, 2), bar(
    taskbar together are the white screen title bar on top: the Launchpad gadget, "Sitecore Workbench"
    (the start button, opening the Workbench menu), the running windows as text items, the search field
    and the database, then the account and Log out. ==== */
-${W("shell")} body:has(> form .DesktopArea) {
+${W("shell")} body:is([data-sct-page~="desktop"] > *, form.sct-none) {
   .sc-globalHeader { height: 24px; }
   .sc-globalHeader :is(.sc-globalHeader-content, .col2, .sc-globalHeader-startButton, .sc-globalHeader-loginInfo) { height: 24px; }
   .sc-globalHeader .sc-globalHeader-startButton { display: flex; align-items: center; padding-left: 2px; }

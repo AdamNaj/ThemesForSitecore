@@ -1562,11 +1562,11 @@ html[data-sct-theme="tahoe"][data-sct-surface="shell"]:not(#sct-th) {
   /* A standard window (the ISE, the Recycle Bin...): the chrome's document and the app's page inside it
      (engine.js marks it data-sct-window-content) are clear down to the app's own panes, so the window's glass
      shows through its caption, toolbar and ribbon as on the Content Editor */
-  &[data-sct-window-title]:has(.windowPlaceholderContainer),
+  &[data-sct-window-title]:is([data-sct-has~="window-placeholder"]),
   &[data-sct-window-content] {
     background: transparent;
   }
-  &[data-sct-window-title]:has(.windowPlaceholderContainer) :is(body, body > form, .scWindowOuterFrame, .scWindowFrame, .scWindowFrame > .scStretch, .windowPlaceholderContainer, .standardWindowCaption),
+  &[data-sct-window-title]:is([data-sct-has~="window-placeholder"]) :is(body, body > form, .scWindowOuterFrame, .scWindowFrame, .scWindowFrame > .scStretch, .windowPlaceholderContainer, .standardWindowCaption),
   &[data-sct-window-content] :is(body, body > form, #RibbonPanel, .scRibbon, .scRibbonNavigator, .scRibbonToolbarStrip, .scRibbonToolbarContextualStrip, .scRibbonToolbar .chunk, .scRibbonToolbar .chunk > .caption) {
     background-color: transparent !important;
   }

@@ -11,6 +11,6 @@ html[data-sct-theme="losgatos"] sct-bar-postfix {
 html[data-sct-theme="losgatos"][data-sct-surface="shell"] .sc-globalHeader sct-bar-postfix {
   padding: 1px 8px;
 }
-html[data-sct-theme="losgatos"][data-sct-surface="shell"]:not(#sct-bar) body:has(sct-bar-postfix) :is(.scStartbar, #Startbar, #Startbar > table) {
+html[data-sct-theme="losgatos"][data-sct-surface="shell"]:not(#sct-bar)[data-sct-title] body :is(.scStartbar, #Startbar, #Startbar > table) {
   background: transparent !important;
 }

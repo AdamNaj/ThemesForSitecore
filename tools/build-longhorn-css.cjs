@@ -659,8 +659,8 @@ ${PI} .standardWindowCaption { background: ${CAP_IN}; }
    corner (the window's), no line between them. The Content Editor, Media Library and Workbox, which Sitecore
    gives no caption, get one on the caption's empty top line, from the window's title. ---- */
 ${X}[data-sct-window-title] { --lh-cap: 0px; background: transparent; }
-${X}[data-sct-window-title]:has(.scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption) { --lh-cap: 26px; }
-${X}[data-sct-window-title]:has(.standardWindowCaption) { --lh-cap: 31px; }
+${X}[data-sct-window-title]:is([data-sct-has~="caption-topline"], [data-sct-has~="caption-workbox"], #sct-none.sct-none.sct-none) { --lh-cap: 26px; }
+${X}[data-sct-window-title]:is([data-sct-has~="caption-standard"]) { --lh-cap: 31px; }
 ${X}[data-sct-window-title] :is(body, body > form, .scFlexColumnContainer.scWindowBorder2, .scWindowFrame, .scWindowFrame > .scStretch) {
   background: linear-gradient(transparent 0 var(--lh-cap), #f0f0f0 var(--lh-cap)) !important;
 }
@@ -699,9 +699,9 @@ ${P} :is(img.scRibbonPanelUp, img.scRibbonPanelDown, img.scRibbonPanelOpen):hove
 
 /* ==== Desktop: the aurora under a glass taskbar ==== */
 /* Vista had no header above the desktop: the start menu takes over the user name and Log Off (dom.js). */
-${X}:has(#Desktop) .sc-globalHeader { display: none; }
-${X}:has(#Desktop) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
-${X}:has(#Desktop) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader { display: none; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
 /* The desktop runs to the screen's bottom edge, so the aurora shows through the taskbar's glass. Its bottom
    34px are a transparent border: windows are sized to the padding box, so a maximized window stops above
    the taskbar while the wallpaper, painted from the border box, carries on behind it. */
@@ -1333,8 +1333,8 @@ ${EE} .sc-breadcrumb .scContentButton { display: block; height: auto; padding: 0
 ${EE} .sc-breadcrumb .btn.sc-button { height: 22px; min-width: 60px; padding: 0 10px; line-height: 20px; }
 
 /* ==== Control Panel: Vista's Control Panel Home, categories with a navy heading on the white page ==== */
-${SPX} body:has(.sc-controlpanel-box), ${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { background: #fff; }
-${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { min-height: 100vh; }
+${SPX} body:is([data-sct-page~="control-panel"] > *), ${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { background: #fff; }
+${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { min-height: 100vh; }
 /* every SPEAK application's header (Control Panel, SPE Reports, Forms): Vista's address bar under the caption */
 ${appHeader(SPX)}
 ${SPX} .sc-applicationHeader-row1 { background-image: none; }

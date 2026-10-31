@@ -342,7 +342,7 @@ html[data-sct-theme="tahoe"][data-sct-surface="speak"]:not(#sct-th) .sc-pageedit
 
 /* ---- Control Panel: System Settings' grouped lists. A toolbar with the title and a back button, then
    rounded groups of rows with inset hairlines and a chevron. ---- */
-html[data-sct-theme="tahoe"][data-sct-surface="speak"]:not(#sct-th) body:has(.sc-controlpanel-box) {
+html[data-sct-theme="tahoe"][data-sct-surface="speak"]:not(#sct-th) body:is([data-sct-page~="control-panel"] > *) {
   background: var(--sct-app-bg);
 
   .sc-applicationContent,

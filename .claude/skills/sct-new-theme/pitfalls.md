@@ -388,6 +388,14 @@ nobr:first-of-type > .scTab` (and `:last-of-type`, `:only-of-type`); check a str
   SPE draws them transparent. The user found a shared rule for the old look "especially harmful in the
   translucent themes" once the installs moved on. Check what the current stock map (`gen-area-map`) gives
   before adding a rule for a look the install no longer has.
+- **No `:has()` on `<html>` or `<body>` that searches descendants**, nor on a subject as common as `div` or
+  `tr`. "Sitecore is reacting to clicks much slower if we have theming enabled": the Sitecore Extensions add-on
+  inserts a link beside every field label and reads text after each, and every insertion made Chrome run
+  `body:has(.scGalleryGrip)` over the whole page again, 500 times Native's cost per restyle under Los Gatos,
+  Menlo and Copenhagen, seconds per item. Pick the page with `[data-sct-page~="gallery"]` and its siblings
+  (`extension/themes/README.md`), mark what a `dom.js` adds on `<html>` itself, and look at children only
+  (`:has(> *)`) where that says the same. To keep a rule's specificity, `:has(#Desktop)` becomes
+  `:is([data-sct-page~="desktop"], #sct-none)`.
 - The ISE clipboard `textarea` must stay hidden.
 - SPEAK `.sc-chunk` is `border-box`: use `content-box` or the caption loses 4px.
 - `#Startbar` has no `.scStartbar` class.

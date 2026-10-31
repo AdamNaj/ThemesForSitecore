@@ -304,7 +304,7 @@ html[data-sct-theme="losgatos"][data-sct-surface="shell"] img.scRibbonPanelOpen 
    taskbar together are the white screen title bar on top: the Launchpad gadget, "Sitecore Workbench"
    (the start button, opening the Workbench menu), the running windows as text items, the search field
    and the database, then the account and Log out. ==== */
-html[data-sct-theme="losgatos"][data-sct-surface="shell"]:not(#sct-lg) body:has(> form .DesktopArea) {
+html[data-sct-theme="losgatos"][data-sct-surface="shell"]:not(#sct-lg) body:is([data-sct-page~="desktop"] > *, form.sct-none) {
   .sc-globalHeader { height: 24px; }
   .sc-globalHeader :is(.sc-globalHeader-content, .col2, .sc-globalHeader-startButton, .sc-globalHeader-loginInfo) { height: 24px; }
   .sc-globalHeader .sc-globalHeader-startButton { display: flex; align-items: center; padding-left: 2px; }
@@ -559,12 +559,12 @@ html[data-sct-theme="losgatos"][data-sct-surface="shell"]:not(#sct-lg) {
      strength (the item cannot be chosen, and it does not highlight) */
   .scMenu tr > td[class^="scMenuItem"][class$="_Disabled"] { color: #0055aa; opacity: 0.55; }
   .scMenu td[class$="_Disabled"] img { opacity: 0.5; }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td,
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td,
   .scMenu tr > td[class$="_Hover"] {
     background: #0055aa;
     color: #ffffff;
   }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td * { color: #ffffff; }
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td * { color: #ffffff; }
   /* separators: one blue line across the menu */
   .scMenu tr > td[class^="scMenuDivider"] {
     height: 6px;
@@ -1167,15 +1167,15 @@ html[data-sct-theme="losgatos"][data-sct-surface="shell"]:not(#sct-lg) {
   }
   :is(.checkListActions a, .varRule a, .varRule .scLine span[style*="color"], .varRule .scLine a) { color: #ffffff !important; text-decoration: underline; }
   .varRule .scLine span,
-  .varRule :is(div, span):not(:has(*)) { color: #ffffff; }
+  .varRule :is(div, span):not(:has(> *)) { color: #ffffff; }
   :is(.varTitle, .varHint) { color: #ffffff; }
 
   /* ---- Drop-down galleries (Edit's workflow box...) open in a frame: a menu's frame ---- */
   iframe.scGalleryFrame { border: 2px solid #000000; border-radius: 0; box-shadow: none; background: #ffffff; }
   /* Sitecore sizes the frame for its own font: the wider monospace labels made the Insert gallery scroll
      both ways (10.4). The list takes the frame's width and a label too long for it ends in an ellipsis. */
-  body:has(.scGalleryGrip) .scGalleryMenu .scScrollbox { width: 0; min-width: 100%; }
-  body:has(.scGalleryGrip) .scGalleryMenu .scScrollbox > a.scRibbonToolbarSmallButton { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  body:is([data-sct-page~="gallery"] > *) .scGalleryMenu .scScrollbox { width: 0; min-width: 100%; }
+  body:is([data-sct-page~="gallery"] > *) .scGalleryMenu .scScrollbox > a.scRibbonToolbarSmallButton { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   /* ---- Desktop windows are bare frames in 10.x: one that isn't maximised gets Workbench's 2px white
      frame ---- */

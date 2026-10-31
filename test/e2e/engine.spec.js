@@ -460,3 +460,19 @@ test("token themes map a module's stylesheet and inline styles at run time, and 
   await setTheme("debrightify");
   await page.close();
 });
+
+test("marks the kind of page from its URL, and what its markup holds, for themes to select without :has()", async () => {
+  await setTheme("debrightify");
+  const page = await context.newPage();
+  await page.goto(`${BASE}/sitecore/shell/default.aspx`);
+  await expect.poll(() => attrs(page)).toMatchObject({ sctSurface: "shell", sctPage: "desktop" });
+  await page.goto(`${BASE}/sitecore/shell/default.aspx?xmlcontrol=Gallery.Versions&id=x`);
+  await expect.poll(() => attrs(page)).toMatchObject({ sctPage: "gallery" });
+  await page.goto(`${BASE}/sitecore/shell/Applications/marks.html`);
+  await expect.poll(() => attrs(page)).toMatchObject({ sctHas: "caption-topline topline caption-dock", sctCss: "content-manager.css default.css" });
+  expect((await attrs(page)).sctPage).toBeUndefined();
+  // the caption's ancestors below <html>, for a theme that paints round it
+  expect(await page.evaluate(() => [...document.querySelectorAll("[data-sct-holds]")].map((e) => e.tagName + "." + e.className.split(" ")[0] + "=" + e.dataset.sctHolds)))
+    .toEqual(["BODY.=topline", "FORM.=topline", "DIV.scFlexColumnContainer=topline", "DIV.scCaption=topline"]);
+  await page.close();
+});

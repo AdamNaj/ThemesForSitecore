@@ -609,7 +609,7 @@ html[data-sct-theme="chicago"][data-sct-surface="speak"]:not(#sct-chi) .ui-timep
 
 /* ---- Control Panel: 95's Control Panel window. The page title is its caption, Back a flat toolbar
    button under it, and each group an etched group box (as on a property sheet) listing its tasks. ---- */
-html[data-sct-theme="chicago"][data-sct-surface="speak"]:not(#sct-chi) body:has(.sc-controlpanel-box) {
+html[data-sct-theme="chicago"][data-sct-surface="speak"]:not(#sct-chi) body:is([data-sct-page~="control-panel"] > *) {
   background: #c0c0c0;
 
   .sc-applicationContent {

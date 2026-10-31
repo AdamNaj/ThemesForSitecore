@@ -724,27 +724,27 @@ html[data-sct-theme="phosphor"][data-sct-surface="shell"] iframe.scGalleryFrame 
   outline: 3px double var(--sct-window-border);
   outline-offset: -3px;
 }
-html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) {
   background-color: var(--sct-app-bg) !important;
 }
-html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) > form {
   background-color: transparent;
 }
-html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
   background-color: var(--sct-ribbon-button-pressed-bg);
 }
 /* Sitecore sizes the frame for its own font: the wider monospace labels made the Insert gallery scroll
    both ways (10.4). The list takes the frame's width and a label too long for it ends in an ellipsis. */
-html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenu .scScrollbox {
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) .scGalleryMenu .scScrollbox {
   width: 0;
   min-width: 100%;
 }
-html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenu .scScrollbox > a.scRibbonToolbarSmallButton {
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) .scGalleryMenu .scScrollbox > a.scRibbonToolbarSmallButton {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+html[data-sct-theme="phosphor"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) .scGalleryMenuLine {
   background: linear-gradient(90deg, var(--sct-border) 50%, transparent 0) 0 50% / 6px 1px repeat-x;
 }
 

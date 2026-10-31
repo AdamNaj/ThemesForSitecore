@@ -623,9 +623,9 @@ ${P} img.scRibbonPanelOpen { box-sizing: border-box; ${RAISED} ${paint(`${art(["
 
 /* ==== Desktop: the backdrop and the front panel ==== */
 /* CDE had no header above the workspace: the start menu takes over the user name and Log out (dom.js). */
-${X}:has(#Desktop) .sc-globalHeader { display: none; }
-${X}:has(#Desktop) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
-${X}:has(#Desktop) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader { display: none; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
 /* The workspace runs to the screen's bottom edge, the front panel standing on it, and so do the windows: a
    maximized window fills it and runs on under the panel, which floats above every non-modal window. */
 ${X} .DesktopArea {
@@ -1250,8 +1250,8 @@ ${EE} .sc-breadcrumb .scContentButton { display: block; height: auto; padding: 0
 ${EE} .sc-breadcrumb .btn.sc-button { height: 24px; min-width: 60px; padding: 0 10px; line-height: 20px; }
 
 /* ==== Control Panel: CDE's Style Manager, each category an etched Motif frame with its title in the edge ==== */
-${SPX} body:has(.sc-controlpanel-box), ${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { background: ${SAND}; }
-${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { min-height: 100vh; }
+${SPX} body:is([data-sct-page~="control-panel"] > *), ${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { background: ${SAND}; }
+${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { min-height: 100vh; }
 /* every SPEAK application's header (Control Panel, SPE Reports, Forms): the sand bar under the title */
 ${appHeader(SPX)}
 ${SPX} .sc-applicationContent-main { background: none; }

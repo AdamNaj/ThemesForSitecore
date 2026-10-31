@@ -406,8 +406,8 @@ html[data-sct-theme="longhorn"][data-sct-surface="shell"][data-sct-window="inact
    corner (the window's), no line between them. The Content Editor, Media Library and Workbox, which Sitecore
    gives no caption, get one on the caption's empty top line, from the window's title. ---- */
 html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-window-title] { --lh-cap: 0px; background: transparent; }
-html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-window-title]:has(.scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption) { --lh-cap: 26px; }
-html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-window-title]:has(.standardWindowCaption) { --lh-cap: 31px; }
+html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-window-title]:is([data-sct-has~="caption-topline"], [data-sct-has~="caption-workbox"], #sct-none.sct-none.sct-none) { --lh-cap: 26px; }
+html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-window-title]:is([data-sct-has~="caption-standard"]) { --lh-cap: 31px; }
 html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh)[data-sct-window-title] :is(body, body > form, .scFlexColumnContainer.scWindowBorder2, .scWindowFrame, .scWindowFrame > .scStretch) {
   background: linear-gradient(transparent 0 var(--lh-cap), #f0f0f0 var(--lh-cap)) !important;
 }
@@ -446,9 +446,9 @@ html[data-sct-theme="longhorn"][data-sct-surface="shell"] :is(img.scRibbonPanelU
 
 /* ==== Desktop: the aurora under a glass taskbar ==== */
 /* Vista had no header above the desktop: the start menu takes over the user name and Log Off (dom.js). */
-html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh):has(#Desktop) .sc-globalHeader { display: none; }
-html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh):has(#Desktop) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
-html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh):has(#Desktop) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
+html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh):is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader { display: none; }
+html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh):is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
+html[data-sct-theme="longhorn"][data-sct-surface="shell"]:not(#sct-lh):is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
 /* The desktop runs to the screen's bottom edge, so the aurora shows through the taskbar's glass. Its bottom
    34px are a transparent border: windows are sized to the padding box, so a maximized window stops above
    the taskbar while the wallpaper, painted from the border box, carries on behind it. */

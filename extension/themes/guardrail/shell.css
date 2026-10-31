@@ -123,7 +123,7 @@ html[data-sct-theme="guardrail"][data-sct-surface="shell"] .ui-dialog .ui-dialog
 
 /* ---- The edge round every window: the Content Editor (standalone or in a Desktop window) and the
    Desktop's standard windows each draw it inside their own document, over everything in it. */
-html[data-sct-theme="guardrail"][data-sct-surface="shell"]:has(.scCaption.scDockTop, .standardWindowCaption, .scWorkboxWindowCaption) body::after {
+html[data-sct-theme="guardrail"][data-sct-surface="shell"]:is([data-sct-has~="caption-dock"], [data-sct-has~="caption-standard"], [data-sct-has~="caption-workbox"], .sct-none.sct-none) body::after {
   content: "";
   position: fixed;
   inset: 0;

@@ -453,12 +453,12 @@ html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) {
   .scMenu td[class^="scMenuItemHotkey"] { padding: 0 8px 0 4px; }
   .scMenu tr > td[class^="scMenuItem"][class$="_Disabled"] { color: #999999; }
   .scMenu td[class$="_Disabled"] img { opacity: 0.5; }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td,
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td,
   .scMenu tr > td[class$="_Hover"] {
     background: #6060c0;
     color: #fff;
   }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td * { color: #fff; }
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td * { color: #fff; }
   /* separators: an etched line, #999 over white */
   .scMenu tr > td[class^="scMenuDivider"] {
     height: 8px;
@@ -1314,12 +1314,12 @@ html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .DesktopAre
   background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.06) 0 2px, transparent 2px 4px), #5c6fa8 !important;
 }
 /* the global header is the menu bar: 20px of #ddd over a black line, its items left after the note */
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) {
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) {
   height: 20px;
   min-height: 0;
   overflow: visible;
 }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-content {
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-content {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -1327,41 +1327,41 @@ html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalH
   height: 20px;
   padding: 0 0 0 40px;
 }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) .col2 {
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) .col2 {
   float: none;
   width: auto;
   height: 20px;
   padding: 0;
 }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-startButton {
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-startButton {
   display: flex;
   align-items: center;
   height: 20px;
 }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) a.sc-global-logo {
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) a.sc-global-logo {
   width: 20px;
   height: 20px;
   margin: 0 4px;
   background-size: 14px 14px;
 }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-loginInfo { float: none; height: 20px; }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation {
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-loginInfo { float: none; height: 20px; }
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation {
   flex-direction: row-reverse;
   gap: 0;
   height: 20px;
   margin: 0;
   padding: 0;
 }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li {
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li {
   height: 20px;
   margin: 0;
   padding: 0 10px;
   line-height: 20px;
 }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li::after { content: none; }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li:is(:hover, :focus-within) { background: #6060c0; }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li:is(:hover, :focus-within) :is(a, span) { color: #fff; text-decoration: none; }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:has(~ div .DesktopArea) .sc-accountInformation img {
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li::after { content: none; }
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li:is(:hover, :focus-within) { background: #6060c0; }
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li:is(:hover, :focus-within) :is(a, span) { color: #fff; text-decoration: none; }
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:not(#sct-so) .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-accountInformation img {
   width: 16px;
   height: 16px;
   margin: 0 0 0 6px;

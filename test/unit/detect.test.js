@@ -118,3 +118,22 @@ test("needsDom flags URL candidates that only the DOM can confirm", () => {
   assert.equal(needsDom("https://cm/sitecore/login"), false);
   assert.equal(needsDom("https://cm/sitecore/shell/default.aspx"), false);
 });
+
+test("pageKinds names the pages themes style apart, from the URL alone", () => {
+  const { pageKinds } = require("../../extension/lib/detect.js");
+  const kinds = (u) => pageKinds(u).join(" ");
+  assert.equal(kinds("https://cm/sitecore/shell"), "desktop");
+  assert.equal(kinds("https://cm/sitecore/shell/"), "desktop"); // where /sitecore/shell redirects
+  assert.equal(kinds("https://cm/sitecore/shell/default.aspx?sc_lang=en"), "desktop");
+  assert.equal(kinds("https://cm/sitecore/shell/default.aspx?xmlcontrol=Gallery.Versions&id=x"), "gallery");
+  assert.equal(kinds("https://cm/sitecore/shell/default.aspx?xmlcontrol=Gallery.Menu"), ""); // a menu, no grip
+  assert.equal(kinds("https://cm/sitecore/shell/default.aspx?xmlcontrol=Workbox"), "workbox");
+  assert.equal(kinds("https://cm/sitecore/shell/Applications/Workbox/default.aspx?fo=x"), "workbox");
+  assert.equal(kinds("https://cm/sitecore/shell/sitecore/client/Applications/ControlPanel.aspx?sc_bw=1"), "control-panel");
+  assert.equal(kinds("https://cm/sitecore/client/Applications/ControlPanel"), "control-panel");
+  assert.equal(kinds("https://cm/sitecore/shell/Applications/Control%20Panel.aspx?sc_bw=1"), "control-panel");
+  assert.equal(kinds("https://cm/sitecore%20modules/Shell/PowerShell/PowerShellIse.aspx"), "ise");
+  assert.equal(kinds("https://cm/sitecore/shell/Applications/PowerShell/PowerShellIse?sc_bw=1"), "ise");
+  assert.equal(kinds("https://cm/sitecore/shell/Applications/Content%20Editor.aspx?sc_bw=1"), "");
+  assert.equal(kinds("not a url"), "");
+});

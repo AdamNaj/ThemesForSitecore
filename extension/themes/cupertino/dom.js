@@ -213,6 +213,8 @@
         dock.setAttribute("role", "toolbar");
         dock.setAttribute("aria-label", "Open applications");
         scroller.append(dock);
+        // for shell.css, in place of :has(.sct-cu-dock), which would search the whole page on every change to it
+        ctx.setAttr(doc.documentElement, "data-sct-cu-dock", "");
       }
       dock.setAttribute("data-sig", sig);
       dock.replaceChildren(...[...groups.values()].map((g) => item(doc, g)));

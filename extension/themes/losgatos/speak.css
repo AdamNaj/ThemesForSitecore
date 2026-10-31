@@ -581,7 +581,7 @@ html[data-sct-theme="losgatos"][data-sct-surface="speak"]:not(#sct-lg) .ui-timep
 
 /* ---- Control Panel: a Workbench window. The page title sits in the striped title bar, Back is a
    gadget-row button, and each group a drawer window with its tasks as a list. ---- */
-html[data-sct-theme="losgatos"][data-sct-surface="speak"]:not(#sct-lg) body:has(.sc-controlpanel-box) {
+html[data-sct-theme="losgatos"][data-sct-surface="speak"]:not(#sct-lg) body:is([data-sct-page~="control-panel"] > *) {
   background: #0055aa;
 
   .sc-applicationContent {

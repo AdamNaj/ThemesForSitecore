@@ -214,7 +214,7 @@ html[data-sct-theme="blueprint"][data-sct-surface="speak"] {
 }
 
 /* ---- Control Panel: a sheet index like the Launchpad. Each box is a titled sheet on the board. */
-html[data-sct-theme="blueprint"][data-sct-surface="speak"] body:has(.sc-controlpanel-box) {
+html[data-sct-theme="blueprint"][data-sct-surface="speak"] body:is([data-sct-page~="control-panel"] > *) {
   background: var(--bp-grid), var(--sct-app-bg);
   background-attachment: fixed;
   :is(.sc-applicationContent, .sc-applicationHeader, .sc-applicationHeader-row1, .sc-applicationHeader-row2, .sc-applicationContent-main, .sc-applicationContent-navigation) {

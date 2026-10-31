@@ -1228,9 +1228,9 @@ ${EE} .sc-breadcrumb .scContentButton { display: block; height: auto; padding: 0
 ${EE} .sc-breadcrumb .btn.sc-button { height: 22px; min-width: 60px; padding: 0 10px; line-height: 20px; }
 
 /* ==== Control Panel: a Metal desktop of internal frames, one per group, each a white list of tasks ==== */
-${SPX} body:has(.sc-controlpanel-box), ${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { background: ${p2}; }
-${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { min-height: 100vh; }
-${appHeader(`${SPX} body:has(.sc-controlpanel-box)`)}
+${SPX} body:is([data-sct-page~="control-panel"] > *), ${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { background: ${p2}; }
+${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { min-height: 100vh; }
+${appHeader(`${SPX} body:is([data-sct-page~="control-panel"] > *)`)}
 ${SPX} .sc-applicationContent-main { background: none; }
 ${SPX} .sc-controlpanel-box { margin-top: 20px; }
 ${internalFrame(`${SPX} .sc-controlpanel-box`, `${SPX} .sc-controlpanel-box-header h4`)}

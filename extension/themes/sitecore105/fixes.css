@@ -40,8 +40,8 @@ html[data-sct-theme="sitecore105"] img[src*="/page_close_h.png" i] { content: ur
 
 /* ---- Inline styles 10.5's Content Editor writes and 10.4's does not (measured on stock 10.5.0) ---- */
 /* A grey frame, 16px under the ribbon, and the tree as a white card with a shadow, 12px narrower than its pane. */
-html[data-sct-theme="sitecore105"] .scFlexColumnContainer.scWindowBorder2:has(#ContentTreePanel) { background-color: #f7f7f7; }
-html[data-sct-theme="sitecore105"] .scWindowBorder2:has(#ContentTreePanel) .scCaption.scDockTop.scWindowHandle { margin-bottom: 16px; }
+html[data-sct-theme="sitecore105"] .scFlexColumnContainer.scWindowBorder2:is([data-sct-has~="content-tree"] *, #sct-none) { background-color: #f7f7f7; }
+html[data-sct-theme="sitecore105"] .scWindowBorder2:is([data-sct-has~="content-tree"] *, #sct-none) .scCaption.scDockTop.scWindowHandle { margin-bottom: 16px; }
 html[data-sct-theme="sitecore105"] #ContentTreePanel .scFlexColumnContainerWithoutFlexie {
   width: calc(100% - 12px) !important; background-color: #fff; box-shadow: 0 0px 5px 0 #c6c6c6;
 }
@@ -70,13 +70,13 @@ html[data-sct-theme="sitecore105"] img.scEditorHeaderNavigatorIcon[src*="/notebo
    10.5 dropped the centring of the grid cells; elsewhere the grid keeps Grid.css's values. */
 html[data-sct-theme="sitecore105"] #GridContainer :is(.Row, .SelectedRow, .HeadingRow) * { margin-left: 0; margin-right: 0; }
 html[data-sct-theme="sitecore105"] .ff .Grid.Grid { margin-left: 1px; }
-html[data-sct-theme="sitecore105"] body:not(:has(#GridContainer)) .GridFooter.GridFooter { padding: 15px 5px 5px; }
+html[data-sct-theme="sitecore105"] body:not(:is([data-sct-has~="grid-container"] > *, #sct-none)) .GridFooter.GridFooter { padding: 15px 5px 5px; }
 
 /* Workbox: 10.5's Workbox.css paints its window border light (a class the core sheets also style, so left out of shell.css);
    10.4's Default.css forces its section headers to padding-left: 15px !important;
    and its page-size box keeps its own border over the restyled select. */
-html[data-sct-theme="sitecore105"] body:has(#WorkboxForm) .scWindowBorder3 { background-color: #f7f7f7; }
-html[data-sct-theme="sitecore105"] body:has(.scWorkBoxData) .scSectionCenter { padding-left: 16px !important; }
+html[data-sct-theme="sitecore105"] body:is([data-sct-page~="workbox"] > *, #sct-none) .scWindowBorder3 { background-color: #f7f7f7; }
+html[data-sct-theme="sitecore105"] body:is([data-sct-page~="workbox"] > *) .scSectionCenter { padding-left: 16px !important; }
 html[data-sct-theme="sitecore105"] select.scWorkboxPageSizeCombobox.scWorkboxPageSizeCombobox { border: 1px solid #898989; }
 
 /* Sheer dialogs: Dialogs.css's `.ui-dialog .ui-dialog-titlebar { padding: 0 }` outranks 10.5's .ui-widget-header padding. */

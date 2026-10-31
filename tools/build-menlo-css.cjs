@@ -488,7 +488,7 @@ ${P} .scTabstrip .closeTab { margin: 0 -4px 0 6px; }
 /* Desktop windows of the standard frame (ISE, Console, Workbox...): the caption is the yellow tab, only as
    wide as the title, the close box at its left, minimize and zoom at its right. Right of the tab the window
    is see-through, so the desktop or the window behind shows, as in BeOS. */
-${P}:has(.standardWindowCaption), ${P}:has(.standardWindowCaption) :is(body, form, #Body) { background: transparent !important; }
+${P}:is([data-sct-has~="caption-standard"]), ${P}:is([data-sct-has~="caption-standard"]) :is(body, form, #Body) { background: transparent !important; }
 ${P} :is(.scWindowOuterFrame, .scWindowFrame, .scWindowHandle):has(.standardWindowCaption) { background: transparent; border: 0; border-radius: 0; box-shadow: none; }
 ${P} .standardWindowCaption {
   display: flex;
@@ -554,7 +554,7 @@ ${PI} .scSystemButtons { ${ytabIn} }
    the window's title (engine.js --sct-window-title) between the close box and the zoom box, as on the standard
    windows; the caption's empty top line is the strip it rides on, see-through right of it, and the window's
    outline starts under it. The ribbon's menu button and tabs sit straight under the outline. */
-${P}[data-sct-window-title]:has(.scWindowBorder2 > .scCaption > #CaptionTopLine) :is(body, form) { background: transparent !important; border: 0; }
+${P}[data-sct-window-title]:is([data-sct-has~="caption-topline"], #sct-none.sct-none.sct-none) :is(body, form) { background: transparent !important; border: 0; }
 ${P}[data-sct-window-title] .scWindowBorder2:has(> .scCaption > #CaptionTopLine) { background: linear-gradient(transparent 22px, ${G} 22px) !important; }
 ${P}[data-sct-window-title] .scWindowBorder2:has(> .scCaption > #CaptionTopLine)::after { content: ""; position: absolute; inset: 22px 0 0; border: 1px solid ${DK}; pointer-events: none; z-index: 5; }
 ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption:has(> #CaptionTopLine) { background: transparent; }
@@ -571,7 +571,7 @@ ${P}[data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { transl
 ${P}[data-sct-window-content] .scRibbonNavigator { padding-top: 3px; } /* 4px to the tabs: its tabs sit 1px down their row */
 /* The Workbox's empty caption strip, in a desktop window (dom.js marks those): see-through, its window
    buttons a yellow tab at the top left carrying the window's name, close box first. */
-${P}[data-sct-window]:has(.scWorkboxWindowCaption), ${P}[data-sct-window]:has(.scWorkboxWindowCaption) :is(body, form) { background: transparent !important; }
+${P}[data-sct-window]:is([data-sct-has~="caption-workbox"]), ${P}[data-sct-window]:is([data-sct-has~="caption-workbox"]) :is(body, form) { background: transparent !important; }
 ${X}[data-sct-window] .scWorkboxWindowCaption { position: relative; height: 22px; min-height: 0; padding: 0; border: 0; background: transparent; box-shadow: none; }
 ${X}[data-sct-window] .scWorkboxWindowCaption + * { border-top: 1px solid ${DK}; }
 ${X}[data-sct-window] .scWorkboxWindowButtons {
@@ -1183,9 +1183,9 @@ ${EE} .sc-breadcrumb .scContentButton { display: block; height: auto; padding: 0
 ${EE} .sc-breadcrumb .btn.sc-button { height: 21px; min-width: 60px; padding: 0 10px; line-height: 19px; }
 
 /* ==== Control Panel: the desktop colour, one BeOS window per group, a white list of tasks inside ==== */
-${SPX} body:has(.sc-controlpanel-box), ${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { background: ${BLUE}; }
-${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { min-height: 100vh; }
-${appHeader(`${SPX} body:has(.sc-controlpanel-box)`)}
+${SPX} body:is([data-sct-page~="control-panel"] > *), ${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { background: ${BLUE}; }
+${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { min-height: 100vh; }
+${appHeader(`${SPX} body:is([data-sct-page~="control-panel"] > *)`)}
 ${SPX} .sc-applicationContent-main { background: none; }
 ${SPX} .sc-controlpanel-box { margin-top: 34px; padding: 3px; }
 ${windowed(`${SPX} .sc-controlpanel-box`, `${SPX} .sc-controlpanel-box-header h4`)}

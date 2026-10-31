@@ -5,7 +5,8 @@ const path = require("node:path");
 const http = require("node:http");
 const { chromium } = require("@playwright/test");
 
-const EXTENSION_DIR = path.join(__dirname, "..", "..", "extension");
+// SCT_EXTENSION_DIR: another copy of extension/, such as the last commit's, to compare a change against
+const EXTENSION_DIR = process.env.SCT_EXTENSION_DIR || path.join(__dirname, "..", "..", "extension");
 
 // A throwaway copy of the extension with extra host permissions baked in,
 // because Playwright can't click the browser's permission prompt.

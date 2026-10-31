@@ -165,7 +165,7 @@ function scopeOf(rel) {
   const base = path.posix.basename(rel);
   return /^default\.css$/i.test(base) && rel.includes(THEME) ? null : base;
 }
-const scoped = (scope, lines) => (scope ? [`  &:where(:has(link[href*="/${scope}" i])) {`, ...lines.map((l) => "  " + l), "  }"] : lines);
+const scoped = (scope, lines) => (scope ? [`  &:where([data-sct-css~="${scope.toLowerCase().replace(/\s+/g, "-")}"]) {`, ...lines.map((l) => "  " + l), "  }"] : lines);
 
 // Everything 10.x can put into a page: markup, scripts and the strings in Sitecore's assemblies. A 6.6
 // rule naming a class or id found nowhere in it can never match, so it is left out.

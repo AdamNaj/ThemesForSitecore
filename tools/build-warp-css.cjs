@@ -32,7 +32,7 @@ const X = `${P}:not(#sct-wp)`;
 // A desktop window's document while another window has the focus (set by dom.js).
 const PI = `${P}[data-sct-window="inactive"]`;
 // Pages with notebooks: every one but the ISE.
-const NB = `${P}:not(:has(#TreeViewToggle)):not(#sct-wp)`;
+const NB = `${P}:not(:is([data-sct-page~="ise"], #sct-none)):not(#sct-wp)`;
 const FONT = 'WarpSans, "Workplace Sans", Verdana, Tahoma, sans-serif';
 // Colours of the pixel art: W white, K black, O a folder's outline, Y its face, H its lit edge, G grey.
 const COLORS = { W: "#fff", K: "#000", O: "#806010", Y: "#e8c55a", H: "#fff2b0", G: "#808080" };
@@ -584,9 +584,9 @@ ${P} img.scRibbonPanelOpen { ${paint(`${art(["KK.KK.KK", "KK.KK.KK"])}, ${FACE}`
 
 /* ==== Desktop: the Workplace Shell's blue desktop under the WarpCenter ==== */
 /* The WarpCenter takes the top edge; the user name and Log off move into its menu (dom.js). */
-${X}:has(#Desktop) .sc-globalHeader { display: none; }
-${X}:has(#Desktop) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
-${X}:has(#Desktop) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader { display: none; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
 ${X} .DesktopArea {
   top: 30px;
   bottom: 0;
@@ -1198,8 +1198,8 @@ ${EE} .sc-breadcrumb .scContentButton { display: block; height: auto; padding: 0
 ${EE} .sc-breadcrumb .btn.sc-button { height: 22px; min-width: 60px; padding: 0 10px; line-height: 18px; }
 
 /* ==== Control Panel: the System Setup folder, each category a folder window ==== */
-${SPX} body:has(.sc-controlpanel-box), ${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { background: ${DESK}; }
-${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { min-height: 100vh; }
+${SPX} body:is([data-sct-page~="control-panel"] > *), ${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { background: ${DESK}; }
+${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { min-height: 100vh; }
 /* every SPEAK application's header (Control Panel, SPE Reports, Forms): the window face under the title bar */
 ${appHeader(SPX)}
 ${SPX} .sc-applicationContent-main { background: none; }

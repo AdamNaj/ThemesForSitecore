@@ -21,6 +21,11 @@ until you do), reload the extension.
 
 Everything the CSS selects is scoped by `<html>`'s attributes: `data-sct-theme="<id>"`, `data-sct-surface`
 (the area), `data-sct-version` (`10.4` or `10.5`), and `data-sct-tokens` on token themes.
+`data-sct-page` names the kind of page, from its URL (`detect.js` `pageKinds`): `gallery` (a ribbon gallery with a
+grip), `control-panel`, `desktop`, `workbox`, `ise`. Select a page by it, never with `body:has(.scGalleryGrip)` or
+`html:has(#Desktop)`: a `:has()` on `<html>` or `<body>` that looks at descendants makes Chrome search the whole page
+again for every element anything inserts, which made each item the Content Editor opened take seconds (see
+`.claude/skills/sct-new-theme/pitfalls.md`).
 
 ## theme.json
 

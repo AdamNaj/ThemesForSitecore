@@ -419,7 +419,7 @@ html[data-sct-theme="sitecore6"][data-sct-surface="speak"]:not(#sct-sc6) .btn.sc
 
 /* ---- Control Panel: 6.6's task page (Controls/Tasks): a blue page with the control panel watermark in
    the corner, a gradient title bar, pale headlines and white task links behind a green arrow. ---- */
-html[data-sct-theme="sitecore6"][data-sct-surface="speak"]:not(#sct-sc6) body:has(.sc-controlpanel-box) {
+html[data-sct-theme="sitecore6"][data-sct-surface="speak"]:not(#sct-sc6) body:is([data-sct-page~="control-panel"] > *) {
   background: #6375d6;
 
   .sc-applicationContent {

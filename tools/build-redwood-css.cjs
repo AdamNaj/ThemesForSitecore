@@ -323,12 +323,12 @@ const shellHand = `${W("shell")} {
   .scMenu td[class^="scMenuItemHotkey"] { padding: 0 4px; }
   .scMenu tr > td[class^="scMenuItem"][class$="_Disabled"] { color: #555555; }
   .scMenu td[class$="_Disabled"] img { opacity: 0.5; }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td,
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td,
   .scMenu tr > td[class$="_Hover"] {
     background: #fff;
     color: #000;
   }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td * { color: #000; }
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td * { color: #000; }
   /* separators: a groove between two rows */
   .scMenu tr > td[class^="scMenuDivider"] {
     height: 4px;
@@ -2052,7 +2052,7 @@ ${W("speak")} .ui-timepicker-list li.ui-timepicker-selected {
 /* ---- Control Panel: NeXT's Preferences, a grey window. The page title is its black title bar, Back a
    NeXT button on a grey strip, and each group a browser column: a raised title cell over a white list,
    the row under the pointer control grey. ---- */
-${W("speak")} body:has(.sc-controlpanel-box) {
+${W("speak")} body:is([data-sct-page~="control-panel"] > *) {
   background: #aaaaaa;
 
   .sc-applicationContent {

@@ -779,9 +779,9 @@ ${P} img.scRibbonPanelOpen { ${paint(`var(--sct-xp-more), ${scrollFace("90deg")}
 
 /* ==== Desktop: Bliss under the taskbar ==== */
 /* XP had no header above the desktop: the start menu takes over the user name and Log Off (dom.js). */
-${X}:has(#Desktop) .sc-globalHeader { display: none; }
-${X}:has(#Desktop) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
-${X}:has(#Desktop) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader { display: none; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
+${X}:is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
 ${X} .DesktopArea {
   top: 0;
   bottom: 34px;
@@ -1165,13 +1165,13 @@ ${X}[data-sct-window-title] :is(.scWindowFrame, .scWindowBorder1, .scWindowBorde
 /* At 125% the window's right edge falls mid-pixel, and that pixel blends every layer under the caption: the body's
    white, the form's and the Content Editor's caption block's greige made a pale line between the caption and the
    frame. Every element the caption sits in carries the caption's strip too. */
-${X}[data-sct-window-title], ${X}[data-sct-window-title] :has(:is(#CaptionTopLine, .standardWindowCaption, .scWorkboxWindowCaption)) { background-image: ${V("cap")}; background-size: 100% 28px; background-repeat: no-repeat; }
-${PI}:not(#sct-xp)[data-sct-window-title], ${PI}:not(#sct-xp)[data-sct-window-title] :has(:is(#CaptionTopLine, .standardWindowCaption, .scWorkboxWindowCaption)) { background-image: ${V("cap-in")}; }
+${X}[data-sct-window-title], ${X}[data-sct-window-title] :is([data-sct-holds~="topline"], [data-sct-holds~="caption-standard"], [data-sct-holds~="caption-workbox"], #sct-none) { background-image: ${V("cap")}; background-size: 100% 28px; background-repeat: no-repeat; }
+${PI}:not(#sct-xp)[data-sct-window-title], ${PI}:not(#sct-xp)[data-sct-window-title] :is([data-sct-holds~="topline"], [data-sct-holds~="caption-standard"], [data-sct-holds~="caption-workbox"], #sct-none) { background-image: ${V("cap-in")}; }
 /* An element's own colour still bleeds under its strip. Around the Content Editor's caption (white, greige, and an
    inline #f7f7f7 the live map paints with !important) the colour is the window face, laid from the caption's foot
    down. */
-${X}[data-sct-window-title] :has(#CaptionTopLine) { background-color: transparent !important; background-image: ${V("cap")}, linear-gradient(transparent 28px, #ece9d8 0); background-size: 100% 28px, auto; }
-${PI}:not(#sct-xp)[data-sct-window-title] :has(#CaptionTopLine) { background-image: ${V("cap-in")}, linear-gradient(transparent 28px, #ece9d8 0); }
+${X}[data-sct-window-title] :is([data-sct-holds~="topline"], #sct-none) { background-color: transparent !important; background-image: ${V("cap")}, linear-gradient(transparent 28px, #ece9d8 0); background-size: 100% 28px, auto; }
+${PI}:not(#sct-xp)[data-sct-window-title] :is([data-sct-holds~="topline"], #sct-none) { background-image: ${V("cap-in")}, linear-gradient(transparent 28px, #ece9d8 0); }
 ${X}[data-sct-window-title] :is(.standardWindowCaption, .scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption) { border-radius: 0; }
 
 `;
@@ -1422,8 +1422,8 @@ ${EE} .sc-breadcrumb .scContentButton { display: block; height: auto; padding: 0
 ${EE} .sc-breadcrumb .btn.sc-button { height: 22px; min-width: 60px; padding: 0 10px; line-height: 20px; }
 
 /* ==== Control Panel: XP's Control Panel, task pane groups on the window face ==== */
-${SPX} body:has(.sc-controlpanel-box), ${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { background: #fff; }
-${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { min-height: 100vh; }
+${SPX} body:is([data-sct-page~="control-panel"] > *), ${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { background: #fff; }
+${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { min-height: 100vh; }
 /* every SPEAK application's header (Control Panel, SPE Reports, Forms): XP's toolbar under the caption */
 ${appHeader(SPX)}
 ${SPX} .sc-applicationHeader-row1 { background-image: none; }

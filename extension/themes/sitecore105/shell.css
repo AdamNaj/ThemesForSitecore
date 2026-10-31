@@ -1541,10 +1541,10 @@ html[data-sct-theme="sitecore105"] .RadForm.rfdCheckbox input[type="checkbox"] {
   accent-color: var(--input-checkbox-radio-accent-color);
 }
 }
-html[data-sct-theme="sitecore105"]:has(form#Form1) {
+html[data-sct-theme="sitecore105"]:is([data-sct-has~="form1"], form#sct-none) {
   overflow: visible !important;
 }
-html[data-sct-theme="sitecore105"] body:has(form#Form1) {
+html[data-sct-theme="sitecore105"] body:is([data-sct-has~="form1"] > *, form#sct-none) {
   overflow: visible !important;
 }
 html[data-sct-theme="sitecore105"] form#Form1 {

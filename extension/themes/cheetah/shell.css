@@ -447,7 +447,7 @@ html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .DesktopAr
 
 /* the global header is the menu bar: 22px of white pinstripes over a grey line, the Launchpad button at the
    left, the account at the right */
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) {
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) {
   height: 22px;
   min-height: 0;
   overflow: visible;
@@ -455,7 +455,7 @@ html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-global
   border-bottom: 1px solid #a8a8a8;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-content {
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -463,17 +463,17 @@ html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-global
   height: 22px;
   padding: 0 96px 0 6px;
 }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) .col2 { float: none; width: auto; height: 22px; padding: 0; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-startButton { display: flex; align-items: center; height: 22px; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) a.sc-global-logo { width: 22px; height: 22px; margin: 0 4px; background-size: 15px 15px; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-loginInfo { float: none; height: 22px; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation { display: flex; flex-direction: row-reverse; align-items: center; gap: 0; height: 22px; margin: 0; padding: 0; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li { display: flex; align-items: center; height: 22px; margin: 0; padding: 0 9px; color: #000; font: 13px/22px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif; text-shadow: none; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li :is(a, span) { color: #000; font: 13px/22px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif; text-shadow: none; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li::after { content: none; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li:is(:hover, :focus-within) { background: linear-gradient(#6b9ef6, #3a72e0); color: #fff; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li:is(:hover, :focus-within) :is(a, span) { color: #fff; text-decoration: none; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:has(~ div .DesktopArea) .sc-accountInformation img { width: 16px; height: 16px; margin: 0 0 0 6px; padding: 0; border: 0; border-radius: 3px; vertical-align: middle; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) .col2 { float: none; width: auto; height: 22px; padding: 0; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-startButton { display: flex; align-items: center; height: 22px; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) a.sc-global-logo { width: 22px; height: 22px; margin: 0 4px; background-size: 15px 15px; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-loginInfo { float: none; height: 22px; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation { display: flex; flex-direction: row-reverse; align-items: center; gap: 0; height: 22px; margin: 0; padding: 0; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li { display: flex; align-items: center; height: 22px; margin: 0; padding: 0 9px; color: #000; font: 13px/22px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif; text-shadow: none; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li :is(a, span) { color: #000; font: 13px/22px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif; text-shadow: none; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li::after { content: none; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li:is(:hover, :focus-within) { background: linear-gradient(#6b9ef6, #3a72e0); color: #fff; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li:is(:hover, :focus-within) :is(a, span) { color: #fff; text-decoration: none; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-accountInformation img { width: 16px; height: 16px; margin: 0 0 0 6px; padding: 0; border: 0; border-radius: 3px; vertical-align: middle; }
 /* the clock (dom.js) at the menu bar's right end */
 html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .sct-ch-clock { position: absolute; top: 0; right: 0; height: 22px; padding: 0 12px; color: #000; font: 13px/22px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif; white-space: nowrap; }
 
@@ -833,8 +833,8 @@ html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .scMenuHea
 /* ---- Dialog tab panes: the segmented strip straddles the top edge of an etched, rounded box ---- */
 html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .scTabstrip { box-sizing: border-box; height: 22px; background: transparent; }
 /* centred in dialogs; the ISE's script tabs stay at the left, beside SPE's tree and variables toggles */
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(:has(#TreeViewToggle)):not(#sct-ch) .scTabstrip, html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(:has(#TreeViewToggle)):not(#sct-ch) .scTabstrip > nobr { justify-content: center; }
-html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(:has(#TreeViewToggle)):not(#sct-ch) .scTabstripContainer > .scTabs { top: 11px; left: 0; padding-top: 11px; background: rgba(0, 0, 0, 0.035); border: 1px solid #9a9a9a; border-radius: 5px; box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px rgba(255, 255, 255, 0.7); }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(:is([data-sct-page~="ise"], #sct-none)):not(#sct-ch) .scTabstrip, html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(:is([data-sct-page~="ise"], #sct-none)):not(#sct-ch) .scTabstrip > nobr { justify-content: center; }
+html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(:is([data-sct-page~="ise"], #sct-none)):not(#sct-ch) .scTabstripContainer > .scTabs { top: 11px; left: 0; padding-top: 11px; background: rgba(0, 0, 0, 0.035); border: 1px solid #9a9a9a; border-radius: 5px; box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px rgba(255, 255, 255, 0.7); }
 html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .scTabs .scTabPage .scScrollbox { background: #fff; border: 1px solid #7a7a7a; border-top-color: #555; border-radius: 0; background-color: #fff; color: #000; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2); }
 html[data-sct-theme="cheetah"][data-sct-surface="shell"]:not(#sct-ch) .scTabs > .scTabPage { border-color: transparent; }
 

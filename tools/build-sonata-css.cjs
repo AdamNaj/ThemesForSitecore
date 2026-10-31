@@ -393,12 +393,12 @@ const shellHand = `${W("shell")} {
   .scMenu td[class^="scMenuItemHotkey"] { padding: 0 8px 0 4px; }
   .scMenu tr > td[class^="scMenuItem"][class$="_Disabled"] { color: #999999; }
   .scMenu td[class$="_Disabled"] img { opacity: 0.5; }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td,
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td,
   .scMenu tr > td[class$="_Hover"] {
     background: #6060c0;
     color: #fff;
   }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td * { color: #fff; }
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td * { color: #fff; }
   /* separators: an etched line, #999 over white */
   .scMenu tr > td[class^="scMenuDivider"] {
     height: 8px;
@@ -1821,7 +1821,7 @@ ${W("speak")} .ui-timepicker-list li.ui-timepicker-selected {
 /* ---- Control Panel: a Platinum control panel. The page is the window's #eee body under its title bar (the
    page title between pinstripes), Back a push button under it, each group an etched group box with its name
    on the top edge and its tasks in a white list. ---- */
-${W("speak")} body:has(.sc-controlpanel-box) {
+${W("speak")} body:is([data-sct-page~="control-panel"] > *) {
   background: #eeeeee;
 
   .sc-applicationContent {
@@ -1941,7 +1941,7 @@ ${W("speak")} body:has(.sc-controlpanel-box) {
     outline: none;
   }
 }
-${titleBar(`${W("speak")} body:has(.sc-controlpanel-box) .sc-applicationHeader-title`, { pad: 6 })}`;
+${titleBar(`${W("speak")} body:is([data-sct-page~="control-panel"] > *) .sc-applicationHeader-title`, { pad: 6 })}`;
 
 // ---- Launchpad: the Finder. The page is Mac OS 9's blue-violet desktop under the menu bar; each group is a
 // Finder window in icon view: a Platinum window with its name centred in a pinstriped title bar and its
@@ -2308,12 +2308,12 @@ ${DT} .DesktopArea {
   background: ${desktop} !important;
 }
 /* the global header is the menu bar: 20px of #ddd over a black line, its items left after the note */
-${DT} .sc-globalHeader:has(~ div .DesktopArea) {
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) {
   height: 20px;
   min-height: 0;
   overflow: visible;
 }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-content {
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-content {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -2321,41 +2321,41 @@ ${DT} .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-content {
   height: 20px;
   padding: 0 0 0 40px;
 }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) .col2 {
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) .col2 {
   float: none;
   width: auto;
   height: 20px;
   padding: 0;
 }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-startButton {
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-startButton {
   display: flex;
   align-items: center;
   height: 20px;
 }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) a.sc-global-logo {
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) a.sc-global-logo {
   width: 20px;
   height: 20px;
   margin: 0 4px;
   background-size: 14px 14px;
 }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-loginInfo { float: none; height: 20px; }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation {
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-loginInfo { float: none; height: 20px; }
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation {
   flex-direction: row-reverse;
   gap: 0;
   height: 20px;
   margin: 0;
   padding: 0;
 }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li {
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li {
   height: 20px;
   margin: 0;
   padding: 0 10px;
   line-height: 20px;
 }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li::after { content: none; }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li:is(:hover, :focus-within) { background: #6060c0; }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li:is(:hover, :focus-within) :is(a, span) { color: #fff; text-decoration: none; }
-${DT} .sc-globalHeader:has(~ div .DesktopArea) .sc-accountInformation img {
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li::after { content: none; }
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li:is(:hover, :focus-within) { background: #6060c0; }
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li:is(:hover, :focus-within) :is(a, span) { color: #fff; text-decoration: none; }
+${DT} .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-accountInformation img {
   width: 16px;
   height: 16px;
   margin: 0 0 0 6px;

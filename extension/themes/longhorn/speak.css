@@ -229,8 +229,8 @@ html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) .sc-pagee
 html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) .sc-pageeditbar .sc-breadcrumb .btn.sc-button { height: 22px; min-width: 60px; padding: 0 10px; line-height: 20px; }
 
 /* ==== Control Panel: Vista's Control Panel Home, categories with a navy heading on the white page ==== */
-html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) body:has(.sc-controlpanel-box), html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) body:has(.sc-controlpanel-box) .sc-applicationContent { background: #fff; }
-html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) body:has(.sc-controlpanel-box) .sc-applicationContent { min-height: 100vh; }
+html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) body:is([data-sct-page~="control-panel"] > *), html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { background: #fff; }
+html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { min-height: 100vh; }
 /* every SPEAK application's header (Control Panel, SPE Reports, Forms): Vista's address bar under the caption */
 html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) .sc-applicationHeader { border: 0; background: #f0f0f0; box-shadow: none; }
 html[data-sct-theme="longhorn"][data-sct-surface="speak"]:not(#sct-lh) .sc-applicationHeader-row1 { display: flow-root; height: auto; min-height: 0; padding: 0; background: #f0f0f0; border: 0; }

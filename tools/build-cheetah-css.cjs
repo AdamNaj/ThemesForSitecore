@@ -39,7 +39,7 @@ const X = `${P}:not(#sct-ch)`;
 // A desktop window's document while another window has the focus (set by dom.js).
 const PI = `${P}[data-sct-window="inactive"]`;
 // Pages with tab boxes: every one but the ISE.
-const NB = `${P}:not(:has(#TreeViewToggle)):not(#sct-ch)`;
+const NB = `${P}:not(:is([data-sct-page~="ise"], #sct-none)):not(#sct-ch)`;
 const FONT = '"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif';
 // Colours of the pixel art: W white, K black, T the disclosure triangles, R Y G the marks on the window
 // lights, B the scroll arrows.
@@ -709,7 +709,7 @@ ${X} .DesktopArea > :is(iframe, div[id^="FRAME"]) { top: 0; }
 
 /* the global header is the menu bar: 22px of white pinstripes over a grey line, the Launchpad button at the
    left, the account at the right */
-${X} .sc-globalHeader:has(~ div .DesktopArea) {
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) {
   height: 22px;
   min-height: 0;
   overflow: visible;
@@ -717,7 +717,7 @@ ${X} .sc-globalHeader:has(~ div .DesktopArea) {
   border-bottom: 1px solid #a8a8a8;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
-${X} .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-content {
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -725,17 +725,17 @@ ${X} .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-content {
   height: 22px;
   padding: 0 96px 0 6px;
 }
-${X} .sc-globalHeader:has(~ div .DesktopArea) .col2 { float: none; width: auto; height: 22px; padding: 0; }
-${X} .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-startButton { display: flex; align-items: center; height: 22px; }
-${X} .sc-globalHeader:has(~ div .DesktopArea) a.sc-global-logo { width: 22px; height: 22px; margin: 0 4px; background-size: 15px 15px; }
-${X} .sc-globalHeader:has(~ div .DesktopArea) .sc-globalHeader-loginInfo { float: none; height: 22px; }
-${X} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation { display: flex; flex-direction: row-reverse; align-items: center; gap: 0; height: 22px; margin: 0; padding: 0; }
-${X} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li { display: flex; align-items: center; height: 22px; margin: 0; padding: 0 9px; color: #000; font: 13px/22px ${FONT}; text-shadow: none; }
-${X} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li :is(a, span) { color: #000; font: 13px/22px ${FONT}; text-shadow: none; }
-${X} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li::after { content: none; }
-${X} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li:is(:hover, :focus-within) { ${menuHot} }
-${X} .sc-globalHeader:has(~ div .DesktopArea) ul.sc-accountInformation > li:is(:hover, :focus-within) :is(a, span) { color: #fff; text-decoration: none; }
-${X} .sc-globalHeader:has(~ div .DesktopArea) .sc-accountInformation img { width: 16px; height: 16px; margin: 0 0 0 6px; padding: 0; border: 0; border-radius: 3px; vertical-align: middle; }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) .col2 { float: none; width: auto; height: 22px; padding: 0; }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-startButton { display: flex; align-items: center; height: 22px; }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) a.sc-global-logo { width: 22px; height: 22px; margin: 0 4px; background-size: 15px 15px; }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-globalHeader-loginInfo { float: none; height: 22px; }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation { display: flex; flex-direction: row-reverse; align-items: center; gap: 0; height: 22px; margin: 0; padding: 0; }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li { display: flex; align-items: center; height: 22px; margin: 0; padding: 0 9px; color: #000; font: 13px/22px ${FONT}; text-shadow: none; }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li :is(a, span) { color: #000; font: 13px/22px ${FONT}; text-shadow: none; }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li::after { content: none; }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li:is(:hover, :focus-within) { ${menuHot} }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) ul.sc-accountInformation > li:is(:hover, :focus-within) :is(a, span) { color: #fff; text-decoration: none; }
+${X} .sc-globalHeader:is([data-sct-page~="desktop"] div) .sc-accountInformation img { width: 16px; height: 16px; margin: 0 0 0 6px; padding: 0; border: 0; border-radius: 3px; vertical-align: middle; }
 /* the clock (dom.js) at the menu bar's right end */
 ${X} .sct-ch-clock { position: absolute; top: 0; right: 0; height: 22px; padding: 0 12px; color: #000; font: 13px/22px ${FONT}; white-space: nowrap; }
 
@@ -1372,8 +1372,8 @@ ${EE} .sc-breadcrumb .scContentButton { display: block; height: auto; padding: 0
 ${EE} .sc-breadcrumb .btn.sc-button { height: 21px; min-width: 60px; padding: 0 12px; line-height: 21px; }
 
 /* ==== Control Panel: System Preferences, a band per category, the categories' bold names at the left ==== */
-${SPX} body:has(.sc-controlpanel-box), ${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { background: ${PINSTRIPES}; }
-${SPX} body:has(.sc-controlpanel-box) .sc-applicationContent { min-height: 100vh; }
+${SPX} body:is([data-sct-page~="control-panel"] > *), ${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { background: ${PINSTRIPES}; }
+${SPX} body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { min-height: 100vh; }
 /* every SPEAK application's header (Control Panel, SPE Reports, Forms): the metal toolbar */
 ${appHeader(SPX)}
 ${SPX} .sc-applicationContent-main { background: none; }

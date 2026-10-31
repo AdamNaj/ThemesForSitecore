@@ -63,6 +63,23 @@
     return s;
   }
 
+  // The kinds of page a URL serves, for <html data-sct-page>: themes style a gallery or the Control Panel by it rather
+  // than with body:has(.scGalleryGrip), which makes Chrome search the whole document again for every element inserted.
+  // The galleries that render a plain menu, with no grip, are not galleries here: themes style them as menus.
+  const MENU_GALLERIES = ["gallery.menu", "gallery.archives", "gallery.reminder", "gallery.subitems", "gallery.workflowedit"];
+  function pageKinds(href) {
+    const u = parse(href);
+    if (!u) return [];
+    const p = `${u.path.replace(/\/+$/, "")}/`.replace(/^\/sitecore\/shell(?=\/sitecore\/client\/)/, "");
+    const kinds = [];
+    if (u.control.startsWith("gallery.") && !MENU_GALLERIES.includes(u.control)) kinds.push("gallery");
+    if (/^\/sitecore\/client\/applications\/controlpanel(\.aspx)?\//.test(p) ||p.startsWith("/sitecore/shell/applications/control panel.aspx")) kinds.push("control-panel");
+    if (!u.control && (p === "/sitecore/shell/" || p === "/sitecore/shell/default.aspx/")) kinds.push("desktop");
+    if (u.control === "workbox" || p.startsWith("/sitecore/shell/applications/workbox")) kinds.push("workbox");
+    if (/^\/sitecore(\/shell\/applications| modules\/shell)\/powershell\/powershellise/.test(p)) kinds.push("ise");
+    return kinds;
+  }
+
   // URL candidates that only the page's markup can confirm, so the engine waits for the DOM.
   function needsDom(href) {
     const s = surfaceFromUrl(href);
@@ -99,6 +116,6 @@
     return null;
   }
 
-  SCT.detect = { surfaceFromUrl, surface, needsDom, parseVersionXml, versionFromDocument };
+  SCT.detect = { surfaceFromUrl, surface, pageKinds, needsDom, parseVersionXml, versionFromDocument };
   if (typeof module !== "undefined") module.exports = SCT.detect;
 })(globalThis);

@@ -583,7 +583,7 @@ html[data-sct-theme="workgroups311"][data-sct-surface="speak"]:not(#sct-wg) .ui-
 /* ---- Control Panel: a Program Manager window. The page title is its caption, Back its menu bar, and
    each group a group window: a framed window with a white caption that turns navy when active, its
    tasks listed as in a list box. ---- */
-html[data-sct-theme="workgroups311"][data-sct-surface="speak"]:not(#sct-wg) body:has(.sc-controlpanel-box) {
+html[data-sct-theme="workgroups311"][data-sct-surface="speak"]:not(#sct-wg) body:is([data-sct-page~="control-panel"] > *) {
   background: #fff;
 
   .sc-applicationContent {

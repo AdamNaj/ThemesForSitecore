@@ -1698,7 +1698,7 @@ html[data-sct-theme="sunvalley"][data-sct-surface="shell"]:not(#sct-sv) {
    the field. dom.js writes the field's position into --sct-sv-left / --sct-sv-bottom; until it has,
    the panel stays hidden so it never flashes at Sitecore's old right-hand spot. ---- */
 html[data-sct-theme="sunvalley"][data-sct-surface="shell"]:not(#sct-sv) {
-  &:has(.sct-sv-dock) #InstantResults:not([style*="--sct-sv-left"]) {
+  &[data-sct-sv-dock] #InstantResults:not([style*="--sct-sv-left"]) {
     visibility: hidden !important;
   }
   #InstantResults[style*="--sct-sv-left"] {

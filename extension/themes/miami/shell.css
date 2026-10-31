@@ -438,16 +438,16 @@ html[data-sct-theme="miami"][data-sct-surface="shell"] #views a.active {
 html[data-sct-theme="miami"][data-sct-surface="shell"] iframe.scGalleryFrame {
   box-shadow: 0 0 0 1px #ff2e88, 0 0 14px rgb(255 46 136 / 0.4);
 }
-html[data-sct-theme="miami"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+html[data-sct-theme="miami"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) {
   background-color: var(--sct-raised-bg) !important;
 }
-html[data-sct-theme="miami"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+html[data-sct-theme="miami"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) > form {
   background-color: transparent;
 }
-html[data-sct-theme="miami"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+html[data-sct-theme="miami"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
   background-color: var(--sct-ribbon-button-pressed-bg);
 }
-html[data-sct-theme="miami"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+html[data-sct-theme="miami"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) .scGalleryMenuLine {
   background-color: var(--sct-border-strong);
 }
 

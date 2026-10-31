@@ -258,16 +258,16 @@ html[data-sct-theme="solar"][data-sct-surface="shell"] iframe.scGalleryFrame {
   border-radius: 6px;
   box-shadow: 0 0 0 1px var(--sct-border-strong), 0 6px 16px rgb(0 43 54 / 0.35);
 }
-html[data-sct-theme="solar"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+html[data-sct-theme="solar"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) {
   background-color: var(--sct-raised-bg) !important;
 }
-html[data-sct-theme="solar"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+html[data-sct-theme="solar"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) > form {
   background-color: transparent;
 }
-html[data-sct-theme="solar"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+html[data-sct-theme="solar"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
   background-color: var(--sct-ribbon-button-pressed-bg);
 }
-html[data-sct-theme="solar"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+html[data-sct-theme="solar"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) .scGalleryMenuLine {
   background-color: var(--sct-border-strong);
 }
 
@@ -398,7 +398,7 @@ html[data-sct-theme="solar"][data-sct-surface="shell"] a.scRibbonEditorTabActive
 }
 
 /* gallery rows (Insert's More, Presets) hover on the pressed base tone, where the base text is 4.33:1: base02 */
-html[data-sct-theme="solar"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover :is(span, td, div) {
+html[data-sct-theme="solar"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover :is(span, td, div) {
   color: var(--sct-chrome-fg);
 }
 /* By day Sitecore's pale grey glyphs (the search tab's magnifier, section chevrons; the shared layer inks the

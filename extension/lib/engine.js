@@ -42,6 +42,8 @@
 
     html.dataset.sctEngine = engine.id;
     html.dataset.sctSurface = surfaceName;
+    const pages = SCT.detect.pageKinds(location.href);
+    if (pages.length) html.dataset.sctPage = pages.join(" ");
     // Sitecore's modal dialog host is a full-window frame laid over the app; its page must stay see-through.
     // Its value is the host page's surface: a frame whose color-scheme differs from its host's gets an opaque
     // canvas, so over the Experience Editor's website (no color-scheme) it must not take the theme's.
@@ -194,6 +196,48 @@
     // entry's icon comes along as --sct-window-icon (a CSS url). The page inside a standard window's chrome (the
     // ISE, the Recycle Bin...) is marked data-sct-window-content, so a theme can see through it to the window.
     // Native keeps Sitecore's behaviour.
+    // What a page's markup holds that themes tell pages apart by, on <html>: data-sct-has (which window caption, a
+    // form) and data-sct-css (the file names of its stylesheets, "Content Manager.css" as content-manager.css). A
+    // :has() on <html> or <body> says the same, but Chrome then searches the whole page again for every element
+    // anything inserts (themes/README.md). Each is in the page's own markup, so it is read once, when the DOM is ready.
+    const MARKS = {
+      "caption-topline": ".scWindowBorder2 > .scCaption > #CaptionTopLine",
+      topline: "#CaptionTopLine", // also the Workbox's, straight in its border, and the Floatie's
+      "caption-dock": ".scCaption.scDockTop",
+      "caption-standard": ".standardWindowCaption",
+      "caption-workbox": ".scWorkboxWindowCaption",
+      "window-placeholder": ".windowPlaceholderContainer",
+      "content-tree": "#ContentTreePanel", // the Content Editor, whose window border holds everything
+      form1: "form#Form1",
+      "grid-container": "#GridContainer",
+    };
+    // the window captions' ancestors, below <html>, carry data-sct-holds (in place of :has(#CaptionTopLine) on any element)
+    const HELD = ["topline", "caption-standard", "caption-workbox"];
+    function markPage() {
+      const has = Object.keys(MARKS).filter((k) => doc.querySelector(MARKS[k]));
+      for (const key of HELD) {
+        const el = has.includes(key) && doc.querySelector(MARKS[key]);
+        for (let up = el && el.parentElement; up && up !== html; up = up.parentElement) {
+          const held = (up.getAttribute("data-sct-holds") || "").split(" ").filter(Boolean);
+          if (!held.includes(key)) up.setAttribute("data-sct-holds", [...held, key].join(" "));
+        }
+      }
+      const css = new Set();
+      for (const l of doc.querySelectorAll('link[rel~="stylesheet" i][href]')) {
+        let name = l.getAttribute("href").split(/[?#]/)[0].split("/").pop();
+        try {
+          name = decodeURIComponent(name);
+        } catch {
+          // keep it as written
+        }
+        if (name) css.add(name.toLowerCase().replace(/\s+/g, "-"));
+      }
+      for (const [key, value] of [["sctHas", has.join(" ")], ["sctCss", [...css].join(" ")]]) {
+        if (value) html.dataset[key] = value;
+        else delete html.dataset[key];
+      }
+    }
+
     let titleWatch = null;
     function syncWindowTitle() {
       let own = null, bar = null, content = false;
@@ -1135,6 +1179,7 @@
         syncBar();
         if (surfaceName === "ee") trackRibbonToggle();
         if (surfaceName === "shell") frameResize(true);
+        markPage();
         if (alive()) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows(), syncDialogTitle();
         syncAids();
       });

@@ -1321,10 +1321,10 @@ html[data-sct-theme="sitecore104"] .RadForm.rfdCheckbox input[type="checkbox"] {
   height: 36px;
 }
 }
-html[data-sct-theme="sitecore104"]:has(form#Form1) {
+html[data-sct-theme="sitecore104"]:is([data-sct-has~="form1"], form#sct-none) {
   overflow: unset !important;
 }
-html[data-sct-theme="sitecore104"] body:has(form#Form1) {
+html[data-sct-theme="sitecore104"] body:is([data-sct-has~="form1"] > *, form#sct-none) {
   overflow: hidden !important;
 }
 html[data-sct-theme="sitecore104"] form#Form1 {

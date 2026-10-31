@@ -424,9 +424,9 @@ html[data-sct-theme="santaclara"][data-sct-surface="shell"] img.scRibbonPanelOpe
 
 /* ==== Desktop: the backdrop and the front panel ==== */
 /* CDE had no header above the workspace: the start menu takes over the user name and Log out (dom.js). */
-html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc):has(#Desktop) .sc-globalHeader { display: none; }
-html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc):has(#Desktop) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
-html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc):has(#Desktop) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
+html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc):is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader { display: none; }
+html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc):is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ :is(div, table) { padding-top: 0; }
+html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc):is([data-sct-page~="desktop"], #sct-none) .sc-globalHeader ~ div > .DesktopArea { margin-top: 0; }
 /* The workspace runs to the screen's bottom edge, the front panel standing on it, and so do the windows: a
    maximized window fills it and runs on under the panel, which floats above every non-modal window. */
 html[data-sct-theme="santaclara"][data-sct-surface="shell"]:not(#sct-sc) .DesktopArea {

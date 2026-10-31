@@ -9,12 +9,12 @@ html[data-sct-theme="sonata"] sct-bar-postfix {
   font: bold 12px/16px Charcoal, "Charcoal CY", Verdana, Geneva, Tahoma, sans-serif;
   letter-spacing: 0;
 }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:has(.DesktopArea) sct-bar-postfix {
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:is([data-sct-page~="desktop"]) sct-bar-postfix {
   padding: 0 10px;
   --sct-bar-side: 390px;
   line-height: 15px;
 }
-html[data-sct-theme="sonata"][data-sct-surface="shell"]:has(.DesktopArea):not(#sct-bar) .sc-globalHeader > .sc-ext-dbName {
+html[data-sct-theme="sonata"][data-sct-surface="shell"]:is([data-sct-page~="desktop"]):not(#sct-bar) .sc-globalHeader > .sc-ext-dbName {
   left: calc(anchor(--sct-account right) + 12px + var(--sct-logo-room, 0px));
   right: auto;
   text-align: left;

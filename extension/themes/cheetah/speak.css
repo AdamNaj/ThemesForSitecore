@@ -234,8 +234,8 @@ html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) .sc-pageed
 html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) .sc-pageeditbar .sc-breadcrumb .btn.sc-button { height: 21px; min-width: 60px; padding: 0 12px; line-height: 21px; }
 
 /* ==== Control Panel: System Preferences, a band per category, the categories' bold names at the left ==== */
-html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) body:has(.sc-controlpanel-box), html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) body:has(.sc-controlpanel-box) .sc-applicationContent { background: repeating-linear-gradient(#efefef 0 2px, #f8f8f8 2px 4px); }
-html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) body:has(.sc-controlpanel-box) .sc-applicationContent { min-height: 100vh; }
+html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) body:is([data-sct-page~="control-panel"] > *), html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { background: repeating-linear-gradient(#efefef 0 2px, #f8f8f8 2px 4px); }
+html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { min-height: 100vh; }
 /* every SPEAK application's header (Control Panel, SPE Reports, Forms): the metal toolbar */
 html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) .sc-applicationHeader { border: 0; background: url("sct-ext:themes/cheetah/glyphs/brushed-metal.png") 0 0 / 384px 128px repeat, linear-gradient(#c8c8c8, #adadad); box-shadow: none; }
 html[data-sct-theme="cheetah"][data-sct-surface="speak"]:not(#sct-ch) .sc-applicationHeader-row1 { display: flow-root; height: auto; min-height: 0; padding: 0; background: transparent; border: 0; }

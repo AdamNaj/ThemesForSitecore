@@ -373,7 +373,7 @@ html[data-sct-theme="plasma"][data-sct-surface="speak"]:not(#sct-pl) .sc-pageedi
 
 /* ---- Control Panel: Sun Valley's settings cards. A back button and the page title, then each group's
    rows as separate 4px-rounded cards with a chevron, 4px apart. ---- */
-html[data-sct-theme="plasma"][data-sct-surface="speak"]:not(#sct-pl) body:has(.sc-controlpanel-box) {
+html[data-sct-theme="plasma"][data-sct-surface="speak"]:not(#sct-pl) body:is([data-sct-page~="control-panel"] > *) {
   background: var(--sct-app-bg);
 
   .sc-applicationContent,

@@ -152,47 +152,47 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   a#BTAddNewSearch .scEditorTabHeaderNormal { height: 24px; }
 
   /* ---- 10.x rules on elements 6.6 styled, back to 6.6's values: Content Manager.css ---- */
-  &:where(:has(link[href*="/Content Manager.css" i])) {
+  &:where([data-sct-css~="content-manager.css"]) {
     .scEditorFieldMarker { table-layout: auto; margin: 0px 0px 24px 0px; width: 100%; }
   }
 
   /* ---- 10.x rules on elements 6.6 styled, back to 6.6's values: Gallery.css ---- */
-  &:where(:has(link[href*="/Gallery.css" i])) {
+  &:where([data-sct-css~="gallery.css"]) {
     .scGalleryGripIcon { vertical-align: revert; width: 7px; height: 7px; margin: 0px 2px 0px 0px; cursor: revert; }
   }
 
   /* ---- 10.x rules on elements 6.6 styled, back to 6.6's values: Ribbon.css ---- */
-  &:where(:has(link[href*="/Ribbon.css" i])) {
+  &:where([data-sct-css~="ribbon.css"]) {
     .scRibbon .chunk .caption .glyph:hover { cursor: revert; background-color: revert; }
     .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph { width: 15px; height: 14px; vertical-align: text-top; filter: revert; }
   }
 
   /* ---- 10.x rules on elements 6.6 styled, back to 6.6's values: Startbar.css ---- */
-  &:where(:has(link[href*="/Startbar.css" i])) {
+  &:where([data-sct-css~="startbar.css"]) {
     .scStartMenuLeftOption { cursor: default; display: block; padding: 2px 1px 2px 3px; text-decoration: none; height: auto; min-height: 36px; white-space: revert; margin: 3px 0px 3px 0px; }
     .scStartMenuLeftOption:hover { background: #ffe695 url(/sitecore/shell/Themes/Standard/Images/RibbonLargeButtonHover.png) repeat-x; text-decoration: none; display: block; height: auto; margin: 3px 0px 3px 0px; padding: 1px 1px 1px 3px; }
     .scStartMenuLeftOption:active { display: block; height: auto; margin: 3px 0px 3px 0px; padding: 2px 1px 2px 3px; text-decoration: none; }
   }
 
   /* ---- 10.x rules on elements 6.6 styled, back to 6.6's values: TemplateBuilder.css ---- */
-  &:where(:has(link[href*="/TemplateBuilder.css" i])) {
+  &:where([data-sct-css~="templatebuilder.css"]) {
     .scTableFieldRow .scTableFieldName { padding-left: 32px; width: 33%; }
   }
 
   /* ---- 10.x rules on elements 6.6 styled, back to 6.6's values: RulesDetails.css ---- */
-  &:where(:has(link[href*="/RulesDetails.css" i])) {
+  &:where([data-sct-css~="rulesdetails.css"]) {
     .scAccountName a { text-decoration: none; color: black; cursor: default; }
     #Permissions a { text-decoration: none; color: blue; }
   }
 
   /* ---- 10.x rules on elements 6.6 styled, back to 6.6's values: SecurityDetails.css ---- */
-  &:where(:has(link[href*="/SecurityDetails.css" i])) {
+  &:where([data-sct-css~="securitydetails.css"]) {
     .scAccountName a { text-decoration: none; color: black; cursor: default; }
     #Permissions a { text-decoration: none; }
   }
 
   /* ---- 10.x rules on elements 6.6 styled, back to 6.6's values: CollapsiblePanel.css ---- */
-  &:where(:has(link[href*="/CollapsiblePanel.css" i])) {
+  &:where([data-sct-css~="collapsiblepanel.css"]) {
     .header-title-edit { border: revert !important; box-shadow: revert !important; }
     .header-title { font-size: 12px; line-height: 16px; font-weight: bolder; padding: 2px 4px; outline: none; text-decoration: none; color: revert !important; }
     a.header-title:hover { padding: 1px 3px; border: 1px solid; border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e; background: #ffe594 url(/sitecore/shell/Themes/Standard/Images/Ribbon/SmallButtonActive.png) repeat-x; text-decoration: none; }
@@ -1129,7 +1129,7 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   a.header-title:hover { padding: 1px 3px; border: 1px solid; border-color: #ddcf9b #d2c08e #ccc2a3 #d2c08e; background: #ffe594 url(/sitecore/shell/Themes/Standard/Images/Ribbon/SmallButtonActive.png) repeat-x; text-decoration: none; }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Common.css, sitecore/shell/Themes/Standard/Firefox/Common.css ---- */
-  &:where(:has(link[href*="/Common.css" i])) {
+  &:where([data-sct-css~="common.css"]) {
     .scBackground { background: #f0f0f0; }
     .scFont { font: 8pt tahoma; }
     .scLargeFont { font: 14pt Franklin Gothic Medium; }
@@ -1145,19 +1145,19 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Content Manager.css ---- */
-  &:where(:has(link[href*="/Content Manager.css" i])) {
+  &:where([data-sct-css~="content-manager.css"]) {
     .scWindowBorder1.wk { overflow: hidden; }
     .wk .scEditorFieldMarker { table-layout: auto; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Controls.css, sitecore/shell/Themes/Standard/Firefox/Controls.css ---- */
-  &:where(:has(link[href*="/Controls.css" i])) {
+  &:where([data-sct-css~="controls.css"]) {
     .scFill { width: 100%; height: 100%; }
     .scFill { width: 100%; height: 100%; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/DialogModeSwitcher.css ---- */
-  &:where(:has(link[href*="/DialogModeSwitcher.css" i])) {
+  &:where([data-sct-css~="dialogmodeswitcher.css"]) {
     .mode { display: block; height: 80px; text-align: center; text-decoration: none; padding: 8px; }
     .mode:active { outline: none; }
     .ff .mode { height: 64px; }
@@ -1173,24 +1173,24 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Dialogs.css ---- */
-  &:where(:has(link[href*="/Dialogs.css" i])) {
+  &:where([data-sct-css~="dialogs.css"]) {
     .scDialogContentContainer { table-layout: fixed; padding: 4px 8px 4px 8px; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/EditableCombobox.css ---- */
-  &:where(:has(link[href*="/EditableCombobox.css" i])) {
+  &:where([data-sct-css~="editablecombobox.css"]) {
     .ff .scEditableComboboxPopup li { width: 100%; }
     .ff .scEditableComboboxPopup a { width: auto; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Floatie.css, sitecore/shell/Themes/Standard/Firefox/Floatie.css ---- */
-  &:where(:has(link[href*="/Floatie.css" i])) {
+  &:where([data-sct-css~="floatie.css"]) {
     .scToolbutton { color: white; }
     .scToolbutton { color: white; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Folder.css ---- */
-  &:where(:has(link[href*="/Folder.css" i])) {
+  &:where([data-sct-css~="folder.css"]) {
     .scTitle { font: 8pt tahoma; font-weight: bold; padding: 8px 0px 4px 4px; border-bottom: 1px solid #999999; }
     a.scButton { float: left; width: 70px; height: auto; padding: 5px; vertical-align: top; cursor: default; text-decoration: none; font: 8pt tahoma; text-align: center; overflow: auto; }
     .scButton:hover { background: #e8f5fd; border: 1px solid #d8f0fa; padding: 4px; }
@@ -1205,7 +1205,7 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Gallery Find.css, sitecore/shell/Themes/Standard/Firefox/Gallery Find.css ---- */
-  &:where(:has(link[href*="/Gallery Find.css" i])) {
+  &:where([data-sct-css~="gallery-find.css"]) {
     .scLink { display: block; text-decoration: none; padding: 2px; white-space: nowrap; }
     .scLink:active { display: block; text-decoration: none; padding: 2px; white-space: nowrap; }
     .scLink:hover { display: block; text-decoration: underline; padding: 2px; white-space: nowrap; }
@@ -1215,12 +1215,12 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Gallery.css ---- */
-  &:where(:has(link[href*="/Gallery.css" i])) {
+  &:where([data-sct-css~="gallery.css"]) {
     .ff .scGalleryGripIcon { margin: 0px 2px 0px 0px; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/IDE.css, sitecore/shell/Themes/Standard/Firefox/IDE.css ---- */
-  &:where(:has(link[href*="/IDE.css" i])) {
+  &:where([data-sct-css~="ide.css"]) {
     .scToolbar { background: #505050 url(/sitecore/shell/themes/standard/Images/Toolbar/ToolbarBackground.png) repeat-x; border: none; color: black; height: 26px; padding: 1px 0px 1px 4px; }
     .scToolbutton { background: transparent; border: none; cursor: default; height: 20px; vertical-align: middle; white-space: nowrap; padding: 1px 2px 1px 2px; }
     .scToolbutton_Disabled { filter: revert; background: transparent; color: #000000; border: none; cursor: default; height: 20px; vertical-align: middle; white-space: nowrap; padding: 1px 2px 1px 2px; }
@@ -1236,13 +1236,13 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/ItemLister.css, sitecore/shell/Themes/Standard/Firefox/ItemLister.css ---- */
-  &:where(:has(link[href*="/ItemLister.css" i])) {
+  &:where([data-sct-css~="itemlister.css"]) {
     .scLinkIcon { width: 32px; height: 32px; margin: 0px 4px 0px 0px; float: left; vertical-align: absmiddle; }
     .scLinkIcon { width: 32px; height: 32px; margin: 0px 4px 0px 0px; float: left; vertical-align: absmiddle; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Listview.css, sitecore/shell/Themes/Standard/Firefox/Listview.css ---- */
-  &:where(:has(link[href*="/Listview.css" i])) {
+  &:where([data-sct-css~="listview.css"]) {
     .scListview { width: 100%; height: 100%; overflow: auto; }
     .scListviewItemThumbnails { color: #000000; cursor: default; display: inline; overflow: hidden; padding: 5px; text-align: center; text-overflow: ellipsis; vertical-align: top; width: 100px; }
     .scListviewItemThumbnails_Selected { filter: revert; background: #F8D5A6; border: 1px solid #F6D2AB; color: #46448D; cursor: default; display: inline; overflow: hidden; padding: 4px; text-align: center; text-overflow: ellipsis; vertical-align: top; width: 100px; }
@@ -1260,7 +1260,7 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Media Folder Viewer.css ---- */
-  &:where(:has(link[href*="/Media Folder Viewer.css" i])) {
+  &:where([data-sct-css~="media-folder-viewer.css"]) {
     #FileList a { margin: revert; border: revert; border-radius: revert; text-align: revert; line-height: revert; cursor: default; padding: 5px; text-decoration: none; width: 256px; vertical-align: top; float: left; }
     #FileList a:hover { background: #e8f5fd; border: 1px solid #d8f0fa; padding: 4px; }
     #FileList a:active { background: #e8f5fd; border: 1px solid #d8f0fa; padding: 4px; }
@@ -1280,44 +1280,44 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/MediaBrowser.css ---- */
-  &:where(:has(link[href*="/MediaBrowser.css" i])) {
+  &:where([data-sct-css~="mediabrowser.css"]) {
     .name { padding-right: 6px; }
     .ff .filename { margin-left: -2px; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Ribbon.css ---- */
-  &:where(:has(link[href*="/Ribbon.css" i])) {
+  &:where([data-sct-css~="ribbon.css"]) {
     .scRibbon a:hover .header { text-decoration: underline; }
     .scRibbon .chunk .caption .glyph { padding: revert; cursor: revert; margin-left: revert; width: 15px; height: 14px; border: none; vertical-align: text-top; }
     .wk .scRibbonCombobox { padding: 0px; margin: 0px; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/SelectItemWithThumbnails.css ---- */
-  &:where(:has(link[href*="/SelectItemWithThumbnails.css" i])) {
+  &:where([data-sct-css~="selectitemwiththumbnails.css"]) {
     table.scDialogContentContainer { padding: 0px 4px; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Shell.css ---- */
-  &:where(:has(link[href*="/Shell.css" i])) {
+  &:where([data-sct-css~="shell.css"]) {
     .scToolbutton { color: white; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Startbar.css ---- */
-  &:where(:has(link[href*="/Startbar.css" i])) {
+  &:where([data-sct-css~="startbar.css"]) {
     .ff .scStartMenuLeftOption { height: auto; min-height: 36px; }
     .ff .scStartMenuLeftOption:hover { height: auto; min-height: 36px; }
     .ff .scStartMenuLeftOption:active { height: auto; min-height: 36px; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/TemplateBuilder.css ---- */
-  &:where(:has(link[href*="/TemplateBuilder.css" i])) {
+  &:where([data-sct-css~="templatebuilder.css"]) {
     .ff .scTableSection { padding-right: 8px; padding-bottom: 4px; }
     .ff .scTableFieldRow td { padding-top: 3px; padding-bottom: 3px; }
     .ff .scTableFieldRow .scTableFieldName { padding-right: 6px; }
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/TemplatesFolder.css ---- */
-  &:where(:has(link[href*="/TemplatesFolder.css" i])) {
+  &:where([data-sct-css~="templatesfolder.css"]) {
     #FileList a { cursor: default; display: inline; padding: 5px; text-decoration: none; width: 196px; vertical-align: top; }
     #FileList a:hover { background: #e8f5fd; border: 1px solid #d8f0fa; cursor: default; display: inline; padding: 5px; text-decoration: none; width: 196px; vertical-align: top; }
     #FileList a:active { background: #e8f5fd; border: 1px solid #d8f0fa; cursor: default; display: inline; padding: 5px; text-decoration: none; width: 196px; vertical-align: top; }
@@ -1333,7 +1333,7 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/TemplateWorkspaceBaseTemplates.css, sitecore/shell/Themes/Standard/Firefox/TemplateWorkspaceBaseTemplates.css ---- */
-  &:where(:has(link[href*="/TemplateWorkspaceBaseTemplates.css" i])) {
+  &:where([data-sct-css~="templateworkspacebasetemplates.css"]) {
     a.scField { padding: revert; color: #666666; cursor: default; display: block; text-decoration: none; }
     a.scField:hover { padding: revert; color: #666666; cursor: default; display: block; text-decoration: none; }
     a.scField:active { padding: revert; color: #666666; cursor: default; display: block; text-decoration: none; }
@@ -1347,7 +1347,7 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Tiles.css ---- */
-  &:where(:has(link[href*="/Tiles.css" i])) {
+  &:where([data-sct-css~="tiles.css"]) {
     .scTitle { font: 8pt tahoma; font-weight: bold; padding: 8px 0px 4px 4px; border-bottom: 1px solid #999999; }
     .scBackground { background: white; }
     .scTileItem { cursor: default; float: left; padding: 5px; text-decoration: none; width: 196px; vertical-align: top; }
@@ -1361,37 +1361,37 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Themes/Standard/Default/Workbox.css ---- */
-  &:where(:has(link[href*="/Workbox.css" i])) {
+  &:where([data-sct-css~="workbox.css"]) {
     .ff span.scRollover img { vertical-align: middle; }
     .ff span.scRollover_Hover img { vertical-align: middle; }
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Archives/RecycleBin/RecycleBin.css ---- */
-  &:where(:has(link[href*="/RecycleBin.css" i])) {
+  &:where([data-sct-css~="recyclebin.css"]) {
     .tablesorter th.header span { background-color: transparent; background-image: none; background-repeat: no-repeat; background-position: right center; padding-right: 10px; display: inline-block; font: 8pt tahoma; }
     .tablesorter .selected td { border: revert; border-top: revert; padding: revert; border-color: #ddcf9b #c1a877 #dfd8bd #c1a877; background: #ffb70b url(/sitecore/shell/Themes/Standard/Images/RibbonSmallButtonHover.png) repeat-x; font-family: tahoma; font-size: 8pt; }
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Content Manager/Dialogs/Properties/Properties.css ---- */
-  &:where(:has(link[href*="/Properties.css" i])) {
+  &:where([data-sct-css~="properties.css"]) {
     .scToolbutton { background: #ffdb75 url(/sitecore/shell/themes/standard/Images/Galleries/SystemMenuToolbuttonBackground.png) repeat-x; border: 1px solid #898785; color: #333333; padding: 2px 4px 0px 4px; margin: 0px 8px 0px 0px; }
     .scToolbutton_Hover { padding: 2px 4px 0px 4px; margin: 0px 8px 0px 0px; }
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Content Manager/Galleries/Links/Gallery Links.css ---- */
-  &:where(:has(link[href*="/Gallery Links.css" i])) {
+  &:where([data-sct-css~="gallery-links.css"]) {
     .scLink { display: block; text-decoration: none; padding: 2px 2px 2px 16px; white-space: nowrap; }
     .scLink:active { display: block; text-decoration: none; padding: 2px 2px 2px 16px; white-space: nowrap; }
     .scLink:hover { background-color: revert; display: block; text-decoration: underline; padding: 2px 2px 2px 16px; white-space: nowrap; }
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Dialogs/Diff/Diff.css ---- */
-  &:where(:has(link[href*="/Diff.css" i])) {
+  &:where([data-sct-css~="diff.css"]) {
     .scField { border: 1px solid #dcdcdc; font: 10pt verdana; padding: 1px 2px 1px 2px; margin: 2px 4px 8px 0px; }
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Dialogs/GeneralLink/GeneralLink.css ---- */
-  &:where(:has(link[href*="/GeneralLink.css" i])) {
+  &:where([data-sct-css~="generallink.css"]) {
     #InternalLinkTreeview > div.scContentTreeNode { padding-left: 0px; }
     #MediaLinkTreeview > div.scContentTreeNode { padding-left: 0px; }
     span.disabled { color: #999; }
@@ -1407,19 +1407,19 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Dialogs/Sort/Sort.css ---- */
-  &:where(:has(link[href*="/Sort.css" i])) {
+  &:where([data-sct-css~="sort.css"]) {
     .sort-item.hover { background-color: #ECF7FD; border: 1px solid #D8F0FA; padding: 3px; cursor: pointer; }
     .sort-item.selected { background: #D1EDFC url("/sitecore/shell/Themes/Standard/Images/Personalization/PresetRowSelected.png") center left repeat-x; border: 1px solid #99DEFD; padding: 3px; }
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Links/EditLinks/EditLinks.css ---- */
-  &:where(:has(link[href*="/EditLinks.css" i])) {
+  &:where([data-sct-css~="editlinks.css"]) {
     .scLink { border-bottom: 1px solid #999999; margin: 8px 4px 8px 16px; padding: 2px 8px 8px 8px; }
     .scLinkIcon { width: 24px; height: 24px; margin: 0px 4px 0px 0px; }
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Rules/RulesDetails/RulesDetails.css ---- */
-  &:where(:has(link[href*="/RulesDetails.css" i])) {
+  &:where([data-sct-css~="rulesdetails.css"]) {
     .scAccountName { font: 8pt tahoma; text-align: right; padding: 2px 4px 2px 4px; }
     .scAccountHeader { padding: 2px 4px 2px 4px; font: bold 8pt tahoma; }
     .scAccountRight { padding: 2px 16px 2px 4px; font: 8pt tahoma; }
@@ -1439,18 +1439,18 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Search/Instant/InstantSearch.css ---- */
-  &:where(:has(link[href*="/InstantSearch.css" i])) {
+  &:where([data-sct-css~="instantsearch.css"]) {
     #InstantResults li.active { background: #d5effc url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeActiveBackground.png) repeat-x; border: 1px solid #99defd; }
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Security/ItemSecurityEditor/ItemSecurityEditor.css ---- */
-  &:where(:has(link[href*="/ItemSecurityEditor.css" i])) {
+  &:where([data-sct-css~="itemsecurityeditor.css"]) {
     .disabled { background-color: #efefef; }
     #Accounts.disabled { background-color: white; }
   }
 
   /* ---- 6.6: sitecore/shell/Applications/Security/SecurityDetails/SecurityDetails.css ---- */
-  &:where(:has(link[href*="/SecurityDetails.css" i])) {
+  &:where([data-sct-css~="securitydetails.css"]) {
     .scAccountName { font: 8pt tahoma; text-align: right; padding: 2px 4px 2px 4px; }
     .scAccountHeader { padding: 2px 4px 2px 4px; font: bold 8pt tahoma; }
     .scAccountRight { padding: 2px 16px 2px 4px; font: 8pt tahoma; }
@@ -1470,7 +1470,7 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"] {
   }
 
   /* ---- 6.6: sitecore/shell/Controls/CollapsiblePanel/CollapsiblePanel.css ---- */
-  &:where(:has(link[href*="/CollapsiblePanel.css" i])) {
+  &:where([data-sct-css~="collapsiblepanel.css"]) {
     .wk .header-title-edit { height: 18px; }
     .ff .header-title { display: inline-block; }
   }
@@ -2292,7 +2292,7 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"]:not(#sct-sc6) {
 
 /* 6.6's page font, 8pt Tahoma, everywhere Sitecore's own Default.css is linked (not in previews of
    website content). */
-html[data-sct-theme="sitecore6"][data-sct-surface="shell"]:not(#sct-sc6):has(link[href*="/themes/standard/default/Default.css" i]) {
+html[data-sct-theme="sitecore6"][data-sct-surface="shell"]:not(#sct-sc6):is([data-sct-css~="default.css"], link.sct-none) {
   & body,
   & :is(table, button, th) {
     font: 8pt tahoma;

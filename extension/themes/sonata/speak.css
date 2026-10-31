@@ -626,7 +626,7 @@ html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) .ui-timepic
 /* ---- Control Panel: a Platinum control panel. The page is the window's #eee body under its title bar (the
    page title between pinstripes), Back a push button under it, each group an etched group box with its name
    on the top edge and its tasks in a white list. ---- */
-html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.sc-controlpanel-box) {
+html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:is([data-sct-page~="control-panel"] > *) {
   background: #eeeeee;
 
   .sc-applicationContent {
@@ -746,7 +746,7 @@ html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.s
     outline: none;
   }
 }
-html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.sc-controlpanel-box) .sc-applicationHeader-title {
+html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:is([data-sct-page~="control-panel"] > *) .sc-applicationHeader-title {
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -760,15 +760,15 @@ html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.s
   text-transform: none;
   white-space: nowrap;
 }
-html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.sc-controlpanel-box) .sc-applicationHeader-title::before, html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.sc-controlpanel-box) .sc-applicationHeader-title::after {
+html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:is([data-sct-page~="control-panel"] > *) .sc-applicationHeader-title::before, html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:is([data-sct-page~="control-panel"] > *) .sc-applicationHeader-title::after {
   content: "";
   flex: 1 1 0;
   min-width: 8px;
   align-self: stretch;
   background: image-set(url("sct-ext:themes/sonata/glyphs/d18e747763.png") 1x, url("sct-ext:themes/sonata/glyphs/d18e747763.svg") 2x) 0 50% / 2px 14px repeat-x;
 }
-html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.sc-controlpanel-box) .sc-applicationHeader-title::before { margin-right: 8px; }
-html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.sc-controlpanel-box) .sc-applicationHeader-title::after { margin-left: 8px; }
+html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:is([data-sct-page~="control-panel"] > *) .sc-applicationHeader-title::before { margin-right: 8px; }
+html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:is([data-sct-page~="control-panel"] > *) .sc-applicationHeader-title::after { margin-left: 8px; }
 /* glyphs at exactly 100%: their PNGs, nearest-neighbour (see pixelate()) */
 @media (resolution: 1dppx) {
   :where(html[data-sct-theme="sonata"] *), :where(html[data-sct-theme="sonata"] *)::before, :where(html[data-sct-theme="sonata"] *)::after { image-rendering: auto; }
@@ -789,5 +789,5 @@ html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.s
 html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) .ui-datepicker .ui-datepicker-prev:hover { image-rendering: pixelated; }
   html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) .ui-datepicker .ui-datepicker-next,
 html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) .ui-datepicker .ui-datepicker-next:hover { image-rendering: pixelated; }
-  html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.sc-controlpanel-box) .sc-applicationHeader-title::before, html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:has(.sc-controlpanel-box) .sc-applicationHeader-title::after { image-rendering: pixelated; }
+  html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:is([data-sct-page~="control-panel"] > *) .sc-applicationHeader-title::before, html[data-sct-theme="sonata"][data-sct-surface="speak"]:not(#sct-so) body:is([data-sct-page~="control-panel"] > *) .sc-applicationHeader-title::after { image-rendering: pixelated; }
 }

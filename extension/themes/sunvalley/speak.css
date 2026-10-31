@@ -372,7 +372,7 @@ html[data-sct-theme="sunvalley"][data-sct-surface="speak"]:not(#sct-sv) .sc-page
 
 /* ---- Control Panel: the Windows 11 Settings app. A back button and the page title, then each group's
    rows as separate 4px-rounded cards with a chevron, 4px apart. ---- */
-html[data-sct-theme="sunvalley"][data-sct-surface="speak"]:not(#sct-sv) body:has(.sc-controlpanel-box) {
+html[data-sct-theme="sunvalley"][data-sct-surface="speak"]:not(#sct-sv) body:is([data-sct-page~="control-panel"] > *) {
   background: var(--sct-app-bg);
 
   .sc-applicationContent,

@@ -250,16 +250,16 @@ html[data-sct-theme="focus"][data-sct-surface="shell"] iframe.scGalleryFrame {
   border-radius: 6px;
   box-shadow: 0 0 0 1px var(--sct-border-strong), 0 6px 16px rgb(36 36 31 / 0.35);
 }
-html[data-sct-theme="focus"][data-sct-surface="shell"] body:has(.scGalleryGrip) {
+html[data-sct-theme="focus"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) {
   background-color: var(--sct-raised-bg) !important;
 }
-html[data-sct-theme="focus"][data-sct-surface="shell"] body:has(.scGalleryGrip) > form {
+html[data-sct-theme="focus"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) > form {
   background-color: transparent;
 }
-html[data-sct-theme="focus"][data-sct-surface="shell"] body:has(.scGalleryGrip) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
+html[data-sct-theme="focus"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) :is(a.scRibbonToolbarLargeTextButton, a.scRibbonToolbarSmallButton, a.scRibbonToolbarLargeButton, :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon))):hover {
   background-color: var(--sct-ribbon-button-pressed-bg);
 }
-html[data-sct-theme="focus"][data-sct-surface="shell"] body:has(.scGalleryGrip) .scGalleryMenuLine {
+html[data-sct-theme="focus"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) .scGalleryMenuLine {
   background-color: var(--sct-border-strong);
 }
 

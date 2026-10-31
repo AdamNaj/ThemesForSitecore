@@ -277,12 +277,12 @@ const shellHand = `${W("shell")} {
   .scMenu td[class^="scMenuItemHotkey"] { padding: 0 4px; }
   .scMenu tr > td[class^="scMenuItem"][class$="_Disabled"] { color: #808080; }
   .scMenu td[class$="_Disabled"] img { opacity: 0.5; }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td,
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td,
   .scMenu tr > td[class$="_Hover"] {
     background: #000080;
     color: #fff;
   }
-  .scMenu tr:not(:has(td[class$="_Disabled"])):hover > td * { color: #fff; }
+  .scMenu tr:not(:has(> td[class$="_Disabled"])):hover > td * { color: #fff; }
   /* separators: one black line across the menu */
   .scMenu tr > td[class^="scMenuDivider"] {
     height: 7px;
@@ -1688,7 +1688,7 @@ ${W("speak")} .ui-timepicker-list li.ui-timepicker-selected {
 /* ---- Control Panel: a Program Manager window. The page title is its caption, Back its menu bar, and
    each group a group window: a framed window with a white caption that turns navy when active, its
    tasks listed as in a list box. ---- */
-${W("speak")} body:has(.sc-controlpanel-box) {
+${W("speak")} body:is([data-sct-page~="control-panel"] > *) {
   background: #fff;
 
   .sc-applicationContent {

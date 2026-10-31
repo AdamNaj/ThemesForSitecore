@@ -235,8 +235,8 @@ html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) .sc-pageeditb
 html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) .sc-pageeditbar .sc-breadcrumb .btn.sc-button { height: 22px; min-width: 60px; padding: 0 10px; line-height: 18px; }
 
 /* ==== Control Panel: the System Setup folder, each category a folder window ==== */
-html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) body:has(.sc-controlpanel-box), html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) body:has(.sc-controlpanel-box) .sc-applicationContent { background: #2a5a8c; }
-html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) body:has(.sc-controlpanel-box) .sc-applicationContent { min-height: 100vh; }
+html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) body:is([data-sct-page~="control-panel"] > *), html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { background: #2a5a8c; }
+html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) body:is([data-sct-page~="control-panel"] > *) .sc-applicationContent { min-height: 100vh; }
 /* every SPEAK application's header (Control Panel, SPE Reports, Forms): the window face under the title bar */
 html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) .sc-applicationHeader { border: 0; background: #cccccc; box-shadow: none; }
 html[data-sct-theme="warp"][data-sct-surface="speak"]:not(#sct-wp) .sc-applicationHeader-row1 { display: flow-root; height: auto; min-height: 0; padding: 0; background: #cccccc; border: 0; }
