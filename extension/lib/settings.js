@@ -127,7 +127,7 @@
     "forced-colors": { needs: ["low-vision"], always: true, surfaces: null, name: "High Contrast", hint: "Keeps selections, active tabs and icons visible with Windows High Contrast on" },
     "focus-ring": { needs: ["keyboard", "low-vision"], always: false, surfaces: null, name: "Focus ring", hint: "Draws a clear outline round whatever has keyboard focus" },
     "ribbon-toolbar": { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Ribbon toolbar", hint: "Makes the ribbon's buttons one Tab stop, with the arrow keys inside" },
-    "tree-keys": { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Tree type-ahead", hint: "Typing letters in the content tree jumps to the item that starts with them" },
+    "tree-keys": { needs: ["keyboard"], always: false, surfaces: ["shell"], name: "Type to search", hint: "Type in the content tree to search its items, or in the editor to search its fields; Tab moves between the matches" },
     menus: { needs: ["keyboard", "screen-reader"], always: false, surfaces: ["shell"], name: "Menu focus", hint: "Puts focus in a menu when it opens, Start's too, and back where it was when it closes; the arrows move in it, Escape closes it" },
     dialogs: { needs: ["keyboard", "screen-reader"], always: false, surfaces: ["shell"], name: "Dialogs", hint: "Names each dialog, and gives focus back to where it was when one closes" },
     "tab-stops": { needs: ["keyboard", "screen-reader"], always: false, surfaces: ["shell"], name: "Tab stops", hint: "Tab stops only on what you act on: one stop per checkbox and drop-down, none on field labels, the tree's gutter or hidden frames; Enter on the Content tab goes to the first field" },

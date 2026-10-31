@@ -355,23 +355,147 @@ test("ribbon-toolbar: one Tab stop, arrows inside, back where you left it", asyn
   expect(await at()).toBe("RibbonX_Nav_Home");
 });
 
-test("tree-keys: typing letters finds the next visible item", async ({ page }) => {
+test("tree-keys: typing narrows the tree to the matches and their path; Tab moves, Backspace and Delete shorten", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord`);
   await ready(page);
   await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
   await expect.poll(() => page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe("keyboard");
   const at = () => page.evaluate(() => document.activeElement.textContent.trim());
+  const panel = () => page.evaluate(() => { const p = document.querySelector("sct-tree-find"); return p.hidden ? null : p.textContent; });
+  // the items on screen, and the ones kept only as a match's path
+  const tree = () => page.evaluate(() => {
+    const items = [...document.querySelectorAll('.scContentTree a[id^="Tree_Node_"]')].filter((a) => a.getClientRects().length);
+    return items.map((a) => a.textContent.trim() + (a.hasAttribute("data-sct-find-path") ? " (path)" : ""));
+  });
+  // Sitecore deletes the item on Delete, in its handler on the tree
+  await page.evaluate(() => document.getElementById("ContentTreeInnerPanel").addEventListener("keydown", (e) => e.key === "Delete" && (window.deleted = true)));
   await page.focus("#Tree_Node_1");
   await page.keyboard.type("m");
   expect(await at()).toBe("Media Library");
-  await page.waitForTimeout(800); // a pause starts a new search
-  await page.keyboard.type("co"); // two letters typed together search for "co"
-  expect(await at()).toBe("Content"); // wraps past the end; the hidden "Cobalt" never matches
-  await page.waitForTimeout(800);
-  await page.keyboard.type("l");
+  expect(await panel()).toBe("m1 of 1 · Tab for the next · Enter to go there");
+  expect(await tree()).toEqual(["sitecore (path)", "Media Library"]);
+  await page.keyboard.press("Backspace"); // nothing left: everything back, where it is
+  expect(await panel()).toBe(null);
+  expect(await tree()).toEqual(["sitecore", "Content", "Layout", "Media Library"]);
+  expect(await at()).toBe("Media Library");
+  await page.keyboard.type("o"); // wraps; the hidden "Cobalt" never matches
+  expect(await at()).toBe("sitecore");
+  expect(await panel()).toContain("1 of 3");
+  expect(await tree()).toEqual(["sitecore", "Content", "Layout"]);
+  await page.keyboard.press("Tab");
+  expect(await at()).toBe("Content");
+  await page.keyboard.press("Shift+Tab");
+  expect(await at()).toBe("sitecore");
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
   expect(await at()).toBe("Layout");
+  await page.keyboard.type("u");
+  expect(await at()).toBe("Layout");
+  expect(await tree()).toEqual(["sitecore (path)", "Layout"]);
+  await page.keyboard.type("x");
+  expect(await panel()).toBe("ouxNo match");
+  expect(await tree()).toEqual(["sitecore (path)", "Layout (path)"]); // the item with focus stays, faded
+  await page.keyboard.press("Delete");
+  expect(await panel()).toContain("ou1 of 1");
+  expect(await page.evaluate(() => window.deleted)).toBeUndefined();
+  await page.keyboard.press("Escape");
+  expect(await panel()).toBe(null);
+  expect(await tree()).toEqual(["sitecore", "Content", "Layout", "Media Library"]);
   await page.keyboard.press("Control+l"); // a shortcut is not a letter
-  expect(await at()).toBe("Layout");
+  expect(await panel()).toBe(null);
+  await page.keyboard.press("Delete"); // no search: Sitecore's Delete
+  expect(await page.evaluate(() => window.deleted)).toBe(true);
+});
+
+test("tree-keys: Enter on a tree match puts everything back and opens it in the middle of the tree", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
+  await page.evaluate(() => document.getElementById("Tree_Node_4").addEventListener("click", () => (window.opened = "Media Library")));
+  await page.focus("#Tree_Node_1");
+  await page.keyboard.type("med");
+  await page.keyboard.press("Enter");
+  expect(await page.evaluate(() => window.opened)).toBe("Media Library"); // the link's own Enter
+  expect(await page.evaluate(() => document.querySelectorAll("[data-sct-find-hide], [data-sct-find-path]").length)).toBe(0);
+});
+
+test("tree-keys: the match comes into view, even one that already had focus", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord`);
+  await ready(page);
+  await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe("keyboard");
+  // a tree too short for its items, scrolled away from the focused one
+  const inView = () => page.evaluate(() => {
+    const tree = document.getElementById("ContentTreeInnerPanel");
+    const a = document.activeElement.getBoundingClientRect(), t = tree.getBoundingClientRect();
+    return a.top >= t.top - 1 && a.bottom <= t.bottom + 1;
+  });
+  await page.evaluate(() => Object.assign(document.getElementById("ContentTreeInnerPanel").style, { height: "24px", overflow: "auto" }));
+  await page.focus("#Tree_Node_1");
+  await page.evaluate(() => (document.getElementById("ContentTreeInnerPanel").scrollTop = 1000));
+  expect(await inView()).toBe(false);
+  await page.keyboard.type("s"); // "sitecore" matches: focus stays, and the tree scrolls back to it
+  expect(await page.evaluate(() => document.activeElement.id)).toBe("Tree_Node_1");
+  expect(await inView()).toBe(true);
+});
+
+test("tree-keys: after a click on the tree's empty space, typing searches the tree", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
+  const box = await page.locator("#ContentTreeInnerPanel").boundingBox();
+  await page.mouse.click(box.x + box.width - 4, box.y + box.height - 4);
+  await page.keyboard.type("lay");
+  expect(await page.evaluate(() => document.activeElement.textContent.trim())).toBe("Layout");
+  expect(await page.evaluate(() => document.querySelector("sct-tree-find").textContent)).toBe("lay1 of 1 · Tab for the next · Enter to go there");
+});
+
+test("tree-keys: after a click in the editor, typing narrows it to the matching fields; Enter goes into one", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
+  // a second field, and a closed section with two more, which opens on a click as Sitecore's does
+  await page.evaluate(() => {
+    const field = (id, name) => `<table class="scEditorFieldMarker" id="${id}"><tr><td class="scEditorFieldMarkerBarCell"></td><td class="scEditorFieldMarkerInputCell"><div class="scEditorFieldLabel">${name}<a href="#">[Go to field]</a></div><input id="${id}_input" class="scContentControl" type="text"></td></tr></table>`;
+    document.querySelector(".scEditorFieldMarker").insertAdjacentHTML("afterend", field("Other", "Text - The page's body:"));
+    document.getElementById("EditorPanel1").insertAdjacentHTML("beforeend", `<div id="Section_Closed" class="scEditorSectionCaptionCollapsed" onclick="this.className='scEditorSectionCaptionExpanded'; this.nextElementSibling.style.display=''">Closed</div><table id="Section_Closed_controls" class="scEditorSectionPanel" style="display:none"><tr><td>${field("Texture", "Texture")}${field("Width", "Width")}</td></tr></table>`);
+  });
+  const panel = () => page.evaluate(() => { const p = document.querySelector("sct-tree-find"); return p.hidden ? null : p.textContent; });
+  const onScreen = () => page.evaluate(() => [...document.querySelectorAll(".scEditorFieldMarker, .scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed")].filter((e) => e.getClientRects().length).map((e) => (e.querySelector(".scEditorFieldLabel")?.firstChild || e).textContent.trim()));
+  await page.click(".scEditorHeaderTitleHelp"); // nothing there takes focus
+  expect(await page.evaluate(() => document.activeElement === document.body)).toBe(true);
+  expect(await onScreen()).toEqual(["Data", "Title - Please enter title of the item here:", "Text - The page's body:", "Closed"]);
+  await page.keyboard.type("tex");
+  expect(await panel()).toBe("texText · 1 of 2 · Tab for the next · Enter to go there");
+  // Data keeps only Text; the closed section opens, with only Texture
+  expect(await onScreen()).toEqual(["Data", "Text - The page's body:", "Closed", "Texture"]);
+  expect(await page.evaluate(() => [...document.querySelectorAll("[data-sct-find-at]")].map((e) => e.id))).toEqual(["Other"]);
+  await page.keyboard.type("tu"); // "Go to field" is the add-on's link, not the label: "textu" is Texture alone
+  expect(await panel()).toBe("textuTexture · 1 of 1 · Tab for the next · Enter to go there");
+  expect(await onScreen()).toEqual(["Closed", "Texture"]); // a section with no match hides
+  await page.keyboard.press("Enter");
+  expect(await panel()).toBe(null);
+  // everything back, the section opened as Sitecore opens it, the cursor in the field
+  await expect.poll(() => page.evaluate(() => document.activeElement.id)).toBe("Texture_input");
+  expect(await page.evaluate(() => document.getElementById("Section_Closed").className)).toBe("scEditorSectionCaptionExpanded");
+  expect(await page.evaluate(() => document.querySelectorAll("[data-sct-find-hide], [data-sct-find-open], [data-sct-find-at]").length)).toBe(0);
+  expect(await onScreen()).toContain("Width");
+  await page.keyboard.type("xy"); // in a field, typing types
+  expect(await page.inputValue("#Texture_input")).toBe("xy");
+  expect(await panel()).toBe(null);
+});
+
+test("tree-keys: Escape puts the editor back, closed sections closed", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=keyboard`);
+  await ready(page);
+  await expect.poll(() => page.evaluate(() => !!document.querySelector("sct-tree-find"))).toBe(true);
+  await page.evaluate(() => document.getElementById("EditorPanel1").insertAdjacentHTML("beforeend", '<div id="Section_Closed" class="scEditorSectionCaptionCollapsed">Closed</div><table class="scEditorSectionPanel" style="display:none"><tr><td><table class="scEditorFieldMarker" id="Texture"><tr><td><div class="scEditorFieldLabel">Texture</div><input type="text"></td></tr></table></td></tr></table>'));
+  await page.click(".scEditorHeaderTitleHelp");
+  await page.keyboard.type("tex");
+  expect(await page.evaluate(() => document.getElementById("Texture").getClientRects().length > 0)).toBe(true);
+  await page.keyboard.press("Escape");
+  expect(await page.evaluate(() => document.getElementById("Texture").getClientRects().length)).toBe(0);
+  expect(await page.evaluate(() => document.getElementById("Section_Closed").className)).toBe("scEditorSectionCaptionCollapsed");
 });
 
 test("menus: focus moves into a menu that opens, and back to its opener when it closes", async ({ page }) => {
