@@ -129,11 +129,14 @@ async function setOverride(themeId) {
 // This site's own settings (site-settings.js draws them, shared with the Sitecore module): one map per kind in
 // storage.sync, keyed by the site; the plain choice ("" or null) removes the site's entry.
 const STORES = { title: "titles", tint: "tints", mode: "modes", accessibility: "accessibility" };
+// the site's Reduced motion aid stills the popup too (popup.css .still)
+const still = (a) => document.body.classList.toggle("still", SCT.settings.enabledAids(SCT.settings.accessibility(a), { surface: null }).includes("reduced-motion"));
 const siteStore = {
   async get(kind) {
     return ((await api.storage.sync.get(STORES[kind]))[STORES[kind]] || {})[origin];
   },
   async set(kind, value) {
+    if (kind === "accessibility") still(value);
     const map = (await api.storage.sync.get(STORES[kind]))[STORES[kind]] || {};
     if (value) map[origin] = value;
     else delete map[origin];
@@ -165,6 +168,7 @@ async function main() {
   }
 
   show("#enabled");
+  still(await siteStore.get("accessibility"));
   const { render } = SCT.picker.mount($("#picker"), {
     label: "Theme for this site", themes: "../themes/", load, setTheme: setOverride, setHue, setEnv, setPhase, setScheme,
     onTheme: (t) => ((bothLooks = t.appearance === "auto"), syncMode()),

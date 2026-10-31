@@ -201,18 +201,19 @@ input.hue:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px;
 #hero-applied[hidden] { display: none; }
 #hero-applied svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
-@media (prefers-reduced-motion: no-preference) {
-  #spotlight { transition: transform 380ms cubic-bezier(.16, 1, .3, 1), width 380ms cubic-bezier(.16, 1, .3, 1); }
-  .deck { transition: opacity 240ms, transform 380ms cubic-bezier(.16, 1, .3, 1); }
-  .deck svg { transition: transform 380ms cubic-bezier(.16, 1, .3, 1); }
-  .frame > svg:not(.tick) { transition: transform 240ms cubic-bezier(.25, 1, .5, 1), box-shadow 240ms cubic-bezier(.25, 1, .5, 1); }
-  .frame.just > svg:not(.tick) { animation: sct-press 460ms cubic-bezier(.16, 1, .3, 1); }
-  .frame.just::before { animation: sct-ring 650ms cubic-bezier(.25, 1, .5, 1); }
-  .frame.just .tick { animation: sct-pop 420ms cubic-bezier(.16, 1, .3, 1); }
-  :is(.frame.just .tick, #hero-applied) path { stroke-dasharray: 12; animation: sct-draw 380ms 150ms cubic-bezier(.16, 1, .3, 1) backwards; }
-  #hero.sheen::after { animation: sct-sheen 750ms cubic-bezier(.25, 1, .5, 1); }
-  #hero-applied { animation: sct-chip 420ms cubic-bezier(.16, 1, .3, 1); }
-}
+#spotlight { transition: transform 380ms cubic-bezier(.16, 1, .3, 1), width 380ms cubic-bezier(.16, 1, .3, 1); }
+.deck { transition: opacity 240ms, transform 380ms cubic-bezier(.16, 1, .3, 1); }
+.deck svg { transition: transform 380ms cubic-bezier(.16, 1, .3, 1); }
+.frame > svg:not(.tick) { transition: transform 240ms cubic-bezier(.25, 1, .5, 1), box-shadow 240ms cubic-bezier(.25, 1, .5, 1); }
+.frame.just > svg:not(.tick) { animation: sct-press 460ms cubic-bezier(.16, 1, .3, 1); }
+.frame.just::before { animation: sct-ring 650ms cubic-bezier(.25, 1, .5, 1); }
+.frame.just .tick { animation: sct-pop 420ms cubic-bezier(.16, 1, .3, 1); }
+:is(.frame.just .tick, #hero-applied) path { stroke-dasharray: 12; animation: sct-draw 380ms 150ms cubic-bezier(.16, 1, .3, 1) backwards; }
+#hero.sheen::after { animation: sct-sheen 750ms cubic-bezier(.25, 1, .5, 1); }
+#hero-applied { animation: sct-chip 420ms cubic-bezier(.16, 1, .3, 1); }
+/* Nothing moves while the site's Reduced motion aid is on: the popup and the Sitecore module's panel put .still on
+   their top element. Not prefers-reduced-motion, which Chromium reports in every Remote Desktop session. */
+.still *, .still *::before, .still *::after { transition: none !important; animation: none !important; }
 @keyframes sct-press { from { transform: scale(.9); } }
 @keyframes sct-ring { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.35); } }
 @keyframes sct-pop { from { transform: scale(0) rotate(-30deg); } }
@@ -241,7 +242,6 @@ button.primary {
 #track { display: flex; align-items: flex-start; width: 200%; transition: transform 250ms cubic-bezier(.2, .8, .2, 1); }
 .view { box-sizing: border-box; width: 50%; padding: 0 12px; }
 .settings-open #track { transform: translateX(-50%); }
-@media (prefers-reduced-motion: reduce) { #track { transition: none; } }
 
 /* a borderless 28px icon button: the gear at the header's right end, the back arrow at its left */
 .icon-button { display: grid; place-items: center; flex: none; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 6px; background: none; color: var(--muted); cursor: pointer; }
@@ -339,4 +339,3 @@ button.primary {
 #aids-reset { margin-top: 10px; height: 26px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); font-size: 12px; cursor: pointer; }
 #aids-reset:hover { background: var(--hover); }
 #aids-reset:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-@media (prefers-reduced-motion: reduce) { .seg label, .chips label { transition: none; } }

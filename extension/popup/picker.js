@@ -85,7 +85,7 @@
     let siteHue = 0; // its hue, 0 for the theme's own colours
     let openGroup = null; // the group whose tab is open
 
-    const still = () => doc.defaultView.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const still = () => !!container.closest(".still"); // the site's Reduced motion aid (popup.css)
 
     // One theme in the grid: its miniature and name around a radio button (hidden, still keyboard and
     // screen-reader driven), and a tick that shows on the chosen one.

@@ -91,7 +91,10 @@
     if (!r || !r.ok) return;
     let kinds = [kind];
     if (kind === "hue") cfg.hue = SCT.settings.withHue(cfg.hue, fields.hueTheme, +fields.hue);
-    else if (kind === "accessibility") cfg.accessibility = SCT.settings.accessibility(fields.accessibility ? JSON.parse(fields.accessibility) : null);
+    else if (kind === "accessibility") {
+      cfg.accessibility = SCT.settings.accessibility(fields.accessibility ? JSON.parse(fields.accessibility) : null);
+      panel?.wrap.classList.toggle("still", still());
+    }
     else if (kind === "reset") {
       // back to the config's: the server cleared the user's own title, tint, mode and environment
       Object.assign(cfg, cfg.defaults);
@@ -237,9 +240,11 @@ svg.shape path{fill:var(--bg);stroke:var(--line);stroke-width:1}
 .reset small{color:var(--muted)}`;
 
   // The panel unfurls from the tab (or from the start menu's corner) and folds back into it: the shape is
-  // revealed from there while the picker settles in. Nothing moves for people who ask for reduced motion.
+  // revealed from there while the picker settles in. Nothing moves while the user's Reduced motion aid is on (not
+  // prefers-reduced-motion, which Chromium reports in every Remote Desktop session); .still stills the picker (popup.css).
+  const still = () => SCT.settings.enabledAids(cfg.accessibility, { surface: null }).includes("reduced-motion");
   function unfurl(p, closing) {
-    if (p.win.matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
+    if (still()) return null;
     const { th, tw, side } = p.g;
     const shut = side === "menu" ? `inset(calc(100% - 44px) calc(100% - 160px) 0 0 round ${PANEL_R}px)`
       : side === "left" ? `inset(0 calc(100% - ${tw}px) calc(100% - ${th}px) 0 round ${TAB_R}px ${TAB_R}px 0 0)`
@@ -360,6 +365,7 @@ svg.shape path{fill:var(--bg);stroke:var(--line);stroke-width:1}
     };
     doc.documentElement.append(host); // outside <body>, which themes and the switch's blur may filter
     const wrap = root.querySelector(".wrap");
+    wrap.classList.toggle("still", still());
     body.style.transformOrigin = { left: "left top", right: "right top", menu: "left bottom" }[g.side];
     panel = { host, render, win, doc, wrap, body, g };
     unfurl(panel, false);
