@@ -138,6 +138,7 @@
     "not-just-colour": { needs: ["colour-vision"], always: false, surfaces: ["shell"], name: "Errors in words", hint: "Says Error or Warning beside a field Sitecore marks only in red or yellow" },
     "reduced-motion": { needs: ["motion"], always: false, surfaces: null, name: "Reduced motion", hint: "Stops Sitecore's and the theme's animations and transitions" },
     "focus-mode": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Focus mode", hint: "Fades the other fields while you edit one" },
+    "sticky-header": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Sticky item header", hint: "Keeps the item's name and icon in view while its fields scroll under them" },
     "reading-guide": { needs: ["reading"], always: false, surfaces: ["shell", "speak", "launchpad", "admin", "login"], name: "Reading guide", hint: "A soft band across the line you are reading" },
     "quiet-ribbon": { needs: ["reading"], always: false, surfaces: ["shell"], name: "Quiet ribbon", hint: "Lets you hide the ribbon groups you never use" },
     "command-palette": { needs: ["keyboard"], always: false, surfaces: ["shell", "speak", "launchpad"], name: "Command palette", hint: "Ctrl+Shift+Space: type a ribbon command, or an item path or ID, and press Enter" },

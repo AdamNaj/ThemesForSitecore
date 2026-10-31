@@ -96,7 +96,7 @@
       if (!reply || reply.error || !alive()) return;
       dev = reply.dev;
       engine.mode = reply.mode; // a mode change swaps only the CSS
-      if (reply.theme === engine.theme && !previousEntry) return;
+      if (reply.theme === engine.theme && !previousEntry) return void syncAids(true);
       revertDom();
       engine.theme = reply.theme;
       engine.themeName = reply.name;
@@ -104,7 +104,7 @@
       else html.dataset.sctTheme = reply.theme;
       html.toggleAttribute("data-sct-tokens", reply.usesTokens);
       applyHue();
-      syncAids(); // the always-on aids run on themed sites only
+      syncAids(true); // the always-on aids run on themed sites only
       if (domReady) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows(), syncDialogTitle();
       syncLive();
       if (tabWatch) syncTint(); // a tint from the theme follows it
@@ -812,7 +812,8 @@
       noteMs(performance.now() - t0, "sctAidsMs");
     }
 
-    function syncAids() {
+    // restyled: the theme's CSS just changed, so the aids that read the page's colours (sticky-header) run again
+    function syncAids(restyled) {
       const themed = !!engine.theme && engine.theme !== "native";
       const want = domReady && alive() && html.dataset.sctEngine === engine.id
         ? SCT.settings.enabledAids(access, { themed, surface: surfaceName }).filter((id) => SCT.aidModules[id] && !brokenAids.has(id))
@@ -820,7 +821,8 @@
       for (const id of [...aids.keys()]) if (!want.includes(id)) dropAid(id);
       const added = want.filter((id) => !aids.has(id));
       for (const id of added) aids.set(id, SCT.createDomKit(doc));
-      if (added.length) runAids(added);
+      const run = restyled ? want : added;
+      if (run.length) runAids(run);
       aidsCss(want);
       if (aids.size && !aidObserver) {
         // new markup, and a frame sent to another page (its src); the aids' own title writes are not watched

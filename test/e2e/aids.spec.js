@@ -556,6 +556,85 @@ test("focus-mode: the field being edited stays bright, the rest fade", async ({ 
   expect(await opacity()).toEqual(["1", "1", "1"]);
 });
 
+test("sticky-header: the item's header stays in view while the fields scroll, fading at its foot", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await ready(page);
+  await page.evaluate(() => {
+    const panel = document.querySelector(".scEditorPanel");
+    panel.style.cssText = "height:200px;overflow:auto";
+    panel.insertAdjacentHTML("beforeend", '<div style="height:1200px"></div>');
+    panel.scrollTop = 500;
+  });
+  const top = () => page.evaluate(() => Math.round(document.querySelector(".scEditorHeader").getBoundingClientRect().top - document.querySelector(".scEditorPanel").getBoundingClientRect().top));
+  await expect.poll(top).toBe(0);
+  expect(await page.evaluate(() => getComputedStyle(document.querySelector(".scEditorHeader")).maskImage)).toContain("linear-gradient");
+  // edge to edge over the panel's padding, the title where the panel's padding put it
+  const span = () => page.evaluate(() => {
+    const panel = document.querySelector(".scEditorPanel"), h = panel.querySelector(".scEditorHeader"), p = panel.getBoundingClientRect(), r = h.getBoundingClientRect();
+    return { left: Math.round(r.left - p.left - panel.clientLeft), width: Math.round(r.width - panel.clientWidth), title: Math.round(h.querySelector(".scEditorHeaderTitle").getBoundingClientRect().left - p.left - panel.clientLeft) };
+  });
+  await page.evaluate(() => (document.querySelector(".scEditorPanel").style.padding = "0 14px 0 22px"));
+  await page.evaluate(() => document.querySelector(".scEditorPanel").scrollBy(0, 10)); // the aid looks again on a scroll
+  await expect.poll(span).toEqual({ left: 0, width: 0, title: 22 });
+  // a transition on the header (Reduced motion gives every element one) must not let each scroll add the padding again
+  await page.evaluate(async () => {
+    const panel = document.querySelector(".scEditorPanel");
+    panel.querySelector(".scEditorHeader").style.transition = "padding 1s";
+    for (let i = 0; i < 4; i++) { panel.scrollBy(0, 10); await new Promise((r) => setTimeout(r, 50)); }
+  });
+  await expect.poll(span).toEqual({ left: 0, width: 0, title: 22 });
+  await change(page, "accessibility", { site: {} });
+  await expect.poll(top).toBeLessThan(-400); // off: it scrolls away with the fields
+});
+
+test("sticky-header: the header's fill follows the panel from dark to light and back, so its title stays readable", async ({ page }) => {
+  await page.goto(`${CE}?theme=fjord&needs=reading`);
+  await ready(page);
+  // a theme that leaves the header clear over a glass panel, dark first (as before the light CSS lands)
+  const paint = (bg, fg) => page.evaluate(([b, f]) => {
+    let s = document.getElementById("look");
+    if (!s) document.head.append((s = Object.assign(document.createElement("style"), { id: "look" })));
+    s.textContent = `.scEditorPanel{background:${b}} .scEditorHeader{background:transparent} .scEditorHeaderTitle{color:${f}}`;
+  }, [bg, fg]);
+  await paint("rgba(20, 20, 24, 0.85)", "#f5f5f7");
+  await page.evaluate(() => {
+    const panel = document.querySelector(".scEditorPanel");
+    panel.style.cssText = "height:200px;overflow:auto";
+    panel.insertAdjacentHTML("beforeend", '<div style="height:1200px"></div>');
+  });
+  // the title against the header's fill over the panel (the fields under it are blurred into the panel's colour)
+  const contrast = () => page.evaluate(() => {
+    const ctx = Object.assign(document.createElement("canvas"), { width: 1, height: 1 }).getContext("2d", { willReadFrequently: true });
+    const px = (...cs) => {
+      ctx.clearRect(0, 0, 1, 1);
+      for (const c of ["#fff", ...cs]) (ctx.fillStyle = c), ctx.fillRect(0, 0, 1, 1);
+      return [...ctx.getImageData(0, 0, 1, 1).data].slice(0, 3);
+    };
+    const lum = (rgb) => rgb.map((v) => ((v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+    const css = (s) => getComputedStyle(document.querySelector(s));
+    const bg = lum(px(css(".scEditorPanel").backgroundColor, css(".scEditorHeader").backgroundColor));
+    const fg = lum(px(css(".scEditorHeaderTitle").color));
+    return Math.round(((Math.max(bg, fg) + 0.05) / (Math.min(bg, fg) + 0.05)) * 10) / 10;
+  });
+  const scroll = (y) => page.evaluate((t) => (document.querySelector(".scEditorPanel").scrollTop = t), y);
+  await scroll(300);
+  await expect.poll(contrast).toBeGreaterThanOrEqual(4.5);
+  // a theme switch with the item open and nothing scrolled: its CSS lands, then the host replies
+  await paint("rgba(255, 255, 255, 0.84)", "#1d1d1f");
+  await change(page, "theme", { theme: "native" });
+  await expect.poll(contrast).toBeGreaterThanOrEqual(4.5);
+  // the light CSS lands late (or the OS turns light) on the same header, and the fields scroll
+  await paint("rgba(20, 20, 24, 0.85)", "#f5f5f7");
+  await scroll(450);
+  await expect.poll(contrast).toBeGreaterThanOrEqual(4.5);
+  await paint("rgba(255, 255, 255, 0.84)", "#1d1d1f");
+  await scroll(500);
+  await expect.poll(contrast).toBeGreaterThanOrEqual(4.5);
+  await paint("rgba(20, 20, 24, 0.85)", "#f5f5f7");
+  await scroll(400);
+  await expect.poll(contrast).toBeGreaterThanOrEqual(4.5);
+});
+
 test("reading-guide: a band on the pointer's line or the focused one, never in the way", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord&needs=reading`);
   await ready(page);
