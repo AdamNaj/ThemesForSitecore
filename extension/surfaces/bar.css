@@ -116,6 +116,12 @@ html[data-sct-theme][data-sct-surface="speak"] .sc .sc-navigation-menu .btn.sc-b
 html[data-sct-theme][data-sct-surface="speak"][data-sct-in-dialog][data-sct-dialog-title] :is(.sc-dialogContent .sc-navigation-menu, .sc .sc-smartpanel) {
   top: 0 !important;
 }
+/* the navigation's panel reaches the caption, but its buttons start level with the content under the toolbar, as
+   they did under the title row: the Regions aid's skip link, which the media picker focuses as it opens, sits above
+   them instead of on Upload media */
+html[data-sct-theme][data-sct-surface="speak"][data-sct-in-dialog][data-sct-dialog-title] .sc-dialogContent .sc-navigation-menu {
+  padding-top: 60px;
+}
 
 /* A SPEAK dialog page (the Mail and Anchor link pickers) is 15px wider than its frame: Bootstrap rows reach past
    their container, and the dialog showed a horizontal scrollbar for it, under Native too. engine.js marks pages
@@ -167,6 +173,53 @@ html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog][data-sct-d
 }
 html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog] .sc-navigation-content > :is(.sc-dialogContent-title, .sc-dialogContent-toolbar) {
   flex: none;
+}
+/* under the caption the toolbar runs the dialog's width, over the navigation's top 60px: a transparent left border
+   the width of the navigation takes the toolbar's own background (a theme's colour or gradient), and its buttons stay
+   where they were */
+html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog][data-sct-dialog-title] .sc-navigation-content > .sc-dialogContent-toolbar {
+  margin-left: -250px;
+  border-left: 250px solid transparent !important;
+  background-clip: border-box !important;
+}
+/* The toolbar's controls, which themes' button and input rules reshaped: a toggle with a label (Filters) keeps
+   room for its arrow, which a theme's padding put over the label; an icon toggle (the list and tree views) is as
+   wide as its icon needs, the icon centred, where a theme's button min-width stretched it with the icon on the
+   left; the search box sits in the middle of its button's height, a few pixels from it, where Bootstrap's input
+   group joined them and a theme's heights put the box high. */
+html[data-sct-theme][data-sct-surface="speak"] .sc-dialogContent-toolbar .sc-togglebutton:not(.noText) {
+  padding-right: 28px !important;
+}
+html[data-sct-theme][data-sct-surface="speak"] .sc-dialogContent-toolbar .sc-togglebutton:not(.noText) .sc-togglebutton-toggler {
+  right: 11px;
+}
+html[data-sct-theme][data-sct-surface="speak"] .sc-dialogContent-toolbar .sc-togglebutton.noText {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0 !important;
+  width: auto !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+html[data-sct-theme][data-sct-surface="speak"] .sc-dialogContent-toolbar .sc-buttontextbox.input-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+html[data-sct-theme][data-sct-surface="speak"] .sc-dialogContent-toolbar .sc-buttontextbox > input {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  float: none;
+  margin: 0;
+}
+html[data-sct-theme][data-sct-surface="speak"] .sc-dialogContent-toolbar .sc-buttontextbox > .input-group-btn {
+  display: block;
+  width: auto;
+}
+html[data-sct-theme][data-sct-surface="speak"] .sc-dialogContent-toolbar .sc-buttontextbox > .input-group-btn > .btn {
+  margin: 0;
 }
 html[data-sct-theme][data-sct-surface="speak"][data-sct-speak-dialog] .sc-navigation-content > .sc-dialogContent-main {
   flex: 1 1 auto;

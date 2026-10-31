@@ -122,6 +122,12 @@ html[data-sct-tokens][data-sct-surface="speak"] .sc .sc-messageBar .alert-info .
 html[data-sct-tokens][data-sct-surface="speak"] .sc-dialogContent-title {
   color: var(--sct-panel-fg);
 }
+/* The dialogs' toolbar (filters, search, the view toggles) is a toolbar: the ribbon's pair, where the map gave it the
+   content panel's white, a white strip across the classic themes' grey. */
+html[data-sct-tokens][data-sct-surface="speak"] .sc-dialogContent-toolbar {
+  background-color: var(--sct-ribbon-bg);
+  color: var(--sct-ribbon-fg);
+}
 
 /* The tree's selected row (the link and item pickers): the map gave it the accent or the selection colour under
    the app's text colour, an unchecked pair; it takes the content tree's selection, a pair npm test checks. */

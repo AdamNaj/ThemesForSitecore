@@ -298,6 +298,15 @@ the frame by the caption's measured room; each theme's dialog caption does the r
   fixes `.sc-navigation-content` between caption and buttons as a column, the toolbar on top and only the main area
   scrolling. It sits in `.sc-dialogContent` in the link pickers and beside it in the media picker, and Sitecore gives it
   `width: 100%`: check both pickers.
+- **The toolbar runs the dialog's width** under the caption, over the navigation's top 60px, and the navigation's
+  buttons start under it ("the Skip link appear on top of the buttons"; "extend the toolbar so that it starts all the
+  way to the left"). It takes the ribbon's pair (`surfaces/speak.css`): the map gave it the panel's white, "jarring"
+  on the retro themes' grey.
+- **Its controls take a theme's button and input rules:** "the triangle pointing down on 'filters' button overlaps the
+  text", the view toggles "longer than the icon on them warrants ... the icon being left aligned", the search box "not
+  vertically centered with the search button next to it and touching it" (Cheetah). `bar.css` keeps the arrow's room,
+  sizes the toggles to their icons and lays the search box beside its button, centred, 6px apart; `dialogs.cjs` reports
+  each as a `toolbar` finding.
 - Their glyphs (tree expanders, view toggles, `dark_gray` images) take the glyph filter in `surfaces/speak.css`.
 - **"Even metal is collapsing for me":** the Reduced motion aid gave every element a .01ms transition, and the default
   transition-property is `all`, so jQuery UI read the frame's old height right after setting it to 0 and sized it

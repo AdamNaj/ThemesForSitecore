@@ -58,6 +58,34 @@ function dialogBox() {
   return { dialog: r(dlg), bar: bar && bar.offsetHeight ? r(bar) : null, frame: frame ? r(frame) : null };
 }
 
+// Runs in the dialog's page: the toolbar's controls, which themes' button and input rules reshaped (2026-10-30): the
+// Filters arrow over its label, view toggles wider than their icon with the icon off centre, the search box out of
+// line with its button or touching it.
+function toolbarFlaws() {
+  const r = (el) => el.getBoundingClientRect();
+  const shown = (el) => el && r(el).width > 0;
+  const flaws = [];
+  for (const b of document.querySelectorAll(".sc-dialogContent-toolbar .sc-togglebutton")) {
+    if (!shown(b)) continue;
+    const box = r(b), text = b.querySelector(".sc-togglebutton-text"), arrow = b.querySelector(".sc-togglebutton-toggler"), icon = b.querySelector(".sc-icon");
+    if (shown(text) && shown(arrow) && r(arrow).left < r(text).right + 3) flaws.push(`the "${text.textContent.trim()}" button's arrow is over its label (${Math.round(r(text).right + 3 - r(arrow).left)}px)`);
+    if (shown(icon) && !(shown(text) && text.textContent.trim())) {
+      const ib = r(icon);
+      if (box.width > ib.width + 32) flaws.push(`a view toggle is ${Math.round(box.width)}px wide for its ${Math.round(ib.width)}px icon`);
+      if (Math.abs(ib.left + ib.width / 2 - (box.left + box.width / 2)) > 2) flaws.push(`a view toggle's icon is ${Math.round(ib.left + ib.width / 2 - (box.left + box.width / 2))}px off its centre`);
+    }
+  }
+  for (const g of document.querySelectorAll(".sc-dialogContent-toolbar .sc-buttontextbox")) {
+    const input = g.querySelector("input"), btn = g.querySelector(".input-group-btn .btn");
+    if (!shown(input) || !shown(btn)) continue;
+    const a = r(input), b = r(btn);
+    const off = (a.top + a.height / 2) - (b.top + b.height / 2);
+    if (Math.abs(off) > 1.5) flaws.push(`the search box sits ${Math.round(off)}px off its button's middle`);
+    if (b.left - a.right < 4) flaws.push(`the search box ${b.left < a.right ? "runs under" : "touches"} its button (${Math.round(b.left - a.right)}px apart)`);
+  }
+  return flaws;
+}
+
 // Decodes the screenshot on a blank page and reads one line of pixels, down a column (x) or along a row (y).
 function column({ png, x, y0, y1, row, scale }) {
   return new Promise((resolve) => {
@@ -206,11 +234,17 @@ function copyProfile() {
             findings.push({ version, theme, scale, dialog: d.name, kind: "band", what: ".ui-dialog", detail: b, count: 1 });
             console.log(`  SCAN band ${b}`);
           }
+          // Native keeps Sitecore's toolbar, whose search box joins its button
+          for (const t of theme === "native" ? [] : await inner.evaluate(toolbarFlaws)) {
+            findings.push({ version, theme, scale, dialog: d.name, kind: "toolbar", what: ".sc-dialogContent-toolbar", detail: t, count: 1 });
+            console.log(`  SCAN toolbar ${t}`);
+          }
           // only the dialog's frames: the overlay dims the page under it, and that page has its own runs
           const mine = new Set([await host.evaluate(() => location.pathname), await inner.evaluate(() => location.pathname)]);
           // the content between the title and the buttons scrolls for the expanded tree; the room it could grow
           // into is under the fixed buttons
-          const scrolling = (f) => f.kind === "scroll" && /section\.sc-dialogContent$/.test(f.what);
+          // (the main area under the toolbar, where the content has one)
+          const scrolling = (f) => f.kind === "scroll" && /section\.sc-dialogContent(-main)?$/.test(f.what);
           for (const f of (await scanPage(page, scratch, scale)).filter((f) => mine.has(f.url) && !before.has(key(f)) && !scrolling(f))) {
             findings.push({ version, theme, scale, dialog: d.name, ...f });
             console.log(`  SCAN ${f.kind} x${f.count} ${f.url} ${f.what}: ${f.detail}${f.sample ? ` "${f.sample}"` : ""}`);

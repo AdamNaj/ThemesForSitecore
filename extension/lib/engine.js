@@ -297,6 +297,9 @@
     // the room the caption takes: where the frame starts with it, less where it starts without it (in again after)
     function measureHead(frame, bar) {
       if (titleHead.isConnected) titleHead.remove();
+      // the caption a page before this one in the frame put in (a view switch reloads it): the host removes it only
+      // when it is right before the frame, and a resize leaves the host's drag overlay there, so captions piled up
+      for (const old of bar.parentElement.querySelectorAll(":scope > .DialogHeader[data-sct-speak-title]")) old.remove();
       const without = frame.getBoundingClientRect().top;
       bar.after(titleHead);
       headRoom = Math.max(0, frame.getBoundingClientRect().top - without);

@@ -97,7 +97,9 @@ the shell URLs they replace, inside the Content Editor's jQuery dialog: `node .c
 field's Insert link, Insert email, Insert anchor; it falls back to a direct call where Home has none) **with all six
 accessibility needs on**, as on the user's sites (`--needs none` to compare). It fails if the frame is not `speak`
 under the theme, if the frame is under 300px tall (collapsed), if the whole page scrolls once the trees are expanded,
-or on a `band` between the dialog's top and its caption; and it scans the dialog's frames (glyphs such as the tree's
+on a `band` between the dialog's top and its caption, or on a `toolbar` flaw (the Filters arrow over its label, a
+view toggle wider than its icon or with the icon off centre, the search box out of line with its button or touching
+it); and it scans the dialog's frames (glyphs such as the tree's
 expanders and the view toggles). Then **read every theme's dialogs in the screenshots** against the theme's rules:
 the caption is the theme's own dialog caption (glass, gradient, stripes, title and buttons in it), the content's title
 band is gone, the toolbar sits under the caption and stays there while the main area scrolls, the navigation buttons
