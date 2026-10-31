@@ -1935,7 +1935,19 @@ html[data-sct-theme="sitecore6"][data-sct-surface="shell"]:not(#sct-sc6) {
   /* Ribbons outside the Content Editor's caption (the ISE, the Workbox...) sit on the same dark band,
      so their white strip tabs read as in 6.6. */
   .scRibbon:not(.scCaption .scRibbon) {
-    background: #4e4e4e url("/sitecore/shell/themes/standard/gradients/gray1.gif") 50% 0 repeat-y;
+    background: linear-gradient(rgb(0 0 0 / 0.25), rgb(0 0 0 / 0.25)), #4e4e4e url("/sitecore/shell/themes/standard/gradients/gray1.gif") 50% 0 repeat-y;
+  }
+  /* 6.6's white text on mid greys, a quarter darker so it reads at AA (3.7:1 and 2.6:1 as 6.6 drew them): the
+     band's light middle under the strip tabs, and the caption row of each ribbon chunk */
+  .scCaption.scDockTop {
+    background: linear-gradient(rgb(0 0 0 / 0.25), rgb(0 0 0 / 0.25)), #4e4e4e url("/sitecore/shell/themes/standard/gradients/gray1.gif") 50% 0 repeat-y;
+  }
+  .scRibbonToolbar .chunk .caption {
+    background-color: rgb(0 0 0 / 0.3);
+  }
+  /* the gallery's "(1 of 3)": 6.6's #666 is 4.4:1 on the gallery */
+  .scRibbonToolbarSmallButtonPrefix {
+    color: #595959;
   }
   /* 6.6 had no button to fold the ribbon away */
   #scRibbonToggle {
