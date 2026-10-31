@@ -433,20 +433,32 @@ test("regions: skip links first, and F6 moves between the page's parts", async (
   expect(await page.evaluate(() => document.activeElement.id)).toBe("RibbonX_Nav_Home"); // the ribbon, at its selected tab
 });
 
-test("targets: small icons hit at 24px and nothing moves", async ({ page }) => {
+test("targets: a near miss on a small icon reaches it, and no box changes", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord`);
   await ready(page);
-  const boxes = () => page.evaluate(() => ["#Tree_Glyph_1", "#Tree_Node_1", ".scComboboxDropDown", "#CopyId", "#Section_Data_Glyph"].map((q) => {
-    const r = document.querySelector(q).getBoundingClientRect();
-    return [Math.round(r.width), Math.round(r.height), Math.round(r.left), Math.round(r.top)];
-  }));
-  await page.evaluate(() => document.querySelectorAll("img").forEach((i) => { i.style.width = "16px"; i.style.height = "16px"; }));
+  const boxes = () => page.evaluate(() => [...document.querySelectorAll(".scContentTree *, #Section_Data *, .scComboboxDropDown, #CopyId")].map((e) => {
+    const r = e.getBoundingClientRect();
+    return `${r.left},${r.top},${r.width},${r.height}`;
+  }).join(" "));
+  await page.evaluate(() => {
+    document.querySelectorAll("img").forEach((i) => { i.style.width = "16px"; i.style.height = "16px"; });
+    window.glyph = 0;
+    document.getElementById("Tree_Glyph_1").addEventListener("click", () => window.glyph++);
+  });
+  const glyph = await page.locator("#Tree_Glyph_1").boundingBox();
   const before = await boxes();
+  await page.mouse.click(glyph.x - 3, glyph.y + 8); // 3px left of the expander: the tree row's own background
+  expect(await page.evaluate(() => window.glyph)).toBe(0);
   await change(page, "accessibility", { site: { accessibility: { needs: ["keyboard"] } } });
-  await expect.poll(async () => (await boxes())[0][0]).toBe(26);
-  const after = await boxes();
-  for (const i of [0, 2, 4]) expect(after[i].slice(0, 2)).toEqual([26, 26]); // 16px icons hit at 26px, 14px ones at 24
-  for (const i of [1, 3]) expect(after[i]).toEqual(before[i]); // their neighbours did not move
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.sctNeeds)).toBe("keyboard");
+  expect(await boxes()).toBe(before); // a theme's margins and padding stay as they were
+  await page.mouse.click(glyph.x - 3, glyph.y + 8);
+  expect(await page.evaluate(() => window.glyph)).toBe(1);
+  // a control of its own beside an icon keeps its click
+  await page.evaluate(() => (window.clicks = 0));
+  const copy = await page.locator("#CopyId").boundingBox();
+  await page.mouse.click(copy.x + 2, copy.y + copy.height / 2);
+  expect(await page.evaluate(() => window.clicks)).toBe(1);
 });
 
 test("announcer: says the item, its warnings and validation, and that it saved, once each", async ({ page }) => {
