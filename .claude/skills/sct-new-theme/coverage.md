@@ -26,6 +26,7 @@ clicking: drive them in Playwright or the user's Chrome.
 - [ ] Taskbar or dock above every non-modal window, maximized or dragged over it; a dock narrower than the screen floats over the windows, which run on beneath it (`dock.cjs`)
 - [ ] Start menu: both columns, header with portrait, All Applications (in the right column's material), Log Off, open folder row, fly-outs; no jitter on hover; icons from the platform's era
 - [ ] Every menu: ribbon drop-downs, context menus, fly-outs (`table.scMenu`); disabled rows; separators
+- [ ] A hovered menu row stands out 3:1 from a resting one, its text at AA, its fly-out arrow visible, in light and dark (`menus.cjs`, `--scheme dark`: no `hover` or `glyph` findings)
 - [ ] No menu shows a scrollbar unless it has run out of room to grow (`menus.cjs` with the scan opens them all)
 - [ ] Desktop windows: caption, icon, buttons (`.standartWindowButtons`), active and inactive, maximised
 - [ ] The Content Editor, Media Library and Workbox as Desktop windows: a title bar in the theme's style where its platform had one (`#CaptionTopLine`, `--sct-window-title`), the window's icon on it where the platform shows one (`--sct-window-icon`), buttons on the bar and not on the tab row, tabs starting at its foot, no frame band above it, inactive look
@@ -46,6 +47,7 @@ clicking: drive them in Playwright or the user's Chrome.
 - [ ] Editor tabs (Content, Search), header buttons (Expand, Collapse, language, version)
 - [ ] Quick Info, sections collapsed and expanded with their glyphs, validator bar
 - [ ] Fields: single-line, multi-line, rich text preview, date and time pickers, droplists, treelists, multilists, checkboxes
+- [ ] The validation gutter left of each field: error a red, warning an orange or amber, 3:1 on the field area, in light and dark; nothing drawn on a field without a result (`shots.cjs --field-states`)
 - [ ] Search tab (bucket search): typed text, caret, placeholder, Search and Clear, filter pills, three result views, facets, paging
 - [ ] The bar over the fields (`#EditorTabs`) at the search row's height, fields from its foot; sections as the source draws them (edge to edge on Sitecore 6 and Aqua)
 - [ ] Status bar and bottom tabs (Content Editor, Media Library, Workbox): as tall as the pills plus equal padding

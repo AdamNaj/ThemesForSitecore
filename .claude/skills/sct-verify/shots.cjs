@@ -1,7 +1,7 @@
 // Screenshots the pages people actually open, per theme and Sitecore version, and checks every frame.
 // usage: node .claude/skills/sct-verify/shots.cjs --themes metalsteel,debrightify [--versions 10.5,10.4]
-//          [--paths "/sitecore/shell,/?sc_mode=edit"] [--out test-results/verify] [--scale 1.25] [--scan] [--scheme dark]
-//          [--width 1920] [--env beta] [--colours olive] [--white-icons] [--font opendyslexic] [--spacing wide]
+//          [--paths "/sitecore/shell,/?sc_mode=edit"] [--out test-results/verify] [--scale 1.25] [--scan] [--scheme dark] [--mode light]
+//          [--width 1920] [--field-states] [--env beta] [--colours olive] [--white-icons] [--font opendyslexic] [--spacing wide]
 //          [--vision protanopia] [--strength 60]
 // Uses a copy of .auth/profile (the shared sign-in), never the profile itself.
 const fs = require("node:fs");
@@ -16,11 +16,15 @@ const arg = (name, def) => {
   const i = process.argv.indexOf(`--${name}`);
   return i > 0 ? process.argv[i + 1] : def;
 };
-const themes = arg("themes", "").split(",").filter(Boolean);
+const CATALOG_IDS = require(path.join(__dirname, "..", "..", "..", "extension/themes/themes.js")).map((t) => t.id).filter((id) => id !== "native");
+const themes = arg("themes", "") === "all" ? CATALOG_IDS : arg("themes", "").split(",").filter(Boolean);
 const versions = arg("versions", "10.5,10.4").split(",");
 const out = path.resolve(ROOT, arg("out", "test-results/verify"));
 const scale = Number(arg("scale", "1"));
 const scheme = arg("scheme", "light"); // the OS appearance, for themes that follow it
+// the sites' Light or Dark setting (storage.sync `modes`), which overrides the OS for a theme that follows it: run
+// --scheme dark --mode light and --scheme light --mode dark, the halves the OS alone never shows
+const mode = arg("mode", null);
 const width = Number(arg("width", "1300")); // Launchpad moves Analytics to a right-hand column above 1570px
 const scan = process.argv.includes("--scan");
 const env = arg("env", null); // the sites' environment, for themes that draw it (Guardrail)
@@ -31,6 +35,35 @@ const access = { font: arg("font", null), spacing: arg("spacing", null), vision:
 // every item and command icon swapped for a white one (OfficeWhite's home, at the icon's size), so --scan finds
 // white icons that vanish on a light panel: scripts and items pick that set, the default pages never show it
 const whiteIcons = process.argv.includes("--white-icons");
+// the first field marked as an error and the second as a warning, as scContent.updateFieldMarkers does, then
+// checked as painted: a theme may change the shade but never take the state away (the generated map's
+// `table td` border once turned every gutter grey under every theme). Fails the run when it does.
+const fieldStates = process.argv.includes("--field-states");
+const { markerProblem } = require(path.join(__dirname, "..", "..", "..", "test/unit/markers.js"));
+function markFields() {
+  const cells = [...document.querySelectorAll("td[id^=FieldMarker]")].filter((c) => c.offsetHeight);
+  if (cells.length < 2) return [];
+  cells[0].className = "scEditorFieldMarkerBarCellRed";
+  cells[1].className = "scEditorFieldMarkerBarCellYellow";
+  // any computed colour (color-mix() and a hue's oklch() compute to color(...)) painted to sRGB on a canvas
+  const pen = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+  const hex = (s) => {
+    if (!s || s === "transparent") return null;
+    pen.clearRect(0, 0, 1, 1);
+    pen.fillStyle = s;
+    pen.fillRect(0, 0, 1, 1);
+    const [r, g, b, a] = pen.getImageData(0, 0, 1, 1).data;
+    return a < 128 ? null : "#" + [r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("");
+  };
+  const behind = (el) => { for (let n = el; n; n = n.parentElement) { const h = hex(getComputedStyle(n).backgroundColor); if (h) return h; } return "#ffffff"; };
+  return [["error", cells[0]], ["warning", cells[1]]].map(([state, cell]) => {
+    const cs = getComputedStyle(cell);
+    // the state is drawn as the cell's left border (Sitecore) or its background (a theme's pattern, through a mask)
+    const border = parseFloat(cs.borderLeftWidth) >= 2 && cs.borderLeftStyle !== "none" ? hex(cs.borderLeftColor) : null;
+    const fill = hex(cs.backgroundColor);
+    return { state, colour: border || fill, bg: behind(cell.parentElement), width: cell.getBoundingClientRect().width };
+  });
+}
 const { scanPage } = require("./scan.cjs");
 // The entry points as Sitecore links them, not tidied versions of them.
 const PATHS = arg("paths", [
@@ -79,11 +112,11 @@ function copyProfile() {
         continue;
       }
       const origins = [...Object.values(HOSTS), ...IDENTITY];
-      await worker.evaluate(([t, o, e, r, c]) => chrome.storage.sync.set({
-        overrides: Object.fromEntries(o.map((x) => [x, t])), envs: e ? Object.fromEntries(o.map((x) => [x, e])) : {},
+      await worker.evaluate(([t, o, e, r, c, m]) => chrome.storage.sync.set({
+        overrides: Object.fromEntries(o.map((x) => [x, t])), modes: m ? Object.fromEntries(o.map((x) => [x, m])) : {}, envs: e ? Object.fromEntries(o.map((x) => [x, e])) : {},
         schemes: c ? Object.fromEntries(o.map((x) => [x, c])) : {},
         accessibility: r.font || r.spacing || r.vision ? Object.fromEntries(o.map((x) => [x, r])) : {},
-      }), [theme, origins, env, access, colours]);
+      }), [theme, origins, env, access, colours, mode]);
       for (const p of PATHS) {
         const label = `${version} ${theme} ${p}`;
         errors = [];
@@ -133,9 +166,22 @@ function copyProfile() {
           }
           await page.waitForTimeout(1500);
         }
+        if (fieldStates) {
+          let seen = false;
+          for (const f of page.frames()) {
+            for (const r of await f.evaluate(markFields).catch((e) => (console.log(`  FIELD error in ${f.url()}: ${e.message.split("\n")[0]}`), []))) {
+              seen = true;
+              const problem = !r.colour ? "not drawn (no border or fill)" : markerProblem(r.colour, r.state, r.bg);
+              console.log(`  FIELD ${r.state} gutter ${r.colour || "none"} on ${r.bg}, ${r.width.toFixed(1)}px: ${problem || "ok"}`);
+              if (problem) problems.push(`${label}: the ${r.state} gutter ${r.colour || "none"} on ${r.bg}: ${problem}`);
+            }
+          }
+          if (!seen && /Content%20Editor/.test(p)) problems.push(`${label}: --field-states found no field gutters to mark`);
+          await page.waitForTimeout(300);
+        }
         // the Experience Editor's "Add here" handles, which Sitecore draws as light bitmaps on every theme
         for (const f of page.frames()) await f.evaluate(() => window.Sitecore?.PageModes?.DesignManager?.insertionStart()).catch(() => {});
-        const file = path.join(out, `${version}-${theme}${env ? `-${env}` : ""}${colours ? `-${colours}` : ""}${whiteIcons ? "-white" : ""}${access.font ? `-${access.font}` : ""}${access.spacing ? `-${access.spacing}` : ""}${access.vision ? `-${access.vision}${access.strength}` : ""}-${p.replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "root"}.png`);
+        const file = path.join(out, `${version}-${theme}${scheme === "light" ? "" : `-${scheme}`}${mode ? `-forced-${mode}` : ""}${env ? `-${env}` : ""}${colours ? `-${colours}` : ""}${whiteIcons ? "-white" : ""}${fieldStates ? "-fields" : ""}${access.font ? `-${access.font}` : ""}${access.spacing ? `-${access.spacing}` : ""}${access.vision ? `-${access.vision}${access.strength}` : ""}-${p.replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "root"}.png`);
         await page.screenshot({ path: file });
         console.log(`${label}\n  ${frames.map((f) => `${f.url} surface=${f.surface || "-"} theme=${f.theme || "-"}${f.font || f.spacing || f.vision ? ` font=${f.font} spacing=${f.spacing} vision=${f.vision} faces=${f.faces.join("/")}` : ""}`).join("\n  ")}\n  -> ${path.relative(ROOT, file)}`);
         if (scan) {

@@ -2,8 +2,11 @@
 // exist while open, so shots.cjs --scan never sees them. Exits 1 if a menu scrolls while it still has room to
 // grow (a `scroll` finding, see scan.cjs; popups are also checked for a sub-pixel overflow, which shows a
 // scrollbar at some zoom levels and click positions), or if a menu could not be opened twice running.
+// Each menu's first enabled row is hovered before the scan, so the scan reads the hovered row's text and its
+// submenu arrow, and a `hover` finding marks a hovered row that does not stand out 3:1 from a resting one
+// (by its background, or by an inset bar or border).
 // usage: node .claude/skills/sct-verify/menus.cjs --themes notebook,cupertino [--versions 10.5,10.4]
-//          [--scale 1.25] [--out test-results/verify] [--only tree,start] [--colours olive]
+//          [--scale 1.25] [--out test-results/verify] [--only tree,start] [--colours olive] [--scheme dark] [--mode light]
 // Menus: the Content Editor tree's context menu and its Insert fly-out, ribbon drop-downs (Edit's gallery,
 // Duplicate's menu), the Insert gallery's "more" pop-up, the language and version galleries; the Desktop's
 // start menu and a fly-out, and the taskbar's context menu on a running app (the Workbox).
@@ -28,6 +31,8 @@ const out = path.resolve(ROOT, arg("out", "test-results/verify"));
 const scale = Number(arg("scale", "1"));
 const only = arg("only", "").split(",").filter(Boolean);
 const colours = arg("colours", null); // the sites' colour scheme, for themes that offer one (Whistler's olive, silver)
+const scheme = arg("scheme", "light"); // the OS appearance, for themes that follow it
+const mode = arg("mode", null); // the sites' Light or Dark setting, which overrides the OS (see shots.cjs)
 if (!themes.length) {
   console.error("pass --themes id[,id...] (ids from extension/themes/themes.js)");
   process.exit(2);
@@ -103,6 +108,44 @@ function popupScroll() {
   });
 }
 
+// Runs in each frame: a hovered menu row that hardly differs from a resting row of the same menu. The row's
+// look is the background behind its widest cell, or an inset box-shadow or a left border drawn on the row or
+// a cell (a selection bar); it should stand out 3:1 from the resting row's background.
+const ROWS = "tr.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon), tr:has(> [class^='scMenuItem']), .scStartMenuRightFolder";
+function hoverLift(rows) {
+  // color-mix() and oklch() compute to color(...): painted to sRGB on a canvas, as scan.cjs does
+  let pen = null;
+  const rgba = (s) => {
+    const m = /rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?/.exec(s || "");
+    if (m) return [+m[1], +m[2], +m[3], m[4] === undefined ? 1 : +m[4]];
+    const c = /(?:color|oklch|oklab|lch|lab)\([^()]*\)/.exec(s || "");
+    if (!c) return null;
+    pen ??= document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+    pen.clearRect(0, 0, 1, 1);
+    pen.fillStyle = c[0];
+    pen.fillRect(0, 0, 1, 1);
+    const [r, g, b, a] = pen.getImageData(0, 0, 1, 1).data;
+    return [r, g, b, a / 255];
+  };
+  const lum = ([r, g, b]) => { const f = (v) => ((v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4); return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
+  const ratio = (a, b) => (Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05);
+  const behind = (el) => { for (let n = el; n && n.nodeType === 1; n = n.parentElement) { const c = rgba(getComputedStyle(n).backgroundColor); if (c && c[3] >= 0.6) return c; } return [255, 255, 255, 1]; };
+  const cell = (row) => [...row.children].sort((a, b) => b.offsetWidth - a.offsetWidth)[0] || row;
+  const bars = (row) => [row, ...row.children].flatMap((el) => {
+    const cs = getComputedStyle(el), out = [];
+    if (/inset/.test(cs.boxShadow)) out.push(rgba(cs.boxShadow));
+    if (parseFloat(cs.borderLeftWidth) >= 2) out.push(rgba(cs.borderLeftColor));
+    return out.filter((c) => c && c[3] >= 0.6);
+  });
+  const hovered = document.querySelector(`.scPopup :is(${rows}):hover, .scGalleryContent :is(${rows}):hover, body > form :is(${rows}):hover`);
+  if (!hovered) return [];
+  const rest = [...hovered.parentElement.children].find((r) => r !== hovered && r.matches(rows) && r.offsetHeight);
+  if (!rest) return [];
+  const base = behind(cell(rest));
+  const best = Math.max(ratio(behind(cell(hovered)), base), ...bars(hovered).map((c) => ratio(c, base)));
+  return best < 3 ? [{ kind: "hover", what: `${hovered.tagName.toLowerCase()}${hovered.className ? `.${hovered.className.trim().split(/\s+/).join(".")}` : ""} "${hovered.textContent.trim().slice(0, 30)}"`, detail: `the hovered row stands out ${best.toFixed(2)}:1 from a resting row (rgb(${base.slice(0, 3).join(", ")}))`, url: location.pathname, count: 1 }] : [];
+}
+
 function copyProfile() {
   const dest = fs.mkdtempSync(path.join(os.tmpdir(), "sct-menus-profile-"));
   const skip = /[\\/](Cache|Code Cache|GPUCache|Service Worker)([\\/]|$)|[\\/]Singleton[^\\/]*$/;
@@ -116,7 +159,7 @@ function copyProfile() {
   const ext = extensionCopy(origins.map((o) => `${o}/*`));
   const profileDir = copyProfile();
   const { context, worker } = await launchWithExtension(ext, profileDir, {
-    deviceScaleFactor: scale, viewport: { width: 1300, height: 760 }, ignoreDefaultArgs: ["--hide-scrollbars"], // show scrollbars as the user's Chrome does
+    deviceScaleFactor: scale, colorScheme: scheme, viewport: { width: 1300, height: 760 }, ignoreDefaultArgs: ["--hide-scrollbars"], // show scrollbars as the user's Chrome does
   });
   const page = await context.newPage();
   const scratch = await context.newPage();
@@ -128,7 +171,7 @@ function copyProfile() {
         console.log(`${version} ${theme}: not supported on this version, skipped`);
         continue;
       }
-      await worker.evaluate(([t, o, c]) => chrome.storage.sync.set({ overrides: Object.fromEntries(o.map((x) => [x, t])), schemes: c ? Object.fromEntries(o.map((x) => [x, c])) : {} }), [theme, origins, colours]);
+      await worker.evaluate(([t, o, c, m]) => chrome.storage.sync.set({ overrides: Object.fromEntries(o.map((x) => [x, t])), schemes: c ? Object.fromEntries(o.map((x) => [x, c])) : {}, modes: m ? Object.fromEntries(o.map((x) => [x, m])) : {} }), [theme, origins, colours, mode]);
       let loaded = null, before = new Set();
       for (let i = 0, retried = false; i < MENUS.length; i++) {
         const menu = MENUS[i];
@@ -153,14 +196,16 @@ function copyProfile() {
           await page.waitForTimeout(1200);
           for (const f of page.frames()) await f.waitForLoadState("load", { timeout: 5000 }).catch(() => {});
           // hover the newest menu's first enabled row, as a person would: hover styles can change a row's size
-          const row = page.locator(".scPopup:visible").last().locator("tr.scGalleryMenuItem, .scStartMenuRightFolder").first();
+          // (the tree's context menu rows have no class: the cells carry scMenuItem*, scMenuItem*_Hover when hovered)
+          const row = page.locator(".scPopup:visible").last().locator(ROWS).filter({ hasNot: page.locator("[class$='_Disabled']") }).first();
           if (await row.count()) await row.hover({ timeout: 2000 }).catch(() => {});
           await page.waitForTimeout(200);
-          const file = path.join(out, `${version}-${theme}${colours ? `-${colours}` : ""}-${scale}x-menu-${menu.name}.png`);
+          const file = path.join(out, `${version}-${theme}${colours ? `-${colours}` : ""}${scheme === "light" ? "" : `-${scheme}`}${mode ? `-forced-${mode}` : ""}-${scale}x-menu-${menu.name}.png`);
           await page.screenshot({ path: file });
           const found = (await scanPage(page, scratch, scale)).filter((f) => !before.has(key(f)));
           // scan.cjs skips a 1px overflow, but a popup that overflows by 1px still shows a whole scrollbar
           for (const frame of page.frames()) found.push(...(await frame.evaluate(popupScroll).catch(() => [])));
+          for (const frame of page.frames()) found.push(...(await frame.evaluate(hoverLift, ROWS).catch(() => [])));
           console.log(`${label} -> ${path.relative(ROOT, file)}`);
           for (const f of found) {
             findings.push({ version, theme, scale, menu: menu.name, ...f });

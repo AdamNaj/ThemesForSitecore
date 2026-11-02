@@ -36,6 +36,19 @@ over it. On cupertino it's glyph is black".
   `drop-shadow(0 0 1px rgb(0 0 0 / 0.7))` to its own chain. The default pages show no white icons, so check
   with `shots.cjs --scan --white-icons` (see `sct-verify`).
 
+**State that vanished.** "The gutter on the LHS of each field ... is not taking a color based on whether the field
+has erroneous value or not - this information should never be removed" (Guardrail, then "broken this way on many
+themes", 2026-11-02). Sitecore marks a field's validation as a 5px left border on `td.scEditorFieldMarkerBarCell`
+(`Red`, `Yellow`, `Grey`; nothing before validation). The generated map carries a stock `table td` border colour
+at (0,2,3), which beat those (0,1,0) classes and painted every gutter in `--sct-border` under every token theme; no
+check looked, because the default pages show no field in error. `surfaces/shell.css` puts the state back above that
+rule and under any theme's own. The shade is the theme's (`--sct-error-marker`, `--sct-warning-marker`; the default
+mixes Sitecore's colour 60% with the text), the state is not: `markers.js` holds the rule (hue 340-30 for an error,
+25-60 for a warning, saturation 0.4 or more, 3:1 on the editor, panel and section backgrounds, at every hue for a
+theme that turns). A theme for colour-blind users adds a shape on top (Spectrum: crosses for an error, a wave for a
+warning, as an `sct-ext:` SVG mask over the state's darker step). Sitecore's own amber fails 3:1 on white: themes
+without tokens take a deeper amber from `surfaces/bar.css`; Native keeps Sitecore's.
+
 **Text on the wrong background.** "Log out" dark blue on a black SPEAK header; white ribbon tab labels on a
 light band (10.4 floats its tab group out of an uncontained band: `display: flow-root` on the band; it does
 the same to the ribbon groups of every ribbon outside the Content Editor, so Menlo's ISE ribbon line ran
@@ -77,12 +90,37 @@ unusable on dark themes".
 **Hover on dark.** Debrightify's hovers fell to the app background, darker than the panel, so rows went
 dark on hover. A hover lifts (lighter) above its own panel. Disabled menu rows don't highlight.
 
+**Menu hover and fly-out arrows.** "the context menus in the Content Editor do not show accessibly contrasted
+selected item when hovering"; "the glyphs indicating submenu do not respect ... being recolored to be visible on
+dark theme" (Guardrail, 2026-11-02). The generated map paints a hovered menu row's cells (`scMenuItem*_Hover`) the
+same `--sct-app-bg` as resting ones, so a theme without its own rule has no hover at all, in light and dark. Every
+theme draws one: the row's cells under `table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover,
+.scMenuItemHotkey_Hover)`, and the ribbon galleries' rows (`.scGalleryMenuItem`, which only `:hover`), standing out
+3:1 from a resting row by their background or by a bar (Guardrail: the environment's colour as a tint and a
+bar, worked out for each environment in both appearances, not Sitecore's purple: "can the menu items share the
+tint used for the environment coloring?"). The arrows (`Submenu16x16`, the start menu's folder glyphs) take the glyph filter in the shared layer;
+a theme whose hovered row turns them unreadable (a light arrow on a pale accent) fixes them on that row. Check
+with `menus.cjs --scheme dark` for a theme that follows the OS: it hovers a row and reports `hover` and `glyph`
+findings.
+
 **Fonts.** Font stacks only (no bundled fonts). Never use the `font` shorthand without restating
 `line-height`: it put the Copenhagen ListView title 4px high. Keep the theme's font off `.ace_editor` and
 its children. Folder view: "the text under icons ... look very odd with such bold and large text".
 
 **Both appearances.** A theme that follows the OS must be checked in light and dark; Cupertino light was
-skipped once because Windows was in dark mode.
+skipped once because Windows was in dark mode. A site can also be set to Light or Dark in the popup, over the OS
+(`files.js` `withMode`): check `--scheme dark --mode light` and `--scheme light --mode dark` too.
+
+**One half must never leak into the other.** "it always show white glyphs all over even in light mode ... we
+cannot be breaking them this way on a random correction" (Guardrail, 2026-11-02). An unpacked extension re-reads
+its CSS on every injection and removes a frame's old sheet by recomputing its text, so once a file changes on disk
+the old sheet cannot come out: switching the site to Light then left the dark sheet under the light one, and its
+`--sct-glyph-filter: invert(1)`, declared nowhere in the light half, inverted every glyph. `surfaces/appearance.css`
+(before each theme's `tokens.css`) resets the optional tokens the shared layer reads and `color-scheme`, so the
+newest sheet wins them all; `tokens.test.js` fails when a theme sets an optional token it does not reset. A new
+optional token goes into `appearance.css` (`initial`, or the shared layer's default where a style query reads it,
+as `--sct-editor-filter: none`). A theme's own variables that differ between halves (Guardrail's `--gr-hover`)
+are declared in both. Rules (not tokens) of a leftover sheet still apply until the tab reloads.
 
 ## 2. Spacing and density
 

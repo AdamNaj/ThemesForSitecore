@@ -75,6 +75,13 @@ panel of their own colour; the default pages show none. Add `--white-icons` to s
 icon for a white one before the scan: a `glyph` finding on an icon (`stands out 1.00:1`) means the theme's
 own `filter` there has replaced the halo `surfaces/bar.css` gives them. Run it for every theme a change
 to icons, panels or their filters touches.
+The default pages show no field in error either. `--field-states` marks the Content Editor's first field as an
+error and the second as a warning (as `scContent.updateFieldMarkers` does), reads the colour each frame paints
+there and fails the run when the state is gone: not drawn, not a red or an amber, greyed, or under 3:1 (the rule
+is `test/unit/markers.js`, shared with `npm test`). Every theme lost it once to one generated rule, so after any
+change to `surfaces/`, the generated maps or a theme's tokens or editor CSS, run it for every theme in both
+appearances: `shots.cjs --themes all --versions 10.5,10.4 --field-states --paths "/sitecore/shell/Applications/Content%20Editor.aspx?sc_bw=1"`,
+then with `--scheme dark`. One launch covers every theme (`--themes all`), so it costs one Sitecore seat.
 Desktop windows need opening too: `node .claude/skills/sct-verify/windows.cjs --themes <ids>` opens the
 SPE ISE as a Desktop window and fails if its title (the script's path) is empty, narrow, clipped or covered,
 if a window button has no size, or if maximizing doesn't swap in the restore image. In that window and in the
@@ -103,8 +110,13 @@ twice; the fix lives in `engine.js` (`syncTaskbar`), never in a theme. The same 
 too long for any button and fails when it runs past the button or is cut off without an ellipsis: text that
 cannot fit a control that cannot grow ends in "...", never mid-letter (`bar.css` does it for every theme).
 Menus only exist while open: `node .claude/skills/sct-verify/menus.cjs --themes <ids>` opens each kind
-(context menus, ribbon drop-downs, start menu and fly-outs, taskbar menus, galleries) and scans each. It prints `SCAN`
-lines and writes `scan-<themes>.json`. Fix each finding or say why it is fine (a disabled control, a colour icon on
+(context menus, ribbon drop-downs, start menu and fly-outs, taskbar menus, galleries), hovers each one's first
+enabled row and scans it. It prints `SCAN` lines and writes `scan-<themes>.json`. A `hover` finding is a hovered row
+that stands out under 3:1 from a resting one (no visible selection); a `glyph` finding on a `scMenuItemHotkey` or
+`scStartMenuRightFolderGlyph` image is a fly-out arrow lost on its menu. A theme that follows the OS runs it twice,
+the second time with `--scheme dark` (Guardrail's dark menus had no hover and dark arrows, 2026-11-02, because
+only light was ever opened), and with each half forced over the other OS setting, as the popup's Light and Dark do:
+`--scheme dark --mode light` and `--scheme light --mode dark` (`shots.cjs` takes `--mode` too). Fix each finding or say why it is fine (a disabled control, a colour icon on
 a selection). It can't judge text over images, gradients, filters or translucent bars, so read those in
 the screenshots.
 The pickers fields open (media, internal link, item, mail and anchor link) are SPEAK pages Sitecore serves at
@@ -134,8 +146,10 @@ user's (clicked, aids on) collapsed to 35px; a single sampled column passed Guar
   toolbars only exist once something is selected, and selecting re-lays out the page, which is when
   the 2026-10-23 dark-gap bug appeared. The website around the selection must look exactly as on Native.
 - The scanner measures glyph boxes without overflow clipping, so a tree row scrolled under a pane's
-  edge can show up as a false finding. Shots run with the OS's light or dark setting; for Cupertino,
-  check both appearances (Playwright's `colorScheme` launch option).
+  edge can show up as a false finding. Shots run with the OS's light or dark setting; for a theme that
+  follows the OS, check both appearances (`--scheme`) and each forced over the other (`--mode`). After any CSS
+  change to such a theme, also switch an open tab's site between Light and Dark in the user's Chrome: a stale
+  dev install keeps the old half's sheet, and only `surfaces/appearance.css` keeps it from leaking.
 - **Refactors that must change nothing on screen** (a selector rewrite, an engine change): shoot before and after.
   Copy HEAD's extension (`git archive HEAD extension | tar -x -C <scratch>/head`), run `shots.cjs` and `menus.cjs`
   with `SCT_EXTENSION_DIR=<scratch>/head/extension` into a `before` folder, then without it into `after`, and

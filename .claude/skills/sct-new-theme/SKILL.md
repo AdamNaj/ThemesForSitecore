@@ -69,7 +69,11 @@ it belongs in the folder, or it is a bug every theme has and goes into the share
 - `tokens.css`: every role in `extension/surfaces/tokens.json` as opaque hex, all
   contrast pairs at 4.5:1 (the unit test enforces both). Dark themes also set `--sct-glyph-filter`,
   `--sct-editor-filter`, `--sct-content-filter` and `color-scheme: dark` scoped to
-  `:not([data-sct-surface="ee"])`. Start from the nearest existing theme: Redmond 3.11 or Metal Steel for a
+  `:not([data-sct-surface="ee"])`. A new optional token (one not in `tokens.json`'s roles) that the shared
+  layer reads is reset in `surfaces/appearance.css` (`tokens.test.js` checks), and a theme's own variables that
+  differ between light and dark are declared in both halves. Set `--sct-error-marker` or `--sct-warning-marker`
+  where `npm test` says the default shade misses 3:1 (an override in the light half also reaches the dark one, so
+  check both), so neither half leaks into the other. Start from the nearest existing theme: Redmond 3.11 or Metal Steel for a
   light classic, Cupertino for one that follows the OS, Debrightify for a dark recolour.
 - `<area>.css` for each area the theme styles beyond its tokens (`shell`, `login`, `speak`, `launchpad`,
   `ee`, `admin`); the generator lists what is there, so there are no empty placeholder files. The Experience
@@ -114,7 +118,9 @@ collapse toggle and EE quickbar glyphs as text-colour masks; pale ribbon launche
 inked on light themes; the ISE's script path at 75% of the title colour; the ISE's variable preview (Ace's
 `.ace_tooltip`) as a popup in the page colours, VS Code's hover over a dark editor; ISE toggles anchored to the first
 tab; the tree's no-children spacer hidden; the Launchpad's `min-height: 100vh` zeroed; 10.5's extra Content
-Editor spacing taken out; the field-search clear X; the `OfficeWhite` and `_black` icon halos. The shared rules
+Editor spacing taken out; the field-search clear X; the `OfficeWhite` and `_black` icon halos; the menus' fly-out arrows (`Submenu16x16`,
+the start menu's folder glyphs) on the glyph filter; the fields' validation gutter in red and amber
+(`--sct-error-marker`, `--sct-warning-marker` to change the shade, `surfaces/bar.css` for themes without tokens). The shared rules
 carry little or no specificity so a theme's own rule wins, which also means a theme's broad rule wins by
 accident: a theme-wide icon tint took Phosphor's gallery arrows off the glyph filter. Leave glyph slots out of
 broad icon filters.
@@ -171,6 +177,12 @@ Details, numbers and selectors are in [pitfalls.md](pitfalls.md).
   (`.variableType`, `.undefinedVariableType`), which the shared layer fills.
 - **Every state themed.** Hover (`scTab_Hover` turns tabs blank and uppercase), pressed, selected, focus
   (`:focus-visible` only), disabled. On dark themes a hover lifts above its panel.
+- **State is never taken away.** A field's validation gutter (`td.scEditorFieldMarkerBarCellRed`, `...Yellow`)
+  stays a red and an orange or amber at 3:1 on the field area, under every theme ("this information should never be
+  removed", 2026-11-02, when the generated map's `table td` border had greyed it under every token theme). A theme
+  may change the shade (`--sct-error-marker`, `--sct-warning-marker`, or its own rule on the cell) and may add a
+  shape (Spectrum's crosses and wave), never drop the hue; a broad `td` or border rule that reaches the editor
+  must leave the cell alone. `npm test` checks the tokens; `shots.cjs --field-states` checks the page as painted.
 - **Spacing: Copenhagen-tight, 10.5 pulled back.** 10.5 pads everything more than 10.4 (34px inputs, 28px
   dialog insets, 16px ribbon panels). Fixing a height means pinning the padding too. Measure the ribbon
   against Copenhagen's on the same tab; Whistler and Chicago both came back as "too much padding".
