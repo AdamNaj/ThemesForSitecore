@@ -136,6 +136,19 @@ const SCENES = {
     own: true, shot: ".scContentControlImagePane", pad: 6, max: [900, 360],
     after: (page) => page.evaluate(() => localStorage.removeItem("sct-image-preview")),
   },
+  // Home's Title, on Sample Item, has stock 10.4's Max Length 40 rule on its Validator Bar; typed past it, never saved
+  "field-length": {
+    path: CE(HOME),
+    setup: async (page) => {
+      const title = page.getByRole("textbox", { name: "Title field" });
+      await page.waitForSelector("[data-sct-length]", { timeout: 8000 }).catch(() => {});
+      await title.click();
+      await page.keyboard.press("End");
+      await page.keyboard.type(", version 10.4");
+    },
+    caption: "On, the title typed two characters past its Max Length 40 rule.",
+    shot: ".scEditorFieldMarker:has(input[aria-label^='Title field'])", pad: 6, max: [900, 120],
+  },
   // Home's Title typed past its Max Length 40 rule, validated on leaving the field, then its Data section closed
   // (opened again after, since Sitecore keeps the user's closed sections); never saved
   "section-issues": {

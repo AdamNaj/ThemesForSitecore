@@ -19,7 +19,7 @@ Every setting is per site, and each browser keeps its own.
 
 ## Contents
 
-- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Section errors and warnings](#section-errors-and-warnings), [Locked fields](#locked-fields), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
+- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Character limits](#character-limits), [Section errors and warnings](#section-errors-and-warnings), [Locked fields](#locked-fields), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
 - [Back where you left off](#back-where-you-left-off): [Remember Content Editor state](#remember-content-editor-state), [Remember Experience Editor state](#remember-experience-editor-state)
 - [Keys](#keys): [Command palette](#command-palette), [Shortcuts help](#shortcuts-help)
 
@@ -55,6 +55,42 @@ hears the buttons as a group named "Image preview size", each pressed or not. Th
 
 _On, the preview dragged to 220px and set to Fill._
 <!-- /shots:image-preview -->
+
+### Character limits
+<!-- aid:field-length 52d5ee0ec7 -->
+
+**What it is for.** A text field's length limit lives in its validation rules, which the Content Editor never shows.
+Sitecore marks the field red once the text is too long, after its validators run, and only says what the limit was in
+the marker's tooltip, so you find out after you have written too much.
+
+**What changes.** Every Single-Line and Multi-Line Text field shows how many characters it holds under its right edge
+("28 characters"), updated as you type, in the Content Editor and in the field editor the Experience Editor opens. A
+field with a length limit shows it too ("28 / 40"). Once it is nine tenths full it says how many characters are left
+("36 / 40, 4 left") in bold, and past the limit how many are too many ("45 / 40, 5 too many"), in bold with a red wavy
+underline, so the words carry the state and the colour only adds to it. A line break in a Multi-Line Text field counts
+as two characters, as Sitecore counts it once saved.
+
+The limit is the smallest of the field's rules that are Sitecore's Max Length validator, from its Quick Action Bar,
+Validate Button, Validator Bar and Workflow, and the same four on its field type (under /sitecore/system/Settings/
+Validation Rules/Field Types), and the field's Validation regex when that is only a length, such as `^.{0,40}$`. They
+are read through Sitecore's Item Service, as you, once per field for the page's life, after the editor has drawn.
+Custom validators cannot be read, so their fields show the count alone. On an install with the Item Service shut off
+every field still shows its count, with no limits, and Integer and Number fields, which Sitecore draws the same way,
+are counted too.
+
+<!-- shots:field-length -->
+**On:** by default on every site that shows a theme · **Where:** the Desktop and Content Editor
+
+**Off**
+
+![Character limits, off](ui-improvements/field-length-off.png)
+
+**On**
+
+![Character limits, on](ui-improvements/field-length-on.png)
+
+_On, the title typed two characters past its Max Length 40 rule._
+<!-- /shots:field-length -->
 
 ### Section errors and warnings
 <!-- aid:section-issues adde08cef8 -->
