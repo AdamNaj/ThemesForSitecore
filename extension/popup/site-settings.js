@@ -1,9 +1,9 @@
 // A site's own settings, the same in the extension's popup and the Sitecore module's panel: the title postfix, the
-// icon tint, light or dark for themes with both looks, the accessibility aids and the UI improvements. The markup is here, so both draw
+// icon tint, light or dark for themes with both looks, the accessibility aids, the UI improvements and the tuning. The markup is here, so both draw
 // the same controls; each host passes a store for where the values live:
-//   get(kind)         the saved value (or a Promise of it): title, tint, mode, accessibility
-//   set(kind, value)  saves it (a Promise); "" (or null for accessibility) is the plain choice: no postfix, no
-//                     tint, System, no aids
+//   get(kind)         the saved value (or a Promise of it): title, tint, mode, accessibility, tuning
+//   set(kind, value)  saves it (a Promise); "" (or null for accessibility and tuning) is the plain choice: no
+//                     postfix, no tint, System, no aids, the theme's own colours
 // No extension APIs: the Sitecore module bundles this file.
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
@@ -97,6 +97,20 @@
     <button type="button" id="ui-reset">Reset to defaults</button>
   </div>
 </div>`;
+
+  // the tuning: settings.js TUNING's rows, drawn by mountTuning
+  const TUNING_HTML = `<div class="panel">
+  <div class="row"><div class="label"><small>Turns the theme's own colours, never icons, images or the item's content. Native and the themes drawn with pictures rather than colours have none to turn.</small></div></div>
+  <div id="tuning"></div>
+</div>`;
+  // each setting's name, and its value as the row shows it
+  const TUNE = {
+    brightness: ["Brightness", (v) => `${v}%`],
+    contrast: ["Contrast", (v) => `${v}%`],
+    gamma: ["Gamma", (v) => (v / 100).toFixed(2)],
+    saturation: ["Saturation", (v) => `${v}%`],
+    hueShift: ["Hue shift", (v) => `${v > 0 ? "+" : ""}${v}°`],
+  };
 
   // The tab icon keeps its own light and shade and takes only the tint's hue and saturation (lib/engine.js
   // drawIcon), so the tint is a hue at one saturation and lightness, or grey for a colourless icon. Saved as #rrggbb.
@@ -276,6 +290,45 @@
     drawAids();
   }
 
+  // A slider per tuning setting, each with its own Reset, enabled only while the setting is off its plain value;
+  // all plain is null.
+  async function mountTuning(r, store) {
+    const S = SCT.settings;
+    const saved = S.tuning(await store.get("tuning")) || {};
+    const box = r.querySelector("#tuning");
+    box.innerHTML = Object.entries(S.TUNING).map(([k, [min, max, plain]]) => `<div class="row tune">
+  <label for="tune-${k}">${TUNE[k][0]}</label>
+  <input type="range" id="tune-${k}" class="hue" data-tune="${k}" min="${min}" max="${max}" step="5" value="${saved[k] ?? plain}">
+  <output for="tune-${k}"></output>
+  <button type="button" data-tune-reset="${k}" aria-label="Reset ${TUNE[k][0].toLowerCase()}">Reset</button>
+</div>`).join("");
+    const sliders = [...box.querySelectorAll("[data-tune]")];
+    const current = () => S.tuning(Object.fromEntries(sliders.map((s) => [s.dataset.tune, +s.value])));
+    const show = () => {
+      for (const s of sliders) {
+        const k = s.dataset.tune;
+        s.nextElementSibling.textContent = TUNE[k][1](+s.value);
+        box.querySelector(`[data-tune-reset="${k}"]`).disabled = +s.value === S.TUNING[k][2];
+      }
+    };
+    const write = () => store.set("tuning", current());
+    const save = SCT.picker.throttled(write);
+    for (const s of sliders) {
+      s.oninput = () => (show(), save());
+      s.onchange = write; // the slider's release: the popup can close before the throttled save
+    }
+    box.onclick = (e) => {
+      const k = e.target.dataset?.tuneReset;
+      if (!k) return;
+      const s = box.querySelector(`[data-tune="${k}"]`);
+      s.value = S.TUNING[k][2];
+      show();
+      write();
+      s.focus(); // the button is disabled now, and would drop the focus
+    };
+    show();
+  }
+
   // every control r holds, wired to the store
   function mount(r, store) {
     return Promise.all([
@@ -283,8 +336,9 @@
       r.querySelector("#tint") && mountTint(r, store),
       r.querySelector("#mode") && mountMode(r, store),
       r.querySelector("#font") && mountAccessibility(r, store),
+      r.querySelector("#tuning") && mountTuning(r, store),
     ]);
   }
 
-  SCT.siteSettings = { MODE_HTML, GEAR_SVG, BACK_SVG, TITLE_HTML, ACCESS_HTML, UI_HTML, mount };
+  SCT.siteSettings = { MODE_HTML, GEAR_SVG, BACK_SVG, TITLE_HTML, ACCESS_HTML, UI_HTML, TUNING_HTML, mount };
 })(globalThis);

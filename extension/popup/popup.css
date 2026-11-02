@@ -132,8 +132,6 @@ input.hue:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px;
 #settings-tabs button:hover { color: var(--fg); }
 #settings-tabs button[aria-selected="true"] { color: var(--fg); box-shadow: inset 0 -2px 0 var(--accent); }
 #settings-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 4px; }
-#settings-tabs .count { display: inline-grid; margin-left: 6px; vertical-align: 1px; }
-#settings-tabs .count[hidden] { display: none; }
 .pane { padding-top: 10px; }
 
 /* The theme groups: one recessed well of decks, each a fanned hand of the group's miniatures over its name and
@@ -274,6 +272,15 @@ button.primary {
 #strength { flex: 1; }
 #strength-value { width: 36px; font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
 
+/* Tuning: one slider per setting, each with a Reset that wakes once it leaves its plain value */
+.tune label { width: 72px; font-size: 12px; color: var(--muted); }
+.tune input { flex: 1; }
+.tune output { width: 40px; font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+.tune button { height: 24px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); font-size: 12px; cursor: pointer; }
+.tune button:hover:enabled { background: var(--hover); }
+.tune button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.tune button:disabled { opacity: .45; cursor: default; }
+
 /* A segmented control (Mode, Icon tint): radios in labels on a recessed track; the chosen one is raised. */
 .seg { display: inline-flex; flex: none; padding: 2px; background: var(--well); border-radius: 7px; }
 .seg label { display: flex; align-items: center; gap: 5px; height: 24px; padding: 0 10px; border-radius: 5px; font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; transition: background-color 150ms, color 150ms; }
@@ -292,28 +299,6 @@ button.primary {
 #disable { margin-left: auto; height: 28px; padding: 0 12px; border: 1px solid color-mix(in srgb, var(--danger) 40%, var(--line)); border-radius: 6px; background: var(--bg); color: var(--danger); font-weight: 500; cursor: pointer; }
 #disable:hover { background: color-mix(in srgb, var(--danger) 8%, var(--bg)); }
 #disable:focus-visible { outline: 2px solid var(--danger); outline-offset: 1px; }
-.text-button { padding: 2px 4px; border: 0; border-radius: 4px; background: none; color: var(--muted); font-weight: 500; cursor: pointer; }
-.text-button:hover { color: var(--fg); }
-.text-button.danger { color: var(--danger); }
-.text-button:focus-visible { outline: 2px solid var(--accent); }
-
-/* Imported themes: the drop zone and the list */
-.count { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--well); color: var(--muted); font-size: 11px; font-weight: 600; display: grid; place-items: center; }
-.count[hidden] { display: none; }
-#import-body { padding: 8px 8px 4px; }
-#import-body .row { padding-left: 2px; padding-right: 2px; }
-.drop { display: flex; align-items: center; justify-content: center; gap: 8px; height: 52px; border: 1px dashed var(--line); border-radius: 6px; color: var(--muted); cursor: pointer; }
-.drop b { color: var(--accent); font-weight: 600; }
-.drop:hover { border-color: var(--muted); }
-.drop:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 1px; }
-.drop input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
-.drop .over, .drop.dragging .idle { display: none; }
-.drop.dragging .over { display: inline; }
-.drop.dragging { border-style: solid; border-color: var(--accent); background: var(--accent-soft); color: var(--fg); }
-.drop * { pointer-events: none; }
-.status { margin: 6px 2px 0; font-size: 12px; color: var(--muted); }
-.status:empty { display: none; }
-.error { color: var(--danger); }
 
 /* Accessibility: the needs as chips, and the fine-tune list of aids under them */
 .needs, .aids { display: block; margin: 0; border: 0; min-width: 0; }

@@ -104,13 +104,13 @@ async function setHue(hue, theme) {
 async function load() {
   const [sync, local] = await Promise.all([
     api.storage.sync.get(["overrides", "hues", "envs", "phases", "schemes"]),
-    api.storage.local.get(["imported", "sitecoreVersions"]),
+    api.storage.local.get(["sitecoreVersions"]),
   ]);
   const version = (local.sitecoreVersions || {})[origin] || null;
   $("#host").textContent = $("#settings-host").textContent = new URL(origin).host + (version ? ` · Sitecore ${version}` : "");
   return {
     version,
-    catalog: SCT.settings.catalog(local.imported),
+    catalog: SCT.settings.catalog(),
     theme: (sync.overrides || {})[origin],
     hue: (sync.hues || {})[origin],
     env: (sync.envs || {})[origin],
@@ -128,7 +128,7 @@ async function setOverride(themeId) {
 
 // This site's own settings (site-settings.js draws them, shared with the Sitecore module): one map per kind in
 // storage.sync, keyed by the site; the plain choice ("" or null) removes the site's entry.
-const STORES = { title: "titles", tint: "tints", mode: "modes", accessibility: "accessibility" };
+const STORES = { title: "titles", tint: "tints", mode: "modes", accessibility: "accessibility", tuning: "tunings" };
 // the site's Reduced motion aid stills the popup too (popup.css .still)
 const still = (a) => document.body.classList.toggle("still", SCT.settings.enabledAids(SCT.settings.accessibility(a), { surface: null }).includes("reduced-motion"));
 const siteStore = {
@@ -147,6 +147,7 @@ $("#mode").outerHTML = SCT.siteSettings.MODE_HTML;
 $("#pane-title").innerHTML = SCT.siteSettings.TITLE_HTML;
 $("#pane-access").innerHTML = SCT.siteSettings.ACCESS_HTML;
 $("#pane-ui").innerHTML = SCT.siteSettings.UI_HTML;
+$("#pane-tuning").innerHTML = SCT.siteSettings.TUNING_HTML;
 
 // The DAM connector's pickers show Content Hub's own pages (detect.js), which take this site's theme once the browser
 // lets the extension into Content Hub. Offered on a site that has the connector (its Rich Text Editor script; 404
@@ -191,7 +192,7 @@ async function main() {
 
   show("#enabled");
   still(await siteStore.get("accessibility"));
-  const { render } = SCT.picker.mount($("#picker"), {
+  SCT.picker.mount($("#picker"), {
     label: "Theme for this site", themes: "../themes/", load, setTheme: setOverride, setHue, setEnv, setPhase, setScheme,
     onTheme: (t) => ((bothLooks = t.appearance === "auto"), syncMode()),
   });
@@ -203,12 +204,6 @@ async function main() {
     await api.runtime.sendMessage({ type: "disable", origin }).catch(() => {});
     location.reload(); // drawn afresh: running main() again would mount every control a second time
   };
-  if (globalThis.SCTImportUI) {
-    SCTImportUI.mount($("#import-body"), render, (n) => {
-      $("#import-count").hidden = !n;
-      $("#import-count").textContent = n;
-    });
-  }
 }
 
 main();

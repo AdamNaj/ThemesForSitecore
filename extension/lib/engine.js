@@ -4,17 +4,17 @@
 //   alive()           false once the host is gone (an extension reload)
 //   version()         Promise of the Sitecore version stored for this origin, or null
 //   saveVersion(v)    remembers the version this origin runs
-//   site()            Promise of this origin's { title, tint, env, phase, scheme, hue, accessibility }
+//   site()            Promise of this origin's { title, tint, env, phase, scheme, hue, accessibility, tuning }
 //   url(path)         the address of a packaged file (fonts/..., glyphs/...), asked for only while the site has a
 //                     reading font or an aid that draws one of the glyphs
 //   theme(version)    Promise of the catalog entry ({ id, name, usesTokens }) this frame should show now
-//   apply(msg)        swaps the frame's theme CSS; msg { surface, version, previous, previousEntry, previousMode, off }
+//   apply(msg)        swaps the frame's theme CSS; msg { surface, version, previous, previousMode, off }
 //                     (off: to Native whatever the site's setting);
 //                     Promise of { theme, name, usesTokens, dev, mode } (mode: the site's light or dark, "" for System)
 //   tokens(id)        Promise of a theme's token CSS, "" for none
 //   listen(fn)        calls fn(kind, detail) when a setting changes: theme, title, tint, env, phase, scheme, hue,
-//                     accessibility, mode,
-//                     version (detail: the version), imported (detail: the imported themes before the change)
+//                     accessibility, tuning, mode,
+//                     version (detail: the version)
 //   stop()            the engine has stopped: drop the listener and anything the host added
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
@@ -88,18 +88,18 @@
     // One request at a time per frame: each reply changes what the next request has to remove,
     // so overlapping requests would remove or keep the wrong CSS.
     let queue = Promise.resolve();
-    function requestTheme(previousEntry, off) {
-      queue = queue.then(() => doRequestTheme(previousEntry, off)).catch(() => {});
+    function requestTheme(off) {
+      queue = queue.then(() => doRequestTheme(off)).catch(() => {});
       return queue;
     }
 
     // off: Native whatever the site's setting, for unload()
-    async function doRequestTheme(previousEntry, off) {
-      const reply = await host.apply({ surface: surfaceName, version, previous: engine.theme, previousEntry, previousMode: engine.mode, off });
+    async function doRequestTheme(off) {
+      const reply = await host.apply({ surface: surfaceName, version, previous: engine.theme, previousMode: engine.mode, off });
       if (!reply || reply.error || !alive()) return;
       dev = reply.dev;
       engine.mode = reply.mode; // a mode change swaps only the CSS
-      if (reply.theme === engine.theme && !previousEntry) return void syncAids(true);
+      if (reply.theme === engine.theme) return void (applyTone(), syncAids(true));
       revertDom();
       engine.theme = reply.theme;
       engine.themeName = reply.name;
@@ -542,7 +542,7 @@
     // and the engine stops for good.
     engine.unload = async () => {
       if (!alive()) return;
-      await requestTheme(undefined, true);
+      await requestTheme(true);
       titlePostfix = "";
       iconUrl = null;
       if (tabWatch) stampTab();
@@ -745,6 +745,7 @@
       const scheme = SCT.settings.SCHEMES.includes(site.scheme) ? site.scheme : null;
       if (scheme) html.dataset.sctScheme = scheme;
       else delete html.dataset.sctScheme;
+      applyTone();
     }
 
     // The site's hue (themes.js `hue`): --sct-hue (degrees) and data-sct-hue on every frame, for themes that
@@ -766,7 +767,40 @@
         html.style.removeProperty("--sct-hue");
         delete html.dataset.sctHue;
       }
+      applyTone();
     }
+
+    // The site's tuning (settings.js tuning, tone) on a token theme's colours only: every custom property on <html>
+    // that holds a colour, read as the theme sets it and set again on <html>, turned. Icons, images, text rendering
+    // and the item's content keep their own; Native and the themes without tokens have nothing to turn. Again
+    // whenever the tuning, the theme, its light or dark half, its hue or scheme changes, in every frame on its own.
+    let tuning = null;
+    async function syncTuning() {
+      const site = await host.site();
+      if (!alive()) return;
+      tuning = SCT.settings.tuning(site.tuning);
+      applyTone();
+    }
+    const toned = new Set();
+    function applyTone() {
+      for (const name of toned) html.style.removeProperty(name);
+      toned.clear();
+      const t = alive() && html.dataset.sctEngine === engine.id && html.hasAttribute("data-sct-tokens") ? SCT.settings.tone(tuning) : null;
+      if (!t) return;
+      // all read before any is set: a token that names another (var(--sct-panel-bg)) would otherwise turn twice
+      const cs = getComputedStyle(html);
+      const colours = [];
+      for (let i = 0; i < cs.length; i++) {
+        const name = cs[i];
+        const value = name.startsWith("--") && cs.getPropertyValue(name).trim();
+        if (value && CSS.supports("color", value)) colours.push([name, value]);
+      }
+      for (const [name, value] of colours) {
+        html.style.setProperty(name, SCT.settings.toneColor(value, t));
+        toned.add(name);
+      }
+    }
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => applyTone());
 
     // The site's accessibility aids (settings.js `accessibility`), under every theme, one owned <style> per frame:
     // - the reading font and spacing in every frame (data-sct-font, data-sct-spacing), never on the website the
@@ -951,6 +985,7 @@
       if (kind === "scheme") syncScheme();
       if (kind === "hue") syncHue();
       if (kind === "accessibility") syncAccess();
+      if (kind === "tuning") syncTuning();
       if (kind === "mode") requestTheme();
       if (kind === "version" && detail && detail !== version) {
         setVersion(detail);
@@ -958,9 +993,6 @@
           revertDom();
           if (domReady) applyDom();
         });
-      }
-      if (kind === "imported" && engine.theme && engine.theme.startsWith("import:")) {
-        requestTheme((detail || {})[engine.theme] || undefined);
       }
     }
 
@@ -1181,6 +1213,7 @@
       syncScheme();
       syncHue();
       syncAccess();
+      syncTuning();
 
       // An ee URL is only a candidate until the page shows Experience Editor markup.
       if (SCT.detect.needsDom(location.href)) await new Promise((r) => whenDomReady(r));

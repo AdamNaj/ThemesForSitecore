@@ -22,7 +22,7 @@
   let footers = null; // watches for start menu footers to add the picker's entry to
   let panel = null; // the open picker: { host, render }
   // the settings a user changes in the picker, which open frames and tabs follow at once
-  const KINDS = ["theme", "hue", "env", "phase", "scheme", "title", "tint", "mode", "accessibility"];
+  const KINDS = ["theme", "hue", "env", "phase", "scheme", "title", "tint", "mode", "accessibility", "tuning"];
 
   function adopt(next) {
     const rest = document.adoptedStyleSheets.filter((s) => s !== sheet);
@@ -34,7 +34,7 @@
     alive: () => true,
     version: async () => cfg.version,
     saveVersion() {}, // the server knows its own version
-    site: async () => ({ title: cfg.title, tint: cfg.tint, env: cfg.env, phase: cfg.phase, scheme: cfg.scheme, hue: cfg.hue, accessibility: cfg.accessibility }),
+    site: async () => ({ title: cfg.title, tint: cfg.tint, env: cfg.env, phase: cfg.phase, scheme: cfg.scheme, hue: cfg.hue, accessibility: cfg.accessibility, tuning: cfg.tuning }),
     url: (file) => `${cfg.base}${file}`, // the reading fonts, in the module's folder
     theme: async (version) => entry(resolve(version)),
     async apply({ surface, version, previous, previousMode }) {
@@ -95,6 +95,7 @@
       cfg.accessibility = SCT.settings.accessibility(fields.accessibility ? JSON.parse(fields.accessibility) : null);
       panel?.wrap.classList.toggle("still", still());
     }
+    else if (kind === "tuning") cfg.tuning = SCT.settings.tuning(fields.tuning ? JSON.parse(fields.tuning) : null);
     else if (kind === "reset") {
       // back to the config's: the server cleared the user's own title, tint, mode and environment
       Object.assign(cfg, cfg.defaults);
@@ -109,7 +110,7 @@
   // The picker's settings view reads and writes the user's own values through these (site-settings.js).
   const siteStore = {
     get: (kind) => cfg[kind],
-    set: (kind, value) => save({ [kind]: kind === "accessibility" ? (value ? JSON.stringify(value) : "") : value || "" }, kind),
+    set: (kind, value) => save({ [kind]: kind === "accessibility" || kind === "tuning" ? (value ? JSON.stringify(value) : "") : value || "" }, kind),
   };
 
   // The logo and the picker are drawn in closed shadow roots on hosts whose inline style resets everything
@@ -314,6 +315,7 @@ svg.shape path{fill:var(--bg);stroke:var(--line);stroke-width:1}
     <h3>Tab and icon</h3>${SS.TITLE_HTML}
     <h3>Accessibility</h3>${SS.ACCESS_HTML}
     <h3>UI improvements</h3>${SS.UI_HTML}
+    <h3>Tuning</h3>${SS.TUNING_HTML}
     <div class="reset"><button id="reset" type="button">Use the site's settings</button>
       <small>The title postfix, tint, light or dark and environment this Sitecore starts everyone with</small></div>
   </div>

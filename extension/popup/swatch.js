@@ -110,11 +110,11 @@
     if (s.bw === 2) out.push(box(x + 1, y + 1, w - 2, h - 2, s.border));
     if (s.double) out.push(box(x + 2, y + 2, w - 4, h - 4, s.border, ' opacity=".7"'));
 
-    const safe = String(label).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`); // imported themes name themselves
+    const safe = String(label).replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
     return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${safe}" shape-rendering="crispEdges"><defs>${defs.join("")}</defs>${out.join("")}${bar.join("")}</svg>`;
   }
 
-  // An imported theme has no miniature of its own: a neutral Desktop.
+  // A theme without a miniature of its own: a neutral Desktop.
   const PLAIN = { desk: "#9aa3b0", bar: "#3b3f46", start: "#7a8494", app: "#5a6070", win: "#ffffff", border: "#8a8f99", cap: "#e4e6ea",
     btns: "right", btn: "#8a8f99", ribbon: "#f2f3f5", tab: "#7a8494", tree: "#ffffff", ed: "#f7f8f9", sec: "#e9ebee", field: "#ffffff", line: "#c3c7ce", sel: "#dfe3ea" };
   // a theme may draw differently on one Sitecore version (Native on 10.4 is 10.4's look)

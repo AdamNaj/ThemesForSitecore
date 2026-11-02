@@ -1,4 +1,4 @@
-// The CSS files for one theme in one area, in cascade order, plus an imported theme's own CSS.
+// The CSS files for one theme in one area, in cascade order.
 // Shared by the extension's background and the Sitecore module's host.
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
@@ -14,15 +14,9 @@
   // Every theme's look for the site's postfix in Sitecore's top bar, and the Sitecore Extensions database name moved aside.
   const BAR = "surfaces/bar.css";
 
-  function sources(themeId, surface, imported) {
-    if (themeId === "native") return { files: [], css: "" };
-    if (themeId.startsWith("import:")) {
-      const t = (imported || {})[themeId];
-      if (!t) return { files: [], css: "" };
-      return { files: t.usesTokens ? [...areaMap(surface), APPEARANCE, BAR] : [BAR], css: t.css };
-    }
+  function sources(themeId, surface) {
     const theme = builtIns().find((t) => t.id === themeId);
-    if (!theme) return { files: [], css: "" };
+    if (!theme) return { files: [] }; // Native too
     const files = [
       ...(theme.usesTokens ? [...areaMap(surface), APPEARANCE, `themes/${theme.id}/tokens.css`] : []),
       ...theme.shared.map((f) => `themes/${theme.id}/${f}`),
@@ -30,7 +24,7 @@
       BAR,
       ...(theme.bar ? [`themes/${theme.id}/bar.css`] : []),
     ];
-    return { files, css: "" };
+    return { files };
   }
 
   // A site set to Light or Dark (storage.sync `modes`) gets that half of a theme that follows the OS: its

@@ -4,7 +4,7 @@ const settings = require("../../extension/lib/settings.js");
 const themes = require("../../extension/themes/themes.js");
 
 const ORIGIN = "https://cm.example.test";
-const catalog = settings.catalog({});
+const catalog = settings.catalog();
 
 test("Native comes first, themes without a category next, then each category's themes together", () => {
   const ids = globalThis.SCT.categories.map((c) => c.id);
@@ -58,14 +58,8 @@ test("an old default theme moves onto enabled sites that had none of their own",
   assert.deepEqual(settings.migrate({ defaultTheme: "native" }, [ORIGIN]), {});
 });
 
-test("imported themes join the catalog and respect their versions", () => {
-  const imported = { "import:mine": { name: "Mine", versions: ["10.4"], usesTokens: true, css: "" } };
-  const cat = settings.catalog(imported);
-  const entry = cat.find((t) => t.id === "import:mine");
-  assert.deepEqual(entry, { id: "import:mine", name: "Mine", versions: ["10.4"], usesTokens: true, hasDom: false, imported: true });
-  const s = { overrides: { [ORIGIN]: "import:mine" } };
-  assert.equal(settings.resolve(s, ORIGIN, "10.5", cat), "native");
-  assert.equal(settings.resolve(s, ORIGIN, "10.4", cat), "import:mine");
+test("a site set to a theme that is gone (an imported one, before they were dropped) shows Native", () => {
+  assert.equal(settings.resolve({ overrides: { [ORIGIN]: "import:mine" } }, ORIGIN, "10.4", catalog), "native");
 });
 
 test("the title postfix is added once and swapped when it changes", () => {
@@ -83,7 +77,7 @@ test("the favicon tint is off, the theme's accent, or the site's own colour", ()
   const cupertino = themes.find((t) => t.id === "cupertino");
   assert.equal(settings.tintColor(undefined, cupertino), null);
   assert.equal(settings.tintColor("theme", cupertino), "#0071e3");
-  assert.equal(settings.tintColor("theme", { id: "import:x" }), null);
+  assert.equal(settings.tintColor("theme", { id: "x" }), null);
   assert.equal(settings.tintColor("#2F9E44", cupertino), "#2F9E44");
   assert.equal(settings.tintColor("red;background:url(x)", cupertino), null);
 });
@@ -183,6 +177,39 @@ test("a site's accessibility aids: unknown values are off, every font is package
   }
   for (const id of Object.keys(settings.VISIONS)) assert.ok(popup.includes(`name="vision" value="${id}"`), id);
   for (const [id, name] of Object.entries(settings.NEEDS)) assert.ok(popup.includes(`name="need" value="${id}">${name}<`), id);
+});
+
+test("a site's tuning keeps the settings in range and off their plain value, and the module's server the same", () => {
+  assert.equal(settings.tuning(undefined), null);
+  // all plain, or out of range, or not whole numbers: nothing
+  assert.equal(settings.tuning({ brightness: 100, contrast: 100, gamma: 100, saturation: 100, hueShift: 0 }), null);
+  assert.equal(settings.tuning({ brightness: 151, gamma: 49, saturation: -5, hueShift: 181, contrast: 90.5, x: 3 }), null);
+  assert.deepEqual(settings.tuning({ brightness: 80, hueShift: -30, contrast: 100 }), { brightness: 80, hueShift: -30 });
+  assert.deepEqual(settings.tone({ gamma: 200 }), { amplitude: 1, exponent: 0.5, contrast: 1, saturation: 1, hue: 0 });
+  assert.equal(settings.tone(null), null);
+  const server = require("node:fs").readFileSync(require("node:path").join(__dirname, "..", "..", "sitecore", "ThemesProcessor.cs"), "utf8");
+  const table = [...server.match(/Dictionary<string, int\[\]> Tuning = new Dictionary<string, int\[\]> \{(.*)\};/)[1].matchAll(/\{ "(\w+)", new\[\] \{ ([-\d, ]+) \} \}/g)]
+    .map(([, k, v]) => [k, v.split(", ").map(Number)]);
+  assert.deepEqual(Object.fromEntries(table), settings.TUNING);
+  assert.ok(server.includes("tuning.Length > 200"));
+});
+
+test("the tuning turns a theme's colour whatever form it takes, alpha kept, with only the steps that change it", () => {
+  const f = (t) => settings.tone(settings.tuning(t));
+  // brightness and gamma per sRGB channel, contrast round mid-grey
+  assert.equal(settings.toneColor("oklch(from #e5e9f0 l c calc(h + 40))", f({ brightness: 80, gamma: 125 })),
+    "rgb(from oklch(from #e5e9f0 l c calc(h + 40)) clamp(0, (0.8 * pow(r / 255, 0.8) - 0.5) * 255 + 127.5, 255) clamp(0, (0.8 * pow(g / 255, 0.8) - 0.5) * 255 + 127.5, 255) clamp(0, (0.8 * pow(b / 255, 0.8) - 0.5) * 255 + 127.5, 255) / alpha)");
+  // saturation and hue alone: one OKLCH step, lightness untouched, then back into sRGB's range
+  assert.equal(settings.toneColor("#5e81ac", f({ saturation: 50, hueShift: 30 })),
+    "rgb(from oklch(from #5e81ac l calc(c * 0.5) calc(h + 30) / alpha) clamp(0, r, 255) clamp(0, g, 255) clamp(0, b, 255) / alpha)");
+  // the sums in numbers: white to 80% and mid-grey lifted by the gamma, then contrast pushes both from the middle
+  const ch = (x, t) => Math.min(255, Math.max(0, (t.amplitude * (x / 255) ** t.exponent - 0.5) * t.contrast * 255 + 127.5));
+  const t = f({ brightness: 80, gamma: 125 });
+  assert.equal(Math.round(ch(255, t)), 204);
+  assert.equal(Math.round(ch(128, t)), 118);
+  const c = f({ contrast: 150 });
+  assert.equal(Math.round(ch(64, c)), 32);
+  assert.equal(Math.round(ch(192, c)), 224);
 });
 
 test("a site's needs and aids: unknown ones are dropped, old saved values still load", () => {

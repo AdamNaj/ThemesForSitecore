@@ -60,19 +60,17 @@
       <button type="button" role="tab" id="tab-title" aria-controls="pane-title" aria-selected="true">Tab and icon</button>
       <button type="button" role="tab" id="tab-access" aria-controls="pane-access" aria-selected="false" tabindex="-1">Accessibility</button>
       <button type="button" role="tab" id="tab-ui" aria-controls="pane-ui" aria-selected="false" tabindex="-1">UI improvements</button>
-      <button type="button" role="tab" id="tab-import" aria-controls="pane-import" aria-selected="false" tabindex="-1">Imported themes<span id="import-count" class="count" hidden></span></button>
+      <button type="button" role="tab" id="tab-tuning" aria-controls="pane-tuning" aria-selected="false" tabindex="-1">Tuning</button>
     </div>
 
-    <!-- the title, accessibility and UI panes' controls are site-settings.js's, shared with the Sitecore module -->
+    <!-- every pane's controls are site-settings.js's, shared with the Sitecore module -->
     <div class="pane" id="pane-title" role="tabpanel" aria-labelledby="tab-title"></div>
 
     <div class="pane" id="pane-access" role="tabpanel" aria-labelledby="tab-access" hidden></div>
 
     <div class="pane" id="pane-ui" role="tabpanel" aria-labelledby="tab-ui" hidden></div>
 
-    <div class="pane" id="pane-import" role="tabpanel" aria-labelledby="tab-import" hidden>
-      <div class="panel" id="import-body"></div>
-    </div>
+    <div class="pane" id="pane-tuning" role="tabpanel" aria-labelledby="tab-tuning" hidden></div>
   </div>
   </div>
   </div>
@@ -82,8 +80,6 @@
   <script src="swatch.js"></script>
   <script src="picker.js"></script>
   <script src="site-settings.js"></script>
-  <script src="../lib/import.js"></script>
-  <script src="import-ui.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

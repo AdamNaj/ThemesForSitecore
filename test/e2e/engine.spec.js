@@ -346,24 +346,6 @@ test("popup loads without errors", async () => {
   await page.close();
 });
 
-test("applies an imported theme and swaps its CSS on update", async () => {
-  const page = await context.newPage();
-  await page.goto(`${BASE}/sitecore/shell/default.aspx`);
-  const css = (bg) => `html[data-sct-theme="import:mine"] { --sct-app-bg: ${bg}; }`;
-  const imported = (bg) => ({ "import:mine": { name: "Mine", versions: ["10.4", "10.5"], usesTokens: false, css: css(bg) } });
-
-  await worker.evaluate((v) => chrome.storage.local.set({ imported: v }), imported("#123456"));
-  await setTheme("import:mine");
-  await expect.poll(() => appBg(page)).toBe("#123456");
-
-  await worker.evaluate((v) => chrome.storage.local.set({ imported: v }), imported("#654321"));
-  await expect.poll(() => appBg(page)).toBe("#654321");
-
-  await setTheme("debrightify");
-  await expect.poll(() => appBg(page)).toBe("#1e1f22");
-  await page.close();
-});
-
 test("SPEAK selectors that start at <html> still match", async () => {
   // Forms puts .sc-flx on <html>; Sitecore's ".sc-flx .sc-list" must still be recoloured.
   const page = await context.newPage();
@@ -398,19 +380,6 @@ test("a quick A, B, A switch ends on A with A's CSS in place", async () => {
   await page.waitForTimeout(1500);
   expect((await attrs(page)).sctTheme).toBe("debrightify");
   expect(await appBg(page)).toBe("#1e1f22");
-  await page.close();
-});
-
-test("removing an imported token theme removes all of its CSS", async () => {
-  const page = await context.newPage();
-  await page.goto(`${BASE}/sitecore/shell/default.aspx`);
-  const leak = () => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--leak").trim());
-  await worker.evaluate(() => chrome.storage.local.set({ imported: { "import:leak": { name: "Leak", versions: ["10.4", "10.5"], usesTokens: true, css: ":root { --leak: yes; }" } } }));
-  await setTheme("import:leak");
-  await expect.poll(leak).toBe("yes");
-  await worker.evaluate(() => chrome.storage.local.set({ imported: {} }));
-  await expect.poll(leak).toBe("");
-  await setTheme("debrightify");
   await page.close();
 });
 

@@ -10,9 +10,8 @@ you'd rather stay anonymous.
 
 ## Scope
 
-- **The browser extension:** it runs on the Sitecore hosts you enable, injects CSS, and accepts imported themes
-  (CSS files it checks before storing). Anything that lets a page, an imported theme or another site reach beyond
-  that is in scope.
+- **The browser extension:** it runs on the Sitecore hosts you enable and injects its own CSS. Anything that lets a
+  page or another site reach beyond that is in scope.
 - **The Sitecore-deployed module** (`sitecore/`): an `httpRequestBegin` processor and static files on the Sitecore
   server. Anything that affects the server, or lets one user affect another, is in scope.
 

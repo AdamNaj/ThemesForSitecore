@@ -28,6 +28,7 @@ namespace SitecoreThemes
         const string TintKey = "SitecoreThemes.Tint";
         const string ModeKey = "SitecoreThemes.Mode";
         const string AccessKey = "SitecoreThemes.Accessibility";
+        const string TuningKey = "SitecoreThemes.Tuning";
         static readonly Regex TintId = new Regex("^(|theme|#[0-9a-fA-F]{6})$");
         static readonly Regex ModeId = new Regex("^(|light|dark)$");
         static readonly Regex Control = new Regex("[\\x00-\\x1f\\x7f]");
@@ -35,6 +36,8 @@ namespace SitecoreThemes
         static readonly string[] Visions = { "protanopia", "deuteranopia", "tritanopia" };
         static readonly string[] Needs = { "screen-reader", "keyboard", "low-vision", "colour-vision", "reading", "motion" };
         static readonly string[] Aids = { "frame-titles", "aria-repair", "names", "landmarks", "lang", "forced-colors", "focus-ring", "ribbon-toolbar", "tree-keys", "menus", "dialogs", "tab-stops", "regions", "targets", "announcer", "fields", "where-am-i", "not-just-colour", "state-shapes", "reduced-motion", "focus-mode", "sticky-header", "item-info", "content-tab", "ce-state", "ee-state", "section-toggle", "image-preview", "locked-fields", "section-issues", "reading-guide", "quiet-ribbon", "command-palette", "shortcuts-help" };
+        // the tuning's settings: lowest, highest, plain (settings.js TUNING)
+        static readonly Dictionary<string, int[]> Tuning = new Dictionary<string, int[]> { { "brightness", new[] { 50, 150, 100 } }, { "contrast", new[] { 50, 150, 100 } }, { "gamma", new[] { 50, 200, 100 } }, { "saturation", new[] { 0, 200, 100 } }, { "hueShift", new[] { -180, 180, 0 } } };
         static readonly Regex EnvId = new Regex("^(prod|staging|qa|dev|sandbox|local|beta)?$"); // empty: back to the config's
         static readonly Regex PhaseId = new Regex("^(dawn|day|dusk|night)?$"); // empty: Auto, the clock's
         static readonly Regex SchemeId = new Regex("^(blue|olive|silver)?$"); // empty: the theme's own
@@ -106,6 +109,7 @@ namespace SitecoreThemes
                 phase = signedIn ? user.Profile.GetCustomProperty(PhaseKey) : "",
                 scheme = signedIn ? user.Profile.GetCustomProperty(SchemeKey) : "",
                 accessibility = signedIn ? ReadAccess(user.Profile.GetCustomProperty(AccessKey)) : null,
+                tuning = signedIn ? ReadTuning(user.Profile.GetCustomProperty(TuningKey)) : null,
                 // the config's values, which "Use the site's settings" in the picker goes back to
                 defaults = new
                 {
@@ -125,6 +129,35 @@ namespace SitecoreThemes
         {
             var saved = signedIn ? user.Profile.GetCustomProperty(key) : "";
             return saved != null && saved.StartsWith("v:", StringComparison.Ordinal) ? saved.Substring(2) : Settings.GetSetting(setting, "");
+        }
+
+        // A user's tuning ({brightness, contrast, gamma, saturation, hueShift}) from JSON, keeping the known settings
+        // that are in range and off their plain value; null when none is. The engine checks them again (settings.js
+        // tuning).
+        static Dictionary<string, int> ReadTuning(string json)
+        {
+            if (string.IsNullOrEmpty(json)) return null;
+            Dictionary<string, object> v;
+            try
+            {
+                v = new JavaScriptSerializer().Deserialize<Dictionary<string, object>>(json);
+            }
+            catch (ArgumentException)
+            {
+                return null;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+            if (v == null) return null;
+            var tuned = new Dictionary<string, int>();
+            foreach (var t in Tuning)
+            {
+                object o;
+                if (v.TryGetValue(t.Key, out o) && o is int && (int)o >= t.Value[0] && (int)o <= t.Value[1] && (int)o != t.Value[2]) tuned[t.Key] = (int)o;
+            }
+            return tuned.Count > 0 ? tuned : null;
         }
 
         // A user's accessibility aids ({font, spacing, vision, strength, needs, aids}) from JSON, keeping only known
@@ -224,11 +257,12 @@ namespace SitecoreThemes
             var tint = context.Request.Form["tint"];
             var mode = context.Request.Form["mode"];
             var access = context.Request.Form["accessibility"]; // JSON, or empty for none
+            var tuning = context.Request.Form["tuning"]; // JSON, or empty for the theme's own colours
             var reset = context.Request.Form["reset"] == "1"; // back to the config's title, tint, mode and environment
             int degrees = 0;
             if (context.Request.HttpMethod != "POST" || context.Request.Headers["X-SCT"] != "1"
                 || user == null || !user.IsAuthenticated
-                || (theme == null && hue == null && env == null && phase == null && scheme == null && title == null && tint == null && mode == null && access == null && !reset)
+                || (theme == null && hue == null && env == null && phase == null && scheme == null && title == null && tint == null && mode == null && access == null && tuning == null && !reset)
                 || (theme != null && !ThemeId.IsMatch(theme))
                 || (hue != null && !(int.TryParse(hue, out degrees) && degrees >= 0 && degrees < 360 && hueTheme != null && ThemeId.IsMatch(hueTheme)))
                 || (env != null && !EnvId.IsMatch(env))
@@ -237,7 +271,8 @@ namespace SitecoreThemes
                 || (title != null && (title.Length > 40 || Control.IsMatch(title)))
                 || (tint != null && !TintId.IsMatch(tint))
                 || (mode != null && !ModeId.IsMatch(mode))
-                || (access != null && access.Length > 1000))
+                || (access != null && access.Length > 1000)
+                || (tuning != null && tuning.Length > 200))
                 context.Response.StatusCode = 400;
             else
             {
@@ -252,6 +287,11 @@ namespace SitecoreThemes
                 {
                     var aids = ReadAccess(access);
                     user.Profile.SetCustomProperty(AccessKey, aids == null ? "" : new JavaScriptSerializer().Serialize(aids));
+                }
+                if (tuning != null)
+                {
+                    var tuned = ReadTuning(tuning);
+                    user.Profile.SetCustomProperty(TuningKey, tuned == null ? "" : new JavaScriptSerializer().Serialize(tuned));
                 }
                 if (theme != null) user.Profile.SetCustomProperty(ThemeKey, theme);
                 if (hue != null)

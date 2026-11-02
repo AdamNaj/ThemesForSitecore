@@ -71,9 +71,8 @@ Building the second needs Web Deploy (`msdeploy.exe`, 3.6 or later) on the machi
 ## Differences from the extension
 
 - Settings are per user (the profile), not per site: the theme, hue, Guardrail's environment, Meridian's time of
-  day, title postfix, tint, light or dark and the accessibility aids. The config's values hold until a user picks
-  their own (accessibility starts off), and "Use the site's settings" goes back to them.
-- No imported themes.
+  day, title postfix, tint, light or dark, the accessibility aids and the tuning. The config's values hold until a
+  user picks their own (accessibility and tuning start off), and "Use the site's settings" goes back to them.
 - Sitecore 10.4 and 10.5's Identity Server login page is a separate site, so the module cannot theme it.
 - Pages carry no theme until the module is installed, and they reflect a new theme after a reload or through
   the picker's live switch.

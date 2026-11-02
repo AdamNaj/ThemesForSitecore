@@ -66,10 +66,9 @@ const absolutize = (css, origin) => css.replace(/url\(\s*(['"]?)\/(?!\/)/g, `url
   // a theme's own images (web_accessible_resources): sct-ext:<path> is the extension's URL for <path>
   .replace(/url\(\s*(['"]?)sct-ext:/g, `url($1${api.runtime.getURL("")}`);
 
-async function cssFor(themeId, surface, imported, origin, dev, mode) {
-  const { files, css } = SCT.files.sources(themeId, surface, imported);
-  const parts = await Promise.all(files.map((f) => fileText(f, dev)));
-  const text = [...parts, css].filter(Boolean).join("\n");
+async function cssFor(themeId, surface, origin, dev, mode) {
+  const parts = await Promise.all(SCT.files.sources(themeId, surface).files.map((f) => fileText(f, dev)));
+  const text = parts.filter(Boolean).join("\n");
   return text ? absolutize(SCT.files.withMode(text, mode), origin) : "";
 }
 
@@ -116,40 +115,30 @@ async function onFrameReady(msg, sender) {
   // stands down so the Sitecore module, where the site has it, can take the page
   const standDown = !origin || !(await enabledOn(origin));
   if (standDown) msg = { ...msg, off: true };
-  const [sync, local] = await Promise.all([
-    api.storage.sync.get(["overrides", "modes"]),
-    api.storage.local.get(["imported"]),
-  ]);
-  const imported = local.imported || {};
+  const sync = await api.storage.sync.get(["overrides", "modes"]);
   const settings = { ...SCT.settings.DEFAULTS, ...sync };
   const mode = (sync.modes || {})[origin] || "";
-  const theme = msg.off ? "native" : SCT.settings.resolve(settings, origin, msg.version, SCT.settings.catalog(imported));
+  const theme = msg.off ? "native" : SCT.settings.resolve(settings, origin, msg.version, SCT.settings.catalog());
   const target = { tabId: sender.tab.id, frameIds: [sender.frameId] };
   const dev = await isDevInstall();
 
   // a new mode changes the CSS text too, so the old text (in the old mode) comes out
-  const changed = theme !== msg.previous || msg.previousEntry || (msg.previousMode || "") !== mode;
+  const changed = theme !== msg.previous || (msg.previousMode || "") !== mode;
   if (msg.previous && changed) {
-    // After an imported theme is updated or removed, its old entry says what has to come out.
-    const before = msg.previousEntry ? { ...imported, [msg.previous]: msg.previousEntry } : imported;
-    const old = await cssFor(msg.previous, msg.surface, before, frameOrigin, dev, msg.previousMode);
+    const old = await cssFor(msg.previous, msg.surface, frameOrigin, dev, msg.previousMode);
     if (old) await api.scripting.removeCSS({ target, css: old }).catch(() => {});
   }
   if (changed) {
-    const css = await cssFor(theme, msg.surface, imported, frameOrigin, dev, mode);
+    const css = await cssFor(theme, msg.surface, frameOrigin, dev, mode);
     if (css) await api.scripting.insertCSS({ target, css }).catch(() => {});
   }
-  const entry = SCT.settings.catalog(imported).find((t) => t.id === theme);
+  const entry = SCT.settings.catalog().find((t) => t.id === theme);
   return { theme, name: entry ? entry.name : "", usesTokens: !!(entry && entry.usesTokens), dev, mode, standDown };
 }
 
 // A theme's token declarations, so a page can draw its "Applying theme" window before the CSS swaps.
 async function tokensCss(themeId, origin) {
   const mode = ((await api.storage.sync.get("modes")).modes || {})[origin];
-  if (themeId.startsWith("import:")) {
-    const t = ((await api.storage.local.get("imported")).imported || {})[themeId];
-    return t && t.usesTokens ? SCT.files.withMode(t.css, mode) : "";
-  }
   const theme = SCT.themes.find((t) => t.id === themeId);
   if (!theme || !theme.usesTokens) return "";
   return SCT.files.withMode(await fileText(`themes/${themeId}/tokens.css`, await isDevInstall()), mode);
@@ -200,7 +189,7 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     isDevInstall().then((dev) => dev && api.runtime.reload());
   }
   if (msg && msg.type === "dev-set") {
-    const allowed = ["overrides", "titles", "tints", "envs", "phases", "schemes", "hues", "modes", "accessibility"];
+    const allowed = ["overrides", "titles", "tints", "envs", "phases", "schemes", "hues", "modes", "accessibility", "tunings"];
     const values = Object.fromEntries(Object.entries(msg.values || {}).filter(([k]) => allowed.includes(k)));
     isDevInstall().then((dev) => dev && api.storage.sync.set(values));
   }
@@ -230,7 +219,10 @@ async function migrateSpectrum() {
   if (next) await api.storage.sync.set(next);
 }
 
-api.runtime.onInstalled.addListener(() => migrateDefaultTheme().catch(() => {}).then(migrateSoftlight).catch(() => {}).then(migrateSpectrum).catch(() => {}).then(resync));
+// Imported themes are no more: their CSS goes, and a site set to one shows Native (settings.js resolve).
+const dropImported = () => api.storage.local.remove("imported");
+
+api.runtime.onInstalled.addListener(() => migrateDefaultTheme().catch(() => {}).then(migrateSoftlight).catch(() => {}).then(migrateSpectrum).catch(() => {}).then(dropImported).catch(() => {}).then(resync));
 api.runtime.onStartup.addListener(syncRegistration);
 api.permissions.onAdded.addListener(async ({ origins = [] }) => {
   // a site granted again is on again

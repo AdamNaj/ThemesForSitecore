@@ -30,8 +30,8 @@ test("Native's miniature on 10.4 is Sitecore 10.4's look", () => {
   assert.equal(globalThis.SCT.swatchSpec(native, "10.5"), native.swatch);
 });
 
-test("an imported theme without a spec gets the plain miniature", () => {
-  assert.ok(globalThis.SCT.swatchSpec({ id: "import:x" }).desk);
+test("a theme without a spec gets the plain miniature", () => {
+  assert.ok(globalThis.SCT.swatchSpec({ id: "x" }).desk);
 });
 
 test("a theme's previews are files in its folder, for versions it runs on", () => {

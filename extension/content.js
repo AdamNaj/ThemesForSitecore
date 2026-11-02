@@ -52,14 +52,14 @@
     },
     async site() {
       await ready;
-      const { titles = {}, tints = {}, envs = {}, phases = {}, schemes = {}, hues = {}, accessibility = {} } = await api.storage.sync.get(["titles", "tints", "envs", "phases", "schemes", "hues", "accessibility"]);
-      return { title: titles[origin], tint: tints[origin], env: envs[origin], phase: phases[origin], scheme: schemes[origin], hue: hues[origin], accessibility: accessibility[origin] };
+      const { titles = {}, tints = {}, envs = {}, phases = {}, schemes = {}, hues = {}, accessibility = {}, tunings = {} } = await api.storage.sync.get(["titles", "tints", "envs", "phases", "schemes", "hues", "accessibility", "tunings"]);
+      return { title: titles[origin], tint: tints[origin], env: envs[origin], phase: phases[origin], scheme: schemes[origin], hue: hues[origin], accessibility: accessibility[origin], tuning: tunings[origin] };
     },
     url: (path) => api.runtime.getURL(path),
     async theme(version) {
       await ready;
-      const [sync, local] = await Promise.all([api.storage.sync.get("overrides"), api.storage.local.get("imported")]);
-      const catalog = SCT.settings.catalog(local.imported || {});
+      const sync = await api.storage.sync.get("overrides");
+      const catalog = SCT.settings.catalog();
       const id = SCT.settings.resolve({ ...SCT.settings.DEFAULTS, ...sync }, origin, version, catalog);
       return catalog.find((t) => t.id === id) || { id, name: "" };
     },
@@ -82,11 +82,10 @@
           if (changes.schemes) fn("scheme");
           if (changes.hues) fn("hue");
           if (changes.accessibility) fn("accessibility");
+          if (changes.tunings) fn("tuning");
           if (changes.modes) fn("mode");
         }
-        if (area === "local" && changes[VERSIONS]) fn("version", (changes[VERSIONS].newValue || {})[origin]);
-        if (area === "local" && changes.imported) fn("imported", changes.imported.oldValue);
-      };
+        if (area === "local" && changes[VERSIONS]) fn("version", (changes[VERSIONS].newValue || {})[origin]);      };
       api.storage.onChanged.addListener(onStorage);
     },
     stop() {

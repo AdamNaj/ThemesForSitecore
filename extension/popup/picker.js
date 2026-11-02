@@ -92,7 +92,7 @@
     function frame(t, checked) {
       const label = doc.createElement("label");
       label.className = "frame";
-      label.title = [t.name + (t.imported ? " (imported)" : ""), t.description].filter(Boolean).join(": ");
+      label.title = [t.name, t.description].filter(Boolean).join(": ");
       const input = doc.createElement("input");
       input.type = "radio";
       input.name = "theme";
@@ -102,7 +102,7 @@
       label.insertAdjacentHTML("beforeend", SCT.swatch(SCT.swatchSpec(t, siteVersion), t.name) + TICK);
       const name = doc.createElement("span");
       name.className = "name";
-      name.textContent = t.name; // imported themes name themselves
+      name.textContent = t.name;
       label.append(name);
       return label;
     }
@@ -173,7 +173,7 @@
     }
 
     // The preview: the theme's screenshot (light and dark halves for a theme that follows the OS), or its
-    // miniature drawn large where there is none (imported themes, a theme added since the last capture).
+    // miniature drawn large where there is none (a theme added since the last capture).
     // A theme's `previews` (themes.js) names the screenshots tools/previews.cjs made: preview.jpg on its main version
     // (10.5 where it runs there), preview-<version>.jpg on another, each with a -dark twin for themes that follow the OS.
     function hero(t, previewing) {
@@ -240,9 +240,8 @@
       opts.onTheme?.(current);
       siteHue = (current.hue && SCT.settings.hue(hue, current.id)) || 0;
       const groups = [
-        ["Sitecore", offered.filter((t) => !t.category && !t.imported)],
+        ["Sitecore", offered.filter((t) => !t.category)],
         ...SCT.categories.map((c) => [c.name, offered.filter((t) => t.category === c.id)]),
-        ["Imported", offered.filter((t) => t.imported)],
       ].filter(([, themes]) => themes.length);
 
       // One group at a time, under a row of tabs: the group holding the site's theme (its tab carries a dot) until

@@ -93,12 +93,11 @@ The **UI improvements** tab holds changes that help anyone: Back, Forward, Expan
 
 [docs/ui-improvements.md](docs/ui-improvements.md) describes each one, with pictures.
 
+### Tuning
+
+The **Tuning** tab turns the theme's own colours: **Brightness**, **Contrast**, **Gamma**, **Saturation** and **Hue shift**, each with its own **Reset**. Icons, images and the item's content keep theirs. It works under every theme built on colour tokens; Native and the themes drawn with pictures have none to turn.
+
 ## Make your own theme
-
-There are two kinds: a **built-in theme**, a folder in this repository that ships with the extension and the
-Sitecore module, and an **imported theme**, one CSS file you load into your own browser.
-
-### A built-in theme
 
 Each theme is one folder, `extension/themes/<id>/`; adding one touches nothing outside it.
 [extension/themes/README.md](extension/themes/README.md) describes its files and [CONTRIBUTING.md](CONTRIBUTING.md)
@@ -112,29 +111,6 @@ With [Claude Code](https://claude.com/claude-code), use the skills in `.claude/s
 - **`sct-verify`** checks a change on the live installs, frame by frame, before it's called done.
 
 Both need local Sitecore installs named in `sitecore.local.json` (see CONTRIBUTING.md).
-
-### An imported theme
-
-An imported theme is one CSS file that starts with a metadata comment:
-
-```css
-/* @sct-theme
-id: my-theme
-name: My theme
-versions: 10.4, 10.5
-usesTokens: true
-*/
-html[data-sct-theme="import:my-theme"] {
-  --sct-app-bg: #102030;
-  --sct-app-fg: #e0e8f0;
-  /* ...every role listed in extension/surfaces/tokens.json */
-}
-```
-
-- With `usesTokens: true` the extension applies its map of Sitecore's UI first, so the file only needs to set the `--sct-*` colour roles from [extension/surfaces/tokens.json](extension/surfaces/tokens.json). Without it, the file styles Sitecore directly.
-- Every page the extension themes has `data-sct-theme`, `data-sct-surface` (`shell`, `launchpad`, `login`, `ee`, `speak`, `admin`, `contenthub`) and `data-sct-version` on `<html>`. Scope rules with them.
-- Import the file from the popup's settings (the gear): drop it on **Imported themes** or choose it there. Importing a file with the same id again replaces the theme.
-- Imported themes may not load anything from other servers. `@import`, remote `url()`s and `@font-face` sources, custom functions and backslash escapes in values are rejected. `data:` URLs and URLs on the Sitecore host are fine.
 
 ## Develop
 

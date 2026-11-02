@@ -5,12 +5,7 @@
 
   const DEFAULTS = { overrides: {} };
 
-  function catalog(imported) {
-    const extra = Object.entries(imported || {}).map(([id, t]) => ({
-      id, name: t.name, versions: t.versions, usesTokens: !!t.usesTokens, hasDom: false, imported: true,
-    }));
-    return builtIns().concat(extra);
-  }
+  const catalog = () => builtIns();
 
   // The Sitecore UI a version serves, which themes are written for: 10.0 to 10.3 serve 10.4's, less its
   // keyboard-focus rules and with older SPEAK stylesheets (the generated maps cover them under data-sct-legacy).
@@ -44,7 +39,7 @@
   }
 
   // The favicon's tint: none (off), the theme's accent ("theme"), or a colour of the site's own.
-  // ponytail: the accent is the theme's second preview swatch; imported themes have none, so no tint
+  // ponytail: the accent is the theme's second preview swatch
   function tintColor(setting, theme) {
     if (setting === "theme") return (theme && theme.preview && theme.preview[1]) || null;
     return /^#[0-9a-f]{6}$/i.test(setting || "") ? setting : null;
@@ -228,6 +223,45 @@
   const visionValues = (vision, strength) =>
     [...visionMatrix(vision, strength).map((row) => [...row.map((x) => +x.toFixed(5)), 0, 0]), [0, 0, 0, 1, 0]].flat().join(" ");
 
+  // A site's tuning, per site in storage.sync `tunings`, under every token theme: [lowest, highest, plain] for each, in
+  // percent but the hue shift's degrees. It turns the theme's own colours (engine.js applyTone), never icons, images
+  // or the item's content.
+  const TUNING = { brightness: [50, 150, 100], contrast: [50, 150, 100], gamma: [50, 200, 100], saturation: [0, 200, 100], hueShift: [-180, 180, 0] };
+  // the settings that are off their plain value, null when none is
+  function tuning(value) {
+    const v = value && typeof value === "object" ? value : {};
+    const out = {};
+    for (const [k, [min, max, plain]] of Object.entries(TUNING)) {
+      if (Number.isInteger(v[k]) && v[k] >= min && v[k] <= max && v[k] !== plain) out[k] = v[k];
+    }
+    return Object.keys(out).length ? out : null;
+  }
+  // tuning() t as factors: brightness and gamma per sRGB channel as a monitor's (brightness * in ^ (1 / gamma)),
+  // contrast round mid-grey, then saturation and hue in OKLCH, where they leave lightness alone
+  const tone = (t) => t && {
+    amplitude: (t.brightness ?? 100) / 100,
+    exponent: +(100 / (t.gamma ?? 100)).toFixed(4),
+    contrast: (t.contrast ?? 100) / 100,
+    saturation: (t.saturation ?? 100) / 100,
+    hue: t.hueShift ?? 0,
+  };
+  // a CSS colour turned by tone() f: relative colour syntax, so any colour a token holds (oklch(from ...), a
+  // color-mix(), a named colour) takes it, its alpha kept; only the steps that change anything. Relative colours
+  // are not clamped, and Chrome draws a channel past 255 under alpha wrongly (a pale bar at 80% turned yellow), so
+  // every step ends in sRGB's range.
+  function toneColor(value, f) {
+    let c = value;
+    if (f.amplitude !== 1 || f.exponent !== 1 || f.contrast !== 1) {
+      const ch = (x) => `clamp(0, (${f.amplitude} * pow(${x} / 255, ${f.exponent}) - 0.5) * ${+(f.contrast * 255).toFixed(3)} + 127.5, 255)`;
+      c = `rgb(from ${c} ${ch("r")} ${ch("g")} ${ch("b")} / alpha)`;
+    }
+    if (f.saturation !== 1 || f.hue) {
+      c = `oklch(from ${c} l calc(c * ${f.saturation}) calc(h + ${f.hue}) / alpha)`;
+      c = `rgb(from ${c} clamp(0, r, 255) clamp(0, g, 255) clamp(0, b, 255) / alpha)`;
+    }
+    return c;
+  }
+
   // Icon fonts and code editors keep their own: Sitecore's .si and .sic and Glyphicons draw icons, Ace (SPE's ISE)
   // and jQuery Terminal (SPE's Console) measure their monospace characters.
   const KEEP = ".si,.sic,.glyphicon,.ace_editor,.ace_editor *,.terminal,.terminal *,pre,code,kbd,samp";
@@ -251,7 +285,7 @@
 
   SCT.settings = {
     DEFAULTS, ENVS, PHASES, SCHEMES, FONTS, VISIONS, catalog, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight, migrateSpectrum,
-    accessibility, accessibilityCss, visionMatrix, visionValues, NEEDS, NEED_PRESETS, needEffects, AIDS, UI_GROUPS, aidReason, enabledAids,
+    accessibility, accessibilityCss, visionMatrix, visionValues, TUNING, tuning, tone, toneColor, NEEDS, NEED_PRESETS, needEffects, AIDS, UI_GROUPS, aidReason, enabledAids,
   };
   if (typeof module !== "undefined") module.exports = SCT.settings;
 })(globalThis);
