@@ -114,7 +114,7 @@ each button's name, and that a greyed-out one is unavailable.
 <!-- /shots:section-toggle -->
 
 ### Item info
-<!-- aid:item-info 7be1fdcf98 -->
+<!-- aid:item-info b3014e5dd1 -->
 
 **What it is for.** When an item was last changed, by whom, and whether it is live are spread over the Statistics
 section (hidden with the standard fields), the version menu and the web database. Copying an item's ID or opening the
@@ -122,19 +122,27 @@ templates it inherits from takes several clicks and a search.
 
 **What changes.** A small panel at the right of the item's header. Its top pill says how long ago the version you are
 editing was modified and by whom ("2 hours ago · jsmith"); its tooltip has the full date and the user's domain. The
-pill below compares the web database with master's newest version in this language. "Published · v3" means the newest
-version is live. Otherwise the pill splits in two: its left half says what is live ("Live v2", or "Not published"),
-its right half what is waiting: "edited since" when the live version was changed after it was published, "v3 · Awaiting
-Approval" when a newer version is still in workflow, "v3 ready to publish" when it is in a final state or the item has
-no workflow, and "not in master" when web holds a version master no longer has. A screen reader hears both halves,
-and the tooltip says each in a sentence. The workflow state comes from the Review tab's workflow menu; a state with
-no workflow commands, such as Sample Workflow's Approved, counts as final.
+pill below compares the web database with what the next publish would put there in this language: master's newest
+version that its publishing settings let go live. "Published · v3" means that version is live. An item that cannot go
+live and has nothing in web gets one grey pill: "Never publishes" (its Publishable box unticked), "Publishes from 12
+Nov", "Not publishable" or "Not for web" (its publishing targets leave out Internet). Otherwise the pill splits in two:
+its left half says what is live ("Live v2", or "Not published"), its right half the one thing to know next, most
+serious first. In red, "comes down on next publish" or "back to v1 on next publish" when the item or the live version
+can no longer be published, and "not in master" when web holds a version master no longer has. In grey, when settings
+hold back the newest version on purpose: "v3 not publishable", "v3 from 12 Nov", or "until 30 Nov" while the item's
+or version's end date is ahead. In blue, "v3 · Awaiting Approval" when the version that would go live is still in
+workflow; in amber, "v3 ready to publish" when it is in a final state or the item has no workflow, and "edited since"
+when the live version was changed after it was published. A screen reader hears both halves, and the tooltip says
+each in a sentence, with anything the pill had no room for. The settings come from the item's Publishing Settings
+dialog, read without opening it; the workflow state from the Review tab's workflow menu, where a state with no
+workflow commands, such as Sample Workflow's Approved, counts as final.
 **Copy** opens a menu of the item's and its template's name, path and ID; picking one copies it. **Navigate** opens a
 menu of the item's template and the templates it inherits from, nested, with Sitecore's own (under
 /sitecore/templates/System) left out; picking one opens it in the Content Editor.
 
 The panel never holds up the editor: the pills fill in once the browser is idle, from the version list Sitecore shows
-under the version button (and the workflow menu, only when web lacks the newest version), and Navigate asks for the
+under the version button, the publishing settings (and the workflow menu, only when web lacks the version that would
+go live), and Navigate asks for the
 template's inheritance only when it opens. Copy reads Quick Info, already in the page; with Quick Info switched off
 there is no template to copy or open, so Navigate is left out.
 

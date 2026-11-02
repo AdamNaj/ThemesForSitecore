@@ -1,12 +1,14 @@
 // Item info: a small panel at the right of the Content Editor's item header. Two chips say when the item's version was
 // last modified and by whom (the user name without its domain), and which version in this language is live in the web
-// database against master's newest: up to date, edited since it was published, or a newer version still in workflow or
-// ready to publish; Copy puts the item's or its template's name, path or ID on the clipboard, and Navigate opens its
-// template, or one of the templates that template inherits from (Sitecore's own, under /sitecore/templates/System,
-// left out).
+// database against what the next publish would put there: up to date, edited since it was published, a newer version
+// still in workflow or ready to publish, or the item or a version held back by its publishing settings (and live content
+// the next publish takes down); Copy puts the item's or its template's name, path or ID on the clipboard, and Navigate
+// opens its template, or one of the templates that template inherits from (Sitecore's own, under
+// /sitecore/templates/System, left out).
 // Nothing here holds up the editor: the chips fill in once the browser is idle, from the version list Sitecore shows
-// under the ribbon's version button (Gallery.Versions, once for the content database and once for web), and, when web
-// lacks master's newest version, from the Review tab's workflow menu for it (Gallery.WorkflowEdit). Navigate reads the
+// under the ribbon's version button (Gallery.Versions, once for the content database and once for web), the item's
+// Publishing Settings dialog opened read-only (SetPublishing), and, when web lacks the version that would go live, the
+// Review tab's workflow menu for it (Gallery.WorkflowEdit). Navigate reads the
 // template's Inheritance tab (TemplateInheritance) the first time it opens. Copy reads Quick Info, already in the page;
 // without Quick Info (switched off in the Application Options) there is no template to copy or open.
 // The pill says how long ago; its tooltip has Sitecore's own text for the date, in the user's format and the server's time.
@@ -27,22 +29,33 @@
     ready: svg('<path d="M7 9.5V2.5M4.5 5L7 2.5 9.5 5M2.5 9.5v2h9v-2"/>'),
     edited: svg('<path d="M9.5 2.5l2 2-6.5 6.5-2.7.7.7-2.7z"/>'),
     gone: svg('<path d="M7 1.8l5.6 9.7H1.4z"/><path d="M7 5.5v2.6M7 10v.01"/>'),
+    ban: svg('<circle cx="7" cy="7" r="5.5"/><path d="M3.1 3.1l7.8 7.8"/>'),
+    calendar: svg('<rect x="1.5" y="2.5" width="11" height="10" rx="1.5"/><path d="M1.5 5.5h11M4.5 1.5v2M9.5 1.5v2"/>'),
+    hidden: svg('<path d="M1.5 7S3.5 3 7 3s5.5 4 5.5 4-2 4-5.5 4S1.5 7 1.5 7z"/><circle cx="7" cy="7" r="1.8"/><path d="M2 2l10 10"/>'),
+    takedown: svg('<path d="M7 1.5v7M4.5 6L7 8.5 9.5 6M2.5 12h9"/>'),
+    back: svg('<path d="M5 3.5L2.5 6 5 8.5"/><path d="M2.5 6H9a3 3 0 0 1 0 6H6"/>'),
     down: '<svg viewBox="0 0 10 10" width="9" height="9" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>',
   };
   const inheritance = new Map(); // template ID -> Promise of [{ id, name, folder, depth }]
   let loading = null; // the chips' requests for the newest header, aborted when another item opens
   let serial = 0;
 
-  // "2 hours ago" from Sitecore's text for a date: 4/19/2026 6:21 PM (month first, as en-US writes it with AM/PM),
-  // 19/04/2026 18:21 or 19.04.2026 18:21 (day first), 2026-04-19 18:21. Null for anything else, and for a date in the
-  // future (the server's clock or time zone is not the browser's), so the pill shows Sitecore's text instead.
-  // ponytail: the server's time zone is taken to be the browser's; a server hours behind reads hours too recent
+  // A date from Sitecore's text for it: 4/19/2026 6:21 PM (month first, as en-US writes it with AM/PM), 19/04/2026 18:21
+  // or 19.04.2026 18:21 (day first), 2026-04-19 18:21, each with or without its time. Null for anything else.
+  // ponytail: the server's time zone is taken to be the browser's; a server hours behind reads hours too recent, and a
+  // date with no time and slashes is read month first
+  function when(text) {
+    let m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?: (\d{1,2}):(\d{2})(?::\d{2})? ?([AP]M))?$/i.exec(text);
+    if (m) return new Date(+m[3], m[1] - 1, +m[2], m[4] ? (m[4] % 12) + (/p/i.test(m[6]) ? 12 : 0) : 0, +(m[5] || 0));
+    if ((m = /^(\d{1,2})[./](\d{1,2})[./](\d{4})(?: (\d{1,2}):(\d{2}))?/.exec(text))) return new Date(+m[3], m[2] - 1, +m[1], +(m[4] || 0), +(m[5] || 0));
+    if ((m = /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{1,2}):(\d{2}))?/.exec(text))) return new Date(+m[1], m[2] - 1, +m[3], +(m[4] || 0), +(m[5] || 0));
+    return null;
+  }
+
+  // "2 hours ago" from Sitecore's text for a date; null for a date in the future (the server's clock or time zone is not
+  // the browser's), so the pill shows Sitecore's text instead
   function ago(text) {
-    let m = /^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}):(\d{2})(?::\d{2})? ?([AP]M)$/i.exec(text);
-    let d = null;
-    if (m) d = new Date(+m[3], m[1] - 1, +m[2], (m[4] % 12) + (/p/i.test(m[6]) ? 12 : 0), +m[5]);
-    else if ((m = /^(\d{1,2})[./](\d{1,2})[./](\d{4}) (\d{1,2}):(\d{2})/.exec(text))) d = new Date(+m[3], m[2] - 1, +m[1], +m[4], +m[5]);
-    else if ((m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{1,2}):(\d{2})/.exec(text))) d = new Date(+m[1], m[2] - 1, +m[3], +m[4], +m[5]);
+    const d = when(text);
     const s = d ? (Date.now() - d) / 1000 : NaN;
     if (!(s > -120)) return null;
     if (s < 60) return "just now";
@@ -107,30 +120,111 @@
     return flowOf(page);
   }
 
-  // What web has against master's newest version in this language: rows from gallery() for each database, flow from
-  // workflow() for master's newest (undefined when web has it, null when it could not be read).
-  function published(mine, web, flow) {
-    const top = (rows) => rows.reduce((n, r) => Math.max(n, +r.ver || 0), 0);
+  // The item's publishing restrictions, from its Publishing Settings dialog (Publish tab, Change) opened read-only: the
+  // item's Publishable box and dates, each version's, and the publishing targets ticked (none ticked: every target).
+  // Dates are Sitecore's text for them, in the user's format and the server's time.
+  function rulesOf(page) {
+    const value = (id) => page.getElementById(id)?.getAttribute("value") || "";
+    const date = (id) => {
+      const text = [value(`${id}_date`), value(`${id}_time`)].filter(Boolean).join(" ");
+      const at = text && when(text);
+      return at ? { text, at } : null;
+    };
+    const versions = {};
+    for (const box of page.querySelectorAll('input[id^="hide_"]')) {
+      const v = box.id.slice(5);
+      versions[v] = { publishable: box.hasAttribute("checked"), from: date(`validfrom_${v}`), to: date(`validto_${v}`) };
+    }
+    const targets = [...page.querySelectorAll('input[id^="pb_"][checked]')].map((t) => (t.nextSibling?.textContent || "").trim());
+    return { publishable: page.getElementById("NeverPublish").hasAttribute("checked"), from: date("Publish"), to: date("Unpublish"), versions, targets };
+  }
+
+  async function rules(doc, item, signal) {
+    const r = await fetch(url(doc, "SetPublishing", { id: item.id, la: item.lang, vs: item.ver, db: item.db, ro: 1 }), { credentials: "include", signal });
+    const page = new DOMParser().parseFromString(await r.text(), "text/html");
+    if (!r.ok || !page.getElementById("NeverPublish")) throw new Error("not the publishing settings");
+    return rulesOf(page);
+  }
+
+  const top = (rows) => rows.reduce((n, r) => Math.max(n, +r.ver || 0), 0);
+  const short = (d) => d.at.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+
+  // Why a version, or the whole item, cannot go live now: null when it can (or the rules could not be read).
+  function heldVersion(rules, v, now) {
+    const r = rules && rules.versions[v];
+    if (!r) return null;
+    if (!r.publishable) return { icon: "hidden", text: `v${v} not publishable`, why: `Version ${v}'s Publishable box is unticked` };
+    if (r.from && r.from.at > now) return { icon: "calendar", text: `v${v} from ${short(r.from)}`, why: `Version ${v} can be published from ${r.from.text}` };
+    if (r.to && r.to.at <= now) return { icon: "hidden", text: `v${v} expired`, why: `Version ${v} stopped being publishable on ${r.to.text}` };
+    return null;
+  }
+  // ponytail: the web database's target is taken to be the one named Internet (or web); one named otherwise reads as left out
+  function heldItem(rules, now) {
+    if (!rules) return null;
+    if (!rules.publishable) return { icon: "ban", text: "Never publishes", why: "The item's Publishable box is unticked" };
+    if (rules.from && rules.from.at > now) return { icon: "calendar", text: `Publishes from ${short(rules.from)}`, why: `The item can be published from ${rules.from.text}` };
+    if (rules.to && rules.to.at <= now) return { icon: "ban", text: "Not publishable", why: `The item stopped being publishable on ${rules.to.text}` };
+    if (rules.targets.length && !rules.targets.some((t) => /^(internet|web)$/i.test(t))) return { icon: "ban", text: "Not for web", why: `Its publishing targets (${rules.targets.join(", ")}) leave out Internet` };
+    return null;
+  }
+
+  // The version the next publish puts in web: master's newest that its settings let go live (its workflow aside); 0 for none.
+  function candidate(mine, rules, now = new Date()) {
+    if (heldItem(rules, now)) return 0;
+    const vers = [...new Set(mine.map((r) => +r.ver || 0))].sort((a, b) => b - a);
+    return vers.find((v) => v && !heldVersion(rules, v, now)) || 0;
+  }
+
+  // What web has against what the next publish would put there: rows from gallery() for each database, rules from
+  // rules() (null when they could not be read), flow from workflow() for candidate() (undefined when web already has it,
+  // null when it could not be read). The pill is one part when nothing is live and nothing can go, else what is live
+  // and, beside it, the one thing to know next, most serious first; the tooltip says the rest.
+  function published(mine, web, flow, rules = null, now = new Date()) {
     const newest = top(mine);
     const live = top(web);
     const row = (rows, v) => rows.find((r) => +r.ver === v);
+    const item = heldItem(rules, now);
+    const goes = candidate(mine, rules, now);
+    const notes = [];
     let next = null;
-    if (live && !row(mine, live)) {
+    if (!live && !goes) {
+      // nothing in web, and nothing can go
+      const h = item || heldVersion(rules, newest, now);
+      if (h) return { state: "held", icon: h.icon, text: item ? h.text : h.icon === "calendar" ? `Publishes from ${short(rules.versions[newest].from)}` : "Not publishable", title: `${h.why}, so no version of it is published.`, next: null };
+    }
+    if (live && item) {
+      next = { state: "down", icon: "takedown", text: "comes down on next publish", title: `${item.why}, so the next publish removes it from web.` };
+    } else if (live && !row(mine, live)) {
       next = { state: "gone", text: "not in master", title: `Version ${live} is no longer in master; publishing the item brings web in line.` };
-    } else if (newest > live) {
-      if (flow && flow.state && !flow.final) next = { state: "flow", text: `v${newest} · ${flow.state}`, title: `Version ${newest} is in the ${flow.state} state of the ${flow.workflow} workflow.` };
-      else if (flow && flow.workflow && !flow.state) next = { state: "flow", text: `v${newest} · no state`, title: `Version ${newest} is in the ${flow.workflow} workflow but has no state.` };
-      else if (flow) next = { state: "ready", text: `v${newest} ready to publish`, title: `Version ${newest} goes live on the next publish.` };
-      else if (live) next = { state: "ready", text: `v${newest} not published`, title: `Version ${newest} is not in web yet.` };
+    } else if (live && goes < live) {
+      const why = heldVersion(rules, live, now).why;
+      next = goes
+        ? { state: "down", icon: "back", text: `back to v${goes} on next publish`, title: `${why}, so the next publish puts version ${goes} back.` }
+        : { state: "down", icon: "takedown", text: "comes down on next publish", title: `${why}, so the next publish removes it from web.` };
+    } else if (goes > live) {
+      if (flow && flow.state && !flow.final) next = { state: "flow", text: `v${goes} · ${flow.state}`, title: `Version ${goes} is in the ${flow.state} state of the ${flow.workflow} workflow.` };
+      else if (flow && flow.workflow && !flow.state) next = { state: "flow", text: `v${goes} · no state`, title: `Version ${goes} is in the ${flow.workflow} workflow but has no state.` };
+      else if (flow) next = { state: "ready", text: `v${goes} ready to publish`, title: `Version ${goes} goes live on the next publish.` };
+      else if (live) next = { state: "ready", text: `v${goes} not published`, title: `Version ${goes} is not in web yet.` };
+      if (newest > goes) notes.push(`${heldVersion(rules, newest, now).why}.`);
     } else if (live) {
+      const h = newest > live && heldVersion(rules, newest, now);
       const m = row(mine, live);
       const w = row(web, live);
-      if (m.date !== w.date || m.user !== w.user) next = { state: "edited", text: "edited since", title: `It was changed after it was published: ${m.date} by ${m.user}.` };
+      const edited = m.date !== w.date || m.user !== w.user ? `It was changed after it was published: ${m.date} by ${m.user}.` : "";
+      if (h) {
+        next = { state: "held", icon: h.icon, text: h.text, title: `${h.why}, so publishing keeps version ${live}.` };
+        if (edited) notes.push(edited);
+      } else if (edited) next = { state: "edited", text: "edited since", title: edited };
+      else {
+        const end = [rules && rules.to, rules && rules.versions[live] && rules.versions[live].to].filter((d) => d && d.at > now).sort((a, b) => a.at - b.at)[0];
+        if (end) next = { state: "held", icon: "calendar", text: `until ${short(end)}`, title: `It stops being publishable on ${end.text}; the first publish after that takes it down.` };
+      }
     }
     const head = live
       ? { state: "yes", text: next ? `Live v${live}` : `Published · v${live}`, title: `Version ${live} is live in the web database.` }
       : { state: "no", text: "Not published", title: "No version in this language in the web database." };
-    return { ...head, title: next ? `${head.title} ${next.title}` : head.title, next };
+    return { ...head, title: [head.title, next && next.title, ...notes].filter(Boolean).join(" "), next };
   }
 
   // the bases of a template, as its Inheritance tab nests them, Sitecore's own left out with everything under them
@@ -203,20 +297,22 @@
     later(async () => {
       if (ctrl.signal.aborted) return;
       const [mod, pub] = status.children;
-      const [mine, web] = await Promise.allSettled([
+      const [mine, web, settings] = await Promise.allSettled([
         gallery(ctx.doc, item, item.db, ctrl.signal),
         pub ? gallery(ctx.doc, item, "web", ctrl.signal) : null,
+        pub ? rules(ctx.doc, item, ctrl.signal) : null,
       ]);
       if (ctrl.signal.aborted || !header.isConnected) return;
       const v = mine.status === "fulfilled" && (mine.value.find((r) => r.ver === item.ver) || mine.value.at(-1));
       if (v) fill(mod, ICONS.clock, `${ago(v.date) || v.date} · ${v.user.slice(v.user.lastIndexOf("\\") + 1)}`, `Modified ${v.date} by ${v.user}`);
       else mod.remove(); // signed out, or a page Sitecore would not give: no chip rather than a wrong one
       if (pub && web.status === "fulfilled" && mine.status === "fulfilled" && mine.value.length) {
-        const newest = mine.value.reduce((n, r) => Math.max(n, +r.ver || 0), 0);
-        const flow = web.value.some((r) => +r.ver >= newest) ? undefined : await workflow(ctx.doc, item, newest, ctrl.signal).catch(() => null);
+        const set = settings.status === "fulfilled" ? settings.value : null; // without them, nothing is taken as held back
+        const goes = candidate(mine.value, set);
+        const flow = goes > top(web.value) ? await workflow(ctx.doc, item, goes, ctrl.signal).catch(() => null) : undefined;
         if (ctrl.signal.aborted || !header.isConnected) return;
-        const p = published(mine.value, web.value, flow);
-        fill(pub, p.state === "yes" ? ICONS.globe : ICONS.globeOff, p.text, p.title, p.state);
+        const p = published(mine.value, web.value, flow, set);
+        fill(pub, ICONS[p.icon] || (p.state === "yes" ? ICONS.globe : ICONS.globeOff), p.text, p.title, p.state);
         if (p.next) {
           // two halves, each with its own tint
           const live = ctx.doc.createElement("sct-item-live");
@@ -224,7 +320,7 @@
           pub.append(live);
           const n = ctx.doc.createElement("sct-item-next");
           n.dataset.state = p.next.state;
-          n.innerHTML = `<sct-item-sr>, </sct-item-sr>${ICONS[p.next.state]}`;
+          n.innerHTML = `<sct-item-sr>, </sct-item-sr>${ICONS[p.next.icon || p.next.state]}`;
           n.append(p.next.text);
           pub.append(n);
         }
@@ -387,7 +483,7 @@
     load(ctx, header, status, item);
   }
 
-  SCT.itemInfo = { published }; // for the unit tests
+  SCT.itemInfo = { published, candidate, when }; // for the unit tests
 
   SCT.registerAid("item-info", {
     css: `.scEditorHeader:has(>sct-item-info){display:flow-root;height:auto!important}
@@ -401,7 +497,10 @@ sct-item-next[data-state="flow"]{background:color-mix(in srgb,#1c7ed6 14%,transp
 sct-item-chip>sct-item-next[data-state="flow"] svg{color:#1c7ed6}
 sct-item-next[data-state="ready"],sct-item-next[data-state="edited"]{background:color-mix(in srgb,#e8a10c 18%,transparent);border-color:color-mix(in srgb,#e8a10c 60%,transparent)}
 sct-item-chip>sct-item-next[data-state="ready"] svg,sct-item-chip>sct-item-next[data-state="edited"] svg{color:#c07f00}
-sct-item-next[data-state="gone"]{background:color-mix(in srgb,#e03131 14%,transparent);border-color:color-mix(in srgb,#e03131 55%,transparent)}
+sct-item-next[data-state="gone"],sct-item-next[data-state="down"]{background:color-mix(in srgb,#e03131 14%,transparent);border-color:color-mix(in srgb,#e03131 55%,transparent)}
+sct-item-chip>sct-item-next[data-state="down"] svg{color:#e03131}
+sct-item-chip[data-state="held"],sct-item-next[data-state="held"]{background:color-mix(in srgb,#868e96 14%,transparent);border-color:color-mix(in srgb,#868e96 62%,transparent)}
+sct-item-chip[data-state="held"] svg,sct-item-chip>sct-item-next[data-state="held"] svg{color:#5c636a}
 sct-item-chip>sct-item-next[data-state="gone"] svg{color:#e03131}
 sct-item-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 sct-item-chip svg,sct-item-info button svg{flex:none}
