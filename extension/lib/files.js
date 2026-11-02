@@ -8,6 +8,9 @@
   // stylesheets are not on the local installs, so it has no generated map: live-map.js maps them in the page.
   const areaMap = (surface) => [...(surface === "contenthub" ? [] : [`surfaces/${surface}.gen.css`]), `surfaces/${surface}.css`];
 
+  // A token theme's optional tokens and color-scheme reset, so its sheet wins them over an older one left in the tab.
+  const APPEARANCE = "surfaces/appearance.css";
+
   // Every theme's look for the site's postfix in Sitecore's top bar, and the Sitecore Extensions database name moved aside.
   const BAR = "surfaces/bar.css";
 
@@ -16,12 +19,12 @@
     if (themeId.startsWith("import:")) {
       const t = (imported || {})[themeId];
       if (!t) return { files: [], css: "" };
-      return { files: t.usesTokens ? [...areaMap(surface), BAR] : [BAR], css: t.css };
+      return { files: t.usesTokens ? [...areaMap(surface), APPEARANCE, BAR] : [BAR], css: t.css };
     }
     const theme = builtIns().find((t) => t.id === themeId);
     if (!theme) return { files: [], css: "" };
     const files = [
-      ...(theme.usesTokens ? [...areaMap(surface), `themes/${theme.id}/tokens.css`] : []),
+      ...(theme.usesTokens ? [...areaMap(surface), APPEARANCE, `themes/${theme.id}/tokens.css`] : []),
       ...theme.shared.map((f) => `themes/${theme.id}/${f}`),
       ...(theme.areas.includes(surface) ? [`themes/${theme.id}/${surface}.css`] : []),
       BAR,

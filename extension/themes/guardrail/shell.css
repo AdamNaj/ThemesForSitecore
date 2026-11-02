@@ -183,6 +183,25 @@ html[data-sct-theme="guardrail"][data-sct-surface="shell"] .scStartMenuRight {
   background-color: var(--sct-panel-bg);
 }
 
+/* ---- Menus: the generated map paints a hovered row the same --sct-app-bg as a resting one. The hovered row
+   takes the environment's colour (tokens.css --gr-hover, --gr-hover-bar): a tint behind the text and a bar at its
+   left that stands out 3:1 from the menus and the start menu, in light and dark, for every environment. Context
+   menus and fly-outs mark the cells with _Hover; the ribbon galleries' rows only hover. */
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] table.scMenu :is(.scMenuItemIcon_Hover, .scMenuItemCaption_Hover, .scMenuItemHotkey_Hover),
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon)):hover > td {
+  background-color: var(--gr-hover);
+  color: var(--sct-panel-fg);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] :is(a.scStartMenuRightFolder, a.scStartMenuProgramsMenu):hover {
+  background-color: var(--gr-hover);
+  color: var(--sct-panel-fg);
+  box-shadow: inset 3px 0 var(--gr-hover-bar);
+}
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] table.scMenu .scMenuItemIcon_Hover,
+html[data-sct-theme="guardrail"][data-sct-surface="shell"] body:is([data-sct-page~="gallery"] > *) :is(.scGalleryMenuItem, tr:not([class]):has(> .scMenuItemIcon)):hover > td:first-child {
+  box-shadow: inset 3px 0 var(--gr-hover-bar);
+}
+
 /* Sitecore's red application header band (SPE Reports and other SPEAK-style pages): white, as the Control
    Panel's, since red means production here. */
 html[data-sct-theme="guardrail"][data-sct-surface="shell"] .sc-applicationHeader {

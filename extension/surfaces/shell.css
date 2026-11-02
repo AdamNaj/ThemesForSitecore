@@ -179,6 +179,12 @@ html[data-sct-tokens][data-sct-surface="shell"] .scSystemMenu {
   background: linear-gradient(var(--sct-ribbon-tab-fg), var(--sct-ribbon-tab-fg)) center calc(50% + -5px) / 16px 2px no-repeat, linear-gradient(var(--sct-ribbon-tab-fg), var(--sct-ribbon-tab-fg)) center calc(50% + 0px) / 16px 2px no-repeat, linear-gradient(var(--sct-ribbon-tab-fg), var(--sct-ribbon-tab-fg)) center calc(50% + 5px) / 16px 2px no-repeat;
 }
 
+/* The menus' fly-out arrows (context menus' Submenu16x16, the start menu's folders) are dark bitmaps: on a
+   dark theme they take the glyph filter. :where() keeps this under any theme's own rule for them. */
+html[data-sct-tokens][data-sct-surface="shell"] :where(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph, img[src*="Submenu16x16" i]) {
+  filter: var(--sct-glyph-filter, none);
+}
+
 /* Menus scroll only when they reach the window. scBrowser.showPopup (Controls/Browser.js) measures a popup
    once and pins max-height to the rounded offsetHeight (10.4) or one pixel more (10.5), so a menu whose rows
    add up to a fraction more than that, or that grows after it opens, shows a scrollbar with room to spare.

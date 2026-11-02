@@ -1,0 +1,22 @@
+/* Loaded under every token theme on every surface, just before the theme's tokens.css. A tab can still hold an
+   older sheet in the page: the dark half of the same theme after a live switch to Light (an unpacked extension
+   re-reads its files, so once one has changed on disk the old text no longer matches and cannot be removed), or
+   another theme. Required token roles are declared by every theme, so the newest sheet sets them all; the
+   optional ones the shared layer reads, and color-scheme, are declared nowhere in a light half. They are
+   reset here, so the newest sheet wins them too and a leftover dark sheet's glyph filter cannot invert a light
+   theme's glyphs. `initial` leaves the token unset: every var() fallback still applies. The editor filter is
+   `none` instead, the default surfaces/shell.css gives it (a style query there turns the ISE dark for any other
+   value). tokens.test.js checks that every optional token a theme's dark half sets is reset here. */
+html[data-sct-tokens] {
+  --sct-glyph-filter: initial;
+  --sct-editor-filter: none;
+  --sct-content-filter: initial;
+  --sct-warning-bg: initial;
+  --sct-error-bg: initial;
+  --sct-information-bg: initial;
+  --sct-green-fg: initial;
+}
+/* never on the Experience Editor's website, whose own color-scheme stays */
+html[data-sct-tokens]:not([data-sct-surface="ee"]) {
+  color-scheme: normal;
+}

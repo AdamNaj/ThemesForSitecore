@@ -4,7 +4,8 @@
    sandbox, local, and beta for Sitecore's own beta releases. The edge thins as the risk drops. Every label sits
    on the lighter stripe at 4.5:1 or better with white text: #c62828 5.6, #a86200 4.8, #1565c0 5.8, #2e7d32 5.1,
    #00796b 5.3, #546e7a 5.4, #7b1fa2 8.2.
-   10.4 keeps 10.5's purple accent: its own red would read as the production marker. */
+   The accents (links, focus, selection, its border, primary buttons) take the environment's colour too, in place of
+   10.5's purple: production's here and in the dark block, the others' in each environment's blocks below. */
 html[data-sct-theme="guardrail"] {
   --sct-font-family: inherit;
   --sct-font-size: inherit;
@@ -17,14 +18,14 @@ html[data-sct-theme="guardrail"] {
   --sct-muted-fg: #575757;
   --sct-border: #dedede;
   --sct-border-strong: #d1d1d1;
-  --sct-accent: #6e3fff;
+  --sct-accent: #c62828;
   --sct-accent-fg: #ffffff;
-  --sct-link: #5319e0;
-  --sct-focus-ring: #6e3fff;
+  --sct-link: #c62828;
+  --sct-focus-ring: #c62828;
   --sct-raised-bg: #ebebeb;
   --sct-chrome-bg: #ffffff;
   --sct-chrome-fg: #0f0f0f;
-  --sct-selected-bg: #eae7ff;
+  --sct-selected-bg: #f8e5e5;
 
   --sct-titlebar-bg: #ffffff;
   --sct-titlebar-fg: #0f0f0f;
@@ -47,9 +48,9 @@ html[data-sct-theme="guardrail"] {
   --sct-tree-bg: #ffffff;
   --sct-tree-fg: #0f0f0f;
   --sct-tree-hover-bg: #ebebeb;
-  --sct-tree-selected-bg: #eae7ff;
+  --sct-tree-selected-bg: #f8e5e5;
   --sct-tree-selected-fg: #0f0f0f;
-  --sct-tree-selected-border: #6e3fff;
+  --sct-tree-selected-border: #c62828;
 
   --sct-section-header-bg: #f7f7f7;
   --sct-section-header-fg: #000000;
@@ -59,15 +60,15 @@ html[data-sct-theme="guardrail"] {
   --sct-input-bg: #ffffff;
   --sct-input-fg: #0f0f0f;
   --sct-input-border: #949494;
-  --sct-input-focus-border: #6e3fff;
+  --sct-input-focus-border: #c62828;
 
   --sct-button-bg: #ffffff;
   --sct-button-fg: #525252;
   --sct-button-border: #dedede;
   --sct-button-hover-bg: #f0f0f0;
-  --sct-button-primary-bg: #6e3fff;
+  --sct-button-primary-bg: #c62828;
   --sct-button-primary-fg: #ffffff;
-  --sct-button-primary-hover-bg: #5319e0;
+  --sct-button-primary-hover-bg: #9e2020;
 
   --sct-table-header-bg: #ffffff;
   --sct-table-header-fg: #575757;
@@ -87,6 +88,10 @@ html[data-sct-theme="guardrail"] {
   --gr-env-short: "PROD";
   --gr-edge: 4px;
   --gr-stripes: repeating-linear-gradient(-45deg, var(--gr-env) 0 12px, var(--gr-env-2) 12px 24px);
+  /* a hovered menu row (shell.css): the environment tinted into the menu, its text 13:1 or better, and the
+     environment as a bar, 4.2:1 or better on the menus (#f0f0f0, #ffffff) for every environment */
+  --gr-hover: color-mix(in srgb, var(--gr-env) 16%, var(--sct-app-bg));
+  --gr-hover-bar: var(--gr-env);
 }
 
 /* Dark, when the OS asks for it: Debrightify's low-glare palette, with its lighter purple on both versions
@@ -104,14 +109,14 @@ html[data-sct-theme="guardrail"] {
     --sct-muted-fg: #9aa0a6;
     --sct-border: #3a3d42;
     --sct-border-strong: #55595f;
-    --sct-accent: #9d86ff;
+    --sct-accent: #d56262;
     --sct-accent-fg: #1e1f22;
-    --sct-link: #b4a5ff;
-    --sct-focus-ring: #9d86ff;
+    --sct-link: #df8787;
+    --sct-focus-ring: #d56262;
     --sct-raised-bg: #2e3135;
     --sct-chrome-bg: #34373c;
     --sct-chrome-fg: #e6e7e9;
-    --sct-selected-bg: #3a3260;
+    --sct-selected-bg: #502224;
 
     --sct-titlebar-bg: #2e3135;
     --sct-titlebar-fg: #e6e7e9;
@@ -134,9 +139,9 @@ html[data-sct-theme="guardrail"] {
     --sct-tree-bg: #1e1f22;
     --sct-tree-fg: #d6d8db;
     --sct-tree-hover-bg: #2a2c30;
-    --sct-tree-selected-bg: #3a3260;
+    --sct-tree-selected-bg: #502224;
     --sct-tree-selected-fg: #ffffff;
-    --sct-tree-selected-border: #6f5fc4;
+    --sct-tree-selected-border: #d76969;
 
     --sct-section-header-bg: #2e3135;
     --sct-section-header-fg: #e6e7e9;
@@ -146,15 +151,15 @@ html[data-sct-theme="guardrail"] {
     --sct-input-bg: #1a1b1e;
     --sct-input-fg: #d6d8db;
     --sct-input-border: #4a4e54;
-    --sct-input-focus-border: #9d86ff;
+    --sct-input-focus-border: #d56262;
 
     --sct-button-bg: #2e3135;
     --sct-button-fg: #d6d8db;
     --sct-button-border: #4a4e54;
     --sct-button-hover-bg: #383b40;
-    --sct-button-primary-bg: #9d86ff;
+    --sct-button-primary-bg: #d56262;
     --sct-button-primary-fg: #1e1f22;
-    --sct-button-primary-hover-bg: #b09dff;
+    --sct-button-primary-hover-bg: #db7a7a;
 
     --sct-table-header-bg: #2e3135;
     --sct-table-header-fg: #c3c6ca;
@@ -170,6 +175,11 @@ html[data-sct-theme="guardrail"] {
     --sct-glyph-filter: invert(1) hue-rotate(180deg);
     --sct-editor-filter: invert(0.88) hue-rotate(180deg);
     --sct-content-filter: brightness(0.8);
+
+    /* the hovered menu row on the dark menus (#1e1f22, #26282b): a stronger tint, its text 7.9:1 or better, and the
+       environment lifted towards white for the bar, 4.3:1 or better for every environment */
+    --gr-hover: color-mix(in srgb, var(--gr-env) 30%, var(--sct-app-bg));
+    --gr-hover-bar: color-mix(in srgb, var(--gr-env) 70%, #ffffff);
   }
   /* color-scheme changes the canvas and default colours of the whole document. In the Experience
      Editor the document is the website, so it stays out of the ee area. */
@@ -185,6 +195,17 @@ html[data-sct-theme="guardrail"][data-sct-env="staging"] {
   --gr-env-label: "STAGING";
   --gr-env-short: "STAGING";
   --gr-edge: 3px;
+  --sct-accent: #a86200;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #a05d00;
+  --sct-focus-ring: #a86200;
+  --sct-input-focus-border: #a86200;
+  --sct-tree-selected-border: #a86200;
+  --sct-selected-bg: #f5ece0;
+  --sct-tree-selected-bg: #f5ece0;
+  --sct-button-primary-bg: #a86200;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #864e00;
 }
 
 /* Dev: green, the stripes barely there. */
@@ -194,6 +215,17 @@ html[data-sct-theme="guardrail"][data-sct-env="dev"] {
   --gr-env-label: "DEV";
   --gr-env-short: "DEV";
   --gr-edge: 3px;
+  --sct-accent: #2e7d32;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #2e7c32;
+  --sct-focus-ring: #2e7d32;
+  --sct-input-focus-border: #2e7d32;
+  --sct-tree-selected-border: #2e7d32;
+  --sct-selected-bg: #e6efe6;
+  --sct-tree-selected-bg: #e6efe6;
+  --sct-button-primary-bg: #2e7d32;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #256428;
 }
 
 /* QA: blue. */
@@ -203,6 +235,17 @@ html[data-sct-theme="guardrail"][data-sct-env="qa"] {
   --gr-env-label: "QA";
   --gr-env-short: "QA";
   --gr-edge: 3px;
+  --sct-accent: #1565c0;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #1565c0;
+  --sct-focus-ring: #1565c0;
+  --sct-input-focus-border: #1565c0;
+  --sct-tree-selected-border: #1565c0;
+  --sct-selected-bg: #e3edf7;
+  --sct-tree-selected-bg: #e3edf7;
+  --sct-button-primary-bg: #1565c0;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #11519a;
 }
 
 /* Sandbox: teal, the edge at its thinnest. */
@@ -212,6 +255,17 @@ html[data-sct-theme="guardrail"][data-sct-env="sandbox"] {
   --gr-env-label: "SANDBOX";
   --gr-env-short: "SANDBOX";
   --gr-edge: 2px;
+  --sct-accent: #00796b;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #00796b;
+  --sct-focus-ring: #00796b;
+  --sct-input-focus-border: #00796b;
+  --sct-tree-selected-border: #00796b;
+  --sct-selected-bg: #e0efed;
+  --sct-tree-selected-bg: #e0efed;
+  --sct-button-primary-bg: #00796b;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #006156;
 }
 
 /* Local: slate, the stripes almost flat. */
@@ -221,6 +275,17 @@ html[data-sct-theme="guardrail"][data-sct-env="local"] {
   --gr-env-label: "LOCAL";
   --gr-env-short: "LOCAL";
   --gr-edge: 2px;
+  --sct-accent: #546e7a;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #546e7a;
+  --sct-focus-ring: #546e7a;
+  --sct-input-focus-border: #546e7a;
+  --sct-tree-selected-border: #546e7a;
+  --sct-selected-bg: #eaeeef;
+  --sct-tree-selected-bg: #eaeeef;
+  --sct-button-primary-bg: #546e7a;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #435862;
 }
 
 /* Beta, an install of a Sitecore beta release: a red-leaning violet. Sitecore's accent is a bluer, brighter
@@ -231,4 +296,99 @@ html[data-sct-theme="guardrail"][data-sct-env="beta"] {
   --gr-env-label: "BETA";
   --gr-env-short: "BETA";
   --gr-edge: 3px;
+  --sct-accent: #7b1fa2;
+  --sct-accent-fg: #ffffff;
+  --sct-link: #7b1fa2;
+  --sct-focus-ring: #7b1fa2;
+  --sct-input-focus-border: #7b1fa2;
+  --sct-tree-selected-border: #7b1fa2;
+  --sct-selected-bg: #efe4f4;
+  --sct-tree-selected-bg: #efe4f4;
+  --sct-button-primary-bg: #7b1fa2;
+  --sct-button-primary-fg: #ffffff;
+  --sct-button-primary-hover-bg: #621982;
+}
+
+/* Dark, each environment's accents: lifted towards white until the dark text on them, and links on the darkest
+   panel, pass 4.5:1; the selection a 30% tint of the environment; the tree's selection border the environment
+   70% towards white, as the menus' hover bar (shell.css). guardrail.test.js checks every environment in both halves. */
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="guardrail"][data-sct-env="staging"] {
+    --sct-accent: #b57a26;
+    --sct-accent-fg: #1e1f22;
+    --sct-link: #c69757;
+    --sct-focus-ring: #b57a26;
+    --sct-input-focus-border: #b57a26;
+    --sct-tree-selected-border: #c2914d;
+    --sct-selected-bg: #473318;
+    --sct-tree-selected-bg: #473318;
+    --sct-button-primary-bg: #b57a26;
+    --sct-button-primary-fg: #1e1f22;
+    --sct-button-primary-hover-bg: #c08e47;
+  }
+  html[data-sct-theme="guardrail"][data-sct-env="qa"] {
+    --sct-accent: #4d8acf;
+    --sct-accent-fg: #1e1f22;
+    --sct-link: #73a3d9;
+    --sct-focus-ring: #4d8acf;
+    --sct-input-focus-border: #4d8acf;
+    --sct-tree-selected-border: #5b93d3;
+    --sct-selected-bg: #1b3451;
+    --sct-tree-selected-bg: #1b3451;
+    --sct-button-primary-bg: #4d8acf;
+    --sct-button-primary-fg: #1e1f22;
+    --sct-button-primary-hover-bg: #689cd6;
+  }
+  html[data-sct-theme="guardrail"][data-sct-env="dev"] {
+    --sct-accent: #549457;
+    --sct-accent-fg: #1e1f22;
+    --sct-link: #79ac7c;
+    --sct-focus-ring: #549457;
+    --sct-input-focus-border: #549457;
+    --sct-tree-selected-border: #6da470;
+    --sct-selected-bg: #233b27;
+    --sct-tree-selected-bg: #233b27;
+    --sct-button-primary-bg: #549457;
+    --sct-button-primary-fg: #1e1f22;
+    --sct-button-primary-hover-bg: #6ea470;
+  }
+  html[data-sct-theme="guardrail"][data-sct-env="sandbox"] {
+    --sct-accent: #339489;
+    --sct-accent-fg: #1e1f22;
+    --sct-link: #61aca3;
+    --sct-focus-ring: #339489;
+    --sct-input-focus-border: #339489;
+    --sct-tree-selected-border: #4da197;
+    --sct-selected-bg: #153a38;
+    --sct-tree-selected-bg: #153a38;
+    --sct-button-primary-bg: #339489;
+    --sct-button-primary-fg: #1e1f22;
+    --sct-button-primary-hover-bg: #52a49b;
+  }
+  html[data-sct-theme="guardrail"][data-sct-env="local"] {
+    --sct-accent: #748a93;
+    --sct-accent-fg: #1e1f22;
+    --sct-link: #92a2aa;
+    --sct-focus-ring: #748a93;
+    --sct-input-focus-border: #748a93;
+    --sct-tree-selected-border: #879aa2;
+    --sct-selected-bg: #2e373c;
+    --sct-tree-selected-bg: #2e373c;
+    --sct-button-primary-bg: #748a93;
+    --sct-button-primary-fg: #1e1f22;
+    --sct-button-primary-hover-bg: #899ca3;
+  }
+  html[data-sct-theme="guardrail"][data-sct-env="beta"] {
+    --sct-accent: #ab70c3;
+    --sct-accent-fg: #1e1f22;
+    --sct-link: #bd8fd1;
+    --sct-focus-ring: #ab70c3;
+    --sct-input-focus-border: #ab70c3;
+    --sct-tree-selected-border: #a362be;
+    --sct-selected-bg: #3a1f48;
+    --sct-tree-selected-bg: #3a1f48;
+    --sct-button-primary-bg: #ab70c3;
+    --sct-button-primary-fg: #1e1f22;
+    --sct-button-primary-hover-bg: #b885cc;
+  }
 }

@@ -87,4 +87,26 @@ for (const theme of tokenThemes) {
   }
 }
 
+// A tab can keep an older sheet after a live switch (the dark half of a theme that follows the OS, once a file
+// changed on disk; another theme): the newest sheet must set every token the shared layer reads. Every theme
+// declares the roles; the optional tokens and color-scheme are reset in surfaces/appearance.css, which loads
+// before each theme's tokens.css. Without the reset a leftover dark glyph filter turned a light theme's glyphs white.
+test("every optional token a theme sets is reset in surfaces/appearance.css, before the theme's tokens", () => {
+  const SURFACES = path.join(__dirname, "..", "..", "extension", "surfaces");
+  const reset = fs.readFileSync(path.join(SURFACES, "appearance.css"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
+  const shared = fs.readdirSync(SURFACES).filter((f) => f.endsWith(".css") && f !== "appearance.css")
+    .map((f) => fs.readFileSync(path.join(SURFACES, f), "utf8")).join("\n");
+  const { sources } = require("../../extension/lib/files.js");
+  for (const theme of themes.filter((t) => t.usesTokens)) {
+    const css = fs.readFileSync(path.join(THEMES, theme.id, "tokens.css"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
+    for (const [, name] of css.matchAll(/(--sct-[\w-]+)\s*:/g)) {
+      if (roles.includes(name) || nonColor.includes(name) || !shared.includes(`var(${name}`)) continue;
+      assert.match(reset, new RegExp(`${name}\\s*:`), `${theme.id} sets ${name}, which surfaces/appearance.css does not reset`);
+    }
+    if (/color-scheme\s*:/.test(css)) assert.match(reset, /color-scheme\s*:/, `${theme.id} sets color-scheme, which surfaces/appearance.css does not reset`);
+    const files = sources(theme.id, "shell").files;
+    assert.ok(files.indexOf("surfaces/appearance.css") >= 0 && files.indexOf("surfaces/appearance.css") < files.indexOf(`themes/${theme.id}/tokens.css`), `${theme.id}: appearance.css must load before tokens.css`);
+  }
+});
+
 module.exports = { readTokens, contrast };
