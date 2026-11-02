@@ -1,12 +1,14 @@
 // Item info: a small panel at the right of the Content Editor's item header. Two chips say when the item's version was
-// last modified and by whom (the user name without its domain), and whether the item has a version in this language in
-// the web database; Copy puts the item's or its template's name, path or ID on the clipboard, and Navigate opens its
+// last modified and by whom (the user name without its domain), and which version in this language is live in the web
+// database against master's newest: up to date, edited since it was published, or a newer version still in workflow or
+// ready to publish; Copy puts the item's or its template's name, path or ID on the clipboard, and Navigate opens its
 // template, or one of the templates that template inherits from (Sitecore's own, under /sitecore/templates/System,
 // left out).
 // Nothing here holds up the editor: the chips fill in once the browser is idle, from the version list Sitecore shows
-// under the ribbon's version button (Gallery.Versions, once for the content database and once for web), and Navigate
-// reads the template's Inheritance tab (TemplateInheritance) the first time it opens. Copy reads Quick Info, already in
-// the page; without Quick Info (switched off in the Application Options) there is no template to copy or open.
+// under the ribbon's version button (Gallery.Versions, once for the content database and once for web), and, when web
+// lacks master's newest version, from the Review tab's workflow menu for it (Gallery.WorkflowEdit). Navigate reads the
+// template's Inheritance tab (TemplateInheritance) the first time it opens. Copy reads Quick Info, already in the page;
+// without Quick Info (switched off in the Application Options) there is no template to copy or open.
 // The pill says how long ago; its tooltip has Sitecore's own text for the date, in the user's format and the server's time.
 // ponytail: a template's inheritance is kept for the page's life; a base template changed meanwhile shows on reload
 (function (root) {
@@ -21,6 +23,10 @@
     globeOff: svg('<circle cx="7" cy="7" r="5.5"/><path d="M1.5 7h11M7 1.5C5.2 3.1 4.4 5 4.4 7s.8 3.9 2.6 5.5M7 1.5c1.8 1.6 2.6 3.5 2.6 5.5S8.8 10.9 7 12.5M1.5 1.5l11 11"/>'),
     copy: svg('<rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/><path d="M9.5 4.5V3A1.5 1.5 0 0 0 8 1.5H3A1.5 1.5 0 0 0 1.5 3v5A1.5 1.5 0 0 0 3 9.5h1.5"/>'),
     template: svg('<rect x="5" y="1.5" width="4" height="3" rx=".5"/><rect x="1.5" y="9.5" width="4" height="3" rx=".5"/><rect x="8.5" y="9.5" width="4" height="3" rx=".5"/><path d="M7 4.5V7M3.5 9.5V7h7v2.5"/>'),
+    flow: svg('<circle cx="3" cy="3" r="1.5"/><circle cx="11" cy="11" r="1.5"/><path d="M4.5 3H9a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h4.5"/>'),
+    ready: svg('<path d="M7 9.5V2.5M4.5 5L7 2.5 9.5 5M2.5 9.5v2h9v-2"/>'),
+    edited: svg('<path d="M9.5 2.5l2 2-6.5 6.5-2.7.7.7-2.7z"/>'),
+    gone: svg('<path d="M7 1.8l5.6 9.7H1.4z"/><path d="M7 5.5v2.6M7 10v.01"/>'),
     down: '<svg viewBox="0 0 10 10" width="9" height="9" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>',
   };
   const inheritance = new Map(); // template ID -> Promise of [{ id, name, folder, depth }]
@@ -76,6 +82,55 @@
       const b = tr.querySelectorAll("b");
       return b.length === 2 && { ver: (/^(\d+)\./.exec(tr.textContent.trim()) || [])[1], date: b[0].textContent.trim(), user: b[1].textContent.trim() };
     }).filter(Boolean);
+  }
+
+  // A version's workflow and state, from the menu under the Review tab's workflow button: "The item is in the <b>Draft</b>
+  // state<br>in the <b>Sample Workflow</b> workflow.", a lock after a double break, then Edit and the state's commands.
+  // ponytail: Sitecore names no final state here; one with no commands (Sample Workflow's Approved) is taken as final,
+  // so a final state with commands of its own reads as still in workflow
+  function flowOf(page) {
+    const text = page.querySelector("div.scMenuItem");
+    if (!text) return { workflow: null }; // a template without the Workflow field
+    const [about, lock] = text.innerHTML.split(/<br\s*\/?>\s*<br\s*\/?>/i);
+    const box = page.createElement("div");
+    box.innerHTML = about; // an inert parsed page: nothing in it runs
+    const b = [...box.querySelectorAll("b")].map((x) => x.textContent.trim());
+    if (b.length < 2) return { workflow: b[0] || null, state: null };
+    // a lock can hide the commands, so a locked version is never taken as final
+    return { workflow: b[1], state: b[0], final: lock === undefined && !page.querySelector('[onclick*="item:workflow("]') };
+  }
+
+  async function workflow(doc, item, ver, signal) {
+    const r = await fetch(url(doc, "Gallery.WorkflowEdit", { id: item.id, la: item.lang, vs: ver, db: item.db }), { credentials: "include", signal });
+    const page = new DOMParser().parseFromString(await r.text(), "text/html");
+    if (!r.ok || !page.querySelector('form[action*="Gallery.WorkflowEdit"]')) throw new Error("not the workflow menu");
+    return flowOf(page);
+  }
+
+  // What web has against master's newest version in this language: rows from gallery() for each database, flow from
+  // workflow() for master's newest (undefined when web has it, null when it could not be read).
+  function published(mine, web, flow) {
+    const top = (rows) => rows.reduce((n, r) => Math.max(n, +r.ver || 0), 0);
+    const newest = top(mine);
+    const live = top(web);
+    const row = (rows, v) => rows.find((r) => +r.ver === v);
+    let next = null;
+    if (live && !row(mine, live)) {
+      next = { state: "gone", text: "not in master", title: `Version ${live} is no longer in master; publishing the item brings web in line.` };
+    } else if (newest > live) {
+      if (flow && flow.state && !flow.final) next = { state: "flow", text: `v${newest} · ${flow.state}`, title: `Version ${newest} is in the ${flow.state} state of the ${flow.workflow} workflow.` };
+      else if (flow && flow.workflow && !flow.state) next = { state: "flow", text: `v${newest} · no state`, title: `Version ${newest} is in the ${flow.workflow} workflow but has no state.` };
+      else if (flow) next = { state: "ready", text: `v${newest} ready to publish`, title: `Version ${newest} goes live on the next publish.` };
+      else if (live) next = { state: "ready", text: `v${newest} not published`, title: `Version ${newest} is not in web yet.` };
+    } else if (live) {
+      const m = row(mine, live);
+      const w = row(web, live);
+      if (m.date !== w.date || m.user !== w.user) next = { state: "edited", text: "edited since", title: `It was changed after it was published: ${m.date} by ${m.user}.` };
+    }
+    const head = live
+      ? { state: "yes", text: next ? `Live v${live}` : `Published · v${live}`, title: `Version ${live} is live in the web database.` }
+      : { state: "no", text: "Not published", title: "No version in this language in the web database." };
+    return { ...head, title: next ? `${head.title} ${next.title}` : head.title, next };
   }
 
   // the bases of a template, as its Inheritance tab nests them, Sitecore's own left out with everything under them
@@ -156,10 +211,23 @@
       const v = mine.status === "fulfilled" && (mine.value.find((r) => r.ver === item.ver) || mine.value.at(-1));
       if (v) fill(mod, ICONS.clock, `${ago(v.date) || v.date} · ${v.user.slice(v.user.lastIndexOf("\\") + 1)}`, `Modified ${v.date} by ${v.user}`);
       else mod.remove(); // signed out, or a page Sitecore would not give: no chip rather than a wrong one
-      if (pub && web.status === "fulfilled") {
-        const on = web.value.length > 0;
-        fill(pub, on ? ICONS.globe : ICONS.globeOff, on ? "Published" : "Not published",
-          on ? `In the web database: ${web.value.length} version${web.value.length > 1 ? "s" : ""} in this language` : "No version in this language in the web database", on ? "yes" : "no");
+      if (pub && web.status === "fulfilled" && mine.status === "fulfilled" && mine.value.length) {
+        const newest = mine.value.reduce((n, r) => Math.max(n, +r.ver || 0), 0);
+        const flow = web.value.some((r) => +r.ver >= newest) ? undefined : await workflow(ctx.doc, item, newest, ctrl.signal).catch(() => null);
+        if (ctrl.signal.aborted || !header.isConnected) return;
+        const p = published(mine.value, web.value, flow);
+        fill(pub, p.state === "yes" ? ICONS.globe : ICONS.globeOff, p.text, p.title, p.state);
+        if (p.next) {
+          // two halves, each with its own tint
+          const live = ctx.doc.createElement("sct-item-live");
+          live.append(...pub.childNodes);
+          pub.append(live);
+          const n = ctx.doc.createElement("sct-item-next");
+          n.dataset.state = p.next.state;
+          n.innerHTML = `<sct-item-sr>, </sct-item-sr>${ICONS[p.next.state]}`;
+          n.append(p.next.text);
+          pub.append(n);
+        }
       } else pub?.remove();
       status.removeAttribute("aria-busy");
     });
@@ -319,16 +387,30 @@
     load(ctx, header, status, item);
   }
 
+  SCT.itemInfo = { published }; // for the unit tests
+
   SCT.registerAid("item-info", {
     css: `.scEditorHeader:has(>sct-item-info){display:flow-root;height:auto!important}
 ${SCT.important(`sct-item-info{float:right;display:flex;align-items:flex-start;gap:10px;margin:0 0 4px 16px;font-size:11.5px;line-height:1.6;color:inherit}
 sct-item-status{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
-sct-item-chip{display:inline-flex;align-items:center;gap:5px;padding:1px 9px;border:1px solid color-mix(in srgb,currentColor 22%,transparent);border-radius:11px;white-space:nowrap}
+sct-item-chip{display:inline-flex;align-items:center;gap:5px;padding:1px 9px;border:1px solid color-mix(in srgb,currentColor 22%,transparent);border-radius:11px;white-space:nowrap;overflow:hidden}
+sct-item-live,sct-item-next{display:inline-flex;align-items:center;gap:5px;padding:1px 7px 1px 9px}
+sct-item-next{padding:1px 9px 1px 7px;border-left:1px solid color-mix(in srgb,currentColor 22%,transparent)}
+sct-item-next[data-state="flow"]{background:color-mix(in srgb,#1c7ed6 14%,transparent);border-left-color:color-mix(in srgb,#1c7ed6 55%,transparent)}
+sct-item-next[data-state="flow"] svg{color:#1c7ed6}
+sct-item-next[data-state="ready"],sct-item-next[data-state="edited"]{background:color-mix(in srgb,#e8a10c 18%,transparent);border-left-color:color-mix(in srgb,#e8a10c 60%,transparent)}
+sct-item-next[data-state="ready"] svg,sct-item-next[data-state="edited"] svg{color:#c07f00}
+sct-item-next[data-state="gone"]{background:color-mix(in srgb,#e03131 14%,transparent);border-left-color:color-mix(in srgb,#e03131 55%,transparent)}
+sct-item-next[data-state="gone"] svg{color:#e03131}
+sct-item-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 sct-item-chip svg,sct-item-info button svg{flex:none}
 sct-item-chip[data-state="yes"]{background:color-mix(in srgb,#2f9e44 13%,transparent);border-color:color-mix(in srgb,#2f9e44 55%,transparent)}
 sct-item-chip[data-state="yes"] svg{color:#2f9e44}
 sct-item-chip[data-state="no"]{background:color-mix(in srgb,#e8a10c 15%,transparent);border-color:color-mix(in srgb,#e8a10c 60%,transparent)}
 sct-item-chip[data-state="no"] svg{color:#c07f00}
+sct-item-chip:has(>sct-item-next){padding:0;gap:0;background:none}
+sct-item-chip[data-state="yes"]>sct-item-live{background:color-mix(in srgb,#2f9e44 13%,transparent)}
+sct-item-chip[data-state="no"]>sct-item-live{background:color-mix(in srgb,#e8a10c 15%,transparent)}
 sct-item-wait{display:inline-block;width:72px;height:9px;border-radius:5px;background:color-mix(in srgb,currentColor 12%,transparent)}
 sct-item-chip[data-kind="published"] sct-item-wait{width:52px}
 sct-item-actions{display:flex;flex-direction:column;gap:5px;padding-left:10px;border-left:1px solid color-mix(in srgb,currentColor 15%,transparent)}
