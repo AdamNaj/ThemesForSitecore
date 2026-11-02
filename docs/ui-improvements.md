@@ -114,7 +114,7 @@ each button's name, and that a greyed-out one is unavailable.
 <!-- /shots:section-toggle -->
 
 ### Item info
-<!-- aid:item-info 75646a3e23 -->
+<!-- aid:item-info 7be1fdcf98 -->
 
 **What it is for.** When an item was last changed, by whom, and whether it is live are spread over the Statistics
 section (hidden with the standard fields), the version menu and the web database. Copying an item's ID or opening the
