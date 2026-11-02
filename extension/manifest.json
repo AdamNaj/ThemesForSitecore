@@ -19,7 +19,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["themes/*/glyphs/*", "fonts/*"],
+      "resources": ["themes/*/glyphs/*", "glyphs/*", "fonts/*"],
       "matches": ["*://*/*"]
     }
   ],

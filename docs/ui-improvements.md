@@ -19,7 +19,7 @@ Every setting is per site, and each browser keeps its own.
 
 ## Contents
 
-- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Section errors and warnings](#section-errors-and-warnings), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
+- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Section errors and warnings](#section-errors-and-warnings), [Locked fields](#locked-fields), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
 - [Back where you left off](#back-where-you-left-off): [Remember Content Editor state](#remember-content-editor-state), [Remember Experience Editor state](#remember-experience-editor-state)
 - [Keys](#keys): [Command palette](#command-palette), [Shortcuts help](#shortcuts-help)
 
@@ -84,6 +84,31 @@ Content Editor and the field editor dialogs.
 
 _The Data section closed, its Title typed past its Max Length 40 rule._
 <!-- /shots:section-issues -->
+
+### Locked fields
+<!-- aid:locked-fields d353f52d68 -->
+
+**What it is for.** On an item someone else has locked, one you have no write access to, or a protected one, Sitecore
+shows a warning over the fields and makes them read-only, but a read-only field looks almost like one you can edit,
+a shade greyer, so you find out when typing does nothing.
+
+**What changes.** A Single-Line or Multi-Line Text field you cannot edit has a padlock on its right and a faint
+diagonal hatch, and the warning over a locked item the same hatch. The hatch is drawn in the field's own text colour
+and the padlock in a mid grey, so both show under light and dark themes.
+
+<!-- shots:locked-fields -->
+**On:** by default on every site that shows a theme · **Where:** the Desktop and Content Editor
+
+**Off**
+
+![Locked fields, off](ui-improvements/locked-fields-off.png)
+
+**On**
+
+![Locked fields, on](ui-improvements/locked-fields-on.png)
+
+_Home drawn as Sitecore draws an item someone else has locked._
+<!-- /shots:locked-fields -->
 
 ### Back, forward, expand and collapse
 <!-- aid:section-toggle 3e4c3dccae -->

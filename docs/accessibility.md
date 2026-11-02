@@ -38,7 +38,8 @@ Every setting is per site, and each browser keeps its own.
   [Tab stops](#tab-stops), [Bigger targets](#bigger-targets)
 - [Low vision](#low-vision): [High Contrast](#high-contrast),
   [Atkinson Hyperlegible](#atkinson-hyperlegible)
-- [Colour vision](#colour-vision): [Errors in words](#errors-in-words), [Colour filter](#colour-filter)
+- [Colour vision](#colour-vision): [Errors in words](#errors-in-words), [Errors in shapes](#errors-in-shapes),
+  [Colour filter](#colour-filter)
 - [Reading and focus](#reading-and-focus): [Focus mode](#focus-mode),
   [Reading guide](#reading-guide), [OpenDyslexic](#opendyslexic),
   [Wide spacing](#wide-spacing)
@@ -543,6 +544,41 @@ tells someone who cannot tell red from yellow nothing (WCAG 1.4.1).
 
 _The field is marked as Sitecore marks one that fails validation._
 <!-- /shots:not-just-colour -->
+
+### Errors in shapes
+<!-- aid:state-shapes efc36537fb -->
+
+**What it is for.** Sitecore tells a field's validation by colour alone: a red or yellow bar beside the field, and red,
+yellow, green and grey squares on the Validator Bar and in the validation dialog. Errors in words names the state on
+the label; this gives every state a shape too, wherever Sitecore shows one (WCAG 1.4.1).
+
+**What changes.**
+
+- The bar beside a field is a column of crosses for an error and a wave for a warning. Every bar is 14px wide, so a
+  field does not move when it validates.
+- The field's control has a solid outline for an error and a dashed one for a warning.
+- The label is bold, after a triangle for an error or a dotted ring for a warning. With Errors in words on too, the
+  words follow the glyph.
+- The Validator Bar's and the validation dialog's squares become a triangle (an error), a dotted ring (a warning), a
+  tick (valid) and a plain ring (not validated yet).
+- Message bars get a solid left edge for an error and a dashed one for a warning.
+
+The colours are the theme's error and warning markers, 3:1 or more on the field area under every theme; under Native,
+Sitecore's red, and its amber darkened to reach the same.
+
+<!-- shots:state-shapes -->
+**Need:** Colour vision · **On:** with the Colour vision need, or on its own under Fine-tune · **Where:** the Desktop and Content Editor
+
+**Off**
+
+![Errors in shapes, off](accessibility/state-shapes-off.png)
+
+**On**
+
+![Errors in shapes, on](accessibility/state-shapes-on.png)
+
+_Title marked as Sitecore marks an error, Text as it marks a warning._
+<!-- /shots:state-shapes -->
 
 ### Colour filter
 

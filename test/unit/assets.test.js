@@ -41,7 +41,8 @@ test("every sct-ext: url() is a file the manifest lets pages load", () => {
   const globs = (manifest.web_accessible_resources || []).flatMap((r) => r.resources);
   const exposed = (p) => globs.some((g) => new RegExp(`^${g.replace(/[.]/g, "\.").replace(/\*/g, "[^/]*")}$`).test(p));
   const bad = [];
-  for (const file of cssFiles(ROOT)) {
+  const aids = path.join(ROOT, "lib", "aids");
+  for (const file of [...cssFiles(ROOT), ...fs.readdirSync(aids).map((f) => path.join(aids, f))]) {
     for (const m of fs.readFileSync(file, "utf8").matchAll(/url\(\s*["']?sct-ext:([^"')]*)/g)) {
       if (!fs.existsSync(path.join(ROOT, m[1]))) bad.push(`${path.relative(ROOT, file)}: ${m[1]} is missing`);
       else if (!exposed(m[1])) bad.push(`${path.relative(ROOT, file)}: ${m[1]} is not in web_accessible_resources`);

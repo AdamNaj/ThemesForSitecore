@@ -5,7 +5,8 @@
 //   version()         Promise of the Sitecore version stored for this origin, or null
 //   saveVersion(v)    remembers the version this origin runs
 //   site()            Promise of this origin's { title, tint, env, phase, scheme, hue, accessibility }
-//   url(path)         the address of a packaged file (fonts/...), asked for only while the site has a reading font
+//   url(path)         the address of a packaged file (fonts/..., glyphs/...), asked for only while the site has a
+//                     reading font or an aid that draws one of the glyphs
 //   theme(version)    Promise of the catalog entry ({ id, name, usesTokens }) this frame should show now
 //   apply(msg)        swaps the frame's theme CSS; msg { surface, version, previous, previousEntry, previousMode, off }
 //                     (off: to Native whatever the site's setting);
@@ -901,9 +902,11 @@
       }
     }
 
-    // CSS-only aids (an aid's `css`), all of them in one owned <style>, in the layer the font and spacing use
+    // CSS-only aids (an aid's `css`), all of them in one owned <style>, in the layer the font and spacing use;
+    // sct-ext:<path> is a packaged file (glyphs/), as in a theme's CSS
     function aidsCss(ids) {
-      const css = ids.map((id) => SCT.aidModules[id].css).filter(Boolean).join("\n");
+      const css = ids.map((id) => SCT.aidModules[id].css).filter(Boolean).join("\n")
+        .replace(/url\(\s*(['"]?)sct-ext:/g, (m, q) => `url(${q}${host.url("")}`);
       let style = doc.querySelector("style[data-sct-aids]");
       if (!css) return style?.remove();
       if (!style) {

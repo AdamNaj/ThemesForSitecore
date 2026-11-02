@@ -42,8 +42,8 @@ function copyAssets(dest) {
   for (const dir of ["surfaces", "themes"]) {
     fs.cpSync(path.join(ext, dir), path.join(dest, dir), { recursive: true, filter: (f) => fs.statSync(f).isDirectory() || !skip(f) });
   }
-  // the reading fonts the accessibility settings offer
-  fs.cpSync(path.join(ext, "fonts"), path.join(dest, "fonts"), { recursive: true });
+  // the reading fonts the accessibility settings offer, and the aids' glyphs
+  for (const dir of ["fonts", "glyphs"]) fs.cpSync(path.join(ext, dir), path.join(dest, dir), { recursive: true });
   fs.mkdirSync(path.join(dest, "icons"));
   fs.copyFileSync(path.join(ext, "icons", "icon.svg"), path.join(dest, "icons", "icon.svg"));
 }

@@ -100,6 +100,17 @@ const SCENES = {
     caption: "The field is marked as Sitecore marks one that fails validation.",
     shot: ".scEditorFieldMarker", pad: 6, max: [700, 120],
   },
+  "state-shapes": {
+    path: CE(HOME),
+    // the first two fields marked as Sitecore marks an error and a warning
+    setup: (page) => page.evaluate(() => {
+      const [error, warning] = document.querySelectorAll(".scEditorFieldMarkerBarCell");
+      error.className = "scEditorFieldMarkerBarCellRed";
+      warning.className = "scEditorFieldMarkerBarCellYellow";
+    }),
+    caption: "Title marked as Sitecore marks an error, Text as it marks a warning.",
+    shot: ".scEditorFieldMarker:has(td:is(.scEditorFieldMarkerBarCellRed, .scEditorFieldMarkerBarCellYellow))", pad: 6, max: [760, 330],
+  },
   "reduced-motion": { none: "Motion does not show in a still picture: with the aid on, Sitecore's and the theme's animations and transitions jump straight to their end." },
   "focus-mode": { path: CE(HOME), setup: focusFirstField, shot: "#RibbonPanel, :focus", pad: 20, max: [1000, 440] },
   "sticky-header": { path: CE(HOME), setup: (page) => page.evaluate(() => (document.querySelector(".scEditorPanel").scrollTop = 420)), shot: ".scEditorPanel", max: [760, 300] },
@@ -141,6 +152,16 @@ const SCENES = {
     caption: "The Data section closed, its Title typed past its Max Length 40 rule.",
     shot: "[id^='Section_Data']", pad: 6, max: [900, 80],
     after: (page) => page.locator(".scEditorSectionCaptionCollapsed[id^='Section_Data']").click(),
+  },
+  // Home as Sitecore draws an item someone else has locked: its warning (Sitecore's markup) and its fields read-only
+  "locked-fields": {
+    path: CE(HOME),
+    setup: (page) => page.evaluate(() => {
+      document.querySelector("[id^='Section_']").insertAdjacentHTML("beforebegin", '<div class="scEditorWarning"><table><tr><td><img src="/sitecore/shell/themes/standard/Images/warning_yellow.png" width="32" height="32"></td><td><div class="scEditorWarningTitle">You cannot edit this item because Editor has locked it.</div><div class="scEditorWarningHelp">An administrator can unlock it.</div></td></tr></table></div>');
+      for (const input of document.querySelectorAll(".scEditorSections input.scContentControl")) input.readOnly = true;
+    }),
+    caption: "Home drawn as Sitecore draws an item someone else has locked.",
+    shot: ".scEditorWarning, .scEditorFieldMarker:has(input[readonly])", pad: 6, max: [1100, 260],
   },
   "reading-guide": { path: CE(HOME), setup: async (page) => { const r = await page.locator(".scEditorFieldLabel").first().boundingBox(); await page.mouse.move(r.x + 20, r.y + r.height / 2); await page.waitForTimeout(300); }, shot: ".scEditorFieldLabel", pad: 80, max: [700, 200] },
   "quiet-ribbon": { path: CE(HOME), setup: async (page) => { await page.evaluate((ids) => localStorage.setItem("sct-quiet-ribbon", JSON.stringify(ids)), QUIET); await page.reload({ waitUntil: "domcontentloaded" }); await settle(page); await page.locator(".scRibbonToolbarStrip .chunk >> visible=true").first().hover(); }, shot: "#RibbonPanel", max: [800, 160] },
