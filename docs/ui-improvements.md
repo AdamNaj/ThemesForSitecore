@@ -93,15 +93,16 @@ _On, the title typed two characters past its Max Length 40 rule._
 <!-- /shots:field-length -->
 
 ### Section errors and warnings
-<!-- aid:section-issues adde08cef8 -->
+<!-- aid:section-issues d05b119b73 -->
 
 **What it is for.** Sitecore marks a field that fails validation with a red or yellow bar beside it, and nothing else.
 In a collapsed section, or one scrolled out of view, the bar cannot be seen, so a problem waits there until the item
 is saved or sent through workflow.
 
 **What changes.** Each section's title bar says on its right how many of its fields have errors and how many have
-warnings ("1 error", "2 warnings"), in a red and an amber badge, in words so the state does not hang on the colour. A
-collapsed section counts too. The counts follow Sitecore's own markers, so they change each time Sitecore validates,
+warnings ("1 error", "2 warnings"), in a red and an amber badge, in words so the state does not hang on the colour.
+The badges sit centred on the title; a title bar too short to hold them with room to spare grows a little while they
+show. A collapsed section counts too. The counts follow Sitecore's own markers, so they change each time Sitecore validates,
 as you leave a field. Each badge is a button: pressing it opens the section if it is closed and goes to the first field
 with an error (or a warning), and to the next one on each press after. Hovering it shows Sitecore's messages, and a
 screen reader hears the counts with the section's toggle. A section with nothing to report shows nothing. It works wherever Sitecore draws its sections: the

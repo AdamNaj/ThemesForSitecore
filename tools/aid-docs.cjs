@@ -54,6 +54,15 @@ async function pickImage(page) {
 
 const focusFirstField = (page) => page.locator(".scEditorFieldMarker input.scContentControl").first().focus();
 const focusTree = (page) => page.locator(".scContentTreeNodeActive").first().focus();
+// Home's Data section open: Sitecore keeps a section's state per user, and section-issues' closing it can outlast its
+// page when a validation postback saves it
+async function openData(page) {
+  const closed = page.locator(".scEditorSectionCaptionCollapsed[id^='Section_Data']");
+  if (await closed.count()) {
+    await closed.click();
+    await page.waitForTimeout(600);
+  }
+}
 
 // One scene per aid or setting. path: the page; setup(page): what to do before looking; then one of
 // shot: where to clip (a selector, around which `pad` px; the clip found with it on frames the off shot too, unless
@@ -103,11 +112,11 @@ const SCENES = {
   "state-shapes": {
     path: CE(HOME),
     // the first two fields marked as Sitecore marks an error and a warning
-    setup: (page) => page.evaluate(() => {
+    setup: (page) => openData(page).then(() => page.evaluate(() => {
       const [error, warning] = document.querySelectorAll(".scEditorFieldMarkerBarCell");
       error.className = "scEditorFieldMarkerBarCellRed";
       warning.className = "scEditorFieldMarkerBarCellYellow";
-    }),
+    })),
     caption: "Title marked as Sitecore marks an error, Text as it marks a warning.",
     shot: ".scEditorFieldMarker:has(td:is(.scEditorFieldMarkerBarCellRed, .scEditorFieldMarkerBarCellYellow))", pad: 6, max: [760, 330],
   },
@@ -154,6 +163,7 @@ const SCENES = {
   "section-issues": {
     path: CE(HOME),
     setup: async (page) => {
+      await openData(page);
       await page.getByRole("textbox", { name: "Title field" }).click();
       await page.keyboard.press("End");
       await page.keyboard.type(", version 10.4 and some more words");

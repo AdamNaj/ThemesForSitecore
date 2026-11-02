@@ -31,8 +31,10 @@
 
   SCT.registerAid("section-issues", {
     // fixed colours, not the theme's: white on the red and black on the amber read at AA under any theme
-    // one caption line tall (Chicago's is 20px, 10.4's 35px), the pills centred in it
+    // one caption line tall (Chicago's is 20px, 10.4's 35px), the pills centred in it; a caption with less than 3px
+    // above and below a pill (Chicago's, Copenhagen's) gets a 24px line while it shows them
     css: SCT.important(`sct-section-issues{float:right;display:flex;align-items:center;gap:6px;height:1lh;margin:0 12px 0 0}
+[data-sct-issues-tall]{height:auto;min-height:0;line-height:24px}
 sct-section-issues>button{margin:0;padding:0 7px;border:1px solid transparent;border-radius:9px;box-shadow:none;min-width:0;height:auto;font-family:inherit;font-size:12px;font-weight:600;line-height:16px;cursor:pointer}
 sct-section-issues>[data-sct-state=error]{background:#c42b1c;color:#fff}
 sct-section-issues>[data-sct-state=warning]{background:#fbc200;color:#000}`),
@@ -49,8 +51,11 @@ sct-section-issues>[data-sct-state=warning]{background:#fbc200;color:#000}`),
         if (glyph && glyph.getAttribute("aria-labelledby") !== caption.id && glyph.getAttribute("aria-describedby") !== (found.length ? id : null)) ctx.setAttr(glyph, "aria-describedby", found.length ? id : null);
         if (!found.length) {
           if (badge) badge.remove();
+          if (caption.hasAttribute("data-sct-issues-tall")) ctx.setAttr(caption, "data-sct-issues-tall", null);
           continue;
         }
+        // measured before the taller line goes on, and kept until the pills go, so it never flips back and forth
+        if (caption.clientHeight && caption.clientHeight < 24 && !caption.hasAttribute("data-sct-issues-tall")) ctx.setAttr(caption, "data-sct-issues-tall", "");
         if (!badge) {
           badge = ctx.own(doc.createElement("sct-section-issues"));
           badge.id = id;
