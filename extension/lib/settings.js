@@ -149,6 +149,7 @@
     "ee-state": { ui: "return", needs: [], always: true, surfaces: ["ee"], name: "Remember Experience Editor state", hint: "Opens the Experience Editor on the page you last had open, unless you open it on a page of your choosing" },
     "section-toggle": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Back, forward, expand and collapse", hint: "Buttons beside the editor tabs: Back and Forward through the items you opened, and open or close every section of the item's fields" },
     "image-preview": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Image preview", hint: "Drag an Image field's preview taller or shorter, and show the image at its own size, filling the preview or fitted in it" },
+    "section-issues": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Section errors and warnings", hint: "Shows on each section's title bar how many of its fields have validation errors and warnings, collapsed sections too" },
     "reading-guide": { needs: ["reading"], always: false, surfaces: ["shell", "speak", "launchpad", "admin", "login"], name: "Reading guide", hint: "A soft band across the line you are reading" },
     "quiet-ribbon": { ui: "editor", needs: [], always: true, surfaces: ["shell"], name: "Quiet ribbon", hint: "Lets you hide the ribbon groups you never use" },
     "command-palette": { ui: "keys", needs: [], always: true, surfaces: ["shell", "speak", "launchpad"], name: "Command palette", hint: "Ctrl+Shift+Space: type a ribbon command, or an item path or ID, and press Enter" },

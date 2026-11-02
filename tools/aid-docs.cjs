@@ -125,6 +125,23 @@ const SCENES = {
     own: true, shot: ".scContentControlImagePane", pad: 6, max: [900, 360],
     after: (page) => page.evaluate(() => localStorage.removeItem("sct-image-preview")),
   },
+  // Home's Title typed past its Max Length 40 rule, validated on leaving the field, then its Data section closed
+  // (opened again after, since Sitecore keeps the user's closed sections); never saved
+  "section-issues": {
+    path: CE(HOME),
+    setup: async (page) => {
+      await page.getByRole("textbox", { name: "Title field" }).click();
+      await page.keyboard.press("End");
+      await page.keyboard.type(", version 10.4 and some more words");
+      await page.locator(".scEditorHeader").first().click();
+      await page.waitForSelector(".scEditorFieldMarkerBarCellRed", { timeout: 15000 }).catch(() => {});
+      await page.locator(".scEditorSectionCaptionExpanded[id^='Section_Data']").click();
+      await page.waitForTimeout(600);
+    },
+    caption: "The Data section closed, its Title typed past its Max Length 40 rule.",
+    shot: "[id^='Section_Data']", pad: 6, max: [900, 80],
+    after: (page) => page.locator(".scEditorSectionCaptionCollapsed[id^='Section_Data']").click(),
+  },
   "reading-guide": { path: CE(HOME), setup: async (page) => { const r = await page.locator(".scEditorFieldLabel").first().boundingBox(); await page.mouse.move(r.x + 20, r.y + r.height / 2); await page.waitForTimeout(300); }, shot: ".scEditorFieldLabel", pad: 80, max: [700, 200] },
   "quiet-ribbon": { path: CE(HOME), setup: async (page) => { await page.evaluate((ids) => localStorage.setItem("sct-quiet-ribbon", JSON.stringify(ids)), QUIET); await page.reload({ waitUntil: "domcontentloaded" }); await settle(page); await page.locator(".scRibbonToolbarStrip .chunk >> visible=true").first().hover(); }, shot: "#RibbonPanel", max: [800, 160] },
   "command-palette": { path: CE(HOME), setup: async (page) => { await focusTree(page); await page.keyboard.press("Control+Shift+Space"); await page.waitForTimeout(500); await page.keyboard.type("publish"); }, shot: "sct-dialog", pad: 12, after: (page) => page.keyboard.press("Escape") },

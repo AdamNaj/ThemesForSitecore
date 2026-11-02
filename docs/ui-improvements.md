@@ -19,7 +19,7 @@ Every setting is per site, and each browser keeps its own.
 
 ## Contents
 
-- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
+- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Section errors and warnings](#section-errors-and-warnings), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
 - [Back where you left off](#back-where-you-left-off): [Remember Content Editor state](#remember-content-editor-state), [Remember Experience Editor state](#remember-experience-editor-state)
 - [Keys](#keys): [Command palette](#command-palette), [Shortcuts help](#shortcuts-help)
 
@@ -55,6 +55,35 @@ hears the buttons as a group named "Image preview size", each pressed or not. Th
 
 _On, the preview dragged to 220px and set to Fill._
 <!-- /shots:image-preview -->
+
+### Section errors and warnings
+<!-- aid:section-issues adde08cef8 -->
+
+**What it is for.** Sitecore marks a field that fails validation with a red or yellow bar beside it, and nothing else.
+In a collapsed section, or one scrolled out of view, the bar cannot be seen, so a problem waits there until the item
+is saved or sent through workflow.
+
+**What changes.** Each section's title bar says on its right how many of its fields have errors and how many have
+warnings ("1 error", "2 warnings"), in a red and an amber badge, in words so the state does not hang on the colour. A
+collapsed section counts too. The counts follow Sitecore's own markers, so they change each time Sitecore validates,
+as you leave a field. Each badge is a button: pressing it opens the section if it is closed and goes to the first field
+with an error (or a warning), and to the next one on each press after. Hovering it shows Sitecore's messages, and a
+screen reader hears the counts with the section's toggle. A section with nothing to report shows nothing. It works wherever Sitecore draws its sections: the
+Content Editor and the field editor dialogs.
+
+<!-- shots:section-issues -->
+**On:** by default on every site that shows a theme · **Where:** the Desktop and Content Editor
+
+**Off**
+
+![Section errors and warnings, off](ui-improvements/section-issues-off.png)
+
+**On**
+
+![Section errors and warnings, on](ui-improvements/section-issues-on.png)
+
+_The Data section closed, its Title typed past its Max Length 40 rule._
+<!-- /shots:section-issues -->
 
 ### Back, forward, expand and collapse
 <!-- aid:section-toggle 3e4c3dccae -->
