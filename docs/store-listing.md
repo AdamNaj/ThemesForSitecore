@@ -88,6 +88,7 @@ For the version being released, written for the people who install it, from the 
 - Field errors and warnings keep their red and amber under every theme.
 - Guardrail: menus show the hovered row in the environment's colour, in light and dark.
 - Start menu folders no longer stay pressed after their submenu closes.
+- A checked option in a menu, such as the content tree's gutter menu, shows a check mark in the menu's own colours instead of a filled row.
 - The Spectrum theme is gone, now that its shapes work under every theme as the Errors in shapes aid. Sites set to Spectrum switch to no theme with the Colour vision need on.
 - Imported themes are gone. A site set to an imported theme switches to no theme.
 ```
