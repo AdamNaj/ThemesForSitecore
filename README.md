@@ -19,7 +19,6 @@ A browser extension that re-themes the Sitecore 10.0 to 10.5 Content Management 
 | Compact | Sitecore's own colours at laptop density: shorter rows, a slimmer ribbon, labels beside fields |
 | Focus | Quiet warm greys for long editing sessions: the chrome steps back, the field you edit stands out |
 | Solar | Warm cream by day and deep teal by night, with the same eight accents in both; follows your light or dark setting |
-| Spectrum | Colour-blind safe: states carry a shape as well as a colour; follows your light or dark setting |
 | **Modern** | |
 | Cupertino | Frosted sidebars, soft shadows, rounded controls and a blue pill selection, follows your light or dark setting |
 | Sun Valley | Translucent panels, rounded corners, accent underlines and a centred taskbar, follows your light or dark setting |

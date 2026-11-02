@@ -92,6 +92,22 @@
     return next;
   }
 
+  // Spectrum was Sitecore's layout in colour-blind safe colours, its states drawn as shapes. Its sites become Native
+  // with the Colour vision need ticked, which draws the same shapes (Errors in shapes) and words. Null when no site
+  // used it.
+  function migrateSpectrum({ overrides = {}, accessibility = {} }) {
+    const sites = Object.keys(overrides).filter((o) => overrides[o] === "spectrum");
+    if (!sites.length) return null;
+    const next = { overrides: { ...overrides }, accessibility: { ...accessibility } };
+    for (const o of sites) {
+      delete next.overrides[o];
+      const a = accessibility[o] || {};
+      const needs = Array.isArray(a.needs) ? a.needs : [];
+      next.accessibility[o] = { ...a, needs: needs.includes("colour-vision") ? needs : [...needs, "colour-vision"] };
+    }
+    return next;
+  }
+
   // A site's accessibility aids, per site in storage.sync `accessibility` ({ font, spacing, vision, strength }), under
   // every theme and Native: a font drawn for readers with low vision or dyslexia (extension/fonts, SIL OFL), wider
   // letter and word spacing, and a colour filter for a colour vision deficiency at a strength of 1 to 100.
@@ -234,7 +250,7 @@
   }
 
   SCT.settings = {
-    DEFAULTS, ENVS, PHASES, SCHEMES, FONTS, VISIONS, catalog, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight,
+    DEFAULTS, ENVS, PHASES, SCHEMES, FONTS, VISIONS, catalog, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight, migrateSpectrum,
     accessibility, accessibilityCss, visionMatrix, visionValues, NEEDS, NEED_PRESETS, needEffects, AIDS, UI_GROUPS, aidReason, enabledAids,
   };
   if (typeof module !== "undefined") module.exports = SCT.settings;

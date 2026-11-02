@@ -117,6 +117,16 @@ test("Softlight's sites become Fjord in Light mode, turned to warm paper", () =>
   assert.deepEqual(next.hues, { a: { fjord: 180 }, b: { fjord: 210 }, c: { fjord: 20 } });
 });
 
+test("Spectrum's sites become Native with the Colour vision need", () => {
+  assert.equal(settings.migrateSpectrum({ overrides: { a: "fjord" } }), null);
+  const next = settings.migrateSpectrum({
+    overrides: { a: "spectrum", b: "spectrum", c: "beacon" },
+    accessibility: { a: { font: "hyperlegible", needs: ["reading"] }, b: { needs: ["colour-vision"] } },
+  });
+  assert.deepEqual(next.overrides, { c: "beacon" });
+  assert.deepEqual(next.accessibility, { a: { font: "hyperlegible", needs: ["reading", "colour-vision"] }, b: { needs: ["colour-vision"] } });
+});
+
 test("every environment is offered by the picker, drawn by Guardrail and accepted by the Sitecore module", () => {
   const fs = require("node:fs");
   const file = (f) => require("node:path").join(__dirname, "..", "..", f);

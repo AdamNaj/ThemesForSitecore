@@ -45,8 +45,9 @@ check looked, because the default pages show no field in error. `surfaces/shell.
 rule and under any theme's own. The shade is the theme's (`--sct-error-marker`, `--sct-warning-marker`; the default
 mixes Sitecore's colour 60% with the text), the state is not: `markers.js` holds the rule (hue 340-30 for an error,
 25-60 for a warning, saturation 0.4 or more, 3:1 on the editor, panel and section backgrounds, at every hue for a
-theme that turns). A theme for colour-blind users adds a shape on top (Spectrum: crosses for an error, a wave for a
-warning, as an `sct-ext:` SVG mask over the state's darker step). Sitecore's own amber fails 3:1 on white: themes
+theme that turns). Shapes on top (crosses for an error, a wave for a warning, outlines, glyphs) are the Errors in
+shapes aid's (`lib/aids/state-shapes.js`), drawn in these markers under every theme: a theme draws none of its own.
+Sitecore's own amber fails 3:1 on white: themes
 without tokens take a deeper amber from `surfaces/bar.css`; Native keeps Sitecore's.
 
 **Text on the wrong background.** "Log out" dark blue on a black SPEAK header; white ribbon tab labels on a

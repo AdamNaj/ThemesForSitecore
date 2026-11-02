@@ -180,8 +180,8 @@ Details, numbers and selectors are in [pitfalls.md](pitfalls.md).
 - **State is never taken away.** A field's validation gutter (`td.scEditorFieldMarkerBarCellRed`, `...Yellow`)
   stays a red and an orange or amber at 3:1 on the field area, under every theme ("this information should never be
   removed", 2026-11-02, when the generated map's `table td` border had greyed it under every token theme). A theme
-  may change the shade (`--sct-error-marker`, `--sct-warning-marker`, or its own rule on the cell) and may add a
-  shape (Spectrum's crosses and wave), never drop the hue; a broad `td` or border rule that reaches the editor
+  may change the shade (`--sct-error-marker`, `--sct-warning-marker`, or its own rule on the cell), never drop the
+  hue; shapes are the Errors in shapes aid's (`lib/aids/state-shapes.js`), in the theme's markers; a broad `td` or border rule that reaches the editor
   must leave the cell alone. `npm test` checks the tokens; `shots.cjs --field-states` checks the page as painted.
 - **Spacing: Copenhagen-tight, 10.5 pulled back.** 10.5 pads everything more than 10.4 (34px inputs, 28px
   dialog insets, 16px ribbon panels). Fixing a height means pinning the padding too. Measure the ribbon

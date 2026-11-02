@@ -225,7 +225,12 @@ async function migrateSoftlight() {
   if (next) await api.storage.sync.set(next);
 }
 
-api.runtime.onInstalled.addListener(() => migrateDefaultTheme().catch(() => {}).then(migrateSoftlight).catch(() => {}).then(resync));
+async function migrateSpectrum() {
+  const next = SCT.settings.migrateSpectrum(await api.storage.sync.get(["overrides", "accessibility"]));
+  if (next) await api.storage.sync.set(next);
+}
+
+api.runtime.onInstalled.addListener(() => migrateDefaultTheme().catch(() => {}).then(migrateSoftlight).catch(() => {}).then(migrateSpectrum).catch(() => {}).then(resync));
 api.runtime.onStartup.addListener(syncRegistration);
 api.permissions.onAdded.addListener(async ({ origins = [] }) => {
   // a site granted again is on again
