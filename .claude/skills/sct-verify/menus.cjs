@@ -7,7 +7,7 @@
 // (by its background, or by an inset bar or border).
 // usage: node .claude/skills/sct-verify/menus.cjs --themes notebook,cupertino [--versions 10.5,10.4]
 //          [--scale 1.25] [--out test-results/verify] [--only tree,start] [--colours olive] [--scheme dark] [--mode light]
-// Menus: the Content Editor tree's context menu and its Insert fly-out, ribbon drop-downs (Edit's gallery,
+// Menus: the Content Editor tree's context menu and its Insert fly-out, the tree's gutter menu (a row checked), ribbon drop-downs (Edit's gallery,
 // Duplicate's menu), the Insert gallery's "more" pop-up, the language and version galleries; the Desktop's
 // start menu and a fly-out, and the taskbar's context menu on a running app (the Workbox).
 // A menu's findings are the ones that appear while it is open and not before, so the page's own show only once.
@@ -55,6 +55,16 @@ const MENUS = [
     await p.waitForTimeout(500);
     // Insert is the first row that opens a fly-out (its class is scGalleryMenuItem_Hover when the menu opens under the mouse)
     await p.locator(".scPopup:visible tr[onclick*=showPopup]").first().click();
+  } },
+  // the tree's gutter menu: a right-click on the tree beside its nodes. Its checked rows are <tr class="scChecked">;
+  // without one in the sign-in's gutter settings the second row is marked so in the page, not in Sitecore's
+  { name: "gutter", page: CE, open: async (p) => {
+    await p.locator("#ContentTreeInnerPanel").click({ button: "right", position: { x: 4, y: 4 } });
+    await p.waitForTimeout(500);
+    await p.evaluate(() => {
+      const rows = [...document.querySelectorAll(".scPopup tr:has(> .scMenuItemIcon)")].filter((r) => r.offsetHeight);
+      if (rows.length > 1 && !rows.some((r) => /^scChecked/.test(r.className))) rows[1].className = "scChecked";
+    });
   } },
   { name: "ribbon-edit", page: CE, open: (p) => p.locator(".scRibbonToolbarLargeComboButtonBottom").first().click() },
   { name: "ribbon-duplicate", page: CE, open: (p) => p.locator("a[id$='_menu_button']").first().click() },
