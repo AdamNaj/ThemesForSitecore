@@ -78,6 +78,9 @@ html[data-sct-theme="santaclara"] {
   --sct-desktop-bg: #5f7f8c;
   --sct-taskbar-bg: #64748b;
   --sct-taskbar-fg: #ffffff;
+
+  /* the validation gutter (surfaces/shell.css): Sitecore's warning at its nearest shade that stands 3:1 on the field area */
+  --sct-warning-marker: #644e00;
 }
 
 /* color-scheme changes the canvas and default colours of the whole document. In the Experience

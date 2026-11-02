@@ -35,6 +35,9 @@ function mix(a, b, p) {
   return "#" + [1, 3, 5].map((i) => Math.round(ch(a, i) * p + ch(b, i) * (1 - p)).toString(16).padStart(2, "0")).join("");
 }
 
+// the validation gutter: what a theme's shade of Sitecore's red and yellow must keep
+const { markerStock, markerProblem } = require("./markers.js");
+
 // the status colours surfaces/shell.css mixes into .scMessageBar
 const messageTints = { warning: "#fce99c", error: "#f8c9c4", information: "#cfe3f7" };
 
@@ -72,6 +75,20 @@ for (const theme of tokenThemes) {
         for (const fg of ["--sct-panel-fg", "--sct-app-fg"]) {
           const ratio = contrast(tokens.get(fg), bg);
           assert.ok(ratio >= 4.5, `${fg} on the ${state} bar (${bg}): ${ratio.toFixed(2)}; set --sct-${state}-bg`);
+        }
+      }
+    });
+
+    // surfaces/shell.css keeps a field's validation state on the cell left of it: a theme may change the shade
+    // (--sct-<state>-marker) but the error stays a red and the warning an orange or amber, 3:1 on the field area.
+    // shots.cjs --field-states checks the same on the page as painted, where a theme's own rule can still undo it
+    test(`${theme.id} (${appearance}) keeps the validation gutter's red and amber at 3:1`, () => {
+      for (const [state, stock] of Object.entries(markerStock)) {
+        const c = tokens.get(`--sct-${state}-marker`) || mix(stock, tokens.get("--sct-panel-fg"), 0.6);
+        // a field sits on the editor's background, a panel or a section body, depending on the theme and version
+        for (const bg of ["--sct-app-bg", "--sct-panel-bg", "--sct-section-body-bg"]) {
+          const problem = markerProblem(c, state, tokens.get(bg));
+          assert.equal(problem, null, `the ${state} gutter ${c} on ${bg}: ${problem}; set --sct-${state}-marker`);
         }
       }
     });

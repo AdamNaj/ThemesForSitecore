@@ -384,12 +384,30 @@ html[data-sct-theme="spectrum"][data-sct-surface="shell"] :is(.scEditorSectionCa
    (scContent.updateFieldMarkers): ...BarCellRed for an error, ...BarCellYellow for a warning. The control
    under the label takes the state's outline (solid or dashed), the label a glyph (a triangle or a dotted ring)
    and the state's text colour. The outline sits on the control's wrapper, outside its own border and focus. */
-html[data-sct-theme="spectrum"][data-sct-surface="shell"] td.scEditorFieldMarkerBarCellRed {
-  border-left-color: var(--spectrum-error);
+/* The bar itself carries a shape: a column of crosses for an error, a wave for a warning, 8px wide, drawn as a
+   mask over the state's darker step (3:1 and more on the field area, where the Okabe-Ito hues are not). Every
+   bar is 14px, so a field does not move when it validates: the shape on its left 8px, then 2px of air, then the
+   4px the control's outline (2px, offset 2px) reaches out of the field. No bar has a border: the field's table
+   collapses borders, which puts half of one outside the cell, where the mask is drawn but nothing paints. The
+   grey of a field being validated is an inset shadow instead. */
+html[data-sct-theme="spectrum"][data-sct-surface="shell"] td:is(.scEditorFieldMarkerBarCell, .scEditorFieldMarkerBarCellGrey, .scEditorFieldMarkerBarCellRed, .scEditorFieldMarkerBarCellYellow) {
+  width: 14px;
+  border-left-width: 0;
+}
+html[data-sct-theme="spectrum"][data-sct-surface="shell"] td.scEditorFieldMarkerBarCellGrey {
+  box-shadow: inset 5px 0 var(--sct-border);
+}
+html[data-sct-theme="spectrum"][data-sct-surface="shell"] td:is(.scEditorFieldMarkerBarCellRed, .scEditorFieldMarkerBarCellYellow) {
+  -webkit-mask: url("sct-ext:themes/spectrum/glyphs/gutter-error.svg") top left / 8px 8px repeat-y;
+  mask: url("sct-ext:themes/spectrum/glyphs/gutter-error.svg") top left / 8px 8px repeat-y;
+  background-color: var(--spectrum-error-fg);
 }
 html[data-sct-theme="spectrum"][data-sct-surface="shell"] td.scEditorFieldMarkerBarCellYellow {
-  border-left-color: var(--spectrum-warning);
-  border-left-style: dashed;
+  -webkit-mask-image: url("sct-ext:themes/spectrum/glyphs/gutter-warning.svg");
+  mask-image: url("sct-ext:themes/spectrum/glyphs/gutter-warning.svg");
+  -webkit-mask-size: 8px 12px;
+  mask-size: 8px 12px;
+  background-color: var(--spectrum-warning-fg);
 }
 html[data-sct-theme="spectrum"][data-sct-surface="shell"] .scEditorFieldMarker:has(td.scEditorFieldMarkerBarCellRed) .scEditorFieldMarkerInputCell > div:not(.scEditorFieldLabel, .scContentButtons) {
   outline: 2px solid var(--spectrum-error);

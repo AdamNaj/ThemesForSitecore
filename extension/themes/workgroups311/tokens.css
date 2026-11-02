@@ -73,6 +73,9 @@ html[data-sct-theme="workgroups311"] {
   --sct-desktop-bg: #c0c0c0;
   --sct-taskbar-bg: #c0c0c0;
   --sct-taskbar-fg: #000000;
+
+  /* the validation gutter (surfaces/shell.css): Sitecore's warning at its nearest shade that stands 3:1 on the field area */
+  --sct-warning-marker: #836500;
 }
 
 /* color-scheme changes the canvas and default colours of the whole document. In the Experience

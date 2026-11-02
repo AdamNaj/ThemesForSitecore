@@ -90,6 +90,10 @@ html[data-sct-theme="phosphor"] {
   --sct-editor-filter: none;
   --sct-content-filter: brightness(0.8);
   --sct-ph-glow: 0 0 3px rgb(57 255 106 / 0.45);
+
+  /* the validation gutter (surfaces/shell.css): Sitecore's warning and error at its nearest shade that stands 3:1 on the field area */
+  --sct-warning-marker: #fbc200;
+  --sct-error-marker: #ce130a;
 }
 
 /* color-scheme changes the canvas and default colours of the whole document. In the Experience

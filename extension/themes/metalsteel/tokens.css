@@ -75,6 +75,9 @@ html[data-sct-theme="metalsteel"] {
   --sct-desktop-bg: #9999cc;
   --sct-taskbar-bg: #cccccc;
   --sct-taskbar-fg: #000000;
+
+  /* the validation gutter (surfaces/shell.css): Sitecore's warning at its nearest shade that stands 3:1 on the field area */
+  --sct-warning-marker: #8d6d00;
 }
 
 /* color-scheme changes the canvas and default colours of the whole document. In the Experience

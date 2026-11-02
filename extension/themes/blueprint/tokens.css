@@ -110,6 +110,9 @@ html[data-sct-theme="blueprint"] {
   --bp-chrome-font: Bahnschrift, "Segoe UI", system-ui, sans-serif;
   /* colour icons as white silhouettes: grey detail inside, a white hairline halo round the shape */
   --bp-icon-filter: grayscale(1) contrast(0.85) brightness(1.35) drop-shadow(0 0 1px rgb(234 242 255 / 0.9));
+
+  /* the validation gutter (surfaces/shell.css): Sitecore's error at its nearest shade that stands 3:1 on the field area */
+  --sct-error-marker: #e5827d;
 }
 
 /* color-scheme changes the canvas and default colours of the whole document. In the Experience

@@ -96,6 +96,9 @@ html[data-sct-theme="solar"] {
   --solar-backdrop: linear-gradient(160deg, #fdf6e3, #eee8d5 70%);
   --solar-error: #cb4b16;
   --solar-error-fg: #a33a10;
+
+  /* the validation gutter (surfaces/shell.css): Sitecore's warning at its nearest shade that stands 3:1 on the field area */
+  --sct-warning-marker: #a68000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -184,6 +187,9 @@ html[data-sct-theme="solar"] {
     --solar-backdrop: linear-gradient(160deg, #073642, #002b36 60%, #001b22);
     --solar-error: #cb4b16;
     --solar-error-fg: #e8784a;
+
+    /* the validation gutter (surfaces/shell.css): Sitecore's error at its nearest shade that stands 3:1 on the field area */
+    --sct-error-marker: #d42f27;
   }
 }
 

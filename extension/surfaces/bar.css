@@ -94,6 +94,13 @@ html[data-sct-theme]:not(#sct-bar) .sc-ext-fieldSearchClear::after {
   filter: drop-shadow(0 0 1px rgb(255 255 255 / 0.7));
 }
 
+/* A field's warning: Sitecore's yellow gutter (#fbc200) stands 1.6:1 on its white editor, the amber kept but
+   deepened to #ab8400 for 3:1, under the themes that keep Sitecore's look (no tokens). Token themes draw the
+   gutter from surfaces/shell.css, which this never touches. */
+html:not([data-sct-tokens])[data-sct-surface="shell"] td.scEditorFieldMarkerBarCellYellow {
+  border-left-color: #ab8400;
+}
+
 /* A SPEAK page in a jQuery dialog (the media, link and item pickers fields open) drew its own title row under the
    dialog's title strip, a band of another colour. engine.js gives the dialog the header Sitecore's host gives Sheer
    pages, which every theme draws as its dialogs' caption, with the page's title in it; the page's own title row

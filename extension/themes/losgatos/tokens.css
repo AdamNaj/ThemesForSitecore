@@ -90,6 +90,9 @@ html[data-sct-theme="losgatos"] {
   /* the SPE ISE's Ace editor and Rich Text previews: a dark page with light text */
   --sct-editor-filter: invert(0.88) hue-rotate(180deg);
   --sct-content-filter: none;
+
+  /* the validation gutter (surfaces/shell.css): Sitecore's error at its nearest shade that stands 3:1 on the field area */
+  --sct-error-marker: #e8908c;
 }
 
 /* color-scheme changes the canvas and default colours of the whole document. In the Experience

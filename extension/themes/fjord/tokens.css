@@ -87,6 +87,9 @@ html[data-sct-theme="fjord"] {
      backdrop behind Launchpad and the login card */
   --fjord-line: #5e81ac;
   --fjord-backdrop: radial-gradient(120% 90% at 85% 0%, #d3dfee, #e5e9f0 55%, #d8dee9);
+
+  /* the validation gutter (surfaces/shell.css): Sitecore's warning at its nearest shade that stands 3:1 on the field area at every hue (it does not turn) */
+  --sct-warning-marker: #a68000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -173,6 +176,11 @@ html[data-sct-theme="fjord"] {
 
     --fjord-line: #88c0d0;
     --fjord-backdrop: radial-gradient(120% 80% at 85% 0%, #3b4a63, #2e3440 55%, #242933);
+
+    /* the validation gutter (surfaces/shell.css), 3:1 on the field area at every hue (it does not turn): Sitecore's
+       warning as it is (the day's deeper shade would be lost on these panels), its error at the nearest shade that passes */
+    --sct-error-marker: #e06a65;
+    --sct-warning-marker: #fbc200;
   }
 }
 

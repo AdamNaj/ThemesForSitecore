@@ -8,6 +8,10 @@ const path = require("node:path");
 const themes = require("../../extension/themes/themes.js");
 const { contrastPairs } = require("../../extension/surfaces/tokens.json");
 const { readTokens, contrast } = require("./tokens.test.js");
+const { markerProblem, markerStock } = require("./markers.js");
+
+// state colours keep their meaning at any hue: the validation gutter stays red and amber (checked below)
+const FIXED = /^--sct-(warning|error)-marker$/;
 
 const ROTATED = /^oklch\(from (#[0-9a-f]{6}) l c calc\(h \+ var\(--sct-hue\)\)\)$/i;
 
@@ -62,7 +66,7 @@ for (const theme of hueThemes) {
     test(`${theme.id} (${appearance}) rotates every colour token from its base value`, () => {
       assert.ok(hue[appearance], "hue block present");
       for (const [k, v] of base[appearance]) {
-        if (!/^#[0-9a-f]{6}$/i.test(v)) continue;
+        if (!/^#[0-9a-f]{6}$/i.test(v) || FIXED.test(k)) continue;
         const m = ROTATED.exec(hue[appearance].get(k) || "");
         assert.ok(m, `${k} rotated`);
         assert.equal(m[1].toLowerCase(), v.toLowerCase(), `${k} rotates its base colour`);
@@ -78,6 +82,15 @@ for (const theme of hueThemes) {
         for (const [fg, bg] of contrastPairs) {
           const ratio = contrast(token(fg), token(bg));
           assert.ok(ratio >= 4.5, `${deg}deg: ${fg} ${token(fg)} on ${bg} ${token(bg)}: ${ratio.toFixed(2)}`);
+        }
+        // the gutter does not turn with the palette, so it must still pass on the turned field area
+        for (const [state, stock] of Object.entries(markerStock)) {
+          const own = base[appearance].get(`--sct-${state}-marker`);
+          if (!own) continue; // the default mixes with the turned text colour in the browser; tokens.test.js checks it unturned
+          for (const bg of ["--sct-app-bg", "--sct-panel-bg", "--sct-section-body-bg"]) {
+            const problem = markerProblem(own, state, token(bg));
+            assert.equal(problem, null, `${deg}deg: the ${state} gutter ${own} on ${bg}: ${problem}`);
+          }
         }
       }
     });

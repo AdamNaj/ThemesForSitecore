@@ -75,6 +75,9 @@ html[data-sct-theme="redwood"] {
   --sct-desktop-bg: #505050;
   --sct-taskbar-bg: #aaaaaa;
   --sct-taskbar-fg: #000000;
+
+  /* the validation gutter (surfaces/shell.css): Sitecore's warning at its nearest shade that stands 3:1 on the field area */
+  --sct-warning-marker: #6e5500;
 }
 
 /* color-scheme changes the canvas and default colours of the whole document. In the Experience
