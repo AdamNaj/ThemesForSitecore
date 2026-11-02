@@ -15,7 +15,7 @@ AMO asks for four things with every version: the package, the source zip (`dist/
 **Name:** Themes for Sitecore
 
 **Summary** (Chrome takes this from the manifest; AMO limit 250 characters):
-39 themes for the Sitecore 10.0 to 10.5 Desktop and CM UIs: Sitecore's own looks, calm everyday palettes, modern and retro desktops, and creative looks.
+38 themes for the Sitecore 10.0 to 10.5 Desktop and CM UIs: Sitecore's own looks, calm everyday palettes, modern and retro desktops, and creative looks.
 
 **Category:** Chrome: Developer Tools. AMO: Appearance.
 
@@ -26,16 +26,18 @@ Families, not a theme-by-theme list. Chrome rejected two versions for keyword st
 ```text
 Sitecore's back office is bright, and every environment looks the same. Themes for Sitecore gives the Sitecore 10.0 to 10.5 Desktop and Content Management UIs a look you choose for each Sitecore host, so a long day of editing is easier on the eyes and you always know where you are.
 
-39 themes in five families, each with a live preview in the popup:
+38 themes in five families, each with a live preview in the popup:
 • Sitecore's own: today's layout in a dark, low-glare palette, or the look of an earlier version
-• Everyday: calm, legible looks for long days, including high contrast and colour-blind safe ones
+• Everyday: calm, legible looks for long days, including high contrast ones
 • Modern: rounded, current desktop styles that follow your light or dark setting
 • Retro: faithful recreations of classic desktops from the 90s and 2000s
 • Creative: a blueprint, a notebook, a green-screen terminal and more
 
+Any theme can be tuned for each site: lighter or darker, softer or bolder, warmer or cooler.
+
 Know where you are. The Guardrail theme marks every screen with the environment you set for the site, so production never looks like your dev box. Give a site a postfix such as [Prod] and it shows in the browser tab and in Sitecore's top bar: no more five identical "Desktop" tabs.
 
-Accessibility built in: tell it what you need, such as a screen reader, the keyboard alone, low vision, colour vision, reading and focus, or less motion, and the matching aids switch on. Clear focus outlines, keyboard access to the ribbon, menus and dialogs, bigger click targets, spoken announcements, reading fonts and spacing, colour filters and a reading guide all work under every theme, and every theme keeps its text at WCAG AA contrast.
+Accessibility built in: tell it what you need, such as a screen reader, the keyboard alone, low vision, colour vision, reading and focus, or less motion, and the matching aids switch on. Clear focus outlines, keyboard access to the ribbon, menus and dialogs, bigger click targets, spoken announcements, reading fonts and spacing, colour filters, errors marked by shape as well as colour, and a reading guide all work under every theme, and every theme keeps its text at WCAG AA contrast.
 
 Small improvements for everyone, on by default: a command palette, type to search in the content tree and an item's fields, item details at a glance, an image preview you can size, and the Content and Experience Editors reopening where you left off. Each one can be switched off, and they work with or without a theme.
 
@@ -75,23 +77,25 @@ For the version being released, written for the people who install it, from the 
 (`git tag -l --format='%(contents)' v<v>`). Plain text; like the description, name no OS or product.
 
 ```text
-0.6.0
+0.7.0
 
-- A new Accessibility tab in Settings: pick the needs that apply to you (screen reader, keyboard, low vision, colour vision, reading and focus, motion) and the matching aids switch on. Each aid can also be switched on or off by itself.
-- The aids include clear focus outlines, keyboard access to the ribbon, menus and dialogs, skip links, bigger click targets, spoken announcements and field help for screen readers, errors shown in words, reduced motion, a focus mode and a reading guide.
-- A new UI improvements tab, on by default for everyone: a command palette (Ctrl+Shift+Space), a list of the page's shortcuts (F1), type to search in the content tree and in an item's fields, item details and a copy menu in the editor header, the item's path under its name, a header that stays in view, Back, Forward, Expand all and Collapse all buttons, an image preview you can size, and the editors reopening where you left off.
-- The accessibility aids and UI improvements work with no theme at all, too.
-- The image and link pickers are themed, with a toolbar and caption in the theme's colours.
-- The Content Hub DAM pickers can follow the Sitecore site's theme.
-- The script editor's variable preview is themed.
-- Warning bars, tree highlights and Experience Editor labels are easier to read under every theme.
-- The popup's animations follow the Reduced motion aid.
+- A new Tuning tab in Settings: make any theme brighter or darker and change its contrast, gamma, saturation and hue, for each site. Each slider has its own Reset.
+- Errors in shapes, a new aid that comes with the Colour vision need: validation errors and warnings are marked by shape as well as colour, under every theme and with no theme.
+- Section errors and warnings: each section's title bar shows how many of its fields have errors and warnings, even when the section is closed. Click a count to go to the field.
+- Character limits: text fields show how many characters they hold, against their length limit where there is one, and how many are left or too many.
+- Locked fields: a field you cannot edit shows a padlock and a faint hatch.
+- Item info's Published pill now says which version is live, what is waiting to be published, and what the item's publishing settings hold back.
+- Field errors and warnings keep their red and amber under every theme.
+- Guardrail: menus show the hovered row in the environment's colour, in light and dark.
+- Start menu folders no longer stay pressed after their submenu closes.
+- The Spectrum theme is gone, now that its shapes work under every theme as the Errors in shapes aid. Sites set to Spectrum switch to no theme with the Colour vision need on.
+- Imported themes are gone. A site set to an imported theme switches to no theme.
 ```
 
 ## AMO: Notes to reviewer
 
 ```text
-The extension only styles Sitecore's Content Management UIs. Content scripts are registered at runtime for hosts the user grants through the popup (optional host permissions). The `*.gen.css` files under `extension/surfaces/` and the theme CSS are generated by the scripts in `tools/` (`node tools/build-*.{cjs,mjs}`) and are also checked in as written. `lib/dev.js` is replaced by a stub at packaging time (`tools/build.mjs`) to switch development hooks off. No minification or bundling is used. The innerHTML, outerHTML and insertAdjacentHTML calls the validator lists only insert the extension's own markup: constants in popup/site-settings.js and popup/picker.js, the overlay's style sheet in lib/engine.js, numbers-only SVG rectangles in themes/phosphor/dom.js, the SVG miniatures from popup/swatch.js, whose text (the theme's name) is escaped there, and the tuning sliders in popup/site-settings.js, built from validated numbers. Nothing from pages or the network is inserted as HTML.
+The extension only styles Sitecore's Content Management UIs. Content scripts are registered at runtime for hosts the user grants through the popup (optional host permissions). The `*.gen.css` files under `extension/surfaces/` and the theme CSS are generated by the scripts in `tools/` (`node tools/build-*.{cjs,mjs}`) and are also checked in as written. `lib/dev.js` is replaced by a stub at packaging time (`tools/build.mjs`) to switch development hooks off. No minification or bundling is used. The innerHTML, outerHTML and insertAdjacentHTML calls the validator lists only insert the extension's own markup: constants in popup/site-settings.js (which popup/popup.js puts in place) and popup/picker.js, the overlay's style sheet in lib/engine.js, numbers-only SVG rectangles in themes/phosphor/dom.js, the SVG miniatures from popup/swatch.js, whose text (the theme's name) is escaped there, the tuning sliders in popup/site-settings.js, built from validated numbers, and the aids' own SVG icons and labels in lib/aids/item-info.js and lib/aids/section-toggle.js. Two calls parse Sitecore's own markup into inert containers that are never attached to the page: lib/aids/command-palette.js reads the ribbon's hidden tabs, which Sitecore keeps as HTML comments, into a <template>, and lib/aids/item-info.js reads the workflow menu's text inside a document made by DOMParser. Nothing else from pages or the network is inserted as HTML.
 ```
 
 **Source code:** AMO asks for the sources of the generated files with every version. Upload `dist/themes-for-sitecore-<v>-source.zip`: `npm run build` makes it from HEAD (build from a clean commit), and the release workflow attaches it to every release.
