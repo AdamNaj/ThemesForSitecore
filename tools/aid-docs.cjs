@@ -250,8 +250,8 @@ function facts(id) {
   if (!aid) return "";
   const needs = list(aid.needs.map((n) => NEEDS[n]));
   const where = `**Where:** ${aid.surfaces ? list(aid.surfaces.map((x) => SURFACES[x])) : "every page"}`;
-  if (aid.ui) return `**On:** ${aid.always ? "by default on every site that shows a theme" : "once switched on under UI improvements"} · ${where}`;
-  const runs = aid.always ? "whenever the site shows a theme, and under Native once any need is ticked" : `with the ${needs} need${aid.needs.length > 1 ? "s" : ""}, or on its own under Fine-tune`;
+  if (aid.ui) return `**On:** ${aid.always ? "by default, under every theme and Native" : "once switched on under UI improvements"} · ${where}`;
+  const runs = aid.always ? "by default, under every theme and Native" :`with the ${needs} need${aid.needs.length > 1 ? "s" : ""}, or on its own under Fine-tune`;
   return `**Need:** ${needs} · **On:** ${runs} · ${where}`;
 }
 

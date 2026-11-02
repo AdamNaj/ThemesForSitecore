@@ -79,7 +79,7 @@ every field still shows its count, with no limits, and Integer and Number fields
 are counted too.
 
 <!-- shots:field-length -->
-**On:** by default on every site that shows a theme · **Where:** the Desktop and Content Editor
+**On:** by default, under every theme and Native · **Where:** the Desktop and Content Editor
 
 **Off**
 
@@ -108,7 +108,7 @@ screen reader hears the counts with the section's toggle. A section with nothing
 Content Editor and the field editor dialogs.
 
 <!-- shots:section-issues -->
-**On:** by default on every site that shows a theme · **Where:** the Desktop and Content Editor
+**On:** by default, under every theme and Native · **Where:** the Desktop and Content Editor
 
 **Off**
 
@@ -133,7 +133,7 @@ diagonal hatch, and the warning over a locked item the same hatch. The hatch is 
 and the padlock in a mid grey, so both show under light and dark themes.
 
 <!-- shots:locked-fields -->
-**On:** by default on every site that shows a theme · **Where:** the Desktop and Content Editor
+**On:** by default, under every theme and Native · **Where:** the Desktop and Content Editor
 
 **Off**
 
@@ -163,7 +163,7 @@ the navigator beside them are drawn flat, with no frame, and shaded while the po
 each button's name, and that a greyed-out one is unavailable.
 
 <!-- shots:section-toggle -->
-**On:** by default on every site that shows a theme · **Where:** the Desktop and Content Editor
+**On:** by default, under every theme and Native · **Where:** the Desktop and Content Editor
 
 **Off**
 
@@ -360,7 +360,7 @@ panel says the field shown, its type and the count ("Title · Single-Line Text �
 the item's template. "No match" when nothing matches.
 
 <!-- shots:tree-keys -->
-**On:** by default on every site that shows a theme · **Where:** the Desktop and Content Editor
+**On:** by default, under every theme and Native · **Where:** the Desktop and Content Editor
 
 | Off | On |
 |---|---|
