@@ -108,7 +108,7 @@
       html.toggleAttribute("data-sct-tokens", reply.usesTokens);
       applyHue();
       syncAids(true);
-      if (domReady) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows(), syncDialogTitle();
+      if (domReady) applyDom(), syncMaxButton(), syncTaskbar(), syncPopupOpeners(), syncWindowTitle(), syncLaunchpadRows(), syncDialogTitle();
       syncLive();
       if (tabWatch) syncTint(); // a tint from the theme follows it
       if (doc.readyState === "complete") rememberPaint();
@@ -188,6 +188,31 @@
         if (seen.has(id) || !doc.getElementById(id)) cell.remove();
         else seen.add(id);
       }
+    }
+
+    // Sitecore marks a popup's opener scPopupOpener (aria-expanded) on the last element with its id, and on close
+    // clears the first. The Desktop keeps a hidden copy of #StartMenu before the one it shows, so a start menu
+    // folder (Security Tools...) stayed pressed after its submenu closed. Under every theme a closed popup's
+    // openers are all cleared. Native keeps Sitecore's behaviour.
+    let popupWatch = null;
+    function syncPopupOpeners() {
+      const form = doc.forms[0]; // where Sitecore's showPopup appends its popups
+      if (popupWatch || surfaceName !== "shell" || !form) return;
+      popupWatch = new MutationObserver((records) => {
+        if (!alive()) return popupWatch.disconnect();
+        if (!engine.theme || engine.theme === "native") return;
+        for (const r of records) {
+          for (const node of r.removedNodes) {
+            const id = node.nodeType === 1 && node.classList.contains("scPopup") && node.getAttribute("data-openerId");
+            if (!id || form.querySelector(`:scope > .scPopup[data-openerId="${CSS.escape(id)}"]`)) continue;
+            for (const el of doc.querySelectorAll(`.scPopupOpener[id="${CSS.escape(id)}"]`)) {
+              el.classList.remove("scPopupOpener");
+              el.setAttribute("aria-expanded", "false");
+            }
+          }
+        }
+      });
+      popupWatch.observe(form, { childList: true });
     }
 
     // A Desktop window's title, read from its taskbar entry, as data-sct-window-title and --sct-window-title (a CSS
@@ -1232,7 +1257,7 @@
         if (surfaceName === "ee") trackRibbonToggle();
         if (surfaceName === "shell") frameResize(true);
         markPage();
-        if (alive()) applyDom(), syncMaxButton(), syncTaskbar(), syncWindowTitle(), syncLaunchpadRows(), syncDialogTitle();
+        if (alive()) applyDom(), syncMaxButton(), syncTaskbar(), syncPopupOpeners(), syncWindowTitle(), syncLaunchpadRows(), syncDialogTitle();
         syncAids();
       });
       window.addEventListener("load", () => {
