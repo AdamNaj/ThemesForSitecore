@@ -2,13 +2,17 @@
 // on the squares of the Validator Bar and the validation dialog. Each state gets a shape as well: the bar becomes a
 // column of crosses (an error) or a wave (a warning), the control a solid or a dashed outline, the label a triangle or
 // a dotted ring, and the squares a triangle, a dotted ring, a tick and a plain ring. Message bars get a solid or a
-// dashed edge. The colours are surfaces/shell.css's markers, 3:1 on the field area under every theme; under Native,
-// Sitecore's red as it is (4.9:1 on its grey) and its amber mixed with black (its own is 1.5:1). Every bar is 14px wide, so a field does not move when it validates.
+// dashed edge. The colours start from surfaces/shell.css's markers, 3:1 on the field area under every theme; under
+// Native, Sitecore's red as it is (4.9:1 on its grey) and its amber mixed with black (its own is 1.5:1). Thin crosses
+// and waves in those read as maroon and olive, so each keeps its marker's lightness, pushed a little further from the
+// middle, at the section pills' hue (a red, an orange amber) and at least their chroma; a dark red marker is lifted
+// towards the pill's red, which has the room. 3:1 still holds on every theme's app, panel and section backgrounds
+// (checked against test/unit/markers.js when the formula was tuned). Every bar is 14px wide, so a field does not move when it validates.
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
 
-  const ERROR = "var(--sct-error-marker,color-mix(in srgb,#ce130a 60%,var(--sct-panel-fg,#ce130a)))";
-  const WARNING = "var(--sct-warning-marker,color-mix(in srgb,#fbc200 60%,var(--sct-panel-fg,#000)))";
+  const ERROR = "oklch(from var(--sct-error-marker,color-mix(in srgb,#ce130a 60%,var(--sct-panel-fg,#ce130a))) calc(l + clamp(0,(.6 - l) * .5,.08) + clamp(0,(l - .6) * .5,.06)) max(c,.19) 29)";
+  const WARNING = "oklch(from var(--sct-warning-marker,color-mix(in srgb,#fbc200 60%,var(--sct-panel-fg,#000))) calc(l + (l - .6) * .08) max(c,.15) 70)";
   const VALID = "color-mix(in srgb,#008000 60%,var(--sct-panel-fg,#000))";
   const PENDING = "color-mix(in srgb,var(--sct-panel-fg,#000) 50%,transparent)";
   const marked = (state) => `.scEditorFieldMarker:has(>tbody>tr>.scEditorFieldMarkerBarCell${state})`;

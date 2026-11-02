@@ -546,7 +546,7 @@ _The field is marked as Sitecore marks one that fails validation._
 <!-- /shots:not-just-colour -->
 
 ### Errors in shapes
-<!-- aid:state-shapes efc36537fb -->
+<!-- aid:state-shapes d858d42a2c -->
 
 **What it is for.** Sitecore tells a field's validation by colour alone: a red or yellow bar beside the field, and red,
 yellow, green and grey squares on the Validator Bar and in the validation dialog. Errors in words names the state on
@@ -563,8 +563,9 @@ the label; this gives every state a shape too, wherever Sitecore shows one (WCAG
   tick (valid) and a plain ring (not validated yet).
 - Message bars get a solid left edge for an error and a dashed one for a warning.
 
-The colours are the theme's error and warning markers, 3:1 or more on the field area under every theme; under Native,
-Sitecore's red, and its amber darkened to reach the same.
+The colours start from the theme's error and warning markers, at the hue and strength of the section badges' red and
+amber (so a thin cross or wave does not read as maroon or olive), and stay 3:1 or more on the field area under every
+theme; under Native, Sitecore's red, and its amber darkened towards orange to reach the same.
 
 <!-- shots:state-shapes -->
 **Need:** Colour vision · **On:** with the Colour vision need, or on its own under Fine-tune · **Where:** the Desktop and Content Editor
