@@ -668,7 +668,8 @@ you tick Reading and focus, unless you chose another font. Set under **Font**.
 
 **What it is for.** More room between letters and words helps some readers with dyslexia and low vision (WCAG 1.4.12).
 
-**What changes.** Letter spacing of 0.06em and word spacing of 0.16em on every Sitecore text. Set under **Spacing**.
+**What changes.** Letter spacing of 0.06em and word spacing of 0.16em on every Sitecore text, except code editors
+(PowerShell ISE, its results and the PowerShell Console) and icons. Set under **Spacing**.
 
 <!-- shots:spacing -->
 **Off**

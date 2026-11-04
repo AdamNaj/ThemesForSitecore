@@ -264,8 +264,9 @@
   }
 
   // Icon fonts and code editors keep their own: Sitecore's .si and .sic and Glyphicons draw icons, Ace (SPE's ISE)
-  // and jQuery Terminal (SPE's Console) measure their monospace characters.
-  const KEEP = ".si,.sic,.glyphicon,.ace_editor,.ace_editor *,.terminal,.terminal *,pre,code,kbd,samp";
+  // and jQuery Terminal (SPE's Console, the ISE's results and the script runner) measure their monospace characters.
+  // #ScriptResult is the ISE's results pane: SPE sets the user's font on it inline, and the terminal inside inherits it.
+  const KEEP = ".si,.sic,.glyphicon,.ace_editor,.ace_editor *,.terminal,.terminal *,#ScriptResult,#ScriptResult *,pre,code,kbd,samp";
   // A frame's CSS for accessibility(), url(path) giving a packaged file's address; the colour filter is the SVG filter
   // #sct-vision the engine adds beside it. In a layer, its !important wins over every unlayered !important of the
   // page's and the theme's, whatever their specificity.
@@ -278,7 +279,9 @@
       ...(font ? font.files.map((f, i) => `@font-face{font-family:${family};src:url("${url(`fonts/${f}`)}");font-weight:${i ? "600 900" : "100 599"}}`) : []),
       "@layer sct-accessibility{",
       ...(font ? [`:root[data-sct-font] :not(${KEEP}){font-family:${family},sans-serif!important}`] : []),
-      ...(a.spacing ? [`:root[data-sct-spacing] :not(${KEEP}){letter-spacing:.06em!important;word-spacing:.16em!important}`] : []),
+      // spacing inherits: what keeps its own gets normal spacing back, which any spacing the page sets on it wins over
+      ...(a.spacing ? [`:root[data-sct-spacing] :not(${KEEP}){letter-spacing:.06em!important;word-spacing:.16em!important}`,
+        `:root[data-sct-spacing] :is(${KEEP}){letter-spacing:normal;word-spacing:normal}`] : []),
       ...(a.vision ? [":root[data-sct-vision]{filter:url(#sct-vision)!important}"] : []),
       "}",
     ].join("\n");

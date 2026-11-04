@@ -153,6 +153,8 @@ test("a site's accessibility aids: unknown values are off, every font is package
   assert.equal(settings.accessibilityCss(null, String), "");
   const spacing = settings.accessibilityCss({ spacing: "wide" }, String);
   assert.ok(spacing.includes("letter-spacing") && !spacing.includes("@font-face") && !spacing.includes("filter"));
+  // SPE's code editor and terminals (ISE results pane included) get normal spacing back rather than inheriting it
+  assert.match(spacing, /:is\([^)]*\.ace_editor[^)]*\.terminal[^)]*#ScriptResult[^)]*\)\{letter-spacing:normal;word-spacing:normal\}/);
   assert.ok(settings.accessibilityCss({ vision: "protanopia", strength: 100 }, String).includes("filter:url(#sct-vision)"));
   // the controls are site-settings.js's, shared by the popup and the Sitecore module's panel
   const popup = fs.readFileSync(ext("popup/site-settings.js"), "utf8");
