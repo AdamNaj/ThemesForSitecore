@@ -307,3 +307,7 @@ html[data-sct-theme]:not(#sct-bar) tr[class^="scChecked"] > td[class^="scMenuIte
   border-width: 0 2px 2px 0;
   transform: translate(-50%, -65%) rotate(45deg);
 }
+
+/* SPE's Console and ISE output: the GUIDs SPE turns into item links (console.js finalizeGuidLinks) keep SPE's
+   own yellow from Console.css, whatever colour a theme gives links. */
+html[data-sct-theme] .terminal .terminal-output div a { color: yellow !important; }
