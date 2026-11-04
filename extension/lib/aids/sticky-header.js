@@ -5,9 +5,9 @@
 // The header is frosted, never see-through: the colours from it down to the first opaque one (else the theme's app
 // background) flattened into one, as the header looked over the panel, laid at 80% over a blur of the fields under
 // it. A theme that leaves it clear or translucent (Cupertino, Sun Valley, Tahoe's glass) gets its panel's colour.
-// The colour is looked up again on every pass (the engine runs one after each theme or mode switch), whenever the
-// panel scrolls and when the OS turns light or dark: a lookup kept from before the theme's CSS landed, or from
-// another theme or appearance, left a dark header under dark text.
+// The colour is looked up again on every pass and whenever the panel scrolls; the engine runs a pass after every
+// recolour (theme, mode, the OS turning light or dark, hue, scheme, tuning: engine.js applyTone). A lookup kept from
+// before one of those left a dark header under dark text, then an untuned one.
 // ponytail: colours only: a textured panel behind it shows flat
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
@@ -17,7 +17,7 @@
   const BG = "--sct-sticky-bg";
   // the panel's left and right padding, then the header's own plus those
   const STRETCH = ["--sct-sticky-x", "--sct-sticky-xr", "--sct-sticky-pl", "--sct-sticky-pr"];
-  let watched = new WeakSet(); // documents listening for scrolls and the OS appearance
+  let watched = new WeakSet(); // documents listening for scrolls
   const filled = new Map(); // headers given a colour or stretched, to take it back -> whether it had a style attribute
 
   // A computed colour's alpha: rgba(r, g, b, a), color(srgb r g b / a), transparent; anything else is opaque.
@@ -69,7 +69,6 @@ ${HEADER}[style*="${STRETCH[0]}"]{margin-left:calc(-1*var(${STRETCH[0]}));margin
           const h = e.target.nodeType === 1 && e.target.matches(".scEditorPanel") && e.target.querySelector(":scope>.scEditorHeader");
           if (h && !frame) frame = doc.defaultView.requestAnimationFrame(() => ((frame = 0), fill(h)));
         }, true);
-        ctx.listen(doc.defaultView.matchMedia("(prefers-color-scheme: dark)"), "change", () => doc.querySelectorAll(HEADER).forEach(fill));
       }
       doc.querySelectorAll(HEADER).forEach(fill);
     },

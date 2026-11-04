@@ -250,7 +250,7 @@ version 1"), in the header's own help style.
 <!-- /shots:where-am-i -->
 
 ### Sticky item header
-<!-- aid:sticky-header c524188a8a -->
+<!-- aid:sticky-header 573fcf4d0f -->
 
 **What it is for.** On a long item the header with the item's name and icon scrolls away with the first section, and
 with it the answer to "which item am I editing?".
@@ -259,7 +259,7 @@ with it the answer to "which item am I editing?".
 whole width. Its last few pixels
 fade to see-through, so a field slides under it rather than being cut off by a hard edge. The rest of it is
 frosted: the fields under it show only as a faint blur, under the colour the header has in the theme (where a theme
-draws it clear or as glass, the panel's colour behind it), kept in step with the theme and the light or dark setting.
+draws it clear or as glass, the panel's colour behind it), kept in step with the theme, the light or dark setting, and the site's hue and tuning.
 The warnings and the Quick Info section below it scroll as before.
 
 <!-- shots:sticky-header -->

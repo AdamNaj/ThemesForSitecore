@@ -85,3 +85,18 @@ test("every aid is described, and its module registers apply or css", () => {
     assert.ok(mod && (typeof mod.apply === "function" || typeof mod.css === "string"), id);
   }
 });
+
+test("the site's tuning turns every colour an aid's CSS names, and nothing in its selectors", () => {
+  const settings = require("../../extension/lib/settings.js");
+  const f = settings.tone({ brightness: 80 });
+  for (const id of Object.keys(settings.AIDS)) {
+    const css = globalThis.SCT.aidModules[id].css;
+    if (typeof css !== "string") continue;
+    // what is left once every {...} is taken out are the selectors: an #id there must not read as a hex colour
+    let sel = css;
+    while (/\{[^{}]*\}/.test(sel)) sel = sel.replace(/\{[^{}]*\}/g, ";");
+    assert.equal(settings.toneHex(sel, f), sel, id);
+  }
+  assert.equal(settings.toneHex("a{color:#2f9e44}", null), "a{color:#2f9e44}");
+  assert.equal(settings.toneHex("a{color:#2f9e44}", f), `a{color:${settings.toneColor("#2f9e44", f)}}`);
+});

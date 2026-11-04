@@ -262,6 +262,9 @@
     }
     return c;
   }
+  // css with every hex colour turned by tone() f (an aid's CSS, which names its status colours outright); as it is
+  // when f is null. An aid's selectors hold no #id that reads as hex (build.test.js checks).
+  const toneHex = (css, f) => (f ? css.replace(/#[0-9a-f]{3,8}\b(?![\w-])/gi, (hex) => toneColor(hex, f)) : css);
 
   // Icon fonts and code editors keep their own: Sitecore's .si and .sic and Glyphicons draw icons, Ace (SPE's ISE)
   // and jQuery Terminal (SPE's Console, the ISE's results and the script runner) measure their monospace characters.
@@ -289,7 +292,7 @@
 
   SCT.settings = {
     DEFAULTS, ENVS, PHASES, SCHEMES, FONTS, VISIONS, catalog, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight, migrateSpectrum,
-    accessibility, accessibilityCss, visionMatrix, visionValues, TUNING, tuning, tone, toneColor, NEEDS, NEED_PRESETS, needEffects, AIDS, UI_GROUPS, aidReason, enabledAids,
+    accessibility, accessibilityCss, visionMatrix, visionValues, TUNING, tuning, tone, toneColor, toneHex, NEEDS, NEED_PRESETS, needEffects, AIDS, UI_GROUPS, aidReason, enabledAids,
   };
   if (typeof module !== "undefined") module.exports = SCT.settings;
 })(globalThis);

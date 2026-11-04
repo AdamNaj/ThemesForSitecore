@@ -99,15 +99,14 @@
       if (!reply || reply.error || !alive()) return;
       dev = reply.dev;
       engine.mode = reply.mode; // a mode change swaps only the CSS
-      if (reply.theme === engine.theme) return void (applyTone(), syncAids(true));
+      if (reply.theme === engine.theme) return void applyTone(); // runs the aids again too
       revertDom();
       engine.theme = reply.theme;
       engine.themeName = reply.name;
       if (reply.theme === "native") delete html.dataset.sctTheme;
       else html.dataset.sctTheme = reply.theme;
       html.toggleAttribute("data-sct-tokens", reply.usesTokens);
-      applyHue();
-      syncAids(true);
+      applyHue(); // applyTone runs the aids again
       if (domReady) applyDom(), syncMaxButton(), syncTaskbar(), syncPopupOpeners(), syncWindowTitle(), syncLaunchpadRows(), syncDialogTitle();
       syncLive();
       if (tabWatch) syncTint(); // a tint from the theme follows it
@@ -799,7 +798,11 @@
     // that holds a colour, read as the theme sets it and set again on <html>, turned. Icons, images, text rendering
     // and the item's content keep their own; Native and the themes without tokens have nothing to turn. Again
     // whenever the tuning, the theme, its light or dark half, its hue or scheme changes, in every frame on its own.
+    // Every recolour ends here, so this is where the aids run again: the colours they read from the page
+    // (sticky-header's frosted header) are read after the tokens change, and the colours their own CSS names are
+    // turned with the tokens (aidsCss). An aid needs no listener of its own for any of these.
     let tuning = null;
+    let aidTone = null; // tone() the aids' CSS is turned by, null when nothing is
     async function syncTuning() {
       const site = await host.site();
       if (!alive()) return;
@@ -811,19 +814,22 @@
       for (const name of toned) html.style.removeProperty(name);
       toned.clear();
       const t = alive() && html.dataset.sctEngine === engine.id && html.hasAttribute("data-sct-tokens") ? SCT.settings.tone(tuning) : null;
-      if (!t) return;
-      // all read before any is set: a token that names another (var(--sct-panel-bg)) would otherwise turn twice
-      const cs = getComputedStyle(html);
-      const colours = [];
-      for (let i = 0; i < cs.length; i++) {
-        const name = cs[i];
-        const value = name.startsWith("--") && cs.getPropertyValue(name).trim();
-        if (value && CSS.supports("color", value)) colours.push([name, value]);
+      aidTone = t;
+      if (t) {
+        // all read before any is set: a token that names another (var(--sct-panel-bg)) would otherwise turn twice
+        const cs = getComputedStyle(html);
+        const colours = [];
+        for (let i = 0; i < cs.length; i++) {
+          const name = cs[i];
+          const value = name.startsWith("--") && cs.getPropertyValue(name).trim();
+          if (value && CSS.supports("color", value)) colours.push([name, value]);
+        }
+        for (const [name, value] of colours) {
+          html.style.setProperty(name, SCT.settings.toneColor(value, t));
+          toned.add(name);
+        }
       }
-      for (const [name, value] of colours) {
-        html.style.setProperty(name, SCT.settings.toneColor(value, t));
-        toned.add(name);
-      }
+      syncAids(true);
     }
     matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => applyTone());
 
@@ -932,7 +938,8 @@
       noteMs(performance.now() - t0, "sctAidsMs");
     }
 
-    // restyled: the theme's CSS just changed, so the aids that read the page's colours (sticky-header) run again
+    // restyled: the page's colours just changed (applyTone, after every theme, mode, hue, scheme or tuning change),
+    // so the aids that read them (sticky-header) run again
     function syncAids(restyled) {
       const want = domReady && alive() && html.dataset.sctEngine === engine.id
         ? SCT.settings.enabledAids(access, { surface: surfaceName }).filter((id) => SCT.aidModules[id] && !brokenAids.has(id))
@@ -962,9 +969,10 @@
     }
 
     // CSS-only aids (an aid's `css`), all of them in one owned <style>, in the layer the font and spacing use;
-    // sct-ext:<path> is a packaged file (glyphs/), as in a theme's CSS
+    // sct-ext:<path> is a packaged file (glyphs/), as in a theme's CSS; the colours it names are turned by the site's
+    // tuning as the theme's tokens are (settings.js toneHex)
     function aidsCss(ids) {
-      const css = ids.map((id) => SCT.aidModules[id].css).filter(Boolean).join("\n")
+      const css = SCT.settings.toneHex(ids.map((id) => SCT.aidModules[id].css).filter(Boolean).join("\n"), aidTone)
         .replace(/url\(\s*(['"]?)sct-ext:/g, (m, q) => `url(${q}${host.url("")}`);
       let style = doc.querySelector("style[data-sct-aids]");
       if (!css) return style?.remove();
