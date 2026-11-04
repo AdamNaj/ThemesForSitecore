@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Script.Serialization;
 using Sitecore.Configuration;
+using Sitecore.Data;
+using Sitecore.Data.DataProviders;
+using Sitecore.Data.DataProviders.ItemLocations;
 using Sitecore.Pipelines.HttpRequest;
 
 namespace SitecoreThemes
@@ -19,6 +22,8 @@ namespace SitecoreThemes
     {
         public const string Base = "/sitecore modules/SitecoreThemes/";
         public const string SavePath = "/sitecore/shell/sitecore-themes/save";
+        public const string LocationPath = "/sitecore/shell/sitecore-themes/location";
+        static readonly Regex DbName = new Regex("^[A-Za-z0-9_.-]{1,40}$");
         const string ThemeKey = "SitecoreThemes.Theme";
         const string HueKey = "SitecoreThemes.Hue";
         const string EnvKey = "SitecoreThemes.Environment";
@@ -64,6 +69,12 @@ namespace SitecoreThemes
             if (path.Equals(SavePath, StringComparison.OrdinalIgnoreCase))
             {
                 Save(context);
+                args.AbortPipeline();
+                return;
+            }
+            if (path.Equals(LocationPath, StringComparison.OrdinalIgnoreCase))
+            {
+                Location(context);
                 args.AbortPipeline();
                 return;
             }
@@ -240,6 +251,29 @@ namespace SitecoreThemes
             if (string.IsNullOrEmpty(saved)) return null;
             try { return new JavaScriptSerializer().Deserialize<Dictionary<string, int>>(saved); }
             catch (Exception e) when (e is ArgumentException || e is InvalidOperationException) { return null; }
+        }
+
+        // GET ?db=master&id={...}: where an item is stored, {"resource":bool,"sql":bool} (Item info's Stored pill): in the
+        // items as resources files, the database, or both (a database copy that hides the resource item). 404 for a user
+        // not signed in, an item they cannot read, or a database whose first provider is not Sitecore's composite one.
+        static void Location(HttpContextBase context)
+        {
+            var user = Sitecore.Context.User;
+            var name = context.Request.QueryString["db"];
+            var db = user != null && user.IsAuthenticated && name != null && DbName.IsMatch(name) ? Factory.GetDatabase(name, false) : null;
+            var composite = db?.GetDataProviders().FirstOrDefault() as CompositeDataProvider;
+            ID id;
+            AggregatedItemLocations at = null;
+            if (composite != null && ID.TryParse(context.Request.QueryString["id"], out id) && db.GetItem(id) != null)
+                at = composite.GetItemLocations(new[] { id }, new CallContext(db.DataManager, 1)).FirstOrDefault();
+            if (at == null) context.Response.StatusCode = 404;
+            else
+            {
+                context.Response.ContentType = "application/json";
+                context.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                context.Response.Write(new JavaScriptSerializer().Serialize(new { resource = at.IsResource(), sql = at.IsSql() }));
+            }
+            context.ApplicationInstance.CompleteRequest();
         }
 
         // POST any of theme=<id>, hue=<0-359> with hueTheme=<id>, env=<prod|staging|qa|dev|sandbox|local|beta>,

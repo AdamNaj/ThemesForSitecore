@@ -67,3 +67,14 @@ test("item-info: publishing settings hold back the item or a version, and the pi
   // no settings read: as before
   assert.deepEqual(go([v(1), v(2)], [v(2)], undefined, null), ["yes", "Published · v2", null, null]);
 });
+
+test("item-info: the Stored pill, from where the module says the item lives", () => {
+  const { stored } = globalThis.SCT.itemInfo;
+  const said = (at) => { const s = stored(at, "master"); return s && [s.state, s.text]; };
+  assert.deepEqual(said({ resource: true, sql: false }), ["resource", "In resource files"]);
+  assert.deepEqual(said({ resource: false, sql: true }), ["sql", "In database"]);
+  assert.deepEqual(said({ resource: true, sql: true }), ["both", "Database overrides resource"]);
+  // no module, or nothing found: no pill
+  assert.equal(stored(null, "master"), null);
+  assert.equal(stored({ resource: false, sql: false }, "master"), null);
+});

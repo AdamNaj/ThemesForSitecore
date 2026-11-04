@@ -2,7 +2,8 @@
 // last modified and by whom (the user name without its domain), and which version in this language is live in the web
 // database against what the next publish would put there: up to date, edited since it was published, a newer version
 // still in workflow or ready to publish, or the item or a version held back by its publishing settings (and live content
-// the next publish takes down); Copy puts the item's or its template's name, path or ID on the clipboard, and Navigate
+// the next publish takes down); with the Sitecore module deployed, a third chip says whether the item is stored in the
+// items as resources files, the database, or both (a database copy hiding the resource item, shown as a warning); Copy puts the item's or its template's name, path or ID on the clipboard, and Navigate
 // opens its template, or one of the templates that template inherits from (Sitecore's own, under
 // /sitecore/templates/System, left out).
 // Nothing here holds up the editor: the chips fill in once the browser is idle, from the version list Sitecore shows
@@ -34,6 +35,8 @@
     hidden: svg('<path d="M1.5 7S3.5 3 7 3s5.5 4 5.5 4-2 4-5.5 4S1.5 7 1.5 7z"/><circle cx="7" cy="7" r="1.8"/><path d="M2 2l10 10"/>'),
     takedown: svg('<path d="M7 1.5v7M4.5 6L7 8.5 9.5 6M2.5 12h9"/>'),
     back: svg('<path d="M5 3.5L2.5 6 5 8.5"/><path d="M2.5 6H9a3 3 0 0 1 0 6H6"/>'),
+    sql: svg('<ellipse cx="7" cy="3.5" rx="4.5" ry="2"/><path d="M2.5 3.5v7c0 1.1 2 2 4.5 2s4.5-.9 4.5-2v-7M2.5 7c0 1.1 2 2 4.5 2s4.5-.9 4.5-2"/>'),
+    resource: svg('<path d="M3 1.5h5l3 3v8H3z"/><path d="M8 1.5v3h3M5 7.5h4M5 10h4"/>'),
     down: '<svg viewBox="0 0 10 10" width="9" height="9" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>',
   };
   const inheritance = new Map(); // template ID -> Promise of [{ id, name, folder, depth }]
@@ -227,6 +230,22 @@
     return { ...head, title: [head.title, next && next.title, ...notes].filter(Boolean).join(" "), next };
   }
 
+  // Where the item is stored, from the Sitecore module's endpoint (sitecore/ThemesProcessor.cs Location): null without
+  // the module, before Sitecore 10.1, or behind a database's own data provider.
+  async function location(doc, item, signal) {
+    const r = await fetch(`${doc.location.origin}/sitecore/shell/sitecore-themes/location?${new URLSearchParams({ db: item.db, id: item.id })}`, { credentials: "include", signal });
+    return r.ok && /json/.test(r.headers.get("content-type") || "") ? r.json() : null;
+  }
+
+  // The Stored pill for location() at: a database copy over an items-as-resources item is the one to warn about, since
+  // it hides whatever newer version a module or an upgrade ships in its resource files.
+  function stored(at, db) {
+    if (!at || !(at.resource || at.sql)) return null;
+    if (at.resource && at.sql) return { state: "both", icon: "gone", text: "Database overrides resource", title: `The ${db} database has its own copy of this item, which hides the one in the items as resources (.dat) files: a newer version that a module or an upgrade ships there stays hidden until the copy is removed (dotnet sitecore itemres cleanup).` };
+    if (at.resource) return { state: "resource", icon: "resource", text: "In resource files", title: "Stored only in the items as resources (.dat) files, not in the database. Saving a change copies the item into the database, where it overrides the resource." };
+    return { state: "sql", icon: "sql", text: "In database", title: `Stored in the ${db} database only.` };
+  }
+
   // the bases of a template, as its Inheritance tab nests them, Sitecore's own left out with everything under them
   function bases(doc, item, tid) {
     if (!inheritance.has(tid)) {
@@ -297,12 +316,20 @@
     later(async () => {
       if (ctrl.signal.aborted) return;
       const [mod, pub] = status.children;
-      const [mine, web, settings] = await Promise.allSettled([
+      const [mine, web, settings, where] = await Promise.allSettled([
         gallery(ctx.doc, item, item.db, ctrl.signal),
         pub ? gallery(ctx.doc, item, "web", ctrl.signal) : null,
         pub ? rules(ctx.doc, item, ctrl.signal) : null,
+        location(ctx.doc, item, ctrl.signal),
       ]);
       if (ctrl.signal.aborted || !header.isConnected) return;
+      // no placeholder: most sites have no module to ask, and a pill that comes and goes on every item would flicker
+      const s = where.status === "fulfilled" && stored(where.value, item.db);
+      if (s) {
+        const c = chip(ctx.doc, "stored");
+        fill(c, ICONS[s.icon], s.text, s.title, s.state);
+        status.append(c);
+      }
       const v = mine.status === "fulfilled" && (mine.value.find((r) => r.ver === item.ver) || mine.value.at(-1));
       if (v) fill(mod, ICONS.clock, `${ago(v.date) || v.date} · ${v.user.slice(v.user.lastIndexOf("\\") + 1)}`, `Modified ${v.date} by ${v.user}`);
       else mod.remove(); // signed out, or a page Sitecore would not give: no chip rather than a wrong one
@@ -483,7 +510,7 @@
     load(ctx, header, status, item);
   }
 
-  SCT.itemInfo = { published, candidate, when }; // for the unit tests
+  SCT.itemInfo = { published, candidate, when, stored }; // for the unit tests
 
   SCT.registerAid("item-info", {
     css: `.scEditorHeader:has(>sct-item-info){display:flow-root;height:auto!important}
@@ -504,6 +531,10 @@ sct-item-chip[data-state="held"] svg,sct-item-chip>sct-item-next[data-state="hel
 sct-item-chip>sct-item-next[data-state="gone"] svg{color:#e03131}
 sct-item-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 sct-item-chip svg,sct-item-info button svg{flex:none}
+sct-item-chip[data-state="resource"]{background:color-mix(in srgb,#1c7ed6 12%,transparent);border-color:color-mix(in srgb,#1c7ed6 50%,transparent)}
+sct-item-chip[data-state="resource"] svg{color:#1c7ed6}
+sct-item-chip[data-state="both"]{background:color-mix(in srgb,#e8a10c 22%,transparent);border-color:color-mix(in srgb,#e8a10c 75%,transparent);font-weight:600}
+sct-item-chip[data-state="both"] svg{color:#c07f00}
 sct-item-chip[data-state="yes"]{background:color-mix(in srgb,#2f9e44 13%,transparent);border-color:color-mix(in srgb,#2f9e44 55%,transparent)}
 sct-item-chip[data-state="yes"] svg{color:#2f9e44}
 sct-item-chip[data-state="no"]{background:color-mix(in srgb,#e8a10c 15%,transparent);border-color:color-mix(in srgb,#e8a10c 60%,transparent)}
