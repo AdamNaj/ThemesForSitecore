@@ -78,3 +78,25 @@ test("item-info: the Stored icon, from where the module says the item lives", ()
   assert.equal(stored(null, "master"), null);
   assert.equal(stored({ resource: false, sql: false }, "master"), null);
 });
+
+test("item-info: where the item is stored comes from the module, else from SPE", async () => {
+  const { location } = globalThis.SCT.itemInfo;
+  const doc = { location: { origin: "https://cm" } };
+  const item = { db: "master", id: "{AB86861A-6030-46C5-B394-E8F99E8B87DB}" };
+  const json = (body) => ({ ok: true, headers: { get: () => "application/json; charset=utf-8" }, json: async () => body });
+  const missing = { ok: false, headers: { get: () => "text/html" } };
+  const real = globalThis.fetch;
+  const asked = [];
+  const answer = (module, spe) => (globalThis.fetch = async (u) => (asked.push(u), /sitecore-themes/.test(u) ? module() : spe()));
+  try {
+    answer(() => json({ resource: true, sql: false }), () => assert.fail("SPE asked while the module answered"));
+    assert.deepEqual(await location(doc, item), { resource: true, sql: false });
+    answer(() => missing, () => json({ source: "Overridden", resource: true, sql: true }));
+    assert.deepEqual(await location(doc, item), { source: "Overridden", resource: true, sql: true });
+    assert.equal(asked.at(-1), "https://cm/-/script/itemsource/master/?id=%7BAB86861A-6030-46C5-B394-E8F99E8B87DB%7D");
+    answer(() => Promise.reject(new TypeError("network")), () => missing);
+    assert.equal(await location(doc, item), null);
+  } finally {
+    globalThis.fetch = real;
+  }
+});

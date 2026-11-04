@@ -2,9 +2,9 @@
 // last modified and by whom (the user name without its domain), and which version in this language is live in the web
 // database against what the next publish would put there: up to date, edited since it was published, a newer version
 // still in workflow or ready to publish, or the item or a version held back by its publishing settings (and live content
-// the next publish takes down); with the Sitecore module deployed, a small icon left of the Modified pill says whether the
-// item is stored in the items as resources files, the database, or both (a database copy hiding the resource item, in
-// amber), in its tooltip; Copy puts the item's or its template's name, path or ID on the clipboard, and Navigate
+// the next publish takes down); with the Sitecore module deployed or Sitecore PowerShell Extensions installed, a small
+// icon left of the Modified pill says whether the item is stored in the items as resources files, the database, or both
+// (a database copy hiding the resource item, in amber), in its tooltip; Copy puts the item's or its template's name, path or ID on the clipboard, and Navigate
 // opens its template, or one of the templates that template inherits from (Sitecore's own, under
 // /sitecore/templates/System, left out).
 // Nothing here holds up the editor: the chips fill in once the browser is idle, from the version list Sitecore shows
@@ -231,11 +231,14 @@
     return { ...head, title: [head.title, next && next.title, ...notes].filter(Boolean).join(" "), next };
   }
 
-  // Where the item is stored, from the Sitecore module's endpoint (sitecore/ThemesProcessor.cs Location): null without
-  // the module, before Sitecore 10.1, or behind a database's own data provider.
+  // Where the item is stored, {resource, sql}: from the Sitecore module's endpoint (sitecore/ThemesProcessor.cs Location),
+  // else from Sitecore PowerShell Extensions' item source service (/-/script/itemsource/<db>/), so a site with SPE
+  // needs no module. Null with neither, before Sitecore 10.1, or behind a database's own data provider.
   async function location(doc, item, signal) {
-    const r = await fetch(`${doc.location.origin}/sitecore/shell/sitecore-themes/location?${new URLSearchParams({ db: item.db, id: item.id })}`, { credentials: "include", signal });
-    return r.ok && /json/.test(r.headers.get("content-type") || "") ? r.json() : null;
+    const get = (u) => fetch(u, { credentials: "include", signal })
+      .then((r) => (r.ok && /json/.test(r.headers.get("content-type") || "") ? r.json() : null), () => null);
+    return (await get(`${doc.location.origin}/sitecore/shell/sitecore-themes/location?${new URLSearchParams({ db: item.db, id: item.id })}`))
+      || get(`${doc.location.origin}/-/script/itemsource/${item.db}/?${new URLSearchParams({ id: item.id })}`);
   }
 
   // The Stored pill for location() at: a database copy over an items-as-resources item is the one to warn about, since
@@ -324,8 +327,8 @@
         location(ctx.doc, item, ctrl.signal),
       ]);
       if (ctrl.signal.aborted || !header.isConnected) return;
-      // a small icon left of the Modified pill, its words in the tooltip; no placeholder, since most sites have no
-      // module to ask
+      // a small icon left of the Modified pill, its words in the tooltip; no placeholder, since many sites have
+      // neither the module nor SPE to ask
       const s = where.status === "fulfilled" && stored(where.value, item.db);
       if (s) {
         const row = ctx.doc.createElement("sct-item-row");
@@ -518,7 +521,7 @@
     load(ctx, header, status, item);
   }
 
-  SCT.itemInfo = { published, candidate, when, stored }; // for the unit tests
+  SCT.itemInfo = { published, candidate, when, stored, location }; // for the unit tests
 
   SCT.registerAid("item-info", {
     css: `.scEditorHeader:has(>sct-item-info){display:flow-root;height:auto!important}
