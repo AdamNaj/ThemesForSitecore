@@ -2,8 +2,9 @@
 // last modified and by whom (the user name without its domain), and which version in this language is live in the web
 // database against what the next publish would put there: up to date, edited since it was published, a newer version
 // still in workflow or ready to publish, or the item or a version held back by its publishing settings (and live content
-// the next publish takes down); with the Sitecore module deployed, a third chip says whether the item is stored in the
-// items as resources files, the database, or both (a database copy hiding the resource item, shown as a warning); Copy puts the item's or its template's name, path or ID on the clipboard, and Navigate
+// the next publish takes down); with the Sitecore module deployed, a small icon left of the Modified pill says whether the
+// item is stored in the items as resources files, the database, or both (a database copy hiding the resource item, in
+// amber), in its tooltip; Copy puts the item's or its template's name, path or ID on the clipboard, and Navigate
 // opens its template, or one of the templates that template inherits from (Sitecore's own, under
 // /sitecore/templates/System, left out).
 // Nothing here holds up the editor: the chips fill in once the browser is idle, from the version list Sitecore shows
@@ -323,12 +324,19 @@
         location(ctx.doc, item, ctrl.signal),
       ]);
       if (ctrl.signal.aborted || !header.isConnected) return;
-      // no placeholder: most sites have no module to ask, and a pill that comes and goes on every item would flicker
+      // a small icon left of the Modified pill, its words in the tooltip; no placeholder, since most sites have no
+      // module to ask
       const s = where.status === "fulfilled" && stored(where.value, item.db);
       if (s) {
-        const c = chip(ctx.doc, "stored");
-        fill(c, ICONS[s.icon], s.text, s.title, s.state);
-        status.append(c);
+        const row = ctx.doc.createElement("sct-item-row");
+        const icon = ctx.doc.createElement("sct-item-stored");
+        icon.dataset.state = s.state;
+        icon.setAttribute("role", "img");
+        icon.setAttribute("aria-label", `${s.text}. ${s.title}`);
+        icon.title = `${s.text}. ${s.title}`;
+        icon.innerHTML = ICONS[s.icon];
+        mod.replaceWith(row);
+        row.append(icon, mod);
       }
       const v = mine.status === "fulfilled" && (mine.value.find((r) => r.ver === item.ver) || mine.value.at(-1));
       if (v) fill(mod, ICONS.clock, `${ago(v.date) || v.date} · ${v.user.slice(v.user.lastIndexOf("\\") + 1)}`, `Modified ${v.date} by ${v.user}`);
@@ -531,10 +539,10 @@ sct-item-chip[data-state="held"] svg,sct-item-chip>sct-item-next[data-state="hel
 sct-item-chip>sct-item-next[data-state="gone"] svg{color:#e03131}
 sct-item-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 sct-item-chip svg,sct-item-info button svg{flex:none}
-sct-item-chip[data-state="resource"]{background:color-mix(in srgb,#1c7ed6 12%,transparent);border-color:color-mix(in srgb,#1c7ed6 50%,transparent)}
-sct-item-chip[data-state="resource"] svg{color:#1c7ed6}
-sct-item-chip[data-state="both"]{background:color-mix(in srgb,#e8a10c 22%,transparent);border-color:color-mix(in srgb,#e8a10c 75%,transparent);font-weight:600}
-sct-item-chip[data-state="both"] svg{color:#c07f00}
+sct-item-row{display:flex;align-items:center;gap:5px}
+sct-item-stored{display:inline-flex;cursor:help;opacity:.6}
+sct-item-stored[data-state="resource"]{color:#1c7ed6;opacity:1}
+sct-item-stored[data-state="both"]{color:#c07f00;opacity:1}
 sct-item-chip[data-state="yes"]{background:color-mix(in srgb,#2f9e44 13%,transparent);border-color:color-mix(in srgb,#2f9e44 55%,transparent)}
 sct-item-chip[data-state="yes"] svg{color:#2f9e44}
 sct-item-chip[data-state="no"]{background:color-mix(in srgb,#e8a10c 15%,transparent);border-color:color-mix(in srgb,#e8a10c 60%,transparent)}

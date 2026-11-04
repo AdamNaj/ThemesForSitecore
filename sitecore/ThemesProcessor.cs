@@ -255,12 +255,15 @@ namespace SitecoreThemes
 
         // GET ?db=master&id={...}: where an item is stored, {"resource":bool,"sql":bool} (Item info's Stored pill): in the
         // items as resources files, the database, or both (a database copy that hides the resource item). 404 for a user
-        // not signed in, an item they cannot read, or a database whose first provider is not Sitecore's composite one.
+        // not signed in to the Sitecore client (an extranet user signed in on the site gets nothing), an item they cannot
+        // read, or a database whose first provider is not Sitecore's composite one. Read-only, and a plain JSON object, so
+        // another site can neither change anything through it nor read it.
         static void Location(HttpContextBase context)
         {
             var user = Sitecore.Context.User;
+            var client = user != null && user.IsAuthenticated && (user.IsAdministrator || user.IsInRole("sitecore\\Sitecore Client Users"));
             var name = context.Request.QueryString["db"];
-            var db = user != null && user.IsAuthenticated && name != null && DbName.IsMatch(name) ? Factory.GetDatabase(name, false) : null;
+            var db = client && name != null && DbName.IsMatch(name) ? Factory.GetDatabase(name, false) : null;
             var composite = db?.GetDataProviders().FirstOrDefault() as CompositeDataProvider;
             ID id;
             AggregatedItemLocations at = null;

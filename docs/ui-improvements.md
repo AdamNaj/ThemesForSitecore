@@ -176,7 +176,7 @@ each button's name, and that a greyed-out one is unavailable.
 <!-- /shots:section-toggle -->
 
 ### Item info
-<!-- aid:item-info 73e8061fa4 -->
+<!-- aid:item-info 545c00ffe8 -->
 
 **What it is for.** When an item was last changed, by whom, and whether it is live are spread over the Statistics
 section (hidden with the standard fields), the version menu and the web database. Copying an item's ID or opening the
@@ -198,17 +198,18 @@ when the live version was changed after it was published. A screen reader hears 
 each in a sentence, with anything the pill had no room for. The settings come from the item's Publishing Settings
 dialog, read without opening it; the workflow state from the Review tab's workflow menu, where a state with no
 workflow commands, such as Sample Workflow's Approved, counts as final.
-With the Sitecore module deployed (Sitecore 10.1 and later), a third pill says where the item is stored: "In
-database", in blue "In resource files" for an item that lives only in the items as resources (.dat) files Sitecore and
-modules ship, and in amber, with a warning triangle, "Database overrides resource" for a database copy of a resource
-item. That copy hides whatever newer version a module or an upgrade ships in its resource files, so its tooltip says
-how to remove it (`dotnet sitecore itemres cleanup`). Without the module there is no pill.
+With the Sitecore module deployed (Sitecore 10.1 and later), a small icon left of the top pill says where the item is
+stored, in its tooltip and to a screen reader: a faint cylinder for "In database", a blue page for "In resource files"
+(an item that lives only in the items as resources (.dat) files Sitecore and modules ship), and an amber warning
+triangle for "Database overrides resource", a database copy of a resource item. That copy hides whatever newer version
+a module or an upgrade ships in its resource files, so its tooltip says how to remove it (`dotnet sitecore itemres
+cleanup`). Without the module there is no icon.
 **Copy** opens a menu of the item's and its template's name, path and ID; picking one copies it. **Navigate** opens a
 menu of the item's template and the templates it inherits from, nested, with Sitecore's own (under
 /sitecore/templates/System) left out; picking one opens it in the Content Editor.
 
 The panel never holds up the editor: the pills fill in once the browser is idle, from the version list Sitecore shows
-under the version button, the publishing settings, the module (for where the item is stored), and the workflow menu
+under the version button, the publishing settings, the module (for where the item is stored) and the workflow menu
 only when web lacks the version that would go live; Navigate asks for the template's inheritance only when it opens. Copy reads Quick Info, already in the page; with Quick Info switched off
 there is no template to copy or open, so Navigate is left out.
 
