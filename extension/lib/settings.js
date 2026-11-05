@@ -9,8 +9,12 @@
 
   // The Sitecore UI a version serves, which themes are written for: 10.0 to 10.3 serve 10.4's, less its
   // keyboard-focus rules and with older SPEAK stylesheets (the generated maps cover them under data-sct-legacy).
+  // SitecoreAI numbers its own releases (sitecore.version.xml says 1.12 since its 2026 base image) and serves 10.5's.
+  const legacy = (version) => /^10\.[0-3]$/.test(version || "");
   function uiVersion(version) {
-    return /^10\.[0-3]$/.test(version || "") ? "10.4" : version || null;
+    if (legacy(version)) return "10.4";
+    if (/^1\.\d+$/.test(version || "")) return "10.5";
+    return version || null;
   }
 
   // A site without a theme of its own gets Native.
@@ -288,7 +292,7 @@
   }
 
   SCT.settings = {
-    DEFAULTS, ENVS, PHASES, SCHEMES, FONTS, VISIONS, catalog, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight, migrateSpectrum,
+    DEFAULTS, ENVS, PHASES, SCHEMES, FONTS, VISIONS, catalog, legacy, uiVersion, resolve, migrate, withPostfix, tintColor, hue, withHue, migrateSoftlight, migrateSpectrum,
     accessibility, accessibilityCss, visionMatrix, visionValues, TUNING, tuning, tone, toneColor, NEEDS, NEED_PRESETS, needEffects, AIDS, UI_GROUPS, aidReason, enabledAids,
   };
   if (typeof module !== "undefined") module.exports = SCT.settings;
