@@ -43,6 +43,19 @@ test("10.0 to 10.3 get 10.4's themes", () => {
   assert.equal(settings.resolve({ overrides: { [ORIGIN]: "sitecore104" } }, ORIGIN, "10.1", catalog), "native");
 });
 
+test("only 10.0 to 10.3 are legacy, so the generated maps' older rules stay off other versions", () => {
+  for (const v of ["10.0", "10.1", "10.2", "10.3"]) assert.equal(settings.legacy(v), true, v);
+  for (const v of ["10.4", "10.5", "1.12", "9.3", null]) assert.equal(settings.legacy(v), false, String(v));
+});
+
+test("SitecoreAI's own release numbers get 10.5's themes", () => {
+  for (const v of ["1.0", "1.12", "1.123"]) assert.equal(settings.uiVersion(v), "10.5", v);
+  assert.equal(settings.uiVersion("11.0"), "11.0");
+  assert.equal(settings.resolve({ overrides: { [ORIGIN]: "fjord" } }, ORIGIN, "1.12", catalog), "fjord");
+  assert.equal(settings.resolve({ overrides: { [ORIGIN]: "sitecore104" } }, ORIGIN, "1.12", catalog), "sitecore104");
+  assert.equal(settings.resolve({ overrides: { [ORIGIN]: "sitecore105" } }, ORIGIN, "1.12", catalog), "native");
+});
+
 test("unknown theme falls back to native", () => {
   assert.equal(settings.resolve({ overrides: { [ORIGIN]: "gone" } }, ORIGIN, "10.5", catalog), "native");
 });
