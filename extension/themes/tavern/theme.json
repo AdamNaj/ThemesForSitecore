@@ -1,0 +1,11 @@
+{
+  "name": "The Tavern",
+  "description": "Dark iron frames with rivets, red buttons and dark stone pages, with an action bar held by stone gryphons, in three styles",
+  "category": "creative",
+  "order": 95,
+  "versions": ["10.4", "10.5"],
+  "controls": ["scheme"],
+  "schemes": { "": "Looking for Group", "blue": "For the Alliance", "red": "For the Horde" },
+  "preview": ["#1f1d1a", "#ffd100", "#6b0000"],
+  "swatch": { "desk": "#1e2a1c", "desk2": "#0e140c", "bar": "#1e1c18", "barLine": "#73726e", "start": "#c2a84a", "app": "#292829", "app2": "#1d1d1d", "win": "#1f1d1a", "border": "#1b1918", "bw": 2, "r": 0, "cap": "#28221b", "btns": "right", "btn": "#6b0000", "close": "#8a0000", "ribbon": "#141311", "tab": "#000000", "tree": "#1a1816", "ed": "#1f1d1a", "sec": "#2a2723", "field": "#0b0a09", "line": "#4a4744", "sel": "#4a3a12", "fg": "#e6dcc6" }
+}

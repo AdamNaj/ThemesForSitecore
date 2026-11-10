@@ -1,0 +1,59 @@
+/* The Tavern: SPEAK apps and the Experience Editor's ribbon. Colours from tokens.css. */
+html[data-sct-theme="tavern"][data-sct-surface="speak"] :is(body, input, select, textarea, button, h1, h2, h3, h4, p, a, span, label, li, td, th, div):not(.ace_editor, .ace_editor *) {
+  font-family: var(--sct-font-family);
+}
+html[data-sct-theme="tavern"][data-sct-surface="speak"]:not(#sct-tv) {
+  /* the global header: the title strip, gold and white type */
+  .sc-globalHeader {
+    background: var(--tv-strip) !important;
+    border-bottom: 1px solid #000;
+    box-shadow: inset 0 -1px 0 #414041;
+  }
+  .sc-globalHeader :is(span, a, li, .sc-globalheader-appName),
+  .sc-globalHeader .sc-accountInformation li::after {
+    color: var(--sct-titlebar-fg);
+    text-shadow: 1px 1px 0 #000;
+  }
+  .sc-globalHeader .sc-accountInformation a.logout:hover { color: #fff; }
+
+  /* push buttons: the red panel button with its grey rim */
+  .btn:not(.btn-link, .sc-quickbar-button) {
+    border: 1px solid;
+    border-color: var(--tv-rim);
+    border-radius: 4px;
+    background: var(--tv-face);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.75), inset 0 0 0 1px #000;
+    color: var(--sct-button-fg);
+    text-shadow: 1px 1px 0 #000;
+  }
+  .btn:not(.btn-link, .sc-quickbar-button):hover:not(:disabled) { color: #fff; background: radial-gradient(ellipse 60% 70% at 50% 50%, rgb(255 60 0 / 0.5), transparent), var(--tv-face); }
+  .btn:not(.btn-link, .sc-quickbar-button):active:not(:disabled) { background: var(--tv-face-down); }
+  .btn:not(.btn-link, .sc-quickbar-button):is(:disabled, .disabled) { color: #808080; background: linear-gradient(#393839, #292829 60%, #1e1d1e); border-color: #4a4a4a; }
+
+  /* text fields: the sunken well */
+  :is(input.form-control, textarea.form-control, .sc-textbox, input[type="text"], input[type="search"]) {
+    border: 0;
+    border-radius: 4px;
+    background-color: var(--sct-input-bg);
+    color: var(--sct-input-fg);
+    box-shadow: inset 0 0 0 1px #131213, inset 0 2px 0 #262526, 0 1px 0 #8c8a8c;
+  }
+  :is(input.form-control, textarea.form-control, .sc-textbox, input[type="text"], input[type="search"])::placeholder { color: #dcd0b8; }
+
+  /* field labels in the page's text colour, not Sitecore's label chips */
+  label.sc-label { background: transparent; color: var(--sct-app-fg); }
+
+  /* the application header: a stone band, its title gold; the Back button's label gold on its red face */
+  .sc-applicationHeader { background: var(--tv-band); border-bottom: 1px solid #000; }
+  .sc-applicationHeader-row1 { background: transparent; }
+  .sc-applicationHeader :is(.sc-applicationHeader-title, .sc-applicationHeader-title *) { color: #ffd100; text-shadow: 1px 1px 0 #000; }
+  .sc-backbutton .sc-backbutton-text { color: var(--sct-button-fg); text-shadow: 1px 1px 0 #000; }
+}
+
+/* the stone sheet on every pane that paints the page colour (SPEAK dialogs, the Control Panel), fixed to
+   the frame's window so nested panes read as one sheet; boxes on it a shade lighter */
+html[data-sct-theme="tavern"][data-sct-surface="speak"]:not(#sct-tv) :is(body, .sc-applicationContent, .sc-applicationContent-main, .sc-applicationHeader-row2, .sc-dialogContent-title, .sc-dialogContent, .sc-dialogFooter) {
+  background-image: var(--tv-sheet);
+  background-attachment: fixed;
+}
+html[data-sct-theme="tavern"][data-sct-surface="speak"]:not(#sct-tv) .sc-controlpanel-box-content { background-image: var(--tv-sheet-raised); background-attachment: fixed; }

@@ -1,0 +1,115 @@
+/* The Tavern: the Launchpad as an open spellbook. Every group is a chapter on the book's pages, every
+   application a spell: its icon in gold in a bronze-rimmed slot, its name beside it. The book flows into two columns, so
+   every group and tile Sitecore shows stays on the page at any width. */
+html[data-sct-theme="tavern"][data-sct-surface="launchpad"] :is(body, input, button, h1, h2, h3, h4, p, a, span, label, li, td, th, div) {
+  font-family: var(--sct-font-family);
+}
+html[data-sct-theme="tavern"][data-sct-surface="launchpad"]:not(#sct-tv) {
+  body {
+    background: radial-gradient(ellipse 70% 55% at 50% 0%, #3a4a34, transparent 70%) fixed no-repeat, linear-gradient(#1e2a1c, #0e140c) fixed !important;
+  }
+  /* Custom Analytics, under the book, on the dark ground: its heading in gold, its box a page of the same stone */
+  :is(.sc-applicationContent, .sc-applicationContent-main, .sc-applicationHeader-row1) { background: transparent; }
+  .col-md-12 > .sc-text-title { margin: 0 0 10px; color: #ffd100; font: bold 16px/1.2 var(--sct-font-family); text-shadow: 1px 1px 0 #000; background: none; }
+  .sc-globalHeader {
+    background: linear-gradient(#131110, #2e2823 45%, #28221b 70%, #181810) !important;
+    border-bottom: 1px solid #000;
+    box-shadow: inset 0 -1px 0 #414041;
+  }
+  .sc-globalHeader :is(span, a, li, .sc-globalheader-appName),
+  .sc-globalHeader .sc-accountInformation li::after { color: #ffd100; text-shadow: 1px 1px 0 #000; }
+  .sc-globalHeader .sc-accountInformation a.logout:hover { color: #fff; }
+
+  /* the book: dark stone pages in the iron frame, the spine's shadow down the middle */
+  .sc-launchpad {
+    position: relative;
+    box-sizing: border-box;
+    max-width: 1180px;
+    margin: 22px auto 24px;
+    padding: 22px 28px 18px;
+    border: 7px solid transparent;
+    border-image: image-set(url("sct-ext:themes/tavern/glyphs/frame.png") 1x, url("sct-ext:themes/tavern/glyphs/frame.svg") 2x) 14 / 14px / 7px stretch;
+    background:
+      linear-gradient(90deg, transparent calc(50% - 14px), rgb(0 0 0 / 0.35) calc(50% - 6px), rgb(0 0 0 / 0.7) 50%, rgb(0 0 0 / 0.35) calc(50% + 6px), transparent calc(50% + 14px)),
+      radial-gradient(ellipse at 50% 45%, transparent 45%, rgb(0 0 0 / 0.45) 130%),
+      var(--tv-stone);
+    background-clip: padding-box;
+    columns: 2;
+    column-gap: 56px;
+  }
+  /* each group a chapter, kept whole on its page */
+  /* Sitecore lays a group out as a four-column grid; a page holds two */
+  .sc-launchpad-group {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 12px;
+    break-inside: avoid;
+    margin: 0 0 16px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .sc-launchpad-group-title { grid-column: 1 / -1; }
+  .sc-launchpad-group-title {
+    margin: 0 0 10px;
+    padding: 0 0 6px;
+    border: 0;
+    background: linear-gradient(90deg, rgb(255 209 0 / 0.35), transparent) 0 100% / 100% 1px no-repeat;
+    color: #ffd100;
+    text-shadow: 1px 1px 0 #000;
+    font: bold 16px/1.2 var(--sct-font-family);
+    text-transform: none;
+  }
+  /* each application a spell: the icon in its slot, the name beside it */
+  .sc-launchpad-group .sc-launchpad-item,
+  .sc-launchpad-group .sc-launchpad-item:is(:hover, :focus, :active) {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    box-sizing: border-box;
+    width: auto;
+    height: auto;
+    min-height: 48px;
+    margin: 0 0 8px;
+    padding: 2px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    box-shadow: none;
+    color: #e6dcc6;
+    text-align: left;
+    vertical-align: top;
+    text-decoration: none;
+  }
+  .sc-launchpad-item .icon {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
+    background: linear-gradient(#1d1d1d, #292829);
+    box-shadow: 0 0 0 1px #000, inset 0 0 0 1px #8a7438, inset 0 0 0 2px #3a2e10, inset 0 0 0 3px #000;
+  }
+  .sc-launchpad-item .icon img { display: block; width: 30px; height: 30px; margin: 0; padding: 0; background: none; box-shadow: none; filter: brightness(0) invert(78%) sepia(85%) saturate(900%) hue-rotate(2deg) brightness(104%) drop-shadow(1px 1px 0 #000); }
+  .sc-launchpad-item:is(:hover, :focus-visible) .icon { box-shadow: 0 0 0 1px #000, inset 0 0 0 1px #ffd100, inset 0 0 0 2px #7a5a00, inset 0 0 0 3px #000, 0 0 7px rgb(255 209 0 / 0.75); }
+  .sc-launchpad-item .sc-launchpad-text { display: block; float: none; max-width: none; padding: 0; overflow: visible; color: #e6dcc6; font: bold 13px/1.2 var(--sct-font-family); white-space: normal; text-align: left; text-shadow: 1px 1px 0 #000; }
+  .sc-launchpad-item:is(:hover, :focus-visible) .sc-launchpad-text { color: #ffd100; }
+  .sc-launchpad-item:focus-visible { outline: 1px solid #ffd100; outline-offset: 1px; }
+  /* the Custom Analytics description, which shares the heading's class, stays body text */
+  .sc-text-title:not(.col-md-12 > *) { color: #e6dcc6; font: 13px/1.4 var(--sct-font-family); }
+}
+/* a narrow window: one page */
+@media (max-width: 760px) {
+  html[data-sct-theme="tavern"][data-sct-surface="launchpad"]:not(#sct-tv) .sc-launchpad { columns: 1; background-image: radial-gradient(ellipse at 50% 45%, transparent 45%, rgb(0 0 0 / 0.45) 130%), var(--tv-stone); }
+}
+
+/* the application header under the global header: the stone band, its title in gold */
+html[data-sct-theme="tavern"][data-sct-surface="launchpad"]:not(#sct-tv) .sc-applicationHeader { background: linear-gradient(#151412, #23201e 30%, #36312b 60%, #393531); border-bottom: 1px solid #000; }
+html[data-sct-theme="tavern"][data-sct-surface="launchpad"]:not(#sct-tv) .sc-applicationHeader :is(.sc-applicationHeader-title, .sc-applicationHeader-title *) { color: #ffd100; text-shadow: 1px 1px 0 #000; }
+
+/* Custom Analytics' box: a page of the same stone, a shade lighter, on the dark ground */
+html[data-sct-theme="tavern"][data-sct-surface="launchpad"]:not(#sct-tv) .sc-border[data-sc-id="AnalyticsFallback"] { background-image: var(--tv-sheet-raised); background-attachment: fixed; }

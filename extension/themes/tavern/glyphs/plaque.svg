@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="36" viewBox="0 0 60 36" shape-rendering="crispEdges"><defs><linearGradient id="rec" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#100c08"/><stop offset=".3" stop-color="#2e2a23"/><stop offset=".55" stop-color="#393029"/><stop offset=".85" stop-color="#292420"/><stop offset="1" stop-color="#100c08"/></linearGradient></defs><rect x="7.5" y="0.5" width="45" height="35" rx="2" fill="none" stroke="#000" stroke-opacity="0.07"/><rect x="8.5" y="1.5" width="43" height="33" rx="2" fill="none" stroke="#000" stroke-opacity="0.13"/><rect x="9.5" y="2.5" width="41" height="31" rx="2" fill="none" stroke="#000" stroke-opacity="0.27"/><rect x="10.5" y="3.5" width="39" height="29" rx="2" fill="none" stroke="#000" stroke-opacity="0.47"/><rect x="8.5" y="4.5" width="43" height="27" fill="none" stroke="#343231"/><rect x="9.5" y="5.5" width="41" height="25" fill="none" stroke="#9c9694"/><rect x="10.5" y="6.5" width="39" height="23" fill="none" stroke="#000400"/><rect x="11.5" y="7.5" width="37" height="21" fill="none" stroke="#262426"/><rect x="12.5" y="8.5" width="35" height="19" fill="none" stroke="#393439"/><rect x="13.5" y="9.5" width="33" height="17" fill="none" stroke="#000400"/><rect x="14" y="10" width="32" height="16" rx="3" fill="url(#rec)"/><rect x="9" y="28" width="42" height="1" fill="#7b7d7b"/><rect x="9" y="30" width="42" height="1" fill="#9c9a9c"/><rect x="9" y="31" width="42" height="1" fill="#000"/><g shape-rendering="geometricPrecision">
+    <polygon points="10.5,2 15,6.5 10.5,11 6,6.5" fill="#000"/>
+    <polygon points="10.5,3 14,6.5 10.5,6.5" fill="#8e8984"/>
+    <polygon points="10.5,3 7,6.5 10.5,6.5" fill="#d6d2cc"/>
+    <polygon points="7,6.5 10.5,10 10.5,6.5" fill="#6a6662"/>
+    <polygon points="14,6.5 10.5,10 10.5,6.5" fill="#2c2a28"/>
+    <polygon points="10.5,4.475 12.525,6.5 10.5,8.525 8.475,6.5" fill="#a9a49e"/></g><g shape-rendering="geometricPrecision">
+    <polygon points="49.5,2 54,6.5 49.5,11 45,6.5" fill="#000"/>
+    <polygon points="49.5,3 53,6.5 49.5,6.5" fill="#8e8984"/>
+    <polygon points="49.5,3 46,6.5 49.5,6.5" fill="#d6d2cc"/>
+    <polygon points="46,6.5 49.5,10 49.5,6.5" fill="#6a6662"/>
+    <polygon points="53,6.5 49.5,10 49.5,6.5" fill="#2c2a28"/>
+    <polygon points="49.5,4.475 51.525,6.5 49.5,8.525 47.475,6.5" fill="#a9a49e"/></g><g shape-rendering="geometricPrecision">
+    <polygon points="10.5,25 15,29.5 10.5,34 6,29.5" fill="#000"/>
+    <polygon points="10.5,26 14,29.5 10.5,29.5" fill="#8e8984"/>
+    <polygon points="10.5,26 7,29.5 10.5,29.5" fill="#d6d2cc"/>
+    <polygon points="7,29.5 10.5,33 10.5,29.5" fill="#6a6662"/>
+    <polygon points="14,29.5 10.5,33 10.5,29.5" fill="#2c2a28"/>
+    <polygon points="10.5,27.475 12.525,29.5 10.5,31.525 8.475,29.5" fill="#a9a49e"/></g><g shape-rendering="geometricPrecision">
+    <polygon points="49.5,25 54,29.5 49.5,34 45,29.5" fill="#000"/>
+    <polygon points="49.5,26 53,29.5 49.5,29.5" fill="#8e8984"/>
+    <polygon points="49.5,26 46,29.5 49.5,29.5" fill="#d6d2cc"/>
+    <polygon points="46,29.5 49.5,33 49.5,29.5" fill="#6a6662"/>
+    <polygon points="53,29.5 49.5,33 49.5,29.5" fill="#2c2a28"/>
+    <polygon points="49.5,27.475 51.525,29.5 49.5,31.525 47.475,29.5" fill="#a9a49e"/></g></svg>

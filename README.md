@@ -40,6 +40,7 @@ A browser extension that re-themes the Sitecore 10.0 to 10.5 Content Management 
 | Santa Clara | Chunky sand bevels, maroon window frames and a front panel of workspace buttons |
 | Warp | Grey bevelled windows, blue title bars, a control bar along the top and notebook tabs |
 | **Creative** | |
+| The Tavern | Dark iron frames with rivets, red buttons and dark stone pages, with an action bar held by stone gryphons, in three styles |
 | Blueprint | A technical drawing in white on cyanotype blue |
 | Notebook | Graph paper, pen and sticky notes |
 | Meridian | Dawn, day, dusk and night palettes that follow your clock |

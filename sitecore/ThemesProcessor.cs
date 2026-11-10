@@ -45,7 +45,7 @@ namespace SitecoreThemes
         static readonly Dictionary<string, int[]> Tuning = new Dictionary<string, int[]> { { "brightness", new[] { 50, 150, 100 } }, { "contrast", new[] { 50, 150, 100 } }, { "gamma", new[] { 50, 200, 100 } }, { "saturation", new[] { 0, 200, 100 } }, { "hueShift", new[] { -180, 180, 0 } } };
         static readonly Regex EnvId = new Regex("^(prod|staging|qa|dev|sandbox|local|beta)?$"); // empty: back to the config's
         static readonly Regex PhaseId = new Regex("^(dawn|day|dusk|night)?$"); // empty: Auto, the clock's
-        static readonly Regex SchemeId = new Regex("^(blue|olive|silver)?$"); // empty: the theme's own
+        static readonly Regex SchemeId = new Regex("^(blue|olive|silver|red)?$"); // empty: the theme's own
         static readonly Regex ThemeId = new Regex("^[a-z0-9]{1,40}$");
         // The loader's cache stamp: sct.js's time on disk, read again every 10 seconds, so files deployed over a running
         // site reach browsers without a restart (the build changes sct.js whenever any file the module serves changes).
@@ -280,7 +280,7 @@ namespace SitecoreThemes
         }
 
         // POST any of theme=<id>, hue=<0-359> with hueTheme=<id>, env=<prod|staging|qa|dev|sandbox|local|beta>,
-        // phase=<dawn|day|dusk|night>, scheme=<blue|olive|silver> with an X-SCT header, which a cross-site form cannot send.
+        // phase=<dawn|day|dusk|night>, scheme=<blue|olive|silver|red> with an X-SCT header, which a cross-site form cannot send.
         static void Save(HttpContextBase context)
         {
             var user = Sitecore.Context.User;

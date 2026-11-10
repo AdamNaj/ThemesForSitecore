@@ -1,0 +1,10 @@
+/* The Tavern: the site's postfix in Sitecore's top bar, a small plaque with gold type */
+html[data-sct-theme="tavern"] sct-bar-postfix {
+  padding: 1px 9px;
+  border: 1px solid #000;
+  border-radius: 3px;
+  background: linear-gradient(#3b342d, #221d18);
+  box-shadow: inset 0 1px 0 #9c9694, inset 0 -1px 0 #343231;
+  color: #ffd100;
+  text-shadow: 1px 1px 0 #000;
+}

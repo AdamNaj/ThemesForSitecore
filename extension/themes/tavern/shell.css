@@ -1,0 +1,642 @@
+/* The Tavern: the classic shell. Colours from tokens.css; the frames, plaques, tabs and buttons are the
+   generator's glyphs (tools/build-tavern-css.cjs). The measured construction is in tokens.css's header. */
+
+html[data-sct-theme="tavern"][data-sct-surface="shell"] {
+  /* the frame art: PNG at 100%, SVG at every other scale */
+  --tv-g: "sct-ext:themes/tavern/glyphs/";
+  --tv-frame: image-set(url("sct-ext:themes/tavern/glyphs/frame.png") 1x, url("sct-ext:themes/tavern/glyphs/frame.svg") 2x);
+  --tv-plaque: image-set(url("sct-ext:themes/tavern/glyphs/plaque.png") 1x, url("sct-ext:themes/tavern/glyphs/plaque.svg") 2x);
+  --tv-tab: image-set(url("sct-ext:themes/tavern/glyphs/tab-off.png") 1x, url("sct-ext:themes/tavern/glyphs/tab-off.svg") 2x);
+  --tv-tab-on: image-set(url("sct-ext:themes/tavern/glyphs/tab-on.png") 1x, url("sct-ext:themes/tavern/glyphs/tab-on.svg") 2x);
+  --tv-tab-hover: image-set(url("sct-ext:themes/tavern/glyphs/tab-hover.png") 1x, url("sct-ext:themes/tavern/glyphs/tab-hover.svg") 2x);
+  /* the bars' stone: the same tile, darker */
+  --tv-marble: linear-gradient(rgb(0 0 0 / 0.42), rgb(0 0 0 / 0.42)), var(--tv-stone) #141311;
+  --tv-tree: linear-gradient(rgb(0 0 0 / 0.25), rgb(0 0 0 / 0.25)), var(--tv-stone);
+  /* the iron rail as rings outside a box that cannot take a border (Desktop windows) */
+  --tv-rail: 0 0 0 1px #080c08, 0 0 0 2px #4a4744, 0 0 0 3px #292926, 0 0 0 4px #6b6563, 0 0 0 5px #363331, 0 0 0 6px #524d4a, 0 0 0 7px #1b1918, 0 2px 10px 7px rgb(0 0 0 / 0.55);
+  --tv-gold-text: 1px 1px 0 #000;
+  scrollbar-color: auto;
+}
+
+/* The theme's serif on Sitecore's text; the SPE ISE's Ace editor and terminals keep their monospace */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(body, input, select, textarea, button),
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(td, a, span, div):not(.ace_editor, .ace_editor *, .terminal, .terminal *, .spe-completion-menu, .spe-completion-menu *) {
+  font-family: var(--sct-font-family);
+}
+
+/* ---- Scrollbars: an iron rail with a worn stone knob ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] ::-webkit-scrollbar,
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(select, textarea, #Conditions, #Description)::-webkit-scrollbar { width: 14px; height: 14px; background: #1b1918; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] ::-webkit-scrollbar-track { background: linear-gradient(90deg, #0c0b0a, #1b1918 40%, #0c0b0a); border-radius: 0; box-shadow: inset 0 0 0 1px #000; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] ::-webkit-scrollbar-track:horizontal { background: linear-gradient(#0c0b0a, #1b1918 40%, #0c0b0a); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] ::-webkit-scrollbar-corner { background: #1b1918; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] ::-webkit-scrollbar-thumb,
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(select, textarea, #Conditions, #Description)::-webkit-scrollbar-thumb {
+  min-height: 24px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #8a847a, #6b6563 45%, #4a4642);
+  box-shadow: inset 1px 1px 0 #adaaa5, inset -1px -1px 0 #2b292b;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] ::-webkit-scrollbar-thumb:hover { background: linear-gradient(90deg, #a8a296, #8a847a 45%, #5a5650); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] ::-webkit-scrollbar-button { display: none; }
+
+/* ---- Ribbon: chamfered tabs on a stone band, the toolbar on black marble ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonNavigator { background: var(--tv-band); border-bottom: 1px solid #000; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonNavigatorButtonsGroupButtons { display: flex; align-items: flex-end; height: 30px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbon a:is(.scRibbonNavigatorButtonsNormal, .scRibbonNavigatorButtonsActive) {
+  position: relative;
+  top: 1px;
+  box-sizing: border-box;
+  height: 23px;
+  margin: 0 1px 0 0;
+  padding: 0 7px;
+  border: 5px solid transparent;
+  border-bottom: 0;
+  border-image: var(--tv-tab) 8 8 0 8 fill / 8px 8px 0 8px stretch;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--sct-ribbon-tab-fg);
+  font: 12px/18px var(--sct-font-family);
+  text-transform: none;
+  text-shadow: var(--tv-gold-text);
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsActive {
+  z-index: 2;
+  height: 26px;
+  padding: 0 9px;
+  border-image-source: var(--tv-tab-on);
+  color: #fff;
+  line-height: 21px;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsNormal:is(:hover, :focus) { border-image-source: var(--tv-tab-hover); color: #fff; background: none; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsActive:is(:hover, :focus) { background: none; color: #fff; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbon a:is(.scRibbonNavigatorButtonsNormal, .scRibbonNavigatorButtonsActive):focus-visible { outline: 1px solid var(--sct-ribbon-tab-fg); outline-offset: -3px; }
+
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar { position: relative; background: var(--tv-marble); border-top: 0; border-bottom: 1px solid #000; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar .chunk {
+  height: auto;
+  margin: 3px 2px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px #100c08, inset 0 0 0 2px #414041, inset 0 0 0 3px #100c08;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption { background: transparent; color: var(--sct-ribbon-chunk-caption-fg); text-shadow: var(--tv-gold-text); font: 11px var(--sct-font-family); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar :is(.panel, .panel span, .panel a) { color: var(--sct-ribbon-fg); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar :is(a[class^="scRibbonToolbar"], span[class^="scRibbonToolbar"][class*="Disabled"], .scRibbonToolbarLargeComboButton, .scRibbonToolbarSmallComboButton) { border: 1px solid transparent; border-radius: 3px; box-shadow: none; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar :is(a[class^="scRibbonToolbar"]:not([class*="ComboButton"]), .scRibbonToolbarSmallComboButton):hover,
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar .scRibbonToolbarLargeComboButton:hover > :is(.scRibbonToolbarLargeComboButtonTop, .scRibbonToolbarLargeComboButtonBottom) { background: rgb(255 255 255 / 0.1); border: 1px solid #c8c0a8; box-shadow: inset 0 0 6px rgb(255 226 122 / 0.25); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar :is(a[class^="scRibbonToolbar"]:not([class*="ComboButton"]), .scRibbonToolbarSmallComboButton):active,
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar .scRibbonToolbarLargeComboButton > :is(.scRibbonToolbarLargeComboButtonTop, .scRibbonToolbarLargeComboButtonBottom):active,
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar a[class^="scRibbonToolbar"][class*="ButtonDown"] { background: rgb(0 0 0 / 0.5); border: 1px solid #ffd100; box-shadow: inset 1px 1px 3px #000; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scRibbonToolbar a[class*="ComboButton"]:is(:hover, :active) { background: transparent; border-color: transparent; box-shadow: none; }
+
+/* ---- Content trees: dark stone, the selected row a gold highlight ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scContentTree { background: var(--tv-tree); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scContentTreeContainer { background: var(--tv-tree); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] a.scContentTreeNodeActive { border-radius: 2px; background: linear-gradient(90deg, rgb(74 58 18 / 0.5), #4a3a12 18%, #4a3a12 82%, rgb(74 58 18 / 0.5)); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scContentTree a.scContentTreeNodeNormal:hover { background: rgb(255 209 0 / 0.1); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] a:is(.scContentTreeNodeNormal, .scContentTreeNodeActive):focus-visible { outline: 1px solid #ffd100; outline-offset: -1px; }
+/* the [+]/[-] box: a real 9px bordered box, gold on dark stone, margined to the stock 16px footprint */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] img[src*="/treemenu_"] {
+  box-sizing: border-box;
+  width: 9px;
+  height: 9px;
+  margin: 4px 3px 3px 4px;
+  border: 1px solid #8a7438;
+  border-radius: 1px;
+  object-fit: none;
+  object-position: -999px -999px;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scContentTreeNode > img[src*="/treemenu_"] { margin: 9px 3px 8px 4px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] img[src*="/treemenu_collapsed"] { background: linear-gradient(#ffd100, #ffd100) center / 1px 5px no-repeat, linear-gradient(#ffd100, #ffd100) center / 5px 1px no-repeat, #2a2723; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] img[src*="/treemenu_expanded"] { background: linear-gradient(#ffd100, #ffd100) center / 5px 1px no-repeat, #2a2723; }
+
+/* ---- Editor: dark stone, sections titled in gold over a rule ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) > .scEditorSectionCaptionGlyph { margin-top: 5px; } /* centred on the 26px caption, beside the section's issue pills (Sitecore's 10px suits its taller caption) */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scEditorHeaderTitle { color: #ffd100; font: bold 15px var(--sct-font-family); }
+/* the title, its issue pills and its arrow centred between the rule above and the caption's own rule: the
+   space sits inside the caption, 2px above the text and 2px below it before the 1px rule; an open section keeps
+   4px under its rule before its fields */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scEditorSectionCaptionExpanded, .scEditorSectionCaptionCollapsed) {
+  margin: 0;
+  padding-top: 2px;
+  padding-bottom: 3px;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 209 0 / 0.35) 6%, rgb(255 209 0 / 0.35) 94%, transparent) 0 100% / 100% 1px no-repeat;
+  color: #ffd100;
+  font: bold 14px/26px var(--sct-font-family);
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scEditorSectionCaptionExpanded { margin-bottom: 4px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scEditorFieldLabel { color: var(--sct-field-label-fg); font-weight: 600; }
+/* inputs: the game's sunken well */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scContentControl, .scEditorSections input:not([type="checkbox"], [type="radio"]), .scEditorSections textarea, .scEditorSections select, .scSearchInput, .scFormDialogContent input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"]), .scFormDialogContent textarea, .scFormDialogContent select) {
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+  box-shadow: inset 0 0 0 1px #131213, inset 0 2px 0 #262526, inset 0 3px 0 rgb(57 56 57 / 0.6), 0 1px 0 #8c8a8c, 0 2px 0 rgb(0 0 0 / 0.6);
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scContentControl, .scEditorSections input, .scEditorSections textarea, .scSearchInput)::placeholder { color: #d8c8a8; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scContentControl, .scEditorSections input, .scEditorSections textarea, .scEditorSections select, .scSearchInput):focus { outline: 1px solid var(--sct-input-focus-border); outline-offset: 1px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scEditorSections select:not([multiple], [size]:not([size="1"])) {
+  appearance: none;
+  padding-right: 20px;
+  background: image-set(url("sct-ext:themes/tavern/glyphs/arrow-down.png") 1x, url("sct-ext:themes/tavern/glyphs/arrow-down.svg") 2x) right 7px center / 9px 6px no-repeat, var(--sct-input-bg);
+}
+/* checkboxes and radios: a dark well in a grey rim, the gold tick or bead */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] input:is([type="checkbox"], [type="radio"]) {
+  appearance: none;
+  box-sizing: border-box;
+  width: 15px;
+  height: 15px;
+  margin: 1px 4px 1px 1px;
+  border: 0;
+  border-radius: 3px;
+  vertical-align: -3px;
+  background: rgb(0 0 0 / 0.55) center / 13px 13px no-repeat;
+  box-shadow: 0 0 0 1px #000, inset 0 0 0 1px #424142, inset 0 0 0 2px #000;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] input[type="radio"] { border-radius: 50%; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] input[type="checkbox"]:checked { background-image: image-set(url("sct-ext:themes/tavern/glyphs/check.png") 1x, url("sct-ext:themes/tavern/glyphs/check.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] input[type="radio"]:checked { background-image: image-set(url("sct-ext:themes/tavern/glyphs/radio.png") 1x, url("sct-ext:themes/tavern/glyphs/radio.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] input:is([type="checkbox"], [type="radio"]):disabled { opacity: 0.5; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] input:is([type="checkbox"], [type="radio"]):focus-visible { outline: 1px solid #6b0000; outline-offset: 2px; }
+
+/* ---- Buttons: the red panel button with its grey rim ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scButton:not(.scEditorHeaderButton), button:not(.ui-button), input[type="button"], input[type="submit"]) {
+  min-height: 22px;
+  padding: 0 12px;
+  border: 1px solid;
+  border-color: var(--tv-rim);
+  border-radius: 4px;
+  background: var(--tv-face);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.75), inset 0 0 0 1px #000;
+  color: var(--sct-button-fg);
+  font: 12px var(--sct-font-family);
+  text-transform: none;
+  text-shadow: var(--tv-gold-text);
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scButton:not(.scEditorHeaderButton), button:not(.ui-button), input[type="button"], input[type="submit"]):hover:not(:disabled) { color: #fff; background: radial-gradient(ellipse 60% 70% at 50% 50%, rgb(255 60 0 / 0.5), transparent), var(--tv-face); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scButton:not(.scEditorHeaderButton), button:not(.ui-button), input[type="button"], input[type="submit"]):active:not(:disabled) { padding-top: 2px; background: var(--tv-face-down); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scButton:not(.scEditorHeaderButton), button:not(.ui-button), input[type="button"], input[type="submit"]):disabled { color: #808080; background: linear-gradient(#212021 0 1px, #393839 1px 2px, #292829 2px, #333233 45%, #292829 80%, #1e1d1e); border-color: #4a4a4a; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scButton, button, input[type="button"], input[type="submit"]):focus-visible { outline: 1px solid #ffd100; outline-offset: -4px; }
+
+/* ---- Bottom tabs (Content Editor, Media Library, Workbox) and the status bar: a stone band, gold type ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scPager { margin: 0; padding: 3px 4px; border: 0; border-top: 1px solid #000; border-radius: 0; background: linear-gradient(#23201e, #151412); box-shadow: inset 0 1px 0 #414041; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(.scPagerButtonNormal, .scPagerButtonActive) { margin: 0 2px 0 0; padding: 2px 10px; border: 1px solid #000; border-radius: 4px; background: #000; box-shadow: inset 0 0 0 1px #474642; color: var(--sct-ribbon-tab-fg); font-weight: normal; text-shadow: var(--tv-gold-text); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scPagerButtonActive { background: #141311; box-shadow: inset 0 0 0 1px #ffd100; color: #fff; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) a:is(.scPagerButtonNormal, .scPagerButtonActive):is(:link, :visited) { color: var(--sct-ribbon-tab-fg); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) a.scPagerButtonActive:is(:link, :visited) { color: #fff; }
+
+/* ---- Dialogs: the iron frame, the riveted plaque over the top edge ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-dialog {
+  padding: 0;
+  border: 7px solid transparent;
+  border-image: var(--tv-frame) 14 / 14px / 7px stretch;
+  border-radius: 0;
+  background: var(--tv-marble);
+  background-clip: padding-box;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.6);
+}
+/* the 15px jQuery title strip lies over the header page's plaque, keeps the drag, and carries the buttons */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar { position: absolute; top: 0; left: 0; right: 0; height: 28px; min-height: 0; z-index: 2; padding: 0; background: transparent; border: 0; border-radius: 0; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane { left: 0; right: 5px !important; top: 5px !important; width: auto; height: 18px; display: flex; justify-content: flex-end; gap: 3px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * { width: 18px; height: 18px; margin: 0; padding: 0; border: 0; border-radius: 0; background-color: transparent; overflow: hidden; text-indent: -999px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > * > * { display: none; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > button.ui-button { position: static !important; float: none !important; order: 9; margin: 0 !important; background: image-set(url("sct-ext:themes/tavern/glyphs/btn-close.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-close.svg") 2x) center / 18px no-repeat; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane > button.ui-button:hover { background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-close-hover.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-close-hover.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-maximize { background: image-set(url("sct-ext:themes/tavern/glyphs/btn-max.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-max.svg") 2x) center / 18px no-repeat; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-minimize { background: image-set(url("sct-ext:themes/tavern/glyphs/btn-min.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-min.svg") 2x) center / 18px no-repeat; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-restore { background: image-set(url("sct-ext:themes/tavern/glyphs/btn-restore.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-restore.svg") 2x) center / 18px no-repeat; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .ui-widget-overlay { background: rgb(0 0 0 / 0.3); opacity: 1; }
+
+/* Inside a dialog page: the header is the plaque, centred, with the description under it on the marble */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scFormDialogHeader, .scDialogHeader) { padding: 0; border: 0; background: var(--tv-marble); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-dh) :is(:is(.scFormDialogHeader, .scDialogHeader) .DialogHeader, .ui-dialog > .DialogHeader) {
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: calc(100% - 80px);
+  height: 28px;
+  margin: 0 auto;
+  padding: 0 14px;
+  border: 0 solid transparent;
+  border-width: 0 16px;
+  border-image: var(--tv-plaque) 4 16 4 16 fill / 0 16px stretch;
+  background: none;
+  color: var(--sct-titlebar-fg);
+  font: 13px/28px var(--sct-font-family);
+  text-align: center;
+  text-shadow: var(--tv-gold-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scFormDialogHeader, .scDialogHeader) .DialogHeaderDescription { margin: 0; padding: 4px 12px 8px; color: #e8dcc0; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .DialogHeader #DialogIcon { width: 16px; height: 16px; margin-right: 5px; vertical-align: -3px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scFormDialogFooter { background: var(--tv-marble); border-top: 1px solid #000; box-shadow: inset 0 1px 0 #414041; }
+
+/* Dialog tab strips: the ribbon's chamfered tabs, the open one joined to its page */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scTabstrip .scTab,
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scTabstrip [class*="scTabActive"],
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scTabstrip .scTab_Hover {
+  box-sizing: border-box;
+  height: auto;
+  padding: 3px 10px 3px;
+  border: 5px solid transparent;
+  border-bottom: 0;
+  border-image: var(--tv-tab) 8 8 0 8 fill / 8px 8px 0 8px stretch;
+  border-radius: 0;
+  background: none;
+  color: var(--sct-ribbon-tab-fg);
+  text-transform: none;
+  text-shadow: var(--tv-gold-text);
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scTabstrip .scTab_Hover { border-image-source: var(--tv-tab-hover); color: #fff; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .scTabstrip [class*="scTabActive"] { height: auto; padding-top: 5px; border-image-source: var(--tv-tab-on); color: #fff; }
+
+/* ---- Window buttons: the red squares with gold glyphs, close nearest the edge, 3px apart ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) { display: flex; align-items: center; gap: 3px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  margin: 0 !important;
+  padding: 0;
+  border: 0;
+  object-fit: none;
+  object-position: -999px -999px;
+  background: center / 18px 18px no-repeat;
+  filter: none;
+  vertical-align: middle;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"] { order: 1; background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-min.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-min.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"] { order: 2; background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-max.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-max.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="restore"] { order: 2; background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-restore.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-restore.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="page_switcher"] { order: 0; background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-restore.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-restore.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"] { order: 3; background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-close.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-close.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"]:hover { background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-min-hover.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-min-hover.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"]:hover { background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-max-hover.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-max-hover.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:is([src*="restore"], [src*="page_switcher"]):hover { background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-restore-hover.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-restore-hover.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"]:hover { background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-close-hover.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-close-hover.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="minimize"]:active { background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-min-down.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-min-down.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="maximize"]:active { background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-max-down.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-max-down.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:is([src*="restore"], [src*="page_switcher"]):active { background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-restore-down.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-restore-down.svg") 2x); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img[src*="_close"]:active { background-image: image-set(url("sct-ext:themes/tavern/glyphs/btn-close-down.png") 1x, url("sct-ext:themes/tavern/glyphs/btn-close-down.svg") 2x); }
+
+/* ---- Title bars: the recessed strip between two lit rails, the title centred in gold ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .standardWindowCaption { height: 24px; border: 0; background: var(--tv-strip); box-shadow: inset 0 1px 0 #adaaa5, inset 0 2px 0 #080808, inset 0 -1px 0 #948e8c, inset 0 -2px 0 #080808; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .standardWindowCaption + .windowPlaceholderContainer { top: 24px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .standardWindowCaption .windowCaptionIcon { float: left; width: 16px; height: 16px; margin: 4px 0 0 6px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .standardWindowCaption .scWindowCaption { display: block; padding: 0 76px 0 28px; color: var(--sct-titlebar-fg); font: 12px/24px var(--sct-font-family); text-align: center; text-shadow: var(--tv-gold-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"] .standartWindowButtons { top: 3px; right: 6px; height: 18px; justify-content: flex-end; }
+/* The Content Editor, Media Library and Workbox: Sitecore draws no caption; the engine's title goes on the
+   caption's empty top line, the window's icon at its left, the buttons on it, and the menu button under it */
+html[data-sct-theme="tavern"][data-sct-surface="shell"][data-sct-window-title] :is(.scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption.scWindowHandle) { box-sizing: border-box; height: 24px; background: var(--tv-strip); box-shadow: inset 0 1px 0 #adaaa5, inset 0 2px 0 #080808, inset 0 -1px 0 #948e8c, inset 0 -2px 0 #080808; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"][data-sct-window-title] :is(.scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption.scWindowHandle)::before {
+  content: var(--sct-window-title, "");
+  display: block;
+  box-sizing: border-box;
+  height: 24px;
+  padding: 0 76px 0 28px;
+  background: var(--sct-window-icon, none) 6px 4px / 16px 16px no-repeat;
+  color: var(--sct-titlebar-fg);
+  font: 12px/24px var(--sct-font-family);
+  text-align: center;
+  text-shadow: var(--tv-gold-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"][data-sct-window-title] :is(.scWindowBorder2 > .scCaption > .scSystemButtons, .scWorkboxWindowButtons) { top: 3px; right: 6px; margin-right: 0; height: 18px; z-index: 2; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"][data-sct-window-title] .scWorkboxWindowCaption.scWindowHandle { position: relative; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"][data-sct-window-title] .scWorkboxWindowButtons { position: absolute; float: none; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption > #SystemMenu { top: 0; margin-top: 28px; height: 26px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"][data-sct-window-title] .scWindowBorder2 > .scCaption .scRibbonNavigator { padding-top: 4px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:is([data-sct-window-title], [data-sct-window-content]) .scRibbonNavigator:not(:has(.scRibbonNavigatorButtonsContextualGroup)) .scRibbonNavigatorButtonsGroupHeader { display: none; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"][data-sct-window-content] .scRibbonNavigator { padding-top: 4px; }
+/* an inactive window: the strip dims and its title greys (dom.js marks the window's document) */
+html[data-sct-theme="tavern"][data-sct-window="inactive"] :is(.standardWindowCaption, [data-sct-window-title] .scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption.scWindowHandle) { filter: saturate(0.4) brightness(0.8); }
+html[data-sct-theme="tavern"][data-sct-window="inactive"] .standardWindowCaption .scWindowCaption,
+html[data-sct-theme="tavern"][data-sct-window="inactive"][data-sct-window-title] :is(.scWindowBorder2 > .scCaption > #CaptionTopLine, .scWorkboxWindowCaption.scWindowHandle)::before { color: var(--sct-titlebar-inactive-fg); }
+
+/* ---- Menus: the drop-down list, a silver line round a dark backdrop, the pale highlight bar ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) {
+  .scPopup:has(> table.scMenu) {
+    border: 0;
+    border-radius: 6px;
+    background: rgb(4 4 6 / 0.94);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.6), inset 0 0 0 1px #9c9a9c, inset 0 0 0 2px rgb(0 0 0 / 0.6), 0 6px 18px rgb(0 0 0 / 0.5);
+  }
+  .scPopup:has(iframe) { border: 7px solid transparent; border-image: var(--tv-frame) 14 / 14px / 7px stretch; border-radius: 0; }
+  .scPopup > table.scMenu { padding: 5px 3px; border: 0; border-spacing: 0; border-radius: 0; box-shadow: none; background: transparent; }
+  table.scMenu, table.scMenu .scMenuItem { color: #fff; }
+  table.scMenu td.scMenuHeader { padding: 5px 8px 3px; color: var(--sct-titlebar-fg); text-shadow: var(--tv-gold-text); }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemCaption, td.scMenuItemHotkey, td.scMenuItemIcon_Hover, td.scMenuItemCaption_Hover, td.scMenuItemHotkey_Hover, td.scMenuItemIcon_Disabled, td.scMenuItemCaption_Disabled, td.scMenuItemHotkey_Disabled) {
+    height: 20px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font: 12px/16px var(--sct-font-family);
+  }
+  table.scMenu :is(td.scMenuItemIcon, td.scMenuItemIcon_Hover, td.scMenuItemIcon_Disabled) { width: 16px; padding: 0 6px 0 7px; }
+  table.scMenu :is(td.scMenuItemCaption, td.scMenuItemCaption_Hover, td.scMenuItemCaption_Disabled) { padding: 0 8px 0 0; }
+  table.scMenu :is(td.scMenuItemHotkey, td.scMenuItemHotkey_Hover, td.scMenuItemHotkey_Disabled) { padding: 0 6px 0 12px; color: #a8a8a8; text-align: right; }
+  /* the quest-title highlight: a pale blue bar fading at its ends (3.6:1 over a resting row) */
+  table.scMenu td.scMenuItemIcon_Hover { background: linear-gradient(90deg, rgb(86 104 142 / 0.3), #56688e); }
+  table.scMenu td.scMenuItemCaption_Hover { background: #56688e; color: #fff; }
+  table.scMenu td.scMenuItemHotkey_Hover { background: linear-gradient(90deg, #56688e, rgb(86 104 142 / 0.3)); color: #fff; }
+  table.scMenu :is(td.scMenuItemCaption_Disabled, td.scMenuItemHotkey_Disabled) { color: #808080; }
+  table.scMenu td.scMenuDivider, table.scMenu .scMenuDivider { background: linear-gradient(90deg, transparent, #6a6a6a 20%, #6a6a6a 80%, transparent) center / 100% 1px no-repeat; border: 0; }
+  .scGalleryMenuItem:hover { background: #56688e; color: #fff; }
+  /* a menu's caption can hold a menu of its own (the ribbon's Workflow drop-down): one backdrop for both */
+  table.scMenu table.scMenu { background: transparent; }
+  /* the fly-out arrows are dark bitmaps: light on the dark backdrop */
+  table.scMenu img[src*="Submenu16x16" i] { filter: invert(1) brightness(1.1); }
+
+  /* tooltips: the game's tooltip, navy inside the silver line */
+  :is(.qtip, .ui-tooltip, .ace_tooltip) {
+    border: 0;
+    border-radius: 6px;
+    background: rgb(9 9 26 / 0.94);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.6), inset 0 0 0 1px #9c9a9c, inset 0 0 0 2px rgb(0 0 0 / 0.6);
+    color: #fff;
+  }
+  /* the ISE's variable preview: names in gold, as a tooltip's item names */
+  .ace_tooltip :is(.varName, .childName) { color: #ffd100; }
+}
+
+/* ---- Desktop windows: the iron rail round each window's iframe ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #Desktop > iframe:not([style*="width: 100%"]) { box-shadow: var(--tv-rail); }
+
+/* ---- The Desktop: a dark world, and the action bar along the bottom ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"] { --tv-world: radial-gradient(ellipse 70% 55% at 50% 0%, #3a4a34, transparent 70%) fixed, radial-gradient(ellipse 90% 60% at 50% 110%, #2a1e10, transparent 70%) fixed, linear-gradient(#1e2a1c, #0e140c) fixed; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .DesktopArea {
+  bottom: 48px;
+  overflow: clip;
+  overflow-clip-margin: border-box;
+  background: var(--tv-world) !important;
+}
+/* the bar is 48px and windows run down to its top edge; the gryphons and the start emblem rise over the
+   windows' foot. The taskbar area shows the same world as the Desktop, both fixed to the screen */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scStartbar { height: 48px; overflow: visible; background: var(--tv-world); }
+/* #Startbar spans the screen and draws nothing: its table is the action bar, centred: the eye, the slots, and
+   the tray as the bar's right-hand section, one piece with a gryphon at each end */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #Startbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px !important;
+  box-sizing: border-box;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #Startbar > table {
+  position: relative;
+  width: auto !important;
+  height: 48px !important;
+  margin: 0 auto;
+  /* the bar ends behind each gryphon's head and chest, where the statue is solid over the bar's whole height:
+     81px into the left one (solid from 73 to 89px) and 34px into the right one (24 to 45px). Each statue reaches
+     23px past that over the bar, so 26px of stone come before the eye and after the clock */
+  padding: 0 26px;
+  border-collapse: separate;
+  background: url("sct-ext:themes/tavern/glyphs/grain-stone.png"), var(--tv-bar);
+  box-shadow: 0 0 0 1px #000, inset 0 1px 0 #73726e, inset 0 2px 0 #adaaa5, inset 0 3px 0 #080808;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #Startbar > table > tbody > tr > td { width: auto; height: 48px; padding: 0; border: 0; vertical-align: middle; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #Startbar > table > tbody > tr > td:nth-child(2) { padding-right: 6px; }
+/* the gryphons hold the bar's two ends, whatever its width: each facing the bar, twice a slot row's height,
+   their plinths sunk below the screen's edge so only the statues' upper halves rise beside the bar */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #Startbar > table::before,
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #Startbar > table::after {
+  content: "";
+  position: absolute;
+  bottom: -66px;
+  z-index: 3;
+  width: 120px;
+  height: 132px;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.7));
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #Startbar > table::before { left: -81px; background: image-set(url("sct-ext:themes/tavern/glyphs/gryphon-right.png") 1x, url("sct-ext:themes/tavern/glyphs/gryphon-right-2x.png") 2x) center bottom / contain no-repeat; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #Startbar > table::after { right: -86px; background: image-set(url("sct-ext:themes/tavern/glyphs/gryphon-left.png") 1x, url("sct-ext:themes/tavern/glyphs/gryphon-left-2x.png") 2x) center bottom / contain no-repeat; }
+/* the start button: the substyle's emblem, larger than a slot and rising out of the bar */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scStartButtonContainer { position: static; width: 74px; height: 48px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(.scStartButton, .scStartButton:hover, .scStartButton.scPopupOpener) {
+  position: absolute;
+  top: auto;
+  left: 34px;
+  bottom: 2px;
+  box-sizing: border-box;
+  width: 60px;
+  height: 60px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--tv-start) center / contain no-repeat;
+  box-shadow: none;
+  font-size: 0;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.8));
+  cursor: pointer;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scStartButton > * { opacity: 0; }
+/* the faction crests are taller than they are wide: a taller button, so each stands as large as the eye */
+html[data-sct-theme="tavern"][data-sct-surface="shell"][data-sct-scheme]:not(#sct-tv) :is(.scStartButton, .scStartButton:hover, .scStartButton.scPopupOpener) { left: 36px; width: 56px; height: 74px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(.scStartButton:hover, .scStartButton.scPopupOpener) { filter: drop-shadow(0 0 6px rgb(255 190 0 / 0.75)); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scStartButton:focus-visible { outline: 1px solid #ffd100; outline-offset: 2px; }
+/* under reduced motion the eye holds still and only its glow breathes, slowly */
+@media (prefers-reduced-motion: reduce) {
+  html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv):not([data-sct-scheme]) :is(.scStartButton, .scStartButton:hover, .scStartButton.scPopupOpener) {
+    background-image: image-set(url("sct-ext:themes/tavern/glyphs/eye.png") 1x, url("sct-ext:themes/tavern/glyphs/eye-2x.png") 2x);
+    animation: tv-gaze 9s ease-in-out infinite;
+  }
+}
+@keyframes tv-gaze {
+  0%, 100% { filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.8)); }
+  50% { filter: drop-shadow(0 0 5px rgb(120 255 80 / 0.45)); }
+}
+
+/* the windows: action slots, icon only, numbered like an action bar's keys; the title is the slot's tooltip */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scStartBarScroller { height: 48px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; }
+/* twelve slots always: the empty ones drawn on the scroller under the entries (glyphs/slots), the bar growing
+   past twelve. The table keeps its own width, so an entry never stretches */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scStartBarScroller { min-width: 508px; background: image-set(url("sct-ext:themes/tavern/glyphs/slots.png") 1x, url("sct-ext:themes/tavern/glyphs/slots.svg") 2x) 0 5px / 508px 38px no-repeat; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #StartbarApplications { flex: none; width: auto; height: 38px; margin: 0; border-spacing: 4px 0; counter-reset: tv-slot; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(.scActiveApplication, .scInactiveApplication) {
+  position: relative;
+  box-sizing: border-box;
+  width: 38px;
+  min-width: 38px;
+  max-width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: linear-gradient(#1d1d1d, #292829);
+  box-shadow: inset 0 0 0 1px #100c08, inset 0 0 0 2px #414041, inset 0 0 0 3px #100c08;
+  counter-increment: tv-slot;
+  overflow: hidden;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scActiveApplication { box-shadow: inset 0 0 0 1px #100c08, inset 0 0 0 2px #ffd100, inset 0 0 0 3px #7a5a00, 0 0 6px 1px rgb(255 209 0 / 0.5); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scInactiveApplication:hover { box-shadow: inset 0 0 0 1px #100c08, inset 0 0 0 2px #fff6c0, inset 0 0 0 3px #100c08; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(.scActiveApplication, .scInactiveApplication)::before { display: none; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(.scActiveApplication, .scInactiveApplication)::after {
+  content: counter(tv-slot, tv-keys);
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  display: block;
+  color: #e0e0e0;
+  font: 600 10px/1 var(--sct-font-family);
+  text-shadow: 1px 1px 0 #000, -1px 0 0 #000;
+  pointer-events: none;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(.scActiveApplication, .scInactiveApplication) * { font-size: 0 !important; color: transparent; line-height: 0; text-shadow: none; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scStartBarApplication { display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 38px !important; min-width: 0 !important; max-width: 38px; height: 38px; padding: 0; } /* Sitecore sizes the buttons inline */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scStartBarApplication img { width: 28px !important; height: 28px !important; margin: 0 !important; }
+
+/* the tray: the bar's right-hand section past a carved groove, as the game keeps its bags and menus there.
+   The search is a sunken well like the slots, the database a bag slot with its name under its icon, the
+   clock on a small plaque */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #Startbar > table > tbody > tr > td:has(> #StartbarTray) { padding: 0 10px 0 8px; box-shadow: inset 1px 0 0 #000, inset 2px 0 0 #4a4744, inset 3px 0 0 #000; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scStartbarTray { height: 48px; border: 0; border-spacing: 0; background: transparent; box-shadow: none; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scStartbarTray > tbody > tr > td { height: 48px; padding: 0 0 0 6px; vertical-align: middle; background: transparent; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(.scStartbarTray, .scStartbarTray *) { color: var(--sct-taskbar-fg); font: 12px var(--sct-font-family); text-shadow: var(--tv-gold-text); background-color: transparent; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(#SearchBox, .scStartbarTray input) {
+  box-sizing: border-box;
+  width: 150px !important;
+  height: 28px !important;
+  margin: 0;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 3px;
+  background: linear-gradient(#0b0a09, #161514);
+  color: #f0f0f0;
+  text-shadow: none;
+  box-shadow: inset 0 0 0 1px #100c08, inset 0 0 0 2px #414041, inset 0 0 0 3px #100c08, inset 0 4px 4px rgb(0 0 0 / 0.6);
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(#SearchBox, .scStartbarTray input):focus { outline: 0; box-shadow: inset 0 0 0 1px #100c08, inset 0 0 0 2px #ffd100, inset 0 0 0 3px #7a5a00, inset 0 4px 4px rgb(0 0 0 / 0.6); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #SearchBox::placeholder { color: #a8a090; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #DatabaseSelector {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-sizing: border-box;
+  min-width: 46px;
+  height: 38px;
+  padding: 0 5px;
+  border: 0;
+  border-radius: 3px;
+  background: linear-gradient(#1d1d1d, #292829);
+  box-shadow: inset 0 0 0 1px #100c08, inset 0 0 0 2px #414041, inset 0 0 0 3px #100c08;
+  color: var(--sct-taskbar-fg);
+  font: 600 10px/1 var(--sct-font-family);
+  vertical-align: middle;
+  cursor: pointer;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #DatabaseSelector:hover { box-shadow: inset 0 0 0 1px #100c08, inset 0 0 0 2px #fff6c0, inset 0 0 0 3px #100c08; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #DatabaseSelector img { width: 18px; height: 18px; margin: 0 !important; vertical-align: 0; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #StartbarTray td.sct-tavern-clock { padding: 0 0 0 8px; white-space: nowrap; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #StartbarTray .sct-tavern-clock-face {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 28px;
+  padding: 0 4px;
+  border: 0 solid transparent;
+  border-width: 0 14px;
+  border-image: var(--tv-plaque) 4 16 4 16 fill / 0 14px stretch;
+  color: var(--sct-titlebar-fg);
+  font: 13px/28px var(--sct-font-family);
+  text-shadow: var(--tv-gold-text);
+}
+
+/* ---- Start menu: the game menu, a dark panel in the iron frame with the plaque over its top ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #StartMenu {
+  position: relative;
+  box-sizing: border-box;
+  padding: 20px 6px 6px;
+  border: 7px solid transparent;
+  border-image: var(--tv-frame) 14 / 14px / 7px stretch;
+  background: var(--tv-marble);
+  background-clip: padding-box;
+}
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #StartMenu::before {
+  content: "Game Menu";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  height: 28px;
+  padding: 0 14px;
+  border: 0 solid transparent;
+  border-width: 0 16px;
+  border-image: var(--tv-plaque) 4 16 4 16 fill / 0 16px stretch;
+  color: var(--sct-titlebar-fg);
+  font: 13px/28px var(--sct-font-family);
+  text-shadow: var(--tv-gold-text);
+  white-space: nowrap;
+}
+/* the panels inside are Sitecore's light columns: dark here, on the marble, so the white type reads */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #StartMenu :where(*) { background-color: transparent; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #StartMenu :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph) { filter: invert(1) brightness(1.1); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #StartMenu :is(td, a, span, div) { color: #fff; text-shadow: var(--tv-gold-text); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #StartMenu :is(.scMenuPanelItem, .scMenuPanelItemSelected, .scMenuPanelItem_Hover, .scStartMenuLeftOption, .scStartMenuLeftOption_Hover) { border-radius: 2px; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) #StartMenu :is(.scMenuPanelItem_Hover, .scMenuPanelItemSelected, .scStartMenuLeftOption_Hover, .scStartMenuRightOption_Hover, a:hover, a.scPopupOpener) { background: #56688e; }
+
+/* ---- The global header: gold and white on the dark bar ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .sc-globalHeader { background: var(--tv-strip); border-bottom: 1px solid #000; box-shadow: inset 0 -1px 0 #414041; }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .sc-globalHeader :is(.sc-accountInformation, .sc-accountInformation li, .sc-accountInformation a, .sc-accountInformation span, #globalHeaderUserName) { color: var(--sct-titlebar-fg); text-shadow: var(--tv-gold-text); }
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .sc-globalHeader .sc-accountInformation :is(a, span).logout:hover { color: #fff; }
+
+/* ---- The bar over the fields: the open editor tab white on its black tab, the others gold ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scRibbonEditorTabActive span { color: #fff; text-shadow: var(--tv-gold-text); }
+/* the closed tabs sit on the stone: gold */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scRibbonEditorTabNormal span { color: var(--sct-ribbon-tab-fg); text-shadow: var(--tv-gold-text); }
+
+/* ---- Dark art on the dark ribbon: the combo and launcher arrows turned light ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scRibbonToolbar :is(img.scRibbonToolbarLargeComboButtonGlyph, img.scRibbonToolbarSmallComboButtonGlyph, .scRibbonChunkEndLink img.glyph) { filter: invert(1) brightness(1.15); }
+/* Sitecore's validation bullets: a dark edge so they read on any panel */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(img.scValidationResultIcon, img.scValidationMarkerIcon) { filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.9)); }
+
+/* the open dialog tab runs into its page: it stands 1px over the page's top line */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .scTabstrip [class*="scTabActive"] { position: relative; top: 1px; z-index: 1; }
+
+/* ---- The ISE: the ribbon's small drop-down arrows light on the black ribbon ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) img.scRibbonToolbarSmallGalleryButtonGlyph { filter: invert(1) brightness(1.15); }
+
+/* ---- SPEAK pages in the shell (the Control Panel): the application header a stone band, its title gold;
+   the Back button's label gold on its red face ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) {
+  .sc-applicationHeader { background: var(--tv-band); border-bottom: 1px solid #000; }
+  .sc-applicationHeader-row1 { background: transparent; }
+  .sc-applicationHeader :is(.sc-applicationHeader-title, .sc-applicationHeader-title *) { color: #ffd100; text-shadow: 1px 1px 0 #000; }
+  .sc-backbutton .sc-backbutton-text { color: var(--sct-button-fg); text-shadow: 1px 1px 0 #000; }
+}
+
+/* ---- The stone sheet on every pane that paints the page colour: the window, the editor and its bars,
+   dialogs, galleries, the ISE, and the SPEAK pages served in the shell (the Control Panel) ---- */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) :is(
+  body, body > form, .scFlexColumnContainer, #RibbonPanel, #ContentEditor, .scEditorGrid, #EditorTabs, #EditorFrames,
+  .scEditorHeader, .scEditorPanel, .scEditorSections, #EditorPanel, .scValidatorPanel, .scContentControlImagePane,
+  .scFormDialogContent, .scDialogContentContainer, .scGalleryOuterFrame, .scGalleryInnerFrame, #ScriptPane, table.scScrollbox,
+  .sc-applicationContent, .sc-applicationContent-main, .sc-applicationHeader-row2, .sc-dialogContent-title, .sc-dialogFooter
+) {
+  background-image: var(--tv-sheet);
+  background-attachment: fixed;
+}
+/* boxes on the page (the Control Panel's lists) a shade lighter, as a page pasted on */
+html[data-sct-theme="tavern"][data-sct-surface="shell"]:not(#sct-tv) .sc-controlpanel-box-content { background-image: var(--tv-sheet-raised); background-attachment: fixed; }
+
+/* the slots' keys, as on the empty slots */
+@counter-style tv-keys { system: fixed; symbols: "1" "2" "3" "4" "5" "6" "7" "8" "9" "0" "-" "="; fallback: decimal; }

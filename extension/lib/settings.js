@@ -52,8 +52,9 @@
   const PHASES = ["dawn", "day", "dusk", "night"];
 
   // A site's colour scheme, per site in storage.sync `schemes`; none is the theme's own. Every id any theme draws
-  // (theme.json `schemes` says which, and labels them): Whistler's XP Blue, Olive Green and Silver.
-  const SCHEMES = ["blue", "olive", "silver"];
+  // (theme.json `schemes` says which, and labels them): Whistler's XP Blue, Olive Green and Silver, The Tavern's
+  // blue and red substyles.
+  const SCHEMES = ["blue", "olive", "silver", "red"];
 
   // A site's hue, per site and theme in storage.sync `hues` ({ fjord: 40 }), for themes that offer one (themes.js
   // `hue`): degrees round the colour wheel, 1 to 359. Anything else, 0 included, keeps the theme's own colours.

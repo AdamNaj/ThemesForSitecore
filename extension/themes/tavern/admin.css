@@ -1,0 +1,5 @@
+/* The Tavern: the admin pages on the stone sheet, as every other page */
+html[data-sct-theme="tavern"][data-sct-surface="admin"]:not(#sct-tv) body {
+  background-image: var(--tv-sheet);
+  background-attachment: fixed;
+}

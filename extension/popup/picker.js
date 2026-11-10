@@ -46,6 +46,7 @@
   <label><input type="radio" name="scheme" value="blue"> Blue</label>
   <label><input type="radio" name="scheme" value="olive"> Olive Green</label>
   <label><input type="radio" name="scheme" value="silver"> Silver</label>
+  <label><input type="radio" name="scheme" value="red"> Red</label>
 </div>
 <div id="hue" hidden>
   <label for="hue-range">Hue</label>

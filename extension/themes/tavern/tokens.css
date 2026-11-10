@@ -1,0 +1,148 @@
+/* The Tavern: the classic fantasy-game frames, measured and redrawn (tools/build-tavern-css.cjs).
+
+   Measured construction (the classic interface's frames, our own drawing):
+   | Part          | Construction                                                        | Colours                                   |
+   | Iron rail     | 7px, 4px soft shadow outside, diamond rivets on the corners          | #1b1918 #524d4a #363331 #6b6563 #292926 #4a4744 #080c08 |
+   | Title plaque  | 28px: 6px rail, 17px rounded recess, 5px rail; rivets on the corners | rail #343231 #9c9694 #000; recess #100c08 to #393029 |
+   | Title strip   | 18px recess with a lit rail above and below                         | #131110 to #2e2823 to #181810; #adaaa5 #73726e / #948e8c |
+   | Tabs          | chamfered 5px, 4px rail; open tab marbled, closed tabs plain black   | #474642 #6b6963 #2b292b #737573 #080408   |
+   | Panel button  | 22px, radius 4px: black edge, grey rim lit on top, red face          | rim #737173 #4a454a #424142; face #420000 #6b0000 #5d0000 #520000 #390000 |
+   | Close button  | 18px rounded red square, black rim, chunky gold X                     | #2c0000 to #8a0000; X #c6aa08             |
+   | Input well    | 20px, radius 4px, sunken; black at 53% over what it sits on           | #131213 #262526 #393839, under #8c8a8c    |
+   | Menus         | 1px silver line, dark lines either side, radius 6px, 20px rows        | black 87%, #9c9a9c; hover #56688e         |
+   | Stone         | dark stone, the marble grain, darkening toward the edges              | #2c2925 to #121110; text #e6dcc6          |
+   | Type          | gold normal, white highlighted, grey disabled, 1px black shadow       | #ffd100 #ffffff #808080                   |
+   Fonts: Friz Quadrata where installed, else Palatino Linotype (ships with Windows). */
+html[data-sct-theme="tavern"] {
+  --sct-font-family: "Friz Quadrata TT", "Friz Quadrata", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  --sct-font-size: 12px;
+  --sct-radius: 3px;
+
+  --sct-app-bg: #1f1d1a;
+  --sct-app-fg: #e6dcc6;
+  --sct-panel-bg: #242220;
+  --sct-panel-fg: #e6dcc6;
+  --sct-muted-fg: #b0a690;
+  --sct-border: #4a4744;
+  --sct-border-strong: #8c8a8c;
+  --sct-accent: #6b0000;
+  --sct-accent-fg: #ffd100;
+  --sct-link: #ffd100;
+  --sct-focus-ring: #ffd100;
+  --sct-raised-bg: #2c2a26;
+  --sct-chrome-bg: #1e1c18;
+  --sct-chrome-fg: #ffd100;
+  --sct-selected-bg: #4a3a12;
+
+  --sct-titlebar-bg: #28221b;
+  --sct-titlebar-fg: #ffd100;
+  --sct-titlebar-inactive-bg: #1a1714;
+  --sct-titlebar-inactive-fg: #b8b0a0;
+  --sct-window-border: #1b1918;
+
+  --sct-ribbon-bg: #141311;
+  --sct-ribbon-fg: #ffffff;
+  --sct-ribbon-tab-bg: #000000;
+  --sct-ribbon-tab-fg: #ffd100;
+  --sct-ribbon-tab-active-bg: #141311;
+  --sct-ribbon-tab-active-fg: #ffffff;
+  --sct-ribbon-chunk-bg: #141311;
+  --sct-ribbon-chunk-caption-bg: #141311;
+  --sct-ribbon-chunk-caption-fg: #ffd100;
+  --sct-ribbon-button-hover-bg: #2e2a25;
+  --sct-ribbon-button-pressed-bg: #0a0908;
+
+  --sct-tree-bg: #1a1816;
+  --sct-tree-fg: #e6dcc6;
+  --sct-tree-hover-bg: #2a2824;
+  --sct-tree-selected-bg: #4a3a12;
+  --sct-tree-selected-fg: #ffd100;
+  --sct-tree-selected-border: #a07a1e;
+
+  --sct-section-header-bg: #2a2723;
+  --sct-section-header-fg: #ffd100;
+  --sct-section-body-bg: #1f1d1a;
+  --sct-field-label-fg: #e6dcc6;
+
+  --sct-input-bg: #0b0a09;
+  --sct-input-fg: #ffffff;
+  --sct-input-border: #4a4744;
+  --sct-input-focus-border: #ffd100;
+
+  --sct-button-bg: #5d0000;
+  --sct-button-fg: #ffd100;
+  --sct-button-border: #737173;
+  --sct-button-hover-bg: #7a0a04;
+  --sct-button-primary-bg: #5d0000;
+  --sct-button-primary-fg: #ffd100;
+  --sct-button-primary-hover-bg: #7a0a04;
+
+  --sct-table-header-bg: #28221b;
+  --sct-table-header-fg: #ffd100;
+  --sct-table-row-hover-bg: #2a2824;
+
+  --sct-scrollbar-thumb: #6b6563;
+  --sct-scrollbar-track: #1b1918;
+
+  --sct-desktop-bg: #1e2a1c;
+  --sct-taskbar-bg: #1e1c18;
+  --sct-taskbar-fg: #ffd100;
+
+  /* a dark theme: Sitecore's dark glyphs turned light, the rich text editor's page dimmed */
+  --sct-glyph-filter: invert(1) hue-rotate(180deg);
+  --sct-editor-filter: invert(0.88) hue-rotate(180deg);
+  --sct-content-filter: brightness(0.8);
+
+  /* the substyle's own: the chrome's tint (title strips, the tab band, the action bar) and its button face */
+  --tv-strip: linear-gradient(#131110, #2e2823 45%, #28221b 70%, #181810);
+  --tv-band: linear-gradient(#151412, #23201e 30%, #36312b 60%, #393531);
+  --tv-bar: linear-gradient(#36312b, #1e1c18 40%, #151412);
+  --tv-face: linear-gradient(#420000 0 1px, #6b0000 1px 2px, #5d0000 2px, #680505 40%, #5f0202 60%, #520000 80%, #390000 calc(100% - 2px), #080000 calc(100% - 1px));
+  --tv-face-down: linear-gradient(#000 0 3px, #360000 3px, #520000 30%, #4a0000 60%, #2e0000 90%, #210000);
+  --tv-rim: #737173 #4a454a #424142 #4a454a;
+  /* the stone sheet: the seamless stone tile (glyphs/stone, a 256px tile in 1x and 2x) darkening to the edges. Every pane that paints the page colour takes it,
+     fixed to its frame's window, so nested panes read as one sheet and no flat colour shows */
+  --tv-stone: image-set(url("sct-ext:themes/tavern/glyphs/stone.png") 1x, url("sct-ext:themes/tavern/glyphs/stone-2x.png") 2x);
+  --tv-sheet: radial-gradient(ellipse at 45% 35%, transparent 45%, rgb(0 0 0 / 0.4) 140%), var(--tv-stone);
+  --tv-sheet-raised: linear-gradient(rgb(255 255 255 / 0.04), rgb(255 255 255 / 0.04)), var(--tv-sheet);
+  --tv-start: image-set(url("sct-ext:themes/tavern/glyphs/eye.png") 1x, url("sct-ext:themes/tavern/glyphs/eye-anim.png") 2x);
+}
+
+/* For the Alliance: navy chrome and gold-rimmed blue buttons */
+html[data-sct-theme="tavern"][data-sct-scheme="blue"] {
+  --sct-titlebar-bg: #1c2a4a;
+  --sct-titlebar-inactive-bg: #121a2e;
+  --sct-chrome-bg: #141c34;
+  --sct-taskbar-bg: #141c34;
+  --sct-table-header-bg: #1c2a4a;
+  --sct-button-bg: #183478;
+  --sct-button-hover-bg: #2244a0;
+  --sct-button-primary-bg: #183478;
+  --sct-button-primary-hover-bg: #2244a0;
+  --tv-strip: linear-gradient(#0e1628, #22325a 45%, #1c2a4a 70%, #0e1628);
+  --tv-band: linear-gradient(#0e1424, #1a2440 30%, #26365a 60%, #2a3a60);
+  --tv-bar: linear-gradient(#26365a, #141c34 40%, #0c1224);
+  --tv-face: linear-gradient(#0a1a4a 0 1px, #2a4aa0 1px 2px, #1a3a8a 2px, #1e3e90 40%, #183478 60%, #122a64 80%, #0c1e4a calc(100% - 2px), #040a18 calc(100% - 1px));
+  --tv-face-down: linear-gradient(#000 0 3px, #0c1e4a 3px, #142c6a 30%, #12285e 60%, #0a1a40 90%, #081430);
+  --tv-rim: #c9a640 #8a7020 #6a5418 #8a7020;
+  --tv-start: image-set(url("sct-ext:themes/tavern/glyphs/crest-blue.png") 1x, url("sct-ext:themes/tavern/glyphs/crest-blue-2x.png") 2x);
+}
+
+/* For the Horde: rust and black chrome, the red buttons */
+html[data-sct-theme="tavern"][data-sct-scheme="red"] {
+  --sct-titlebar-bg: #3e1a12;
+  --sct-titlebar-inactive-bg: #241008;
+  --sct-chrome-bg: #2c120c;
+  --sct-taskbar-bg: #2c120c;
+  --sct-table-header-bg: #3e1a12;
+  --tv-strip: linear-gradient(#1a0806, #3e1a12 45%, #34160e 70%, #1a0806);
+  --tv-band: linear-gradient(#180806, #2c120c 30%, #46201a 60%, #4a2418);
+  --tv-bar: linear-gradient(#4e2418, #2c120c 40%, #1a0a06);
+  --tv-start: image-set(url("sct-ext:themes/tavern/glyphs/crest-red.png") 1x, url("sct-ext:themes/tavern/glyphs/crest-red-2x.png") 2x);
+}
+
+/* color-scheme changes the canvas and default colours of the whole document. In the Experience Editor the
+   document is the website, so it stays out of the ee area. */
+html[data-sct-theme="tavern"]:not([data-sct-surface="ee"]) {
+  color-scheme: dark;
+}
