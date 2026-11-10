@@ -38,6 +38,9 @@
     back: svg('<path d="M5 3.5L2.5 6 5 8.5"/><path d="M2.5 6H9a3 3 0 0 1 0 6H6"/>'),
     sql: svg('<ellipse cx="7" cy="3.5" rx="4.5" ry="2"/><path d="M2.5 3.5v7c0 1.1 2 2 4.5 2s4.5-.9 4.5-2v-7M2.5 7c0 1.1 2 2 4.5 2s4.5-.9 4.5-2"/>'),
     resource: svg('<path d="M3 1.5h5l3 3v8H3z"/><path d="M8 1.5v3h3M5 7.5h4M5 10h4"/>'),
+    check: svg('<path d="M2.8 7.4l2.7 2.7 5.7-5.9"/>'),
+    field: svg('<rect x="1.5" y="4" width="11" height="6" rx="1.5"/><path d="M4.5 5.8v2.4"/>'),
+    reset: svg('<path d="M2.2 2.8v3h3"/><path d="M2.6 5.6a4.8 4.8 0 1 1 .2 3.4"/>'),
     down: '<svg viewBox="0 0 10 10" width="9" height="9" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>',
   };
   const inheritance = new Map(); // template ID -> Promise of [{ id, name, folder, depth }]
@@ -367,7 +370,8 @@
     });
   }
 
-  // A menu under its button: arrows, Home and End move, Escape and Tab close, focus goes back to the button.
+  // A menu under its button: arrows, Home and End move, Escape and Tab close, focus goes back to the button. The pointer
+  // moves focus as it goes, so one row is lit, whichever was used last.
   function menu(ctx, button, label, build) {
     const { doc } = ctx;
     for (const open of doc.querySelectorAll("sct-item-menu")) open.close();
@@ -378,13 +382,26 @@
     const items = () => [...m.querySelectorAll('[role="menuitem"]')];
     const go = (i) => { const all = items(); if (all.length) all[(i + all.length) % all.length].focus(); };
     const outside = (e) => !m.contains(e.target) && e.target !== button && !button.contains(e.target) && m.close();
+    const blur = () => m.close();
+    let closed = false;
     m.close = (focus) => {
+      if (closed) return;
+      closed = true;
       doc.removeEventListener("mousedown", outside, true);
-      doc.defaultView.removeEventListener("blur", m.close);
-      m.remove();
+      doc.defaultView.removeEventListener("blur", blur);
+      m.removeAttribute("id"); // the button's next menu takes it while this one fades
       button.setAttribute("aria-expanded", "false");
-      if (focus) button.focus();
+      if (focus === true) button.focus();
+      // fades out, then goes; at once where no animation runs
+      m.setAttribute("data-closing", "");
+      const gone = () => m.remove();
+      m.addEventListener("animationend", gone);
+      doc.defaultView.setTimeout(gone, 200);
     };
+    m.addEventListener("pointermove", (e) => {
+      const b = e.target.closest && e.target.closest('[role="menuitem"]');
+      if (b && b !== doc.activeElement) b.focus({ preventScroll: true });
+    });
     m.addEventListener("keydown", (e) => {
       const at = items().indexOf(doc.activeElement);
       const keys = { ArrowDown: () => go(at + 1), ArrowUp: () => go(at - 1), Home: () => go(0), End: () => go(-1), Escape: () => m.close(true), Tab: () => m.close() };
@@ -394,29 +411,47 @@
       keys[e.key]();
     });
     doc.addEventListener("mousedown", outside, true);
-    doc.defaultView.addEventListener("blur", m.close);
+    doc.defaultView.addEventListener("blur", blur);
+    // beside the button, opening towards the middle of the page, no wider than the room on that side
     const r = button.getBoundingClientRect();
-    m.style.top = `${Math.round(r.bottom + 3)}px`;
-    m.style.right = `${Math.round(doc.documentElement.clientWidth - r.right)}px`;
+    const w = doc.documentElement.clientWidth;
+    const h = doc.documentElement.clientHeight;
+    const end = r.left + r.right > w;
+    if (end) m.style.right = `${Math.round(w - r.right)}px`;
+    else m.style.left = `${Math.round(r.left)}px`;
+    m.style.setProperty("--sct-menu-wide", `${Math.round((end ? r.right : w - r.left) - 8)}px`);
+    m.dataset.align = end ? "end" : "start";
     doc.body.append(m);
     button.setAttribute("aria-expanded", "true");
     build(m);
+    // below the button, or above it when it does not fit below and there is more room above (a field low in the frame);
+    // a menu that grows later (Navigate's bases) scrolls in the room it has
+    const below = h - r.bottom - 11;
+    const above = r.top - 11;
+    const up = m.offsetHeight > below && above > below;
+    if (up) m.style.bottom = `${Math.round(h - r.top + 3)}px`;
+    else m.style.top = `${Math.round(r.bottom + 3)}px`;
+    m.style.setProperty("--sct-menu-room", `${Math.round(up ? above : below)}px`);
+    m.dataset.side = up ? "above" : "below"; // starts the entrance, now that the side is known
     return m;
   }
 
+  // a group of entries under a heading; without a label, only the rule above it
   function group(doc, m, label) {
     const g = doc.createElement("sct-item-group");
     g.setAttribute("role", "group");
-    g.setAttribute("aria-label", label);
-    const h = doc.createElement("sct-item-heading");
-    h.setAttribute("aria-hidden", "true");
-    h.textContent = label;
-    g.append(h);
+    if (label) {
+      g.setAttribute("aria-label", label);
+      const h = doc.createElement("sct-item-heading");
+      h.setAttribute("aria-hidden", "true");
+      h.textContent = label;
+      g.append(h);
+    }
     m.append(g);
     return g;
   }
 
-  function entry(doc, g, label, value, act, depth = 0) {
+  function entry(doc, g, label, value, act, depth = 0, icon = "") {
     const b = doc.createElement("button");
     b.type = "button";
     b.tabIndex = -1;
@@ -426,10 +461,21 @@
     if (depth) name.style.paddingInlineStart = `${depth * 12}px`;
     const v = doc.createElement("sct-item-value");
     v.textContent = value;
+    b.innerHTML = icon;
     b.append(name, v);
     b.title = value;
-    b.addEventListener("click", () => act(b, v));
+    b.addEventListener("click", () => b.getAttribute("aria-disabled") !== "true" && act(b, v));
     g.append(b);
+  }
+
+  // an entry's text is on the clipboard: a check draws in where its value was, then the menu closes
+  function copied(doc, m, b, v) {
+    b.setAttribute("data-done", "");
+    delete v.dataset.loading;
+    v.innerHTML = ICONS.check;
+    v.append("Copied");
+    SCT.announce(doc, "Copied");
+    doc.defaultView.setTimeout(() => m.close(true), 700);
   }
 
   function copyMenu(ctx, button, item) {
@@ -438,9 +484,7 @@
       const f = facts(doc, item) || { id: item.id };
       const pick = (text) => async (b, v) => {
         await copy(doc, text);
-        v.textContent = "Copied";
-        SCT.announce(doc, "Copied");
-        setTimeout(() => m.close(true), 600);
+        copied(doc, m, b, v);
       };
       const it = group(doc, m, "Item");
       if (f.name) entry(doc, it, "Name", f.name, pick(f.name));
@@ -521,7 +565,51 @@
     load(ctx, header, status, item);
   }
 
+  // the menus' look, shared with the field menu (field-menu.js)
+  // The look comes from the theme's tokens: its panel, border, radius and accent (a lit row is the accent, as a native
+  // menu's is), its font, and its light or dark scheme for the shadow. A theme without tokens (Native, Sitecore 10.4 and
+  // 10.5, Compact) gets Sitecore's own menus' grey row. Rows sit inside the panel with radii one step in
+  // from its own, so a square theme (radius 0) keeps square rows. The motion is in a block without !important, so the
+  // Reduced motion aid's rules end it.
+  // ponytail: a theme's unitless radius 0 makes min() invalid, which leaves the radius at 0 anyway
+  const MENU_CSS = SCT.important(`sct-item-menu{position:fixed;z-index:2147483646;display:block;width:max-content;min-width:236px;max-width:min(var(--sct-menu-wide,90vw),560px);max-height:var(--sct-menu-room,70vh);overflow:auto;overscroll-behavior:contain;box-sizing:border-box;padding:4px;border:1px solid var(--sct-border,color-mix(in srgb,CanvasText 20%,Canvas));border-radius:min(var(--sct-radius,4px),10px);background:var(--sct-panel-bg,Canvas);color:var(--sct-panel-fg,CanvasText);font-size:12px;line-height:18px;font-weight:400;text-align:start;box-shadow:0 1px 2px light-dark(rgba(0,0,0,.08),rgba(0,0,0,.35)),0 12px 30px -8px light-dark(rgba(0,0,0,.3),rgba(0,0,0,.7))}
+sct-item-group{display:block}
+sct-item-group+sct-item-group{margin:4px -4px 0;padding:4px 4px 0;border-top:1px solid color-mix(in srgb,currentColor 13%,transparent)}
+sct-item-heading{display:block;padding:5px 10px 3px;font-size:11px;line-height:14px;font-weight:600;color:var(--sct-muted-fg,color-mix(in srgb,currentColor 68%,transparent));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+sct-item-note{display:block;padding:4px 10px;color:var(--sct-muted-fg,color-mix(in srgb,currentColor 68%,transparent))}
+sct-item-menu button{all:unset;display:flex;align-items:center;gap:8px;box-sizing:border-box;width:100%;min-height:26px;padding:4px 10px;border-radius:max(0px,calc(min(var(--sct-radius,4px),10px) - 3px));cursor:pointer;color:inherit;font:inherit;white-space:nowrap}
+sct-item-menu button>svg{flex:none;opacity:.75}
+sct-item-menu button>span{flex:1 1 auto}
+sct-item-menu button:focus{outline:0;background:var(--sct-accent,color-mix(in srgb,currentColor 11%,transparent));color:var(--sct-accent-fg,inherit)}
+@media (forced-colors:active){sct-item-menu button:focus{forced-color-adjust:none;background:Highlight;color:HighlightText}}
+sct-item-menu button:focus>svg{opacity:1}
+sct-item-menu button[aria-disabled="true"]{cursor:default;opacity:.5}
+sct-item-menu button[aria-disabled="true"]:focus{background:color-mix(in srgb,currentColor 10%,transparent);color:inherit}
+sct-item-value{flex:0 1 auto;max-width:42ch;margin-inline-start:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--sct-muted-fg,color-mix(in srgb,currentColor 68%,transparent));font-family:Consolas,"Cascadia Mono",Menlo,monospace;font-size:11px;letter-spacing:0}
+sct-item-value:empty{display:none}
+sct-item-value[data-loading]{display:block;width:56px;height:8px;border-radius:4px;background:color-mix(in srgb,currentColor 16%,transparent)}
+sct-item-menu button:focus sct-item-value{color:inherit;opacity:.85}
+sct-item-menu[aria-label="Navigate"] sct-item-value{max-width:none}
+sct-item-menu button[data-done] sct-item-value{color:inherit;opacity:1;font-family:inherit;font-size:inherit;font-weight:600}
+sct-item-value>svg{width:12px;height:12px;margin-inline-end:4px;vertical-align:-2px;stroke-width:1.8}`)
++ `
+sct-item-menu{--sct-menu-ox:left;--sct-menu-oy:top;--sct-menu-dy:-4px;transform-origin:var(--sct-menu-ox) var(--sct-menu-oy)}
+sct-item-menu[data-align="end"]{--sct-menu-ox:right}
+sct-item-menu[data-side="above"]{--sct-menu-oy:bottom;--sct-menu-dy:4px}
+sct-item-menu[data-side]{animation:sct-menu-in .18s cubic-bezier(.16,1,.3,1)}
+sct-item-menu[data-closing]{animation:sct-menu-out .1s ease-in forwards;pointer-events:none}
+sct-item-menu [data-done] sct-item-value>svg path{stroke-dasharray:14;animation:sct-menu-check .32s cubic-bezier(.16,1,.3,1) .05s backwards}
+@keyframes sct-menu-in{from{opacity:0;transform:translateY(var(--sct-menu-dy)) scale(.97)}}
+@keyframes sct-menu-out{to{opacity:0}}
+@keyframes sct-menu-fade{from{opacity:0}}
+@keyframes sct-menu-check{from{stroke-dashoffset:14}}
+@media (prefers-reduced-motion:reduce){sct-item-menu[data-side]:not([data-closing]){animation-name:sct-menu-fade}}`;
+  // a menu button's chevron turns up while its menu is open
+  const CHEVRON_CSS = `:is(sct-item-info button,[data-sct-field-menu])>svg:last-child{transition:transform .18s cubic-bezier(.16,1,.3,1)}
+:is(sct-item-info button,[data-sct-field-menu])[aria-expanded="true"]>svg:last-child{transform:rotate(180deg)}`;
+
   SCT.itemInfo = { published, candidate, when, stored, location }; // for the unit tests
+  SCT.itemMenu = { menu, group, entry, copy, copied, css: `${MENU_CSS}\n${CHEVRON_CSS}`, down: ICONS.down, icons: ICONS };
 
   SCT.registerAid("item-info", {
     css: `.scEditorHeader:has(>sct-item-info){display:flow-root;height:auto!important}
@@ -558,16 +646,8 @@ sct-item-chip[data-kind="published"] sct-item-wait{width:52px}
 sct-item-actions{display:flex;flex-direction:column;gap:5px;padding-left:10px;border-left:1px solid color-mix(in srgb,currentColor 15%,transparent)}
 sct-item-info button{all:unset;display:inline-flex;align-items:center;gap:4px;box-sizing:border-box;padding:1px 8px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);border-radius:3px;font:inherit;color:inherit;cursor:pointer;white-space:nowrap}
 sct-item-info button:hover,sct-item-info button[aria-expanded="true"]{background:color-mix(in srgb,currentColor 9%,transparent)}
-sct-item-info button:focus-visible{outline:2px solid var(--sct-focus-ring,Highlight);outline-offset:1px}
-sct-item-menu{position:fixed;z-index:2147483646;display:block;width:max-content;min-width:220px;max-width:90vw;max-height:70vh;overflow:auto;box-sizing:border-box;padding:4px 0;border:1px solid var(--sct-border,#b5b5b5);border-radius:var(--sct-radius,3px);background:var(--sct-panel-bg,Canvas);color:var(--sct-panel-fg,CanvasText);font-size:12px;line-height:1.5;box-shadow:0 4px 14px rgba(0,0,0,.22);text-align:start}
-sct-item-group{display:block}
-sct-item-group+sct-item-group{margin-top:4px;padding-top:4px;border-top:1px solid color-mix(in srgb,currentColor 12%,transparent)}
-sct-item-note{display:block;padding:3px 12px;opacity:.7}
-sct-item-heading{display:block;padding:3px 12px 1px;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;opacity:.7}
-sct-item-menu button{all:unset;display:flex;justify-content:space-between;gap:18px;box-sizing:border-box;width:100%;padding:3px 12px;cursor:pointer;color:inherit;font:inherit;white-space:nowrap}
-sct-item-menu[aria-label="Navigate"] sct-item-value{max-width:none}
-sct-item-menu button:hover,sct-item-menu button:focus{background:var(--sct-accent,Highlight);color:var(--sct-accent-fg,HighlightText)}
-sct-item-value{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.65;font-family:Consolas,Menlo,monospace;font-size:11px}`)}`,
+sct-item-info button:focus-visible{outline:2px solid var(--sct-focus-ring,Highlight);outline-offset:1px}`)}
+${SCT.itemMenu.css}`,
     apply(ctx) {
       const item = current(ctx.doc);
       if (!item) return;

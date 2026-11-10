@@ -13,6 +13,7 @@
     ["Shift+F6", "Previous part of the page", "regions"],
     ["Left, Right, Home, End", "Move along the ribbon's buttons", "ribbon-toolbar"],
     ["Up, Down", "Move through an open menu", "menus"],
+    ["Shift+F10", "Open the menu of the field you are in", "field-menu"],
     ["Letters", "Search the content tree, or the editor's fields; Tab for the next match", "tree-keys"],
   ];
   const clean = (s) => (s || "").replace(/\s+/g, " ").trim();

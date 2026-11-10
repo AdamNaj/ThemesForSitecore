@@ -19,7 +19,7 @@ Every setting is per site, and each browser keeps its own.
 
 ## Contents
 
-- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Field sizes](#field-sizes), [Character limits](#character-limits), [Section errors and warnings](#section-errors-and-warnings), [Locked fields](#locked-fields), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
+- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Field sizes](#field-sizes), [Character limits](#character-limits), [Section errors and warnings](#section-errors-and-warnings), [Locked fields](#locked-fields), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Field menu](#field-menu), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
 - [Back where you left off](#back-where-you-left-off): [Remember Content Editor state](#remember-content-editor-state), [Remember Experience Editor state](#remember-experience-editor-state)
 - [Keys](#keys): [Command palette](#command-palette), [Shortcuts help](#shortcuts-help)
 
@@ -220,7 +220,7 @@ each button's name, and that a greyed-out one is unavailable.
 <!-- /shots:section-toggle -->
 
 ### Item info
-<!-- aid:item-info cf5c07a114 -->
+<!-- aid:item-info c23865d841 -->
 
 **What it is for.** When an item was last changed, by whom, and whether it is live are spread over the Statistics
 section (hidden with the standard fields), the version menu and the web database. Copying an item's ID or opening the
@@ -260,6 +260,14 @@ there is no template to copy or open, so Navigate is left out.
 Both buttons are menu buttons: Enter, Space or Down opens the menu with focus on its first entry, the arrows, Home and
 End move, and Escape closes it with focus back on its button. A screen reader hears "Copied" after a copy.
 
+The menus take their look from the theme: its panel, border, corner radius, font and highlight colour, with the rows
+set inside the panel and rounded one step in from it, so a square theme keeps square rows. Under Native and the
+Sitecore 10.4 and 10.5 themes the lit row is Sitecore's own menus' grey. IDs and paths show in full up to about 40
+characters. A menu opens below its button, or above it when there is more room there, and fades in as it unfolds;
+the button's arrow turns up while it is open. Pointing at an entry lights it as the arrows do, so only one row is ever
+lit. After a copy, a check draws in where the value was ("Copied"), and the menu closes a moment later. The Reduced
+motion aid, or the system's reduce motion setting, leaves only the fade.
+
 <!-- shots:item-info -->
 **On:** by default, under every theme and Native · **Where:** the Desktop and Content Editor
 
@@ -271,6 +279,58 @@ End move, and Escape closes it with focus back on its button. A screen reader he
 
 ![Item info, on](ui-improvements/item-info-on.png)
 <!-- /shots:item-info -->
+
+### Field menu
+<!-- aid:field-menu 8432e87caf -->
+
+**What it is for.** The Content Editor shows a field's title, not its name, nor its raw value as Sitecore stores
+it, and nothing says which template defines it. Finding the field's definition means searching the templates, moving a
+raw value between items means the View tab's Raw values, and resetting one field to its standard value means the
+Versions tab's Reset dialog and a search through every field of the item for the one you meant.
+
+**What changes.** A small arrow after each field's label opens a menu, faint until you point at the field. **Copy field
+name** copies the field's name (not its title). **Copy raw value** copies its value as saved, the way Raw values shows
+it (a link's XML, a list's IDs), or its standard value when it has none of its own. **Navigate to field** opens the
+field's definition item under its template, and **Navigate to template** the template that defines the field, which can
+be a base template; the menu shows the field's path and the template's name beside them. On a field that
+[Field sizes](#field-sizes) can size, **Give it its own height** keeps the field's height for it alone, and on a field
+that has one, **Size with all Multilist fields** (or its own type) puts it back with its type.
+
+Two entries change the item and save at once, so they sit under a rule of their own and each asks first: the first
+press says what the next one does, and only a second press does it. A double-click does not count as both, and moving
+to another entry, closing the menu or waiting five seconds takes the first press back. **Paste raw value** reads the
+clipboard on the first press ("Press again to paste 42 characters", with the text in its tooltip) and saves that text
+as the field's raw value on the second; with nothing on the clipboard it says "Clipboard is empty" and does nothing.
+The browser asks once per site whether it may see the clipboard. **Reset to standard value** ("Press again to reset")
+resets the field as Sitecore's Reset Field Values dialog (Versions, Reset) does, without opening it. After either, the
+item opens again to show the new value. With unsaved changes Sitecore first asks whether to save them: Yes saves the
+old value back over the change, so save first.
+
+The field's name and template come from Sitecore's Item Service, as you, once per field for the page's life, and the
+raw value is read and pasted through it too. Fields whose controls do not name their field (dates, tree lists, rules)
+are found by their label in the Reset dialog's page, read without opening it. With the Item Service shut off, Navigate
+to field and Reset still work.
+
+The arrow is not a Tab stop, so the editor keeps one stop per field: **Shift+F10** in a field opens its menu. The menu
+works like Item info's: the arrows, Home and End move, Escape closes it with focus on the field's arrow. A screen reader
+hears "Copied" after a copy, what the next press does after the first press of Paste or Reset (or that the clipboard is
+empty), and "Pasted" or "Reset to standard value" after the change.
+
+It looks like Item info's menus too, headed by the field's title, with an icon beside each entry. The values show a
+faint bar until the Item Service answers; when it cannot, they say "Could not load" and the entries that need them are
+greyed out.
+
+<!-- shots:field-menu -->
+**On:** by default, under every theme and Native · **Where:** the Desktop and Content Editor
+
+**Off**
+
+![Field menu, off](ui-improvements/field-menu-off.png)
+
+**On**
+
+![Field menu, on](ui-improvements/field-menu-on.png)
+<!-- /shots:field-menu -->
 
 ### Where am I
 <!-- aid:where-am-i d9d0c4f445 -->
@@ -494,7 +554,7 @@ offers to go to it, opening it in the editor and selecting it in the tree, with 
 <!-- /shots:command-palette -->
 
 ### Shortcuts help
-<!-- aid:shortcuts-help 03b7cc8ea0 -->
+<!-- aid:shortcuts-help be0653d84d -->
 
 **What it is for.** Sitecore's keyboard shortcuts are spread across tooltips and access keys, the aids and
 improvements add their own, and nothing on the page says which of them are on.
