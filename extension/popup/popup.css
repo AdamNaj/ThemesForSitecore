@@ -263,7 +263,9 @@ button.primary {
 /* Accessibility: each reading font's choice in that font (lib/settings.js FONTS) */
 @font-face { font-family: "SCT Atkinson Hyperlegible"; src: url("../fonts/AtkinsonHyperlegible-Regular.ttf"); }
 @font-face { font-family: "SCT OpenDyslexic"; src: url("../fonts/OpenDyslexic-Regular.woff2"); }
+@font-face { font-family: "SCT Lexend"; src: url("../fonts/Lexend.woff2"); font-weight: 100 900; }
 #font label:has(input[value="hyperlegible"]) { font-family: "SCT Atkinson Hyperlegible", sans-serif; }
+#font label:has(input[value="lexend"]) { font-family: "SCT Lexend", sans-serif; }
 #font label:has(input[value="opendyslexic"]) { font-family: "SCT OpenDyslexic", sans-serif; font-size: 11px; }
 #spacing label:has(input[value="wide"]) { letter-spacing: .06em; word-spacing: .16em; }
 /* the colour filter's strength, on the hue slider's track */
@@ -310,9 +312,9 @@ button.primary {
 .chips label:has(input:checked) { background: var(--accent); color: var(--accent-fg); }
 .chips label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
 /* what a need changes, under the chips across the row, while its chip is pointed at or focused */
-.needs { position: relative; }
-.chips [role="tooltip"] { display: none; position: absolute; z-index: 2; left: 6px; right: 6px; top: calc(100% - 4px); padding: 6px 9px; border-radius: 6px; background: var(--fg); color: var(--bg); font-size: 12px; line-height: 1.4; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); }
-.chips label:hover + [role="tooltip"], .chips label:has(input:focus-visible) + [role="tooltip"], .chips [role="tooltip"]:hover { display: block; }
+.needs, .fonts { position: relative; }
+:is(.chips, #font) [role="tooltip"] { display: none; position: absolute; z-index: 2; left: 6px; right: 6px; top: calc(100% - 4px); padding: 6px 9px; border-radius: 6px; background: var(--fg); color: var(--bg); font-size: 12px; line-height: 1.4; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); }
+:is(.chips, #font) label:hover + [role="tooltip"], :is(.chips, #font) label:has(input:focus-visible) + [role="tooltip"], :is(.chips, #font) [role="tooltip"]:hover { display: block; }
 .aids summary { cursor: pointer; }
 .aids summary .label { display: inline-block; vertical-align: top; }
 .aids summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }

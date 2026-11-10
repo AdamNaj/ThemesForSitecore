@@ -50,10 +50,13 @@
     </div>
   </fieldset>
   <div class="row">
-    <div class="label"><span id="font-label">Font</span><small>Letters that are easier to tell apart</small></div>
-    <div id="font" class="seg" role="radiogroup" aria-labelledby="font-label">
+    <div class="label"><span id="font-label">Font</span><small id="font-hint">Letters that are easier to tell apart</small></div>
+  </div>
+  <div class="row sub fonts">
+    <div id="font" class="seg" role="radiogroup" aria-labelledby="font-label" aria-describedby="font-hint">
       <label><input type="radio" name="font" value="">Theme</label>
       <label><input type="radio" name="font" value="hyperlegible">Hyperlegible</label>
+      <label><input type="radio" name="font" value="lexend">Lexend</label>
       <label><input type="radio" name="font" value="opendyslexic">OpenDyslexic</label>
     </div>
   </div>
@@ -265,6 +268,16 @@
       tip.setAttribute("role", "tooltip");
       tip.id = `need-${input.value}-tip`;
       tip.textContent = S.needEffects(input.value);
+      input.parentNode.after(tip);
+    }
+    // who each font helps, the same way
+    for (const input of r.querySelectorAll("#font input")) {
+      const id = `font-${input.value || "theme"}-tip`;
+      input.setAttribute("aria-describedby", id);
+      const tip = input.ownerDocument.createElement("span");
+      tip.setAttribute("role", "tooltip");
+      tip.id = id;
+      tip.textContent = input.value ? S.FONTS[input.value].hint : "Each theme's type, as it was designed.";
       input.parentNode.after(tip);
     }
     needBox.onchange = (e) => {

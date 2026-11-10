@@ -107,8 +107,12 @@
   // every theme and Native: a font drawn for readers with low vision or dyslexia (extension/fonts, SIL OFL), wider
   // letter and word spacing, and a colour filter for a colour vision deficiency at a strength of 1 to 100.
   const FONTS = {
-    hyperlegible: { name: "Atkinson Hyperlegible", files: ["AtkinsonHyperlegible-Regular.ttf", "AtkinsonHyperlegible-Bold.ttf"] },
-    opendyslexic: { name: "OpenDyslexic", files: ["OpenDyslexic-Regular.woff2", "OpenDyslexic-Bold.woff2"] },
+    hyperlegible: { name: "Atkinson Hyperlegible", files: ["AtkinsonHyperlegible-Regular.ttf", "AtkinsonHyperlegible-Bold.ttf"],
+      hint: "Made by the Braille Institute for low vision: letters that cannot be mistaken for one another." },
+    // one variable file for every weight
+    lexend: { name: "Lexend", files: ["Lexend.woff2"], hint: "Wide, evenly spaced letters that many people find less tiring to read." },
+    opendyslexic: { name: "OpenDyslexic", files: ["OpenDyslexic-Regular.woff2", "OpenDyslexic-Bold.woff2"],
+      hint: "Heavy baselines that help some dyslexic readers keep letters the right way up." },
   };
 
   // Daltonization (Fidaner, Lin and Ozguven): what a viewer loses (the colour less its simulation) is moved into the
@@ -280,7 +284,7 @@
     const font = a.font && FONTS[a.font];
     const family = font && `"SCT ${font.name}"`;
     return [
-      ...(font ? font.files.map((f, i) => `@font-face{font-family:${family};src:url("${url(`fonts/${f}`)}");font-weight:${i ? "600 900" : "100 599"}}`) : []),
+      ...(font ? font.files.map((f, i) => `@font-face{font-family:${family};src:url("${url(`fonts/${f}`)}");font-weight:${i ? "600 900" : font.files.length > 1 ? "100 599" : "100 900"}}`) : []),
       "@layer sct-accessibility{",
       ...(font ? [`:root[data-sct-font] :not(${KEEP}){font-family:${family},sans-serif!important}`] : []),
       // spacing inherits: what keeps its own gets normal spacing back, which any spacing the page sets on it wins over

@@ -41,7 +41,7 @@ Every setting is per site, and each browser keeps its own.
 - [Colour vision](#colour-vision): [Errors in words](#errors-in-words), [Errors in shapes](#errors-in-shapes),
   [Colour filter](#colour-filter)
 - [Reading and focus](#reading-and-focus): [Focus mode](#focus-mode),
-  [Reading guide](#reading-guide), [OpenDyslexic](#opendyslexic),
+  [Reading guide](#reading-guide), [Lexend](#lexend), [OpenDyslexic](#opendyslexic),
   [Wide spacing](#wide-spacing)
 - [Motion](#motion): [Reduced motion](#reduced-motion)
 
@@ -646,6 +646,23 @@ Desktop's windows, the Content Editor's panes) only the frame the pointer or foc
 
 ![Reading guide, on](accessibility/reading-guide-on.png)
 <!-- /shots:reading-guide -->
+
+### Lexend
+
+**What it is for.** A typeface with wide, evenly spaced letters, drawn to make reading less tiring; many readers,
+with dyslexia or without, find long lists and forms easier in it.
+
+**What changes.** Every Sitecore text in it, except code editors and icons. Set under **Font**.
+
+<!-- shots:font-lexend -->
+**Off**
+
+![Lexend, off](accessibility/font-lexend-off.png)
+
+**On**
+
+![Lexend, on](accessibility/font-lexend-on.png)
+<!-- /shots:font-lexend -->
 
 ### OpenDyslexic
 

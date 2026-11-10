@@ -205,6 +205,7 @@ const SCENES = {
   "shortcuts-help": { path: CE(HOME), setup: async (page) => { await focusTree(page); await page.keyboard.press("F1"); await page.waitForTimeout(500); }, shot: "sct-dialog", pad: 12, after: (page) => page.keyboard.press("Escape") },
   // the reading settings, beside the aids
   "font-hyperlegible": { title: "Atkinson Hyperlegible", access: { font: "hyperlegible" }, path: CE(HOME), own: true, shot: ".scEditorFieldMarker", pad: 50, max: [700, 200] },
+  "font-lexend": { title: "Lexend", access: { font: "lexend" }, path: CE(HOME), own: true, shot: ".scEditorFieldMarker", pad: 50, max: [700, 200] },
   "font-opendyslexic": { title: "OpenDyslexic", access: { font: "opendyslexic" }, path: CE(HOME), own: true, shot: ".scEditorFieldMarker", pad: 50, max: [700, 200] },
   spacing: { title: "Wide spacing", access: { spacing: "wide" }, path: CE(HOME), own: true, shot: ".scEditorFieldMarker", pad: 50, max: [700, 200] },
   vision: { title: "Colour filter", access: { vision: "deuteranopia", strength: 100 }, path: CE(HOME), caption: "Deuteranopia at full strength. To someone without the deficiency the picture looks shifted; to someone with it, colours that ran together come apart.", shot: "#RibbonPanel, #ContentTreeInnerPanel", max: [760, 360] },

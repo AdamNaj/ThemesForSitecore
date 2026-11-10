@@ -37,7 +37,7 @@ namespace SitecoreThemes
         static readonly Regex TintId = new Regex("^(|theme|#[0-9a-fA-F]{6})$");
         static readonly Regex ModeId = new Regex("^(|light|dark)$");
         static readonly Regex Control = new Regex("[\\x00-\\x1f\\x7f]");
-        static readonly string[] Fonts = { "hyperlegible", "opendyslexic" };
+        static readonly string[] Fonts = { "hyperlegible", "lexend", "opendyslexic" };
         static readonly string[] Visions = { "protanopia", "deuteranopia", "tritanopia" };
         static readonly string[] Needs = { "screen-reader", "keyboard", "low-vision", "colour-vision", "reading", "motion" };
         static readonly string[] Aids = { "frame-titles", "aria-repair", "names", "landmarks", "lang", "forced-colors", "focus-ring", "ribbon-toolbar", "tree-keys", "menus", "dialogs", "tab-stops", "regions", "targets", "announcer", "fields", "where-am-i", "not-just-colour", "state-shapes", "reduced-motion", "focus-mode", "sticky-header", "item-info", "content-tab", "ce-state", "ee-state", "section-toggle", "field-sizes", "image-preview", "field-length", "locked-fields", "section-issues", "reading-guide", "quiet-ribbon", "command-palette", "shortcuts-help" };
