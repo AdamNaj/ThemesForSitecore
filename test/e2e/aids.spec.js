@@ -982,10 +982,10 @@ test("quiet-ribbon: without storage every group shows", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test("image-preview: drag the preview taller, pick Fill or Fit; letting go of the handle opens nothing", async ({ page }) => {
+test("image-preview: drag the preview taller, kept for every Image field, pick Fill or Fit; letting go of the handle opens no media browser", async ({ page }) => {
   await page.goto(`${CE}?theme=fjord`);
   await ready(page);
-  await page.evaluate(() => localStorage.removeItem("sct-image-preview"));
+  await page.evaluate(() => (localStorage.removeItem("sct-image-preview"), localStorage.removeItem("sct-field-sizes")));
   // an Image field as Sitecore renders it, with a picture in it
   await page.evaluate(() => document.getElementById("Section_Data_controls").insertAdjacentHTML("afterend", `<div><input id="FIELD9" class="scContentControlImage"><div id="FIELD9_pane" class="scContentControlImagePane"><div class="scContentControlImageImage" onclick="window.browsed = (window.browsed || 0) + 1"><iframe tabindex="-1" id="FIELD9_image" src="/sitecore/images/blank.gif?h=128&mw=640&thn=1" frameborder="0" width="100%" height="128"></iframe></div><div id="FIELD9_details" class="scContentControlImageDetails">Dimensions: 1 x 1</div></div></div>`));
   const box = page.locator("#FIELD9_pane .scContentControlImageImage");
@@ -1002,15 +1002,16 @@ test("image-preview: drag the preview taller, pick Fill or Fit; letting go of th
   await page.getByRole("button", { name: "Fit" }).click();
   await expect.poll(() => page.evaluate(() => { const s = getComputedStyle(document.querySelector("img[data-sct-preview]")); return `${s.objectFit} ${s.objectPosition}`; })).toBe("contain 50% 50%");
   await fill.click();
-  // the handle, bottom right: 100px taller, kept, and no media browser
+  // the handle, bottom right: 100px taller, kept for every Image field at once, and no media browser
   await box.scrollIntoViewIfNeeded();
   const r = await box.boundingBox();
   await page.mouse.move(r.x + r.width - 3, r.y + r.height - 3);
   await page.mouse.down();
   await page.mouse.move(r.x + r.width - 3, r.y + r.height + 97, { steps: 5 });
   await page.mouse.up();
-  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("sct-image-preview")).height)).toBeGreaterThan(200);
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("sct-field-sizes") || "{}").image?.height)).toBeGreaterThan(200);
   expect(await page.evaluate(() => window.browsed || 0)).toBe(0);
+  await expect(page.getByRole("menu")).toHaveCount(0); // a field outside the Content Editor's field cells has no menu
   // a press on the handle that ends in a click, as a real one in Chrome sometimes does (Playwright's never do)
   await box.evaluate((b) => {
     const r = b.getBoundingClientRect();
@@ -1022,7 +1023,7 @@ test("image-preview: drag the preview taller, pick Fill or Fit; letting go of th
   // the image itself still opens it, as Sitecore's own click round it does
   await page.locator("img[data-sct-preview]").click({ position: { x: 20, y: 20 } });
   expect(await page.evaluate(() => window.browsed || 0)).toBe(1);
-  await page.evaluate(() => localStorage.removeItem("sct-image-preview"));
+  await page.evaluate(() => (localStorage.removeItem("sct-image-preview"), localStorage.removeItem("sct-field-sizes")));
 });
 
 test("command-palette: type a command or a path, Enter runs it", async ({ page }) => {

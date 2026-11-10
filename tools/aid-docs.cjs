@@ -145,6 +145,19 @@ const SCENES = {
     own: true, shot: ".scContentControlImagePane", pad: 6, max: [900, 360],
     after: (page) => page.evaluate(() => localStorage.removeItem("sct-image-preview")),
   },
+  "field-sizes": {
+    path: CE(HOME),
+    // a right-click on Home's Text field's corner: on, the menu says the field is sized with all Rich Text fields
+    setup: async (page) => {
+      await page.evaluate(() => { document.querySelector(".scEditorFieldMarker:has(.scContentControlHtml)").scrollIntoView(); document.querySelector(".scEditorPanel").scrollTop -= 125; });
+      const r = await page.locator(".scEditorFieldMarker:has(.scContentControlHtml) .defaultFieldEditorsFrameContainer").boundingBox();
+      await page.mouse.click(r.x + r.width - 4, r.y + r.height - 4, { button: "right" });
+      await page.waitForTimeout(400);
+    },
+    caption: "On, a right-click on the Text field's corner: the menu that says which height the field follows.",
+    shot: ".scEditorFieldMarker:has(.scContentControlHtml), sct-item-menu", pad: 6, max: [900, 300],
+    after: (page) => page.keyboard.press("Escape"),
+  },
   // Home's Title, on Sample Item, has stock 10.4's Max Length 40 rule on its Validator Bar; typed past it, never saved
   "field-length": {
     path: CE(HOME),

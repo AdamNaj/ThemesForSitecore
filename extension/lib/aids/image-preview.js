@@ -2,8 +2,10 @@
 // under it show the image at its own size (Normal, as Sitecore shows it), filling the preview (Fill, cropped) or all
 // of it inside the preview (Fit). Sitecore draws the preview as a frame on a thumbnail at most 128px tall; the aid
 // shows the same image in the page instead, where object-fit can size it, and for Fill and Fit asks Sitecore's media
-// handler for a copy as tall as the preview needs, so a big preview is not a blown-up thumbnail. The height and the
-// choice live in the site's own localStorage, for every Image field; without storage they last until the page reloads.
+// handler for a copy as tall as the preview needs, so a big preview is not a blown-up thumbnail. The height follows
+// Field sizes' rules (field-sizes.js, which keeps it): a drag sizes every Image field without a height of its own, and
+// a click on the corner gives this one its own. The choice of Normal, Fill or Fit is for every Image field. Both live in
+// the site's own localStorage; without storage they last until the page reloads.
 // ponytail: the drag is the browser's own resize handle, mouse only; the keyboard has the three buttons
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
@@ -16,7 +18,7 @@
   ];
   const BOX = ".scContentControlImageImage";
   const contexts = new WeakMap(); // document -> the aid's context there, for the click handler
-  let sizes = null;
+  let resized = null;
   let fallback = {}; // the choice when storage is blocked
 
   function load(win) {
@@ -60,20 +62,35 @@
 
   function apply(ctx) {
     const { doc } = ctx;
-    const saved = load(doc.defaultView);
+    const win = doc.defaultView;
+    const saved = load(win);
     const mode = modeOf(saved);
+    let sizes = SCT.fieldSize.load(win);
+    // the one height every Image field had before Field sizes kept them, moved there once
+    if (saved.height) {
+      const { height, ...rest } = saved;
+      save(win, rest);
+      if (!(sizes.image && sizes.image.height)) SCT.fieldSize.save(win, (sizes = { ...sizes, image: { ...sizes.image, height } }));
+    }
     for (const box of doc.querySelectorAll(BOX)) {
       const frame = box.querySelector(":scope > iframe[id$='_image']");
       const details = box.parentElement.querySelector(":scope > .scContentControlImageDetails");
       if (!frame || !details) continue;
       if (!box.hasAttribute("data-sct-preview")) {
         ctx.setAttr(box, "data-sct-preview", "");
-        sizes ||= new ResizeObserver(onResize);
-        sizes.observe(box);
+        ctx.setAttr(box, "data-sct-size-kind", "image");
+        const cell = box.closest(".scEditorFieldMarkerInputCell");
+        if (cell) ctx.setAttr(box, "data-sct-size-key", SCT.fieldSize.fieldKey(cell));
+        resized ||= new ResizeObserver(onResize);
+        resized.observe(box);
       }
       if (box.getAttribute("data-sct-fit") !== mode) ctx.setAttr(box, "data-sct-fit", mode);
-      const height = saved.height ? `height: ${saved.height}px;` : null;
-      if (box.getAttribute("style") !== height) ctx.setAttr(box, "style", height);
+      const key = box.getAttribute("data-sct-size-key");
+      const own = SCT.fieldSize.ownOf(sizes.image || {}, key);
+      if (own !== box.hasAttribute("data-sct-size-own")) ctx.setAttr(box, "data-sct-size-own", own ? "" : null);
+      const h = SCT.fieldSize.heightOf(sizes.image || {}, key);
+      const height = h ? `height: ${h}px;` : null;
+      if (!SCT.fieldSize.held.has(box) && box.getAttribute("style") !== height) ctx.setAttr(box, "style", height);
       // the image, beside Sitecore's frame, which stays in the page for Sitecore to point at the next image picked
       let img = box.querySelector(":scope > img[data-sct-preview]");
       if (frame.getAttribute("src") && !img) {
@@ -114,16 +131,12 @@
     }
   }
 
-  // A drag on the handle writes the box's height: kept, and given to every Image field.
+  // a preview of another height, in a drag or after one: Fill and Fit fetch the copy it needs
   function onResize(entries) {
     for (const { target: box } of entries) {
-      const ctx = contexts.get(box.ownerDocument);
-      const h = parseFloat(box.style.height);
-      if (!ctx || !h) continue;
-      const win = ctx.doc.defaultView;
-      const saved = load(win);
-      if (saved.height !== h) save(win, { ...saved, height: h });
-      apply(ctx);
+      const img = box.querySelector(":scope > img[data-sct-preview]");
+      const frame = box.querySelector(":scope > iframe[id$='_image']");
+      if (img && frame && img.dataset.sctFrom === frame.src) show(img, frame, box.getAttribute("data-sct-fit"));
     }
   }
 
@@ -164,20 +177,23 @@ ${BOX}[data-sct-fit=none]>img[data-sct-preview]{object-fit:none}
 [data-sct-fit-bar]>button{all:unset;padding:1px 8px;border-radius:3px;font:inherit;color:inherit;cursor:pointer}
 [data-sct-fit-bar]>button:hover{background:color-mix(in srgb,currentColor 12%,transparent)}
 [data-sct-fit-bar]>button[aria-pressed=true]{background:color-mix(in srgb,currentColor 20%,transparent)}
-[data-sct-fit-bar]>button:focus-visible{outline:2px solid var(--sct-focus-ring,Highlight);outline-offset:1px}`)}`,
+[data-sct-fit-bar]>button:focus-visible{outline:2px solid var(--sct-focus-ring,Highlight);outline-offset:1px}`)}
+${SCT.fieldSize.css}`,
     apply(ctx) {
       if (!contexts.has(ctx.doc)) {
         ctx.listen(ctx.doc, "click", onClick);
         ctx.listen(ctx.doc, "pointerdown", onPointerDown, true);
         ctx.listen(ctx.doc, "click", onBoxClick, true);
+        SCT.fieldSize.watch(ctx, `${BOX}[data-sct-preview]`);
+        ctx.listen(ctx.doc, SCT.fieldSize.CHANGED, () => contexts.has(ctx.doc) && apply(contexts.get(ctx.doc)));
       }
       contexts.set(ctx.doc, ctx);
       apply(ctx);
     },
     revert(ctx) {
       contexts.delete(ctx.doc);
-      sizes?.disconnect();
-      sizes = null;
+      resized?.disconnect();
+      resized = null;
     },
   });
 })(globalThis);

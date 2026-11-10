@@ -19,14 +19,14 @@ Every setting is per site, and each browser keeps its own.
 
 ## Contents
 
-- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Character limits](#character-limits), [Section errors and warnings](#section-errors-and-warnings), [Locked fields](#locked-fields), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
+- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Field sizes](#field-sizes), [Character limits](#character-limits), [Section errors and warnings](#section-errors-and-warnings), [Locked fields](#locked-fields), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
 - [Back where you left off](#back-where-you-left-off): [Remember Content Editor state](#remember-content-editor-state), [Remember Experience Editor state](#remember-experience-editor-state)
 - [Keys](#keys): [Command palette](#command-palette), [Shortcuts help](#shortcuts-help)
 
 ## In the Content Editor
 
 ### Image preview
-<!-- aid:image-preview 6671d3cf23 -->
+<!-- aid:image-preview f89d0ca38b -->
 
 **What it is for.** An Image field shows its image as a thumbnail at most 128px tall, whatever the image, so a wide
 banner shows as a strip and the detail of a photo cannot be made out without opening it in the Media Library.
@@ -38,8 +38,9 @@ what sticks out. Fit shows the whole image as large as the preview allows, centr
 Sitecore's media handler as tall as the preview needs on your display, so a large preview is sharp. Clicking the image
 opens the media browser, as clicking round it always did; pressing or dragging the handle does not. The height and the choice
 apply to every Image field, wherever Sitecore draws one: the Content Editor, the field editor and dialogs such as
-PowerShell Extensions' Read-Variable with its image editor. They live in the site's own localStorage, so each browser
-remembers its own. A screen reader
+PowerShell Extensions' Read-Variable with its image editor, unless you give one Image field a height of its own by
+clicking its corner, as [Field sizes](#field-sizes) describes. They live in the site's own localStorage, so
+each browser remembers its own. A screen reader
 hears the buttons as a group named "Image preview size", each pressed or not. The handle is for the mouse only.
 
 <!-- shots:image-preview -->
@@ -55,6 +56,49 @@ hears the buttons as a group named "Image preview size", each pressed or not. Th
 
 _On, the preview dragged to 220px and set to Fill._
 <!-- /shots:image-preview -->
+
+### Field sizes
+<!-- aid:field-sizes f95f5d6bfc -->
+
+**What it is for.** Sitecore draws its larger fields at a fixed height, whatever they hold: a Rich Text preview and a
+TreelistEx 150px tall, a Treelist 220px, a Multilist 250px, a Checklist 150px and a Multi-Line Text box 80px. A long
+list scrolls inside a small box, and a field with one line in it takes a box many times its size. Sitecore gives some of
+these fields a thin bar to drag under them; Treelist and TreelistEx fields have none.
+
+**What changes.** Rich Text, Multi-Line Text, Multilist, Treelist, TreelistEx and Checklist fields get a handle in their
+bottom-right corner, as an Image field's preview does: drag it to make the field taller or shorter, down to 32px. The
+rich text preview, the text box, the lists, the tree and the checkboxes fill the new height.
+
+Every field is sized with the others of its type: drag one Multilist and every Multilist on the page moves with it as
+you drag, and keeps the height. A field can have a height of its own instead: it moves alone, the others of its type
+leave it be, and its corner is tinted in the theme's accent colour so you can tell it apart. A click or a right-click
+on the corner opens a menu that says which the field follows, with a tick beside it:
+
+- **Sized with all Multilist fields**, beside the type's height (or "Sitecore's height" when no Multilist has been
+  dragged yet). Picking it puts a field with its own height back with its type, at the type's height.
+- **Its own height**, beside the field's own height. Picking it keeps the height the field has now as its own, so you
+  can drag it on its own afterwards.
+- **Reset Multilist fields to Sitecore's height**, once the type has been dragged. A field with its own height keeps it.
+
+Escape, or a click anywhere else, closes the menu. Image fields follow the same rules, and [Field menu](#field-menu)
+has the same switch for the keyboard. Fields are told apart by their template field's ID, and Treelist and TreelistEx
+fields, whose markup carries none, by their name. Sitecore's own bar under a field gives way to the handle; a height
+saved with it shows until you drag one here. The heights live in the site's own localStorage, so each browser
+remembers its own. The handle is for the mouse only.
+
+<!-- shots:field-sizes -->
+**On:** by default, under every theme and Native · **Where:** the Desktop and Content Editor
+
+**Off**
+
+![Field sizes, off](ui-improvements/field-sizes-off.png)
+
+**On**
+
+![Field sizes, on](ui-improvements/field-sizes-on.png)
+
+_On, a right-click on the Text field's corner: the menu that says which height the field follows._
+<!-- /shots:field-sizes -->
 
 ### Character limits
 <!-- aid:field-length 52d5ee0ec7 -->
