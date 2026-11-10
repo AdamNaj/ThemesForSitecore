@@ -81,7 +81,7 @@
       html.dataset.sctVersion = ui || "10.5";
       // 10.0 to 10.3 carry their release: the generated maps' rules for their older stylesheets apply only there,
       // and surfaces/launchpad.css gives 10.0 the 10.1 Launchpad
-      if (v && ui !== v) html.dataset.sctLegacy = v;
+      if (SCT.settings.legacy(v)) html.dataset.sctLegacy = v;
       else delete html.dataset.sctLegacy;
     }
 
