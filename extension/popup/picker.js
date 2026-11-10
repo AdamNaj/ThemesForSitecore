@@ -314,9 +314,16 @@
       $("#phase").hidden = !opts.setPhase || !current.controls?.includes("phase");
       $(`#phase input[value="${SCT.settings.PHASES.includes(phase) ? phase : ""}"]`).checked = true;
 
-      // a theme with colour schemes (Whistler: Luna, and XP's Blue, Olive Green and Silver); its own until the site picks one
+      // a theme with colour schemes (Whistler: Luna, and XP's Blue, Olive Green and Silver); its own until the site picks
+      // one. theme.json `schemes` names the ones it draws ({ "": its own, id: label }); the others stay hidden.
       $("#scheme").hidden = !opts.setScheme || !current.controls?.includes("scheme");
-      $(`#scheme input[value="${SCT.settings.SCHEMES.includes(scheme) ? scheme : ""}"]`).checked = true;
+      const schemes = current.schemes || {};
+      for (const input of container.querySelectorAll("#scheme input")) {
+        const label = input.parentElement;
+        label.hidden = !(input.value in schemes);
+        if (!label.hidden) label.lastChild.textContent = " " + schemes[input.value];
+      }
+      $(`#scheme input[value="${SCT.settings.SCHEMES.includes(scheme) && scheme in schemes ? scheme : ""}"]`).checked = true;
 
       // a theme with a hue (Fjord) turns round the colour wheel: the track starts at the theme's own accent
       $("#hue").hidden = !current.hue;

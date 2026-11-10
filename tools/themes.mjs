@@ -3,7 +3,7 @@
 // builds check or run it too). The extension cannot list its own folders at runtime, hence this step.
 //
 // theme.json (see extension/themes/README.md): name, description, versions, preview, swatch, and optionally
-// category, order, appearance, hue, controls, swatchFor, shared. Derived from the folder's files:
+// category, order, appearance, hue, controls, schemes, swatchFor, shared. Derived from the folder's files:
 //   usesTokens  tokens.css is there: the generated map of Sitecore's UI (surfaces/) applies, coloured by it
 //   hasDom      dom.js is there
 //   areas       the <area>.css files present (shell, login, speak, launchpad, ee, admin, contenthub)
@@ -45,6 +45,8 @@ function load(base, id) {
   if (!Array.isArray(t.versions) || !t.versions.length || t.versions.some((v) => !VERSIONS.includes(v))) fail(`versions: some of ${VERSIONS.join(", ")}`);
   if (!Array.isArray(t.preview) || t.preview.length !== 3) fail("preview: three colours (panel, accent, chrome)");
   if (!t.swatch || typeof t.swatch !== "object") fail("swatch is required (see extension/popup/swatch.js)");
+  // a theme with colour schemes names the ones it draws, its own as "", with their labels in the picker
+  if (t.controls?.includes("scheme") && (!t.schemes || !("" in t.schemes))) fail("schemes: { \"\": its own scheme's label, id: label } for the scheme control");
 
   const files = fs.readdirSync(dir);
   const css = files.filter((f) => f.endsWith(".css"));

@@ -51,8 +51,8 @@
   // A site's time of day for Meridian, per site in storage.sync `phases`; none follows the clock.
   const PHASES = ["dawn", "day", "dusk", "night"];
 
-  // A site's colour scheme for Whistler (XP's Blue, Olive Green or Silver), per site in storage.sync `schemes`; none
-  // is the theme's own (Luna, the Luna Element skin's deeper blue).
+  // A site's colour scheme, per site in storage.sync `schemes`; none is the theme's own. Every id any theme draws
+  // (theme.json `schemes` says which, and labels them): Whistler's XP Blue, Olive Green and Silver.
   const SCHEMES = ["blue", "olive", "silver"];
 
   // A site's hue, per site and theme in storage.sync `hues` ({ fjord: 40 }), for themes that offer one (themes.js

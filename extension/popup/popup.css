@@ -110,6 +110,7 @@ p { margin: 0 0 8px; }
 #scheme label:has(input[value="blue"]:checked) { background: #0054e3; color: #fff; }
 #scheme label:has(input[value="olive"]:checked) { background: #a7b580; color: #41400a; }
 #scheme label:has(input[value="silver"]:checked) { background: #c2c4d1; color: #000; }
+#scheme label[hidden] { display: none; }
 
 /* A hue slider: the thumb over a rainbow track (popup.js paints it). The theme's hue control marks the
    theme's own colour at the track's start. */

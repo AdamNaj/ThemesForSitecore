@@ -8,14 +8,16 @@ const settings = require("../../extension/lib/settings.js");
 const { contrastPairs } = require("../../extension/surfaces/tokens.json");
 
 const read = (f) => fs.readFileSync(path.join(__dirname, "..", "..", f), "utf8");
+// the schemes Whistler draws (theme.json `schemes`; "" is its own), out of every theme's (settings.SCHEMES)
+const WHISTLER = Object.keys(JSON.parse(read("extension/themes/whistler/theme.json")).schemes).filter(Boolean);
 
-test("every colour scheme is offered by the picker, drawn by Whistler and accepted by the Sitecore module", () => {
+test("every colour scheme is offered by the picker and accepted by the Sitecore module, and Whistler draws its own", () => {
   const picker = [...read("extension/popup/picker.js").matchAll(/name="scheme" value="(\w*)"/g)].map((m) => m[1]);
   // Blue, the theme's own, is the empty value
   assert.deepEqual(picker, ["", ...settings.SCHEMES]);
   const popup = read("extension/popup/popup.css");
   for (const scheme of picker) assert.ok(popup.includes(`#scheme label:has(input[value="${scheme}"]:checked)`), scheme);
-  for (const scheme of settings.SCHEMES) {
+  for (const scheme of WHISTLER) {
     for (const area of ["shell", "speak", "launchpad"]) {
       assert.ok(read(`extension/themes/whistler/${area}.css`).includes(`[data-sct-scheme="${scheme}"] {`), `${area} ${scheme}`);
     }
@@ -35,7 +37,7 @@ function contrast(a, b) {
 const css = read("extension/themes/whistler/tokens.css").replace(/\/\*[\s\S]*?\*\//g, "");
 const decls = (block) => new Map([...block.matchAll(/(--sct-[\w-]+)\s*:\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
 const blue = decls(/html\[data-sct-theme="whistler"\]\s*\{([^}]*)\}/.exec(css)[1]);
-for (const scheme of settings.SCHEMES) {
+for (const scheme of WHISTLER) {
   test(`whistler ${scheme} passes WCAG AA for every contrast pair`, () => {
     const block = new RegExp(`html\\[data-sct-theme="whistler"\\]\\[data-sct-scheme="${scheme}"\\]\\s*\\{([^}]*)\\}`).exec(css);
     assert.ok(block, `no ${scheme} block`);
