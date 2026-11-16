@@ -1,5 +1,6 @@
-// Field menu: a small button after each field's label in the Content Editor (and Shift+F10 in the field) opens a menu
-// that copies the field's name or its raw value, opens the field's definition under its template or the template that
+// Field menu: a field's label in the Content Editor, with a small arrow after it (and Shift+F10 in the field), opens a
+// menu that copies the field's name, its raw value, or its type (the name the template has for it, Single-Line Text,
+// and the key code compares, single-line text), opens the field's definition under its template or the template that
 // defines it, pastes the clipboard's text in as the raw value (through the Item Service; an empty clipboard is refused),
 // and resets the field to its standard value, through Sitecore's Reset Fields dialog posted without showing it. Paste
 // and Reset save at once, so each takes a second press (twice()), then the item opens again. Unsaved changes: Sitecore
@@ -7,7 +8,7 @@
 // ponytail: no warning before that; the editor's modified flag lives in the page's script, out of a content script's reach
 // The field's ID is in its control's handler (fld=); the fields that draw none (dates, tree lists, rules) are found by
 // their label in the Reset Fields dialog's page, which draws the same labels beside each field's checkbox
-// (Reset_<ID>). The field's name and its template come from the Item Service, once per field for the page's life.
+// (Reset_<ID>). The field's name, type and template come from the Item Service, once per field for the page's life.
 // The menu is Item info's (item-info.js), with its keys and its look.
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
@@ -71,16 +72,17 @@
     return null;
   }
 
-  // the field's name and path, and its template (the field's section's parent), from the Item Service
+  // the field's name, path and type, and its template (the field's section's parent), from the Item Service. The type's
+  // key is its name in lower case, as Sitecore's TypeKey is.
   function fieldInfo(doc, db, id) {
     const key = `${db}|${id}`;
     if (!fields.has(key)) {
-      const get = (x) => fetch(`${doc.location.origin}/sitecore/api/ssc/item/${x.replace(/[{}]/g, "")}?${new URLSearchParams({ database: db, fields: "ItemName,ItemPath,ParentID" })}`, { credentials: "include" })
+      const get = (x) => fetch(`${doc.location.origin}/sitecore/api/ssc/item/${x.replace(/[{}]/g, "")}?${new URLSearchParams({ database: db, fields: "ItemName,ItemPath,ParentID,Type" })}`, { credentials: "include" })
         .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`Item Service ${r.status}`))));
       const ask = get(id).then(async (f) => {
         const section = await get(f.ParentID);
         const parts = f.ItemPath.split("/");
-        return { name: f.ItemName, path: f.ItemPath, tid: `{${section.ParentID.toUpperCase()}}`, tname: parts[parts.length - 3] };
+        return { name: f.ItemName, path: f.ItemPath, type: f.Type || "", key: (f.Type || "").toLowerCase(), tid: `{${section.ParentID.toUpperCase()}}`, tname: parts[parts.length - 3] };
       });
       ask.catch(() => fields.delete(key));
       fields.set(key, ask);
@@ -146,18 +148,21 @@
         if (done) setTimeout(() => SCT.gotoItem(doc, item.uri));
       };
       const g = group(doc, m, title || "Field");
-      const name = add(g, "Copy field name", async (b, v) => {
+      const copies = (label, pick) => add(g, label, async (b, v) => {
         const f = await info.catch(() => null);
         if (!f) return;
-        await copy(doc, f.name);
+        await copy(doc, pick(f));
         copied(doc, m, b, v);
       }, icons.copy);
+      const name = copies("Copy field name", (f) => f.name);
       const raw = add(g, "Copy raw value", async (b, v) => {
         const text = await info.then((f) => rawValue(doc, item, f.name)).catch(() => null);
         if (text === null) return (v.textContent = "Could not read");
         await copy(doc, text);
         copied(doc, m, b, v);
       }, icons.copy);
+      const type = copies("Copy field type", (f) => f.type);
+      const key = copies("Copy field type key", (f) => f.key);
       const field = add(g, "Navigate to field", later(() => id.then((x) => x && SCT.gotoItem(doc, x))), icons.field);
       const template = add(g, "Navigate to template", later(() => info.then((f) => SCT.gotoItem(doc, f.tid), () => {})), icons.template);
       // Field sizes' switch (field-sizes.js): the field's own height, or sized with the others of its type
@@ -200,18 +205,19 @@
         saved(done, "Reset to standard value", "Could not reset the field");
       }), icons.reset);
       // a placeholder bar in each value until the Item Service answers
-      for (const v of [name, field, template]) v.dataset.loading = "";
+      const waits = [name, type, key, field, template];
+      for (const v of waits) v.dataset.loading = "";
       info.then((f) => {
-        for (const [v, text, title] of [[name, f.name, f.name], [field, f.path.replace(/^\/sitecore\/templates\//i, ""), f.path], [template, f.tname, f.tname]]) {
+        for (const [v, text, title] of [[name, f.name, f.name], [type, f.type, f.type], [key, f.key, f.key], [field, f.path.replace(/^\/sitecore\/templates\//i, ""), f.path], [template, f.tname, f.tname]]) {
           delete v.dataset.loading;
           v.textContent = text;
           v.parentNode.title = title;
         }
       }, () => {
-        for (const v of [name, field, template]) delete v.dataset.loading;
-        name.textContent = template.textContent = "Could not load";
+        for (const v of waits) delete v.dataset.loading;
+        name.textContent = type.textContent = template.textContent = "Could not load";
         // without the field's name there is no raw value to read or write
-        for (const v of [name, raw, template, paste]) v.parentNode.setAttribute("aria-disabled", "true");
+        for (const v of [name, raw, type, key, template, paste]) v.parentNode.setAttribute("aria-disabled", "true");
       });
       m.querySelector('[role="menuitem"]').focus();
     });
@@ -224,8 +230,9 @@
 
   SCT.registerAid("field-menu", {
     css: SCT.important(`[data-sct-field-menu]{all:unset;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;width:16px;height:16px;margin:0 4px;vertical-align:middle;border-radius:3px;color:inherit;cursor:pointer;opacity:.4}
+.scEditorFieldLabel:has(>[data-sct-field-menu]){cursor:pointer}
 .scEditorFieldMarker:hover [data-sct-field-menu],[data-sct-field-menu]:focus-visible,[data-sct-field-menu][aria-expanded="true"]{opacity:1}
-[data-sct-field-menu]:hover,[data-sct-field-menu][aria-expanded="true"]{background:color-mix(in srgb,currentColor 12%,transparent)}
+.scEditorFieldLabel:hover>[data-sct-field-menu],[data-sct-field-menu][aria-expanded="true"]{background:color-mix(in srgb,currentColor 12%,transparent)}
 [data-sct-field-menu]:focus-visible{outline:2px solid var(--sct-focus-ring,Highlight);outline-offset:1px}
 sct-item-menu [data-sct-armed] sct-item-value{color:inherit;opacity:1;font-family:inherit;font-size:inherit;font-weight:600}`) + "\n" + (SCT.itemMenu ? SCT.itemMenu.css : ""),
     apply(ctx) {
@@ -243,6 +250,17 @@ sct-item-menu [data-sct-armed] sct-item-value{color:inherit;opacity:1;font-famil
           e.stopPropagation();
           toggle(ctx, b, current(doc));
         }, true);
+        // A click on the label opens the menu too: the arrow alone is small and easy to miss. Not one that ends a
+        // selection of the label's text, nor one on a link an add-on put there. A press on the label of an open menu
+        // closes it as any press outside the menu does, so that click must not open it again.
+        let shut = null;
+        ctx.listen(doc, "mousedown", () => (shut = doc.querySelector('[data-sct-field-menu][aria-expanded="true"]')), true);
+        ctx.listen(doc, "click", (e) => {
+          const label = e.target.closest && e.target.closest(`${FIELD} ${LABEL}`);
+          const b = label && label.querySelector("[data-sct-field-menu]");
+          if (!b || b === shut || e.target.closest("a, button, input") || !doc.getSelection().isCollapsed) return;
+          toggle(ctx, b, current(doc));
+        });
       }
       for (const label of doc.querySelectorAll(`${FIELD} ${LABEL}`)) {
         if (label.querySelector("[data-sct-field-menu]")) continue;
@@ -255,6 +273,7 @@ sct-item-menu [data-sct-armed] sct-item-value{color:inherit;opacity:1;font-famil
         b.setAttribute("aria-controls", `sct-field-menu-${++serial}`);
         b.setAttribute("aria-label", "Field menu");
         b.title = "Field menu (Shift+F10)";
+        if (!label.title) ctx.setAttr(label, "title", b.title);
         b.innerHTML = SCT.itemMenu.down;
         b.addEventListener("click", (e) => {
           e.stopPropagation(); // the label's own click stays out of it

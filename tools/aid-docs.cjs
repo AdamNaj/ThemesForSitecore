@@ -135,16 +135,19 @@ const SCENES = {
     },
     shot: ".scEditorHeader, sct-item-menu", pad: 6, max: [900, 330], after: (page) => page.keyboard.press("Escape"),
   },
-  // on: Title's menu open, its name, path and template filled in
+  // on: Title's menu open, its name, type, path and template filled in, in a window tall enough for the menu to open
+  // under the field
   "field-menu": {
     path: CE(HOME),
     setup: async (page) => {
       if (!(await page.waitForSelector("[data-sct-field-menu]", { timeout: 5000 }).catch(() => null))) return;
+      await page.setViewportSize({ width: 1100, height: 900 });
       await page.locator("[data-sct-field-menu]").first().click();
       await page.waitForFunction(() => document.querySelector("sct-item-menu") && !document.querySelector("sct-item-menu sct-item-value[data-loading]"), null, { timeout: 15000 });
       await page.waitForTimeout(300); // past the menu's entrance
     },
-    shot: ".scEditorFieldMarker:has(input[aria-label^='Title field']), sct-item-menu", pad: 6, max: [900, 260], after: (page) => page.keyboard.press("Escape"),
+    shot: ".scEditorFieldMarker:has(input[aria-label^='Title field']), sct-item-menu", pad: 6, max: [900, 320],
+    after: async (page) => { await page.keyboard.press("Escape"); await page.setViewportSize({ width: 1100, height: 700 }); },
   },
   "content-tab": { path: CE(MEDIA), shot: "#EditorTabs", padBelow: 220, max: [700, 260] },
   "ce-state": { none: "Remember Content Editor state changes where the Content Editor opens, which a still picture cannot show: close it on an item, open it again from the Launchpad or the Desktop, and it is back on that item." },

@@ -281,16 +281,21 @@ motion aid, or the system's reduce motion setting, leaves only the fade.
 <!-- /shots:item-info -->
 
 ### Field menu
-<!-- aid:field-menu 8432e87caf -->
+<!-- aid:field-menu 4b55c9dfd1 -->
 
 **What it is for.** The Content Editor shows a field's title, not its name, nor its raw value as Sitecore stores
-it, and nothing says which template defines it. Finding the field's definition means searching the templates, moving a
+it, and nothing says what type the field is or which template defines it. Finding the field's definition means searching the templates, moving a
 raw value between items means the View tab's Raw values, and resetting one field to its standard value means the
 Versions tab's Reset dialog and a search through every field of the item for the one you meant.
 
-**What changes.** A small arrow after each field's label opens a menu, faint until you point at the field. **Copy field
+**What changes.** A click on a field's label opens a menu: the pointer turns to a hand over the label, and the small
+arrow after it, faint until you point at the field, lights up. A click that ends a selection of the label's text does
+not count, so the text can still be selected, and the links add-ons put in the label keep working. **Copy field
 name** copies the field's name (not its title). **Copy raw value** copies its value as saved, the way Raw values shows
-it (a link's XML, a list's IDs), or its standard value when it has none of its own. **Navigate to field** opens the
+it (a link's XML, a list's IDs), or its standard value when it has none of its own. **Copy field type** copies the
+type the template gives the field, as the template shows it (Single-Line Text, Treelist), and **Copy field type key**
+the same in lower case (single-line text), the key Sitecore's `TypeKey` holds and code compares; the menu shows both
+beside them. **Navigate to field** opens the
 field's definition item under its template, and **Navigate to template** the template that defines the field, which can
 be a base template; the menu shows the field's path and the template's name beside them. On a field that
 [Field sizes](#field-sizes) can size, **Give it its own height** keeps the field's height for it alone, and on a field
@@ -306,12 +311,12 @@ resets the field as Sitecore's Reset Field Values dialog (Versions, Reset) does,
 item opens again to show the new value. With unsaved changes Sitecore first asks whether to save them: Yes saves the
 old value back over the change, so save first.
 
-The field's name and template come from Sitecore's Item Service, as you, once per field for the page's life, and the
+The field's name, type and template come from Sitecore's Item Service, as you, once per field for the page's life, and the
 raw value is read and pasted through it too. Fields whose controls do not name their field (dates, tree lists, rules)
 are found by their label in the Reset dialog's page, read without opening it. With the Item Service shut off, Navigate
 to field and Reset still work.
 
-The arrow is not a Tab stop, so the editor keeps one stop per field: **Shift+F10** in a field opens its menu. The menu
+The label and its arrow are not Tab stops, so the editor keeps one stop per field: **Shift+F10** in a field opens its menu. The menu
 works like Item info's: the arrows, Home and End move, Escape closes it with focus on the field's arrow. A screen reader
 hears "Copied" after a copy, what the next press does after the first press of Paste or Reset (or that the clipboard is
 empty), and "Pasted" or "Reset to standard value" after the change.
