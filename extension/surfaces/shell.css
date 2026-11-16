@@ -70,6 +70,26 @@ html[data-sct-tokens][data-sct-surface="shell"] select {
   border-color: var(--sct-input-border);
 }
 
+/* List fields. Sitecore paints a Treelist's tree, a TreelistEx's list and a Droplist white, as it does its panels,
+   so the generated map makes them panels: they are fields, with a field's fill, like the list beside the tree. A
+   Treelist's outer box is a .scContentControl too, though it only holds the two lists and their captions: it is
+   clear and has no frame, as in Sitecore and as a Multilist's table is, whatever a theme gives .scContentControl
+   (hence the ID: a theme's field rule would otherwise draw the whole Treelist as one more field). */
+html[data-sct-tokens][data-sct-surface="shell"] :is(.scContentControlTreelist, .scContentControlTreelist_Active) .scContentControlTree,
+html[data-sct-tokens][data-sct-surface="shell"] .scTreelistEx,
+html[data-sct-tokens][data-sct-surface="shell"] select.scContentControl {
+  background-color: var(--sct-input-bg);
+  color: var(--sct-input-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] select.scContentControl {
+  border-color: var(--sct-input-border);
+}
+html[data-sct-tokens][data-sct-surface="shell"]:not(#sct-tl) div:is(.scContentControlTreelist, .scContentControlTreelist_Active) {
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
 html[data-sct-tokens][data-sct-surface="shell"] input:focus,
 html[data-sct-tokens][data-sct-surface="shell"] textarea:focus,
 html[data-sct-tokens][data-sct-surface="shell"] select:focus {
