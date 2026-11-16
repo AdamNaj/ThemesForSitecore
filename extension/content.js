@@ -13,9 +13,11 @@
   }
 
   // The site whose settings this frame follows: its own, or for a Content Hub page in a DAM picker the Sitecore site
-  // in the tab, which only the background can see
+  // in the tab, which only the background can see, or for an Identity Server page the Sitecore site it signs in to
+  // (background.js siteOrigin)
   let origin = location.origin;
-  const ready = SCT.detect.surfaceFromUrl(location.href) === "contenthub"
+  const surface = SCT.detect.surfaceFromUrl(location.href);
+  const ready = surface === "contenthub" || (surface === "login" && SCT.detect.needsDom(location.href))
     ? send({ type: "site-origin" }).then((o) => (origin = o || origin))
     : Promise.resolve();
 

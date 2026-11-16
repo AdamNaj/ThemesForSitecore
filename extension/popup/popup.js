@@ -170,26 +170,89 @@ async function offerContentHub() {
   };
 }
 
+// the background's list of disabled sites wins over the permission, which Chrome can keep after Disable
+const disabled = async () => (await api.storage.local.get("disabledOrigins")).disabledOrigins || [];
+const isOn = async (o) => !(await disabled()).includes(o) && api.permissions.contains({ origins: [o + "/*"] });
+const hostOf = (o) => new URL(o).host;
+
+// A Sitecore site signs in on its Identity Server, a separate site the browser has to allow as well: the two are
+// found here, { site, identity }, so that one prompt asks for both. On the Identity Server's login page its address
+// names the site (detect.js signInSite). On a Sitecore page the identity server is the one, among the names installs
+// usually give it (identityCandidates), whose discovery document the page can read and lists Sitecore's scope: the
+// Identity Server lets only its own sites read it (AllowedCorsOrigins), so the page asks, not the popup. The click on
+// the toolbar icon lets the popup into the tab for that (activeTab). One search per site and browser session, with
+// time for an identity server that has gone idle to start.
+async function findIdentity() {
+  const [tab] = await api.tabs.query({ active: true, currentWindow: true });
+  const here = new URL(tab.url).origin;
+  const site = SCT.detect.signInSite(tab.url);
+  if (site) return { site, identity: here };
+  const surface = SCT.detect.surfaceFromUrl(tab.url);
+  if (!surface || surface === "login" || surface === "contenthub") return null;
+  const session = api.storage.session;
+  const { identityFound = {} } = session ? await session.get("identityFound") : {};
+  if (!(here in identityFound)) {
+    const [{ result } = {}] = await api.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: (hosts) => Promise.all(hosts.map((h) => fetch(h + "/.well-known/openid-configuration", { credentials: "omit", signal: AbortSignal.timeout(15000) })
+        .then((r) => r.json()).then((d) => (d.scopes_supported.includes("sitecore.profile") ? h : null)).catch(() => null)))
+        .then((found) => found.find(Boolean) || null),
+      args: [SCT.detect.identityCandidates(here)],
+    });
+    identityFound[here] = result || null;
+    if (session) await session.set({ identityFound });
+  }
+  return identityFound[here] ? { site: here, identity: identityFound[here] } : null;
+}
+
+// Asks the browser for the sites, both of a pair in one prompt, and switches them on. Called straight from a click:
+// Firefox takes the request only then. The browser may close the popup while it asks; the background script picks up
+// the grant either way, and learns the pair at the next sign-in.
+async function grant(origins, pair) {
+  if (!(await api.permissions.request({ origins: origins.map((o) => o + "/*") }))) return;
+  if (pair) {
+    const { identitySites = {} } = await api.storage.local.get("identitySites");
+    await api.storage.local.set({ identitySites: { ...identitySites, [pair.identity]: pair.site } });
+  }
+  await api.storage.local.set({ disabledOrigins: (await disabled()).filter((o) => !origins.includes(o)) });
+  await api.runtime.sendMessage({ type: "sync" }).catch(() => {});
+  location.reload(); // drawn afresh: running main() again would mount every control a second time
+}
+
+// On an enabled site whose other half (its Identity Server, or from the login page its Sitecore site) is still off.
+async function offerIdentity(here) {
+  const pair = await findIdentity().catch(() => null);
+  if (!pair) return;
+  const other = pair.site === here ? pair.identity : pair.site;
+  if (await isOn(other)) return;
+  $("#identity-text").textContent = other === pair.identity ? `This site signs in at ${hostOf(other)}.` : `This page signs in to ${hostOf(other)}.`;
+  $("#identity-allow").textContent = other === pair.identity ? "Theme the sign-in page too" : "Enable there too";
+  $("#identity-allow").onclick = () => grant([other], pair);
+  $("#identity").hidden = false;
+}
+
 async function main() {
   origin = await currentOrigin();
   if (!origin) return show("#no-site");
-  $("#host").textContent = new URL(origin).host;
+  $("#host").textContent = hostOf(origin);
+  const here = origin;
 
-  const pattern = { origins: [origin + "/*"] };
-  // the background's list of disabled sites wins over the permission, which Chrome can keep after Disable
-  const disabled = async () => (await api.storage.local.get("disabledOrigins")).disabledOrigins || [];
-  if (!(await api.permissions.contains(pattern)) || (await disabled()).includes(origin)) {
+  if (!(await isOn(here))) {
     show("#disabled");
-    $("#enable").onclick = async () => {
-      // The browser may close the popup while it asks; the background script picks up the grant either way.
-      if (!(await api.permissions.request(pattern))) return;
-      await api.storage.local.set({ disabledOrigins: (await disabled()).filter((o) => o !== origin) });
-      await api.runtime.sendMessage({ type: "sync" }).catch(() => {});
-      location.reload(); // drawn afresh: running main() again would mount every control a second time
-    };
+    let pair = null;
+    findIdentity().then((p) => {
+      if (!(pair = p)) return;
+      $("#enable-note").textContent = p.site === here
+        ? `The browser asks you to allow this site and ${hostOf(p.identity)}, where it signs in.`
+        : `The browser asks you to allow this page and ${hostOf(p.site)}, the site it signs in to.`;
+    }, () => {});
+    $("#enable").onclick = () => grant(pair ? [pair.site, pair.identity] : [here], pair);
     return;
   }
 
+  // an Identity Server page shows the settings of the site it signs in to, which it follows (background.js siteOrigin)
+  const [tab] = await api.tabs.query({ active: true, currentWindow: true });
+  origin = (await api.runtime.sendMessage({ type: "site-origin", url: tab.url }).catch(() => null)) || origin;
   show("#enabled");
   still(await siteStore.get("accessibility"));
   SCT.picker.mount($("#picker"), {
@@ -198,6 +261,7 @@ async function main() {
   });
   SCT.siteSettings.mount(document, siteStore);
   offerContentHub();
+  offerIdentity(here);
   // The background disables the site (background.js disableSite): the popup closes as soon as the page gets the focus,
   // F5 included, and would stop half-way.
   $("#disable").onclick = async () => {

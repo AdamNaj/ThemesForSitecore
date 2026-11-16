@@ -83,7 +83,15 @@ async function isDevInstall() {
 // script; the open tabs go back to Sitecore's own look and to the Sitecore module where the site has it (a frame
 // that does not answer within a few seconds keeps its look until reloaded); and the permission goes last, since
 // taking a theme's CSS out of a tab needs it.
+// The site's Identity Server goes with it. One that signs in to several sites follows the last one signed in to, so
+// it goes with that one; the popup on another of its sites offers it again.
 async function disableSite(origin) {
+  const { identitySites = {} } = await api.storage.local.get("identitySites");
+  for (const identity of Object.keys(identitySites)) if (identitySites[identity] === origin) await disableOrigin(identity);
+  await disableOrigin(origin);
+}
+
+async function disableOrigin(origin) {
   const off = await disabledOrigins();
   if (!off.includes(origin)) await api.storage.local.set({ disabledOrigins: [...off, origin] });
   await syncRegistration();
@@ -98,19 +106,31 @@ async function disableSite(origin) {
 }
 
 // The site whose settings a frame follows: its own, or for a Content Hub page (detect.js), shown in the DAM
-// connector's pickers, the Sitecore site in the tab. Null when the tab's address is not ours to read.
-function siteOrigin(sender) {
-  if (SCT.detect.surfaceFromUrl(sender.url) !== "contenthub") return new URL(sender.url).origin;
-  try {
-    return new URL(sender.tab.url).origin;
-  } catch {
-    return null;
+// connector's pickers, the Sitecore site in the tab. Null when the tab's address is not ours to read. An Identity
+// Server page follows the Sitecore site it signs in to, while both are on: the one its address names
+// (detect.js signInSite), remembered for its pages that name none (a wrong password, the logout).
+async function siteOrigin(sender) {
+  const own = new URL(sender.url).origin;
+  const surface = SCT.detect.surfaceFromUrl(sender.url);
+  if (surface === "contenthub") {
+    try {
+      return new URL(sender.tab.url).origin;
+    } catch {
+      return null;
+    }
   }
+  if (surface !== "login") return own;
+  const { identitySites = {} } = await api.storage.local.get("identitySites");
+  const named = SCT.detect.signInSite(sender.url);
+  const site = named || identitySites[own];
+  if (!site || site === own || !(await enabledOn(site)) || !(await enabledOn(own))) return own;
+  if (identitySites[own] !== site) await api.storage.local.set({ identitySites: { ...identitySites, [own]: site } });
+  return site;
 }
 
 async function onFrameReady(msg, sender) {
   const frameOrigin = new URL(sender.url).origin;
-  const origin = siteOrigin(sender);
+  const origin = await siteOrigin(sender);
   // a frame on a site that is off (Disable, a stale registration): Native, so the theme's CSS comes out, and the frame
   // stands down so the Sitecore module, where the site has it, can take the page
   const standDown = !origin || !(await enabledOn(origin));
@@ -178,12 +198,14 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   }
   if (msg && msg.type === "theme-tokens") {
-    tokensCss(String(msg.theme), siteOrigin(sender)).then(sendResponse, () => sendResponse(""));
+    siteOrigin(sender).then((origin) => tokensCss(String(msg.theme), origin)).then(sendResponse, () => sendResponse(""));
     return true;
   }
   if (msg && msg.type === "site-origin") {
-    sendResponse(siteOrigin(sender));
-    return false;
+    // the popup asks for the page in the tab it opened over
+    const of = String(sender.url).startsWith(api.runtime.getURL("")) && typeof msg.url === "string" ? { url: msg.url, tab: { url: msg.url } } : sender;
+    siteOrigin(of).then(sendResponse, () => sendResponse(null));
+    return true;
   }
   if (msg && msg.type === "dev-reload") {
     isDevInstall().then((dev) => dev && api.runtime.reload());

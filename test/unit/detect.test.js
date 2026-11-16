@@ -143,3 +143,32 @@ test("pageKinds names the pages themes style apart, from the URL alone", () => {
   assert.equal(kinds("https://cm/sitecore/shell/Applications/Content%20Editor.aspx?sc_bw=1"), "");
   assert.equal(kinds("not a url"), "");
 });
+
+test("signInSite names the Sitecore site an Identity Server login signs in to", () => {
+  const { signInSite } = require("../../extension/lib/detect.js");
+  const login = "https://speidentityserver.dev.local/Account/Login?ReturnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fclient_id%3DSitecore%26response_type%3Dcode%2520id_token%2520token%26scope%3Dopenid%2520sitecore.profile%26response_mode%3Dform_post%26redirect_uri%3Dhttps%253A%252F%252Fspecm.dev.local%252Fidentity%252Fsignin%26sc_account_prefix%3Dsitecore%255C";
+  assert.equal(signInSite(login), "https://specm.dev.local");
+  assert.equal(signInSite(login.replace("ReturnUrl", "returnUrl")), "https://specm.dev.local");
+  assert.equal(signInSite("https://ids/Account/Login"), null); // a wrong password posts back without it
+  assert.equal(signInSite("https://ids/Account/Logout?logoutId=x"), null);
+  // another OpenID Connect client's login, and a Sitecore page that carries the same parameter
+  assert.equal(signInSite("https://ids/Account/Login?ReturnUrl=%2Fconnect%2Fauthorize%3Fredirect_uri%3Dhttps%253A%252F%252Fapp%252Fsignin-oidc"), null);
+  assert.equal(signInSite(login.replace("/Account/Login", "/sitecore/login")), null);
+  assert.equal(signInSite("not a url"), null);
+});
+
+test("identityCandidates guesses the Identity Server from the names installs give", () => {
+  const { identityCandidates } = require("../../extension/lib/detect.js");
+  const has = (site, identity) => assert.ok(identityCandidates(site).includes(identity), `${site} -> ${identity}: ${identityCandidates(site)}`);
+  has("https://specm.dev.local", "https://speidentityserver.dev.local"); // scaled, role glued to the prefix
+  has("https://spe.dev.local", "https://speidentityserver.dev.local"); // standalone, no role in the name
+  has("https://xp0sc.dev.local", "https://xp0identityserver.dev.local"); // Sitecore Install Assistant
+  has("https://xp0.sc", "https://xp0.identityserver"); // SIF's defaults
+  has("https://xp1.cm", "https://xp1.identityserver");
+  has("https://cm.project.localhost", "https://id.project.localhost"); // Docker examples
+  has("https://project-cm.azurewebsites.net", "https://project-si.azurewebsites.net"); // Azure
+  assert.ok(identityCandidates("https://specm.dev.local").length <= 12);
+  assert.deepEqual(identityCandidates("https://localhost"), []);
+  assert.deepEqual(identityCandidates("https://10.0.0.5"), []);
+  assert.deepEqual(identityCandidates("nope"), []);
+});

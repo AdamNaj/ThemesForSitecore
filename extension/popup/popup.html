@@ -30,7 +30,7 @@
   <section id="disabled" hidden>
     <p>Themes are off on this site.</p>
     <button id="enable" class="primary">Enable on this site</button>
-    <p class="muted small">The browser asks you to allow access to this site only.</p>
+    <p id="enable-note" class="muted small">The browser asks you to allow access to this site only.</p>
   </section>
 
   <section id="enabled" hidden>
@@ -39,6 +39,11 @@
     <p id="contenthub" class="notice small" hidden>
       This site's DAM pickers show Content Hub's own pages.
       <button id="contenthub-allow" class="primary" type="button">Theme Content Hub too</button>
+    </p>
+    <!-- a site whose Identity Server (or, on the login page, whose Sitecore site) is still off (popup.js offerIdentity) -->
+    <p id="identity" class="notice small" hidden>
+      <span id="identity-text"></span>
+      <button id="identity-allow" class="primary" type="button"></button>
     </p>
   </section>
   </div>
@@ -76,6 +81,7 @@
   </div>
 
   <script src="../themes/themes.js"></script>
+  <script src="../lib/detect.js"></script>
   <script src="../lib/settings.js"></script>
   <script src="swatch.js"></script>
   <script src="picker.js"></script>

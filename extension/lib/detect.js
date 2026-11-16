@@ -92,6 +92,47 @@
     return s === "ee" || (s === "login" && parse(href).path.startsWith("/account/"));
   }
 
+  // The Sitecore site an Identity Server page signs in to, or null: the login's ReturnUrl carries the OpenID Connect
+  // request, whose redirect_uri is the site's /identity/signin. The page takes that site's settings.
+  function signInSite(href) {
+    try {
+      const url = new URL(href);
+      if (!url.pathname.toLowerCase().startsWith("/account/")) return null;
+      const param = (u, name) => ([...u.searchParams].find(([k]) => k.toLowerCase() === name) || [])[1];
+      const back = new URL(param(new URL(param(url, "returnurl"), href), "redirect_uri"));
+      return /^https?:$/.test(back.protocol) && back.pathname.toLowerCase() === "/identity/signin" ? back.origin : null;
+    } catch {
+      return null;
+    }
+  }
+
+  // Where a Sitecore site's Identity Server would be, going by the names installs get: the site's role (cm or sc,
+  // a label of its own or the end of one: specm, xp0.sc, x-cm, cm.x.localhost) swapped for the identity server's,
+  // and the identity server's name added to the first label, for a site with no role in its name (spe). Guesses:
+  // the popup keeps the one whose discovery document says it is this site's (popup.js findIdentity). An identity
+  // server named any other way is enabled from its own login page.
+  function identityCandidates(origin) {
+    let url;
+    try {
+      url = new URL(origin);
+    } catch {
+      return [];
+    }
+    const labels = url.hostname.toLowerCase().split(".");
+    if (labels.length < 2 || /^[\d.]+$/.test(url.hostname)) return [];
+    const hosts = [];
+    const swap = (i, label) => hosts.push(labels.map((l, j) => (j === i ? label : l)).join("."));
+    for (const i of [0, 1]) {
+      const role = /^(.*?)(-?)(cm|sc)$/.exec(labels[i]);
+      if (!role) continue;
+      // short names only where a separator or the dot sets them apart
+      const names = role[1] && !role[2] ? ["identityserver", "identity"] : ["identityserver", "identity", "id", "si"];
+      for (const name of names) swap(i, role[1] + role[2] + name);
+    }
+    for (const name of ["identityserver", "-identityserver", ".identityserver"]) swap(0, labels[0] + name);
+    return hosts.filter((h, i) => hosts.indexOf(h) === i).map((h) => `${url.protocol}//${h}`);
+  }
+
   function parseVersionXml(text) {
     const m = /<major>\s*(\d+)\s*<\/major>\s*<minor>\s*(\d+)\s*<\/minor>/i.exec(text || "");
     return m ? `${m[1]}.${m[2]}` : null;
@@ -122,6 +163,6 @@
     return null;
   }
 
-  SCT.detect = { surfaceFromUrl, surface, pageKinds, needsDom, parseVersionXml, versionFromDocument };
+  SCT.detect = { surfaceFromUrl, surface, pageKinds, needsDom, signInSite, identityCandidates, parseVersionXml, versionFromDocument };
   if (typeof module !== "undefined") module.exports = SCT.detect;
 })(globalThis);
