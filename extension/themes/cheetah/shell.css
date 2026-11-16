@@ -11,7 +11,7 @@
 
 /* The SPE ISE's Ace editor measures its own monospace font; keep the theme font out of it. */
 html[data-sct-theme="cheetah"][data-sct-surface="shell"] body, html[data-sct-theme="cheetah"][data-sct-surface="shell"] input, html[data-sct-theme="cheetah"][data-sct-surface="shell"] select, html[data-sct-theme="cheetah"][data-sct-surface="shell"] textarea, html[data-sct-theme="cheetah"][data-sct-surface="shell"] button,
-html[data-sct-theme="cheetah"][data-sct-surface="shell"] :is(td, a, span, div):not(.ace_editor, .ace_editor *) {
+html[data-sct-theme="cheetah"][data-sct-surface="shell"] :is(td, a, span, div):not(.ace_editor, .ace_editor *, .spe-completion-menu *) {
   font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
 }
 html[data-sct-theme="cheetah"][data-sct-surface="shell"] { scrollbar-color: auto; }

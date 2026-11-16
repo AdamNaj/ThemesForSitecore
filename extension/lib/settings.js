@@ -280,7 +280,8 @@
   // Icon fonts and code editors keep their own: Sitecore's .si and .sic and Glyphicons draw icons, Ace (SPE's ISE)
   // and jQuery Terminal (SPE's Console, the ISE's results and the script runner) measure their monospace characters.
   // #ScriptResult is the ISE's results pane: SPE sets the user's font on it inline, and the terminal inside inherits it.
-  const KEEP = ".si,.sic,.glyphicon,.ace_editor,.ace_editor *,.terminal,.terminal *,#ScriptResult,#ScriptResult *,pre,code,kbd,samp";
+  // .spe-completion-menu is the terminal's completion list, on <body>, in the terminal's font.
+  const KEEP = ".si,.sic,.glyphicon,.ace_editor,.ace_editor *,.terminal,.terminal *,#ScriptResult,#ScriptResult *,.spe-completion-menu,.spe-completion-menu *,pre,code,kbd,samp";
   // A frame's CSS for accessibility(), url(path) giving a packaged file's address; the colour filter is the SVG filter
   // #sct-vision the engine adds beside it. In a layer, its !important wins over every unlayered !important of the
   // page's and the theme's, whatever their specificity.

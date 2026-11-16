@@ -224,7 +224,7 @@ ${Object.entries(ICONS).map(([k, v]) => `  --sct-menlo-${k}: ${v};`).join("\n")}
 
 /* The SPE ISE's Ace editor measures its own monospace font; keep the theme font out of it. */
 ${P} body, ${P} input, ${P} select, ${P} textarea, ${P} button,
-${P} :is(td, a, span, div):not(.ace_editor, .ace_editor *) {
+${P} :is(td, a, span, div):not(.ace_editor, .ace_editor *, .spe-completion-menu *) {
   font-family: ${FONT};
 }
 ${P} { scrollbar-color: auto; }

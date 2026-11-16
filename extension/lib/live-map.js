@@ -9,8 +9,9 @@
   // The files tools/gen-area-map.mjs reads (its AREAS and EXCLUDE); <area>.gen.css already maps them.
   const STOCK = /\/sitecore\/(shell\/(themes\/standard|applications|controls|client)\/|login\/|admin\/[^/]+\.css$)|\/sitecore modules\/powershell\/styles\/(listview|dialogs|variableprompt|runner|ise|reports|gallery|iframe)\.css$|\/sitecore\.plugin\.identityserver\/content\/css\/site\.css$|^\/content\/css\/site\.css$/i;
   const NOT_STOCK = /\.old\.css$|\/testing\/|\/(lib|deps)\/(?!jquery\/jqueryui\/1\.13\.2\/smoothness\/)/i;
-  // Ace's light editor is flipped by --sct-editor-filter (surfaces/shell.css), so it keeps its own colours.
-  const KEEP_SELECTOR = /\.ace[-_]/i;
+  // Ace's light editor is flipped by --sct-editor-filter (surfaces/shell.css), so it keeps its own colours. SPE's
+  // terminal completion menu takes its colours from the terminal it serves.
+  const KEEP_SELECTOR = /\.ace[-_]|\.spe-completion-menu/i;
   const KEEP = ".ace_editor, [data-sct-owned]";
   const PROPS = [
     "color", "background-color", "background-image", "border-top-color", "border-right-color",
