@@ -1,6 +1,6 @@
 /* Loaded under every theme on every surface, never under Native: fixes every theme needs for Sitecore's top
    bar and for the Sitecore Extensions add-on (its field-search clear button, near the end of this file), white
-   and black icons outlined, and 10.5's extra spacing in the Content Editor taken out, so a theme looks the same on 10.4 and 10.5 (last).
+   and black icons outlined, SPE's information panel text (last), and 10.5's extra spacing in the Content Editor taken out, so a theme looks the same on 10.4 and 10.5 (last).
    The top bar (the global header):
    - the site's postfix (engine.js adds <sct-bar-postfix>, centred by its own zero-specificity rules), an
      accent badge here that each theme can restyle in its own themes/<id>/bar.css, loaded after this file;
@@ -307,6 +307,11 @@ html[data-sct-theme]:not(#sct-bar) tr[class^="scChecked"] > td[class^="scMenuIte
   border-width: 0 2px 2px 0;
   transform: translate(-50%, -65%) rotate(45deg);
 }
+
+/* SPE's information panel (Show-ListView's -InfoTitle and -InfoDescription): SPE's Dialogs.css gives it the
+   warning's olive text, 3.5:1 on its light blue. Here it takes the dark blue that belongs with that blue; token
+   themes give it their own information tint and panel text in surfaces/shell.css, which outweighs this. */
+html[data-sct-theme] .scEditorInformation { color: #31708f; }
 
 /* SPE's Console and ISE output: the GUIDs SPE turns into item links (console.js finalizeGuidLinks) keep SPE's
    own yellow from Console.css, whatever colour a theme gives links. */

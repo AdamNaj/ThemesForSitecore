@@ -280,6 +280,22 @@ html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar .scMessageBarText,
 html[data-sct-tokens][data-sct-surface="shell"] .scMessageBar a {
   color: inherit;
 }
+/* SPE's own panels (Show-ListView's -InfoTitle, the ISE's and Console's elevation notices): its Dialogs.css
+   gives the information panel the warning's olive text too. Both take the message bars' tints. So does a dialog's
+   warning (.scWizardWarning: SPE's Elevate Session State paints its text the same olive, Sitecore's own a gold
+   that is under 2:1 on a light tint). */
+html[data-sct-tokens][data-sct-surface="shell"] :is(.scEditorWarning, .scEditorInformation, .scWizardWarning) {
+  color: var(--sct-panel-fg);
+}
+html[data-sct-tokens][data-sct-surface="shell"] :is(.scEditorWarning, .scWizardWarning) {
+  background-color: var(--sct-warning-bg, color-mix(in srgb, #fce99c 28%, var(--sct-panel-bg)));
+}
+html[data-sct-tokens][data-sct-surface="shell"] .scEditorInformation {
+  background-color: var(--sct-information-bg, color-mix(in srgb, #cfe3f7 28%, var(--sct-panel-bg)));
+}
+html[data-sct-tokens][data-sct-surface="shell"] :is(.scEditorWarning, .scEditorInformation) :is(.scEditorWarningTitle, .scEditorWarningHelp, .scEditorInformationTitle, .scEditorInformationHelp, a) {
+  color: inherit;
+}
 
 /* SPE ISE: the Ace editor ships a light theme. Dark token themes flip it with a filter, which keeps
    the syntax colours' hues; light themes leave --sct-editor-filter unset. */
