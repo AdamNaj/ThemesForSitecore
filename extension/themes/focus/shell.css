@@ -1,7 +1,8 @@
 /* Focus: the classic shell. A Recolour: Sitecore's layout in the warm greys of tokens.css, soft 6px corners.
    The chrome is quiet (the signature rules at the end): the ribbon, tree and taskbar rest in low-contrast
    text and come up to full contrast under the pointer or keyboard focus; the field being edited is the only
-   strong colour, every other field an underline. Light only. */
+   strong colour, every other field an underline. Rules outside the appearance media queries hold in light
+   and dark; glyph inks and swaps live inside them. */
 
 /* ---- The open tab carries a quiet grey underline */
 html[data-sct-theme="focus"][data-sct-surface="shell"] .scRibbon a.scRibbonNavigatorButtonsNormal,
@@ -241,6 +242,16 @@ html[data-sct-theme="focus"][data-sct-surface="shell"] .filters .filter :is(.ico
 html[data-sct-theme="focus"][data-sct-surface="shell"] .raw-user-input {
   background-color: transparent;
 }
+/* view switcher: the selected view is drawn dark, the others light grey; in the dark set light means selected */
+@media (prefers-color-scheme: dark) {
+  html[data-sct-theme="focus"][data-sct-surface="shell"] #views a {
+    opacity: 0.55;
+  }
+  html[data-sct-theme="focus"][data-sct-surface="shell"] #views a:is(.active, :hover) {
+    opacity: 1;
+    filter: var(--sct-glyph-filter);
+  }
+}
 html[data-sct-theme="focus"][data-sct-surface="shell"] {
   accent-color: var(--sct-accent);
 }
@@ -263,14 +274,16 @@ html[data-sct-theme="focus"][data-sct-surface="shell"] body:is([data-sct-page~="
   background-color: var(--sct-border-strong);
 }
 
-/* ---- Dark monochrome glyphs (the glyph filter is unset in this light-only theme, so these fall back to none) */
+/* ---- Dark monochrome glyphs: light under the dark set, untouched under the light one (the filter
+   variable is unset there, so these rules fall back to no filter) */
 html[data-sct-theme="focus"][data-sct-surface="shell"] :is(img.scStartMenuRightFolderGlyph, img.scStartMenuProgramsGlyph, img[src*="Submenu16x16" i], .filters .filter .remove, img[src*="/images/security/" i], img[src*="/componentart/grid/pager/" i]) {
   filter: var(--sct-glyph-filter);
 }
 html[data-sct-theme="focus"][data-sct-version="10.4"][data-sct-surface="shell"] a.scSearchOptionsButton img {
   filter: var(--sct-glyph-filter);
 }
-/* 10.4 lacks 10.5's _grey glyphs: ink its pale chunk launchers and section chevrons as 10.5 does */
+/* 10.4 lacks 10.5's _grey glyphs: ink its pale chunk launchers and section chevrons as 10.5 does,
+   turned light by the glyph filter in dark mode */
 html[data-sct-theme="focus"][data-sct-version="10.4"][data-sct-surface="shell"] .scRibbonToolbar .chunk .caption .scRibbonChunkEndLink img.glyph {
   filter: brightness(0) opacity(0.55) var(--sct-glyph-filter, );
 }
@@ -297,25 +310,56 @@ html[data-sct-theme="focus"][data-sct-surface="shell"] :is(.scDialogHeader, .scF
   padding-bottom: 15px;
 }
 
-/* ---- Glyphs Sitecore draws pale for its own dark or white chrome */
-/* the taskbar's database icon is white, for 10.5's dark taskbar */
-html[data-sct-theme="focus"][data-sct-surface="shell"] #DatabaseSelector img {
-  filter: brightness(0) opacity(0.7);
+/* ---- Light appearance only: glyphs Sitecore draws pale for its own dark or white chrome */
+@media (prefers-color-scheme: light) {
+  /* the taskbar's database icon is white, for 10.5's dark taskbar */
+  html[data-sct-theme="focus"][data-sct-surface="shell"] #DatabaseSelector img {
+    filter: brightness(0) opacity(0.7);
+  }
+  /* 10.4's window buttons are white glyphs for its dark caption; at rest they take the caption's ink
+     and hovered ones darken (10.4's hover images are white glyphs too, with no plate) */
+  html[data-sct-theme="focus"][data-sct-version="10.4"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
+    filter: brightness(0) opacity(0.7);
+  }
+  html[data-sct-theme="focus"][data-sct-version="10.4"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
+    filter: brightness(0) opacity(0.95);
+  }
+  html[data-sct-theme="focus"][data-sct-version="10.4"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon {
+    filter: brightness(0) opacity(0.7);
+  }
+  /* 10.5's tree chevrons are a pale grey (1.4:1 on the grey tree) */
+  html[data-sct-theme="focus"][data-sct-version="10.5"][data-sct-surface="shell"] img.scContentTreeNodeGlyph:not([src*="noexpand" i]) {
+    filter: brightness(0.55);
+  }
 }
-/* 10.4's window buttons are white glyphs for its dark caption; at rest they take the caption's ink
-   and hovered ones darken (10.4's hover images are white glyphs too, with no plate) */
-html[data-sct-theme="focus"][data-sct-version="10.4"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img {
-  filter: brightness(0) opacity(0.7);
-}
-html[data-sct-theme="focus"][data-sct-version="10.4"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) img:hover {
-  filter: brightness(0) opacity(0.95);
-}
-html[data-sct-theme="focus"][data-sct-version="10.4"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane .ui-icon {
-  filter: brightness(0) opacity(0.7);
-}
-/* 10.5's tree chevrons are a pale grey (1.4:1 on the grey tree) */
-html[data-sct-theme="focus"][data-sct-version="10.5"][data-sct-surface="shell"] img.scContentTreeNodeGlyph:not([src*="noexpand" i]) {
-  filter: brightness(0.55);
+
+/* ---- Dark appearance only */
+@media (prefers-color-scheme: dark) {
+  /* window buttons: Sitecore's light dialog glyphs on the dark caption */
+  html[data-sct-theme="focus"][data-sct-surface="shell"] :is(.scSystemButtons, .standartWindowButtons, .scWorkboxWindowButtons) {
+    img[src*="page_switcher"] { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher.png"); }
+    img[src*="page_switcher"]:hover { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/page_switcher_h.png"); }
+    img[src*="minimize"] { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png"); }
+    img[src*="minimize"]:hover { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize_h.png"); }
+    img[src*="maximize"] { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png"); }
+    img[src*="maximize"]:hover { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize_h.png"); }
+    img[src*="restore"] { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png"); }
+    img[src*="restore"]:hover { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore_h.png"); }
+    img[src*="_close"] { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png"); }
+    img[src*="_close"]:hover { content: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close_h.png"); }
+  }
+  html[data-sct-theme="focus"][data-sct-surface="shell"] .ui-dialog .ui-dialog-titlebar-buttonpane {
+    .ui-icon-closethick { background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_close.png") center no-repeat; }
+    .ui-icon-extlink { background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_maximize.png") center no-repeat; }
+    .ui-icon-newwin { background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_restore.png") center no-repeat; }
+    .ui-icon-minus { background: url("/sitecore/shell/Themes/Standard/Images/Window Management/dialog_minimize.png") center no-repeat; }
+  }
+  /* SPE ISE: Ace's scrollbars sit inside --sct-editor-filter (invert(0.88) hue-rotate(180deg)), so they are
+     the theme's thumb (#484844) and track (#222220) run backwards through it. Forward check:
+     #c9c9c3 -> rgb(72,72,68), #fbfbf8 -> rgb(34,34,32). Change them together with the scrollbar tokens. */
+  html[data-sct-theme="focus"][data-sct-surface="shell"] .ace_editor {
+    scrollbar-color: #c9c9c3 #fbfbf8;
+  }
 }
 
 
@@ -341,7 +385,7 @@ html[data-sct-theme="focus"][data-sct-surface="shell"] :is(.scCaption.scDockTop,
 html[data-sct-theme="focus"][data-sct-surface="shell"] .scCaption.scDockTop:is(:hover, :focus-within) {
   --sct-ribbon-fg: var(--focus-strong);
   --sct-ribbon-tab-fg: var(--focus-strong);
-  --sct-ribbon-chunk-caption-fg: #4a4a45;
+  --sct-ribbon-chunk-caption-fg: var(--focus-mid);
 }
 html[data-sct-theme="focus"][data-sct-surface="shell"] .scContentTree:is(:hover, :focus-within) {
   --sct-tree-fg: var(--focus-strong);
@@ -414,9 +458,9 @@ html[data-sct-theme="focus"][data-sct-surface="shell"] .scEditorSectionCaptionEx
 }
 
 /* Sitecore's pale grey glyphs (the gallery's arrows, which the icon dimming above reaches, the search tab's
-   magnifier, section chevrons) almost vanish on the warm greys: inked in the quiet text's strength */
+   magnifier, section chevrons) almost vanish on the warm greys: inked in the quiet text's strength, light in dark mode */
 html[data-sct-theme="focus"][data-sct-surface="shell"] :is(.scRibbonPanelButtons img, a#BTAddNewSearch .scEditorTabHeaderNormal > span, img.scEditorSectionCaptionGlyph) {
-  filter: brightness(0) opacity(0.55);
+  filter: brightness(0) opacity(0.55) var(--sct-glyph-filter, );
 }
 
 /* Sitecore's red start tile is the one loud thing on the taskbar: grey until the pointer or focus reaches it */

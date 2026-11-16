@@ -1,5 +1,5 @@
 /* Focus: Identity Server login. Sitecore's layout; the red wallpaper gives way to a warm grey backdrop,
-   the card is a white panel with soft corners, the fields and button the theme's own. */
+   the card is a panel with soft corners, the fields and button the theme's own. */
 html[data-sct-theme="focus"][data-sct-surface="login"] body {
   background: var(--focus-backdrop) fixed;
   background-color: var(--sct-app-bg);
@@ -57,6 +57,8 @@ html[data-sct-theme="focus"][data-sct-surface="login"] input[type="checkbox"]:fo
   outline-color: var(--sct-focus-ring);
 }
 /* the Sitecore wordmark is white art for a dark page: on the light backdrop it takes the text colour */
-html[data-sct-theme="focus"][data-sct-surface="login"] .logo-wrap img {
-  filter: brightness(0) opacity(0.85);
+@media (prefers-color-scheme: light) {
+  html[data-sct-theme="focus"][data-sct-surface="login"] .logo-wrap img {
+    filter: brightness(0) opacity(0.85);
+  }
 }

@@ -17,7 +17,7 @@ A browser extension that re-themes the Sitecore 10.0 to 10.5 Content Management 
 | Fjord | A calm Nordic palette, follows your light or dark setting |
 | Guardrail | Shows which environment you're on, follows your light or dark setting |
 | Compact | Sitecore's own colours at laptop density: shorter rows, a slimmer ribbon, labels beside fields |
-| Focus | Quiet warm greys for long editing sessions: the chrome steps back, the field you edit stands out |
+| Focus | Quiet warm greys for long editing sessions: the chrome steps back, the field you edit stands out, follows your light or dark setting |
 | Solar | Warm cream by day and deep teal by night, with the same eight accents in both; follows your light or dark setting |
 | **Modern** | |
 | Cupertino | Frosted sidebars, soft shadows, rounded controls and a blue pill selection, follows your light or dark setting |

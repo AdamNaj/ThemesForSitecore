@@ -101,7 +101,7 @@ html[data-sct-theme="focus"][data-sct-surface="speak"] .sc-pageeditbar {
   }
 }
 
-/* the breadcrumb's separators are dark sprites (the glyph filter is unset in this light-only theme) */
+/* the breadcrumb's separators are dark sprites: light in the dark set (the filter is unset in the light one) */
 html[data-sct-theme="focus"][data-sct-surface="speak"] .sc-breadcrumb .sprite-speak-ribbon-clean-ee[class*="separator"] {
   filter: var(--sct-glyph-filter);
 }

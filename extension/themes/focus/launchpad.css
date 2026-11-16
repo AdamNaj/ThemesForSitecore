@@ -1,5 +1,5 @@
 /* Focus: Launchpad. Sitecore's layout of groups and tiles (a Recolour keeps it) over a warm grey
-   backdrop; the tiles are white cards with soft 6px corners and pale icon squares. */
+   backdrop; the tiles are panel-coloured cards with soft 6px corners and faintly green icon squares. */
 
 html[data-sct-theme="focus"][data-sct-surface="launchpad"] body {
   background: var(--focus-backdrop) fixed;
@@ -49,19 +49,19 @@ html[data-sct-theme="focus"][data-sct-surface="launchpad"] .sc-launchpad-item:fo
 html[data-sct-theme="focus"][data-sct-surface="launchpad"] .sc-launchpad-item .sc-launchpad-text {
   color: var(--sct-panel-fg);
 }
-/* icon squares: a pale green-grey, a little stronger per group */
+/* icon squares: a faint tint of the accent, a little stronger per group; dark glyphs turn light in the dark set */
 html[data-sct-theme="focus"][data-sct-surface="launchpad"] .sc-launchpad-item .icon {
   border-radius: 5px;
-  background-color: color-mix(in srgb, #2f6f5e 8%, var(--sct-raised-bg));
+  background-color: color-mix(in srgb, var(--sct-accent) 8%, var(--sct-raised-bg));
 }
 html[data-sct-theme="focus"][data-sct-surface="launchpad"] .sc-launchpad-group:nth-last-child(3) .icon {
-  background-color: color-mix(in srgb, #2f6f5e 11%, var(--sct-raised-bg));
+  background-color: color-mix(in srgb, var(--sct-accent) 11%, var(--sct-raised-bg));
 }
 html[data-sct-theme="focus"][data-sct-surface="launchpad"] .sc-launchpad-group:nth-last-child(2) .icon {
-  background-color: color-mix(in srgb, #2f6f5e 14%, var(--sct-raised-bg));
+  background-color: color-mix(in srgb, var(--sct-accent) 14%, var(--sct-raised-bg));
 }
 html[data-sct-theme="focus"][data-sct-surface="launchpad"] .sc-launchpad-group:nth-last-child(1) .icon {
-  background-color: color-mix(in srgb, #2f6f5e 17%, var(--sct-raised-bg));
+  background-color: color-mix(in srgb, var(--sct-accent) 17%, var(--sct-raised-bg));
 }
 html[data-sct-theme="focus"][data-sct-surface="launchpad"] .sc-launchpad-item .icon img {
   filter: var(--sct-glyph-filter);
