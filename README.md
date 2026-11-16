@@ -150,7 +150,7 @@ Upload the signed `.xpi` and `dist/updates.json` to the release.
 
 ## Privacy
 
-The extension collects no data. It only talks to the Sitecore hosts you enable (to read `sitecore.version.xml`). It has no access to a site until you enable it there.
+The extension collects no data. It only talks to the Sitecore hosts you enable (to read `sitecore.version.xml`), with one exception: when you open the popup on a Sitecore page, that page requests `/.well-known/openid-configuration`, without cookies, from the host names an install usually gives its Identity Server (`<prefix>identityserver` beside `<prefix>cm`, and the like), to find the one this site signs in on. Only that host's name is kept, in the browser. The extension has no access to a site until you enable it there.
 
 ## License
 

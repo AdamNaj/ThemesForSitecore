@@ -47,7 +47,7 @@ Works in Chrome, Edge and Firefox. Rolling it out to a whole team? The same them
 
 The extension has no access to any site until you enable it on a Sitecore host from the toolbar popup.
 
-Privacy: the extension collects no data. It only contacts the Sitecore hosts you enable.
+Privacy: the extension collects no data. It only contacts the Sitecore hosts you enable, with one exception: when you open its popup on a Sitecore page, that page asks the host names where the site's sign-in server usually is whether one of them is, so a single prompt can enable both. The question carries no cookies and no personal data, and only the name of the host that answers is kept, in your browser.
 
 Sitecore is a trademark of Sitecore Corporation A/S. This extension is not affiliated with Sitecore.
 ```
