@@ -173,12 +173,29 @@
   };
   // Opens an item in the Content Editor by its path, its ID or its URI (sitecore://master/{ID}?lang=en&ver=1, in that
   // language and version), with Sitecore's own item:load message, which also selects it in the tree. Characters the
-  // message's syntax uses are refused.
+  // message's syntax uses are refused. Sitecore selects the item in the tree but leaves the tree scrolled where it was,
+  // so once the item is selected (by its ID; for a path, any newly selected item) it is scrolled into the middle of the
+  // tree when out of view. The selection is watched for 20s, time for a save prompt answered first; a slower answer leaves it unscrolled
   SCT.gotoItem = (doc, target) => {
     const uri = /^sitecore:\/\/\w+\/(\{[^}]+\})\?lang=([^&]+)&ver=(\d+)/.exec(target);
     const args = uri ? [`id=${uri[1]}`, `language=${uri[2]}`, `version=${uri[3]}`] : [`id=${target}`];
     if (!doc.getElementById("__CurrentItem") || args.some((x) => /[(),"'\\]/.test(x) || x.indexOf("=") !== x.lastIndexOf("="))) return;
+    const ACTIVE = "#ContentTreeInnerPanel .scContentTreeNodeActive";
+    const before = doc.querySelector(ACTIVE);
+    const id = /\{([0-9A-F-]{36})\}/i.exec(target);
+    const want = id && `Tree_Node_${id[1].replace(/-/g, "").toUpperCase()}`;
     SCT.sheer(doc, `item:load(${args.join(",")})`);
+    const end = Date.now() + 20000;
+    (function reveal() {
+      const node = doc.querySelector(ACTIVE);
+      if (!node || (want ? node.id !== want : node === before)) {
+        if (Date.now() < end) doc.defaultView.setTimeout(reveal, 100);
+        return;
+      }
+      const tree = doc.getElementById("ContentTreeInnerPanel");
+      const t = tree.getBoundingClientRect(), n = node.getBoundingClientRect();
+      if (n.top < t.top || n.bottom > t.bottom) tree.scrollTop += n.top - t.top - (tree.clientHeight - n.height) / 2;
+    })();
   };
   // Aids' CSS sits in a cascade layer, where only !important outruns the page's own rules: every declaration of rules
   // that must look the same on any page (an aid's own elements) takes it
