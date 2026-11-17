@@ -19,7 +19,7 @@ Every setting is per site, and each browser keeps its own.
 
 ## Contents
 
-- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Field sizes](#field-sizes), [Character limits](#character-limits), [Section errors and warnings](#section-errors-and-warnings), [Locked fields](#locked-fields), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Field menu](#field-menu), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
+- [In the Content Editor](#in-the-content-editor): [Image preview](#image-preview), [Field sizes](#field-sizes), [Character limits](#character-limits), [Section errors and warnings](#section-errors-and-warnings), [Locked fields](#locked-fields), [Back, forward, expand and collapse](#back-forward-expand-and-collapse), [Item info](#item-info), [Field menu](#field-menu), [Listed items](#listed-items), [Where am I](#where-am-i), [Sticky item header](#sticky-item-header), [Content tab first](#content-tab-first), [Quiet ribbon](#quiet-ribbon), [Type to search](#type-to-search)
 - [Back where you left off](#back-where-you-left-off): [Remember Content Editor state](#remember-content-editor-state), [Remember Experience Editor state](#remember-experience-editor-state)
 - [Keys](#keys): [Command palette](#command-palette), [Shortcuts help](#shortcuts-help)
 
@@ -336,6 +336,52 @@ greyed out.
 
 ![Field menu, on](ui-improvements/field-menu-on.png)
 <!-- /shots:field-menu -->
+
+### Listed items
+<!-- aid:list-items f7eaa834ed -->
+
+**What it is for.** A Treelist, a Multilist or a Droplink shows the items it holds by name only. Two items of the
+same name in different folders look the same, nothing says where a listed item lives, and getting to one means
+finding it in the content tree yourself.
+
+**What changes.** In a list, each item's name is followed by the path of the item it sits under, a little fainter
+than the name: the selected side of a Treelist, both lists of a Multilist and of a Multilist with Search, and the rows
+of a TreelistEx. The path leaves out the `/sitecore` every path starts with: an item under Home shows
+`/content/Home`. A list's paths start in one column, just past its longest name, so they read as a column of their
+own. They follow the list as it scrolls and take a selected row's colour. A tree needs none, so the tree side of a
+Treelist stays as it is.
+
+Point at a listed item and a small arrow shows beside it; it goes when the pointer leaves the item. In a list the
+arrow sits between the names and the paths, left of the item's path, in a gap kept for it. On a node of a Treelist's
+tree, and on the item picked in a Droplink (point at the drop-down), it sits just after the name. A click on the
+arrow opens that item in the Content Editor, as the Navigate entries of [Item info](#item-info) and
+[Field menu](#field-menu) do, and scrolls the content tree to it. With unsaved changes Sitecore first asks whether to
+save them.
+
+The paths of a list box's items come from Sitecore's Item Service, as you, for the rows in view, once per item for
+the page's life; a TreelistEx's rows carry theirs already. With the Item Service shut off those lists show names
+only, and the arrow still works. A field whose source is in another database (the core database's editors, say)
+lists items the Content Editor cannot open: they show no path, or the other database's, and Sitecore says the item
+could not be found when its arrow is clicked. A Checklist's boxes do not say which item they stand for, so they get
+neither a path nor an arrow.
+
+The arrow is for the mouse and is not a Tab stop, and the paths are not read out: a screen reader hears each list as
+Sitecore wrote it. From the keyboard, [Field menu](#field-menu)'s Copy raw value gives the listed items' IDs and the
+[Command palette](#command-palette) opens an item by its ID.
+
+<!-- shots:list-items -->
+**On:** by default, under every theme and Native · **Where:** the Desktop and Content Editor
+
+**Off**
+
+![Listed items, off](ui-improvements/list-items-off.png)
+
+**On**
+
+![Listed items, on](ui-improvements/list-items-on.png)
+
+_Sample Item's Base template field, the pointer on the selected template._
+<!-- /shots:list-items -->
 
 ### Where am I
 <!-- aid:where-am-i d9d0c4f445 -->

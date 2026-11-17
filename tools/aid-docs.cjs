@@ -28,6 +28,7 @@ function stamp(id) {
 const HOME = "{110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9}";
 const MEDIA = "{3D6658D8-A0BF-4E75-B3E2-D050FABCF4E1}";
 const SYSTEM = "{13D6D6C6-C50B-4BBD-B331-2B04F1A58F21}";
+const SAMPLE = "{76036F5E-CBCE-46D1-AF0A-4143F9B557AA}"; // the Sample Item template
 const CE = (item) => `/sitecore/shell/Applications/Content%20Editor.aspx?sc_bw=1&fo=${encodeURIComponent(item)}`;
 // three groups of the Home strip, on 10.4
 const QUIET = ["C28353D7ACFCA49B5B344C3A97415C89B", "C373217F6FC5C4BEBB5D9435B8C37D539", "CB91973ACF8C344B7AB8ED6E3ADF4CF7A"];
@@ -148,6 +149,23 @@ const SCENES = {
     },
     shot: ".scEditorFieldMarker:has(input[aria-label^='Title field']), sct-item-menu", pad: 6, max: [900, 320],
     after: async (page) => { await page.keyboard.press("Escape"); await page.setViewportSize({ width: 1100, height: 700 }); },
+  },
+  // Sample Item's Base template, a Treelist: on, the selected template's path after its name, and the arrow that shows
+  // while the pointer is on it
+  "list-items": {
+    path: CE(SAMPLE),
+    setup: async (page) => {
+      await openData(page);
+      await page.waitForSelector("sct-paths sct-path", { timeout: 8000 }).catch(() => {});
+      const at = await page.evaluate(() => {
+        const r = document.querySelector(".scContentControlTreelist select option").getBoundingClientRect();
+        return { x: r.left + 30, y: r.top + r.height / 2 };
+      });
+      await page.mouse.move(at.x, at.y);
+      await page.waitForTimeout(300);
+    },
+    caption: "Sample Item's Base template field, the pointer on the selected template.",
+    shot: ".scEditorFieldMarker:has(.scContentControlTreelist)", pad: 6, max: [1100, 230],
   },
   "content-tab": { path: CE(MEDIA), shot: "#EditorTabs", padBelow: 220, max: [700, 260] },
   "ce-state": { none: "Remember Content Editor state changes where the Content Editor opens, which a still picture cannot show: close it on an item, open it again from the Launchpad or the Desktop, and it is back on that item." },
