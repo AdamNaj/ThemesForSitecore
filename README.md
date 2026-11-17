@@ -76,7 +76,7 @@ Open `themes-for-sitecore-<version>-firefox.xpi` in Firefox and confirm the inst
 
 1. Open any Sitecore page, click the **Themes for Sitecore** toolbar icon, and choose **Enable on this site**. The browser asks you to allow that site, and with it the Identity Server it signs in on, which is a separate site.
 2. Pick a theme for this site. Each site keeps its own; a site you have not set stays Native. The Identity Server's login page takes the theme and settings of the site it signs in to.
-3. The extension finds the Identity Server by the names installs usually give it (`<prefix>identityserver` beside `<prefix>cm`, `<prefix>sc` or `<prefix>`; `id` beside `cm`; `-si` beside `-cm`), and keeps the one that answers as this site's. If yours is named some other way, open the login page and enable there: one prompt covers the login and its Sitecore site. A site enabled before its Identity Server was found offers **Theme the sign-in page too**.
+3. The extension finds the Identity Server by the names installs usually give it (`<prefix>identityserver` beside `<prefix>cm`, `<prefix>sc` or `<prefix>`; `id` beside `cm`; `-si` beside `-cm`), and keeps the one that answers as this site's. It tries only hosts beside the site, under the same parent domain, so a site at the top of a registered name (`example.com`) gets no guesses. If yours is named some other way, open the login page and enable there: one prompt covers the login and its Sitecore site. A site enabled before its Identity Server was found offers **Theme the sign-in page too**.
 
 **Disable on this site** removes the extension's access to that site and its Identity Server. Reload its tabs to get Sitecore's own look back.
 

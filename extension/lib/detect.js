@@ -106,11 +106,22 @@
     }
   }
 
-  // Where a Sitecore site's Identity Server would be, going by the names installs get: the site's role (cm or sc,
-  // a label of its own or the end of one: specm, xp0.sc, x-cm, cm.x.localhost) swapped for the identity server's,
-  // and the identity server's name added to the first label, for a site with no role in its name (spe). Guesses:
-  // the popup keeps the one whose discovery document says it is this site's (popup.js findIdentity). An identity
-  // server named any other way is enabled from its own login page.
+  // Whether the names under these labels belong to different owners, as far as the name tells: a top-level domain
+  // that is not kept for private networks, or a country's second level (co.uk, com.au). Only the public suffix
+  // list knows for sure: a rarer suffix (gouv.fr) passes here for a company's own domain.
+  function sharedParent(parent) {
+    if (parent.length === 1) return !/^(local|localhost|test|internal|lan|home|corp)$/.test(parent[0]);
+    return parent.length === 2 && parent[1].length === 2 && /^(co|com|org|net|gov|edu|ac|or|ne|go|gob|nom|mil|sch|ltd|plc)$/.test(parent[0]);
+  }
+
+  // Where a Sitecore site's Identity Server would be, going by the names installs get: the role at the end of the
+  // site's first label (cm or sc: specm, x-cm, cm.x.localhost) swapped for the identity server's, and the identity
+  // server's name added to that label, for a site with no role in its name (spe). Only the first label changes, so
+  // every guess is a host beside the site, under the same parent domain, and a site whose parent is shared with
+  // strangers (example.com, example.co.uk) gets none: the question would go to someone else's host. SIF's defaults
+  // are the one pair that differs in the last label (xp0.sc, xp0.identityserver), a name no registry gives out.
+  // Guesses: the popup keeps the one whose discovery document says it is this site's (popup.js findIdentity). An
+  // identity server named any other way is enabled from its own login page.
   function identityCandidates(origin) {
     let url;
     try {
@@ -118,19 +129,16 @@
     } catch {
       return [];
     }
-    const labels = url.hostname.toLowerCase().split(".");
-    if (labels.length < 2 || /^[\d.]+$/.test(url.hostname)) return [];
-    const hosts = [];
-    const swap = (i, label) => hosts.push(labels.map((l, j) => (j === i ? label : l)).join("."));
-    for (const i of [0, 1]) {
-      const role = /^(.*?)(-?)(cm|sc)$/.exec(labels[i]);
-      if (!role) continue;
-      // short names only where a separator or the dot sets them apart
-      const names = role[1] && !role[2] ? ["identityserver", "identity"] : ["identityserver", "identity", "id", "si"];
-      for (const name of names) swap(i, role[1] + role[2] + name);
-    }
-    for (const name of ["identityserver", "-identityserver", ".identityserver"]) swap(0, labels[0] + name);
-    return hosts.filter((h, i) => hosts.indexOf(h) === i).map((h) => `${url.protocol}//${h}`);
+    const [first, ...parent] = url.hostname.toLowerCase().split(".");
+    if (!parent.length || /^[\d.]+$/.test(url.hostname)) return [];
+    if (/^(cm|sc)$/.test(parent.join("."))) return [`${url.protocol}//${first}.identityserver`];
+    if (sharedParent(parent)) return [];
+    const names = [];
+    const role = /^(.*?)(-?)(cm|sc)$/.exec(first);
+    // short names only where a separator or the dot sets them apart
+    if (role) for (const name of role[1] && !role[2] ? ["identityserver", "identity"] : ["identityserver", "identity", "id", "si"]) names.push(role[1] + role[2] + name);
+    names.push(first + "identityserver", first + "-identityserver", first + ".identityserver");
+    return names.filter((n, i) => names.indexOf(n) === i).map((n) => `${url.protocol}//${[n, ...parent].join(".")}`);
   }
 
   function parseVersionXml(text) {

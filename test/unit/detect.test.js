@@ -167,7 +167,19 @@ test("identityCandidates guesses the Identity Server from the names installs giv
   has("https://xp1.cm", "https://xp1.identityserver");
   has("https://cm.project.localhost", "https://id.project.localhost"); // Docker examples
   has("https://project-cm.azurewebsites.net", "https://project-si.azurewebsites.net"); // Azure
+  has("https://xp0sc.local", "https://xp0identityserver.local"); // a top-level domain kept for private networks
   assert.ok(identityCandidates("https://specm.dev.local").length <= 12);
+  // every guess is a host beside the site: a role at the end of the domain's own name is left alone
+  for (const site of ["specm.dev.local", "www.rcm.co.uk", "cms.abcsc.com", "cm.sc.com", "project-cm.azurewebsites.net"]) {
+    const parent = site.slice(site.indexOf("."));
+    const guesses = identityCandidates("https://" + site);
+    assert.ok(guesses.length, site);
+    for (const guess of guesses) assert.ok(guess.endsWith(parent), `${site} -> ${guess}`);
+  }
+  // SIF's pair differs in the last label: one guess, a name no registry gives out
+  assert.deepEqual(identityCandidates("https://xp0.sc"), ["https://xp0.identityserver"]);
+  // a site at the top of a registered name has only strangers beside it
+  for (const site of ["abcsc.com", "example.com", "rcm.co.uk", "brand.com.au"]) assert.deepEqual(identityCandidates("https://" + site), [], site);
   assert.deepEqual(identityCandidates("https://localhost"), []);
   assert.deepEqual(identityCandidates("https://10.0.0.5"), []);
   assert.deepEqual(identityCandidates("nope"), []);
