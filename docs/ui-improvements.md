@@ -192,7 +192,7 @@ _Home drawn as Sitecore draws an item someone else has locked._
 <!-- /shots:locked-fields -->
 
 ### Back, forward, expand and collapse
-<!-- aid:section-toggle 3e4c3dccae -->
+<!-- aid:section-toggle 7e3af46958 -->
 
 **What it is for.** Going back to the item you had open before takes the ribbon's Navigate tab, then Back. An item's
 fields come in sections, and Sitecore opens or closes them one caption at a time, so reaching a field in a closed
@@ -206,6 +206,10 @@ open or closed as it does for a single click. A button with nothing to do is gre
 ribbon's are, Expand all when every section is open and Collapse all when every one is closed. The four buttons and
 the navigator beside them are drawn flat, with no frame, and shaded while the pointer is on one. A screen reader hears
 each button's name, and that a greyed-out one is unavailable.
+
+The mouse's back and forward buttons do the same as Back and Forward while the pointer is anywhere in a Content
+Editor, its tree, ribbon and fields included, instead of the browser's back and forward, which leave the page (in the
+Desktop, for an empty Desktop). Outside a Content Editor they keep the browser's.
 
 <!-- shots:section-toggle -->
 **On:** by default, under every theme and Native · **Where:** the Desktop and Content Editor

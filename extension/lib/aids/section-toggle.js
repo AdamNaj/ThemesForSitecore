@@ -7,7 +7,8 @@
 // navigator, flat: no frame or fill until hovered. Each is greyed out when it has nothing to do: Back and Forward when
 // the ribbon's are (Sitecore keeps the history on the server and draws a disabled ribbon button with no command, so
 // an enabled one's command is the only sign; with no Navigate strip they stay on), Expand all when no section is closed and
-// Collapse all when none is open.
+// Collapse all when none is open. The mouse's back and forward buttons do what Back and Forward do, anywhere in a
+// Content Editor (its fields' frames too), instead of the browser's back and forward, which leave the page.
 (function (root) {
   const SCT = (root.SCT = root.SCT || {});
 
@@ -46,7 +47,44 @@
       a.setAttribute("aria-disabled", String(!on));
     }
   }
-  const watched = new WeakSet(); // documents with the click listener
+  const watched = new WeakSet(); // documents with the listeners
+
+  // the mouse's back and forward buttons; the browser goes back on their mouseup unless it is cancelled
+  const HISTORY = { 3: "contenteditor:back", 4: "contenteditor:forward" };
+  // the Content Editor this frame is in, or is: the nearest same-origin window up that has one
+  function editorOf(win) {
+    for (let w = win; ; w = w.parent) {
+      try {
+        if (w.document.getElementById("__CurrentItem")) return w.document;
+      } catch {
+        return null;
+      }
+      if (w === w.parent) return null;
+    }
+  }
+  function mouse(e) {
+    const message = HISTORY[e.button];
+    const doc = message && editorOf(e.target.ownerDocument.defaultView);
+    if (!doc) return;
+    e.preventDefault();
+    if (e.type === "mouseup") SCT.sheer(doc, message);
+  }
+  function hear(ctx, doc) {
+    for (const type of ["mousedown", "mouseup", "auxclick"]) ctx.listen(doc, type, mouse, true);
+  }
+  // a field's frame the engine does not run in (the Rich Text preview), once it has loaded; one it runs in hears for
+  // itself
+  function hearFrame(ctx, frame) {
+    let fdoc;
+    try {
+      fdoc = frame.contentDocument;
+    } catch {
+      return;
+    }
+    if (!fdoc || fdoc.readyState !== "complete" || watched.has(fdoc) || fdoc.documentElement.hasAttribute("data-sct-surface")) return;
+    watched.add(fdoc);
+    hear(ctx, fdoc);
+  }
 
   SCT.registerAid("section-toggle", {
     // Sitecore's mouse handlers read the target's className as a string, which an SVG's is not
@@ -80,7 +118,14 @@ a[data-sct-sections][aria-disabled="true"]{opacity:.4;pointer-events:none}`,
         sizes.observe(nav);
       }
       // a caption opens or closes by a class change, which the engine does not watch: every click, once it has run
-      if (!watched.has(doc)) (watched.add(doc), ctx.listen(doc, "click", () => setTimeout(() => sync(doc))));
+      if (!watched.has(doc)) {
+        watched.add(doc);
+        ctx.listen(doc, "click", () => setTimeout(() => sync(doc)));
+        hear(ctx, doc);
+        // a frame's load does not bubble, but a capturing listener on its parent's document hears it
+        if (doc.getElementById("__CurrentItem")) ctx.listen(doc, "load", (e) => e.target.localName === "iframe" && hearFrame(ctx, e.target), true);
+      }
+      if (doc.getElementById("__CurrentItem")) for (const frame of doc.querySelectorAll(".scEditorSections iframe")) hearFrame(ctx, frame);
       sync(doc);
     },
     revert() {
